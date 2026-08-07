@@ -1,1 +1,13 @@
 id	tipo	titulo	ruta	paginas	ciclo	estado	archivo_original
+T00	teoria	Introducción a Sistemas de Simulación y análisis de datos	material/catedra/teoria/Teorica_0.pdf	83	2026	vigente	Teorica_0.pdf
+T01	teoria	Sistemas físicos y sistemas de muchas partículas	material/catedra/teoria/Teorica_1.pdf	47	2026	vigente	Teorica_1.pdf
+GINF	guia	Guía para redacción de informes	material/catedra/practica/GuiaInformes.pdf	3	2026	vigente	GuiaInformes.pdf
+GPRES	guia	Guía para realizar presentaciones con diapositivas	material/catedra/practica/GuiaPresentaciones.pdf	3	2026	vigente	GuiaPresentaciones.pdf
+TP01	trabajo-practico	Trabajo Práctico 1: Búsqueda eficiente de partículas vecinas	material/catedra/practica/TP1_Enunciado.pdf	2	2026	vigente	TP1_Enunciado.pdf
+EJ01	datos-de-ejemplo	Archivos de ejemplo para el Cell Index Method	material/catedra/practica/ArchivosEjemplo.zip		2026	vigente	ArchivosEjemplo.zip
+BIB01	paquete-bibliografico	Bibliografía 1: sistemas de muchas partículas, CIM y presentaciones	material/externo/paquetes/Biblio_1.zip		2026	contenedor	Biblio_1.zip
+B01	bibliografia	The Wonderful World of Active Many-Particle Systems — Dirk Helbing	material/externo/bibliografia-1/ActiveManyParticleSystems.pdf	13	2026	vigente	ActiveManyParticleSystems.pdf
+B02	bibliografia	Advice to Beginning Physics Speakers — James C. Garland	material/externo/bibliografia-1/AdviceToBeginningPhysicsSpeakers.pdf	4	2026	vigente	AdviceToBeginningPhysicsSpeakers.pdf
+B03	bibliografia	The Cell Index Method	material/externo/bibliografia-1/Cell_Index_Method.pdf	10	2026	vigente	Cell_Index_Method.pdf
+B04	bibliografia	Flocks, Herds, and Schools: A Distributed Behavioral Model — Craig W. Reynolds	material/externo/bibliografia-1/Flocks_Herds_Reynolds.pdf	10	2026	vigente	Flocks_Herds_Reynolds.pdf
+B05	bibliografia	Hydrodynamics of Soft Active Matter — Marchetti et al.	material/externo/bibliografia-1/marchetti_hydrodynamics_soft_active_matter.pdf	47	2026	vigente	marchetti_hydrodynamics_soft_active_matter.pdf

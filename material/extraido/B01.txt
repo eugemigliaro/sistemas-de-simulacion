@@ -1,0 +1,622 @@
+FUENTE: B01
+TITULO: The Wonderful World of Active Many-Particle Systems — Dirk Helbing
+ORIGINAL: material/externo/bibliografia-1/ActiveManyParticleSystems.pdf
+PAGINAS: 13
+
+===== PAGINA 1 =====
+
+The Wonderful World
+of Active Many-Particle Systems
+
+Dirk Helbing
+
+Institute for Economics and Traﬃc, Dresden University of Technology,
+Andreas-Schubert-Str. 23, D-01062 Dresden, Germany
+helbing@trafficforum.org
+www.helbing.org
+
+
+Abstract. Since the subject of traﬃc dynamics has captured the interest of physi-
+cists, many astonishing eﬀects have been revealed and explained. Some of the ques-
+tions now understood are the following: Why are vehicles sometimes stopped by
+so-called “phantom traﬃc jams”, although they all like to drive fast? What are the
+mechanisms behind stop-and-go traﬃc? Why are there several diﬀerent kinds of
+congestion, and how are they related? Why do most traﬃc jams occur considerably
+before the road capacity is reached? Can a temporary reduction of the traﬃc vol-
+ume cause a lasting traﬃc jam? Why do pedestrians moving in opposite directions
+normally organize in lanes, while nervous crowds are “freezing by heating”? Why
+do panicking pedestrians produce dangerous deadlocks? All these questions have
+been answered by applying and extending methods from statistical physics and
+non-linear dynamics to self-driven many-particle systems.
+
+
+1    Introduction
+Systems far from equilibrium are characterized by not being closed, but ex-
+changing energy, particles, and information with their environment. Their
+dynamics is often very complex, and usually there are no general results like
+the ones from thermodynamics and statistical physics for gases, ﬂuids, and
+solids in their stationary equilibrium state. This is partly due to the fact that
+non-equilibrium systems can be quite diﬀerent in nature, dependent on the
+respective interactions with their environment.
+    Nevertheless, there exists a class of non-equilibrium systems for which
+there is some hope for a uniﬁed description, despite of the rich variety of
+observed phenomena. I am talking about self-driven or active many-particle
+systems, in which the particles are in some sense “motorized” [1,2,3,4]. Ex-
+amples are animal herds, ﬂocks of birds, or traﬃc. Sometimes, one can also
+apply this approach to socio-economic systems, where shares, goods, or indi-
+viduals correspond to the particles. Surprisingly enough, the most important
+transport properties of such “particles” can be often taken into account by
+two simple generalizations of Newton’s equation of motion.
+
+
+
+
+B. Kramer (Ed.): Adv. in Solid State Phys. 41, 357–369 (2001)
+ Springer-Verlag Berlin Heidelberg 2001
+c
+
+===== PAGINA 2 =====
+
+358        Dirk Helbing
+
+2      Beyond Newton
+Newton’s equation of motion from classical mechanics describes the acceler-
+ation ẍi (t) of a body i of mass mi subject to pair interactions with other
+bodies j:
+                
+  mi ẍi (t) =      f ij (t) .                                           (1)
+                    j(=i)
+
+The interaction forces f ij (t) are mostly dependent on the locations xi (t)
+and xj (t) of the interacting bodies i and j at time t. Often, they depend
+only on the distance vector dij = (xj − xi ), but in special cases, they are
+also functions of the velocities v i (t) = ẋi (t) and v j (t) = ẋj (t). For potential
+forces, the above many-body system can be characterized by a Hamiltonian.
+A typical example is the description of the motion of celestial bodies.
+    In driven many-particle systems such as ﬂuids under the inﬂuence of pres-
+sure gradients and boundary forces, or vibrated granular media like sand, we
+need to consider additional interactions with the environment. This concerns
+(external) driving forces f 0 (x, t) due to boundary interactions and gravita-
+tional or electrical ﬁelds, dissipative friction forces f fr       i (t) = −γi v i (t) with
+friction coeﬃcient γi , and individual ﬂuctuations ζ i (t) reﬂecting thermal in-
+teractions with the environment (boundaries, air, etc.) or a variation of the
+surface structure of the particles:
+                                               
+   mi ẍi (t) = f 0 (xi (t), t) − γi v i (t) +   f ij (t) + ζ i (t) .                   (2)
+                                                j(=i)
+
+In such systems, the ongoing competition between the driving forces and the
+dissipative friction forces leads to a spatio-temporal redistribution of energy,
+which produces a great variety of self-organization phenomena. This results
+from non-linearities in the equations of motion, which allow small initial
+perturbations to be enhanced and non-equilibrium patterns to be dynamically
+stabilized.
+    In the following, we will generalize Eq. (2) only a little. In contrast to
+conventional physical systems, we will assume to be confronted with “self-
+driven”, “active”, or “motorized” particles with an internal energy reser-
+voir [5]. Therefore, the interaction forces f ij (t) do not necessarily fulﬁll the
+3rd Newtonian law f ji (t) = −f ij (t) (actio = reactio). Additionally, each par-
+ticle can display an individual driving force f 0i (t) instead of f 0 (xi , t). We will
+see that this will imply various interesting phenomena, which can be observed
+in living systems. In this connection, it is useful to rewrite Eq. (2) somewhat,
+where the accelerations aij (t) are often called “generalized forces”:
+                 vi0 (t)e0i (t) + ξ i (t) − v i (t)   
+    v̇ i (t) =                                      +   aij (t) .                      (3)
+                                 τi
+                                                   j(=i)
+
+===== PAGINA 3 =====
+
+                      The Wonderful World of Active Many-Particle Systems          359
+
+Here, we have used the notations f 0i (t) = γi vi0 (t)e0i , γi = mi /τi , f ij (t) =
+mi aij (t), and ζ i (t) = γi ξ i (t). Equation (3) can be also applied, when the
+masses mi are not well-deﬁned, as in socio-economic systems. It implies that,
+while subject to the ﬂuctuations ξ i (t), the velocity v i (t) is adapted to the
+equilibrium velocity vi0 and the direction e0i of motion, if particle i is far
+enough away from other particles j (i.e., aij = 0). The adaptation is expo-
+nential in time with the relaxation time τi . In the following, we will assume
+that the interaction forces are short-ranged and repulsive. Moreover, we will
+focus on the question, what kinds of diﬀerent phenomena occur in self-driven
+many-particly systems under which conditions.
+
+3     Vehicle Traﬃc on Freeways
+Let us now face freeway traﬃc as an example for one-dimensional non-
+equilibrium systems, focussing on the longitudinal dynamics within a single
+lane. In that case, the directions e0i of motion of the vehicles (playing the
+role of the active particles) are all parallel. One frequently assumes that the
+vehicles i mainly react to the respective leading vehicles (i − 1), while the
+response to the following vehicle (i + 1) is neglected. In such car-following
+models, one applies equations of the form
+    dvi (t)  v 0 − vi (t)
+            = i             + ai(i−1) (t) ,                                         (4)
+      dt           τi
+where we drop individual ﬂuctuations for the moment. In simple models, the
+deceleration ai(i−1) (t) ≤ 0 depends only on the distance si (t) = [xi−1 (t) −
+xi (t)], but in reality, it is also a function of the own speed vi (t) and the
+relative velocity (approaching rate) ∆vi (t) = [vi (t) − vi−1 (t)] to the vehi-
+cle in front. There are, of course, also more detailed approaches, but these
+violate Newtons 3rd law actio = reactio as well. In the following, we will
+assume identical driver-vehicle units, so that we have vi0 = v0 , τi = τ ,
+and ai(i−1) (si , vi , ∆vi ) = a(si , vi , ∆vi ). Then, it is often useful to introduce
+the traﬃc-dependent “optimal velocity”
+    V (si , vi , ∆vi ) = v0 + τ a(si , vi , ∆vi ) ≤ v0 ,                           (5)
+which corresponds to the stationary solution of Eq. (4) with dvi /dt = 0.
+Driver i tries to adapt his actual velocity vi (t) to this velocity within the
+relaxation time τ .
+
+3.1     “Phantom Traﬃc Jams”
+If the “optimal velocity” depends only on the distance si (t), we ﬁnd the
+following fundamental relation between the traﬃc ﬂow and the vehicle den-
+sity  = 1/s in homogeneous situations with identical distances si = s and
+velocities vi = V :
+    Qf () = V (1/) .                                                            (6)
+
+===== PAGINA 4 =====
+
+360     Dirk Helbing
+
+However, one can show [6] that this homogeneous traﬃc ﬂow is linearly un-
+stable, if
+  dV (s)    1
+         >    .                                                              (7)
+   ds      2τ
+As a consequence, arbitrarily small perturbations, inhomogeneities, or ﬂuc-
+tuations of the traﬃc ﬂow will be ampliﬁed, until a congested traﬃc state
+with areas of high density and low velocity has evolved.
+   The linearly stable regimes, in which the above condition is not fulﬁlled
+and traﬃc is insensitive to small disturbances, are themselves divided into
+• an absolutely stable regime, in which even large perturbations fade away,
+• a metastable regime adjacent to the linearly unstable regime [7].
+The metastable regime is characterized by the decay of those perturbations,
+which are smaller than a certain density-dependent “critical amplitude”,
+while larger perturbations are growing (“nucleation eﬀect”) [7,8].
+    Stable traﬃc ﬂow is only found as long as the function V (s) changes little
+with the distance s, i.e., when then the vehicle density is low (“free” traﬃc) or
+high (since the velocity is anyway small, then). However, for traﬃc densities
+around 25 vehicles per kilometer and lane (corresponding to velocities below
+about 85 km/h), the “optimal velocity” is rapidly falling with decreasing
+distance. Therefore, small changes are eventually ampliﬁed, until a traﬃc
+jam is formed, even if there is no accident or bottleneck. One could say
+that such a “phantom traﬃc jam” is the consequence of a chain reaction
+based on individual over-reactions: The ﬁnite adaptation time τ causes a
+delayed reaction to changes of the traﬃc situation, so that a vehicle gets too
+close to its leading vehicle, which requires an over-braking. If the following
+vehicles already arrive before the correspondingly increased disturbance can
+be compensated for, the successive vehicles will all brake a little bit more.
+In the end, traﬃc will reach a standstill, although all vehicles would like to
+drive fast.
+    If the inﬂow is not signiﬁcantly reduced, the traﬃc jam will not dissolve,
+because accelerating vehicles lose time when they leave the downstream front
+of congested traﬃc. The correspondingly increased time gaps imply a con-
+siderably reduced outﬂow from congested traﬃc, compared to the maximum
+ﬂow Qmax of homogeneous traﬃc deﬁning the theoretical capacity of the road.
+As a consequence, the outﬂow Qout from congested traﬃc is a second, dy-
+namical capacity, which is something like a self-organized “natural” constant
+of traﬃc ﬂow [9].
+
+3.2   The Rich Variety of Congested Traﬃc States
+Most cases of traﬃc congestion on an n-lane freeway are observed upstream
+of on-ramps or other bottlenecks. They can be triggered by perturbations
+
+===== PAGINA 5 =====
+
+                 The Wonderful World of Active Many-Particle Systems       361
+
+signiﬁcantly below the theoretical capacity, as soon as the sum of the up-
+stream ﬂow Qup and the inﬂow ∆Q = Qin /n per lane exceeds the dynamical
+capacity Qout : If a disturbance leads to temporary congestion, the drivers
+must accelerate again and suﬀer some time delay, which reduces the capacity
+to Qout . Therefore, the following vehicles will queue up, and the temporary
+perturbation grows to form a persistent kind of congestion. The initial per-
+turbation can even be a temporary reduction of the traﬃc ﬂow and/or vehicle
+density, which can be caused by temporal variations of the traﬃc volume or
+even by vehicles leaving the freeway at some oﬀ-ramp: When the traﬃc den-
+sity has suﬃciently increased to reach the metastable regime, the “negative”
+perturbation will be ampliﬁed if it only exceeds the critical amplitude. While
+it is small, it will move downstream with the vehicles, so one could hope it
+would pass the bottleneck and leave the system. However, when the density
+wave grows larger, it will reduce its speed and even change its propagation di-
+rection. Once it is fully developed, it moves upstream with constant velocity,
+since vehicles leave the jam at the downstream front, while new ones join it at
+the upstream front. Hence, the perturbation returns to the bottleneck like a
+boomerang and triggers a breakdown of traﬃc, when it passes the bottleneck
+in upstream direction, as it thereby reduces the eﬀective capacity to Qout .
+    If the total traﬃc volume Qtot = (Qup + ∆Q) is greater than the dynamic
+capacity Qout , we will automatically end up with a growing vehicle queue
+upstream of the on-ramp. The traﬃc ﬂow Qcong resulting in the congested
+area gives, together with the inﬂow ∆Q, exactly the outﬂow Qout , i.e. Qcong =
+(Qout − ∆Q). One can distinguish the following cases [10] (see Fig. 1): If
+the density cong associated with the ﬂow Qcong = Qf (cong ) is stable, we
+ﬁnd homogeneous congested traﬃc (HCT) corresponding to typical traﬃc
+jams during holiday seasons. For a smaller on-ramp ﬂow ∆Q, the congested
+ﬂow Qcong is linearly unstable, and we either ﬁnd oscillating congested traﬃc
+(OCT) or triggered stop-and-go traﬃc (TSG), which often emerges from a
+spatial sequence of homogeneous and oscillating congested traﬃc (so-called
+“pinch eﬀect” [11]). In contrast to OCT, stop-and-go traﬃc is characterized
+by a sequence of moving jams, between which traﬃc ﬂows freely. Each traﬃc
+jam triggers the next one by inducing a small perturbation at the ramp,
+which propagates downstream as long as it is small, but turns back when
+it has grown large enough (“boomerang eﬀect”). This, however, requires the
+downstream traﬃc ﬂow to be linearly unstable. If it is metastable instead
+(when the traﬃc volume is further reduced), a traﬃc jam will usually not
+trigger a growing perturbation. In that case, one ﬁnds either a single moving
+localized cluster (MLC), or a pinned localized cluster (PLC) at the location
+of the ramp. The latter requires the traﬃc ﬂow in the upstream section to be
+stable, so that no traﬃc jam can survive there. Finally, for suﬃciently small
+traﬃc volumes, we ﬁnd free traﬃc (FT), as expected.
+
+===== PAGINA 6 =====
+
+362              Dirk Helbing
+
+                                                                            ρ (vehicles/km/lane)
+ρ (vehicles/km/lane)
+                                                                            100
+100
+                                                                             50
+ 50
+                                                                              0
+    0                                                                             -4
+        -4                                                                   Lo
+    Lo -2                                                                      ca -2
+      ca                                                                         tio                                                                                   60
+                                                                       60           n                                                                        50
+         tio          0                                          50                   x                       0                                        40
+            n                                                                                               (k
+                                                                                                                                                             min)
+                                                      40                                                                                     30
+                 x                              30                    in)                                     m                        20              et(
+                                                            e t (m
+                     (k        2          20                                                                   )      2
+                       m            10               Tim
+                                                                                                                                 10              Tim
+                           )
+ρ (vehicles/km/lane)                                                                                       1700       MLC TSG
+
+
+
+
+                                                                                  Qup (vehicles/km/lane)
+100                                                                                                        1600                             OCT        HCT
+50
+                                                                                                           1500
+    0
+        -4                                                                                                 1400
+    Lo -2
+      ca                                                          60                                       1300             FT               PLC
+         tio         0                               40
+                                                            50
+             n
+                 x                             30            in)
+                                                      e t (m                                               1200
+                     (k 2                20
+                                   10
+                       m
+                         )                      Tim                                                               0        100    200    300                400
+                                                                                                                          ∆Q (vehicles/km/lane)
+ρ (vehicles/km/lane)                                                                          ρ
+100                                                                          100
+ 50                                                                           50
+    0                                                                             0
+        -4                                                                               -4
+        Lo -2
+          ca                                                          60               Lo -2                                                                      60
+             tio 0                                   40
+                                                            50                           ca                                                             50
+                n                                                                           tio 0                                                 40
+                  x                            30                in)                           n                                            30
+                                                                                                                                                            in)
+                                                          e t (m
+                    (k 2                 20
+                                                                                                 x
+                                                                                                                                                  e t (m
+                                   10                                                                   2                             20
+                      m
+                        )                           Tim                                            (k
+                                                                                                     m
+                                                                                                                                 10
+                                                                                                                                            Tim
+                                                                                                      )
+
+
+Fig. 1. Representatives of the diﬀerent congested traﬃc states, which were induced
+by a big perturbation travelling upstream, and phase diagram of the traﬃc states
+as a function of the (upstream) traﬃc volume Qup on the freeway and the strength
+∆Q of a bottleneck at location x = 0 km, e.g. an on-ramp with inﬂow ∆Q per
+freeway lane (center right)
+
+
+4            Collective Pedestrian Dynamics
+Further interesting phenomena are found in two-dimensional pedestrian traf-
+ﬁc. As the acceleration time τi ≈ 0.5 s of pedestrians is very short, the
+instability phenomena observed in vehicular traﬃc do not appear.
+     We describe the psychological tendency of two pedestrians i and j to
+stay away from each other by a repulsive interaction force Ai exp[(rij −
+dij )/Bi ] nij , where Ai and Bi are constants. dij = xi − xj  denotes the
+distance between the pedestrians’ centers of mass, and nij = (n1ij , n2ij ) =
+
+===== PAGINA 7 =====
+
+                   The Wonderful World of Active Many-Particle Systems           363
+
+(xi − xj )/dij is the normalized vector pointing from pedestrian j to i. If their
+distance dij is smaller than the sum rij = (ri + rj ) of their radii ri and rj , the
+pedestrians touch each other. In this case, we assume two additional forces in-
+spired by granular interactions [12,13], which are essential for understanding
+the particular eﬀects in panicking crowds: a “body force” k(rij −dij ) nij coun-
+                                                                               t
+teracting body compression and a “sliding friction force” κ(rij − dij ) ∆vji      tij
+impeding relative tangential motion, if pedestrian i comes close to j. Herein,
+                                                              t
+tij = (−n2ij , n1ij ) means the tangential direction and ∆vji    = (v j − v i ) · tij
+the tangential velocity diﬀerence, while k and κ represent large constants. In
+summary, we have
+  f ij = {Ai exp[(rij − dij )/Bi ] + kΘ(rij − dij )} nij
+                          t
+       + κΘ(rij − dij )∆vji  tij ,                                               (8)
+where the function Θ(x) is zero, if the pedestrians do not touch each other
+(dij > rij ), otherwise equal to the argument x.
+    The interaction with the boundaries is treated analogously, i.e., if diW
+means the distance to wall W , niW denotes the direction perpendicular to
+it, and tiW the direction tangential to it, the corresponding interaction force
+with the wall reads
+  f iW = {Ai exp[(ri − diW )/Bi ] + kΘ(ri − diW )} niW
+       − κΘ(ri − diW )(v i · tiW ) tiW .                                         (9)
+
+4.1   Lane Formation and “Freezing by Heating”
+For normal, relaxed situations with small ﬂuctuation amplitudes ηi , our mi-
+crosimulations of counterﬂows in corridors reproduce the empirically observed
+formation of lanes consisting of pedestrians with the same desired walk-
+ing direction, see Fig. 2a [14,15,4]). If we do not assume periodic bound-
+ary conditions, these lanes are dynamically varying (see the Java applet
+at http://www.helbing.org/Pedestrians/Corridor.html). Their number
+depends on the width of the street [14], on pedestrian density, and on the
+noise level. Interestingly, one ﬁnds a noise-induced ordering [16]: Compared
+to small noise amplitudes, medium ones result in a more pronounced segre-
+gation (i.e., a smaller number of lanes), while large noise amplitudes lead to
+a “freezing by heating” eﬀect (see Fig. 2b).
+    The above, symmetric model can explain lane formation without assum-
+ing a preference for any side [15,17]. The most relevant point is the higher
+relative velocity of pedestrians walking in opposite directions. As a conse-
+quence, they have more frequent interactions until they have segregated into
+separate lanes. The resulting collective pattern of motion minimizes the fre-
+quency and strength of avoidance maneuvers, if ﬂuctuations are weak. This
+state is related with a maximum eﬃciency of motion. One can ﬁnd such
+optimal self-organization for a large class of driven many-particle systems.
+
+===== PAGINA 8 =====
+
+364      Dirk Helbing
+
+
+a
+
+
+
+
+b
+
+
+
+
+Fig. 2. (a) Formation of lanes in initially disordered pedestrian crowds with oppo-
+site walking directions and small noise amplitudes ηi (after [17,18,4]; cf. also [14,15]).
+White disks represent pedestrians moving from left to right, black ones move the
+other way round. (b) For suﬃciently high densities and large ﬂuctuations, we ob-
+serve the noise-induced formation of a crystallized, “frozen” state (after [17,18,4])
+
+
+
+That is, if these systems self-organize at all, they simultaneously tend to
+globally optimize their state [15].
+   To reﬂect the eﬀect of getting nervous in panic situations, we will now
+assume that the individual level of ﬂuctuations is given by
+    ηi = (1 − ni )η0 + ni ηmax ,                                                     (10)
+where ni with 0 ≤ ni ≤ 1 measures the nervousness of pedestrian i. The pa-
+rameter η0 means the normal and ηmax the maximum ﬂuctuation strength. It
+turns out that, at suﬃciently high pedestrian densities, lanes are destroyed by
+an increasing ﬂuctuation strength (which is analogous to the temperature).
+However, instead of the expected transition from the “ﬂuid” lane state to a
+disordered, “gaseous” state, a solid state is formed [17]. It is characterized by
+a blocked situation with a regular (i.e. “crystallized” or “frozen”) structure
+so that we call this paradoxial transition “freezing by heating” (see Fig. 2b).
+Notably enough, the blocked state has a higher degree of order, although
+the internal energy is increased and the resulting state is metastable with
+respect to structural perturbations such as the exchange of oppositely mov-
+ing particles. Therefore, “freezing by heating” is just opposite to what one
+would expect for equilibrium systems, and diﬀerent from ﬂuctuation-driven
+orderding phenomena in metallic glasses and some granular systems, where
+ﬂuctuations lead from a disordered metastable to an ordered stable state. The
+precondition for the unusual freezing-by-heating transition are the additional
+driving term vi0 e0i /τi and the dissipative friction −vi /τi , while the sliding
+friction force is not required.
+
+===== PAGINA 9 =====
+
+                  The Wonderful World of Active Many-Particle Systems        365
+
+4.2   Collective Phenomena at Bottlenecks
+In simulations of bottlenecks like doors, oscillatory changes of the passing
+direction are observed, if people do not panic [19,18,4] (see Fig. 3). Once a
+pedestrian is able to pass the narrowing, pedestrians with the same walking
+direction can easily follow. Hence, the number and “pressure” of waiting and
+pushing pedestrians becomes less than on the other side of the narrowing
+where, consequently, the chance to occupy the passage grows. This leads to
+a deadlock situation which is followed by a change in the passing direction.
+Now, we will focus on uni-directional ﬂows at bottlenecks. The simulated
+outﬂow from a room turns out to be well-coordinated and regular, if the
+desired velocities vi0 = v0 are normal. However, for desired velocities above
+1.5 m/s, i.e. for people in a rush, we ﬁnd an irregular succession of arch-like
+blockings of the exit and avalanche-like bunches of leaving pedestrians, when
+the arches break (see Fig. 4a,b). This phenomenon agrees with empirical
+observations and is comparable to intermittent clogging found in granular
+ﬂows through funnels or hoppers [12,13].
+
+
+
+
+Fig. 3. Oscillations of the passing direction at a bottleneck (after [4,18];
+cf. also [14]). Dynamic simulations are available at http://www.helbing.org/
+Pedestrians/Door.html
+
+
+
+
+4.3   “Faster-Is-Slower Eﬀect” Due to Impatience
+Since clogging is connected with delays, trying to move faster (i.e., increas-
+ing vi0 ) can cause a smaller average speed of leaving, if the friction parameter
+κ is large enough. This “faster-is-slower eﬀect” is particularly tragic in the
+presence of ﬁres, where ﬂeeing people reduce their own chances of survival.
+    Since our friction term has, on average, no deceleration eﬀect in the crowd
+if the walls are suﬃciently remote, the arching underlying the clogging eﬀect
+requires a combination of several eﬀects:
+1. slowing down due to a bottleneck such as a door and
+2. strong inter-personal friction, which becomes dominant when pedestrians
+   get too close to each other.
+
+===== PAGINA 10 =====
+
+366     Dirk Helbing
+
+
+
+
+Fig. 4. Panicking pedestrians come so close to each other, that their physical con-
+tacts lead to the build up of pressure and obstructing friction eﬀects. This re-
+sults in temporary arching and clogging related with ineﬃcient and irregular out-
+ﬂows [19,4,18]
+
+
+Consequently, the danger of clogging can be minimized by avoiding bottle-
+necks in the construction of stadia and public buildings. Notice, however, that
+jamming can also occur at widenings of escape routes! This surprising result
+originates from disturbances due to pedestrians, who expand in the wide area
+because of their repulsive interactions or try to overtake each other. These
+squeeze into the main stream again at the end of the widening, which acts
+like a bottleneck and leads to jamming.
+    Signiﬁcantly improved outﬂows can be reached by columns placed asym-
+metrically in front of the exits, which also prevent the build up of fatal pres-
+sures (see the Java applets at http://angel.elte.hu/˜panic/).
+
+4.4   “Phantom Panics”
+Sometimes, panics have occured without any comprehensible reasons such
+as a ﬁre or another threatening event (e.g., in Moscow, 1982; Innsbruck,
+1999). Due to the “faster-is-slower eﬀect”, panics can be triggered by small
+pedestrian counterﬂows [19,4,18], which cause delays to the crowd intend-
+ing to leave. Consequently, stopped pedestrians in the back, who do not see
+the reason for the temporary slowdown, are getting impatient and pushy. In
+accordance with observations [20], one may describe this by increasing the
+desired velocity, for example, according to the formula
+  vi0 (t) = [1 − ni (t)]vi0 (0) + ni (t)vimax .                               (11)
+Herein, vimax is the maximum desired velocity and vi0 (0) the initial one, corre-
+sponding to the expected velocity of leaving. The time-dependent parameter
+                 v i (t)
+  ni (t) = 1 −                                                                (12)
+                 vi0 (0)
+
+===== PAGINA 11 =====
+
+                  The Wonderful World of Active Many-Particle Systems       367
+
+reﬂects the nervousness, where v i (t) denotes the average speed into the de-
+sired direction of motion. Altogether, long waiting times increase the desired
+velocity, which can produce ineﬃcient outﬂow. This further increases the
+waiting times, and so on. This tragic feedback can eventually trigger so high
+pressures that people are crushed or falling and trampled.
+
+
+5   Summary and Outlook
+
+One can say that physics presently contributes signiﬁcantly to a deeper under-
+standing of problems from traﬃc dynamics, biology, and the socio-economic
+sciences. It has been found that the general methods from statistical physics
+and non-linear dynamics are most useful in these areas. In particular, many
+new insights into the often surprising phenomena in living systems have been
+gained thanks to the relatively young paradigm of active many-particle sys-
+tems, which was presented in a general mathematical framework, here.
+    It would be desireable to develop a statistical mechanics of self-driven
+many-particle systems on this basis, as it already exists for momentum- and
+energy-conserving systems. Are there also general principles such as entropy
+maximization or relations like the partition function, from which the prop-
+erties of the respectively resulting macroscopic states can be derived? Up to
+now, this has been answered only for speciﬁc non-equilibrium systems. How-
+ever, this ﬁeld is not only of interest for fundamental research. Thanks to
+various scientiﬁc projects with industrial partners, the insights from phys-
+ical traﬃc theory are meanwhile adopted in traﬃc optimization strategies.
+Examples are adaptive speed limits, intelligent on-ramp controls, incident
+detection methods, traﬃc prognoses, and driver assistance systems. Active
+many-particle systems are, therefore, a good example for a ﬁeld, in which
+applied and fundamental research are close to each other. Moreover, many
+results have quite general implications, in particular for biological and socio-
+economic systems. They are partly transferable to individuals who compete
+for limited ressources like time, money, energy, etc. [16,18].
+
+Acknowledgments
+I would like to thank Illés Farkas, Ansgar Hennecke, Martin Treiber, and
+Tamás Vicsek for inspiring discussions and their help with producing the ﬁg-
+ures. Moreover, I am grateful to the German Research Foundation (DFG) and
+the Federal Ministry for Education and Science (BMBF) for ﬁnancial support
+through the grants He 2789/1-1, He 2789/2-1, and the project SANDY, grant
+no. 13N7092.
+
+===== PAGINA 12 =====
+
+368     Dirk Helbing
+
+References
+ 0. This manuscript is partly a translation of D. Helbing: Die wundervolle Welt
+    aktiver Vielteilchensysteme, Physikalische Blätter 57, 27–33 (2001). A more
+    detailed discussion can be found in Ref. [4]
+ 1. M. Schreckenberg and D. E. Wolf (Eds.): Traﬃc and Granular Flow ’97
+    (Springer, Singapore, 1998) 357
+ 2. D. Helbing, H. J. Herrmann, M. Schreckenberg, and D. E. Wolf (Eds.): Traf-
+    ﬁc and Granular Flow ’99: Social, Traﬃc, and Granular Dynamics (Springer,
+    Berlin, 2000) 357
+ 3. D. Chowdhury, L. Santen, and A. Schadschneider: Statistical physics of vehic-
+    ular traﬃc and some related systems, Phys. Rep. 329, 199–329 (2000) 357
+ 4. D. Helbing: Traﬃc and related self-driven many-particle systems, e-print
+    arXiv.org/abs/cond-mat/0012229, Reviews of Modern Physics, in print. 357,
+    363, 364, 365, 366, 368
+ 5. F. Schweitzer, W. Ebeling, and B. Tilch: Complex motion of Brownian particles
+    with energy depots, Phys. Rev. Lett. 80, 5044–5047 (1998) 358
+ 6. M. Bando, K. Hasebe, A. Nakayama, A. Shibata, and Y. Sugiyama: Dynamical
+    model of traﬃc congestion and numerical simulation, Phys. Rev. E 51, 1035–
+    1042 (1995) 360
+ 7. B. S. Kerner and P. Konhäuser: Structure and parameters of clusters in traﬃc
+    ﬂow, Phys. Rev. E 50, 54–83 (1994) 360
+ 8. M. Bando, K. Hasebe, K. Nakanishi, A. Nakayama, A. Shibata, and Y.
+    Sugiyama: Phenomenological study of dynamical model of traﬃc ﬂow, J. Phys.
+    I France 5, 1389–1399 (1995) 360
+ 9. B. S. Kerner and H. Rehborn: Experimental features and characteristics of
+    traﬃc jams, Phys. Rev. E 53, R1297–R1300 (1996) 360
+10. D. Helbing, A. Hennecke, and M. Treiber: Phase diagram of traﬃc states in
+    the presence of inhomogeneities, Phys. Rev. Lett. 82, 4360–4363 (1999) 361
+11. B. S. Kerner: Experimental features of self-organization in traﬃc ﬂow, Phys.
+    Rev. Lett. 81, 3797–3800 (1998) 361
+12. G. H. Ristow and H. J. Herrmann: Density patterns in two-dimensional hop-
+    pers, Phys. Rev. E 50, R5–R8 (1994) 363, 365
+13. D. E. Wolf and P. Grassberger (Eds.): Friction, Arching, Contact Dynamics
+    (World Scientiﬁc, Singapore, 1997) 363, 365
+14. D. Helbing and P. Molnár: Social force model for pedestrian dynamics, Phys.
+    Rev. E 51, 4282–4286 (1995) 363, 364, 365
+15. D. Helbing and T. Vicsek: Optimal self-organization, New Journal of Physics
+    1, 13.1–13.17 (1999) (see http://www.njp.org/) 363, 364
+16. D. Helbing and T. Platkowski: Self-organization in space and induced by ﬂuc-
+    tuations, Int. J. Chaos Theor. Appl. 5, 25–39 (2000) 363, 367
+17. D. Helbing, I. Farkas, and T. Vicsek: Freezing by heating in a driven mesoscopic
+    system, Phys. Rev. Lett. 84, 1240–1243 (2000) 363, 364
+18. D. Helbing, I. J. Farkas, and T. Vicsek: Crowd disasters and simulation of
+    panic situations, in Science of Disaster: Climate Disruptions, Heart Attacks and
+    Market Crashes, A. Bunde, J. Kropp, and H. J. Schellnhuber (Eds.) (Springer,
+    Berlin, 2001) 364, 365, 366, 367
+19. D. Helbing, I. Farkas, and T. Vicsek: Simulating dynamical features of escape
+    panic, Nature 407, 487–490 (2000) 365, 366
+
+===== PAGINA 13 =====
+
+                  The Wonderful World of Active Many-Particle Systems       369
+
+20. D. Helbing: A mathematical model for the behavior of pedestrians, Behavioral
+    Science 36, 298–310 (1991) 366
+

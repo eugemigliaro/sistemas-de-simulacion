@@ -1,0 +1,1617 @@
+FUENTE: T00
+TITULO: Introducción a Sistemas de Simulación y análisis de datos
+ORIGINAL: material/catedra/teoria/Teorica_0.pdf
+PAGINAS: 83
+
+===== PAGINA 1 =====
+
+Simulación de Sistemas
+
+
+
+
+          1
+
+===== PAGINA 2 =====
+
+Dictado de la Materia
+
+
+
+
+          2
+
+===== PAGINA 3 =====
+
+  Dictado de la Materia
+- Las teóricas son guías que deben ser complementadas con la bibliografía.
+
+
+- Hay flexibilidad para profundizar en los temas de mayor interés.
+Método científico.
+
+
+- En particular, el Trabajo Práctico Final, será a elección entre todos los temas
+vistos o temas relevantes propuestos por Uds.
+
+
+- Se puede usar lenguaje de programación a elección.
+
+
+
+
+                                         3
+
+===== PAGINA 4 =====
+
+  Dictado de la Materia
+- Los T.P. se realizarán en forma grupal (2 o 3 personas). Sumarse a uno de los
+grupos creados en campus AAAAQQGG. Agrupación Random?
+
+- Recordar y usar este nombre del grupo para toda comunicación con la Cátedra
+
+- Las presentaciones de los T.P. son de asistencia obligatoria.
+
+- Los T.P. se entregan como actividad en Campus, subiendo presentación en pdf
+con links explícitos a animaciones, código, e informe cuando se requiera.
+
+- La implementación del Código y demás documentación debe ser original.
+Campus cuenta con detección automática de plagios.
+Hacer uso responsable de la IA.
+
+
+
+
+                                         4
+
+===== PAGINA 5 =====
+
+  Dictado de la Materia
+- Consultar Cronograma y Reglamento completo (lectura obligatoria)
+“…/Contenido del Curso/Bienvenida/"
+
+
+
+- Para Formato de Presentaciones e Informes consultar (lectura obligatoria)
+“…/Contenido del Curso/Bienvenida/Guías_Formato/”.
+
+
+
+
+                                        5
+
+===== PAGINA 6 =====
+
+Sistemas y Modelos
+
+
+
+         6
+
+===== PAGINA 7 =====
+
+Sistema Real
+
+
+
+
+      7
+
+===== PAGINA 8 =====
+
+      Sistema Real
+
+
+Modelo Físico-Matemático
+
+
+
+
+            7
+
+===== PAGINA 9 =====
+
+            Sistema Real
+
+
+      Modelo Físico-Matemático
+
+
+Modelo / Implementación Computacional
+
+
+
+
+                  7
+
+===== PAGINA 10 =====
+
+            Sistema Real
+
+
+      Modelo Físico-Matemático
+
+
+Modelo / Implementación Computacional
+
+
+             Simulación
+
+
+
+                  7
+
+===== PAGINA 11 =====
+
+De nición de Sistema
+
+
+
+
+                       8
+fi
+
+===== PAGINA 12 =====
+
+De nición de Sistema
+
+     - Posee componentes relacionadas entre sí que funcionan como un todo.
+
+
+
+
+                                       8
+fi
+
+===== PAGINA 13 =====
+
+De nición de Sistema
+
+     - Posee componentes relacionadas entre sí que funcionan como un todo.
+
+     - Pueden ser físicos o conceptuales y se caracterizan por tener límites,
+     componentes, entradas, salidas y procesos que convierten las entradas en
+     salidas.
+
+
+
+
+                                       8
+fi
+
+===== PAGINA 14 =====
+
+De nición de Sistema
+
+     - Posee componentes relacionadas entre sí que funcionan como un todo.
+
+     - Pueden ser físicos o conceptuales y se caracterizan por tener límites,
+     componentes, entradas, salidas y procesos que convierten las entradas en
+     salidas.
+
+
+     - Presentan Observables Medibles y Cuantificables (entradas / salidas).
+
+
+
+
+                                        8
+fi
+
+===== PAGINA 15 =====
+
+De nición de Sistema
+
+     - Posee componentes relacionadas entre sí que funcionan como un todo.
+
+     - Pueden ser físicos o conceptuales y se caracterizan por tener límites,
+     componentes, entradas, salidas y procesos que convierten las entradas en
+     salidas.
+
+
+     - Presentan Observables Medibles y Cuantificables (entradas / salidas).
+
+
+     - Los sistemas también pueden incluir subsistemas e interactuar con otros
+     sistemas y con el ambiente externo.
+
+
+
+
+                                        8
+fi
+
+===== PAGINA 16 =====
+
+De nición de Modelo ( de un Sistema)
+     - Un Modelo es la abstracción de un Sistema "Real".
+
+
+     - Como tal es una aproximación/simplificación del Sistema y NO es único!!
+
+
+     - Hay variables medibles INPUT ( u(t) ) y OUTPUT ( y(t) ) del modelo.
+     INPUT: estímulo
+     OUTPUT: respuesta del modelo
+
+
+     - En general:   y(t) = g ( u(t) )
+       Este mapeo está dado por una función matemática en un modelo.
+
+
+
+
+                                            9
+fi
+
+===== PAGINA 17 =====
+
+De nición de Modelo ( de un Sistema)
+
+
+     Un Objetivo Central de Modelar un Sistema:
+
+                       Entender y Predecir su comportamiento.
+
+
+
+
+                                         10
+fi
+
+===== PAGINA 18 =====
+
+Objetivos de la Teoría de Sistemas
+
+    - Modelado y Análisis: Entender cómo funciona el sistema.
+
+    - Diseño: De un sistema derivado que funcione con las mismas leyes.
+
+    - Control: Seleccionar un input para obtener un output deseado.
+
+    - Evaluación de Funcionamiento: Caracterización detallada del
+    funcionamiento del sistema ante variadas condiciones operativas.
+
+    - Optimización: Encontrar las variables y parámetros que generan un
+    cierto output objetivo.
+
+
+
+
+                                        11
+
+===== PAGINA 19 =====
+
+Caracterización de un Sistema
+
+         Que es tomar DATOS de un sistema ?
+
+
+
+   Medir y Registrar para un cierto muestreo temporal
+    los valores de las variables de INPUT y OUTPUT.
+
+
+
+
+                              12
+
+===== PAGINA 20 =====
+
+                                                                     . . .
+Simulación off-line                                         TAN TE
+                                                          OR
+                                                      IMP
+   INPUT
+y Parámetros
+                            SIMULACIÓN
+
+
+
+
+                                     Herramienta de        "Observables"
+    Estado del sistema en              ANÁLISIS
+     función del tiempo:
+    OUTPUT "PRIMARIO"                  Herramienta de
+                                                                 "Videos"
+                                        ANIMACIÓN
+
+
+                                13
+
+===== PAGINA 21 =====
+
+                                                                              Author's personal copy
+Caracterización de un Sistema
+                                                                                                                                    . . .
+                                                                                                                             T  E
+                                                                                  S.A. Soria et al. / Safety Science 50 (2012) 1584–1588
+
+                                                                                                                    T A   N
+                                                                                                                 R     The evacuation time for 0% citr
+                                                                                                             O out of scale, so it cannot be includ
+                                                                                                 IM      P
+                                                                                                                       The results shown in Fig. 3 indi
+
+
+
+
+    Observable (unidades)
+                                                                                                             tion increases, the evacuation time
+                                                                                                             of about 75%. Beyond this value, th
+                                                                                                             consequently, the evacuation perf
+                                                                                                             nomenon is known as the faster is
+                                                                                                                 During the experiments perform
+                                                                                                             it was observed that ants do no
+                                                                                                             behavior’’ (see Section 1.1) in an
+                                                                                                             exploratory trajectories that rarel
+                                                                                                             near the exit. This fact can be see
+                                                                                                             Fig. 4 for a typical trial with 100%
+
+                                                                                                             3.3. Discussion
+
+                                                                                                                The observation of exit blockag
+                                                                                                             under very extreme circumstance
+                                  input o parametro (unidades)
+                  Fig. 3. Mean value and one standard deviation of evacuation time for each of the
+                                                                                                             exit trying to save their life as in
+                                                                                                             to assume the ‘‘selfish evacuation
+                  four citronella concentrations. This curve shows the faster is slower effect for the ant
+                  system.                                                                                    where the FIS effect is displayed
+                                                                                                             Dorso, 2005, 2007).
+                                                                                                                On the contrary, ants do not dis
+                     The relationship between these evacuation times and the citro-                          in normal conditions (Fourcassie
+                                                  14
+                  nella concentration (which is directly related to the degree of                            ment as seen in Fig. 4. Ants are so
+
+===== PAGINA 22 =====
+
+            Caracterización de un Sistema
+OUTPUT primario                Observable primario            Observable escalar
+  (serie temporal,              (evoluciona en el tiempo,         (no depende del tiempo,
+  Ej.: velocidades)                 Ej.: Temperatura)       Ej.: Temperatura en el Equilibrio )
+
+
+
+
+          Observable * (u.a)
+                                                                             Para
+                                                                     inputs y parámetros
+                                                                            dados
+
+
+
+
+                                 tiempo (u.a)
+
+
+                                             15
+
+===== PAGINA 23 =====
+
+                Caracterización de un Sistema
+OUTPUT primario                                  Observable primario          Observable escalar
+  (serie temporal,                                (evoluciona en el tiempo,    (no depende del tiempo,
+  Ej.: Posiciones)                                  Ej.: Curva descarga)           Ej.: Caudal (Q) )
+
+                                                                                   Q = ΔN / Δt
+
+
+
+
+                            Nro. de Partículas
+           (Observable *)
+                                                                                           Para
+                                                                                   inputs y parámetros
+                                                                                          dados
+
+
+
+
+                                                   tiempo (u.a)
+
+
+                                                               16
+
+===== PAGINA 24 =====
+
+                                                                              Author's personal copy
+Caracterización de un Sistema
+                                                                                                                                    . . .
+                                                                                                                             T  E
+                                                                                  S.A. Soria et al. / Safety Science 50 (2012) 1584–1588
+
+                                                                                                                    T A   N
+                                                                                                                 R     The evacuation time for 0% citr
+                                                                                                             O out of scale, so it cannot be includ
+                                                                                                 IM      P
+                                                                                                                       The results shown in Fig. 3 indi
+
+
+
+
+    Observable (unidades)
+                                                                                                             tion increases, the evacuation time
+                                                                                                             of about 75%. Beyond this value, th
+                                                                                                             consequently, the evacuation perf
+                                                                                                             nomenon is known as the faster is
+                                                                                                                 During the experiments perform
+                                                                                                             it was observed that ants do no
+                                                                                                             behavior’’ (see Section 1.1) in an
+                                                                                                             exploratory trajectories that rarel
+                                                                                                             near the exit. This fact can be see
+                                                                                                             Fig. 4 for a typical trial with 100%
+
+                                                                                                             3.3. Discussion
+
+                                                                                                                The observation of exit blockag
+                                                                                                             under very extreme circumstance
+                                  input o parametro (unidades)
+                  Fig. 3. Mean value and one standard deviation of evacuation time for each of the
+                                                                                                             exit trying to save their life as in
+                                                                                                             to assume the ‘‘selfish evacuation
+                  four citronella concentrations. This curve shows the faster is slower effect for the ant
+                  system.                                                                                    where the FIS effect is displayed
+                                                                                                             Dorso, 2005, 2007).
+                                                                                                                On the contrary, ants do not dis
+                     The relationship between these evacuation times and the citro-                          in normal conditions (Fourcassie
+                                                  17
+                  nella concentration (which is directly related to the degree of                            ment as seen in Fig. 4. Ants are so
+
+===== PAGINA 25 =====
+
+De nición de Modelo ( de un Sistema)
+
+             INPUT            OUTPUT
+
+                     System
+
+
+
+
+     u (t)           Modelo            y = g (u)
+
+
+
+
+                         18
+fi
+
+===== PAGINA 26 =====
+
+El Estado de un Sistema
+ Es la información necesaria tal que y(t) queda unívocamente determinada por
+ esta información y por u(t), t ≥ t0
+
+ Definimos esta información como el estado x(t), donde sus componentes se
+ denominan variables de estado.
+
+
+
+ La "Dinámica de un Sistema" está dada por las relaciones matemáticas del
+ modelo entre los input ( u(t) ), los output ( y(t) ) y el estado ( x(t) ).
+
+
+
+
+                                        19
+
+===== PAGINA 27 =====
+
+El Espacio de Estados
+Definición: "Ecuaciones de Estado"
+
+Son el Conjunto de ecuaciones necesarias para especificar el estado x(t) para t ≥ t0
+dados x(t0) y u(t), t ≥ t0 .
+
+
+
+Definición: "Espacio de los Estados"
+
+Es el Conjunto de todos los posibles valores que pueda tomar el estado.
+
+
+
+
+                                        20
+
+===== PAGINA 28 =====
+
+         El Espacio de Estados
+Las "Ecuaciones de Estado" son en general ecuaciones diferenciales:
+
+                           ẋ(t) = f (x(t), u(t), t)
+
+
+
+El Sistema queda totalmente definido si tenemos las ecuaciones:
+
+
+                 ẋ(t) = f (x(t), u(t), t),     x(t0 ) = x0
+
+
+                 y(t) = g(x(t), u(t), t)
+
+
+
+
+                                         21
+
+===== PAGINA 29 =====
+
+    Modelado con Espacio de Estados
+
+        u (t)      Modelo         y = g (u)
+
+
+
+
+u (t)           .                    y = g (x, u, t)
+                x = f (x, u, t)
+
+
+
+
+                             22
+
+===== PAGINA 30 =====
+
+Espacio de Fases
+ Las variables de estado:
+                                               Representación bidimensional:
+     x(t) = ( x1(t), x2(t), x3(t), ...)             Espacio de Fases
+
+
+                     x2(t)
+                                               x1(t)
+
+
+                       x1(t)
+
+
+
+                        x3(t)                                   x3(t)
+
+                        t
+
+
+
+
+                                          23
+
+===== PAGINA 31 =====
+
+Espacio de Fases                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Ecuación de Estado
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    Oscilador Amortiguado
+   Las variables de estado:
+                                   m ẍ =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     kx        ẋ
+                                   <latexit sha1_base64="3DistXy/pOJE7Rs6mthD9fbS5aw=">AAACB3icbVDLSgMxFM3UV62vUZeCBIvgpmVGRN0IRTcuK9gHdIaSyaRtaJIZkoy0DO3Kjb/ixoUibv0Fd/6NaTsLbT0QOJxzDzf3BDGjSjvOt5VbWl5ZXcuvFzY2t7Z37N29uooSiUkNRyySzQApwqggNU01I81YEsQDRhpB/2biNx6IVDQS93oYE5+jrqAdipE2Uts+5GMvDCOdDkZXpf54UPK6iHMEvZnWtotO2ZkCLhI3I0WQodq2v0wSJ5wIjRlSquU6sfZTJDXFjIwKXqJIjHAfdUnLUIE4UX46vWMEj40Swk4kzRMaTtXfiRRxpYY8MJMc6Z6a9ybif14r0Z1LP6UiTjQReLaokzCoIzgpBYZUEqzZ0BCEJTV/hbiHJMLaVFcwJbjzJy+S+mnZPS+7d2fFynVWRx4cgCNwAlxwASrgFlRBDWDwCJ7BK3iznqwX6936mI3mrCyzD/7A+vwBnRmZyQ==</latexit>
+
+
+
+
+   - Posición (x)
+                .
+   - velocidad (x)
+
+
+
+
+                              24
+
+===== PAGINA 32 =====
+
+Espacio de Fases
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          Ecuación de Estado
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             Las variables de estado:                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     Oscilador de Duffing
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             - Posición (x)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          .
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              x3
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <latexit sha1_base64="UmWEc3PsHTahAmUUKgMq1q3YxxU=">AAACJXicbVBNSxxBEO3RJOrma02OuRRKwCAuMwnEHAws8ZKjgawKO5ulpqd2beyeHrprwi7D+iv8BV78K7nkoIjgyb+S3l0PieZB04/3qqq7XlZq5TmOb6KFxUePnywtrzSePnv+4mVz9dW+t5WT1JFWW3eYoSetCuqwYk2HpSM0maaD7Hh36h/8JOeVLb7zuKSewWGhBkoiB6nf3DEnaZ5brkeTzzCCrdGPD7AFaU6aMVwzAzYhHaIxCNL6DUitoSHCCb/rN9fjVjwDPCTJHVlvr6Wbpzft8V6/eRlGyspQwVKj990kLrlXo2MlNU0aaeWpRHmMQ+oGWqAh36tnW07gbVByGFgXTsEwU//uqNF4PzZZqDTIR/6+NxX/53UrHnzq1aooK6ZCzh8aVBrYwjQyyJUjyXocCEqnwl9BHqFDySHYRgghub/yQ7L/vpV8bCXfQhpfxBzL4o1YExsiEduiLb6KPdERUpyJX+JCXEbn0e/oKrqely5Edz2vxT+Ibv8AGCymvg==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             - velocidad (x)            m ẍ = x                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       ẋ + cos(! t)
+
+x
+<latexit sha1_base64="m4lFg3XLVWu1SNLofzm0wfoXqzs=">AAAB6XicbZC7TsMwFIZPyq2EW4CRxaJCYqoSBmBBVLAwFkQvUhtVjuu0Vh0nsh1EFfUNWBhAiLUPw86CeBuctgO0/JKlT/9/jnzOCRLOlHbdb6uwtLyyulZctzc2t7Z3nN29uopTSWiNxDyWzQArypmgNc00p81EUhwFnDaCwXWeNx6oVCwW93qYUD/CPcFCRrA21t2j3XFKbtmdCC2CN4PS5Yd9kYy/7GrH+Wx3Y5JGVGjCsVItz020n2GpGeF0ZLdTRRNMBrhHWwYFjqjys8mkI3RknC4KY2me0Gji/u7IcKTUMApMZYR1X81nuflf1kp1eO5nTCSppoJMPwpTjnSM8rVRl0lKNB8awEQyMysifSwx0eY4+RG8+ZUXoX5S9k7L3q1bqlzBVEU4gEM4Bg/OoAI3UIUaEAjhCV7g1RpYz9ab9T4tLViznn34I2v8A3xLkFM=</latexit>
+
+
+
+
+ẋ
+<latexit sha1_base64="+5mkD/Eb4uGMcrmkzL86yM2R7VA=">AAAB73icbVC7SgNBFL0bX3F9RS1tFoNgFXYt1EYM2lhGMA9IQpidzCZDZmfXmbtiWPITNhaKCFZ+ib2N+DfOJik08cCFwzn3cB9+LLhG1/22cguLS8sr+VV7bX1jc6uwvVPTUaIoq9JIRKrhE80El6yKHAVrxIqR0Bes7g8uM79+x5TmkbzBYczaIelJHnBK0EiNVjfC9H5kdwpFt+SO4cwTb0qK5x/2Wfz2ZVc6hU8TpUnIJFJBtG56boztlCjkVLCR3Uo0iwkdkB5rGipJyHQ7He87cg6M0nWCSJmS6IzV34mUhFoPQ990hgT7etbLxP+8ZoLBaTvlMk6QSToZFCTCwcjJjne6XDGKYmgIoYqbXR3aJ4pQNC/KnuDNnjxPakcl77jkXbvF8gVMkIc92IdD8OAEynAFFagCBQEP8ATP1q31aL1Yr5PWnDXN7MIfWO8/WEGTKg==</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     25
+
+===== PAGINA 33 =====
+
+     Clasi cación de Modelos
+
+
+
+
+                26
+fi
+
+===== PAGINA 34 =====
+
+Clasi cación de Modelos
+
+         Modelos Estáticos:                 Modelos Dinámicos:
+
+       y(t) no depende de u(τ < t)        y(t) sí depende de u(τ < t),
+              (sin memoria)                en particular de u(t = 0),
+                                                 (con memoria)
+        Ecuaciones Algebraicas
+                                          Ecuaciones Diferenciales
+         Ej.: Circuito Corriente
+                Continua                   Ej.: Oscilador armónico
+
+
+
+
+                                     27
+  fi
+
+===== PAGINA 35 =====
+
+Clasi cación de Modelos
+  Modelos Lineales        La idea de "linealidad" es que la suma
+                         de dos estímulos (input) produce la suma
+                          de sus respectivas respuestas (output):
+
+                               "Principio de Superposición"
+
+
+              g(a1 u1 + a2 u2 ) = a1 g(u1 ) + a2 g(u2 )
+
+
+
+
+                                 28
+  fi
+
+===== PAGINA 36 =====
+
+Clasi cación de Modelos
+  Modelos Lineales
+                            En caso de linealidad las ecuaciones que
+                            definen al sistema/modelo se reducen a:
+
+
+
+
+                   ẋ(t) = Ax(t) + Bu(t)
+
+                    y(t) = Cx(t) + Du(t)
+
+
+       donde A, B, C y D son los parámetros del modelo.
+
+
+
+
+                                     29
+  fi
+
+===== PAGINA 37 =====
+
+Clasi cación de Modelos
+ Modelos No - Lineales                       No cumplen con el principio de superposición.
+                                                 El output no es proporcional al input.
+
+                   Dinámica No-Lineal : " Teoría del Caos "
+
+1- Sensibilidad a las Condiciones Iniciales: Infinitesimales diferencias en el Input
+producen outputs muy diferentes (las trayectorias en el espacio de fases difieren
+exponencialmente con el tiempo: exponente de Lyapunov).
+
+2- Transitividad Topológica: Dos regiones cualquiera del espacio de fases, se
+superpondrán en algún momento al evolucionar el sistema.
+
+
+3- Órbitas Periódicas Densas: Cualquier punto del espacio de fases puede ser
+aproximado infinitesimalmente por una órbita periódica.
+
+
+
+
+                                             30
+     fi
+
+===== PAGINA 38 =====
+
+Clasi cación de Modelos
+Modelos No - Lineales                   No cumplen con el principio de superposición.
+                                            El output no es proporcional al input.
+
+                 Dinámica No-Lineal : " Teoría del Caos "
+
+
+
+
+       Espacio de Fases:
+       Atractor de Lorenz
+
+
+
+
+                                        31
+  fi
+
+===== PAGINA 39 =====
+
+Clasi cación de Modelos
+       Modelos de Estados Continuos y Discretos
+
+                                     Sistemas de Estado Discretos
+        Continuos:
+                                      Las variables de estado son:
+                                          - números enteros.
+  Las variables de estado
+                                              - ON / OFF
+   son números reales.
+                                       - HIGH / MEDIUM / LOW
+ “Ecuaciones Diferenciales”
+
+                                   x1(t)
+
+
+
+
+                                                                 t
+
+                              32
+  fi
+
+===== PAGINA 40 =====
+
+Clasi cación de Modelos
+            Modelos Deterministas y Estocásticos
+
+                                                             Estocástico:
+            Determinismo:
+                                               Si al menos uno de los inputs es random.
+           Demonio de Laplace
+ Conoce todas las condiciones iniciales        Se considera al azar (ignorancia sobre
+   y todas las leyes de la naturaleza          algunos procesos).
+entonces puede determinar la evolución
+      futura del universo (sistema).           Se plantea al modelo en términos de
+                                               probabilidades.
+
+
+
+
+                                          33
+    fi
+
+===== PAGINA 41 =====
+
+Modelo Estocástico:
+                        - Algoritmos que involucre números aleatorios
+    Monte Carlo         - Se toman promedios para reportar observables
+
+
+
+          "Casino de Monte-Carlo" (Mónaco)
+
+
+
+
+                            34
+
+===== PAGINA 42 =====
+
+Modelo Estocástico: Monte Carlo
+                                    Estimación de π
+      8-                   8                                           
+
+
+
+
+                        B&&&&   *6  ,C  B9'ABD
+
+                                      ,                B9'A'(E%F
+                                                          
+                    !   "#$ 
+        %&'' ''( &)*+' '( &)*
+                                                               35
+
+===== PAGINA 43 =====
+
+Modelo Estocástico: Monte Carlo
+   Interacción de radiación de neutrones con la materia
+
+
+
+
+    Neutrones
+
+
+
+
+                                  36
+
+===== PAGINA 44 =====
+
+                                                     
+           Modelo Estocástico: Monte Carlo                  
+               Difusión : Random Walk
+     
+
+                                                                    
+ 
+                                                                      
+ 
+                                                                     
+                       .
+                       -
+                            -.
+                .   -
+                        -
+ KA                       .
+ 
+9
+                                                            
+
+           
+
+
+
+
+                                        37
+
+===== PAGINA 45 =====
+
+    Modelo Estocástico: Monte Carlo
+Difusión : Random Walk
+                                 Coeficiente de Difusión
+                            
+
+                                             < z2 > ∝ D t
+                                        +*
+                                                                 Importante:
+                                       ,Para
+                                                         calcular ese coeficiente, no
+                                                     alcanza
+                                      22     una trayectoria. Se deben
+                     z                     simular muchas y promediar el
+                                                         desplazamiento cuadrático.
+
+
+
+                           
+                                                      < z2 > 2 D t        (en 1 dimensión)
+
+                                                      < z2 > 4 D t        (en 2 dimensiones)
+
+                                                      < z2 > 6 D t        (en 3 dimensiones)
+
+
+
+
+                                              38
+
+===== PAGINA 46 =====
+
+Clasi cación de Modelos y Simulaciones
+
+
+
+Basados en Tiempo Discreto        Basados en Eventos
+
+
+
+
+                             39
+   fi
+
+===== PAGINA 47 =====
+
+Clasi cación de Modelos y Simulaciones
+
+
+
+             Basados en Tiempo Discreto
+
+
+
+
+                        40
+  fi
+
+===== PAGINA 48 =====
+
+Clasi cación de Modelos y Simulaciones
+                      Basados en Tiempo Discreto
+
+
+          El sistema evoluciona cada un cierto tiempo discreto fijo (dt),
+       generalmente pequeño respecto del tiempo total de la evolución del
+                                   sistema.
+
+
+
+
+                                        41
+  fi
+
+===== PAGINA 49 =====
+
+Clasi cación de Modelos y Simulaciones
+               Basados en Tiempo Discreto
+
+
+                            Ejemplo:
+
+         Integración numérica de una ecuación diferencial
+
+
+
+
+                                 42
+  fi
+
+===== PAGINA 50 =====
+
+Clasi cación de Modelos y Simulaciones
+
+
+
+                Basados en Eventos
+
+
+
+
+                        43
+  fi
+
+===== PAGINA 51 =====
+
+Clasi cación de Modelos y Simulaciones
+                         Basados en Eventos
+
+
+       El sistema evoluciona en la medida que suceden “eventos”, los
+       cuales son instantáneos y producen un cambio en el estado del
+                                  sistema.
+
+
+
+
+                                     44
+  fi
+
+===== PAGINA 52 =====
+
+Clasi cación de Modelos y Simulaciones
+                            Basados en Eventos
+
+ Ejemplo: Filas y Procesos (Teoría de Colas)
+
+               Componentes:
+
+  - Entidades / Clientes que esperan por un Recurso / Servicio.
+
+  - Servidores que proveen el recurso por el cual esperan los clientes.
+
+  - La Fila es el espacio donde los clientes esperan ordenados.
+
+
+
+
+                                        45
+  fi
+
+===== PAGINA 53 =====
+
+Clasi cación de Modelos y Simulaciones
+                         Basados en Eventos
+
+            Ejemplo: Filas y Procesos
+
+
+
+
+                                                        Partida de
+       Arribo de         Fila
+                                                         Clientes
+       Clientes
+                                             Servidor
+
+
+
+
+                                        46
+  fi
+
+===== PAGINA 54 =====
+
+Clasi cación de Modelos y Simulaciones
+                                 Basados en Eventos
+
+            La Fila tiene:
+            - Capacidad (a veces infinita).
+            - Comportamiento, p ej. FILO, FIFO, etc.
+
+
+                                                       Partida de
+       Arribo de          Fila
+                                                        Clientes
+       Clientes
+                                            Servidor
+
+
+
+
+                                           47
+  fi
+
+===== PAGINA 55 =====
+
+Clasi cación de Modelos y Simulaciones
+                                   Basados en Eventos
+
+Los eventos son el arribo o partida de un cliente.
+Y la variable de estado natural es la "Longitud de la Fila"
+
+
+
+                                                              Partida de
+           Arribo de        Fila
+                                                               Clientes
+           Clientes
+                                               Servidor
+
+
+
+
+                                              48
+      fi
+
+===== PAGINA 56 =====
+
+Simulación vs. Animación
+
+
+
+
+            49
+
+===== PAGINA 57 =====
+
+Simulación vs. Animación
+
+   El cinematógrafo
+
+
+                                  Permiten reproducirlo al
+  Sucesivas fotografías de
+                                   observar la secuencia
+  un objeto en movimiento
+                                         obtenida
+
+
+
+
+                             50
+
+===== PAGINA 58 =====
+
+Simulación vs. Animación
+
+   El cinematógrafo
+
+
+                                  Permiten reproducirlo al
+  Sucesivas fotografías de
+                                   observar la secuencia
+  un objeto en movimiento
+                                         obtenida
+
+
+
+                                          Cómo ?
+
+
+
+
+                             50
+
+===== PAGINA 59 =====
+
+Simulación vs. Animación
+
+    El cinematógrafo               Persistencia de la
+                                imagen en la retina ~1/10
+                                       segundos
+
+
+
+
+ tiempo
+
+
+
+
+                           51
+
+===== PAGINA 60 =====
+
+Simulación vs. Animación
+
+                                En la Animación
+                                las imágenes
+                                sucesivas son
+                                creadas para
+                                generar la ilusión
+                                de movimiento
+  tiempo
+
+
+
+
+                           52
+
+===== PAGINA 61 =====
+
+Simulación vs. Animación
+
+
+
+                                Imágenes creadas:
+                                   - Dibujos (papel o computadora)
+                                   - Objetos o muñecos que se
+                                     mueven cuadro a cuadro.
+                                   - Simulación.
+  tiempo
+
+
+
+
+                           53
+
+===== PAGINA 62 =====
+
+Simulación vs. Animación
+   Simulación
+   Computacional        Un programa que reproduce el
+                        comportamiento de un sistema
+
+
+
+
+  Sistema Físico.   Interacción de          Algoritmos.
+    Ecuaciones         Agentes              Heurística
+   diferenciales
+
+
+
+
+                           54
+
+===== PAGINA 63 =====
+
+Simulación vs. Animación
+   Simulación
+   Computacional                   Un programa que reproduce el
+                                   comportamiento de un sistema
+
+
+
+
+                                                Otro tipo de output
+         Evolución Temporal
+      (se podría hacer una animación)
+
+
+
+
+                                        55
+
+===== PAGINA 64 =====
+
+Simulación vs. Animación
+
+          Cuál es la diferencia ?
+
+ 1) Una ANIMACIÓN puede estar generada a mano o puede
+ estar generada a partir de una SIMULACIÓN.
+
+
+ 2) Una SIMULACIÓN puede generar una sucesión temporal de
+ datos susceptible de ser animados.
+
+
+
+
+                              56
+
+===== PAGINA 65 =====
+
+Conceptos de Estadística y Regresiones
+
+
+
+
+                    57
+
+===== PAGINA 66 =====
+
+    Conceptos de Estadística
+Consejos previos:
+
+ Para simulaciones usar Java, C(++), o similar
+
+ Para análisis/postprocesamiento de datos salidos de la
+ simulación, usar: Phyton, Maltab, R, Octave, ...
+
+
+ No recomendable analizar datos con Planillas (Excel o similar....)
+
+
+
+
+                                  58
+
+===== PAGINA 67 =====
+
+   Conceptos de Estadística
+
+Histograma
+
+
+Distribución de Probabilidad
+
+
+Función de Densidad de Probabilidad (PDF)
+
+
+Error Muestral - Error de Medición
+
+
+
+
+                                 59
+
+===== PAGINA 68 =====
+
+Conceptos de Estadística
+                                                                    -yi No acotado.
+   Histograma                 yi = Ni
+
+
+                                                                      dxi : Ancho Bin
+
+  Distribución de
+   Probabilidad        yi = Ni / N
+
+
+                                             -Todos los yi son menores a uno.
+     Densidad de
+     Probabilidad
+   (PDF: Probability    yi = Ni / (dxi N)
+   Density Function)                           - La PDF es continua, a partir de datos finitos
+                                               se la puede aproximar.
+                                               - Su integral es igual a uno. Algún yi particular
+                                               podría ser mayor a uno.
+
+
+
+
+                                        60
+
+===== PAGINA 69 =====
+
+      Conceptos de Estadística
+ Error Muestral o de Medición
+Para simulaciones estocásticas, se repiten corridas (con
+distintas semilla) un cierto número de realizaciones y luego se
+reporta el observable como el promedio (µ) de los observables
+obtenidos.
+
+Su error asociado, usualmente es el desvío estándar
+                                                          (σ)
+(si se trata de una distribución de Gauss).
+
+
+                      µ±σ
+
+
+
+                                    61
+
+===== PAGINA 70 =====
+
+    Conceptos de Estadística
+    Error Muestral o de Medición                                 ..
+                                                             E .
+                                                          N T
+Ejemplo de output promedio:                            RTA
+                                                IM   PO
+                    L = 45.4 ± 0.3 cm
+
+Si el error es 0.3 cm no tiene sentido informar mayor precisión
+en el valor de L. Por ejemplo:
+
+                    L = 45.423457 ± 0.323428 cm
+
+                    (no sería un formato correcto)
+
+
+
+
+                                   62
+
+===== PAGINA 71 =====
+
+    Conceptos de Estadística
+    Error Muestral o de Medición                                 ..
+                                                             E .
+                                                          N T
+Ejemplo de output promedio:                            RTA
+                                                IM   PO
+                    L = 45.4 ± 0.3 cm
+
+Si el error es 0.3 cm no tiene sentido informar mayor precisión
+en el valor de L. Por ejemplo:
+
+                    L = 45.423457 ± 0.323428 cm
+
+                    (no sería un formato correcto)
+
+
+
+
+                                   62
+
+===== PAGINA 72 =====
+
+    Conceptos de Estadística
+    Error Muestral o de Medición                                 ..
+                                                             E .
+                                                          N T
+Ejemplo de output promedio:                            RTA
+                                                IM   PO
+                    L = 45.4 ± 0.3 cm
+
+Si el error es 0.3 cm no tiene sentido informar mayor precisión
+en el valor de L. Por ejemplo:
+
+                    L = 45.423457 ± 0.323428 cm
+
+                    (no sería un formato correcto)
+
+
+
+
+                                   62
+
+===== PAGINA 73 =====
+
+                                                                                  Author's personal copy
+Conceptos de Estadística
+Error Muestral o de Medición (barras de error)
+                                                                                      S.A. Soria et al. / Safety Science 50 (2012) 1584–1588
+
+
+                                                                                                                        The evacuation time for 0% citr
+                                                                                                                    out of scale, so it cannot be includ
+                                                                                                                        The results shown in Fig. 3 indi
+
+
+
+
+        observable (unidades)
+                                                                                                                    tion increases, the evacuation time
+                                                                                                                    of about 75%. Beyond this value, th
+                                                                                                                    consequently, the evacuation perf
+                                                                                                                    nomenon is known as the faster is
+                                                                                                                        During the experiments perform
+                                                                                                                    it was observed that ants do no
+                                                                                                                    behavior’’ (see Section 1.1) in an
+                                                                                                                    exploratory trajectories that rarel
+                                                                                                                    near the exit. This fact can be see
+                                                                                                                    Fig. 4 for a typical trial with 100%
+
+                                                                                                                    3.3. Discussion
+
+                                                                                                                       The observation of exit blockag
+                                                                                                                    under very extreme circumstance
+                                      input o parametro (unidades)
+                      Fig. 3. Mean value and one standard deviation of evacuation time for each of the
+                                                                                                                    exit trying to save their life as in
+                                                                                                                    to assume the ‘‘selfish evacuation
+                      four citronella concentrations. This curve shows the faster is slower effect for the ant
+                      system.                                                                                       where the FIS effect is displayed
+                                                                                                                    Dorso, 2005, 2007).
+                                                                                                                       On the contrary, ants do not dis
+                         The relationship between these evacuation times and the citro-                             in normal conditions (Fourcassie
+                                                      63
+                      nella concentration (which is directly related to the degree of                               ment as seen in Fig. 4. Ants are so
+
+===== PAGINA 74 =====
+
+Conceptos de Regresiones
+
+
+
+
+           64
+
+===== PAGINA 75 =====
+
+Conceptos de Regresiones
+
+
+ Ajuste de datos con modelos teóricos
+
+ (no con polinomios, "splines", o funciones arbitrarias ...)
+
+
+
+
+                               65
+
+===== PAGINA 76 =====
+
+Conceptos de Regresiones
+Ej.: Modelo Exponencial
+                                                         Datos (promedios de simulaciones)
+                                                         Ajuste modelo exponencial
+
+
+
+
+      output [unidades]
+
+
+
+
+                          input o parametro [unidades]
+
+
+                                         66
+
+===== PAGINA 77 =====
+
+Conceptos de Regresiones
+Ej.: Modelo Senoidal
+                         Datos (promedios de simulaciones)
+                         Ajuste modelo senoidal
+
+
+
+
+     output [unidades]
+
+
+
+
+                           input o parametro [unidades]
+
+
+                                                 67
+
+===== PAGINA 78 =====
+
+Conceptos de Regresiones
+Ej.: Modelo Lineal
+                          Datos (promedios de simulaciones)
+                          Ajuste modelo lineal
+
+
+
+
+      output [unidades]
+
+
+
+
+                           input o parametro [unidades]
+
+
+                                                  68
+
+===== PAGINA 79 =====
+
+    Conceptos de Regresiones
+ Dados los datos y un modelo teórico se puede definir el error
+ del modelo en función de un coeficiente del mismo:
+
+   Datos                                    Error del Ajuste:
+(promedios de     (xi , yi )
+simulaciones)                                    X
+                                                                          2
+                                        E(c) =        [yi   f (xi , c)]
+Ajuste modelo                                     i
+(lineal u otro   f (xi , c)
+cualquiera)
+
+
+
+
+                                  69
+
+===== PAGINA 80 =====
+
+    Conceptos de Regresiones
+El valor del coeficiente c que minimiza el error (E) es el que
+mejor ajuste del modelo a los datos produce.
+
+           X
+                                    2
+ E(c) =         [yi   f (xi , c)]
+            i
+
+
+
+
+                                        ⇤
+                             E(c )
+
+                                                     ⇤           c
+                                                 c
+
+
+                                            70
+
+===== PAGINA 81 =====
+
+     Conceptos de Regresiones
+
+El valor del coeficiente c                          Datos (promedios de simulaciones)
+                                                    Ajuste modelo lineal
+que minimiza el error (E) es
+el que mejor ajuste del
+modelo a los datos
+
+
+
+
+                               output [unidades]
+produce.
+Por ejemplo en el Modelo
+Lineal ....
+
+
+
+
+                                                        input o parametro [unidades]
+
+                                                   71
+
+===== PAGINA 82 =====
+
+Conceptos de Regresiones
+
+
+ Reiteramos:
+
+ Los datos se ajustan con funciones que provienen de algún
+ modelos teórico. No con funciones arbitrarias (no con
+ polinomios de grado N, "splines", etc.)
+
+
+
+
+                            72
+
+===== PAGINA 83 =====
+
+         FIN
+
+
+
+Gracias por su atención!
+
+
+
+
+           73
+

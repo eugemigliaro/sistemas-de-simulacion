@@ -1,0 +1,745 @@
+FUENTE: B04
+TITULO: Flocks, Herds, and Schools: A Distributed Behavioral Model — Craig W. Reynolds
+ORIGINAL: material/externo/bibliografia-1/Flocks_Herds_Reynolds.pdf
+PAGINAS: 10
+
+===== PAGINA 1 =====
+
+                                                                 (~) ~           Computer Graphics, Volume 21, Number 4, July 1987
+
+
+
+                               Flocks, Herds, and Schools: A Distributed Behavioral Model
+
+                                                                 Craig W. Reynolds
+                                                             Symbolics Graphics Division
+
+                                                               1401 Westwood Boulevard
+                                                             Los Angeles, California 90024
+
+                                                       (Electronic mail: cwr@Symbolics.COM)
+
+
+Abstract
+The aggregate motion of a flock of birds, a herd of land ani-                     it seems randomly arrayed and yet is magnificently synchro-
+mals, or a school of fish is a beautiful and familiar part of the                 nized. Perhaps most puzzling is the strong impression of inten-
+n a t u r a l world. But this type of complex motion is rarely seen in            tional, centralized control. Yet all evidence indicates that flock
+computer animation. This paper explores an approach based                         motion must be merely the aggregate result of the actions of
+on simulation as an alternative to scripting the paths of each                    individual animals, each acting solely on the basis of its own
+bird individually. The simulated flock is an elaboration of a                     local perception of the world.
+particle system, with the simulated birds being the particles.                        One area of interest within computer animation is the de-
+The aggregate motion of the simulated flock is created by a                       scription and control of all types of motion. Computer anima-
+distributed behavioral model much like that at work in a natu-                    tors seek both to invent wholly new types of abstract motion
+ral flock; the birds choose their own course. Each simulated                      and to duplicate (or make variations on) the motions found in
+bird is implemented as an independent actor that navigates ac-                    the real world. At first glance, producing an animated, com-
+cording to its local perception of the dynamic environment, the                   puter graphic portrayal of a flock of birds presents significant
+laws of simulated physics that rule its motion, and a set of                      difficulties. Scripting the path of a large number of individual
+behaviors programmed into it by the "animator." The aggre-                        objects using traditional computer animation techniques would
+gate motion of the simulated flock is the result of the dense                     be tedious. Given the complex paths that birds follow, it is
+interaction of the relatively simple behaviors of the individual                  doubtful this specification could be made without error. Even
+simulated birds.                                                                  if a reasonable number of suitable paths could be described, it
+                                                                                  is unlikely that the constraints of flock motion could be main-
+Categories and Subject Descriptors: 1.2.10 [Artificial Intelli-                   tained (for example, preventing collisions between all birds at
+gence]: Vision and Scene Understanding; 1.3.5 [Computer                           each frame). Finally, a flock scripted in this manner would be
+Graphics]: Computational Geometry and Object Modeling;                            hard to edit (for example, to alter the course of all birds for a
+1.3.7 [Computer Graphics]: Three-Dimensional Graphics and                         portion of the animation). It is not impossible to script flock
+Realism--Animation; 1.6.3 [Simulation and Modeling[: Appli-                       motion, but a better approach is needed for efficient, robust,
+cations.                                                                          and believable animation of flocks and related group motions.
+General Terms: Algorithms, design.                                                     This paper describes one such approach. This approach
+                                                                                  assumes a flock is simply the result of the interaction between
+Additional Key Words, and Phrases: flock, herd, school, bird,                     the behaviors of individual birds. To simulate a flock we simu-
+fish, aggregate motion, particle system, actor, flight, behav-                    late the behavior of an individual bird (or at least that portion
+ioral animation, constraints, path planning.                                      of the bird's behavior that allows it to participate in a flock). To
+                                                                                  support this behavioral "control structure" we must also simu-
+Introduction                                                                      late portions of the bird's perceptual mechanisms and aspects
+                                                                                  of the physics of aerodynamic flight. If this simulated bird
+The motion of a flock of birds is one of nature's delights.
+                                                                                  model has the correct flock-member behavior, all that should
+Flocks and related synchronized group behaviors such as                           be required to create a simulated flock is to create some in-
+schools of fish or herds of land animals are both beautiful to
+                                                                                  stances of the simulated bird model and allow them to inter-
+watch and intriguing to contemplate. A flock* exhibits many
+                                                                                  act. **
+contrasts. It is made up of discrete birds yet overall motion
+seems fluid; it is simple in concept yet is so visually complex,                       Some experiments with this sort of simulated flock are de-
+                                                                                  scribed in more detail in the remainder of this paper. The suc-
+Permissionto copy without fee all or part of this material is granted
+provided that the copiesare not made or distributedfor direct                      *In this paperflock refers generically to a group of objects that
+commercial advantage, the ACM copyright noticeand the title of the
+                                                                                    exhibit this general class of polarized, noncolliding, aggregate
+publicationand its date appear, and notice is giventhat copyingis by
+permissionof the Associationfor ComputingMachinery.To copy                          motion. The term polarization is from zoology, meaning align-
+otherwise, or to republish,requires a fee and/or specificpermission.                ment of animal groups. English is rich with terms for groups of
+                                                                                    animals; for a charming and literate discussion of such words see
+                                                                                    An Exultation of Larks. [16]
+                                                                                  **This paper refers to these simulated bird-like, "bird-old" objects
+                                                                                    generically as "boids" even when they represent other sorts of
+©1 9 8 7            ACM-0-89791-227-6/87/007/0025                       $00.75
+                                                                                    creatures such as schooling fish.
+
+
+
+
+                                                                                                                                                     25
+
+===== PAGINA 2 =====
+
+~             SIGGRAPH'87,Anaheim,July 27-31, 1987
+
+
+cess and validity of these simulations is difficult to measure             Another difference between bold flocks and particle sys-
+objectively. They do seem to agree well with certain criteria          tems is not as well defined. The behavior of boids is generally
+[25] and some statistical properties [23] of natural flocks and        more complex than the behaviors for particles as described in
+schools which have been reported by the zoological and behav-          the literature. The present bold behavior model might be about
+ioral sciences. Perhaps more significantly, many people who            one or two orders of magnitude more complex than typical
+view these animated flocks immediately recognize them as a             particle behavior. However this is a difference of degree, not of
+representation of a natural flock, and find them similarly de-         kind. And neither simulated behavior is nearly as complex as
+lightful to watch.                                                     that of a real bird.
+                                                                           Also, as presented, particles in particle systems do not in-
+O u r Forefiocks                                                       teract with one another, although this is not ruled out by defini-
+                                                                       tion. But birds and hence boids must interact strongly in order
+The computer graphics community has seen simulated bird                to flock correctly. Bold behavior is dependent not only on in-
+flocks before. The Electronic Theater at SIGGRAPH '85 pre-             ternal state but also on external state.
+sented a piece labeled "motion studies for a work in progress
+entitled ' E u r y t h m y ' " [4] by Susan Amkraut, Michael Girard,
+and George Karl from the Computer Graphics Research Group
+of Ohio State University. In the film, a flock of birds flies up
+                                                                       Actors and Distributed Systems
+out of a minaret and, passing between a series of columns, flies       The behavioral model that controls the boid's flight and flock-
+down into a lazy spiral around a courtyard. All the while the          ing is complicated enough that rather than use an ad hoc ap-
+birds slowly flap their wings and avoid collision with their           proach, it is worthwhile to pursue the most appropriate formal
+flockmates.                                                            computational model. The behaviors will be represented as
+    That animation was produced using a technique completely           rules or programs in some sense, and the internal state of each
+unlike the one described in this paper and apparently not spe-         bold must be held in some sort of data structure. It is conve-
+cifically intended for flock modeling. But the underlying con-         nient to encapsulate these behaviors and state as an object, in
+cept is useful and interesting in its own right. The following         the sense of object-oriented programming systems [10, 11,
+overview is based on unpublished communications [3]. The               21]. Each instance of these objects needs a computational
+software is informally called "the force field animation sys-          process to apply the behavioral programs to the internal data.
+tem." Force fields are defined by a 3 x 3 matrix operator that         The computational abstraction that combines process, proce-
+transform from a point in space (where an object is located) to        dure, and state is called an actor [12, 26, 2]. An actor is
+an acceleration vector; the birds trace paths along the "phase         essentially a virtual computer that communicates with other
+portrait" of the force field. There are "rejection forces"             virtual computers by passing messages. The actor model has
+around each bird and around static objects. The force field            been proposed as a natural structure for animation control by
+associated with each object has a bounding box, so object in-          several authors [28, 13, 29, 18]. It seems particularly apt for
+teractions can be culled according to bounding box tests. An           situations involving interacting characters and behavior simula-
+incremental, linear time algorithm finds bounding box inter-           tion. In the literature of parallel and distributed computer sys-
+sections. The "animator" defines the space field(s) and sets           tems, flocks and schools are given as examples of robust
+the initial positions, orientations, and velocities of objects. The    self-organizing distributed systems [15].
+rest of the simulation is automatic.
+    Karl Sims of MIT's Media Lab has constructed some be-
+haviorally controlled animation of groups of moving objects            Behavioral Animation
+(spaceships, inchworms, and quadrupeds), but they are not or-          Traditional hand-drawn eel animation was produced with a me-
+ganized as flocks [35]. Another author kept suggesting [28,            dium that was completely inert. Traditional computer anima-
+29, 30] implementing a flock simulation based on a distributed         tion uses an active medium (computers running graphics
+behavioral model.                                                      software), but most animation systems do not make much use
+                                                                       of the computer's ability to automate motion design. Using
+                                                                       different tools, contemporary computer animators work at al-
+Particle Systems                                                       most the same low level of abstraction as do eel animators.
+The simulated flock described here is closely related to parti-        They tell their story by directly describing the motion of their
+cle systems [27], which are used to represent dynamic "fuzzy           characters. Shortcuts exist in both media; it is common for
+objects" having irregular and complex shapes. Particle systems         computer animators and eel animators to use helpers to inter-
+have been used to model fire, smoke, clouds, and more re-              polate between specified keyframes. But little progress has
+cently, the spray and foam of ocean waves [27]. Particle sys-          been made in automating motion description; it is up to the
+tems are collections of large numbers of individual particles,         animator to translate the nuances of emotion and characteriza-
+each having its own behavior. Particles are created, age, and          tion into the motions that the character performs. The animator
+die off. During their life they have certain behaviors that can        cannot simply tell the character to "act happy" but must tedi-
+alter the particle's own state, which consists of color, opacity,      ously specify the motion that conveys happiness.
+location, and velocity.                                                    Typical computer animation models only the shape and
+    Underlying the bold flock model is a slight generalization         physical properties of the characters, whereas behavioral or
+of particle systems. In what might be called a "subobject sys-         character-based animation seeks to model the behavior of the
+tem," Reeves's dot-like particles are replaced by an entire geo-       character. The goal is for such simulated characters to handle
+metrical object consisting of a full local coordinate system and       many of the details of their actions, and hence their motions.
+a reference tO a geometrical shape model. The use of shapes            These behaviors include a whole range of activities from sim-
+instead of dots is visually significant, but the more fundamen-        ple path planning to complex "emotional" interactions be-
+tal difference is that individual subobjects have a more com-          tween characters. The construction of behavioral animation
+plex geometrical state: they now have orientation.                     characters has attracted many researchers [19, 21, 13, 14, 29,
+
+
+26
+
+===== PAGINA 3 =====
+
+                                                         (~ ~         ComputerGraphics,Volume21, Number4, July 1987
+                                                                                                                                  ii llll   ii
+
+
+
+
+30, 41, 40], but it is still a young field in which more work is       speed. A minimum speed can also be specified but defaults to
+needed.                                                                zero. A maximum acceleration, expressed as a fraction of the
+     Because of the detached nature of the control, the person         maximum speed, is used to truncate over-anxious requests for
+who creates animation with character simulation might not              acceleration, hence providing for smooth changes of speed and
+strictly be an animator. Traditionally, the animator is directly       heading. This is a simple model of a creature with a finite
+responsible for all motion in animation production [40]. It            amount of available energy.
+might be more proper to call the person who directs animation              Many physical forces are not supported in the current bold
+via simulated characters a meta-animator, since the animator is        model. Gravity is modeled but used only to define banking
+less a designer of motion and more a designer of behavior.             behavior. It is defined procedurally to allow the construction of
+These behaviors, when acted out by the simulated characters,           arbitrarily shaped fields. If each bold was accelerated by grav-
+lead indirectly to the final action. Thus the animator's job be-       ity each frame, it would tend to fall unless gravity was coun-
+comes somewhat like that of a theatrical director: the charac-         tered by lift or buoyancy. Buoyancy is aligned against gravity,
+ter's performance is the indirect result of the director's             but aerodynamic lift is aligned with the boid's local " u p " di-
+instructions to the actor. One of the charming aspects of the          rection and related to velocity. This level of modeling leads to
+work reported here is not knowing how a simulation is going to         effects like normally level flight, going faster when flying
+proceed from the specified behaviors and initial conditions;           down (or slower up), and the "stall" maneuver. The speed
+there are many unexpected, pleasant surprises. On the other            limit parameter could be more realistically modeled as a fric-
+hand, this charm starts to wear thin as deadlines approach and         tional drag, a backward pointing force related to velocity. In
+the unexpected annoyances pop up. This author has spent a lot          the current model steering is done by directing the available
+of time recently trying to get uncooperative flocks to move as         thrust in the appropriate direction. It would be more realistic to
+intended ("these darn boids seem to have a mind of their               separately model the tangential thrusting forces and the lateral
+own! ").                                                               steering forces, since they normally have different magnitudes.
+
+
+Geometric Flight                                                       Banking
+A fundamental part of the bold model is the geometric ability          Geometric flight relates translation, pitch, and yaw, but does
+to fly. The motion of the members of a simulated school or             not constrain roll, the rotation about the local Z axis. This
+herd can be considered a type of "flying" by glossing over the         degree of freedom is used for banking--rolling the object to
+considerable intricacies of wing, fin, and leg motion (and in          align the local Y axis with the (local XY component of the
+the case of herds, by restricting freedom of motion in the third       total) acceleration acting upon it. Normally banking is based
+dimension). In this paper the term geometric flight refers to a        on the lateral component of the acceleration, but the tangential
+certain type of motion along a path: a dynamic, incremental,           component can be used for certain applications. The lateral
+rigid geometrical transformation of an object, moving along            components are from steering and gravity. In straight flight
+and tangent to a 3D curve. While the motion is rigid, the ob-          there is no radial force, so the gravitational term dominates and
+ject's underlying geometric model is free to articulate or             banking aligns the object's -Y axis with "gravitational down"
+change shape within this "flying coordinate system." Unlike            direction. When turning, the radial component grows larger
+more typical animated motion along predefined spline curves,           and the "accelerational down" direction swings outward, like a
+the shape of a flight path is not specified in advance.                pendulum hanging from the flying object. The magnitude of
+     Geometric flight is based on incremental translations along       the turning acceleration varies directly with the object's veloc-
+the objecrs "forward direction" its local positive Z axis.             ity and with the curvature of its path (so inversely with the
+These translations are intermixed with steering--rotations             radius of its turn). The limiting case of infinite velocity resem-
+about the local X and Y axes (pitch and yaw), which realign            bles banking behavior in the absence of gravity. In these cases
+the global orientation of the local Z axis. In real flight, turning    the local + Y (up) direction points directly at the center of
+and moving happen continuously and simultaneously. Incre-              curvature defined by the current turn.
+mental geometric flight is a discrete approximation of this;
+small linear motions model a continuous curved path. In ani-              Direclion of Ftighl                  Bank
+
+mation the motion must increment at least once per frame.                4
+
+Running the simulation at a higher rate can reduce the discrete
+sampling error of the flight model and refine the shape of mo-
+tion blur patterns.
+     Flight modeling makes extensive use of the object's own
+coordinate system. Local space represents the "boid's eye
+view;" it implies measuring things relative to the boid's own
+position and orientation. In Cartesian terms, the lefl/right axis
+is X, up/down is Y, and forward/back is Z. The conversion of
+geometric data between the local and global reference frames is
+handled by the geometric operators localize and globalize. It is
+convenient to use a local scale so that the unit of length of the
+coordinate system is one body length. Biologists routinely                                         Figure 1.
+specify flock and school statistics in terms of body lengths.
+     Geometric flight models conservation of momentum. An                  With correct banking (what pilots call a coordinated turn)
+object in flight tends to stay in flight. There is a simple model      the object's local space remains aligned with the "perceptual"
+of viscous speed damping, so even if the bold continually ac-          or "accelerational" coordinate system. This has several advan-
+celerates in one direction, it will not exceed a certain maximum       tages: it simplifies the bird's (or pilot's) orientation task, it
+
+
+                                                                                                                                            27
+
+===== PAGINA 4 =====
+
+~/~           SIGGRAPH'87, Anaheim,July 27-31, 1987
+
+
+
+keeps the lift from the airfoils of the wings pointed in the most     rest of the flock. A bird might be aware of three categories:
+efficient direction ("accelerational up"), it keeps the passen-       itself, its two or three nearest neighbors, and the rest of the
+gers' coffee in their cups, and most importantly for animation,       flock [23].
+it makes the flying boid fit the viewer's expectation of how              These speculations about the "computational complexity"
+flying objects should move and orient themselves. On the other        of flocking are meant to suggest that birds can flock with any
+hand, realism is not always the goal in animation. By simply          number of flockmates because they are using what would be
+reversing the angle of bank we obtain a cartoony motion that          called in formal computer science a constant time algorithm.
+looks like the object is being flung outward by the centrifugal       That is, the amount of "thinking" that a bird has to do in order
+force of the turn.                                                    to flock must be largely independent of the number of birds in
+                                                                      the flock. Otherwise we would expect to see a sha W upper
+                                                                      bound on the size of natural flocks when the individual birds
+                                                                      became overloaded by the complexity of their navigation task.
+Boids and Turtles                                                     This has not been observed in nature.
+The incremental mixing of forward translations and local rota-            Contrast the insensitivity to complexity of real flocks with
+tions that underlies geometric flight is the basis of "turtle         the situation for the simulated flocks described below. The
+graphics" in the programming language Logo [5]. Logo was              complexity of the flocking algorithm described is basically
+first used as an educational tool to allow children to learn ex-      O(N2). That is, the work required to run the algorithm grows
+perimentally about geometry, arithmetic, and programming              as the square of the flock's population. We definitely do see an
+[22]. The Logo turtle was originally a little mechanical robot        upper bound on the size of simulated flocks implemented as
+that crawled around on large sheets of paper laid on the class-       described here. Some techniques to address this performance
+room floor, drawing graphic figures by dragging a felt tip            issue are discussed in the section Algorithmic Considerations.
+marker along the paper as it moved. Abstract turtle geometry is
+a system based on the frame of reference of the turtle, an ob-
+ject that unites position and heading. Under program control          Simulated Flocks
+the Logo turtle could move forward or back from its current
+position, turn left or right from its current heading, or put the     To build a simulated flock, we start with a boid model that
+                                                                      supports geometric flight. We add behaviors that correspond to
+pen up or down on the paper. The turtle geometry has been
+                                                                      the opposing forces of collision avoidance and the urge to join
+extended from the plane onto arbitrary manifolds and into 3D
+space [1]. These "3d turtles" and their paths are exactly equiv-      the flock. Stated briefly as rules, and in order of decreasing
+alent to the boid objects and their flight paths.                     precedence, the behaviors that lead to simulated flocking are:
+                                                                      1. Collision Avoidance: avoid collisions with nearby
+                                                                         flockmates
+                                                                      2. Velocity Matching: attempt to match velocity with nearby
+                                                                         flockmates
+Natural Flocks, Herds, and Schools                                    3. Flock Centering: attempt to stay close to nearby flockmates
+ " . . . and the thousands offishes moved as a huge beast, piercing       Velocity is a vector quantity, referring to the combination of
+the water. They appeared united, inexorably bound to a common         heading and speed. The manner in which the results from each
+fate. How comes this unity?"
+                              --Anonymous, 17th century (from Shaw)   of these behaviors is reconciled and combined is significant
+                                                                      and is discussed in more detail later. Similarly, the meaning
+                                                                      nearby in these rules is key to the flocking process. This is also
+    For a bird to participate in a flock, it must have behaviors      discussed in more detail later, but generally one boid's aware-
+that allow it to coordinate its movements with those of its           ness of another is based on the distance and direction of the
+flockmates. These behaviors are not particularly unique; all          offset vector between them.
+creatures have them to some degree. Natural flocks seem to
+                                                                          Static collision avoidance and dynamic velocity matching
+consist of two balanced, opposing behaviors: a desire to stay
+                                                                      are complementary. Together they ensure that the members of a
+close to the flock and a desire to avoid collisions within the
+                                                                      simulated flock are free to fly within the crowded skies of the
+flock [34]. It is clear why an individual bird wants to avoid
+collisions with its flockrnates. But why do birds seem to seek        flock's interior without running into one another. Collision
+                                                                      avoidance is the urge to steer away from an imminent impact.
+out the airborne equivalent of a nasty traffic jam? The basic
+                                                                      Static collision avoidance is based on the relative position of
+urge to join a flock seems to be the result of evolutionary
+                                                                      the flockmates and ignores their velocity. Conversely, velocity
+pressure from several factors: protection from predators, statis-
+                                                                      matching is based only on velocity and ignores position. It is a
+tically improving survival of the (shared) gene pool from at-
+                                                                      predictive version of collision avoidance: if the boid does a
+tacks from predators, profiting from a larger effective search
+                                                                      good job of matching velocity with its neighbors, it is unlikely
+pattern in the quest for food, and advantages for social and
+                                                                      that it will collide with any of them any time soon. With veloc-
+mating activities [33].
+                                                                      ity matching, separations between boids remains approximately
+    There is no evidence that the complexity of natural flocks        invariant with respect to ongoing geometric flight. Static colli-
+is bounded in any way. Flocks do not become "full" or "over-          sion avoidance serves to establish the minimum required sepa-
+loaded" as new birds join. When herring migrate toward their          ration distance; velocity matching tends to maintain it.
+spawning grounds, they run in schools extending as long as 17             Flock centering makes a boid want to be near the center of
+miles and containing millions of fish [32]. Natural flocks seem       the flock. Because each boid has a localized perception of the
+to operate in exactly the same fashion over a huge range of           world, "center of the flock" actually means the center of the
+flock populations. It does not seem that an individual bird can       nearby flockmates. Flock centering causes the boid to fly in a
+be paying much attention to each and every one of its flock-          direction that moves it closer to the centroid of the nearby
+mates. But in a huge flock spread over vast distances, an indi-       boids. If a boid is deep inside a flock, the population density in
+vidual bird must have a localized and filtered perception of the      its neighborhood is roughly homogeneous; the boid density is
+
+
+28
+
+===== PAGINA 5 =====
+
+                                                               ~'    Computer Graphics, Volume 21, Number 4, July 1987
+
+
+
+approximately the same in all directions. In this case, the cem           The main cause of indecision is that each behavior might
+troid of the neighborhood boids is approximately at the center        be shouting advice about which way to turn to avoid disaster,
+of the neighborhood, so the flock centering urge is small. But        but if those acceleration requests happen to lie in approxi-
+if a boid is on the boundary of the flock, its neighboring boids      mately opposite directions, they will largely cancel out under a
+are on one side. The centroid of the neighborhood boids is            simple weighted averaging scheme. The boid would make a
+displaced from the center of the neighborhood toward the body         very small turn and so continue in the same direction, perhaps
+of the flock. Here the flock centering urge is stronger and the       to crash into the obstacle. Even when the urges do not cancel
+flight path will be deflected somewhat toward the local flock         out, averaging leads to other problems. Consider flying over a
+center.                                                               gridwork of city streets between the skyscrapers; while "'fly
+     Real flocks sometimes split apart to go around an obstacle.      north" or "fly east" might be good ideas, it would be a bad
+To be realistic, the simulated flock model must also have this        idea to combine them as "fly northeast."
+ability. Flock centering correctly allows simulated flocks to             Techniques from artificial intelligence, such as expert sys-
+bifurcate. As long as an individual boid can stay close to its        tems, can be used to arbitrate conflicting opinions. However, a
+nearby neighbors, it does not care if the rest of the flock turns     less complex approach is taken in the current implementation.
+away. More simplistic models proposed for flock organization          Prioritized acceleration allocation is based on a strict priority
+(such as a central force model or a follow the designated leader      ordering of all component behaviors, hence of the consider-
+model) do not allow splits.                                           ation of their acceleration requests. (This ordering can change
+    The flock model presented here is actually a better model         to suit dynamic conditions.) The acceleration requests are con-
+of a school or a herd than a flock. Fish in murky water (and          sidered in priority order and added into an accumulator. The
+land animals with their inability to see past their herdmates)        magnitude of each request is measured and added into another
+have a limited, short-range perception of their environment.          accumulator. This process continues until the sum of the accu-
+Birds, especially those on the outside of a flock, have excellent     mulated magnitudes gets larger than the maximum acceleration
+long-range "visual perception." Presumably this allows widely         value, which is a parameter of each boid. The last acceleration
+separated flocks to join together. If the flock centering urge        request is trimmed back to compensate for the excess of accu-
+was completely localized, when two flocks got a certain dis-          mulated magnitude. The point is that a fixed amount of accel-
+tance apart they would ignore each other. Long-range vision           eration is under the control of the navigation module; this
+seems to play a part in the incredibly rapid propagation of a         acceleration is parceled out to satisfy the acceleration request
+"maneuver wave" through a flock of birds. It has been shown           of the various behaviors in order of priority. In an emergency
+that the speed of propagation of this wavefront reaches three         the acceleration would be allocated to satisfy the most pressing
+times the speed implied by the measured startle reaction time         needs first; if all available acceleration is "'used up," the less
+                                                                      pressing behaviors might be temporarily unsatisfied. For exam-
+of the individual birds. The explanation advanced by Wayne
+Ports is that the birds perceive the motion of the oncoming           ple, the flock centering urge could be correctly ignored tempo-
+"maneuver wave" and time their own turn to match it [25].             rarily in favor of a maneuver to avoid a static obstacle.
+Potts refers to this as the "chorus line" hypothesis.
+                                                                      Simulated Perception
+Arbitrating Independent Behaviors                                     The bold model does not directly simulate the senses used by
+The three behavioral urges associated with flocking (and others       real animals during flocking (vision and hearing) or schooling
+to be discussed below) each produce an isolated suggestion            (vision and fishes' unique "lateral line" structure that provides
+about which way to steer the boid. These are expressed as             a certain amount of pressure imaging ability [23, 24]). Rather
+acceleration requests. Each behavior says: "if I were in              the perception model tries to make available to the behavior
+charge, I would accelerate in that direction." The acceleration       model approximately the same information that is available to a
+request is in terms of a 3D vector that, by system convention,        real animal as the end result of its perceptual and cognitive
+is truncated to unit magnitude or less. Each behavior has sev-        processes.
+eral parameters that control its function; one is a "strength," a         This is primarily a matter of filtering out the surplus infor-
+fractional value between zero and one that can further attenuate      mation that is available to the software that implements the
+the acceleration request. It is up to the navigation module of        boid's behavior. Simulated boids have direct access to the geo-
+the boid brain to collect all relevant acceleration requests and      metric database that describes the exact position, orientation,
+then determine a single behaviorally desired acceleration. It         and velocity of all objects in the environment. The real bird's
+must combine, prioritize, and arbitrate between potentially           information about the world is severely limited because it per-
+conflicting urges. The pilot module takes the acceleration de-        ceives through imperfect senses and because its nearby flock-
+sired by the navigation module and passes it to the flight mod-       mates hide those farther away. This is even more pronounced in
+ule, which attempts to fly in that direction.                         herding animals because they are all constrained to be in the
+     The easiest way to combine acceleration requests is to aver-     same plane. In fish schools, visual perception of neighboring
+age them. Because of the included "strength" factors, this is         fish is further limited by the scattering and absorption of light
+actually a weighted average. The relative strength of one be-         by the sometimes murky water between them. These factors
+havior to another can be defined this way, but it is a precarious     combine to strongly localize the information available to each
+interrelationship that is difficult to adjust. An early version of    animal.
+the boid model showed that navigation by simple weighted av-              Not only is it unrealistic to give each simulated boid perfect
+eraging of acceleration requests works "pretty well." A bold          and complete information about the world, it is just plain
+that chooses its course this way will fly a reasonable course         wrong and leads to obvious failures of the behavior model.
+under typical conditions. But in critical situations, such as po-     Before the current implementation of localized flock centering
+tential collision with obstacles, conflicts must be resolved in a     behavior was implemented, the flocks used a central force
+timely manner. During high-speed flight, hesitation or indeci-        model. This leads to unusual effects such as causing all mem-
+sion is the wrong response to a brick wall dead ahead.                bers of a widely scattered flock to simultaneously converge
+
+
+                                                                                                                                      29
+
+===== PAGINA 6 =====
+
+~              SIGGRAPH'87,Anaheim,July27-31,1987
+
+
+toward the flock's centroid. An interesting result of the experi-        it in synchronization. Solitary boids and smaller flocks join to
+ments reported in this paper is that the aggregate motion that           become larger flocks, and in the presence of external obstacles
+we intuitively recognize as "flocking" (or schooling or herd-            (discussed below), larger flocks can split into smaller flocks.
+ing) depends upon a limited, localized view of the world.                     For each simulation run, the initial position (within a speci-
+     The behaviors that make up the flocking model are stated            fied ellipsoid), heading, velocity, and various other parameters
+in terms of "nearby flockmates." In the current implementa-              of the boid model are initialized to values randomized within
+tion, the neighborhood is defined as a spherical zone of sensi-          specified distributions. A restartable random-number generator
+tivity centered at the boid's local origin. The magnitude of the         is used to allow repeatability. This randomization is not re-
+sensitivity is defined as an inverse exponential of distance.            quired; the boids could just as well start out arranged in a
+Hence the neighborhood is defined by two parameters: a radius            regular pattern, all other aspects of the flock model are com-
+and exponent. There is reason to believe that this field of sensi-       pletely deterministic and repeatable.
+tivity should realistically be exaggerated in the forward direc-              When the simulation is run, the flock's first action is a
+tion and probably by an amount proportional to the boid's                reaction to the initial conditions. If the boids started out too
+speed. Being in motion requires an increased awareness of                closely crowded together, there is an initial "flash expansion"
+what lies ahead, and this requirement increases with speed. A            where the mutual desire to avoid collision drives the boids
+forward-weighted sensitivity zone would probably also im-                radially away from the site of the initial over-pressure. If re-
+prove the behavior in the current implementation of boids at             leased in a spherical shell with a radius smaller than the
+the leading edge of a flock, who tend to get distracted by the           "neighborhood" radius, the boids contract toward the sphere's
+flock behind them. Because of the way their heads and eyes are           center; otherwise they begin to coalesce into small flockettes
+arranged, real birds have a wide field of view (about 300 de-            that might themselves begin to join together. If the boids are
+grees), but the zone of overlap from both eyes is small (10 to           confined within a certain region, the smaller flocks eventually
+ 15 degrees). Hence the bird has stereo depth perception only            conglomerate into a single flock if left to wander long enough.
+in a very small, forward-oriented cone. Research is currently
+under way on models of forward-weighted perception for                   Scripted Flocking
+boids.
+     In an early version of the flock model, the metrics of at-          The behaviors discussed so far provide for the ability of indi-
+                                                                         vidual birds to fly and participate in happy aimless flocking.
+traction and repulsion were weighted linearly by distance. This
+                                                                         But to combine flock simulations with other animated action,
+spring-like model produced a bouncy flock action, fine per-
+haps for a cartoony characterization, but not very realistic. The        we need more direct control over the flock. We would like to
+                                                                         direct specific action at specific times (for example, "the flock
+model was changed to use an inverse square of the distance.
+                                                                         enters from the left at :02.3 seconds into the sequence, turns to
+This more gravity-like model produced what appeared to be a
+                                                                         fly directly upward at :03.5, and is out of the frame at :04.0").
+more natural, better damped flock model. This correlated well
+with the carefully controlled quantitative studies that Brian                 The current implementation of the bold model has several
+Partridge made of the spatial relationships of schooling fish            facilities to direct the motion and timing of the flock action.
+[23]; he found that " a fish is much more strongly influenced            First, the simulations are run under the control of a general-
+by its near neighbors than it is by the distant members of the           purpose animation scripting system [36]. The details of that
+school. The contribution of each fish to the [influence] is in-          scripting system are not relevant here except that, in addition to
+versely proportional to the square or the cube of the distance."         the typical interactive motion control facilities, it provides the
+In previous work he and colleagues [23, 24] demonstrated that            ability to schedule the invocation of user-supplied software
+fishes school based on information from both their visual sys-           (such as the flock model) on a frame-by-frame basis. This
+tem and from their "lateral line" organ which senses pressure            scripting facility is the basic tool used to describe the timing of
+waves. The area of a perspective image of the silhouette of an           various flock actions. It also allows flexible control over the
+object (its "visual angle") varies inversely with the square of          time-varying values of parameters, which can be passed down
+its distance, and that pressure waves traveling through a 3D             to the simulation software. Finally the script is used to set up
+medium like water fall off inversely with the cube of the dis-           and animate all nonbehavioral aspects of the scene, such as
+tance.                                                                   backgrounds, lighting, camera motion, and other visible ob-
+     The boid perception model is quite ad hoc and avoids actu-          jects.
+ally simulating vision. Artificial vision is an extremely com-               The primary tool for scripting the flock's path is the migra-
+plex problem [38] and is far beyond the scope of this work. But          tory urge built into the boid model. In the current model this
+if boids could " s e e " their environment, they would be better at      urge is specified in terms of a global target, either as a global
+path planning than the current model. It is possible to construct        direction (as in "going Z for the winter") or as a global
+ simple maze-like shapes that would confuse the current boid             position--a target point toward which all birds fly. The model
+model but would be easily solved by a boid with vision.                  computes a bounded acceleration that incrementally turns the
+                                                                         boid toward its migratory target.
+                                                                             With the scripting system, we can animate a dynamic pa-
+ImpromptuFlocking                                                        rameter whose value is a global position vector or a global
+The flocking model described above gives boids an eagerness              direction vector. This parameter can be passed to the flock,
+to participate in an acceptable approximation of flock-like mo-          which can in turn pass it along to all boids, each of which sets
+tion. Boids released near one another begin to flock together,           its own "migratory goal register." Hence the global migratory
+cavorting and jostling for position. The boids stay near one             behavior of all birds can be directly controlled from the script.
+another (flock centering) but always maintain prudent separa-            (Of course, it is not necessary to alter all boids at the same
+tion from their neighbors (collision avoidance), and the flock           time, for example, the delay could be a function of their
+quickly becomes " p o l a r i z e d " - - i t s members heading in ap-   present position in space. Real flocks do not change direction
+proximately the same direction at approximately the same                 simultaneously [25], but rather the turn starts with a single
+speed (velocity matching); when they change direction they do            bird and spreads quickly across the flock like a shock wave.)
+
+
+30
+
+===== PAGINA 7 =====
+
+                                                       (~      ~     ComputerGraphics,Volume21, Number4, July 1987
+
+
+
+
+    We can lead the flock around by animating the goal point          collision avoidance. One is based on the force field concept,
+along the desired path, somewhat ahead of the flock. Even if          which works in undemanding situations but has some short-
+the migratory goal point is changed abruptly the path of each         comings. The other model called steer-to-avoid is more robust
+boid still is relatively smooth because of the flight model's         and seems closer in spirit to the natural mechanism.
+simulated conservation of momentum. This means that the                    The force field model postulates a field of repulsion force
+boid's own flight dynamics implement a form of smoothing              emanating from the obstacle out into space; the boids are in-
+interpolation between "control points."                               creasingly repulsed as they get closer to the obstacle. This
+                                                                      scheme is easy to model; the geometry of the field is usually
+                                                                      fairly simple and so an avoidance acceleration can be directly
+Avoiding Environmental Obstacles                                      calculated from the field equation. These models can produce
+The most interesting motion of a simulated flock comes from           good results, such as in "Eurythmy" [4], but they also have
+interaction with other objects in the environment. The isolated       drawbacks that are apparent on close examination. If a boid
+behavior of a flock tends to reach a steady state and becomes         approaches an obstacle surrounded by a force field at an angle
+rather sterile. The flock can be seen as a relaxation solution to     such that it is exactly opposite to the direction of the force
+the constraints implied by its behaviors. For example, the con-       field, the boid will not turn away. In this case the force field
+flicting urges of flock centering and collision avoidance do not      serves only to slow the boid by accelerating it backwards and
+lead to constant back and forth motion, but rather the boids          provides no side thrust at all. The worst reaction to an impend-
+eventually strike a balance between the two urges (the degree         ing collision is to fail to turn. Force fields also cause problems
+of damping controls how soon this balance is reached). Envi-          with "peripheral vision" The boid should notice and turn away
+ronmental obstacles and the boid's attempts to navigate around        from a wall as it flies toward it, but the wall should be ignored
+them increase the apparent complexity of the behavior of the          if the boid is flying alongside it. Finally, force fields tend to be
+flock. (In fact the complexity of real flocks might be due            too strong close up and too weak far away; avoiding an obstacle
+largely to the complexity of the natural environment.)                should involve long-range planning rather than panicky correc-
+    Environmental obstacles are also important from the stand-        tions at the last minute.
+point of modeling the scene in which we wish to place the                  Steer-to-avoid is a better simulation of a natural bird guided
+flock. If the flock is scripted to fly under a bridge and around a    by vision. The boid considers only obstacles directly in front
+tree, we must be able to represent the geometric shape and            of it. (It finds the intersection, if any, of its local Z axis with
+dimension of these obstacles. The approach taken here is to           the obstacle.) Working in local perspective space, it finds the
+independently model the "shape for rendering" and the "shape          silhouette edge of the obstacle closest to the point of eventual
+for collision avoidance." The types of shapes currently used for      impact. A radial vector is computed which will aim the boid at
+environmental obstacles are much less complicated than the            a point one body length beyond that silhouette edge (see figure
+models used for rendering of computer graphic models. The             2). Currently steer-to-avoid has been implemented for several
+current work implements two types of shapes of environmental          obstacle shapes: spheres, cylinders, planes, and boxes. Colli-
+
+
+
+                                                                                                                                       31
+
+===== PAGINA 8 =====
+
+~             SIGGRAPH'87,Anaheim,July 27-31,1987
+
+
+sion avoidance for arbitrary convex polyhedral obstacles is be-     reason about each of the other boids, even if only to decide to
+ing developed.                                                      ignore it. This does not say the algorithm is slow or fast,
+                                                                    merely that as the size of the problem (total population of the
+                                                                    flock) increases, the complexity increases even faster. Dou-
+                                                                    bling the number of boids quadruples the amount of time
+                                                                    taken.
+                                                                        However, as stated before, real birds are probably not as
+                                                                    sensitive to the total flock population. This gives hope that the
+                                                                    simulated boid could be taught to navigate independently of the
+                                                                    total population. Certainly part of the problem is that we are
+                                                                    trying to run the simulation of the whole flock on a single
+                                                                    computer. The natural solution is to use distributed processing,
+                                                                    as the real flock does. If we used a separate processor for each
+                                                                    boid, then even the naive implementation of the flocking al-
+                                                                    gorithm would be O(N), or linear with respect to the popula-
+                                                                    tion. But even that is not good enough. It still means that as
+                           Figure 2.
+                                                                    more boids are added to the flock, the complexity of the prob-
+                                                                    lem increases.
+    Obstacles are not necessarily fixed in space; they can be
+                                                                        What we desire is a constant time algorithm, one that is
+animated around by the script during the animation. Or more         insensitive to the total population. Another way to say this is
+interestingly, the obstacles can be behavioral characters. Spar-
+                                                                    that an N 2 algorithm would be OK if there was an efficient way
+rows might flock around a group of obstacles that is in fact a      to keep N very small. Two approaches to this goal are cur-
+herd of elephants. Similarly, behavioral obstacles might not
+                                                                    rently under investigation. One is dynamic spatial partitioning
+merely be in the way; they might be objects of fear such as
+                                                                    of the flock; the boids are sorted into a lattice of "bins" based
+predators. It has been noted [25] that natural flocking instincts
+                                                                    on their position in space. A boid trying to navigate inside the
+seem to be sharpened by predators.
+                                                                    flock could get quick access to the flockmates that are physi-
+                                                                    cally nearby by examining the "bins" near its current position.
+                                                                    Another approach is to do incremental collision detection
+Other Applications of the Flock Model                               ("nearness testing"). General collision detection is another N ~
+The model of polarized noncolliding aggregate motion has            algorithm, but if one does collision detection incrementally,
+many applications, visual simulation of bird flocks in computer     based on a partial solution that described the situation just a
+animation being one. Certain modifications yield a fish school      moment before, then the algorithm need worry only about the
+model. Further modifications, such as limitation to a 2D sur-       changes and so can run much faster, assuming that the incre-
+face and the ability to follow the terrain, lead to a herd model.   mental changes are small. The incremental collision detection
+Imagine a herd of PODA-style legged creatures 19], using Karl       algorithm used in Girard's PODA system [9] apparently
+Sims' techniques for locomotion over uneven, complex terrain        achieves constant time performance in the typical case.
+|35]. Other applications are less obvious. Traffic patterns,
+such as the flow of cars on a freeway, is a flock-like motion.      Computing Environment
+There are specialized behaviors, such as being constrained to
+drive within the lanes, but the basic principles that keep boids    The boids software was written in Symbolics Common Lisp.
+from colliding are just as applicable on the freeway. We could      The code and animation were produced on a Symbolics 3600
+imagine creating crowds of "extras" (human or otherwise) for        Lisp Machine, a high-performance personal computer. The
+feature films. However the most fun are the offbeat combina-        flock software is implemented in Flavors, the object-oriented
+tions possible in computer graphics by mixing and matching: a       programming extensions to Symbolics Common Lisp. The ge-
+herd of pogo sticks, a flock of Pegasus-like winged horses, or a    ometric aspects of the system are layered upon S-Geometry, an
+traffic jam of spaceships on a 3D interplanetary highway.           interactive geometric modeler [37]. Boids are based on the
+                                                                    flavor 3D:OBJECT, which provides their geometric abilities.
+    One serious application would be to aid in the scientific
+                                                                    The flock simulations are invoked from scripts created and
+investigation of flocks, herds, and schools. These scientists
+                                                                    animated with the S-Dynamics [36] animation system, which
+must work almost exclusively in the observational mode; ex-
+                                                                    also provided the real-time playback facility used to view the
+periments with natural flocks and schools are difficult to per-
+                                                                    motion tests. The availability of this graphical toolkit allowed
+form and are likely to disturb the behaviors under study. It
+                                                                    the author to focus immediately on the issues unique to this
+might be possible, using a more carefully crafted model of the
+                                                                    project. One example of the value of this substrate is that the
+realistic behavior of a certain species of bird, to perform con-
+                                                                    initial version of the flock model, including implementation,
+trolled and repeatable experiments with "simulated natural
+                                                                    testing, debugging, and the production of seven short motion
+flocks." A theory of flock organization can be unambiguously
+                                                                    tests was accomplished in the ten days before the SIGGRAPH
+tested by implementing a distributed behavioral model and sim-
+                                                                    '86 conference.
+ply comparing the aggregate motion of the simulated flock
+with the natural one.                                                   The boid software has not been optimized for speed. But
+                                                                    this report would be incomplete without a rough estimate of the
+                                                                    actual performance of the system. With a flock of 80 boids,
+Algorithmic Considerations                                          using the naive O(N ~) algorithm (and so 6400 individual boid-
+                                                                    to-boid comparisons), on a single Lisp Machine without any
+A naive implementation of the basic flocking algorithm would        special hardware accelerators, the simulation ran for about 95
+grow in complexity as the order of the square of the flock's        seconds per frame. A ten-second (300 frame) motion test took
+population ("O(N~)"). Basically this is because each bold must      about eight hours of real time to produce.
+
+
+32
+
+===== PAGINA 9 =====
+
+                                                               ~    Computer Graphics, Volume 21, Number 4, July 1987
+
+
+
+Future Work                                                          butions to this research provided by workers in a wonderfully
+                                                                     diverse collection of pursuits:
+This paper has largely ignored the internal animation of the
+geometrical model that provides the visual representation of              To the natural sciences of behavior, evolution, and zoology:
+the bold. The original motion tests produced with these models       for doing the hard work, the Real Science, on which this com-
+all show flocks of little abstract rigid shapes that might be        puter graphics approximation is based. To the Logo group who
+paper airplanes. There was no flapping of wings nor turning of       invented the appropriate geometry, and so put us in the driver's
+heads, and there was certainly no character animation. These         seat. To the Actor semantics people who invented the appropri-
+topics are all important and pertinent to believable animation of    ate control structure, and so gave the bold a brain. To the many
+simulated flocks. But the underlying abstract nature of flocking     developers of modern Lisp who invented the appropriate pro-
+as polarized, noncolliding aggregate motion is largely indepen-      gramming language. To my past and present colleagues at
+dent of these issues of internal shape change and articulation.      MIT, III, and Symbolics who have patiently listened to my
+This notion is supported by the fact that most viewers of these      speculations about flocks for years and years before I made my
+simulations identify the motion of these abstract objects as         first bold fly. To the Graphics Division of Symbolics, Inc.,
+"flocking'" even in the absence of any internal animation.           who employ me, put up with my nasty disposition, provide me
+    But doing a believable job of melding these two aspects of       with fantastic computing and graphics facilities, and have gen-
+the motion is more than a matter of concatenating the action of      erously supported the development of the work described here.
+an internal animation cycle for the character with the motion        And to the field of computer graphics, for giving professional
+defined by geometrical flight. There are important issues of         respectability to advanced forms of play such as reported in
+synchronization between the current state of the flight dy-          this paper.
+namics model, and the amplitude and frequency of the wing
+motion cycle. Topics of current development include internal
+animation, synchronization, and interfaces between the
+simulation-based flock model and other more traditional, inter-
+active animation scripting systems. We would like to allow a
+skilled computer animator to design a bird character and define
+its "wing flap cycle" using standard interactive modeling and
+scripting techniques, and then be able to take this cyclic mo-
+tion and "plug it in" to the flock simulation model causing the
+boids in the flock to fly according to the scripted cycle.
+    The behaviors that have been discussed in this paper are all
+simplistic, isolated behaviors of low complexity. Tile boids
+have a geometric and kinematic state, but they have no signifi-
+cant mental state. Real animals have more elaborate, abstract
+behaviors than a simple desire to avoid a painful collision; they     References
+have more complex motivations than a simple desire to fly to a        I. Abelson, H., and diSessa, A., "Maneuvering a Three Dimen-
+certain point in space. More interesting behavior models would       sional Turtle" in Turtle Geometry: The Computer as a Medium for
+take into account hunger, finding food, fear of predators, a         Exploring Mathematics, The MIT Press, Cambridge, Massachu-
+periodic need to sleep, and so on. Behavior models of this type      setts, 1981, pp. 140-159.
+have been created by other investigators [6, 19, 21], but they       2. Agha, G., Actors: A Model of Concurrent Computation in Distrib-
+have not yet been implemented for the bold model described           uted Systems, The MIT Press, Cambridge, Massachusetts, 1986.
+here.                                                                3. Amkraut, S., personal communication, January 8, 1987.
+                                                                     4. Amkraut, S., Girard, M., Karl, G., "motion studies for a work in
+Conclusion                                                           progress entitled "Eurythmy' " in SIGGRAPH Video Review, Issue
+                                                                     21 (second item, time code 3:58 to 7:35), 1985, produced at the
+This paper has presented a model of polarized, noncolliding          Computer Graphics Research Group, Ohio State University, Colum-
+aggregate motion, such as that of flocks, herds, and schools.        bus, Ohio.
+The model is based on simulating the behavior of each bird           5. Austin, H., "The Logo Primer," M|T A.I. Lab, Logo Working
+independently. Working independently, the birds try both to          Paper 19, 1974.
+stick together and avoid collisions with one another and with        6. Braitenberg, V., Vehicles: Experiments in Synthetic Psychology,
+other objects in their environment. The animations showing           The MIT Press, Cambridge, Massachusetts, 1984.
+simulated flocks built from this model seem to correspond to
+                                                                     7. Burton, R., Bird Behavior, Alfred A. Knopf, Inc., 1985.
+the observer's intuitive notion of what constitutes "flock-like
+motion." However it is difficult to objectively measure how          8. Davis, J. R., Kay, A., Marion, A., unpublished research on be-
+valid these simulations are. By comparing behavioral aspects         havioral simulation and animation, Atari Research, 1983.
+of the simulated flock with those of natural flocks, we are able     9. Girard, M., Maciejewski, A. A., "Computational Modeling for
+improve and refine the model. But having approached a certain        the Computer Animation of Legged Figures," in Computer Graphics
+level of realism in the model, the parameters of the simulated       V 19 #3, 1985, (proceedings of acre SIGGRAPH '85), pp. 263-270.
+flock can be altered at will by the animator to achieve many          10. Goldberg, A., Robson, D., SMALLTALK-80, The Language and
+variations on flock-like behavior.                                   its Implementation, Addison-Wesley Publishing Company, Reading
+                                                                     Massachusetts, 1983.
+                                                                      11. Goldberg, A., Kay, A., SMALLTALK-72 Instruction Manual,
+Acknowledgments                                                      Learning research group, Xerox Palo Alto Research Center, 1976.
+I would like to thank flocks, herds, and schools for existing;        12. Hewitt, C., Atkinson, R., "Parallelism and Synchronization in
+nature is the ultimate source of inspiration for computer graph-     Actor Systems," acm Symposium on Principles of Programming Lan-
+ics and animation. I would also like to acknowledge the contri-      guages 4, January 1977, Los Angeles, California.
+
+
+                                                                                                                                      33
+
+===== PAGINA 10 =====
+
+~             SIGGRAPH'87, Anaheim,July 27-31, 1987
+
+
+
+13. Kahn, K. M., Creation of Computer Animation from Story De-         April 1983, and reprinted in Computer Graphics, V17 #3, July
+scriptions, MIT Artificial Intelligence Laboratory, Technical Report   1983, (acm S[GGRAPH '83 Proceedings), pp. 359-376.
+540 (doctoral dissertation), August 1979.                              28. Reynolds, C. W., Computer Animation in the World of Actors
+14. Kahn, K. M., Hewitt, C., Dynamic Graphics using Quasi Paral-       and Scripts, SM thesis, MIT (the Architecture Machine Group),
+lelism, May 1978, proceedings of ACM SIGGRAPH, 1978.                   May 1978.
+15. Kleinrock, L., "Distributed Systems," in Communications of the     29. Reynolds, C. W., "Computer Animation with Scripts and Ac-
+ACM, V28 #11, November 1985, pp. 1200-1213.                            tors," Computer Graphics, V16 #3, July 1982, (acm SIGGRAPH
+16. Lipton, J., An Exaltation of Larks (or, The Venereal Game),        '82 Proceedings), pp. 289-296.
+Grossman Publishers, 1977. Reprinted by Penguin Books 1977,            30. Reynolds, C. W., "Description and Control of Time and Dy-
+1980, 1982, 1983, 1984, 1985.                                          namics in Computer Animation" in the notes for the course on Ad-
+17. Maciejewski, A. A., Klein, C.A., "Obstacle Avoidance for           vanced Computer Animation at acm SIGGRAPH '85, and reprinted
+KinematicallyRedundant Manipulators in Dynamically Varying             for the notes of the same course in 1986.
+Environments," to appear in International Journal of Robotic Re-       31. Selous, E., Thought-transference (or what?) in Birds, Constable,
+search.                                                                London, 1931.
+18. Magnenat-Thalmann, N., Thalmarm, D., Computer Animation:           32. Scheffer, V. B., Spires of Form: Glimpses of Evolution, Harcourt
+Theory and Practice, Springer-Verlag, Toyko, 1985.                     Brace Jovanovich, San Diego, 1983 (reprinted 1985 by Harvest/
+19. Marion, A., "Artificially Motivated Objects;' [installation        HBJ), p. 64.
+piece], ACM SIGGRAPH art show, 1985.                                   33. Shaw, E., "Schooling in Fishes: Critique and Review" in Devel-
+20. Moon, D. A., "Object-oriented Programming with Flavors" in         opment and Evolution of Behavior. W. H. Freeman and Company,
+Proceedings of the First Annual Conference on Object-Oriented Pro-     San Francisco, 1970, pp. 452-480.
+gramming Systems, Languages, and Applications, ACM, 1986               34. Shaw, E., "Fish in Schools," Natural History 84, no. 8 (1975),
+21. Myers, R., Broadwell, P., Schaufler, R., "Plasm: Fish Sample,"     pp. 40~16.
+[installation piece], ACM SIGGRAPH art show, 1985.                     35. Sims, K., Locomotion of Jointed Figures Over Complex Terrain,
+22. Papert, S., "Teaching Children to be Mathematicians vs. Teach-     SM thesis, MIT Media Lab, currently in preparation, April 1987.
+ing Them About Mathematics" International Journal of Mathemati-        36. Symbolics Graphics Division, S-Dynamics (user's manual),
+cal Education and Sciences, V3, pp. 249-262, 1972.                     Symbolics Inc., November 1986.
+23. Partridge, B. L., "The Structure and Function of Fish Schools,"    37. Symbolics Graphics Division, S-Geometry (user's mafiual),
+Scientific American, June 1982, pp. 114-123.                           Symbolics Inc., October 1986.
+24. Pitcher, T. J., Partridge, B. L.; Wardle, C. S., "Blind Fish Can   38. Pinker, S. (editor), Visual Cognition, The MIT Press, Cam-
+School," Science 194, #4268 (1976), p. 964.                            bridge, Massachusetts, 1985.
+25. Potts, W. K., "The Chorus-Line Hypothesis of Manoeuver Co-         39. Thomas, F., Johnson, O., Disney Animation: The Illusion of
+ordination in Avian Flocks," letter in Nature, Vol 309, May 24,        Life, Abbeville Press, New York, 1981, pp. 47-69.
+1984, pp. 344-345.
+                                                                       40. Wilhelms, J., "Toward Automatic Motion Control," IEEE Com-
+26. Pugh, J., '~ctors--The Stage is Set," acre S1GPLANNotices,         puter Graphics and Applications, V7 #4, April 1987, pp. ! 1-22.
+VI9 #3, March 1984, pp. 61-65.
+                                                                       41. Zeltzer, D., "'Toward an Integrated View of 3-D Computer Ani-
+27. Reeves, W., T., "Particle Systems--A Technique for Modeling a      mation," The Visual Computer, V1 #4, 1985, pp. 249-259.
+Class of Fuzzy Objects," acm Transactions on Graphics, V2 #2,
+
+
+
+
+34
+

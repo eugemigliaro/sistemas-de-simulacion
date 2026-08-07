@@ -1,0 +1,242 @@
+FUENTE: B02
+TITULO: Advice to Beginning Physics Speakers — James C. Garland
+ORIGINAL: material/externo/bibliografia-1/AdviceToBeginningPhysicsSpeakers.pdf
+PAGINAS: 4
+
+===== PAGINA 1 =====
+
+         ADVICE TO BEGINNING
+         PHYSICS SPEAKERS
+                 Public speaking is a necessity
+                 of professional life. But what do
+                 you do if, like many physicists,
+                 you’re basically a shy person?
+                 Here is some advice on how to
+                 give talks that won’t wreck your
+                 career or humiliate your thesis
+                 adviser.
+
+
+                   James C. Garland
+
+
+If you’re a physics graduate student, it’s highly likely that before
+you receive your degree, you’ll be asked to give a talk on your
+research—possibly at an APS meeting, or maybe just to fellow
+students. And once you finally graduate, you’ll undoubtedly find
+yourself standing be hind a podium. Whatever the situation, it’s
+going to matter that your presentation be well received and that your
+audience depart with a favorable impression.
+   Remember: Whenever you make an oral presentation, you are
+also presenting yourself. If you ramble incoherently, avoid eye
+contact, flash illegible transparencies on a screen, and seem nervous
+and confused, then your colleagues are not only going to be irritated
+at having their time wasted, they’re also going to question your
+ability to do your job. However, if you present your ideas clearly
+and persuasively, with self-assurance and skill, you will come
+across as a reasonable, orderly person who has respect for the
+audience and a clear, insightful mind. With this thought in mind,
+here are a few guidelines to point you in the right direction.          violating the implicit contract that a speaker has with the audience
+                                                                        to always be clear and understandable.
+Gauge your audience                                                         Experienced speakers generally devote the first half or two-thirds
+The classic dilemma facing scientific speakers is deciding at what      of a presentation to a careful introduction of the topic and save the
+level to pitch a presentation when the audience consists of both        highly technical material for the last few minutes. In this way, the
+novices and experts. The most common error is to play only to the       beginners can under stand a significant part of the presentation, and
+experts, the rationale being that the experts’ opinions matter the      the experts will learn some of the fine points. Most importantly,
+most and that everyone else in the audience will at least leave         everyone will end up respecting the speaker as an authority on the
+thinking you’re a clever person. Wrong. If you make your talk so        subject who is also attuned to the audience and respectful of the
+technical that only a few can understand it, your audience will         varied needs of those in it. I am also appreciative of speakers who
+resent you not only for wasting their time but also for                 summarize at the very end the key points they’d like me to
+                                                                        remember. That way, if I’ve dozed through part of the talk or just
+                                                                        failed to understand it, I at least walk out of the room with the major
+                                                                        ideas reverberating in my head.
+
+                                                                        Fit your talk to the allotted time
+James Garland is a professor of physics at Ohio State                   Many consider it almost a capital crime for a speaker to exceed her
+University. This article is adapted from notes written for his          allotted time. It is not unusual for a session chairperson at a
+graduate students.
+
+
+
+42     PHYSICS TODAY          JULY 1999                                                                 © 1991 American Institute of Physics
+
+===== PAGINA 2 =====
+
+conference to be quite abrupt with a speaker who rambles on             load their presentations with equations because of a misguided
+after the timer has sounded. Even in less formal settings, a            belief that the mathematics alone will imbue their work with a
+speaker who ignores the prescribed time limit will quickly              more scientific or rigorous flavor.
+alienate nearly every one in the audience. Never, ever, speak              Second, remember that the goal of your talk is not to impress
+past your allotted time. To do so is extremely egotistical, and         your audience with your proficiency in doing algebra. There is
+even if your audience is courteous enough to let you continue,          seldom any need to drag your audience step by step through a
+they will not forgive your rudeness.                                    derivation or the solution to an equation. Audiences will happily
+    But in, say, 10 minutes, how can you possibly convey the            assume that you can solve equations, so forget the algebra and
+significance of the work that you sweated over for the past two         focus instead on the assumptions that led to the equation, the
+years? Rest assured that all speakers wrestle with this problem.        technique that you used to solve it and a careful explanation of
+The key principle is that virtually any topic can be presented in       the relevance of the solution to your topic.
+any amount of time. One could compress the history of the                  And finally, keep in mind that audiences need a bit of extra
+world into 30 seconds if necessary, or stretch out a treatise on        time to assimilate mathematics, so try to make their job as easy
+the eating habits of the flea to a yearlong series of weekly            for them as possible. It’s particularly important to define any
+lectures. (Admittedly, it’s hard to imagine either commanding a         unfamiliar symbols and to avoid cumbersome notation. If you’re
+very large audience.)                                                   only going to use the scalar form of an equation, then write it out
+    Speakers often erroneously assume that very short time limits       using that notation and leave the generalized tensor version for
+mean they must emphasize generalities and gloss over specifics.         the textbooks. And don’t just plunk down the equation and then
+However, you’ll almost always give a more lively and                    stand there like a tombstone for 60 seconds while your audience
+interesting talk if you narrow rather than widen the scope of your      studies it. You should always talk through any equation you
+remarks. Thus if you’re giving a lecture to the local astronomy         show your audience. For example, as you’re writing out E = mc2
+club, it’s better to spend your 30 minutes speaking on “The             on the blackboard, you should say something like, “And so now
+Rings of Saturn” than on “The Planets of the Solar System.”             we see that the energy E is equal to the mass of the object
+    For very short talks, your greatest challenge will be to weed       multiplied by the square of the speed of light.”
+out relentlessly any extraneous subject matter. Any tables or
+figures or equations that don’t contribute specifically to the one      Be sensible about transparencies
+or two points you’re making must go, no matter how interesting          The overhead projector has in the past decade become the visual
+they may be in their own right. Sometimes it seems as if                aid of choice for physicists. Experienced speakers often have
+speakers fear their main agenda isn’t very interesting, so they         strong opinions about the optimal number of transparencies for a
+desperately try to prop up their talks with diverting little            talk—typically 3 to 6 for a 10-minute presentation, 10 to 15 for a
+sidelights. Unfortunately, the effect is to distract the audience       half-hour talk. Although you needn’t adhere to hard and fast
+and make the talk disorganized.                                         rules, as a practical matter you should allow several minutes for
+    But what should you do if you’ve got 30 minutes worth of            an audience to absorb each transparency. You’ll thus want to
+information to convey and you’re only allowed 20 minutes on             avoid transparencies that have only one or two lines of
+the program? Redesigning the scope of your presentation is the          information, just as you’ll want to avoid those so jam-packed
+only acceptable solution. What you must never do is attempt to          that they overwhelm your audience.
+squeeze your talk into the permitted time slot by speaking                  You needn’t write out full sentences on your transparencies
+rapidly, flashing through your slides and frantically scribbling on     (although you should certainly speak in full sentences). In other
+the blackboard. A few years ago I attended a department                 words, if you’re planning to say, “Our measurements showed
+colloquium during which the speaker, a candidate for a faculty          that the period of the pendulum was independent of the mass of
+position, zipped through more than 60 transparencies. I can’t           the pendulum bob,” then your transparency should read, “Period
+remember now what his talk was even about, but I can easily             was independent of mass.” But don’t get carried away. It has
+recall how irritated I felt and how I never wanted to see him           lately become fashionable to use “bullets” in presentations, and
+again. And I never have.                                                one often sees transparencies that are meaningless lists of words,
+                                                                        abbreviations and sentence fragments. The general rule is that
+Use mathematics and equations sparingly                                 the transparency text should be concise enough to be self-
+It is not difficult to integrate equations into your talk if you keep   explanatory, but no more than that.
+in mind a few simple precautions. First, make absolutely certain            Learn where the light switch, focus control and pointer are
+that the equations are necessary, and if they’re not, toss them         located before your talk. Also give some thought to where you’ll
+out. Equations make a talk harder to understand, they slow the          stand, because you’ll often be blocking the view of part of the
+pace, and they are prone to creating confusion. If overdone, they       audience if you stand beside the projector; if that’s the case,
+also cause resentment; one literally will hear groans from an           stand next to the screen and use a pointer. Make sure you’ve got
+audience when a speaker flashes an equation-filled transparency         a table to set your transparencies and notes on, because you
+on the screen. Audiences are especially scornful of speakers who
+
+
+43     PHYSICS TODAY          JULY 1999                                                               © 1991 American Institute of Physics
+
+===== PAGINA 3 =====
+
+won’t present a very dignified image if you’re down on your           and technical circles, where a more extemporaneous presentation
+hands and knees shuffling through your papers in the dark.            is preferred. If you’re using transparencies, they can probably
+                                                                      serve as your notes; otherwise just jot down the outline, key
+Practice your talk                                                    ideas and transitions on note cards or a tablet.
+Unless you’re an unusually gifted speaker, you’ll need to                While you practice, try to be attuned to any nervous
+rehearse your talk in front of your classmates, colleagues, spouse    mannerisms. Avoid wringing your hands, pacing back and forth,
+or friends. It is not enough to think through your remarks,           fidgeting with your microphone strap or jangling the keys in
+because you won’t be able to duplicate the stress you’ll feel in      your pocket. We’ve all attended talks where the speaker was so
+front of a real audience. And unless you actually speak aloud,        skittish that we felt like jumping up and clamping our arms
+you won’t discover the difficult transitions, the hard-to-verbalize   around him to calm him down. If you’re really panicked, try
+ideas or the convoluted lines of reasoning that may trip you up       taking a few deep breaths, gripping the sides of the podium with
+later on. With a bit of practice you’ll usually find that your        both hands and distributing your weight equally on both feet.
+delivery smoothes out and that you’ll be able to expand your talk
+more than initially seemed possible. However, you must resist         Dress appropriately
+the temptation to speak too quickly just because your words           What you choose to wear for your talk is, of course, a delicate
+have become familiar to you.                                          subject, and I don’t want to sound like your mother.
+    I recommend that you avoid writing out your talk and then         Nevertheless, other people do form an impression of you based
+reading or reciting it. Although speakers in nonscientific fields     in part on your appearance, and so my advice is at least to
+often read prepared papers, it is considered bad form in scientific   consider what statement your clothing is making. At the very
+                                                                      minimum, you should avoid looking like you just dragged
+                                                                      yourself out of bed or staggered out of the hotel bar (even if
+                                                                      true). To play it safe, you’ll want to dress neatly and
+                                                                      appropriately.
+                                                                         For men, this means that you shouldn’t wear cutoffs and
+                                                                      running shoes if most of your male colleagues are wearing sports
+                                                                      coats and ties. And don’t overdo it either; if you dress like a
+                                                                      Wall Street banker, you’ll look amateurish and unsophisticated.
+                                                                      (Incidentally, it is highly recommended that you check your fly
+                                                                      before you walk on stage, not when you’re standing up there in
+                                                                      front of 300 people.)
+                                                                         For women, the same general rule applies: Don’t look like a
+                                                                      slob, but don’t dress to the nines, either. Most career counselors
+                                                                      suggest not overdoing the jewelry, staying away from frilly
+                                                                      blouses and dresses, and avoiding tight or otherwise revealing
+                                                                      clothing and very high heels. Your best bet is a tailored,
+                                                                      comfortable dress, skirt and blouse, or suit. Power suits are a bit
+                                                                      obvious however; you may as well wear a sign around your neck
+                                                                      saying “I’ve read Dress for Success.”
+
+                                                                      Interact with your audience
+                                                                      When you finally present your talk, be sure not to ignore the
+                                                                      people watching you. Don’t stare like a zombie into the space
+                                                                      above their heads, and don’t focus intently on your
+                                                                      transparencies or the floor or your shoes or a spot on the wall.
+                                                                      Experienced speakers pick out several friendly faces and
+                                                                      establish eye contact with them, turning first from one person to
+                                                                      another and making sure that no section of the room is ignored.
+                                                                      If you try this, you’ll find that the targets of your attention will
+                                                                      smile and nod pleasantly, affirming the points you’ve made and
+                                                                      increasing your self-assurance. You’ll also have a better sense of
+                                                                      whether to speed up or slow down, or to repeat yourself.
+                                                                          And don’t forget to speak up. Inexperienced speakers
+                                                                      frequently use too soft a voice, as if subconsciously hoping
+                                                                      nobody will hear them. If this happens, members of the audience
+                                                                      will usually shout out, “Louder!” but you may as well save
+
+44    PHYSICS TODAY          JULY 1999                                                               © 1991 American Institute of Physics
+
+===== PAGINA 4 =====
+
+yourself this small embarrassment. No matter how well you have
+prepared your remarks, your talk will be a disaster if your
+audience can’t hear you.
+    At the end of your talk, you’ll generally be asked to respond
+to questions from the floor. Inexperienced speakers often dread
+this moment, be cause it seems they run the risk of being
+humiliated or exposed as an ignoramus or having their entire
+presentation invalidated by a questioner’s allusion to an
+unfamiliar paper. Nearly everyone feels this anxiety, which is
+why horror stories abound of, for instance, the mean-spirited
+Nobel laureate who delights in embarrassing junior colleagues
+with withering, ad hominem comments at major conferences.
+    Actually, it’s not difficult to escape from the question session
+with your dignity intact, provided you never fail to be solicitous
+and respectful of your questioner and you avoid getting into
+public arguments. The general idea is that you—and not your
+questioner—are in the dominant position in the room. From the
+perspective of the audience, the scales are tipped so strongly in
+your favor that if you display even a hint of argumentative or
+condescending behavior, you’ll be viewed as a bully and lose the
+sympathy of everyone in the room. (You’ll also run the risk of
+provoking friends of the questioner to spring to the rescue and
+really nail you.) With that general precaution in mind, here are a
+few specific guidelines to ensure your survival:
+Ź Let your questioner finish the question. Some speakers get so
+excited and nervous that they interrupt the questioner in mid-
+sentence to blurt out an answer to the question they think is
+being asked. This habit is very irritating to the audience, who
+may not be as adept at reading minds as you. It’s far better to
+bite your tongue and let the questioner drone on; you can use the
+free time to collect your thoughts.
+Ź Be prepared to rephrase the question. If the room is large or
+the questioner has a weak voice, you should always repeat the
+question for the benefit of the audience. It also is important to       Ź Deflect hostile questions. One day you may encounter an
+rephrase the question succinctly if, as frequently happens, the         angry or aggressive questioner. Although the experience is
+questioner is confused or disorganized. Your goal should be to          distressing, there’s really no need to panic. Remember that
+make the questioner seem as intelligent and perceptive as               nobody likes a public display of belligerence, so the audience
+possible, even if the person is a complete dunderhead.                  will instinctively take your side. No matter how angry you feel,
+Ź Keep your answers short. Stick to the point and don’t use the         you must resist the temptation to fight back with a snappy retort
+answer as an opportunity to digress to a related subject. Usually       or put-down. And never argue with your questioner. Instead,
+a protracted answer sends the message that you aren’t really sure       simply say some thing like “I’m sorry, but it appears we have a
+of yourself and so are trying to cover all the bases. A wordy           difference of opinion. This probably isn’t the proper forum for a
+response makes a bad impression on the audience, especially if          debate, but I’ll be happy to discuss the matter with you in
+it’s near the end of the session and they’re anxious to meet their      private.” There will be plenty of time later for you to get even
+friends at the lobby bar.                                               with the creep.
+Ź Confess your ignorance. If you should be thrown a curveball,              Now a final bit of advice. Everyone knows that a good joke
+don’t respond defensively or with irritation. It’s far better to say,   or two can liven up a presentation. However, unless you’re a
+“I’m sorry, I’m not familiar with that paper” or “I haven’t             naturally funny person, I’d recommend laying off the canned
+considered that point yet.” Of course, if you find that you’ve          humor. The little anecdote that sent your good-time buddies into
+never read any of the papers or considered any of the points            convulsions the night before over a pitcher of beer may have
+raised by your questioners, then perhaps you should consider            quite a different effect on the stone-faced strangers watching you
+another profession.                                                     in the cold light of morning. That’s one lesson you don’t want to
+                                                                        learn firsthand. Trust me.
+
+
+
+45     PHYSICS TODAY          JULY 1999                                                               © 1991 American Institute of Physics
+

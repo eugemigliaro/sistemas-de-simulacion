@@ -1,0 +1,902 @@
+FUENTE: T01
+TITULO: Sistemas físicos y sistemas de muchas partículas
+ORIGINAL: material/catedra/teoria/Teorica_1.pdf
+PAGINAS: 47
+
+===== PAGINA 1 =====
+
+Sistemas Físicos
+
+
+
+
+       1
+
+===== PAGINA 2 =====
+
+Sistemas de Muchas Partículas
+  - Problema de 1 cuerpo        Integrable. Tiene solución analítica.
+
+
+  - Problema de 2 cuerpos       Integrable. Tiene solución analítica.
+
+
+                                No Integrable. Sin solución analítica.
+  - Problema de 3 cuerpos
+                                Se integra numéricamente.
+
+                                Se integra numéricamente. Dinámica
+  - Problema de N cuerpos
+                                Molecular.
+
+
+ - Si N es muy grande           Mecánica Estadística - Teoría Cinética
+
+
+
+
+                            2
+
+===== PAGINA 3 =====
+
+ Sistemas de Muchas Partículas. Ejemplos:
+- Interacción Gravitatoria
+
+Galaxia M101:
+
+170,000 años luz de diám.
+
+ ~ 1012 Estrellas.
+
+
+
+
+                             3
+
+===== PAGINA 4 =====
+
+Sistemas de Muchas Partículas. Ejemplos:
+
+- Flujos Granulares:
+
+
+
+
+                        4
+
+===== PAGINA 5 =====
+
+Sistemas de Muchas Partículas. Ejemplos:
+- Flujos Granulares:
+
+
+
+
+                        5
+
+===== PAGINA 6 =====
+
+Materia Activa. De nición:
+ - Está compuesta por unidades auto-propulsadas, capaces de convertir
+ energía almacenada o del medioambiente en movimiento sistemático.
+
+ - El ingreso de energía al sistema se da en forma local, al nivel de la unidad/
+ partícula/agente y no en forma macroscópica a través de los límites del
+ sistema.
+
+ - Propiedades de sistemas fuera del equilibrio:
+      - Estructuras emergentes con comportamiento colectivo cualitativamente
+ diferente al de los componentes individuales.
+      - Transiciones orden-desorden.
+      - Formación de patrones en las escalas mesoscópicos.
+      - Etc.
+
+
+
+
+                                             6
+                               fi
+
+===== PAGINA 7 =====
+
+Materia Activa. Ejemplos:
+- Materia Viva
+
+
+
+
+         Turbulencia de Bacterias       Cardumen de sardinas
+
+
+
+
+                                    7
+
+===== PAGINA 8 =====
+
+Materia Activa. Ejemplos:
+- Materia Viva : Bandada de Estorninos (Starlings)
+
+
+
+
+                                              8
+
+===== PAGINA 9 =====
+
+Materia Activa. Ejemplos:
+- Materia Viva: Peatones Simulados
+
+
+                               Social Force Model
+
+
+
+
+           mi r̈i = FGRANULAR + FSOCIAL + FDRIV IN G
+
+
+                 - Una ecuación diferencial para cada peatón lleva a un
+                 sistema de ecuaciones diferenciales acopladas.
+
+
+                 - Métodos de Dinámica Molecular
+
+
+
+
+                                            9
+
+===== PAGINA 10 =====
+
+Materia Activa. Ejemplos:
+- Materia Viva: Peatones “Freezing by Heating”
+
+
+                                         mi r̈i = FGRANULAR + FSOCIAL + FDRIV IN G + FF LU CT U AT ION
+
+
+
+
+                                                             < F FLUCTUATION > = 0
+                                                            STD (F FLUCTUATION ) = θ
+
+
+
+
+                                             10
+
+===== PAGINA 11 =====
+
+Materia Activa. Ejemplos:
+- Materia Viva: Peatones Egoístas “Faster is Slower”
+
+
+                                                150
+
+
+
+
+     Mean Evacuation Time for 200 persons (s)
+                                                140
+
+
+                                                130
+
+
+                                                120
+
+
+                                                110
+
+
+                                                100
+
+
+                                                 90
+
+
+                                                 80
+
+
+                                                 70
+
+
+                                                 60
+                                                      0   1   2    3        4        5     6   7        8
+
+                                                                  Desired Velocity (m/s)
+
+
+
+
+                                                                                                   11
+
+===== PAGINA 12 =====
+
+Materia Activa. Ejemplos:
+- Materia Viva: Hormigas - Egreso ante Emergencia
+
+             100 % Hormigas                         100 % Humanos
+
+
+
+
+                                           12
+
+===== PAGINA 13 =====
+
+Materia Activa. Ejemplos:
+- Materia Viva: Hormigas - Egreso ante Emergencia
+
+                                                    Faster is Faster !
+
+
+
+
+                                           13
+
+===== PAGINA 14 =====
+
+Materia Activa. Ejemplos:
+- Materia Viva: Comportamiento Emergente
+
+                              Caso: egreso por puerta angosta
+
+
+   Agentes “suicidas” cuya
+   prioridad de supervivencia no es                 Beneficio para el conjunto
+   el individuo (insectos sociales)
+
+
+
+    Agentes “egoístas” cuya
+    prioridad de supervivencia es el
+                                                    Perjuicio para el conjunto
+    individuo (todos los animales
+    que no sean insectos sociales)
+
+
+
+
+                                            14
+
+===== PAGINA 15 =====
+
+Concepto de
+Comportamiento Emergente :
+
+  - Muchos agentes simples,
+  - Interacciones sencillas
+
+
+
+
+         - Emergen espontáneamente patrones o comportamientos complejos.
+         - La escala espacial característica de los mismos son mayores que la
+         escala de 1 agente.
+
+         (Ej.: Materia activa, Insectos sociales, Sistema nervioso, etc.)
+
+
+
+
+                                          15
+
+===== PAGINA 16 =====
+
+Materia Viva. Ejemplos:
+- Materia Viva: Peatones Simulados
+
+
+
+
+                                     16
+
+===== PAGINA 17 =====
+
+Materia Viva. Ejemplos:
+- Aplicaciones en Cine
+
+
+
+
+                          17
+
+===== PAGINA 18 =====
+
+Muchas Partículas Interactuantes
+
+ - Todos los sistemas vistos hasta ahora, consisten en partículas que
+ interactúan entre sí de a pares y en función de las distancias.
+
+ - Para interacciones de largo alcance se deben calcular las distancias entre
+ todas las partículas.
+
+ - Para interacciones de corto alcance solo son relevantes las distancias a los
+ vecinos cercanos.
+
+
+
+
+                                          18
+
+===== PAGINA 19 =====
+
+Detección de vecinos
+Lista de Vecinos
+                           “Cell Index Method (CIM)”
+                                                    (“Computer simulation of liquids”, Allen & Tildesley, 1987).
+
+
+
+
+             - Método de Fuerza bruta mide la distancias de todas
+             las partículas con todas las partículas. La complejidad crece ~ N 2.
+
+
+             - Usando el CIM la complejidad crece lineal con N (a densidad constante).
+                    (Si se aumenta la densidad, crece cuadrático con un prefactor menor).
+
+
+
+
+                                               19
+
+===== PAGINA 20 =====
+
+Detección de vecinos
+Lista de Vecinos
+
+
+
+  Qué se quiere averiguar?
+                                                  rc
+  La identidad de las partículas que están
+  a distancia menor a rc
+
+
+
+
+                                             20
+
+===== PAGINA 21 =====
+
+Detección de vecinos
+Lista de Vecinos
+
+
+  “Cell Index Method”
+
+  Idea General:
+
+  Consiste en dividir el espacio en celdas,
+  asignar las partículas a las celdas según
+  su ubicación y calcular distancias solo
+  entre partículas de celdas vecinas,
+  y la propia.
+
+
+
+
+                                              21
+
+===== PAGINA 22 =====
+
+Detección de vecinos
+Lista de Vecinos
+
+
+
+
+“Cell Index Method”
+                                                                 rc
+Si el dominio tiene lados de longitud L y                    {
+MxM celdas, entonces:
+
+L / M es la longitud del lado de cada celda
+                                                                 L
+
+  ( Este M seria incorrecto para el radio rc )   ¿Por qué?
+
+
+
+
+                                                     22
+
+===== PAGINA 23 =====
+
+Detección de vecinos
+Lista de Vecinos
+
+
+
+
+                                                         rc
+“Cell Index Method”
+                                                     {
+Si disminuyo M:
+
+L / M > rc (radio de interacción partículas).
+                                                         L
+
+  ( Este M seria correcto para el radio rc )
+
+
+
+
+                                                23
+
+===== PAGINA 24 =====
+
+Detección de vecinos
+Lista de Vecinos
+
+
+
+
+    “Cell Index Method”
+    Identificar a qué celdas pertenecen todas las
+    moléculas es rápido y se podría hacer en
+    todos los pasos temporales.
+
+
+
+
+                                                    24
+
+===== PAGINA 25 =====
+
+Detección de vecinos
+Lista de Vecinos
+
+
+   “Cell Index Method”
+   Simetría (dij = dji).
+   Para cada celda (por ejemplo la 13) mirar
+   solo las 4 celdas vecinas (9,14,19 y 18).
+
+   Esto reduce a la mitad el tiempo de cálculo.
+
+
+
+
+                                                  25
+
+===== PAGINA 26 =====
+
+Detección de vecinos
+Lista de Vecinos
+
+
+  “Cell Index Method”
+  Condiciones de Periódicas de Contorno
+
+  Por Ej. La partícula en celda 10 es
+  vecina de la que está en la celda 6 y su
+  distancia es del orden de L / M
+
+
+
+
+                                             26
+
+===== PAGINA 27 =====
+
+Detección de vecinos
+Lista de Vecinos: Ejemplo
+
+
+
+             [id de la particula “i"]   [ids de las particulas cuyas distancias son menores que rc ]
+
+                      1                        5, 17, 32
+                      2                        -
+                      3                        8, 12
+                      4                        -
+                      5                        1, 6, 25, 104, 67
+                      …..                      …..
+
+
+
+
+                                                     27
+
+===== PAGINA 28 =====
+
+Trabajo Práctico
+Lista de Vecinos
+     - Implementar el “Cell Index Method”
+
+     - Estudiar eficiencia del algoritmo en función del tamaño de las celdas de la grilla.
+
+     - Pensar un criterio para definir cantidad y tamaño de celdas en función del área y
+     la densidad de las partículas.
+
+     - Para testear :
+          *) generar N partículas con radio en forma random con distribución uniforme
+          dentro del área cuadrada de lado L.
+          *)Se deberá poder determinar los vecinos cuya distancia borde-a-borde sea
+          menos de rc para L y M dados (N y estos últimos 3 parámetros como inputs).
+          *)Comparar con el método de fuerza bruta ( que mide para cada partícula la
+          distancia a todas las demás partículas. )
+
+
+
+
+                                              28
+
+===== PAGINA 29 =====
+
+Trabajo Práctico
+Lista de Vecinos
+
+- Para Testear:
+Visualizador de Vecinos
+
+
+
+
+                          29
+
+===== PAGINA 30 =====
+
+FIN de “Cell Index Method”
+
+
+
+
+            30
+
+===== PAGINA 31 =====
+
+Reglas Generales de Simulaciones
+
+
+
+
+                  31
+
+===== PAGINA 32 =====
+
+                                                                      . . .
+Reglas Generales de Simulaciones                             TAN TE
+                                                           OR
+                                                       IMP
+    INPUT
+ y Parámetros
+                             SIMULACIÓN
+
+
+
+
+                                      Herramienta de        "Observables"
+        Estado del sistema              ANÁLISIS
+           en función del
+         tiempo: OUTPUT                 Herramienta de
+                                                                  "Videos"
+                                         ANIMACIÓN
+
+
+                                 32
+
+===== PAGINA 33 =====
+
+Reglas Generales de Simulaciones
+ Animaciones
+
+
+
+
+      - La animación es un resultado (postproceso) separado de la Simulación
+
+
+               - El simulador genera como outputs archivos con posiciones y velocidades.
+
+               - Luego el visualizador levanta esos datos y genera la animación
+                 (Exportar a un avi.)
+
+
+
+
+                                              33
+
+===== PAGINA 34 =====
+
+Reglas Generales de Simulaciones
+ Animaciones
+
+
+               Visualizadores recomendados:
+
+               - Matlab / Octave
+
+               - Matplotlib (Phyton)
+
+               - Ovito (www.ovito.org).
+                 Admite formatos de archivo similares a los descriptos.
+
+               - Otro
+
+
+
+
+                                       34
+
+===== PAGINA 35 =====
+
+                                                           . . .
+Reglas Generales de Simulaciones               TA   N TE
+                                             OR
+                                         IMP
+
+
+
+
+Herramienta de    "Observables"
+  ANÁLISIS
+                                       Resultados
+ Herramienta de
+                    "Videos"
+  ANIMACIÓN
+
+
+
+
+                                  35
+
+===== PAGINA 36 =====
+
+Reglas Generales de Simulaciones
+  Formato de archivos para guardar simulaciones y su posterior visualización:
+
+  Info Dinámica. (El nro. de fila es la identidad de la partícula 1,2,...N)
+
+  t1
+  x1 y1 vx1 vy1      (partícula 1)
+  x2 y2 vx2 vy2      (partícula 2)
+  ....
+  xN yN vxN vyN        (partícula N)
+  t2
+  x1 y1 vx1 vy1      (partícula 1)
+  x2 y2 vx2 vy2      (partícula 2)
+  ....
+  xN yN vxN vyN        (partícula N)
+
+
+
+
+                                              36
+
+===== PAGINA 37 =====
+
+Reglas Generales de Simulaciones
+  Formato de archivos para guardar simulaciones y su posterior visualización:
+
+  Info Estática = constante en el tiempo.
+
+  (El nro. de fila es la identidad de la partícula 1,2,...N)
+
+  N     (Heading con el Nro. total de Partículas)
+  L     (Longitud del lado del área de simulación)
+  r1 c1 (radio y color de la partícula 1)
+  r2 c2 (radio y color de la partícula 2)
+  ....
+  rN cN (radio y color de la partícula N)
+
+
+
+
+                                                37
+
+===== PAGINA 38 =====
+
+Reglas Generales Trabajos Prácticos
+                             Entregables
+                          (Para TP2 en adelante)
+
+
+
+
+   - Código Fuente de las simulaciones implementadas.
+
+   - Soporte de la Presentación Oral en formato *.PDF (solo con imagen ilustrativa de
+   las animaciones y un link visible).
+
+   - Las Animaciones solo se muestran durante la presentación oral, pero no deben
+   ser entregadas ni como archivo independiente, ni insertadas en el *PDF.
+
+
+
+
+                                               38
+
+===== PAGINA 39 =====
+
+Presentaciones
+ (Para TP2 en adelante)
+
+    Formato
+
+
+
+
+             39
+
+===== PAGINA 40 =====
+
+Presentaciones
+                                Tiempo ≤ 15 minutos
+ 3 personas                 3 partes .... Random !!!
+
+ - Intro ( < 1 min). Descripción Sistema y Modelo Matemático.
+ - Implementación ( ~3 min). Arquitectura, UML, pseudocódigo.
+ - Simulaciones ( ~ 2 min). Con guración del sistema particular a
+ simular, parámetros jos y variables, de nición de outputs y observables.
+ - Resultados ( ~ 8 min).
+       - Animaciones.
+       - Estudio paramétrico/estadístico.
+ - Conclusiones ( < 1 min).
+
+                                               40
+                                        fi
+                                   fi
+                fi
+
+===== PAGINA 41 =====
+
+Presentaciones
+ Formato
+
+
+
+      - Numerar las Diapositivas
+
+      - Usar Carátulas/Separadores para cada Sección
+
+      - Estructurar de forma coherente Títulos y Subtítulos
+
+
+
+
+                               41
+
+===== PAGINA 42 =====
+
+Presentaciones            Algunos Consejos...
+             James C. Garland, "ADVICE TO BEGINNING PHYSICS SPEAKERS"
+             Physics Today (1999)
+
+
+
+
+          Cumplir con el tiempo establecido.
+
+          Usar un mínimo de ecuaciones.
+
+          No escribir mucho texto.
+
+
+
+
+                                         42
+
+===== PAGINA 43 =====
+
+                            ideas or the convoluted lines of reasoning that may trip you up       taking a few deep breaths, gripping the sid
+                            later on. With a bit of practice you’ll usually find that your        both hands and distributing your weight eq
+                            delivery smoothes out and that you’ll be able to expand your talk
+                            more than initially seemed possible. However, you must resist         Dress appropriately
+                            the temptation to speak too quickly just because your words           What you choose to wear for your talk is
+                            have become familiar to you.                                          subject, and I don’t want to sound
+                                                                                                  Nevertheless, other people do form an im
+
+Presentaciones
+                                I recommend that you avoid writing out your talk and then
+                            reading or reciting it. Although speakers in nonscientific fields     in part on your appearance, and so my
+                            often read prepared papers, it is considered bad form in scientific   consider what statement your clothing is
+                         Algunos Consejos...                                                      minimum, you should avoid looking li
+                                                                                                  yourself out of bed or staggered out of t
+                                                                                                  true). To play it safe, you’ll want t
+                                                                                                  appropriately.
+                                                                                                     For men, this means that you should
+                                                                                                  running shoes if most of your male colleag
+                                                                                                  coats and ties. And don’t overdo it eithe
+                                                                                                  Wall Street banker, you’ll look amateurish
+                                                                                                  (Incidentally, it is highly recommended th
+                                                                                                  before you walk on stage, not when you’r
+                                                                                                  front of 300 people.)
+                                                                                                     For women, the same general rule appl
+                                                                                                  slob, but don’t dress to the nines, either. M
+   Practicar la charla                                                                            suggest not overdoing the jewelry, stay
+                                                                                                  blouses and dresses, and avoiding tight o
+                                                                                                  clothing and very high heels. Your be
+                                                                                                  comfortable dress, skirt and blouse, or suit
+                                                                                                  obvious however; you may as well wear a
+                                                                                                  saying “I’ve read Dress for Success.”
+
+                                                                                                  Interact with your audience
+                                                                                                  When you finally present your talk, be s
+                                                                                                  people watching you. Don’t stare like a z
+                                                                                                  above their heads, and don’t focus
+                                                                                                  transparencies or the floor or your shoes
+                                                                                                  Experienced speakers pick out several
+                                                                                                  establish eye contact with them, turning fir
+                                                                                                  another and making sure that no section o
+                                                                                                  If you try this, you’ll find that the targets
+                                                                                                  smile and nod pleasantly, affirming the po
+                                                                                                  increasing your self-assurance. You’ll also
+                                                                                                  whether to speed up or slow down, or to rep
+                                                                                                      And don’t forget to speak up. Ine
+                                                                                                  frequently use too soft a voice, as if su
+                                                                                                  nobody will hear them. If this happens, me
+                                                                                                  will usually shout out, “Louder!” but yo
+
+                            44    PHYSICS TODAY          JULY 1999                                                              © 1991 Ame
+
+
+
+                                         43
+
+===== PAGINA 44 =====
+
+Presentaciones          Algunos Consejos...
+
+    Interactuar con la audiencia:
+
+
+    - Hablar alto.
+    - Mirar a los ojos a personas en distintos sectores de la sala.
+    - No mirar el piso o las paredes ....
+
+
+
+
+                                 44
+
+===== PAGINA 45 =====
+
+Presentaciones           Algunos Consejos...
+
+      Al nal, las preguntas de la audiencia:
+
+
+      - Permitir que quien pregunta termine la pregunta.
+      - Repetir la pregunta en vos alta para que todos la oigan.
+      - Respuestas breves, no hablar de otros temas relacionados.
+
+
+
+
+                                   45
+ fi
+
+===== PAGINA 46 =====
+
+Presentaciones      Algunos Consejos...
+
+
+
+       Varios expositores
+
+       - Cada uno tiene un tiempo de nido.
+       - No superponerse.
+       - Responder preguntas por orden.
+
+
+
+
+                                 46
+                            fi
+
+===== PAGINA 47 =====
+
+Sistemas Físicos
+
+      FIN
+
+
+
+
+       47
+
