@@ -19,8 +19,8 @@ practica:
   trabajo_grupal_activo: false
 
 laboratorio:
-  herramienta: "ninguna"
-  dialecto_o_runtime: ""
+  herramienta: "C++ para simulación; Python para visualización y análisis"
+  dialecto_o_runtime: "C++20; Python 3"
 
 fuentes:
   prioridad: ["catedra", "notas", "externo", "conocimiento_general"]
