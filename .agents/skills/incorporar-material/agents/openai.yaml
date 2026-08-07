@@ -1,0 +1,4 @@
+interface:
+  display_name: "Incorporar material"
+  short_description: "Integra fuentes nuevas con trazabilidad"
+  default_prompt: "Usa $incorporar-material para integrar el material pendiente."

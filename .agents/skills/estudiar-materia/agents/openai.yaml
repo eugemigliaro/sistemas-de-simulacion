@@ -1,0 +1,4 @@
+interface:
+  display_name: "Estudiar materia"
+  short_description: "Estudia con evidencia del material oficial"
+  default_prompt: "Usa $estudiar-materia para ayudarme a comprender este tema."

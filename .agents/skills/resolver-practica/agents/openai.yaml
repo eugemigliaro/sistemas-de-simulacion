@@ -1,0 +1,4 @@
+interface:
+  display_name: "Resolver práctica"
+  short_description: "Trabaja ejercicios y entregas de la materia"
+  default_prompt: "Usa $resolver-practica para ayudarme con esta guía o entrega."

@@ -1,0 +1,26 @@
+schema_version: 1
+template_version: "0.1.0"
+configurada: true
+
+materia:
+  nombre: "Álgebra Lineal"
+  slug: "algebra-lineal"
+  institucion: "Universidad Ejemplo"
+  carrera: "Ingeniería"
+  ciclo: "2026"
+  idioma: "es"
+
+estudio:
+  modo: "pistas"
+  citar_paginas: true
+
+practica:
+  guias_son_entregables: true
+  trabajo_grupal_activo: false
+
+laboratorio:
+  herramienta: "Python"
+  dialecto_o_runtime: "3.12 + NumPy"
+
+fuentes:
+  prioridad: ["catedra", "notas", "externo", "conocimiento_general"]

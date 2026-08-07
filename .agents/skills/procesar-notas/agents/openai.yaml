@@ -1,0 +1,4 @@
+interface:
+  display_name: "Procesar notas"
+  short_description: "Integra notas sin perder sus originales"
+  default_prompt: "Usa $procesar-notas para enriquecer la wiki con mis notas."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Crear materia"
+  short_description: "Configura una nueva wiki universitaria"
+  default_prompt: "Usa $crear-materia para configurar este repositorio para mi materia."

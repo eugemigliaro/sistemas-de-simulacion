@@ -1,0 +1,17 @@
+.env
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+*.tmp
+tmp/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+
+# Entornos locales opcionales
+laboratorio/**/data/
+laboratorio/**/.venv/
+laboratorio/**/node_modules/
