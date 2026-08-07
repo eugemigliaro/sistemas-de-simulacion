@@ -1,13 +1,13 @@
 schema_version: 1
 template_version: "0.1.0"
-configurada: false
+configurada: true
 
 materia:
-  nombre: "Nombre de la materia"
-  slug: "materia"
+  nombre: "Sistemas de Simulación"
+  slug: "sistemas-de-simulacion"
   institucion: ""
   carrera: ""
-  ciclo: ""
+  ciclo: "2026"
   idioma: "es"
 
 estudio:

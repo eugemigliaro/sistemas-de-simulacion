@@ -1,5 +1,5 @@
 <!-- course-title:start -->
-# Course Wiki Template
+# Sistemas de Simulación
 <!-- course-title:end -->
 
 [English](README.en.md)
