@@ -25,6 +25,11 @@ Este registro separa decisiones confirmadas, supuestos de implementación y preg
 - neighbors.txt tendrá una fila para cada ID y separará por comas el ID propio y sus vecinas, siguiendo el ejemplo oficial [EJ01].
 - Toda lista serializada deberá ser simétrica, estar ordenada y no contener duplicados ni la propia partícula.
 - El comando interactivo medirá solo la búsqueda de vecinos; la lectura y la escritura quedarán fuera del intervalo temporizado.
+- El CIM usará una grilla de `M*M` vectores que almacenan índices de partículas.
+- Para `M>1`, el lado de celda deberá satisfacer `L/M > rc + 2*r_max`, donde `r_max` es el mayor radio presente. Es un límite conservador que permite revisar únicamente la celda propia y las ocho adyacentes [T01, p. 23] [TP01, p. 1].
+- `M=1` será siempre el caso de una única celda y equivaldrá a fuerza bruta.
+- Los pares de celdas adyacentes se procesarán una sola vez y se deduplicarán después de aplicar periodicidad, incluyendo los casos `M=1` y `M=2`.
+- El CIM reutilizará `are_neighbors` y se validará exigiendo igualdad exacta con fuerza bruta para cada sistema [T01, p. 28].
 
 ## Supuestos iniciales a validar
 
@@ -32,7 +37,6 @@ Este registro separa decisiones confirmadas, supuestos de implementación y preg
 
 ## Preguntas abiertas
 
-- Derivación exacta del tamaño seguro de celda para radios no nulos.
 - Definición operativa del N más alto posible para el generador aleatorio.
 - Definición de densidad para el punto 4.2: densidad numérica o fracción de área.
 - En el estudio a densidad fija, mantener M fijo o mantener aproximadamente fijo el lado de celda óptimo.

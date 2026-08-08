@@ -29,12 +29,13 @@
 - Lectores y escritores de static.txt y dynamic.txt.
 - Comando generate con paredes y periodicidad.
 - Búsqueda de vecinos por fuerza bruta.
+- Búsqueda de vecinos mediante Cell Index Method.
 - Validación y escritura de listas simétricas, ordenadas y sin duplicados.
 - Comando neighbors con tiempo de búsqueda y cantidad de evaluaciones.
 
 ## Componentes C++ planificados
 
-- Buscador mediante Cell Index Method.
+- Integración del Cell Index Method con el comando neighbors.
 - Ejecutor de experimentos y medición de tiempos.
 
 ## Componentes Python planificados

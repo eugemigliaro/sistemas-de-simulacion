@@ -51,8 +51,9 @@ La especificación detallada se mantiene en docs/protocolo-experimental.md.
 - Fase 1 completada: modelo de partículas y dominio, geometría con paredes y periodicidad, distancia borde-borde y pruebas unitarias.
 - Fase 2 completada: generación reproducible sin superposición, lectura y escritura de los formatos oficiales y comando generate.
 - Fase 3 completada: búsqueda por fuerza bruta, salida simétrica de vecinos, tiempo de búsqueda y comando neighbors.
+- Fase 4 completada: núcleo del Cell Index Method, validación del tamaño de celda, paredes, periodicidad y pruebas diferenciales contra fuerza bruta.
 
-Los comandos benchmark-m y benchmark-n corresponden a fases posteriores. La próxima fase implementará el Cell Index Method y lo comparará exactamente contra la fuerza bruta.
+La próxima fase integrará el Cell Index Method con el comando neighbors mediante los parámetros --method cim y --M. Los comandos benchmark-m y benchmark-n corresponden a fases posteriores.
 
 ## Comandos
 

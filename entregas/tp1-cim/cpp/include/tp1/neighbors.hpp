@@ -20,6 +20,12 @@ struct NeighborSearchResult {
     double cutoff
 );
 
+[[nodiscard]] NeighborSearchResult cell_index_neighbors(
+    const ParticleSystem& system,
+    double cutoff,
+    std::size_t cells_per_side
+);
+
 [[nodiscard]] bool is_valid_neighbor_list(
     const NeighborList& neighbors
 ) noexcept;
