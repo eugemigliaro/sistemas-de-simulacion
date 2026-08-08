@@ -1,0 +1,15 @@
+{
+  "N_values": [10, 25, 50, 100, 200, 350, 500, 650, 800, 950, 1050],
+  "free_side": 20.0,
+  "fixed_density": 1.25,
+  "reference_M": 13,
+  "reference_side": 20.0,
+  "fixed_M_rule": "floor(L / (reference_side / reference_M)), with minimum 1",
+  "rc": 1.0,
+  "r_min": 0.23,
+  "r_max": 0.26,
+  "seed": 42,
+  "repetitions": 100,
+  "attempts_per_particle": 100000,
+  "boundaries": ["walls", "periodic"]
+}

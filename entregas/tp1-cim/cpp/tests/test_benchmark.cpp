@@ -128,9 +128,38 @@ void test_csv_output() {
                 != std::string::npos);
 }
 
+void test_benchmark_n_measurements() {
+    const tp1::ParticleSystem system = generated_system();
+    const std::vector<tp1::BenchmarkMeasurement> measurements =
+        tp1::benchmark_n(system, 0.5, 7, 3);
+
+    EXPECT_TRUE(measurements.size() == 3);
+    for (std::size_t index = 0; index < measurements.size(); ++index) {
+        const tp1::BenchmarkMeasurement& measurement = measurements[index];
+        EXPECT_TRUE(measurement.method == tp1::BenchmarkMethod::CellIndex);
+        EXPECT_TRUE(measurement.cells_per_side == 7);
+        EXPECT_TRUE(measurement.repetition == index + 1);
+        EXPECT_TRUE(measurement.time_ns >= 0);
+        EXPECT_TRUE(
+            measurement.neighbor_pairs
+            == measurements.front().neighbor_pairs
+        );
+    }
+
+    const std::vector<tp1::BenchmarkMeasurement> brute_force =
+        tp1::benchmark_n(system, 0.5, 1, 2);
+    EXPECT_TRUE(brute_force.size() == 2);
+    EXPECT_TRUE(
+        brute_force.front().method == tp1::BenchmarkMethod::BruteForce
+    );
+}
+
 void test_invalid_benchmark() {
     const tp1::ParticleSystem system = generated_system();
     EXPECT_INVALID_ARGUMENT(tp1::benchmark_m(system, 0.5, 0));
+    EXPECT_INVALID_ARGUMENT(tp1::benchmark_n(system, 0.5, 0, 2));
+    EXPECT_INVALID_ARGUMENT(tp1::benchmark_n(system, 0.5, 12, 2));
+    EXPECT_INVALID_ARGUMENT(tp1::benchmark_n(system, 0.5, 7, 0));
     EXPECT_INVALID_ARGUMENT(tp1::maximum_valid_cells_per_side(system, -1.0));
 }
 
@@ -140,6 +169,7 @@ int main() {
     test_maximum_valid_m();
     test_benchmark_measurements();
     test_csv_output();
+    test_benchmark_n_measurements();
     test_invalid_benchmark();
     return test::finish("Benchmark tests");
 }

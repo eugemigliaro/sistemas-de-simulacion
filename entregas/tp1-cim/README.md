@@ -55,8 +55,10 @@ La especificación detallada se mantiene en docs/protocolo-experimental.md.
 - Fase 5 completada: integración del CIM con neighbors y barrido reproducible de M con mediciones CSV.
 - Fase 6 completada: lectura y validación de métricas, promedio, desvío estándar poblacional y figura de tiempo frente a M.
 - Fase 7 completada: N intermedio y alto reproducible, mediciones finales para ambos contornos, selección de M óptimo y figuras de partículas vecinas.
+- Fase 8 completada: benchmark de N para once tamaños, con L constante y densidad numérica constante, en ambos contornos.
+- Fase 9 completada: análisis de escalamiento, gráficos lineales y logarítmicos, demostración parametrizable e informe final.
 
-La próxima fase implementará `benchmark-n` y los estudios de densidad libre y fija del punto 4. Los resultados y la interpretación de la fase actual se encuentran en [docs/fase-7-experimento-m.md](docs/fase-7-experimento-m.md).
+El alcance solicitado por la consigna está implementado. El [informe final](informe-final.md) presenta el problema desde cero, justifica cada parámetro y discute todos los resultados. El detalle técnico de la fase 7 se conserva en [docs/fase-7-experimento-m.md](docs/fase-7-experimento-m.md).
 
 ## Comandos
 
@@ -74,8 +76,10 @@ Desde esta carpeta:
     make cpp-run ARGS="neighbors --method cim --M 10 --static data/generated/static.txt --dynamic data/generated/dynamic.txt --rc 1 --boundary walls --output data/generated/neighbors-cim.txt"
     make release
     ./cpp/build/release/tp1 benchmark-m --static data/generated/static.txt --dynamic data/generated/dynamic.txt --rc 1 --boundary walls --seed 42 --repetitions 10 --output experiments/raw/metrics-m.csv
+    ./cpp/build/release/tp1 benchmark-n --M 13 --static data/generated/static.txt --dynamic data/generated/dynamic.txt --rc 1 --boundary walls --seed 42 --repetitions 100 --output experiments/raw/metrics-n.csv
     make python-run ARGS="plot-m experiments/raw/metrics-m.csv --summary experiments/raw/summary-m.csv --figure experiments/figures/time-vs-m.png"
     make python-run ARGS="plot-neighbors --static experiments/raw/phase7/walls-n500/static.txt --dynamic experiments/raw/phase7/walls-n500/dynamic.txt --neighbors experiments/raw/phase7/walls-n500/neighbors.txt --particle 113 --rc 1 --boundary walls --figure experiments/figures/neighbors-walls.png"
+    python/.venv/bin/python scripts/demo.py --N 100 --L 20 --M 13 --rc 1 --boundary walls --open
     make python-run ARGS="--help"
     make clean
 
@@ -91,5 +95,10 @@ En macOS, desde esta carpeta:
     open experiments/figures/time-vs-m-periodic.png
     open experiments/figures/neighbors-walls.png
     open experiments/figures/neighbors-periodic.png
+    open experiments/figures/time-vs-n-walls.png
+    open experiments/figures/time-vs-n-periodic.png
+    open experiments/figures/time-vs-n-walls-log.png
+    open experiments/figures/time-vs-n-periodic-log.png
+    open informe-final.md
 
-Los valores numéricos seleccionados están en `experiments/results/`. Las mediciones individuales y los sistemas generados quedan en `experiments/raw/phase7/`; son regenerables y no se versionan.
+Los valores numéricos seleccionados están en `experiments/results/`. Las mediciones individuales y los sistemas generados quedan en `experiments/raw/phase7/` y `experiments/raw/phase8/`; son regenerables y no se versionan.

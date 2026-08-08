@@ -50,6 +50,32 @@ def _run_plot_neighbors(arguments: argparse.Namespace) -> int:
     return 0
 
 
+def _run_plot_n(arguments: argparse.Namespace) -> int:
+    from tp1viz.plot_n import build_n_points, plot_n, write_n_summaries
+
+    free_summaries = summarize_metrics(read_metrics(arguments.free))
+    fixed_summaries = summarize_metrics(read_metrics(arguments.fixed))
+    points = build_n_points(free_summaries, fixed_summaries)
+    write_n_summaries(arguments.summary, points)
+    exponents = plot_n(
+        points,
+        arguments.figure,
+        log_x=arguments.log_x,
+        log_y=arguments.log_y,
+    )
+    for key, exponent in sorted(
+        exponents.items(),
+        key=lambda item: (item[0].boundary, item[0].regime),
+    ):
+        print(
+            f"Exponente {key.regime}/{key.boundary}: "
+            f"alpha={exponent:.4f}"
+        )
+    print(f"Resumen escrito en {arguments.summary}")
+    print(f"Figura escrita en {arguments.figure}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="tp1viz",
@@ -96,6 +122,42 @@ def build_parser() -> argparse.ArgumentParser:
         help="usa escala logarítmica para el tiempo",
     )
     plot_m_parser.set_defaults(handler=_run_plot_m)
+
+    plot_n_parser = subparsers.add_parser(
+        "plot-n",
+        help="compara tiempo frente a N para densidad libre y fija",
+    )
+    plot_n_parser.add_argument(
+        "--free",
+        metavar="INPUT.csv",
+        nargs="+",
+        type=Path,
+        required=True,
+        help="CSV de benchmark-n con L constante",
+    )
+    plot_n_parser.add_argument(
+        "--fixed",
+        metavar="INPUT.csv",
+        nargs="+",
+        type=Path,
+        required=True,
+        help="CSV de benchmark-n con N/L^2 constante",
+    )
+    plot_n_parser.add_argument(
+        "--summary", type=Path, required=True, help="resumen CSV de salida"
+    )
+    plot_n_parser.add_argument(
+        "--figure", type=Path, required=True, help="imagen de salida"
+    )
+    plot_n_parser.add_argument(
+        "--log-x", action="store_true", help="usa escala logarítmica para N"
+    )
+    plot_n_parser.add_argument(
+        "--log-y",
+        action="store_true",
+        help="usa escala logarítmica para el tiempo",
+    )
+    plot_n_parser.set_defaults(handler=_run_plot_n)
 
     plot_neighbors_parser = subparsers.add_parser(
         "plot-neighbors",

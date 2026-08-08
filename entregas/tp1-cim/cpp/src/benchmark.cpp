@@ -44,6 +44,59 @@ std::string_view boundary_name(BoundaryCondition boundary) {
     throw std::invalid_argument{"unknown boundary condition"};
 }
 
+void append_measurements(
+    const ParticleSystem& system,
+    double cutoff,
+    std::size_t cells_per_side,
+    std::size_t repetitions,
+    const NeighborSearchResult& oracle,
+    std::vector<BenchmarkMeasurement>& measurements
+) {
+    const BenchmarkMethod method = cells_per_side == 1
+        ? BenchmarkMethod::BruteForce
+        : BenchmarkMethod::CellIndex;
+
+    const NeighborSearchResult validation = search_for_m(
+        system,
+        cutoff,
+        cells_per_side
+    );
+    require_same_neighbors(validation, oracle);
+
+    const NeighborSearchResult warmup = search_for_m(
+        system,
+        cutoff,
+        cells_per_side
+    );
+    require_same_neighbors(warmup, oracle);
+
+    for (std::size_t repetition = 1;
+         repetition <= repetitions;
+         ++repetition) {
+        const auto start = std::chrono::steady_clock::now();
+        const NeighborSearchResult result = search_for_m(
+            system,
+            cutoff,
+            cells_per_side
+        );
+        const auto end = std::chrono::steady_clock::now();
+        const auto elapsed =
+            std::chrono::duration_cast<std::chrono::nanoseconds>(
+                end - start
+            );
+
+        require_same_neighbors(result, oracle);
+        measurements.push_back(BenchmarkMeasurement{
+            .method = method,
+            .cells_per_side = cells_per_side,
+            .repetition = repetition,
+            .time_ns = elapsed.count(),
+            .neighbor_pairs = result.pair_count,
+            .distance_evaluations = result.distance_evaluations,
+        });
+    }
+}
+
 }  // namespace
 
 std::string_view benchmark_method_name(BenchmarkMethod method) noexcept {
@@ -81,50 +134,46 @@ std::vector<BenchmarkMeasurement> benchmark_m(
     for (std::size_t cells_per_side = 1;
          cells_per_side <= maximum_m;
          ++cells_per_side) {
-        const BenchmarkMethod method = cells_per_side == 1
-            ? BenchmarkMethod::BruteForce
-            : BenchmarkMethod::CellIndex;
-
-        const NeighborSearchResult validation = search_for_m(
+        append_measurements(
             system,
             cutoff,
-            cells_per_side
+            cells_per_side,
+            repetitions,
+            oracle,
+            measurements
         );
-        require_same_neighbors(validation, oracle);
-
-        const NeighborSearchResult warmup = search_for_m(
-            system,
-            cutoff,
-            cells_per_side
-        );
-        require_same_neighbors(warmup, oracle);
-
-        for (std::size_t repetition = 1;
-             repetition <= repetitions;
-             ++repetition) {
-            const auto start = std::chrono::steady_clock::now();
-            const NeighborSearchResult result = search_for_m(
-                system,
-                cutoff,
-                cells_per_side
-            );
-            const auto end = std::chrono::steady_clock::now();
-            const auto elapsed =
-                std::chrono::duration_cast<std::chrono::nanoseconds>(
-                    end - start
-                );
-
-            require_same_neighbors(result, oracle);
-            measurements.push_back(BenchmarkMeasurement{
-                .method = method,
-                .cells_per_side = cells_per_side,
-                .repetition = repetition,
-                .time_ns = elapsed.count(),
-                .neighbor_pairs = result.pair_count,
-                .distance_evaluations = result.distance_evaluations,
-            });
-        }
     }
+    return measurements;
+}
+
+std::vector<BenchmarkMeasurement> benchmark_n(
+    const ParticleSystem& system,
+    double cutoff,
+    std::size_t cells_per_side,
+    std::size_t repetitions
+) {
+    if (repetitions == 0) {
+        throw std::invalid_argument{"repetitions must be positive"};
+    }
+    const std::size_t maximum_m = maximum_valid_cells_per_side(
+        system,
+        cutoff
+    );
+    if (cells_per_side == 0 || cells_per_side > maximum_m) {
+        throw std::invalid_argument{"M exceeds the geometric limit"};
+    }
+
+    const NeighborSearchResult oracle = brute_force_neighbors(system, cutoff);
+    std::vector<BenchmarkMeasurement> measurements{};
+    measurements.reserve(repetitions);
+    append_measurements(
+        system,
+        cutoff,
+        cells_per_side,
+        repetitions,
+        oracle,
+        measurements
+    );
     return measurements;
 }
 

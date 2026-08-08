@@ -10,6 +10,7 @@ dynamic_walls="$temporary_directory/dynamic-walls.txt"
 brute_walls="$temporary_directory/brute-walls.txt"
 cim_walls="$temporary_directory/cim-walls.txt"
 metrics="$temporary_directory/metrics.csv"
+metrics_n="$temporary_directory/metrics-n.csv"
 
 "$binary" generate \
     --N 100 --L 20 --seed 42 --boundary walls \
@@ -67,6 +68,20 @@ awk -F, '
     END { if (NR != 27) exit 1 }
 ' "$metrics"
 
+"$binary" benchmark-n \
+    --M 10 --static "$static_walls" --dynamic "$dynamic_walls" \
+    --rc 1 --boundary walls --seed 42 --repetitions 2 \
+    --output "$metrics_n" >/dev/null
+
+test "$(sed -n '1p' "$metrics_n")" = "$expected_header"
+test "$(wc -l < "$metrics_n" | tr -d ' ')" -eq 3
+awk -F, '
+    NR == 1 { next }
+    $3 != "cim" || $4 != 100 || $6 != 10 { exit 1 }
+    $8 < 1 || $8 > 2 { exit 1 }
+    END { if (NR != 3) exit 1 }
+' "$metrics_n"
+
 if "$binary" neighbors \
     --method cim \
     --static "$static_walls" --dynamic "$dynamic_walls" \
@@ -105,6 +120,22 @@ fi
 if "$binary" benchmark-m \
     --static "$static_walls" --dynamic "$dynamic_walls" \
     --seed 42 --output "$temporary_directory/missing-repetitions.csv" \
+    >/dev/null 2>&1; then
+    exit 1
+fi
+
+if "$binary" benchmark-n \
+    --static "$static_walls" --dynamic "$dynamic_walls" \
+    --seed 42 --repetitions 2 \
+    --output "$temporary_directory/missing-n-m.csv" \
+    >/dev/null 2>&1; then
+    exit 1
+fi
+
+if "$binary" benchmark-n \
+    --M 14 --static "$static_walls" --dynamic "$dynamic_walls" \
+    --seed 42 --repetitions 2 \
+    --output "$temporary_directory/invalid-n-m.csv" \
     >/dev/null 2>&1; then
     exit 1
 fi

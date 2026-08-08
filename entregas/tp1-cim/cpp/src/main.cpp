@@ -56,6 +56,7 @@ struct BenchmarkArguments {
     tp1::BoundaryCondition boundary{tp1::BoundaryCondition::Walls};
     std::optional<std::uint64_t> seed{};
     std::optional<std::size_t> repetitions{};
+    std::optional<std::size_t> cells_per_side{};
 };
 
 void print_help(std::ostream& output) {
@@ -66,7 +67,8 @@ void print_help(std::ostream& output) {
         << "  tp1 --version\n"
         << "  tp1 generate [opciones]\n"
         << "  tp1 neighbors [opciones]\n"
-        << "  tp1 benchmark-m [opciones]\n\n"
+        << "  tp1 benchmark-m [opciones]\n"
+        << "  tp1 benchmark-n [opciones]\n\n"
         << "Opciones de generate:\n"
         << "  --N CANTIDAD          Numero de particulas (100)\n"
         << "  --L LADO              Lado del dominio (20)\n"
@@ -94,8 +96,15 @@ void print_help(std::ostream& output) {
         << "  --seed SEMILLA        Semilla usada al generar (requerida)\n"
         << "  --repetitions CANTIDAD Repeticiones medidas (requerida)\n"
         << "  --output RUTA         Mediciones CSV (metrics.csv)\n\n"
-        << "Comandos de fases posteriores:\n"
-        << "  benchmark-n\n";
+        << "Opciones de benchmark-n:\n"
+        << "  --M CANTIDAD          Celdas por lado (requerida)\n"
+        << "  --static RUTA         Entrada estatica (static.txt)\n"
+        << "  --dynamic RUTA        Entrada dinamica (dynamic.txt)\n"
+        << "  --rc RADIO            Radio de interaccion (1)\n"
+        << "  --boundary TIPO       walls o periodic (walls)\n"
+        << "  --seed SEMILLA        Semilla usada al generar (requerida)\n"
+        << "  --repetitions CANTIDAD Repeticiones medidas (requerida)\n"
+        << "  --output RUTA         Mediciones CSV (metrics.csv)\n";
 }
 
 std::string_view require_value(
@@ -306,7 +315,12 @@ NeighborArguments parse_neighbors(int argc, char* argv[]) {
     return arguments;
 }
 
-BenchmarkArguments parse_benchmark_m(int argc, char* argv[]) {
+BenchmarkArguments parse_benchmark(
+    int argc,
+    char* argv[],
+    std::string_view command,
+    bool requires_m
+) {
     BenchmarkArguments arguments{};
     for (int index = 2; index < argc; ++index) {
         const std::string_view option{argv[index]};
@@ -335,9 +349,14 @@ BenchmarkArguments parse_benchmark_m(int argc, char* argv[]) {
                 require_value(index, argc, argv, option),
                 option
             );
+        } else if (option == "--M" && requires_m) {
+            arguments.cells_per_side = parse_integer<std::size_t>(
+                require_value(index, argc, argv, option),
+                option
+            );
         } else {
             throw std::invalid_argument{
-                std::string{"unknown benchmark-m option: "}
+                std::string{"unknown "} + std::string{command} + " option: "
                 + std::string{option}
             };
         }
@@ -347,7 +366,13 @@ BenchmarkArguments parse_benchmark_m(int argc, char* argv[]) {
         throw std::invalid_argument{"rc must be non-negative"};
     }
     if (!arguments.seed.has_value()) {
-        throw std::invalid_argument{"seed is required for benchmark-m"};
+        throw std::invalid_argument{
+            "seed is required for " + std::string{command}
+        };
+    }
+    if (requires_m && (!arguments.cells_per_side.has_value()
+                       || arguments.cells_per_side.value() == 0)) {
+        throw std::invalid_argument{"M must be provided and positive"};
     }
     if (!arguments.repetitions.has_value()
         || arguments.repetitions.value() == 0) {
@@ -376,6 +401,14 @@ BenchmarkArguments parse_benchmark_m(int argc, char* argv[]) {
         };
     }
     return arguments;
+}
+
+BenchmarkArguments parse_benchmark_m(int argc, char* argv[]) {
+    return parse_benchmark(argc, argv, "benchmark-m", false);
+}
+
+BenchmarkArguments parse_benchmark_n(int argc, char* argv[]) {
+    return parse_benchmark(argc, argv, "benchmark-n", true);
 }
 
 void ensure_parent_exists(const std::filesystem::path& path) {
@@ -548,6 +581,32 @@ int run_benchmark_m(int argc, char* argv[]) {
     return 0;
 }
 
+int run_benchmark_n(int argc, char* argv[]) {
+    const BenchmarkArguments arguments = parse_benchmark_n(argc, argv);
+    const tp1::ParticleSystem system = read_inputs(
+        arguments.static_path,
+        arguments.dynamic_path,
+        arguments.boundary
+    );
+    const std::vector<tp1::BenchmarkMeasurement> measurements =
+        tp1::benchmark_n(
+            system,
+            arguments.cutoff,
+            arguments.cells_per_side.value(),
+            arguments.repetitions.value()
+        );
+    write_benchmark_output(arguments, system, measurements);
+
+    std::cout << "Recorded " << measurements.size()
+              << " benchmark measurements"
+              << " (N=" << system.particles.size()
+              << ", M=" << arguments.cells_per_side.value()
+              << ", boundary=" << boundary_name(system.domain.boundary)
+              << ", rc=" << arguments.cutoff << ")\n"
+              << "Metrics: " << arguments.output_path.string() << '\n';
+    return 0;
+}
+
 }  // namespace
 
 int main(int argc, char* argv[]) {
@@ -564,7 +623,8 @@ int main(int argc, char* argv[]) {
     if (argc == 3 && std::string_view{argv[2]} == "--help"
         && (std::string_view{argv[1]} == "generate"
             || std::string_view{argv[1]} == "neighbors"
-            || std::string_view{argv[1]} == "benchmark-m")) {
+            || std::string_view{argv[1]} == "benchmark-m"
+            || std::string_view{argv[1]} == "benchmark-n")) {
         print_help(std::cout);
         return 0;
     }
@@ -578,6 +638,9 @@ int main(int argc, char* argv[]) {
         }
         if (std::string_view{argv[1]} == "benchmark-m") {
             return run_benchmark_m(argc, argv);
+        }
+        if (std::string_view{argv[1]} == "benchmark-n") {
+            return run_benchmark_n(argc, argv);
         }
         throw std::invalid_argument{
             std::string{"unknown command: "} + argv[1]

@@ -1,4 +1,4 @@
-"""Lectura, validación y agregación de mediciones del benchmark de M."""
+"""Lectura, validación y agregación de mediciones de rendimiento."""
 
 from __future__ import annotations
 
@@ -47,7 +47,7 @@ class MetricsError(ValueError):
 
 @dataclass(frozen=True)
 class Metric:
-    """Una repetición individual producida por ``benchmark-m``."""
+    """Una repetición individual producida por un benchmark."""
 
     seed: int
     boundary: str
@@ -77,7 +77,7 @@ class MetricGroup:
 
 @dataclass(frozen=True)
 class MetricSummary:
-    """Estadísticos de las repeticiones de un único valor de M."""
+    """Estadísticos de repeticiones con iguales parámetros."""
 
     group: MetricGroup
     samples: int
@@ -287,7 +287,11 @@ def write_summaries(path: Path, summaries: Sequence[MetricSummary]) -> None:
         raise MetricsError(f"no se pudo escribir {path}: {error}") from error
 
     with output_file:
-        writer = csv.DictWriter(output_file, fieldnames=SUMMARY_COLUMNS)
+        writer = csv.DictWriter(
+            output_file,
+            fieldnames=SUMMARY_COLUMNS,
+            lineterminator="\n",
+        )
         writer.writeheader()
         for summary in summaries:
             group = summary.group

@@ -50,10 +50,8 @@ El comando Python `plot-m` acepta uno o más CSV, valida que las repeticiones se
 
 El punto 3 se ejecutó con `N=500` y `N=1050`, semilla 42 y 100 repeticiones para paredes y periodicidad. El protocolo completo, los resultados y la selección de `M=13` como óptimo común están en `fase-7-experimento-m.md`.
 
+El punto 4 se ejecutó para once valores de `N` entre 10 y 1050, semilla 42 y 100 repeticiones. La densidad libre mantiene `L=20` y `M=13`. La densidad fija mantiene `N/L²=1.25` y escala `M` para conservar aproximadamente el lado de celda `20/13`. Los resultados completos se presentan en `../informe-final.md`.
+
 ## Decisiones pendientes
 
-- Conjunto de al menos diez valores de N.
-- Cantidad de repeticiones y semillas para variar N.
-- Densidad elegida para la comparación fija.
-- Regla de M en el experimento a densidad fija.
-- Inclusión de ambas condiciones de contorno en todos los gráficos o en gráficos separados.
+No quedan decisiones experimentales pendientes para el alcance actual.

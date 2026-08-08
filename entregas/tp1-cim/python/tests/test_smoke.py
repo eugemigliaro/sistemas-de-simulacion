@@ -45,6 +45,22 @@ class SmokeTest(unittest.TestCase):
         self.assertEqual(arguments.command, "plot-neighbors")
         self.assertEqual(arguments.particle, 7)
 
+    def test_parser_accepts_plot_n(self) -> None:
+        arguments = build_parser().parse_args(
+            [
+                "plot-n",
+                "--free",
+                "free.csv",
+                "--fixed",
+                "fixed.csv",
+                "--summary",
+                "summary.csv",
+                "--figure",
+                "time-vs-n.png",
+            ]
+        )
+        self.assertEqual(arguments.command, "plot-n")
+
 
 if __name__ == "__main__":
     unittest.main()

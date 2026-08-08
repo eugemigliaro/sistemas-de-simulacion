@@ -41,14 +41,11 @@ Este registro separa decisiones confirmadas, supuestos de implementación y preg
 - El N alto del punto 3 será el mayor múltiplo de 50 generado con tres semillas y 100.000 intentos por partícula para ambos contornos; el resultado reproducible es N=1050.
 - El punto 3 usará N=500 y N=1050, semilla 42 y 100 repeticiones por M.
 - Se adopta M=13 como óptimo común: minimiza tres casos y es indistinguible, por sus barras de error, del mínimo M=12 para periodicidad con N=500.
-
-## Supuestos iniciales a validar
-
-- La animación mostrará una secuencia de estados o configuraciones generadas por C++; no inventará una dinámica física ausente del enunciado.
+- El estudio de N usará once valores entre 10 y 1050, semilla 42 y 100 repeticiones para paredes y periodicidad.
+- La densidad fija será la densidad numérica N/L²=1.25 del sistema intermedio N=500, L=20.
+- En densidad fija, M escalará como floor(L/(20/13)), con mínimo 1, para conservar aproximadamente el lado de celda óptimo y la ocupación media.
+- La demostración en vivo será paramétrica: regenerará un estado al cambiar N, L, M, rc, radios, semilla o contorno; no inventará una evolución física ausente de la consigna.
 
 ## Preguntas abiertas
 
-- Definición de densidad para el punto 4.2: densidad numérica o fracción de área.
-- En el estudio a densidad fija, mantener M fijo o mantener aproximadamente fijo el lado de celda óptimo.
-- Cantidad final de semillas y repeticiones para el estudio de N.
-- Formato final de la demostración animada.
+- No quedan decisiones abiertas que bloqueen el alcance de la consigna. La adaptación de M cuando cambia L se declara como decisión metodológica porque el enunciado no la especifica.

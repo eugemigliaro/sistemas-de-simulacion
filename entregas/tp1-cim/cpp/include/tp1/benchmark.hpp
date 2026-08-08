@@ -34,6 +34,13 @@ struct BenchmarkMeasurement {
     std::size_t repetitions
 );
 
+[[nodiscard]] std::vector<BenchmarkMeasurement> benchmark_n(
+    const ParticleSystem& system,
+    double cutoff,
+    std::size_t cells_per_side,
+    std::size_t repetitions
+);
+
 void write_benchmark_csv(
     std::ostream& output,
     std::uint64_t seed,
