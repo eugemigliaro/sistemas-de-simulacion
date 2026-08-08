@@ -1,6 +1,8 @@
 cpp/build/
 cpp/bin/
 python/.venv/
+python/.matplotlib/
+python/.cache/
 __pycache__/
 *.py[cod]
 data/generated/*

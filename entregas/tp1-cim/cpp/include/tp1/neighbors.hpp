@@ -26,6 +26,11 @@ struct NeighborSearchResult {
     std::size_t cells_per_side
 );
 
+[[nodiscard]] std::size_t maximum_valid_cells_per_side(
+    const ParticleSystem& system,
+    double cutoff
+);
+
 [[nodiscard]] bool is_valid_neighbor_list(
     const NeighborList& neighbors
 ) noexcept;

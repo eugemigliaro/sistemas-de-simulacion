@@ -31,20 +31,26 @@
 - Búsqueda de vecinos por fuerza bruta.
 - Búsqueda de vecinos mediante Cell Index Method.
 - Validación y escritura de listas simétricas, ordenadas y sin duplicados.
-- Comando neighbors con tiempo de búsqueda y cantidad de evaluaciones.
+- Comando neighbors con selección entre fuerza bruta y CIM, tiempo de búsqueda y cantidad de evaluaciones.
+- Cálculo del máximo valor válido de M.
+- Comando benchmark-m con calentamiento, validación y mediciones individuales en CSV.
 
 ## Componentes C++ planificados
 
-- Integración del Cell Index Method con el comando neighbors.
-- Ejecutor de experimentos y medición de tiempos.
+- Comando benchmark-n y configuración de los estudios finales.
 
 ## Componentes Python planificados
 
-- Lectores de estático, dinámico, vecinos y métricas.
+- Lectores de estático, dinámico y vecinos.
 - Figura de una partícula y sus vecinas.
 - Animación de una secuencia producida por C++.
-- Agregación de promedio y desvío estándar.
-- Gráficos de tiempo frente a M y N.
+- Gráfico de tiempo frente a N.
+
+## Componentes Python implementados
+
+- Lector y validación de las métricas del barrido de M.
+- Agregación de promedio y desvío estándar poblacional.
+- CSV resumido y gráfico con barras de error del tiempo frente a M.
 
 ## Principio de validación
 

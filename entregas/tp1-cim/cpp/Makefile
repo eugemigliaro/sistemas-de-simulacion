@@ -21,8 +21,9 @@ debug: $(DEBUG_BINARY)
 
 release: $(RELEASE_BINARY)
 
-test: $(TEST_BINARIES)
+test: $(DEBUG_BINARY) $(TEST_BINARIES)
 	@set -e; for test_binary in $(TEST_BINARIES); do $$test_binary; done
+	@sh tests/test_cli.sh $(DEBUG_BINARY)
 
 sanitize: $(SANITIZE_BINARIES)
 	@set -e; for test_binary in $(SANITIZE_BINARIES); do $$test_binary; done

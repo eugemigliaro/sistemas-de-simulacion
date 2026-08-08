@@ -30,6 +30,14 @@ Este registro separa decisiones confirmadas, supuestos de implementación y preg
 - `M=1` será siempre el caso de una única celda y equivaldrá a fuerza bruta.
 - Los pares de celdas adyacentes se procesarán una sola vez y se deduplicarán después de aplicar periodicidad, incluyendo los casos `M=1` y `M=2`.
 - El CIM reutilizará `are_neighbors` y se validará exigiendo igualdad exacta con fuerza bruta para cada sistema [T01, p. 28].
+- El comando neighbors aceptará `brute-force` o `cim`; CIM requerirá `M` y fuerza bruta rechazará ese parámetro.
+- El benchmark de M leerá un único sistema ya generado y recibirá la semilla como metadato reproducible.
+- El barrido usará fuerza bruta para `M=1` y CIM para cada valor entre 2 y el máximo geométrico.
+- Cada M tendrá una validación y un calentamiento fuera del intervalo medido; el CSV guardará cada repetición por separado.
+- metrics.csv se recreará en cada ejecución e incluirá la cantidad de evaluaciones de distancia además de las columnas mínimas previstas.
+- El análisis de tiempos agrupará únicamente mediciones con iguales N, semilla, contorno, L, rc, M y método.
+- Las barras de error de los estudios de rendimiento mostrarán un desvío estándar poblacional; la convención se declara porque la consigna no distingue entre desvío poblacional y muestral [TP01, p. 1].
+- El gráfico de M expresará el tiempo en microsegundos y permitirá seleccionar escalas logarítmicas desde la CLI.
 
 ## Supuestos iniciales a validar
 

@@ -1,4 +1,7 @@
-PYTHON ?= python3
+VENV_PYTHON := python/.venv/bin/python
+PYTHON ?= $(if $(wildcard $(VENV_PYTHON)),$(VENV_PYTHON),python3)
+MPLCONFIGDIR ?= python/.matplotlib
+XDG_CACHE_HOME ?= python/.cache
 
 .PHONY: debug release test cpp-test python-test sanitize cpp-run python-run clean
 
@@ -14,7 +17,7 @@ cpp-test:
 	$(MAKE) -C cpp test
 
 python-test:
-	PYTHONPATH=python/src $(PYTHON) -m unittest discover -s python/tests -v
+	MPLCONFIGDIR=$(MPLCONFIGDIR) XDG_CACHE_HOME=$(XDG_CACHE_HOME) PYTHONPATH=python/src $(PYTHON) -m unittest discover -s python/tests -v
 
 sanitize:
 	$(MAKE) -C cpp sanitize
@@ -23,8 +26,10 @@ cpp-run: debug
 	./cpp/build/debug/tp1 $(ARGS)
 
 python-run:
-	PYTHONPATH=python/src $(PYTHON) -m tp1viz $(ARGS)
+	MPLCONFIGDIR=$(MPLCONFIGDIR) XDG_CACHE_HOME=$(XDG_CACHE_HOME) PYTHONPATH=python/src $(PYTHON) -m tp1viz $(ARGS)
 
 clean:
 	$(MAKE) -C cpp clean
 	find python -type d -name __pycache__ -prune -exec rm -r {} +
+	rm -rf $(MPLCONFIGDIR)
+	rm -rf $(XDG_CACHE_HOME)

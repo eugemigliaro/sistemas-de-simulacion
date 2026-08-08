@@ -38,6 +38,15 @@ Se excluirá:
 - repetition: índice de repetición.
 - time_ns: tiempo medido en nanosegundos.
 - neighbor_pairs: cantidad de pares no dirigidos encontrados.
+- distance_evaluations: cantidad de pares candidatos cuya distancia fue evaluada.
+
+## Implementación disponible
+
+El comando `benchmark-m` carga un único sistema, calcula automáticamente el máximo `M`, usa fuerza bruta para `M=1` y CIM para los valores restantes. Antes de cada grupo de repeticiones valida la lista completa contra fuerza bruta y ejecuta un calentamiento no medido. El archivo CSV se recrea y conserva cada repetición individual.
+
+Las mediciones finales deben ejecutarse con la compilación release. La semilla y la cantidad de repeticiones se pasan explícitamente al comando.
+
+El comando Python `plot-m` acepta uno o más CSV, valida que las repeticiones sean compatibles, calcula la media y el desvío estándar poblacional para cada `M`, escribe un resumen CSV y genera la figura con barras de error. Las escalas logarítmicas son opciones explícitas para aplicarlas cuando los valores cubran distintos órdenes de magnitud [TP01, p. 1].
 
 ## Decisiones pendientes
 

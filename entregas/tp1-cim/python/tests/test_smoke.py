@@ -13,6 +13,19 @@ class SmokeTest(unittest.TestCase):
     def test_parser_has_expected_program_name(self) -> None:
         self.assertEqual(build_parser().prog, "tp1viz")
 
+    def test_parser_accepts_plot_m(self) -> None:
+        arguments = build_parser().parse_args(
+            [
+                "plot-m",
+                "metrics.csv",
+                "--summary",
+                "summary.csv",
+                "--figure",
+                "time-vs-m.png",
+            ]
+        )
+        self.assertEqual(arguments.command, "plot-m")
+
 
 if __name__ == "__main__":
     unittest.main()

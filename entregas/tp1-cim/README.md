@@ -41,7 +41,7 @@ Una fila por partícula: identificador, seguido por los identificadores de sus v
 
 Cada medición incluirá como mínimo:
 
-    seed,boundary,method,N,L,M,rc,repetition,time_ns,neighbor_pairs
+    seed,boundary,method,N,L,M,rc,repetition,time_ns,neighbor_pairs,distance_evaluations
 
 La especificación detallada se mantiene en docs/protocolo-experimental.md.
 
@@ -52,13 +52,17 @@ La especificación detallada se mantiene en docs/protocolo-experimental.md.
 - Fase 2 completada: generación reproducible sin superposición, lectura y escritura de los formatos oficiales y comando generate.
 - Fase 3 completada: búsqueda por fuerza bruta, salida simétrica de vecinos, tiempo de búsqueda y comando neighbors.
 - Fase 4 completada: núcleo del Cell Index Method, validación del tamaño de celda, paredes, periodicidad y pruebas diferenciales contra fuerza bruta.
+- Fase 5 completada: integración del CIM con neighbors y barrido reproducible de M con mediciones CSV.
+- Fase 6 completada: lectura y validación de métricas, promedio, desvío estándar poblacional y figura de tiempo frente a M.
 
-La próxima fase integrará el Cell Index Method con el comando neighbors mediante los parámetros --method cim y --M. Los comandos benchmark-m y benchmark-n corresponden a fases posteriores.
+La próxima fase definirá los dos valores finales de N, ejecutará las mediciones requeridas por el punto 3 y elegirá el M óptimo. El comando benchmark-n corresponde a una fase posterior.
 
 ## Comandos
 
 Desde esta carpeta:
 
+    python3.12 -m venv python/.venv
+    python/.venv/bin/pip install -r python/requirements.txt
     make debug
     make release
     make test
@@ -66,9 +70,13 @@ Desde esta carpeta:
     make cpp-run ARGS="--help"
     make cpp-run ARGS="generate --N 100 --L 20 --seed 42 --boundary walls --static data/generated/static.txt --dynamic data/generated/dynamic.txt"
     make cpp-run ARGS="neighbors --method brute-force --static data/generated/static.txt --dynamic data/generated/dynamic.txt --rc 1 --boundary walls --output data/generated/neighbors.txt"
+    make cpp-run ARGS="neighbors --method cim --M 10 --static data/generated/static.txt --dynamic data/generated/dynamic.txt --rc 1 --boundary walls --output data/generated/neighbors-cim.txt"
+    make release
+    ./cpp/build/release/tp1 benchmark-m --static data/generated/static.txt --dynamic data/generated/dynamic.txt --rc 1 --boundary walls --seed 42 --repetitions 10 --output experiments/raw/metrics-m.csv
+    make python-run ARGS="plot-m experiments/raw/metrics-m.csv --summary experiments/raw/summary-m.csv --figure experiments/figures/time-vs-m.png"
     make python-run ARGS="--help"
     make clean
 
 El mismo comando admite --boundary periodic. Si no se indican opciones, generate usa N=100, L=20, radios uniformes entre 0.23 y 0.26, semilla 0 y paredes. Los archivos de data/generated/ son resultados regenerables y no se versionan.
 
-Las pruebas actuales no requieren dependencias externas. Antes de desarrollar las figuras se creará python/.venv y se instalará python/requirements.txt.
+Para usar las figuras y ejecutar todas las pruebas Python se debe crear `python/.venv` con Python 3.11 o posterior e instalar `python/requirements.txt`. Si el entorno existe, el Makefile lo selecciona automáticamente. El análisis usa la biblioteca estándar para CSV y estadística; Matplotlib se usa únicamente para generar la figura.

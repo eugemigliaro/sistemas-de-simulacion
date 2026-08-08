@@ -33,6 +33,56 @@ double maximum_radius(const ParticleSystem& system) noexcept {
     return result;
 }
 
+std::size_t maximum_square_side() noexcept {
+    const std::size_t maximum = std::numeric_limits<std::size_t>::max();
+    std::size_t result = static_cast<std::size_t>(
+        std::sqrt(static_cast<long double>(maximum))
+    );
+    while (result > maximum / result) {
+        --result;
+    }
+    while (result + 1 <= maximum / (result + 1)) {
+        ++result;
+    }
+    return result;
+}
+
+std::size_t maximum_valid_cells_for_valid_system(
+    const ParticleSystem& system,
+    double cutoff
+) {
+    const double interaction_reach = cutoff
+        + 2.0 * maximum_radius(system);
+    if (!std::isfinite(interaction_reach)) {
+        throw std::invalid_argument{"interaction reach is not finite"};
+    }
+    if (interaction_reach == 0.0
+        || !(system.domain.side > interaction_reach)) {
+        return 1;
+    }
+
+    const std::size_t allocation_limit = maximum_square_side();
+    const long double ratio = static_cast<long double>(system.domain.side)
+        / static_cast<long double>(interaction_reach);
+    std::size_t candidate = allocation_limit;
+    if (ratio < static_cast<long double>(allocation_limit)) {
+        candidate = static_cast<std::size_t>(ratio);
+    }
+    candidate = std::max<std::size_t>(candidate, 1);
+
+    while (candidate > 1
+           && !(system.domain.side / static_cast<double>(candidate)
+                > interaction_reach)) {
+        --candidate;
+    }
+    while (candidate < allocation_limit
+           && system.domain.side / static_cast<double>(candidate + 1)
+                > interaction_reach) {
+        ++candidate;
+    }
+    return candidate;
+}
+
 void require_valid_cell_count(
     const ParticleSystem& system,
     double cutoff,
@@ -45,17 +95,8 @@ void require_valid_cell_count(
         > std::numeric_limits<std::size_t>::max() / cells_per_side) {
         throw std::invalid_argument{"M is too large"};
     }
-    if (cells_per_side == 1) {
-        return;
-    }
-
-    const double interaction_reach = cutoff
-        + 2.0 * maximum_radius(system);
-    const double cell_side = system.domain.side
-        / static_cast<double>(cells_per_side);
-    if (!std::isfinite(interaction_reach)
-        || !std::isfinite(cell_side)
-        || !(cell_side > interaction_reach)) {
+    if (cells_per_side
+        > maximum_valid_cells_for_valid_system(system, cutoff)) {
         throw std::invalid_argument{
             "L/M must be greater than rc + 2*r_max"
         };
@@ -277,6 +318,19 @@ NeighborSearchResult cell_index_neighbors(
         std::sort(particle_neighbors.begin(), particle_neighbors.end());
     }
     return result;
+}
+
+std::size_t maximum_valid_cells_per_side(
+    const ParticleSystem& system,
+    double cutoff
+) {
+    if (!std::isfinite(cutoff) || cutoff < 0.0) {
+        throw std::invalid_argument{
+            "cutoff must be finite and non-negative"
+        };
+    }
+    require_searchable_system(system);
+    return maximum_valid_cells_for_valid_system(system, cutoff);
 }
 
 bool is_valid_neighbor_list(const NeighborList& neighbors) noexcept {
