@@ -38,6 +38,9 @@ Este registro separa decisiones confirmadas, supuestos de implementación y preg
 - El análisis de tiempos agrupará únicamente mediciones con iguales N, semilla, contorno, L, rc, M y método.
 - Las barras de error de los estudios de rendimiento mostrarán un desvío estándar poblacional; la convención se declara porque la consigna no distingue entre desvío poblacional y muestral [TP01, p. 1].
 - El gráfico de M expresará el tiempo en microsegundos y permitirá seleccionar escalas logarítmicas desde la CLI.
+- El N alto del punto 3 será el mayor múltiplo de 50 generado con tres semillas y 100.000 intentos por partícula para ambos contornos; el resultado reproducible es N=1050.
+- El punto 3 usará N=500 y N=1050, semilla 42 y 100 repeticiones por M.
+- Se adopta M=13 como óptimo común: minimiza tres casos y es indistinguible, por sus barras de error, del mínimo M=12 para periodicidad con N=500.
 
 ## Supuestos iniciales a validar
 
@@ -45,8 +48,7 @@ Este registro separa decisiones confirmadas, supuestos de implementación y preg
 
 ## Preguntas abiertas
 
-- Definición operativa del N más alto posible para el generador aleatorio.
 - Definición de densidad para el punto 4.2: densidad numérica o fracción de área.
 - En el estudio a densidad fija, mantener M fijo o mantener aproximadamente fijo el lado de celda óptimo.
-- Cantidad final de semillas y repeticiones para cada experimento.
+- Cantidad final de semillas y repeticiones para el estudio de N.
 - Formato final de la demostración animada.

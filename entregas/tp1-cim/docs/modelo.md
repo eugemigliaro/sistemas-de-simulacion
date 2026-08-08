@@ -41,8 +41,6 @@
 
 ## Componentes Python planificados
 
-- Lectores de estático, dinámico y vecinos.
-- Figura de una partícula y sus vecinas.
 - Animación de una secuencia producida por C++.
 - Gráfico de tiempo frente a N.
 
@@ -51,6 +49,8 @@
 - Lector y validación de las métricas del barrido de M.
 - Agregación de promedio y desvío estándar poblacional.
 - CSV resumido y gráfico con barras de error del tiempo frente a M.
+- Lectores validados de estático, dinámico y vecinos.
+- Figura parametrizable de una partícula y sus vecinas.
 
 ## Principio de validación
 

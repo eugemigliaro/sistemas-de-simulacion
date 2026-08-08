@@ -82,9 +82,12 @@ def plot_m(
         deviations_us = [
             point.stddev_time_ns / 1_000.0 for point in points
         ]
+        boundary_label = (
+            "paredes" if key.boundary == "walls" else "periódico"
+        )
         label = (
             f"N={key.particle_count}, L={key.side:g}, "
-            f"rc={key.cutoff:g}, {key.boundary}, seed={key.seed}"
+            f"rc={key.cutoff:g}, {boundary_label}, seed={key.seed}"
         )
         axes.errorbar(
             cells,

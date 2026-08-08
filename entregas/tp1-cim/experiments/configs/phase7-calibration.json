@@ -1,0 +1,135 @@
+{
+  "generated_at": "2026-08-08T22:29:34.014621+00:00",
+  "definition": "largest multiple of step generated for every configured seed with the configured attempt limit",
+  "L": 20.0,
+  "rc": 1.0,
+  "r_min": 0.23,
+  "r_max": 0.26,
+  "attempts_per_particle": 100000,
+  "step": 50,
+  "seeds": [
+    42,
+    31415,
+    20260807
+  ],
+  "maximum_by_boundary": {
+    "walls": 1050,
+    "periodic": 1050
+  },
+  "N_high": 1050,
+  "N_intermediate": 500,
+  "observations": {
+    "walls": [
+      {
+        "N": 100,
+        "success": true,
+        "failed_seed": null,
+        "error": null
+      },
+      {
+        "N": 200,
+        "success": true,
+        "failed_seed": null,
+        "error": null
+      },
+      {
+        "N": 400,
+        "success": true,
+        "failed_seed": null,
+        "error": null
+      },
+      {
+        "N": 800,
+        "success": true,
+        "failed_seed": null,
+        "error": null
+      },
+      {
+        "N": 1600,
+        "success": false,
+        "failed_seed": 42,
+        "error": "Error: could not place every particle without overlaps; increase the domain or the attempt limit"
+      },
+      {
+        "N": 1200,
+        "success": false,
+        "failed_seed": 42,
+        "error": "Error: could not place every particle without overlaps; increase the domain or the attempt limit"
+      },
+      {
+        "N": 1000,
+        "success": true,
+        "failed_seed": null,
+        "error": null
+      },
+      {
+        "N": 1100,
+        "success": false,
+        "failed_seed": 42,
+        "error": "Error: could not place every particle without overlaps; increase the domain or the attempt limit"
+      },
+      {
+        "N": 1050,
+        "success": true,
+        "failed_seed": null,
+        "error": null
+      }
+    ],
+    "periodic": [
+      {
+        "N": 100,
+        "success": true,
+        "failed_seed": null,
+        "error": null
+      },
+      {
+        "N": 200,
+        "success": true,
+        "failed_seed": null,
+        "error": null
+      },
+      {
+        "N": 400,
+        "success": true,
+        "failed_seed": null,
+        "error": null
+      },
+      {
+        "N": 800,
+        "success": true,
+        "failed_seed": null,
+        "error": null
+      },
+      {
+        "N": 1600,
+        "success": false,
+        "failed_seed": 42,
+        "error": "Error: could not place every particle without overlaps; increase the domain or the attempt limit"
+      },
+      {
+        "N": 1200,
+        "success": false,
+        "failed_seed": 42,
+        "error": "Error: could not place every particle without overlaps; increase the domain or the attempt limit"
+      },
+      {
+        "N": 1000,
+        "success": true,
+        "failed_seed": null,
+        "error": null
+      },
+      {
+        "N": 1100,
+        "success": false,
+        "failed_seed": 31415,
+        "error": "Error: could not place every particle without overlaps; increase the domain or the attempt limit"
+      },
+      {
+        "N": 1050,
+        "success": true,
+        "failed_seed": null,
+        "error": null
+      }
+    ]
+  }
+}

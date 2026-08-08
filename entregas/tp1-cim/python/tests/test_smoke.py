@@ -26,6 +26,25 @@ class SmokeTest(unittest.TestCase):
         )
         self.assertEqual(arguments.command, "plot-m")
 
+    def test_parser_accepts_plot_neighbors(self) -> None:
+        arguments = build_parser().parse_args(
+            [
+                "plot-neighbors",
+                "--static",
+                "static.txt",
+                "--dynamic",
+                "dynamic.txt",
+                "--neighbors",
+                "neighbors.txt",
+                "--particle",
+                "7",
+                "--figure",
+                "neighbors.png",
+            ]
+        )
+        self.assertEqual(arguments.command, "plot-neighbors")
+        self.assertEqual(arguments.particle, 7)
+
 
 if __name__ == "__main__":
     unittest.main()

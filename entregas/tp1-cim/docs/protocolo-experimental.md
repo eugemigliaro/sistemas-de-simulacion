@@ -48,11 +48,12 @@ Las mediciones finales deben ejecutarse con la compilación release. La semilla 
 
 El comando Python `plot-m` acepta uno o más CSV, valida que las repeticiones sean compatibles, calcula la media y el desvío estándar poblacional para cada `M`, escribe un resumen CSV y genera la figura con barras de error. Las escalas logarítmicas son opciones explícitas para aplicarlas cuando los valores cubran distintos órdenes de magnitud [TP01, p. 1].
 
+El punto 3 se ejecutó con `N=500` y `N=1050`, semilla 42 y 100 repeticiones para paredes y periodicidad. El protocolo completo, los resultados y la selección de `M=13` como óptimo común están en `fase-7-experimento-m.md`.
+
 ## Decisiones pendientes
 
-- Valores intermedio y alto de N para variar M.
-- Cantidad de repeticiones: 10, 100 o 1000.
 - Conjunto de al menos diez valores de N.
+- Cantidad de repeticiones y semillas para variar N.
 - Densidad elegida para la comparación fija.
 - Regla de M en el experimento a densidad fija.
 - Inclusión de ambas condiciones de contorno en todos los gráficos o en gráficos separados.

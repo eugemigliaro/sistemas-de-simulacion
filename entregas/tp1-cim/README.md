@@ -54,8 +54,9 @@ La especificación detallada se mantiene en docs/protocolo-experimental.md.
 - Fase 4 completada: núcleo del Cell Index Method, validación del tamaño de celda, paredes, periodicidad y pruebas diferenciales contra fuerza bruta.
 - Fase 5 completada: integración del CIM con neighbors y barrido reproducible de M con mediciones CSV.
 - Fase 6 completada: lectura y validación de métricas, promedio, desvío estándar poblacional y figura de tiempo frente a M.
+- Fase 7 completada: N intermedio y alto reproducible, mediciones finales para ambos contornos, selección de M óptimo y figuras de partículas vecinas.
 
-La próxima fase definirá los dos valores finales de N, ejecutará las mediciones requeridas por el punto 3 y elegirá el M óptimo. El comando benchmark-n corresponde a una fase posterior.
+La próxima fase implementará `benchmark-n` y los estudios de densidad libre y fija del punto 4. Los resultados y la interpretación de la fase actual se encuentran en [docs/fase-7-experimento-m.md](docs/fase-7-experimento-m.md).
 
 ## Comandos
 
@@ -74,9 +75,21 @@ Desde esta carpeta:
     make release
     ./cpp/build/release/tp1 benchmark-m --static data/generated/static.txt --dynamic data/generated/dynamic.txt --rc 1 --boundary walls --seed 42 --repetitions 10 --output experiments/raw/metrics-m.csv
     make python-run ARGS="plot-m experiments/raw/metrics-m.csv --summary experiments/raw/summary-m.csv --figure experiments/figures/time-vs-m.png"
+    make python-run ARGS="plot-neighbors --static experiments/raw/phase7/walls-n500/static.txt --dynamic experiments/raw/phase7/walls-n500/dynamic.txt --neighbors experiments/raw/phase7/walls-n500/neighbors.txt --particle 113 --rc 1 --boundary walls --figure experiments/figures/neighbors-walls.png"
     make python-run ARGS="--help"
     make clean
 
 El mismo comando admite --boundary periodic. Si no se indican opciones, generate usa N=100, L=20, radios uniformes entre 0.23 y 0.26, semilla 0 y paredes. Los archivos de data/generated/ son resultados regenerables y no se versionan.
 
-Para usar las figuras y ejecutar todas las pruebas Python se debe crear `python/.venv` con Python 3.11 o posterior e instalar `python/requirements.txt`. Si el entorno existe, el Makefile lo selecciona automáticamente. El análisis usa la biblioteca estándar para CSV y estadística; Matplotlib se usa únicamente para generar la figura.
+Para usar las figuras y ejecutar todas las pruebas Python se debe crear `python/.venv` con Python 3.11 o posterior e instalar `python/requirements.txt`. Si el entorno existe, el Makefile lo selecciona automáticamente. El análisis usa la biblioteca estándar para CSV y estadística; Matplotlib se usa únicamente para generar las figuras.
+
+## Ver resultados
+
+En macOS, desde esta carpeta:
+
+    open experiments/figures/time-vs-m-walls.png
+    open experiments/figures/time-vs-m-periodic.png
+    open experiments/figures/neighbors-walls.png
+    open experiments/figures/neighbors-periodic.png
+
+Los valores numéricos seleccionados están en `experiments/results/`. Las mediciones individuales y los sistemas generados quedan en `experiments/raw/phase7/`; son regenerables y no se versionan.

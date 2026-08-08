@@ -6,7 +6,9 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <locale>
 #include <optional>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <string_view>
@@ -127,15 +129,10 @@ Number parse_integer(std::string_view text, std::string_view option) {
 
 double parse_double(std::string_view text, std::string_view option) {
     double value{};
-    const char* begin = text.data();
-    const char* end = begin + text.size();
-    const auto result = std::from_chars(
-        begin,
-        end,
-        value,
-        std::chars_format::general
-    );
-    if (result.ec != std::errc{} || result.ptr != end
+    std::istringstream input{std::string{text}};
+    input.imbue(std::locale::classic());
+    input >> std::noskipws >> value;
+    if (!input || input.peek() != std::char_traits<char>::eof()
         || !std::isfinite(value)) {
         throw std::invalid_argument{
             std::string{"invalid number for "} + std::string{option}
