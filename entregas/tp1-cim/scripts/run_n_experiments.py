@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import csv
 import json
 import math
 import subprocess
@@ -14,6 +15,30 @@ def run(command: list[str]) -> None:
     subprocess.run(command, check=True)
 
 
+def combine_metrics(paths: list[Path], output: Path) -> None:
+    output.parent.mkdir(parents=True, exist_ok=True)
+    fieldnames: list[str] | None = None
+    rows: list[dict[str, str]] = []
+    for path in paths:
+        with path.open(newline="", encoding="utf-8") as input_file:
+            reader = csv.DictReader(input_file)
+            if reader.fieldnames is None:
+                raise SystemExit(f"archivo de métricas vacío: {path}")
+            if fieldnames is None:
+                fieldnames = reader.fieldnames
+            elif reader.fieldnames != fieldnames:
+                raise SystemExit(f"columnas incompatibles en {path}")
+            rows.extend(reader)
+    if fieldnames is None:
+        raise SystemExit("no hay métricas para combinar")
+    with output.open("w", newline="", encoding="utf-8") as output_file:
+        writer = csv.DictWriter(
+            output_file, fieldnames=fieldnames, lineterminator="\n"
+        )
+        writer.writeheader()
+        writer.writerows(rows)
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="Ejecuta los experimentos de variación de N del TP1."
@@ -21,6 +46,13 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--binary", type=Path, required=True)
     parser.add_argument("--config", type=Path, required=True)
     parser.add_argument("--output-root", type=Path, required=True)
+    parser.add_argument("--results-root", type=Path)
+    parser.add_argument(
+        "--boundaries",
+        nargs="+",
+        choices=("walls", "periodic"),
+        help="contornos a ejecutar; por defecto usa la configuración",
+    )
     return parser
 
 
@@ -39,8 +71,10 @@ def main() -> int:
         raise SystemExit("N_values debe contener al menos diez enteros positivos")
     reference_cell_side = config["reference_side"] / config["reference_M"]
     output_root = arguments.output_root.resolve()
+    result_paths: dict[tuple[str, str], list[Path]] = {}
 
-    for boundary in config["boundaries"]:
+    boundaries = arguments.boundaries or config["boundaries"]
+    for boundary in boundaries:
         if boundary not in {"walls", "periodic"}:
             raise SystemExit(f"contorno inválido: {boundary}")
         for regime in ("free", "fixed"):
@@ -60,8 +94,6 @@ def main() -> int:
                     output_root / boundary / regime / f"n-{particle_count}"
                 )
                 destination.mkdir(parents=True, exist_ok=True)
-                static_path = destination / "static.txt"
-                dynamic_path = destination / "dynamic.txt"
                 metrics_path = destination / "metrics.csv"
                 print(
                     f"Generando {boundary}/{regime}: N={particle_count}, "
@@ -71,7 +103,7 @@ def main() -> int:
                 run(
                     [
                         str(binary),
-                        "generate",
+                        "benchmark-random-n",
                         "--N",
                         str(particle_count),
                         "--L",
@@ -80,40 +112,31 @@ def main() -> int:
                         str(config["r_min"]),
                         "--r-max",
                         str(config["r_max"]),
-                        "--seed",
-                        str(config["seed"]),
                         "--boundary",
                         boundary,
                         "--attempts",
                         str(config["attempts_per_particle"]),
-                        "--static",
-                        str(static_path),
-                        "--dynamic",
-                        str(dynamic_path),
-                    ]
-                )
-                run(
-                    [
-                        str(binary),
-                        "benchmark-n",
                         "--M",
                         str(cells_per_side),
-                        "--static",
-                        str(static_path),
-                        "--dynamic",
-                        str(dynamic_path),
                         "--rc",
                         str(config["rc"]),
-                        "--boundary",
-                        boundary,
-                        "--seed",
-                        str(config["seed"]),
                         "--repetitions",
                         str(config["repetitions"]),
                         "--output",
                         str(metrics_path),
                     ]
                 )
+                result_paths.setdefault((boundary, regime), []).append(
+                    metrics_path
+                )
+
+    if arguments.results_root is not None:
+        results_root = arguments.results_root.resolve()
+        for (boundary, regime), paths in result_paths.items():
+            combine_metrics(
+                paths,
+                results_root / f"measurements-n-{boundary}-{regime}.csv",
+            )
 
     print(f"Experimentos escritos en {output_root}")
     return 0

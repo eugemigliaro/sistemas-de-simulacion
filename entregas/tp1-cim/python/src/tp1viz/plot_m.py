@@ -14,7 +14,6 @@ from tp1viz.metrics import MetricSummary, MetricsError
 class SeriesKey:
     """Parámetros que identifican una curva completa del barrido de M."""
 
-    seed: int
     boundary: str
     particle_count: int
     side: float
@@ -24,7 +23,6 @@ class SeriesKey:
 def _series_key(summary: MetricSummary) -> SeriesKey:
     group = summary.group
     return SeriesKey(
-        seed=group.seed,
         boundary=group.boundary,
         particle_count=group.particle_count,
         side=group.side,
@@ -68,7 +66,6 @@ def plot_m(
         series,
         key=lambda item: (
             item.particle_count,
-            item.seed,
             item.boundary,
             item.side,
             item.cutoff,
@@ -87,7 +84,8 @@ def plot_m(
         )
         label = (
             f"N={key.particle_count}, L={key.side:g}, "
-            f"rc={key.cutoff:g}, {boundary_label}, seed={key.seed}"
+            f"rc={key.cutoff:g}, {boundary_label}, "
+            f"{points[0].seed_count} semillas"
         )
         axes.errorbar(
             cells,

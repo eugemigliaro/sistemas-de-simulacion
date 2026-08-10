@@ -26,7 +26,6 @@ REQUIRED_COLUMNS = (
 )
 
 SUMMARY_COLUMNS = (
-    "seed",
     "boundary",
     "N",
     "L",
@@ -34,9 +33,10 @@ SUMMARY_COLUMNS = (
     "M",
     "method",
     "samples",
+    "seed_count",
     "mean_time_ns",
     "stddev_time_ns",
-    "neighbor_pairs",
+    "mean_neighbor_pairs",
     "mean_distance_evaluations",
 )
 
@@ -66,7 +66,6 @@ class Metric:
 class MetricGroup:
     """Parámetros que deben permanecer iguales entre repeticiones."""
 
-    seed: int
     boundary: str
     particle_count: int
     side: float
@@ -81,9 +80,10 @@ class MetricSummary:
 
     group: MetricGroup
     samples: int
+    seed_count: int
     mean_time_ns: float
     stddev_time_ns: float
-    neighbor_pairs: int
+    mean_neighbor_pairs: float
     mean_distance_evaluations: float
 
 
@@ -163,7 +163,7 @@ def read_metrics(paths: Sequence[Path]) -> list[Metric]:
         raise MetricsError("se requiere al menos un archivo de métricas")
 
     metrics: list[Metric] = []
-    seen_repetitions: set[tuple[MetricGroup, int]] = set()
+    seen_repetitions: set[tuple[MetricGroup, int, int]] = set()
 
     for path in paths:
         try:
@@ -197,7 +197,7 @@ def read_metrics(paths: Sequence[Path]) -> list[Metric]:
                     )
                 metric = _metric_from_row(row, location)
                 group = group_for(metric)
-                repetition_key = (group, metric.repetition)
+                repetition_key = (group, metric.seed, metric.repetition)
                 if repetition_key in seen_repetitions:
                     raise MetricsError(
                         f"{location}: repetición {metric.repetition} duplicada "
@@ -217,7 +217,6 @@ def group_for(metric: Metric) -> MetricGroup:
     """Obtiene la identidad experimental de una medición."""
 
     return MetricGroup(
-        seed=metric.seed,
         boundary=metric.boundary,
         particle_count=metric.particle_count,
         side=metric.side,
@@ -242,14 +241,8 @@ def summarize_metrics(metrics: Sequence[Metric]) -> list[MetricSummary]:
                 f"desvío: N={group.particle_count}, M={group.cells_per_side}"
             )
 
-        pair_counts = {metric.neighbor_pairs for metric in repetitions}
-        if len(pair_counts) != 1:
-            raise MetricsError(
-                "neighbor_pairs cambió entre repeticiones para "
-                f"N={group.particle_count}, M={group.cells_per_side}"
-            )
-
         times = [metric.time_ns for metric in repetitions]
+        pair_counts = [metric.neighbor_pairs for metric in repetitions]
         evaluations = [
             metric.distance_evaluations for metric in repetitions
         ]
@@ -257,9 +250,10 @@ def summarize_metrics(metrics: Sequence[Metric]) -> list[MetricSummary]:
             MetricSummary(
                 group=group,
                 samples=len(repetitions),
+                seed_count=len({metric.seed for metric in repetitions}),
                 mean_time_ns=fmean(times),
                 stddev_time_ns=pstdev(times),
-                neighbor_pairs=pair_counts.pop(),
+                mean_neighbor_pairs=fmean(pair_counts),
                 mean_distance_evaluations=fmean(evaluations),
             )
         )
@@ -268,7 +262,6 @@ def summarize_metrics(metrics: Sequence[Metric]) -> list[MetricSummary]:
         summaries,
         key=lambda summary: (
             summary.group.particle_count,
-            summary.group.seed,
             summary.group.boundary,
             summary.group.side,
             summary.group.cutoff,
@@ -297,7 +290,6 @@ def write_summaries(path: Path, summaries: Sequence[MetricSummary]) -> None:
             group = summary.group
             writer.writerow(
                 {
-                    "seed": group.seed,
                     "boundary": group.boundary,
                     "N": group.particle_count,
                     "L": format(group.side, ".17g"),
@@ -305,11 +297,14 @@ def write_summaries(path: Path, summaries: Sequence[MetricSummary]) -> None:
                     "M": group.cells_per_side,
                     "method": group.method,
                     "samples": summary.samples,
+                    "seed_count": summary.seed_count,
                     "mean_time_ns": format(summary.mean_time_ns, ".6f"),
                     "stddev_time_ns": format(
                         summary.stddev_time_ns, ".6f"
                     ),
-                    "neighbor_pairs": summary.neighbor_pairs,
+                    "mean_neighbor_pairs": format(
+                        summary.mean_neighbor_pairs, ".6f"
+                    ),
                     "mean_distance_evaluations": format(
                         summary.mean_distance_evaluations, ".6f"
                     ),

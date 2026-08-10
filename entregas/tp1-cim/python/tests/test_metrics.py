@@ -26,9 +26,10 @@ def metric(
     method: str = "cim",
     neighbor_pairs: int = 7,
     distance_evaluations: int = 20,
+    seed: int = 42,
 ) -> Metric:
     return Metric(
-        seed=42,
+        seed=seed,
         boundary="walls",
         method=method,
         particle_count=particle_count,
@@ -78,17 +79,23 @@ class SummaryTest(unittest.TestCase):
         summaries = summarize_metrics(
             [
                 metric(repetition=1, time_ns=1_000, distance_evaluations=10),
-                metric(repetition=2, time_ns=3_000, distance_evaluations=14),
+                metric(
+                    repetition=2,
+                    time_ns=3_000,
+                    distance_evaluations=14,
+                    seed=43,
+                ),
             ]
         )
 
         self.assertEqual(len(summaries), 1)
         summary = summaries[0]
         self.assertEqual(summary.samples, 2)
+        self.assertEqual(summary.seed_count, 2)
         self.assertEqual(summary.mean_time_ns, 2_000)
         self.assertEqual(summary.stddev_time_ns, 1_000)
         self.assertEqual(summary.mean_distance_evaluations, 12)
-        self.assertEqual(summary.neighbor_pairs, 7)
+        self.assertEqual(summary.mean_neighbor_pairs, 7)
 
     def test_keeps_different_particle_counts_in_separate_groups(self) -> None:
         summaries = summarize_metrics(
@@ -109,14 +116,15 @@ class SummaryTest(unittest.TestCase):
         with self.assertRaisesRegex(MetricsError, "al menos dos repeticiones"):
             summarize_metrics([metric(repetition=1, time_ns=100)])
 
-    def test_rejects_changing_neighbor_count(self) -> None:
-        with self.assertRaisesRegex(MetricsError, "neighbor_pairs cambió"):
-            summarize_metrics(
-                [
-                    metric(repetition=1, time_ns=100, neighbor_pairs=7),
-                    metric(repetition=2, time_ns=200, neighbor_pairs=8),
-                ]
-            )
+    def test_averages_changing_neighbor_count_between_seeds(self) -> None:
+        summary = summarize_metrics(
+            [
+                metric(repetition=1, time_ns=100, neighbor_pairs=7, seed=42),
+                metric(repetition=2, time_ns=200, neighbor_pairs=9, seed=43),
+            ]
+        )[0]
+        self.assertEqual(summary.mean_neighbor_pairs, 8)
+        self.assertEqual(summary.seed_count, 2)
 
 
 class CsvTest(unittest.TestCase):
@@ -142,6 +150,7 @@ class CsvTest(unittest.TestCase):
             self.assertEqual(output_rows[0]["mean_time_ns"], "2000.000000")
             self.assertEqual(output_rows[0]["stddev_time_ns"], "1000.000000")
             self.assertEqual(output_rows[0]["samples"], "2")
+            self.assertEqual(output_rows[0]["seed_count"], "1")
 
     def test_rejects_missing_columns(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

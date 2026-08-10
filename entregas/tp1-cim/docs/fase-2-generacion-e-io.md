@@ -7,7 +7,7 @@ El motor C++ ya puede construir N partículas circulares con radios no nulos, di
 Se admiten las dos condiciones de contorno requeridas [TP01, p. 1]:
 
 - walls: el disco completo queda dentro del cuadrado;
-- periodic: el centro queda en [0,L) y las colisiones se verifican mediante imagen mínima.
+- periodic: el centro queda en [ri,L-ri], como con paredes, y las colisiones a través de bordes opuestos se verifican mediante imagen mínima.
 
 La secuencia pseudoaleatoria depende de una semilla explícita. Repetir todos los parámetros y la semilla con el mismo ejecutable produce exactamente los mismos archivos.
 

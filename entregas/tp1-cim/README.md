@@ -13,7 +13,7 @@ Los originales permanecen en material/. Esta carpeta solo contiene decisiones, i
 ## Separación de responsabilidades
 
 - C++: generación de partículas, validación geométrica, fuerza bruta, Cell Index Method y medición de tiempos.
-- Python: lectura de resultados, figuras, animaciones y análisis estadístico.
+- Python: lectura de resultados, figuras, exploración interactiva y análisis estadístico.
 - Python no vuelve a calcular vecinos: consume la salida producida por C++.
 
 ## Contratos de archivos
@@ -60,32 +60,141 @@ La especificación detallada se mantiene en docs/protocolo-experimental.md.
 
 El alcance solicitado por la consigna está implementado. El [informe final](informe-final.md) presenta el problema desde cero, justifica cada parámetro y discute todos los resultados. El detalle técnico de la fase 7 se conserva en [docs/fase-7-experimento-m.md](docs/fase-7-experimento-m.md).
 
-## Comandos
+## Simulación interactiva
 
-Desde esta carpeta:
+Todos los comandos siguientes se ejecutan desde `entregas/tp1-cim`.
+
+### Preparación inicial
+
+Este bloque se ejecuta una vez para crear el entorno Python, instalar Matplotlib y compilar el motor C++ optimizado:
 
     python3.12 -m venv python/.venv
     python/.venv/bin/pip install -r python/requirements.txt
-    make debug
     make release
+
+### Comando completo
+
+El siguiente comando genera un sistema, calcula todas las listas de vecinos y abre la ventana nativa de Matplotlib. Dentro de la ventana se seleccionan partículas únicamente haciendo clic sobre sus discos.
+
+    python/.venv/bin/python scripts/demo.py \
+      --N 500 \
+      --L 20 \
+      --M 13 \
+      --rc 1 \
+      --r-min 0.23 \
+      --r-max 0.26 \
+      --attempts 100000 \
+      --repetitions 100 \
+      --boundary periodic \
+      --output experiments/raw/demo \
+      --interactive
+
+En macOS aparecerá el ícono de Matplotlib en el Dock. La terminal permanecerá ocupada hasta cerrar la ventana.
+
+### Parámetros del comando
+
+| Opción | Significado | Valor de ejemplo |
+|---|---|---:|
+| `--N` | Cantidad total de partículas. | `500` |
+| `--L` | Longitud del lado del dominio cuadrado. | `20` |
+| `--M` | Cantidad de celdas por lado; la grilla tiene `M*M` celdas. | `13` |
+| `--rc` | Distancia máxima borde a borde para considerar dos partículas vecinas. | `1` |
+| `--r-min` | Menor radio posible al generar partículas. | `0.23` |
+| `--r-max` | Mayor radio posible al generar partículas. | `0.26` |
+| `--attempts` | Intentos máximos de colocación por partícula. No es una repetición temporal. | `100000` |
+| `--repetitions` | Cantidad de sistemas aleatorios independientes que se generan y miden. | `100` |
+| `--boundary` | `walls` para paredes o `periodic` para contorno periódico. | `periodic` |
+| `--output` | Carpeta para `static.txt`, `dynamic.txt`, `neighbors.txt` y el PNG. | `experiments/raw/demo` |
+| `--interactive` | Abre la ventana de Matplotlib y habilita selección con clic. | Sin valor |
+
+`M` debe respetar `L/M > rc + 2*r_max`. Un valor inválido produce un error antes de mostrar resultados.
+
+### Paredes o periodicidad
+
+Para usar paredes:
+
+    --boundary walls
+
+Para conectar los bordes opuestos mediante periodicidad:
+
+    --boundary periodic
+
+La condición elegida se usa tanto al generar partículas como al calcular y visualizar vecinas.
+
+Ningún disco atraviesa el marco, tampoco en modo periódico: todos los centros se generan entre `ri` y `L-ri`. La periodicidad se aplica únicamente al calcular distancias entre bordes opuestos. Cuando una partícula seleccionada tiene alcance a través de un borde, el círculo punteado de interacción se proyecta en el extremo contrario para explicar por qué partículas aparentemente lejanas son vecinas.
+
+### Uso de la ventana
+
+1. Esperar a que se abra la ventana con todas las partículas en gris.
+2. Hacer clic sobre cualquier disco.
+3. La partícula elegida pasa a azul y sus vecinas a naranja.
+4. El título muestra el ID seleccionado y la cantidad de vecinas.
+5. Hacer clic sobre otro disco para cambiar inmediatamente la selección.
+6. Cerrar la ventana para finalizar el comando.
+
+Python no recalcula vecinos al hacer clic. Consume la lista completa producida previamente por C++ y solo cambia la representación visual.
+
+### Qué tiempo informa
+
+El tiempo mostrado corresponde al promedio de `--repetitions` búsquedas de las listas de vecinos de las `N` partículas del sistema completo. En cada repetición se genera automáticamente una semilla aleatoria diferente y un sistema nuevo. Con el valor predeterminado se miden 100 configuraciones independientes y se informa `media +/- desvío estándar`. La partícula seleccionada con clic se usa exclusivamente para la visualización y no modifica la medición.
+
+El comando no recibe `--seed`: las semillas deben cambiar en todas las repeticiones. Cada fila de `metrics.csv` registra la semilla exacta utilizada, por lo que cualquier configuración puede reconstruirse posteriormente. El sistema mostrado en la ventana reutiliza la semilla de la primera medición y la imprime en la terminal.
+
+El cronómetro incluye construcción de la grilla, asignación a celdas, recorrido de candidatas, cálculo de distancias y construcción de listas. Excluye generación aleatoria, archivos, validación contra fuerza bruta, calentamiento y Python.
+
+### Salidas generadas
+
+El comando deja en la carpeta indicada por `--output`:
+
+| Archivo | Contenido |
+|---|---|
+| `static.txt` | `N`, `L`, radios y propiedades. |
+| `dynamic.txt` | Tiempo `t0`, posiciones y velocidades. |
+| `neighbors.txt` | Lista completa y simétrica de vecinos para cada ID. |
+| `metrics.csv` | Una fila por repetición, con tiempo, parámetros y semilla aleatoria usada. |
+| `neighbors.png` | Imagen estática de una selección representativa. |
+
+Para generar y abrir solamente el PNG en Preview se reemplaza `--interactive` por `--open`. Ambas opciones son excluyentes.
+
+### Ayuda del comando
+
+    python/.venv/bin/python scripts/demo.py --help
+
+## Experimentos reproducibles
+
+La calibración del `N` alto, el estudio de variación de `N` y sus configuraciones están documentados en [scripts/README.md](scripts/README.md).
+
+Para regenerar las 44 configuraciones de densidad libre y fija:
+
+    python/.venv/bin/python scripts/run_n_experiments.py \
+      --binary cpp/build/release/tp1 \
+      --config experiments/configs/phase8-n.json \
+      --output-root experiments/raw/phase8-random \
+      --results-root experiments/results
+
+Los comandos C++ individuales están disponibles mediante:
+
+    ./cpp/build/release/tp1 --help
+    ./cpp/build/release/tp1 generate --help
+    ./cpp/build/release/tp1 neighbors --help
+    ./cpp/build/release/tp1 benchmark-m --help
+    ./cpp/build/release/tp1 benchmark-n --help
+    ./cpp/build/release/tp1 benchmark-random-m --help
+    ./cpp/build/release/tp1 benchmark-random-n --help
+
+## Pruebas
+
+La batería normal incluye pruebas unitarias e integración C++ y Python:
+
     make test
+
+La batería instrumentada detecta accesos inválidos a memoria y comportamiento indefinido en C++:
+
     make sanitize
-    make cpp-run ARGS="--help"
-    make cpp-run ARGS="generate --N 100 --L 20 --seed 42 --boundary walls --static data/generated/static.txt --dynamic data/generated/dynamic.txt"
-    make cpp-run ARGS="neighbors --method brute-force --static data/generated/static.txt --dynamic data/generated/dynamic.txt --rc 1 --boundary walls --output data/generated/neighbors.txt"
-    make cpp-run ARGS="neighbors --method cim --M 10 --static data/generated/static.txt --dynamic data/generated/dynamic.txt --rc 1 --boundary walls --output data/generated/neighbors-cim.txt"
-    make release
-    ./cpp/build/release/tp1 benchmark-m --static data/generated/static.txt --dynamic data/generated/dynamic.txt --rc 1 --boundary walls --seed 42 --repetitions 10 --output experiments/raw/metrics-m.csv
-    ./cpp/build/release/tp1 benchmark-n --M 13 --static data/generated/static.txt --dynamic data/generated/dynamic.txt --rc 1 --boundary walls --seed 42 --repetitions 100 --output experiments/raw/metrics-n.csv
-    make python-run ARGS="plot-m experiments/raw/metrics-m.csv --summary experiments/raw/summary-m.csv --figure experiments/figures/time-vs-m.png"
-    make python-run ARGS="plot-neighbors --static experiments/raw/phase7/walls-n500/static.txt --dynamic experiments/raw/phase7/walls-n500/dynamic.txt --neighbors experiments/raw/phase7/walls-n500/neighbors.txt --particle 113 --rc 1 --boundary walls --figure experiments/figures/neighbors-walls.png"
-    python/.venv/bin/python scripts/demo.py --N 100 --L 20 --M 13 --rc 1 --boundary walls --open
-    make python-run ARGS="--help"
+
+Para borrar ejecutables y cachés regenerables:
+
     make clean
-
-El mismo comando admite --boundary periodic. Si no se indican opciones, generate usa N=100, L=20, radios uniformes entre 0.23 y 0.26, semilla 0 y paredes. Los archivos de data/generated/ son resultados regenerables y no se versionan.
-
-Para usar las figuras y ejecutar todas las pruebas Python se debe crear `python/.venv` con Python 3.11 o posterior e instalar `python/requirements.txt`. Si el entorno existe, el Makefile lo selecciona automáticamente. El análisis usa la biblioteca estándar para CSV y estadística; Matplotlib se usa únicamente para generar las figuras.
 
 ## Ver resultados
 

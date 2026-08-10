@@ -17,7 +17,7 @@ Este registro separa decisiones confirmadas, supuestos de implementación y preg
 - La implementación C++ básica no dependerá de bibliotecas externas.
 - La identidad de cada partícula será el número de su fila, comenzando en 1.
 - Las velocidades de configuraciones generadas para el TP1 serán cero.
-- Las posiciones periódicas se representarán en el intervalo base [0,L).
+- En ambos contornos, el disco completo quedará dentro del marco y cada coordenada del centro estará en [ri,L-ri]. La periodicidad se aplicará únicamente a las distancias.
 - El escritor dinámico emitirá x, y, vx y vy; el lector también admitirá las dos columnas x, y presentes en el ejemplo oficial [EJ01].
 - Los radios se sortearán uniformemente en el intervalo configurado; para la consigna se usarán 0.23 y 0.26 [TP01, p. 1].
 - El generador rechazará posiciones cuyo disco se solape con uno ya ubicado y fallará explícitamente si agota el límite de intentos.
@@ -39,9 +39,9 @@ Este registro separa decisiones confirmadas, supuestos de implementación y preg
 - Las barras de error de los estudios de rendimiento mostrarán un desvío estándar poblacional; la convención se declara porque la consigna no distingue entre desvío poblacional y muestral [TP01, p. 1].
 - El gráfico de M expresará el tiempo en microsegundos y permitirá seleccionar escalas logarítmicas desde la CLI.
 - El N alto del punto 3 será el mayor múltiplo de 50 generado con tres semillas y 100.000 intentos por partícula para ambos contornos; el resultado reproducible es N=1050.
-- El punto 3 usará N=500 y N=1050, semilla 42 y 100 repeticiones por M.
-- Se adopta M=13 como óptimo común: minimiza tres casos y es indistinguible, por sus barras de error, del mínimo M=12 para periodicidad con N=500.
-- El estudio de N usará once valores entre 10 y 1050, semilla 42 y 100 repeticiones para paredes y periodicidad.
+- El punto 3 usará N=500 y N=1050 con 100 semillas aleatorias únicas; cada sistema se reutilizará dentro de su barrido de M.
+- Se adopta M=13 como óptimo común porque presenta la menor media en los cuatro casos medidos.
+- El estudio de N usará once valores entre 10 y 1050 y 100 semillas aleatorias únicas por punto para paredes y periodicidad.
 - La densidad fija será la densidad numérica N/L²=1.25 del sistema intermedio N=500, L=20.
 - En densidad fija, M escalará como floor(L/(20/13)), con mínimo 1, para conservar aproximadamente el lado de celda óptimo y la ocupación media.
 - La demostración en vivo será paramétrica: regenerará un estado al cambiar N, L, M, rc, radios, semilla o contorno; no inventará una evolución física ausente de la consigna.

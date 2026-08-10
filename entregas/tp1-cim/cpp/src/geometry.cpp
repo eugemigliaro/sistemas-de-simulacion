@@ -60,21 +60,10 @@ bool is_inside_domain(
         return false;
     }
 
-    switch (domain.boundary) {
-        case BoundaryCondition::Walls:
-            return particle.position.x >= particle.radius
-                && particle.position.x <= domain.side - particle.radius
-                && particle.position.y >= particle.radius
-                && particle.position.y <= domain.side - particle.radius;
-
-        case BoundaryCondition::Periodic:
-            return particle.position.x >= 0.0
-                && particle.position.x < domain.side
-                && particle.position.y >= 0.0
-                && particle.position.y < domain.side;
-    }
-
-    return false;
+    return particle.position.x >= particle.radius
+        && particle.position.x <= domain.side - particle.radius
+        && particle.position.y >= particle.radius
+        && particle.position.y <= domain.side - particle.radius;
 }
 
 Vec2 displacement(

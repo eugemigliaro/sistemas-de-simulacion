@@ -120,8 +120,10 @@ void test_domain_membership() {
         .side = 10.0,
         .boundary = tp1::BoundaryCondition::Periodic,
     };
-    EXPECT_TRUE(tp1::is_inside_domain(particle(5, 0.0, 0.0, 0.1), periodic));
-    EXPECT_TRUE(tp1::is_inside_domain(particle(6, 9.999, 9.999, 0.1), periodic));
+    EXPECT_TRUE(tp1::is_inside_domain(particle(5, 0.1, 0.1, 0.1), periodic));
+    EXPECT_TRUE(tp1::is_inside_domain(particle(6, 9.9, 9.9, 0.1), periodic));
+    EXPECT_FALSE(tp1::is_inside_domain(particle(9, 0.099, 0.1, 0.1), periodic));
+    EXPECT_FALSE(tp1::is_inside_domain(particle(10, 9.901, 9.9, 0.1), periodic));
     EXPECT_FALSE(tp1::is_inside_domain(particle(7, 10.0, 5.0, 0.1), periodic));
     EXPECT_FALSE(tp1::is_inside_domain(particle(8, -0.001, 5.0, 0.1), periodic));
 }

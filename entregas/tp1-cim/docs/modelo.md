@@ -35,6 +35,7 @@
 - Cálculo del máximo valor válido de M.
 - Comando benchmark-m con calentamiento, validación y mediciones individuales en CSV.
 - Comando benchmark-n con M explícito, calentamiento, validación y mediciones individuales en CSV.
+- Comandos benchmark-random-m y benchmark-random-n con una semilla aleatoria única registrada por repetición.
 
 ## Componentes Python implementados
 
@@ -43,6 +44,7 @@
 - CSV resumido y gráfico con barras de error del tiempo frente a M.
 - Lectores validados de estático, dinámico y vecinos.
 - Figura parametrizable de una partícula y sus vecinas.
+- Explorador Matplotlib con selección de partículas mediante clic.
 - Análisis conjunto de densidad libre y fija frente a N.
 - Gráficos lineales y logarítmicos con ajuste empírico de exponente.
 - Demostración reproducible que orquesta generación, búsqueda y figura.

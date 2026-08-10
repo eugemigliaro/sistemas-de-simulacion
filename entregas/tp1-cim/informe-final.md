@@ -6,7 +6,7 @@ Este trabajo estudia un problema frecuente en simulaciones de partículas: dado 
 
 Se implementaron y validaron dos versiones geométricas: un recinto con paredes y un dominio periódico, donde los bordes opuestos están conectados. El programa C++ genera sistemas sin superposiciones, calcula vecinos por fuerza bruta o CIM y mide únicamente el tiempo de búsqueda. El programa Python valida los resultados, calcula estadísticas y genera las figuras.
 
-Los experimentos muestran que, para los parámetros de la consigna, `M=13` es una elección óptima común. En sistemas de 500 y 1050 partículas, el CIM fue entre 8.77 y 9.75 veces más rápido que la fuerza bruta. Al variar la cantidad de partículas con `L=20`, el exponente empírico del tiempo fue `alpha=1.72` con paredes y `alpha=1.86` con periodicidad, valores cercanos al crecimiento cuadrático esperado cuando aumenta la densidad. Al mantener constante la densidad numérica, los exponentes bajaron a `alpha=1.10` y `alpha=1.04`, respectivamente, compatibles con un crecimiento aproximadamente lineal [T01, p. 19].
+Los experimentos muestran que, para los parámetros de la consigna, `M=13` es una elección óptima común. En sistemas de 500 y 1050 partículas, el CIM fue entre 8.46 y 9.50 veces más rápido que la fuerza bruta. Al variar la cantidad de partículas con `L=20`, el exponente empírico del tiempo fue `alpha=1.77` con paredes y `alpha=1.81` con periodicidad, valores cercanos al crecimiento cuadrático esperado cuando aumenta la densidad. Al mantener constante la densidad numérica, los exponentes bajaron a `alpha=1.05` y `alpha=1.02`, respectivamente, compatibles con un crecimiento aproximadamente lineal [T01, p. 19].
 
 ## 1. Contexto del problema
 
@@ -74,13 +74,13 @@ Un `M` pequeño produce pocas celdas con muchas partículas dentro. Un `M` grand
 
 ### 2.6 Semilla aleatoria
 
-La semilla, denominada `seed`, inicializa el generador pseudoaleatorio. Usar la misma semilla y los mismos parámetros produce exactamente los mismos radios y posiciones. Esto permite repetir un experimento sin cambiar silenciosamente el sistema.
+La semilla, denominada `seed`, inicializa el generador pseudoaleatorio. Por indicación de la cátedra, cada repetición utiliza una semilla aleatoria diferente y, por lo tanto, una configuración espacial nueva. La semilla exacta se registra en cada fila de `metrics.csv`, lo que permite reconstruir posteriormente cualquiera de los sistemas medidos.
 
 ### 2.7 Condiciones de contorno
 
 Con paredes, cada disco debe quedar completamente dentro del cuadrado. Las partículas cercanas a una pared no interactúan con objetos del otro lado.
 
-Con condiciones periódicas, los bordes opuestos se identifican. Una partícula próxima al borde izquierdo puede ser vecina de otra próxima al borde derecho. La distancia se calcula mediante imagen mínima:
+Con condiciones periódicas, los discos también quedan completamente dentro del cuadrado, pero los bordes opuestos se identifican para calcular distancias. Una partícula próxima al borde izquierdo puede ser vecina de otra próxima al borde derecho. La distancia se calcula mediante imagen mínima:
 
 ```text
 delta_min = delta - L*round(delta/L)
@@ -186,7 +186,7 @@ La solución separa responsabilidades:
 - C++20 genera partículas, lee y escribe archivos, implementa geometría, fuerza bruta, CIM y medición de tiempos.
 - Python 3 valida CSV, calcula estadísticas y produce gráficos.
 
-La generación coloca discos aleatoriamente y rechaza candidatos superpuestos. Con paredes, el centro se limita al intervalo `[ri,L-ri]`. Con periodicidad, se representa en `[0,L)`.
+La generación coloca discos aleatoriamente y rechaza candidatos superpuestos. En ambos contornos, cada coordenada del centro se limita al intervalo `[ri,L-ri]`, de modo que ningún disco atraviese el marco. En periodicidad, la imagen mínima se aplica después para evaluar separaciones a través de bordes opuestos.
 
 Antes de aceptar cualquier medición del CIM se calcula la lista por fuerza bruta y se exige igualdad exacta. También se realiza una ejecución de calentamiento que no se registra. Esta ejecución reduce el efecto de costos iniciales como cachés frías o asignaciones que ocurren solamente la primera vez.
 
@@ -207,9 +207,11 @@ El temporizador excluye:
 
 Esta separación evita atribuir al algoritmo costos que pertenecen a otras etapas.
 
+> Todos los tiempos presentados en este informe corresponden a encontrar y construir las listas de vecinos de las `N` partículas del sistema completo. No son tiempos de consulta para una partícula individual. La partícula seleccionada se utiliza exclusivamente en las figuras y en la exploración interactiva.
+
 ## 7. Tratamiento estadístico
 
-Una única medición puede verse afectada por otros procesos del sistema operativo, cachés y pequeñas variaciones del reloj. Por eso cada configuración se ejecuta 100 veces, una de las cantidades sugeridas por la consigna [TP01, p. 1]. Se eligieron 100 repeticiones porque ofrecen una estimación estable sin el costo innecesario de 1000 ejecuciones para cada una de las 44 configuraciones del estudio de `N`.
+Una única medición puede depender tanto de la distribución aleatoria de partículas como de otros procesos del sistema operativo, cachés y pequeñas variaciones del reloj. Por eso cada punto utiliza 100 repeticiones, una de las cantidades sugeridas por la consigna [TP01, p. 1]. En cada repetición se genera una semilla aleatoria única, se construye un sistema nuevo, se valida y calienta fuera del cronómetro y se mide una búsqueda completa. Se eligieron 100 realizaciones porque permiten representar variabilidad geométrica y temporal sin el costo de 1000 sistemas para cada una de las 44 configuraciones de `N`.
 
 Si los tiempos medidos son `t1,t2,...,tR`, con `R=100`, la media es:
 
@@ -237,7 +239,7 @@ Antes de estudiar rendimiento se debe comprobar que la salida tiene sentido geom
 
 Se usa `N=500` porque es el valor intermedio adoptado para el estudio de rendimiento. Es suficientemente grande para mostrar un sistema poblado, pero todavía permite distinguir los discos en una figura. Se mantienen `L=20`, `rc=1` y radios en `[0.23,0.26]` por ser los valores de referencia de la consigna.
 
-Con paredes se seleccionó la partícula 113 porque tiene 15 vecinas y permite observar claramente el criterio local. Con periodicidad se seleccionó la partícula 4 porque está junto al borde izquierdo y tiene seis vecinas que aparecen junto al borde derecho. Esa elección permite mostrar que ambos bordes están conectados.
+Con paredes se seleccionó la partícula 113 porque tiene 15 vecinas y permite observar claramente el criterio local. Con periodicidad se seleccionó la partícula 167 porque está junto al borde izquierdo y tiene cinco vecinas que aparecen junto al borde derecho. Esa elección permite mostrar que ambos bordes están conectados.
 
 ### 8.3 Resultados
 
@@ -247,7 +249,7 @@ En la Figura 1, la partícula azul es la seleccionada, las partículas naranjas 
 
 ![Figura 2. Partícula seleccionada y vecinas conectadas mediante contorno periódico.](experiments/figures/neighbors-periodic.png)
 
-En la Figura 2, las vecinas naranjas situadas cerca de `x=20` están próximas a la partícula azul de `x≈0` mediante imagen mínima. No son falsos positivos: representan la continuidad entre los bordes.
+En la Figura 2, las vecinas naranjas situadas cerca de `x=20` están próximas a la partícula azul cercana a `x=0` mediante imagen mínima. No son falsos positivos: representan la continuidad matemática entre los bordes. Ningún disco atraviesa el marco; solamente el círculo punteado de interacción reaparece en el extremo opuesto para mostrar su alcance periódico.
 
 ## 9. Experimento 1: variación de M
 
@@ -263,7 +265,7 @@ La consigna solicita un `N` intermedio y el valor más alto posible, pero no def
 
 `N=1050` se generó correctamente en las seis combinaciones. `N=1100` falló al menos con una semilla en cada contorno. Por eso se eligió `N_alto=1050`. Como valor intermedio se tomó `N_intermedio=500`, aproximadamente la mitad y además útil como referencia de densidad para el experimento posterior.
 
-Para las mediciones finales se usa la semilla 42. Las otras semillas se utilizaron para evitar que la definición de `N_alto` dependiera de una única configuración afortunada. Mantener una única semilla en las repeticiones garantiza que se mida varias veces el mismo problema y no se mezcle variabilidad geométrica con variabilidad temporal.
+Las tres semillas declaradas se usan únicamente para calibrar el máximo operativo de `N`. En las mediciones finales, cada repetición obtiene una semilla aleatoria nueva. Para comparar distintos valores de `M` de forma justa, una repetición genera un solo sistema y usa ese mismo sistema para todos los `M`; la siguiente repetición cambia la semilla y vuelve a recorrer todo el barrido. Cada fila conserva la semilla correspondiente.
 
 Se recorren todos los enteros desde `M=1` hasta `M=13`. `M=1` representa fuerza bruta y `M=13` es el máximo permitido por el criterio geométrico derivado anteriormente.
 
@@ -273,8 +275,8 @@ Se recorren todos los enteros desde `M=1` hasta `M=13`. `M=1` representa fuerza 
 
 | N | Fuerza bruta M=1 | Mejor M | Tiempo en el mejor M | Aceleración |
 |---:|---:|---:|---:|---:|
-| 500 | 2002.00 us | 13 | 222.35 us | 9.00 veces |
-| 1050 | 8490.67 us | 13 | 874.27 us | 9.71 veces |
+| 500 | 1900.79 us | 13 | 224.76 us | 8.46 veces |
+| 1050 | 8305.32 us | 13 | 878.43 us | 9.45 veces |
 
 La Figura 3 muestra que el tiempo disminuye al aumentar `M`. Para `N=500`, las evaluaciones de distancia bajan de 124750 a 6168. Para `N=1050`, bajan de 550725 a 26262. La reducción de evaluaciones es cercana a 20 veces, aunque la aceleración temporal es cercana a 9 veces porque construir y recorrer la grilla también consume tiempo.
 
@@ -284,12 +286,12 @@ La Figura 3 muestra que el tiempo disminuye al aumentar `M`. Para `N=500`, las e
 
 | N | Fuerza bruta M=1 | Mejor M medido | Tiempo en el mejor M | Aceleración |
 |---:|---:|---:|---:|---:|
-| 500 | 2226.57 us | 12 | 254.01 us | 8.77 veces |
-| 1050 | 9632.01 us | 13 | 988.26 us | 9.75 veces |
+| 500 | 2156.75 us | 13 | 244.08 us | 8.84 veces |
+| 1050 | 9463.05 us | 13 | 995.80 us | 9.50 veces |
 
 La Figura 4 muestra que, con periodicidad, `M=2` y `M=3` casi no filtran pares. Como la grilla es pequeña y los índices se envuelven, las ocho posiciones adyacentes alcanzan prácticamente todas las celdas. La mejora marcada comienza en `M=4`.
 
-Para `N=500`, `M=12` tiene la menor media, pero `M=13` tarda solamente 1.48 us más y las barras de error se superponen. La diferencia no es significativa frente a la dispersión observada. Se adopta `M=13` como óptimo común porque minimiza los otros tres casos y simplifica el experimento siguiente.
+`M=13` presenta la menor media para ambos tamaños periódicos. En consecuencia, coincide directamente con el óptimo observado con paredes y se adopta como valor común para el experimento siguiente.
 
 ## 10. Experimento 2: variación de N con L constante
 
@@ -315,7 +317,7 @@ rho = N/L² = N/400
 
 Por eso cambia desde `0.025` para `N=10` hasta `2.625` para `N=1050`.
 
-Se fija `M=13`, el óptimo común encontrado en el experimento anterior. Se mantienen `rc=1`, radios `[0.23,0.26]`, semilla 42 y 100 repeticiones. Se miden paredes y periodicidad para verificar que la conclusión no dependa de un único contorno.
+Se fija `M=13`, el óptimo común encontrado en el experimento anterior. Se mantienen `rc=1`, radios `[0.23,0.26]` y 100 repeticiones con semillas aleatorias distintas. Se miden paredes y periodicidad para verificar que la conclusión no dependa de un único contorno.
 
 ### 10.3 Hipótesis previa
 
@@ -381,17 +383,17 @@ La tabla muestra tiempos medios en microsegundos. `L_fija` y `M_fija` correspond
 
 | N | L_fija | M_fija | Libre paredes | Fija paredes | Libre periódico | Fija periódico |
 |---:|---:|---:|---:|---:|---:|---:|
-| 10 | 2.828 | 1 | 4.47 | 1.40 | 2.58 | 1.41 |
-| 25 | 4.472 | 2 | 5.27 | 7.57 | 3.81 | 8.13 |
-| 50 | 6.325 | 4 | 8.25 | 14.56 | 5.57 | 19.93 |
-| 100 | 8.944 | 5 | 14.75 | 39.63 | 12.41 | 47.41 |
-| 200 | 12.649 | 8 | 47.44 | 76.01 | 40.84 | 88.64 |
-| 350 | 16.733 | 10 | 109.75 | 149.79 | 115.93 | 165.15 |
-| 500 | 20.000 | 13 | 214.48 | 226.66 | 229.56 | 227.16 |
-| 650 | 22.804 | 14 | 349.95 | 326.84 | 379.85 | 319.73 |
-| 800 | 25.298 | 16 | 505.09 | 377.76 | 571.91 | 389.80 |
-| 950 | 27.568 | 17 | 703.19 | 446.49 | 792.91 | 475.73 |
-| 1050 | 28.983 | 18 | 840.33 | 486.76 | 965.06 | 526.46 |
+| 10 | 2.828 | 1 | 3.17 | 1.56 | 2.99 | 1.62 |
+| 25 | 4.472 | 2 | 4.03 | 8.44 | 4.04 | 9.94 |
+| 50 | 6.325 | 4 | 6.32 | 16.88 | 6.49 | 22.22 |
+| 100 | 8.944 | 5 | 13.98 | 42.26 | 14.57 | 52.65 |
+| 200 | 12.649 | 8 | 40.64 | 81.66 | 44.96 | 95.63 |
+| 350 | 16.733 | 10 | 112.02 | 154.31 | 124.19 | 177.41 |
+| 500 | 20.000 | 13 | 217.39 | 216.12 | 240.93 | 244.40 |
+| 650 | 22.804 | 14 | 347.94 | 295.39 | 397.77 | 357.10 |
+| 800 | 25.298 | 16 | 508.26 | 361.10 | 582.24 | 406.79 |
+| 950 | 27.568 | 17 | 710.66 | 447.00 | 809.95 | 497.19 |
+| 1050 | 28.983 | 18 | 873.47 | 492.98 | 1010.94 | 557.03 |
 
 ### 12.1 Paredes
 
@@ -429,10 +431,10 @@ En un gráfico log-log, `alpha` es la pendiente. Se ajustan los puntos con `N>=1
 
 | Contorno | Régimen | Exponente alpha | Interpretación |
 |---|---|---:|---|
-| Paredes | Densidad libre | 1.72 | Superlineal, próximo al cuadrático |
-| Paredes | Densidad fija | 1.10 | Aproximadamente lineal |
-| Periódico | Densidad libre | 1.86 | Muy próximo al cuadrático |
-| Periódico | Densidad fija | 1.04 | Prácticamente lineal |
+| Paredes | Densidad libre | 1.77 | Superlineal, próximo al cuadrático |
+| Paredes | Densidad fija | 1.05 | Aproximadamente lineal |
+| Periódico | Densidad libre | 1.81 | Muy próximo al cuadrático |
+| Periódico | Densidad fija | 1.02 | Prácticamente lineal |
 
 Las Figuras 7 y 8 y los exponentes ajustados respaldan la predicción teórica: el CIM escala linealmente cuando la densidad permanece constante, pero se acerca al comportamiento cuadrático cuando crece la densidad [T01, p. 19]. Los exponentes no son exactamente 1 o 2 porque se estudia un intervalo finito, existen costos de grilla, los radios son aleatorios y los tiempos contienen ruido experimental.
 
@@ -449,13 +451,16 @@ python/.venv/bin/python scripts/demo.py \
   --rc 1 \
   --r-min 0.23 \
   --r-max 0.26 \
-  --seed 42 \
+  --attempts 100000 \
+  --repetitions 100 \
   --boundary walls \
-  --particle auto \
-  --open
+  --output experiments/raw/demo \
+  --interactive
 ```
 
-`--particle auto` selecciona la partícula con mayor cantidad de vecinas para que la figura sea informativa. También se puede indicar un ID concreto, por ejemplo `--particle 7`. Para mostrar periodicidad se reemplaza `--boundary walls` por `--boundary periodic`.
+El comando abre la ventana nativa de Matplotlib. Inicialmente todas las partículas aparecen en gris; al hacer clic sobre un disco, ese disco se muestra en azul y sus vecinas en naranja. Se puede cambiar la selección haciendo clic sobre otra partícula sin regenerar el sistema ni volver a calcular vecinos. Para mostrar periodicidad se reemplaza `--boundary walls` por `--boundary periodic`. En ese modo, los discos permanecen dentro del marco y solamente el alcance de interacción reaparece en el extremo opuesto con trazo discontinuo.
+
+El tiempo impreso en la terminal es la media y el desvío estándar de 100 búsquedas de las listas de vecinos de las `N` partículas. Cada búsqueda usa un sistema nuevo y una semilla aleatoria distinta. `--repetitions` permite cambiar esa cantidad y `metrics.csv` registra la semilla de cada fila. El comando no acepta una semilla fija. `--attempts`, en cambio, controla únicamente los intentos de colocación sin superposición. La selección con el mouse afecta solo la visualización. Además de la ventana interactiva, se conservan `static.txt`, `dynamic.txt`, `neighbors.txt`, `metrics.csv` y un PNG estático dentro de la carpeta indicada por `--output`.
 
 Si se elige un `M` que no cumple el criterio geométrico, el programa produce un error en lugar de generar silenciosamente una lista incompleta. Esto permite demostrar en vivo tanto casos válidos como la validación del límite.
 
@@ -465,9 +470,9 @@ El Cell Index Method produjo exactamente las mismas listas de vecinos que fuerza
 
 Para `L=20`, `rc=1` y radios hasta `0.26`, el máximo valor válido es `M=13`. Ese valor también resultó óptimo o estadísticamente indistinguible del óptimo en los cuatro experimentos de variación de `M`.
 
-El CIM redujo entre 16.30 y 20.97 veces la cantidad de evaluaciones de distancia en los sistemas intermedio y alto. La aceleración temporal fue de 8.77 a 9.75 veces, mostrando que el costo total incluye tareas adicionales además de evaluar distancias.
+El CIM redujo entre 19.07 y 20.96 veces la cantidad media de evaluaciones de distancia en los sistemas intermedio y alto. La aceleración temporal fue de 8.46 a 9.50 veces, mostrando que el costo total incluye tareas adicionales además de evaluar distancias.
 
-El estudio de variación de `N` confirmó que la densidad es decisiva. Con `L=20`, la densidad aumenta y el tiempo crece con exponentes entre 1.72 y 1.86. Cuando se conserva `N/L²=1.25` y se escala la grilla para mantener el tamaño de celda, los exponentes quedan entre 1.04 y 1.10. Por lo tanto, los resultados son compatibles con crecimiento aproximadamente cuadrático a densidad creciente y lineal a densidad constante.
+El estudio de variación de `N` confirmó que la densidad es decisiva. Con `L=20`, la densidad aumenta y el tiempo crece con exponentes entre 1.77 y 1.81. Cuando se conserva `N/L²=1.25` y se escala la grilla para mantener el tamaño de celda, los exponentes quedan entre 1.02 y 1.05. Por lo tanto, los resultados son compatibles con crecimiento aproximadamente cuadrático a densidad creciente y lineal a densidad constante.
 
 Las condiciones periódicas agregan costo geométrico, especialmente en grillas pequeñas, pero no cambian la conclusión principal. El método sigue siendo correcto y conserva la ventaja de escalabilidad.
 
@@ -475,7 +480,7 @@ Las condiciones periódicas agregan costo geométrico, especialmente en grillas 
 
 Los tiempos absolutos corresponden a una computadora concreta. No deben interpretarse como valores universales. Para comparar otra implementación se debe repetir el protocolo en la misma máquina y con la misma compilación.
 
-Las 100 repeticiones de cada punto usan la misma configuración espacial. Por lo tanto, las barras de error representan variabilidad temporal, no variabilidad entre distintos sistemas aleatorios. Un estudio adicional podría repetir cada experimento con varias semillas y separar ambas fuentes de dispersión.
+Las 100 repeticiones de cada punto usan semillas aleatorias distintas. Por lo tanto, las barras de error combinan variabilidad entre configuraciones espaciales y variabilidad temporal del equipo. Cada semilla queda registrada en los CSV de mediciones para permitir auditoría y reproducción individual.
 
 El valor `N=1050` es un máximo operativo del generador por rechazo, con tres semillas, paso 50 y 100000 intentos por partícula. No es el máximo teórico de discos que podrían empaquetarse mediante un algoritmo especializado.
 
@@ -500,6 +505,8 @@ experiments/results/summary-m-periodic.csv
 experiments/results/summary-n-walls.csv
 experiments/results/summary-n-periodic.csv
 ```
+
+Las mediciones individuales, incluida la semilla aleatoria de cada fila, están en los archivos `experiments/results/measurements-*.csv`.
 
 Las mediciones individuales están en `experiments/raw/`. Son regenerables y se ignoran en Git. Las figuras finales están en `experiments/figures/`.
 

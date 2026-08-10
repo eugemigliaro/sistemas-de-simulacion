@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-08-08T22:29:34.014621+00:00",
+  "generated_at": "2026-08-10T18:08:22.646575+00:00",
   "definition": "largest multiple of step generated for every configured seed with the configured attempt limit",
   "L": 20.0,
   "rc": 1.0,
@@ -121,7 +121,7 @@
       {
         "N": 1100,
         "success": false,
-        "failed_seed": 31415,
+        "failed_seed": 42,
         "error": "Error: could not place every particle without overlaps; increase the domain or the attempt limit"
       },
       {

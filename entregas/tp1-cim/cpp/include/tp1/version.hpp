@@ -4,6 +4,6 @@
 
 namespace tp1 {
 
-inline constexpr std::string_view kVersion{"0.7.0"};
+inline constexpr std::string_view kVersion{"0.9.0"};
 
 }  // namespace tp1

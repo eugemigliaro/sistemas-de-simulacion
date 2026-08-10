@@ -15,7 +15,7 @@ Esta fase completa el punto 3 de la consigna: para un valor intermedio y uno alt
 - `rc`: distancia de interacción medida borde a borde.
 - `seed`: semilla que permite regenerar las mismas partículas.
 - `boundary`: `walls` para paredes o `periodic` para contorno periódico.
-- `repetition`: número de una medición del mismo sistema y algoritmo.
+- `repetition`: número de una realización independiente; cada una registra su propia semilla.
 - `time_ns`: tiempo de búsqueda medido en nanosegundos.
 - `neighbor_pairs`: cantidad de pares no dirigidos que cumplen la condición de vecindad.
 - `distance_evaluations`: cantidad de pares candidatos cuya distancia fue calculada.
@@ -55,9 +55,8 @@ La búsqueda completa y sus fallos quedan registrados en `experiments/configs/ph
 ## Protocolo
 
 - `L=20`, `rc=1` y radios uniformes en `[0.23,0.26]` [TP01, p. 1].
-- Sistemas finales generados con semilla 42.
 - Ejecutable C++ compilado con `-O3 -DNDEBUG`.
-- 100 repeticiones por cada `M`.
+- 100 repeticiones con semillas aleatorias únicas; dentro de cada repetición todos los `M` usan el mismo sistema.
 - Una validación exacta contra fuerza bruta y un calentamiento antes de medir cada `M`.
 - El temporizador incluye construcción de grilla y búsqueda; excluye generación, archivos y validación.
 - Media `t_media = sum(t_i)/100`.
@@ -70,10 +69,10 @@ Las mediciones se realizaron en un Apple M2 Pro con macOS 15.7.3 y Apple clang 1
 
 | Contorno | N | M con menor media | Tiempo medio | Desvío | Fuerza bruta | Aceleración | Evaluaciones en el óptimo |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| Paredes | 500 | 13 | 222.35 us | 9.80 us | 2002.00 us | 9.00x | 6168 |
-| Paredes | 1050 | 13 | 874.27 us | 31.02 us | 8490.67 us | 9.71x | 26262 |
-| Periódico | 500 | 12 | 254.01 us | 13.30 us | 2226.57 us | 8.77x | 7655 |
-| Periódico | 1050 | 13 | 988.26 us | 26.38 us | 9632.01 us | 9.75x | 28887 |
+| Paredes | 500 | 13 | 224.76 us | 35.45 us | 1900.79 us | 8.46x | 5956.68 |
+| Paredes | 1050 | 13 | 878.43 us | 62.30 us | 8305.32 us | 9.45x | 26274.34 |
+| Periódico | 500 | 13 | 244.08 us | 10.81 us | 2156.75 us | 8.84x | 6495.07 |
+| Periódico | 1050 | 13 | 995.80 us | 32.78 us | 9463.05 us | 9.50x | 28881.09 |
 
 Los resúmenes completos están en `experiments/results/summary-m-walls.csv` y `experiments/results/summary-m-periodic.csv`. Las figuras finales son `experiments/figures/time-vs-m-walls.png` y `experiments/figures/time-vs-m-periodic.png`.
 
@@ -81,11 +80,11 @@ Los resúmenes completos están en `experiments/results/summary-m-walls.csv` y `
 
 Para `M=1`, fuerza bruta evalúa todos los pares: `N*(N-1)/2`. Esto produce 124.750 evaluaciones para `N=500` y 550.725 para `N=1050`.
 
-Al aumentar `M`, cada celda contiene menos partículas y el CIM descarta pares lejanos sin calcular su distancia. En los óptimos, las evaluaciones se reducen entre 16.30 y 20.97 veces, mientras los tiempos mejoran entre 8.77 y 9.75 veces. La aceleración temporal es menor que la reducción de distancias porque construir y recorrer la grilla también tiene un costo.
+Al aumentar `M`, cada celda contiene menos partículas y el CIM descarta pares lejanos sin calcular su distancia. En los óptimos, las evaluaciones medias se reducen entre 19.07 y 20.96 veces, mientras los tiempos mejoran entre 8.46 y 9.50 veces. La aceleración temporal es menor que la reducción de distancias porque construir y recorrer la grilla también tiene un costo.
 
 Con periodicidad, `M=2` y `M=3` casi no filtran candidatos: al envolver las ocho celdas adyacentes, terminan alcanzando toda la grilla pequeña. A partir de `M=4` aparece la reducción marcada. Además, la periodicidad requiere envolver índices y aplicar imagen mínima, por lo que resulta algo más costosa que paredes.
 
-Para periodicidad y `N=500`, `M=12` tiene la menor media, pero `M=13` difiere solo 1.48 us y sus barras de error se superponen. Para continuar con un único valor común se adopta `M=13`: es el mínimo en los otros tres casos y es estadísticamente indistinguible del mínimo periódico pequeño.
+`M=13` presenta la menor media en los cuatro casos y se adopta como óptimo común para el estudio de `N`.
 
 Cuando `N` aumenta de 500 a 1050 manteniendo `L=20`, también aumenta la densidad. El tiempo óptimo crece aproximadamente 3.9 veces, cercano al crecimiento de la cantidad de pares vecinos. Esto no es todavía el estudio de escalabilidad del punto 4; ese punto requiere variar `N` con al menos diez valores y comparar densidad libre contra densidad fija [TP01, pp. 1-2].
 
@@ -94,6 +93,6 @@ Cuando `N` aumenta de 500 a 1050 manteniendo `L=20`, también aumenta la densida
 Python lee `static.txt`, `dynamic.txt` y `neighbors.txt`, dibuja cada partícula con su radio real y resalta una partícula elegida y sus vecinas. El círculo punteado marca `radio_seleccionada + rc`: una partícula es vecina cuando su disco intersecta esa región.
 
 - `experiments/figures/neighbors-walls.png`: partícula 113 y sus 15 vecinas.
-- `experiments/figures/neighbors-periodic.png`: partícula 4 y sus 11 vecinas; seis aparecen junto al borde opuesto por la condición periódica.
+- `experiments/figures/neighbors-periodic.png`: partícula 167 y sus 11 vecinas; cinco aparecen junto al borde opuesto por la condición periódica.
 
 La figura periódica conserva las coordenadas en el dominio base. Por eso algunas vecinas aparecen visualmente en el lado derecho aunque la partícula seleccionada esté sobre el borde izquierdo: ambos bordes están conectados por la imagen mínima.

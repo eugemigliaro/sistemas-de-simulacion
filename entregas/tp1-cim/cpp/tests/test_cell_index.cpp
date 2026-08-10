@@ -153,7 +153,7 @@ void test_cell_count_validation() {
         .boundary = tp1::BoundaryCondition::Periodic,
     };
     short_periodic.particles = {
-        particle(1, 0.1, 0.1, 0.2),
+        particle(1, 0.2, 0.2, 0.2),
         particle(2, 0.8, 0.8, 0.2),
     };
     expect_matches_brute_force(short_periodic, 0.8, 1);

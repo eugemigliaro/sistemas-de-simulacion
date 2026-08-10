@@ -50,6 +50,21 @@ def _run_plot_neighbors(arguments: argparse.Namespace) -> int:
     return 0
 
 
+def _run_explore_neighbors(arguments: argparse.Namespace) -> int:
+    from tp1viz.plot_neighbors import show_neighbors_interactive
+
+    system = read_system(arguments.static, arguments.dynamic)
+    neighbors = read_neighbors(arguments.neighbors, len(system.particles))
+    print("Hacé clic sobre una partícula para mostrar sus vecinas.")
+    show_neighbors_interactive(
+        system,
+        neighbors,
+        arguments.rc,
+        arguments.boundary,
+    )
+    return 0
+
+
 def _run_plot_n(arguments: argparse.Namespace) -> int:
     from tp1viz.plot_n import build_n_points, plot_n, write_n_summaries
 
@@ -188,6 +203,30 @@ def build_parser() -> argparse.ArgumentParser:
         "--figure", type=Path, required=True, help="imagen de salida"
     )
     plot_neighbors_parser.set_defaults(handler=_run_plot_neighbors)
+
+    explore_neighbors_parser = subparsers.add_parser(
+        "explore-neighbors",
+        help="abre una ventana para seleccionar partículas con el mouse",
+    )
+    explore_neighbors_parser.add_argument(
+        "--static", type=Path, required=True, help="archivo static.txt"
+    )
+    explore_neighbors_parser.add_argument(
+        "--dynamic", type=Path, required=True, help="archivo dynamic.txt"
+    )
+    explore_neighbors_parser.add_argument(
+        "--neighbors", type=Path, required=True, help="archivo neighbors.txt"
+    )
+    explore_neighbors_parser.add_argument(
+        "--rc", type=float, default=1.0, help="radio de interacción (1)"
+    )
+    explore_neighbors_parser.add_argument(
+        "--boundary",
+        choices=("walls", "periodic"),
+        default="walls",
+        help="tipo de contorno (walls)",
+    )
+    explore_neighbors_parser.set_defaults(handler=_run_explore_neighbors)
     return parser
 
 

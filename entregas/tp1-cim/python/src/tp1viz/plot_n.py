@@ -15,7 +15,6 @@ from tp1viz.metrics import MetricSummary, MetricsError
 
 N_SUMMARY_COLUMNS = (
     "regime",
-    "seed",
     "boundary",
     "N",
     "L",
@@ -24,9 +23,10 @@ N_SUMMARY_COLUMNS = (
     "M",
     "method",
     "samples",
+    "seed_count",
     "mean_time_ns",
     "stddev_time_ns",
-    "neighbor_pairs",
+    "mean_neighbor_pairs",
     "mean_distance_evaluations",
 )
 
@@ -45,7 +45,6 @@ class NPoint:
 @dataclass(frozen=True)
 class SeriesKey:
     regime: str
-    seed: int
     boundary: str
     cutoff: float
 
@@ -65,7 +64,6 @@ def build_n_points(
         group = point.summary.group
         key = SeriesKey(
             regime=point.regime,
-            seed=group.seed,
             boundary=group.boundary,
             cutoff=group.cutoff,
         )
@@ -115,7 +113,6 @@ def _group_series(points: Sequence[NPoint]) -> dict[SeriesKey, list[NPoint]]:
         series[
             SeriesKey(
                 regime=point.regime,
-                seed=group.seed,
                 boundary=group.boundary,
                 cutoff=group.cutoff,
             )
@@ -171,7 +168,6 @@ def write_n_summaries(path: Path, points: Sequence[NPoint]) -> None:
             writer.writerow(
                 {
                     "regime": point.regime,
-                    "seed": group.seed,
                     "boundary": group.boundary,
                     "N": group.particle_count,
                     "L": format(group.side, ".17g"),
@@ -180,9 +176,12 @@ def write_n_summaries(path: Path, points: Sequence[NPoint]) -> None:
                     "M": group.cells_per_side,
                     "method": group.method,
                     "samples": summary.samples,
+                    "seed_count": summary.seed_count,
                     "mean_time_ns": format(summary.mean_time_ns, ".6f"),
                     "stddev_time_ns": format(summary.stddev_time_ns, ".6f"),
-                    "neighbor_pairs": summary.neighbor_pairs,
+                    "mean_neighbor_pairs": format(
+                        summary.mean_neighbor_pairs, ".6f"
+                    ),
                     "mean_distance_evaluations": format(
                         summary.mean_distance_evaluations, ".6f"
                     ),
@@ -222,7 +221,7 @@ def plot_n(
     figure, axes = plt.subplots(figsize=(8, 5))
     for key in sorted(
         series,
-        key=lambda item: (item.boundary, item.regime, item.seed),
+        key=lambda item: (item.boundary, item.regime),
     ):
         values = sorted(
             series[key], key=lambda point: point.summary.group.particle_count

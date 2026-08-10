@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <sstream>
 #include <string>
+#include <unordered_set>
 
 #include "tp1/benchmark.hpp"
 #include "tp1/generation.hpp"
@@ -61,8 +62,10 @@ void test_maximum_valid_m() {
         .side = 1.0,
         .boundary = tp1::BoundaryCondition::Periodic,
     };
+    short_periodic.particles[0].radius = 0.1;
+    short_periodic.particles[1].radius = 0.1;
     short_periodic.particles[0].position = {.x = 0.1, .y = 0.1};
-    short_periodic.particles[1].position = {.x = 0.8, .y = 0.8};
+    short_periodic.particles[1].position = {.x = 0.9, .y = 0.9};
     EXPECT_TRUE(
         tp1::maximum_valid_cells_per_side(short_periodic, 1.0) == 1
     );
@@ -154,6 +157,42 @@ void test_benchmark_n_measurements() {
     );
 }
 
+void test_random_benchmark_uses_unique_seeds() {
+    tp1::GenerationConfig config{
+        .particle_count = 20,
+        .domain = {
+            .side = 10.0,
+            .boundary = tp1::BoundaryCondition::Walls,
+        },
+        .min_radius = 0.2,
+        .max_radius = 0.2,
+        .max_attempts_per_particle = 10'000,
+    };
+    const std::vector<tp1::SeededBenchmarkMeasurement> measurements =
+        tp1::benchmark_random_n(config, 0.5, 5, 3);
+    EXPECT_TRUE(measurements.size() == 3);
+    std::unordered_set<std::uint64_t> seeds{};
+    for (std::size_t index = 0; index < measurements.size(); ++index) {
+        seeds.insert(measurements[index].seed);
+        EXPECT_TRUE(measurements[index].measurement.repetition == index + 1);
+    }
+    EXPECT_TRUE(seeds.size() == 3);
+
+    std::ostringstream output{};
+    tp1::write_seeded_benchmark_csv(
+        output,
+        config,
+        0.5,
+        measurements
+    );
+    const std::string csv = output.str();
+    EXPECT_TRUE(
+        static_cast<std::size_t>(
+            std::count(csv.begin(), csv.end(), '\n')
+        ) == measurements.size() + 1
+    );
+}
+
 void test_invalid_benchmark() {
     const tp1::ParticleSystem system = generated_system();
     EXPECT_INVALID_ARGUMENT(tp1::benchmark_m(system, 0.5, 0));
@@ -170,6 +209,7 @@ int main() {
     test_benchmark_measurements();
     test_csv_output();
     test_benchmark_n_measurements();
+    test_random_benchmark_uses_unique_seeds();
     test_invalid_benchmark();
     return test::finish("Benchmark tests");
 }

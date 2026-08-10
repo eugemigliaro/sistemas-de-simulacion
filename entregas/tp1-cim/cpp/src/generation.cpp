@@ -53,11 +53,6 @@ ParticleSystem generate_system(const GenerationConfig& config) {
         config.min_radius,
         config.max_radius
     };
-    std::uniform_real_distribution<double> periodic_position{
-        0.0,
-        config.domain.side
-    };
-
     for (std::size_t index = 0; index < config.particle_count; ++index) {
         const double radius = radius_distribution(engine);
         bool placed = false;
@@ -65,22 +60,14 @@ ParticleSystem generate_system(const GenerationConfig& config) {
         for (std::size_t attempt = 0;
              attempt < config.max_attempts_per_particle;
              ++attempt) {
-            Vec2 position{};
-            if (config.domain.boundary == BoundaryCondition::Walls) {
-                std::uniform_real_distribution<double> wall_position{
-                    radius,
-                    config.domain.side - radius
-                };
-                position = {
-                    .x = wall_position(engine),
-                    .y = wall_position(engine),
-                };
-            } else {
-                position = {
-                    .x = periodic_position(engine),
-                    .y = periodic_position(engine),
-                };
-            }
+            std::uniform_real_distribution<double> position_distribution{
+                radius,
+                config.domain.side - radius
+            };
+            const Vec2 position{
+                .x = position_distribution(engine),
+                .y = position_distribution(engine),
+            };
 
             Particle candidate{
                 .id = index + 1,

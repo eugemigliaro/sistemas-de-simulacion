@@ -40,7 +40,7 @@ Esto permite que partículas próximas a bordes opuestos se comparen con la sepa
 ## Pertenencia al dominio
 
 - Walls: el disco completo debe quedar dentro del cuadrado; el centro debe estar entre su radio y L menos su radio.
-- Periodic: el centro se representa en el intervalo base [0,L) para ambas coordenadas.
+- Periodic: el disco completo también queda dentro del marco; la conexión periódica se aplica al desplazamiento mediante imagen mínima.
 
 ## Validaciones
 
@@ -62,5 +62,5 @@ Se rechazan mediante validación:
 - periodicidad a través de un borde;
 - periodicidad a través de una esquina;
 - discos justo sobre el límite permitido por paredes;
-- intervalo base periódico;
+- discos completos dentro del marco para ambos contornos;
 - entradas inválidas y excepciones esperadas.

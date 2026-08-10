@@ -108,9 +108,14 @@ def read_system(static_path: Path, dynamic_path: Path) -> ParticleSystem:
                 f"{static_path}:{index + 3}: el radio debe ser positivo"
             )
         x, y = dynamic_row[:2]
-        if not 0 <= x <= side or not 0 <= y <= side:
+        if (
+            x < radius
+            or x > side - radius
+            or y < radius
+            or y > side - radius
+        ):
             raise ParticleDataError(
-                f"{dynamic_path}:{index + 2}: posición fuera del dominio"
+                f"{dynamic_path}:{index + 2}: el disco sale del dominio"
             )
         vx, vy = dynamic_row[2:] if len(dynamic_row) == 4 else (0.0, 0.0)
         particles.append(

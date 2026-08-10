@@ -61,6 +61,23 @@ class SmokeTest(unittest.TestCase):
         )
         self.assertEqual(arguments.command, "plot-n")
 
+    def test_parser_accepts_explore_neighbors(self) -> None:
+        arguments = build_parser().parse_args(
+            [
+                "explore-neighbors",
+                "--static",
+                "static.txt",
+                "--dynamic",
+                "dynamic.txt",
+                "--neighbors",
+                "neighbors.txt",
+                "--boundary",
+                "periodic",
+            ]
+        )
+        self.assertEqual(arguments.command, "explore-neighbors")
+        self.assertEqual(arguments.boundary, "periodic")
+
 
 if __name__ == "__main__":
     unittest.main()
