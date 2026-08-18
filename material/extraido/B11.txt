@@ -1,0 +1,1156 @@
+FUENTE: B11
+TITULO: From Empirical Data to Inter-Individual Interactions: Unveiling the Rules of Collective Animal Behavior — Cavagna et al.
+ORIGINAL: material/externo/bibliografia-2/M3AS_20SUPPL.P1491.pdf
+PAGINAS: 21
+
+===== PAGINA 1 =====
+
+See discussions, stats, and author profiles for this publication at: https://www.researchgate.net/publication/220048882
+
+
+
+From empirical data to inter-individual interactions: Unveiling the rules of
+collective animal behavior
+
+Article in Mathematical Models and Methods in Applied Sciences · March 2010
+DOI: 10.1142/S0218202510004660
+
+
+
+CITATIONS                                                                                              READS
+
+93                                                                                                     489
+
+7 authors, including:
+
+             Alessio Cimarelli                                                                                    Irene Giardina
+             H24 Italia                                                                                           Italian National Research Council
+             3 PUBLICATIONS 995 CITATIONS                                                                         129 PUBLICATIONS 8,376 CITATIONS
+
+                SEE PROFILE                                                                                          SEE PROFILE
+
+
+
+             Giorgio Parisi                                                                                       Raffaele Santagati
+             Sapienza University of Rome                                                                          University of Bristol
+             499 PUBLICATIONS 43,859 CITATIONS                                                                    91 PUBLICATIONS 4,144 CITATIONS
+
+                SEE PROFILE                                                                                          SEE PROFILE
+
+
+
+
+Some of the authors of this publication are also working on these related projects:
+
+
+
+              Signal propagation and dynamic correlation in biological active matter View project
+
+
+
+              Quantum ChromoDynamics View project
+
+
+
+
+ All content following this page was uploaded by Raffaele Santagati on 24 July 2014.
+
+ The user has requested enhancement of the downloaded file.
+
+===== PAGINA 2 =====
+
+Mathematical Models and Methods in Applied Sciences
+Vol. 20, Suppl. (2010) 14911510
+. World Scienti¯c Publishing Company
+#
+c
+DOI: 10.1142/S0218202510004660
+
+
+
+
+          FROM EMPIRICAL DATA TO INTER-INDIVIDUAL
+            INTERACTIONS: UNVEILING THE RULES OF
+                COLLECTIVE ANIMAL BEHAVIOR
+
+
+                                     ANDREA CAVAGNA
+                            Istituto dei Sistemi Complessi (ISC-CNR),
+                              Via dei Taurini 19, 00185 Rome, Italy
+                                                 and
+                                      Dipartimento di Fisica,
+                              Universit a di Roma La Sapienza, Italy
+                                   andrea.cavagna@roma1.infn.it
+
+                                     ALESSIO CIMARELLI
+                              Dipartimento di Fisica and ISC-CNR,
+                                Universita di Roma La Sapienza,
+                               P.le A. Moro 2, 00185 Rome, Italy
+                                   alessio.cimarelli@gmail.com
+
+                                      IRENE GIARDINA
+                            Istituto dei Sistemi Complessi (ISC-CNR),
+                              Via dei Taurini 19, 00185 Rome, Italy
+                                                 and
+                                       Dipartimento di Fisica,
+                              Universit a di Roma La Sapienza, Italy
+                                    irene.giardina@roma1.infn.it
+
+                                       GIORGIO PARISI
+                             Dipartimento di Fisica and IPCF-CNR,
+                                Universita di Roma La Sapienza,
+                               P.le A. Moro 2, 00185 Rome, Italy
+                                   giorgio.parisi@roma1.infn.it
+
+                                   RAFFAELE SANTAGATI
+                            Istituto dei Sistemi Complessi (ISC-CNR),
+                              Via dei Taurini 19, 00185 Rome, Italy
+                                   ra®aele.sanatagati@gmail.com
+
+
+
+
+                                              1491
+
+===== PAGINA 3 =====
+
+1492     A. Cavagna et al.
+
+
+                                            FABIO STEFANINI*
+                                    Dipartimento di Fisica and ISC-CNR,
+                                      Universita di Roma La Sapienza,
+                                     P.le A. Moro 2, 00185 Rome, Italy
+                                     fabio.stefanini.star°ag@gmail.com
+
+                                          RAFFAELE TAVARONE
+                                    Dipartimento di Fisica and ISC-CNR,
+                                      Universit
+                                               a di Roma La Sapienza,
+                                     P.le A. Moro 2, 00185 Rome, Italy
+                                       ra®aele.tavarone@roma1.infn.it
+
+                                     Received 16 January 2010
+                                       Revised 23 March 2010
+                  Communicated by N. Bellomo, N. Berestycki, F. Brezzi and J.-P. Nadal
+
+
+       Animal groups represent magni¯cent archetypes of self-organized collective behavior. As such,
+       they have attracted enormous interdisciplinary interest in the last years. From a mechanistic
+       point of view, animal aggregations remind physical systems of particles or spins, where the
+       individual constituents interact locally, giving rise to ordering at the global scale. This analogy
+       has fostered important research, where numerical and theoretical approaches from physics have
+       been applied to models of self-organized motion. In this paper, we discuss how the physics
+       methodology may provide precious conceptual and technical instruments in empirical studies of
+       collective animal behavior. We focus on three-dimensional groups, for which empirical data have
+       been extremely scarce until recently, and describe novel experimental protocols that allow
+       reconstructing aggregations of thousands of individuals. We show how an appropriate statistical
+       analysis of these large-scale data allows inferring important information on the interactions
+       between individuals in a group, a key issue in behavioral studies and a basic ingredient of
+       theoretical models. To this aim, we revisit the approach we recently used on starling °ocks, and
+       apply it to a much larger data set, never analyzed before. The results con¯rm our previous ¯ndings
+       and indicate that interactions between birds have a topological rather than metric nature, each
+       individual interacting with a ¯xed number of neighbors irrespective of their distances.
+
+       Keywords: Collective behavior; °ocking; statistical methods.
+
+       AMS Subject Classi¯cation: 22E46, 53C35, 57S20
+
+
+
+1. Introduction
+Collective behavior is a widespread phenomenon in animal groups, which has fasci-
+nated scientists for long. Bird °ocks, ¯sh schools, insect swarms and mammal herds
+are just a few common examples where large groups of individuals manage to
+remarkably coordinate, exhibiting extraordinary collective patterns. In many of these
+instances, there is no leader or external stimulus to guide the group, rather coordi-
+nation occurs spontaneously as a consequence of the mutual interactions between
+individuals 
+              a mechanism known as self-organization.1
+
+
+*Present address: Institut fr Neuroinformatik, Universitt Zrich, Winterthurerstrasse 190, CH-8057 Zurich,
+Switzerland.
+
+===== PAGINA 4 =====
+
+                                     From Empirical Data to Inter-Individual Interactions   1493
+
+
+   How does self-organization emerge in a population of simple interacting individuals?
+What are the dynamical rules followed by individuals, which lead to global coordi-
+nation? These questions are central in behavioral ecology, but are also relevant in other
+areas of science where self-organized collective phenomena have been observed,
+including social science,2 economics,3 control theory,4 arti¯cial intelligence and coop-
+erative robotics.5 From this point of view, animal groups represent paradigmatic
+examples of complex behavior and have attracted a growing multi-disciplinary interest.
+On the one hand, understanding the mechanistic aspect of group formation can o®er a
+precious background to address cases where individuals are behaviorally more complex
+and the relevant space highly multi-dimensional (pertaining, e.g. the action strategies
+of a social agent rather than the coordinates and velocities of a moving bird). On the
+other hand, collective animal behavior often has important biological functions (e.g.
+anti-predatory, foraging, mating), the group ful¯lling collective tasks that go well
+beyond the abilities of individuals. In this respect, it represents a powerful inspiration
+to develop new schemes of distributed coordination, so as to achieve optimal control of
+arti¯cial systems of interacting agents.
+   From a closer perspective, complex systems have been the privileged arena for
+much of frontier research in statistical physics and applied mathematics. Collective
+behavior, in particular, is a fundamental concept in physics, being at the core of phase
+transitions in condensed matter. The emergence of order and the progressive onset of
+long-range correlations have been deeply investigated, providing with sophisticated
+theoretical approaches, experimental protocols and numerical techniques. This
+methodology represents a powerful tool of investigation and physicists have become
+progressively interested in applying the physics framework to problems of inter-
+disciplinary origin. Animal collective behavior represents a rather challenging
+context in this respect. In the last decade, several groups dedicated intense e®ort to
+develop numerical models and theoretical approaches to °ocking behavior.6 The
+whole area of active matter (see Refs. 7, 8 and Refs. 9, 10 for a more mathematical
+approach), which focuses on collective movement in systems with active components
+(from driven granular matter to bacterial suspensions and animal groups), goes back
+to simple °ocking models of self-propelled particles.11,12
+   While the methodology of statistical physics has been largely exploited in theor-
+etical studies, the same is not true for what concerns empirical investigations. Still, as
+we shall discuss, physics provide a precious background to address several aspects of
+empirical research on animal groups. As a matter of fact, empirical studies have been
+limited for long to rather small aggregations (few tens of individuals). This lack of
+large-scale data has severely restrained the feedback between theories and exper-
+iments. As a consequence, models of self-organized motion have not been adequately
+tested and many of their assumptions, even if reasonable, remained at a speculative
+level. In this paper we will discuss how and why exporting the physics methodology to
+empirical research on animal groups can remarkably improve this state of the art, both
+concerning experimental techniques and data analysis. We will argue that an appro-
+priate statistical analysis on large-scale data allows inferring important properties on
+
+===== PAGINA 5 =====
+
+1494   A. Cavagna et al.
+
+
+the interactions at play between individuals in a group, providing crucial information
+for further modeling. To this aim, we will focus on a speci¯c example, and revisit our
+recent results on the topological nature of the interactions between birds in starling
+°ocks.13 We will consider a larger data set (never analyzed before) and discuss in great
+details the methods that can be used to investigate the °ocks structure and unveil the
+topological character of interactions.
+
+
+2. Exporting the Physics Methodology to Animal Collective Behavior
+There are several reasons why physics can provide a useful reference framework for
+understanding and analyzing collective animal behavior. Even if they have been
+invoked in several works on °ocking, it may be useful to brie°y discuss a few of them.
+
+. From a very general perspective, collective animal behavior is qualitatively di®er-
+  ent, with emerging complex patterns, only when the number of individuals is large.
+  In this respect, animal groups truly represent complex systems, in the sense so well
+  stigmatized in the seminal paper \More is di®erent" by Phil Anderson.14 The
+  behavior of the system as a whole cannot be directly inferred from the knowledge of
+  the individual components, and small aggregations are not informative about col-
+  lective behavior in large groups. In fact, some of the most stunning and peculiar
+  collective phenomena, like panic waves in bird °ocks and ¯sh schools,15,16 or
+  long-range correlations in orientational behavioral traits,17 only arise at large
+  enough scales. Collective animal behavior therefore has a deep statistical meaning
+  and considering large groups is a necessary prerequisite to truly understand it.
+  Physicists are used to deal with large systems, and the whole approach of Statistical
+  Physics precisely focuses on characterizing large-scale behavior and deducing it
+  from micro-interactions.
+. From a mechanistic point of view, emergence of self-organized collective behavior
+  from local rules is similar to ordering in physical systems of particles or spins with
+  short-range interactions. In animal groups, individuals are thought to obey simple
+  behavioral rules based on imitation: they adjust their velocities to those of neigh-
+  bors to coordinate their motion, are attracted to them not to lose the group, and
+  keep minimum distances to avoid collisions.6 Local alignment of orientational
+  degrees of freedom, and attraction–repulsion forces in space are known to occur in
+  several systems in condensed matter. In ferromagnetism, for example, neighboring
+  spins tend to align to each other giving rise to an ordered state at low enough
+  temperature. Interestingly, ferromagnetic systems are considered the paradigm of
+  order–disorder transitions, for which the theory of critical phenomena has been
+  developed in the last ¯ve decades. Much is known on how to model them, and
+  characterize large-scale collective properties. On the other hand, also attraction–
+  repulsion forces are well-known in particle systems, and have been widely addressed
+  in liquid theory and hydrodynamics. In animal groups, orientational degrees of
+  freedom (the velocities) are coupled in a nontrivial way with structural ones (the
+
+===== PAGINA 6 =====
+
+                                    From Empirical Data to Inter-Individual Interactions   1495
+
+
+  positions), as individuals continuously di®use while coordinating. Besides, animals
+  are self-propelled and can move exploiting internal sources of energy, which makes
+  the problem intrinsically of nonequilibrium. Still, the analogies with the physical
+  systems mentioned above are strong. In fact, some of the most successful models of
+  self-organized motion, the so-called self-propelled particle models,11 have been
+  developed and studied using techniques from statistical physics and exploiting the
+  reference to ferromagnetic and particle systems.7
+. One of the most peculiar traits of animal collective behavior is the way groups react
+  to perturbations. Bird °ocks, for example, sustain frequent predatory attacks
+  retaining a remarkable degree of coherence and cohesion. A similar resilience to
+  external disturbances can be observed in many other species and circumstances
+  (e.g. predatory attacks, physical obstacles, rapid environmental changes, etc.).
+  This collective e±ciency requires mechanisms ensuring fast information transfer
+  and structural robustness. Explaining how this might occur is crucial to under-
+  stand the evolutionary success of grouping and for applications in distributed
+  arti¯cial systems. In physical systems response to perturbations is one of the main
+  subjects of theoretical and experimental investigation. There are powerful concepts
+  and well-established protocols, which can be exported to describe, quantify and
+  interpret responsive behavior in animal groups.
+
+Given these premises, we wish to proceed along the lines of this interdisciplinary
+tradition, and bring a new contribution in empirical research on collective animal
+behavior.
+
+
+3. Empirical Analysis
+Collecting data on animal groups can be a formidable task, especially when dealing
+with 3D aggregations. Insects moving in two dimensions are small and can be kept
+under laboratory control even in large numbers. The same is true when working at the
+micro-scale, as with bacteria suspensions. On the contrary, when dealing with animals
+moving in three dimensions, individuals often have larger sizes and naturally move in
+a much larger environment. Laboratory control can be problematic, while techniques
+for ¯eld observations may prove extremely complicated. All empirical analysis
+previous to our work on bird °ocks, ¯sh schools and insect swarms were in fact limited
+to very small groups (few tens of individuals).18,19 The reason was essentially a
+technical one. Gathering empirical data corresponds to retrieve the 3D coordinates
+and velocities for each individual in the group. Optical techniques and mainly
+stereoscopy   are the way to do that. The main idea is rather simple: multiple and
+synchronous photographs of the same object are taken, and stereometric formulas are
+used to retrieve from the set of 2D coordinates on the photographs the 3D coordinates
+in real space. When dealing with multiple objects, however, one needs ¯rst to ¯nd the
+correct correspondence between the projected images of the same object on the
+di®erent photographs. This matching problem can become extremely severe when
+
+===== PAGINA 7 =====
+
+1496   A. Cavagna et al.
+
+
+groups are large and compact: photographic images of bird °ocks or insect swarms, for
+example, are typically very dense sets of featureless points. In this case, standard
+computer vision techniques are inadequate to solve the stereoscopic matching because
+(i) they require levels of noise unattainable with current experimental technology;
+(ii) they use probabilistic methods computationally nonexploitable with large num-
+bers. Our approach was rather di®erent. Matching problems are well studied in
+statistical physics and we largely exploited our background. Several assignment
+algorithms exist, that can ¯nd the optimal matching given a measure in the space of
+all possible matchings. For the stereoscopic case the crucial point is to ¯nd the good
+measure. To this end, we used a pattern recognition principle, together with the
+available information on the stereometric transformation. We developed a recursive
+algorithm providing at each step a better measure, which was eventually integrated
+with an assignment module, leading to the ¯nal match and the resulting 3D recon-
+struction. Tests on synthetic data indicate an average e±ciency of 90% (number of
+correct matches) on sets of several thousands points. Our aim here is not to describe in
+details the reconstruction algorithm (the interested reader can refer to Ref. 20), but to
+underline the crucial role that statistical physics played to solve the stereoscopic
+matching. Thanks to this new algorithmic methodology, and to an experimental
+apparatus optimally designed and calibrated (see Ref. 20), we could retrieve the 3D
+coordinates of starling °ocks of up to four thousand individuals, making a leap for-
+ward of two orders of magnitude beyond the previous state of the art.13,21 Here, we
+will focus on data analysis and revisit some of the techniques that we developed to
+investigate the structural properties of large aggregations
+
+
+4. Looking for the Rules
+Some of the main questions in collective animal behavior concerns the behavioral
+rules obeyed by individuals during collective motion. Models assume dynamical rules,
+which are local, each individual interacting only with a few neighbors. However, very
+little is known about the real nature of such rules. Who are the interacting neighbors?
+What are the forces between them? How do they depend on mutual distances? What
+is the role of attraction, repulsion and mutual alignment? In this respect, empirical
+analysis can prove crucial. In fact, inferring information on the rules from empirical
+data is one of our major objectives.
+    In statistical physics, going back from measurements to the unknown interactions
+is known as the inverse problem. Some powerful and systematic approaches have
+been developed to address the inverse problem and have been recently applied to
+several biological networks. Maximum entropy models are probably the most
+successful. In this approach, given a set of measurements, one looks for the set of
+inter-individual interactions that maximizes the statistical occurrence of those
+measurements. The general theory requires a good ensemble of independent obser-
+vations to be able to retrieve the underlying interactions. The basic idea is that
+enough empirical information should be available as an input, to ¯x all the unknown
+
+===== PAGINA 8 =====
+
+                                     From Empirical Data to Inter-Individual Interactions   1497
+
+
+interaction pairs (or higher-order links). In fact, the method was successfully applied
+to neurons in the vertebrate retina, where experiments provided correlation functions
+for several samples and uncorrelated times.22 Unfortunately, the same approach is
+not strictly possible for animal groups. In the case of °ocking, for example, di®erent
+°ocks cannot be treated as di®erent samples of the same system. Besides, individuals
+move through the aggregation, and the interaction network continuously changes in
+time. Thus, even for a single °ock, measurements at di®erent times do not correspond
+to the same statistical ensemble (i.e. are not macroscopic patterns generated by the
+same set of birdbird interactions). Hopefully, however, additional information on
+the nature of the interactions can be exploited to reduce the complexity of the search
+space. As a starting point, therefore, we follow an alternative route. We leave aside
+for a successive stage the possibility of retrieving the detailed interaction between any
+two pairs of birds, and rather look for some more general property of the interactions,
+which can be more easily inferred from our empirical data. As a ¯rst step, we need to
+identify a strong tracer of the interactions. As birds in a °ock are strongly interacting,
+we expect their structure in space and dynamical behavior to be di®erent from a
+system of non-interacting individuals. It is likely that certain quantities will be more
+a®ected than others. We will focus on those quantities, and try to extract from their
+behavior information on the interactions.
+
+4.1. The data set
+Before proceeding with the statistical analysis, let us brie°y discuss the empirical data
+set we have at our disposal. We performed stereoscopic experiments on starling °ocks
+during aerial display over the roost, for two consecutive years (from mid-October to
+mid-March in 20052006 and 20062007). High-resolution digital photographs were
+shot at 10 frames per second, for a maximum of 40 consecutive images (due to memory
+constraints of the cameras). The details of the experimental procedure can be found in
+Ref. 20. Stereoscopic images of selected °ocking events were eventually processed with
+our algorithmic procedure. In this way, we obtained the 3D reconstruction of
+19 °ocking events. For each event, we have the space coordinates and velocities of
+individual birds at each instant of time for up to 4 s. Remarkably, the reconstructed
+°ocks are rather diversi¯ed in terms of the number of individuals (from a few hundred
+to almost four thousand), dimensions, velocity and density (see Table 1). This turns
+out to be crucial to unveil some important features of the inter-individual interactions.
+A partial analysis of the structural properties of the events of the ¯rst season
+(10 °ocks) appeared in Ref. 13. Here, we will consider the complete data set, which
+includes the largest °ocks reconstructed so far (see Table 1).
+
+4.2. The problem of the border
+When investigating real °ocks, some features occur that are usually absent in
+theoretical analysis and numerical investigations. Flocks, for example, have a well-
+de¯ned border. On the one hand, the border represents a truly relevant biological
+
+===== PAGINA 9 =====
+
+1498   A. Cavagna et al.
+
+
+       Table 1. Main global features of the analyzed °ocking events. Each value reported in this
+       table is an average over all the instants of time (i.e. 3D reconstructions) belonging to that
+       event. Events are numbered according to the session of data-taking (the ¯rst number in-
+       dicates the day of the stereoscopic experiment, the second the photographic series within
+       that day). The last nine events were reconstructed in 20062007 and were never analyzed
+       before.
+                                               Density         Nearest-neighbor        Velocity V
+       Event        Number of birds N           (m 3 )         distance r1 (m)          (ms 1 )
+       16-05               2631                  0.081                1.25                  15.2
+       17-06                534                  0.08                 1.17                   9.1
+       21-06                617                  0.24                 0.92                  11.2
+       25-08               1360                  0.09                 1.14                  11.9
+       25-10                834                  0.34                 0.82                  12.0
+       25-11               1168                  0.38                 0.75                   8.8
+       28-10               1246                  0.54                 0.67                  11.1
+       29-03                448                  0.13                 0.99                  10.1
+       31-01               1856                  0.04                 1.44                   6.9
+       32-06                781                  0.8                  0.68                   9.6
+       48-17                837                  0.12                 0.96                   9.5
+       49-05                755                  0.84                 0.6                   13.8
+       54-08               4150                  0.08                 1.21                  13.7
+       57-03               3070                  0.09                 1.15                  12.3
+       58-06                428                  0.45                 0.73                  10.2
+       63-05                855                  0.15                 1.02                   9.9
+       69-10               1108                  0.12                 1.06                  11.9
+       69-13               1861                  0.15                 1.03                  11.7
+       69-19                763                  0.37                 0.7                   13.3
+
+
+
+
+property, which presumably has a strong in°uence on several collective patterns.
+From this point of view, some of the most sophisticated theoretical analyses on
+self-propelled particles remain poorly informative on animal groups, as they focus on
+°uids of particles rather than ¯nite aggregations, do not take into account the
+presence of a boundary, or assume periodic boundary conditions. On the other hand,
+the presence of the border requires particular care during data analysis: birds on the
+border have di®erent statistical properties simply because part of the space around
+them is empty. Appropriate methods must be used to treat this statistical bias and
+disentangle the e®ect of this positional anomaly from the e®ect of the interaction
+between individuals.23 Therefore, the border of the °ock must be accurately ident-
+i¯ed. As °ocks are not necessarily convex, the so-called convex hull is not a suitable
+tool. Rather, to de¯ne the border we used the -shape algorithm24: basically one
+excavates the set of 3D points (i.e. birds) with spheres of radius . For  ¼ 1 the
+border coincides with the convex hull, whereas for ¯nite  concavities of size  are
+detected. More speci¯cally, the scale  de¯nes a sub-complex of the Delaunay
+triangulation (the -complex) including all the simplices, which have an empty
+circumsphere with squared radius equal to or smaller than . The external surface of
+this triangulation, the -shape, identi¯es the border (see Fig. 1). In our analysis we
+choose the scale  as to locally maximize the density of the set, as shown in Fig. 2.
+
+===== PAGINA 10 =====
+
+                                                 From Empirical Data to Inter-Individual Interactions    1499
+
+
+
+
+Fig. 1. (color online) Three-dimensional reconstruction of °ock 69-10, 1108 birds: red points correspond
+to internal birds, while green points 
+                                       obtained using the alpha-shape algorithm 
+                                                                                   identify birds on the
+border.
+
+
+
+
+                                         0.14
+
+
+
+
+                               Density
+                                         0.12
+
+
+
+
+                                          0.1
+                                             1            10                100
+                                                           α
+
+Fig. 2. Density of internal points as a function of the parameter , for the °ock of Fig. 1. The density is
+computed dividing the number of internal birds (i.e. birds that do not belong to the border) by the volume
+enclosed in the -shape. When  is in¯nite, the -shape coincides with the convex hull. As  decreases, the
+algorithm excavates the set of points with a higher resolution. If concavities are present in the shape of the
+°ock, when  is of the order of the concavities scale, the -shape volume suddenly decreases, giving rise to a
+jump in the density. At small values of , the algorithm penetrates the °ock, progressively eroding points
+and leading to a decrease in density. The optimal choice is therefore to consider the value of  where the
+density is maximal.
+
+
+
+This corresponds approximately to considering the smallest concavities without
+penetrating inside the °ock. Boundary e®ects in all statistical indicators are then
+cured using the Hanish method.25
+
+4.3. The anisotropy
+Statistical physics teaches us that the e®ect of interactions is mostly seen in corre-
+lation functions and two-point observables. In the case of °ocks, we can consider
+either structural properties (describing how individuals are distributed in space) or
+orientational ones, (pertaining to the degree of mutual alignment). Here, we focus on
+
+===== PAGINA 11 =====
+
+1500                                 A. Cavagna et al.
+
+
+structural features and leave to the ¯nal section a few comments on orientational
+degrees of freedom.
+    One of the simplest quantities that can be computed with a set of 3D coordinates
+is the nearest-neighbor distribution. Given a reference bird i, we consider the nearest-
+neighbor (1n) and compute its distance di ¼ jr1n  ri j and normalized displacement
+ui ¼ ðr1n  ri Þ=di from i. Looking at all the birds in the group, we can measure the
+distribution of absolute distances and angular displacements of nearest neighbors.
+This last quantity appears to be particularly interesting. Let us consider as a refer-
+                                                                    P        P
+ence direction the (normalized) average velocity of the °ock V ¼ i vi =j i vi j, and
+measure the distribution of cosðÞ ¼ ui  V. The result is shown in Fig. 3(a) for a
+
+                             0.6
+                                                                                                                                                    0.3
+
+
+
+
+Probability distribution P                                                                                              Probability difference S
+                                                                                                                                                   0.25
+
+                             0.5                                                                                                                    0.2
+
+                                                                                                                                                   0.15
+
+                                                                                                                                                    0.1
+                             0.4
+                                                                                                1 nn
+                                                                                                2 nn                                                                          nc
+                                                                                                5 nn
+                                                                                                                                                   0.05
+                                                                                                7 nn
+                                                                                                                                                     0
+                             0.3
+                                -1          -0.5           0                                    0.5           1                                       0    2    4   6         8    10   12   14   16
+                                                         cos(θ)                                                                                                 Order of neighbour n
+
+                                                     (a)                                                                                                                (b)
+
+                                                                                        0.6
+
+
+
+
+                                                           Probability distribution P
+                                                                                        0.5
+
+
+
+
+                                                                                        0.4
+
+
+
+
+                                                                                        0.3
+                                                                                           -1          -0.5             0                                 0.5       1
+                                                                                                                   cos(θ)
+
+                                                                                                                  (c)
+
+Fig. 3. (color online) (a) Probability distribution P of the cosine of the angle between the nearest-neighbor
+vector and the direction of motion, for °ocking event 69-10. The curve is an average over all the instants of
+time belonging to the event. The black horizontal line corresponds to the isotropic case, when neighbors are
+uniformly distributed around the focal individual. The dotted vertical lines identify the reference angles
+used in the computation of the probability di®erence S (see text and (c)). (b) Probability distributions for
+the ¯rst (red), second (blue), ¯fth (green) and seventh (brown) nearest neighbors. (c) Relative probability
+di®erence S of ¯nding the nth neighbor below a reference angle with the direction of motion, as a function of
+the order of the neighbor n. To compute S, we identify the range where the probability P is lower than the
+isotropic case (e.g. jcosðÞj < 0:7 in this example, see vertical lines in (a)) and calculate in this range the
+relative integrated probability di®erence with the isotropic case. The value where the curve drops below 0,
+identi¯es the interaction range.
+
+===== PAGINA 12 =====
+
+                                    From Empirical Data to Inter-Individual Interactions    1501
+
+
+single °ocking event. We can see that there is a signi¯cant drop in probability for
+values of cosðÞ close to þ1 and 1. In other terms, it is rather unlikely to ¯nd the
+nearest neighbor along the direction of motion.
+   This anisotropy in the angular distribution of neighbors is necessarily a con-
+sequence of the interaction at play between birds: in a system of non-interacting
+individuals, neighbors would be isotropically distributed in space and P ðcosðÞÞ
+would be constant and equal to 1/2. If we repeat the same analysis for the second
+nearest neighbor, a similar distribution is obtained, but with a less pronounced
+anisotropy. Increasing the order of the considered neighbor, P ðcosðÞÞ progressively
+becomes °atter: in the event of Fig. 3(a), for the seventh nearest neighbor P is very
+close to an isotropic distribution of points (Fig. 3(b)). As anisotropy is a consequence
+of the underlying interactions, this ¯nding indicates that (i) interaction is strong
+between a bird and its closest neighbors so as to signi¯cantly modify their mutual
+positioning; (ii) interaction decays as the order of the neighbor increases. Interest-
+ingly then, if we are able to quantify this decay, we can estimate the range of the
+interaction and investigate how it depends on some a priori relevant parameters of
+the °ock (density, velocity, dimensions etc.). This would provide novel and import-
+ant information on the dynamical rules followed by individuals.
+
+
+4.4. Estimating the range of the interaction
+To estimate the range of the interaction, we need a sharp statistical indicator of the
+degree of anisotropy. As a ¯rst possibility, we can consider P ðcosðÞÞ and quantify
+how much it di®ers from the isotropic value 1/2: the larger this di®erence, the larger
+the anisotropy. This can be done, for example, by measuring the relative probability
+di®erence of ¯nding a neighbor below some reference angle, as compared to the
+isotropic case (Fig. 3(a)). If we repeat the procedure for di®erent orders n of the
+considered neighbor, we obtain the curve SðnÞ displayed in Fig. 3(c): as expected
+SðnÞ decays as n increases, reaching the non-interacting value (0 in this case) for a
+certain value nc , that we can identify as the interaction range.
+   SðnÞ provides an intuitive quanti¯cation of the anisotropy. It is not, however, an
+optimal one: it slightly depends on the reference angles used to evaluate the integral,
+and especially in small aggregations it su®ers of large relative °uctuations. It would
+be desirable to ¯nd more robust statistical indicators. To this aim, we introduce a
+more sophisticated quantity, the Anisotropy Matrix13:
+
+                                    ðnÞ    1 X
+                                             N
+                                 M ; ¼       u u                                       ð4:1Þ
+                                           N i i i
+
+where, as before, ui represents the normalized distance vector of the nth nearest
+neighbor of bird i. The matrix M is the sum over many projectors: the operator indeed
+projects over the direction of the nth nearest neighbor of i. As a consequence, the
+eigenvectors of M have a particular meaning. If we call 1 < 2 < 3 the three
+
+===== PAGINA 13 =====
+
+1502   A. Cavagna et al.
+
+
+eigenvalues of M, and w1 ; w2 ; w3 the corresponding eigenvectors, then w1 and w3
+represent, respectively, the directions where the nth nearest neighbor of a reference
+bird is statistically less and more likely to be found. This property can be exploited to
+quantify the anisotropy in the neighbors distribution and monitor its decay.
+     From the analysis of P ðcosðÞÞ we know that nearest neighbors are less abundant
+along the direction of motion V (Fig. 3). Therefore, we expect the lowest eigenvector
+w1 to be quite similar to V and their scalar product to be rather close to 1. When the
+order of the considered neighbor increases, the anisotropy is quantitatively less
+pronounced so that this scalar product must become smaller. The squared scalar
+product  1 ðnÞ ¼ ðw1  VÞ 2 seems therefore a good candidate to measure the degree of
+anisotropy. To this aim, however, it is important to establish ¯rst what is the value
+this function would have when individuals are not interacting and the distribution of
+neighbors is isotropic. In this case, the three eigenvectors w1 ; w2 ; w3 are only
+determined by ¯nite size °uctuations and are statistically uncorrelated with V, as
+there is not any a priori privileged direction in space. The average value of  1 ðnÞ can
+be easily computed by assuming w1 to be uniformly distributed on the unitary
+sphere. The same holds when considering the gamma functions  2 ðnÞ and  3 ðnÞ
+associated with the other two eigenvectors, and one gets for the isotropic case:
+ iso
+  1 ðnÞ ¼  2 ðnÞ ¼  3 ðnÞ ¼ 1=3.
+             iso         iso
+
+     The behavior of  1 ðnÞ as a function of n is shown in Fig. 4 (red curve) for three
+°ocking events. This curve is in fact an average: we diagonalized ¯rst the anisotropy
+matrix and computed ðw1  VÞ 2 for each single-time 3D reconstruction, and we then
+averaged over all the instants of time partaking the event. The function  1 ðnÞ
+exhibits, as expected     
+                            a neat decaying behavior from a large value at n ¼ 1 to the
+isotropic non-interacting value 1/3. The order of the neighbor where  1 ðnÞ becomes
+comparable to  iso1 ðnÞ ¼ 1=3 can be identi¯ed as the interaction range nc . To further
+support this procedure, we can consider the gamma functions corresponding to the
+other two eigenvectors of the anisotropy matrix,  2 ðnÞ and  3 ðnÞ (Fig. 4, curves green
+and blue). We recall that the maximal eigenvector of M identi¯es the direction of
+maximal crowding. Therefore, the behavior of  3 ðnÞ indicates that nearest neighbors
+are preferably located on the plane orthogonal to the direction of motion (as also
+suggested by Fig. 3). This is another e®ect of the anisotropy in the distribution of
+neighbors, which progressively fades away as the order of the neighbor increases. All
+the three gamma functions then cross at n  nc and °uctuate around 1/3 for farther
+neighbors, consistently with the fact that the distribution of neighbors is isotropic
+beyond nc .
+     The anisotropy matrix and the gamma functions provide a systematic and robust
+protocol to estimate the interaction range. Focusing on an aggregated quantity (M ),
+we exploited the advantage of dealing with large samples, reducing the e®ect of
+bird-to-bird °uctuations. Besides, averaging over measurements at di®erent instants
+of time we further limited statistical °uctuations due to ¯nite size e®ects. In this way
+we could compute a scalar quantity,  1 ðnÞ, which on one hand encodes the infor-
+mation on the anisotropy in an e±cient and compact way, on the other hand exhibits
+
+===== PAGINA 14 =====
+
+                                                                     From Empirical Data to Inter-Individual Interactions   1503
+
+                                                             1
+
+                                                                                               49-05
+
+
+
+
+                                  Degree of anisotropy γ
+                                                           0.8
+
+
+                                                           0.6
+
+
+                                                           0.4
+
+
+                                                           0.2
+                                                                                          nc
+                                                            0
+                                                             0   2     4   6    8    10   12     14    16
+                                                                       Order of neighbour n
+                                                             1
+                                                                                               63-05
+
+
+
+
+                                  Degree of anisotropy γ
+                                                           0.8
+
+
+                                                           0.6
+
+
+                                                           0.4
+
+
+                                                           0.2
+                                                                                     nc
+                                                            0
+                                                             0   2     4   6    8    10   12     14    16
+                                                                       Order of neighbour n
+                                                             1
+                                                                                               69-10
+
+
+
+
+                                  Degree of anisotropy γ
+                                                           0.8
+
+
+                                                           0.6
+
+
+                                                           0.4
+
+
+                                                           0.2
+                                                                                nc
+                                                            0
+                                                             0   2     4   6    8    10   12     14    16
+                                                                       Order of neighbour n
+
+Fig. 4. (color online) Anisotropy gamma factors  1 (red circles),  2 (green triangles) and  3 (blue squares)
+for three °ocking events (49-05; 63-05; 69-10). Each curve is an average over all instants of time belonging
+to the °ocking event, error bars are standard errors. The interaction range nc is identi¯ed as the point
+where the function  1 reaches the isotropic value 1/3 (black horizontal line), and is computed using a linear
+¯t of the curve close to the intersection. The three gamma functions meet together approximately at nc , as
+expected, and °uctuate around the isotropic value.
+
+
+a smooth decaying behavior. We stress that to achieve such a result, it was crucial
+dealing with large groups and taking care of boundary e®ects. Birds on the border or
+close to it necessarily have their neighbors on one side. This neighbor location is not
+determined however by the interaction between individuals, rather it is a trivial e®ect
+of the shape of the °ock (e.g. birds in front of the group have all neighbors behind,
+while birds on the left side have all neighbors on their right etc.). It is easy to check
+that even for a random aggregation of points, where neighbors are distributed iso-
+tropically, computing P ðcosðÞÞ and the gamma functions in a naive way does not
+give the expected isotropic value.23 As our aim is to use the anisotropy as a tracer of
+the interaction, we need to eliminate this bias. Luckily, statistical methods exist to
+this purpose. We followed the Hanish method25: when computing observables relative
+to the nth neighbors we considered only birds for which the nth neighbor was at a
+distance smaller than the distance to the border of the °ock. In this way one obtains
+
+===== PAGINA 15 =====
+
+1504   A. Cavagna et al.
+
+
+an unbiased statistics, which can however be much smaller than the original one
+(especially for large n, when many points must be discarded). For this reason large
+aggregations are mandatory to obtain signi¯cative results.
+
+4.5. Topological versus metric interactions
+Once established a good statistical indicator and a procedure to measure the degree of
+anisotropy, we applied it to all the °ocking events in our data sets, and computed for
+each of them the corresponding interaction range nc . Inspection of the results shows
+that nc slightly varies from °ock to °ock, as can also be seen in Fig. 4. This must come
+as no surprise. nc is an estimate of the typical number of interacting neighbors and
+has been computed using averaged quantities on ¯nite aggregations of points. Any
+measurement on ¯nite groups is expected to deviate from the true value, with group-
+to-group °uctuations that are smaller, the larger their sizes. The point is not whether
+nc varies from one °ock to the other, but whether this change is a natural statistical
+°uctuation or, rather, is determined by some speci¯c parameter of the °ock. The
+relation with the °ocks density, in particular, plays a crucial role. Let us discuss why.
+    Most models of self-organized motion assume that during collective behavior
+individuals interact with neighbors within a well-de¯ned range in space. Interactions,
+in other terms, depend on mutual metric distances. This is what happens in all
+physical systems and may seem a reasonable assumption even for animal groups, as
+several perceptual abilities of individuals decay with distance. If this hypothesis is
+correct, there is an interaction range rc , which is ¯xed in meters. In this case, the
+number of neighbors a bird is interacting with crucially depends on the density of the
+group: in dense aggregations individuals are close to one another and many neighbors
+will fall within interaction range rc ; on the contrary, in sparse aggregations only a few
+neighbors will satisfy this condition. Thus, the number of interacting neighbors nc
+should increase with increasing density. This is not, however, the only possibility. It is
+well known that in many social networks it is not the physical distance in space
+between nodes that matters, and other topologies are the relevant ones. In the case of
+°ocks, for example, one may argue that the relevant quantity is not how far apart two
+birds are (metric distance), but how many intermediate individuals separate them
+(topological distance). If this topological scenario holds, interaction decays with
+order of neighborhood and there is a well-de¯ned topological range nc : each indi-
+vidual interacts with the ¯rst nc neighbors, irrespective of their distances. In this case
+the number of interacting neighbors nc would not depend on density, but their
+distance would.
+    Our empirical results can help to distinguish in a sharp way between these two
+scenarios. The anisotropy matrix allowed us to extract an interaction range in terms of
+the number of neighbors, nc , that we may now call topological range. For a given °ock,
+however, the same procedure also provides with a metric interaction range in space, rc .
+For homogeneous aggregations       as °ocks are, to a good approximation      there
+is indeed a very clear relationship between the order of the neighbor n and its average
+
+===== PAGINA 16 =====
+
+                                                                  From Empirical Data to Inter-Individual Interactions                  1505
+
+
+distance rn :
+                                                                        4 3
+                                                                   n/    r  ;                                                        ð4:2Þ
+                                                                        3 n
+or, more conveniently
+                                                                                             rn
+                                                               n 1=3 /  1=3 rn                ;                                      ð4:3Þ
+                                                                                             r1
+ being the density, and r1   1=3 the average nearest-neighbor distance. Empirical
+data follow nicely this behavior, as can be seen in Fig. 5. As a consequence, the gamma
+functions de¯ned in the previous section can be easily expressed in terms of distances,
+the decay of the anisotropy monitored in physical space, and a metric interaction
+range rc identi¯ed.
+   For a single °ock, the topological and the metric range are equivalent descriptions
+of the decay of the inter-individual interaction and are related by the homogeneity
+relationship
+                                               r
+                                       n 1=3
+                                         c   / c :                                  ð4:4Þ
+                                               r1
+When °ocks of di®erent densities are considered, however, these two quantities must
+behave in a di®erent way and cannot be both density-independent          as Eq. (4.4)
+clearly shows. If the nature of the interaction between birds is metric, then the metric
+                                                                                    1=3
+interaction range rc must remain constant with varying the density, while n c
+should grow linearly with the nearest-neighbor distance r1 . On the contrary, if the
+interaction is topological, nc should remain constant, and rc must grow linearly with
+
+                       4
+                                                                                       0.8
+                               25-11
+
+
+
+
+ Average distance rn
+                       3       63-07
+                                                                                       0.6
+
+
+                       2                                                   Density ρ   0.4
+
+
+                       1                                                               0.2
+
+
+                       0                                                                0
+                           1           1.5         2             2.5                     0          1      2       3        4             5
+                                                         1/3                                                                      -3
+                                  Order of neighbour n                                          Nearest neighbour distance (r1)
+
+                                             (a)                                                           (b)
+Fig. 5. (a) Average distance of the nth nearest neighbor as a function of the order of the neighbor n 1=3 , for
+two °ocking events. The straight lines are linear ¯ts of the data (reduced chi-squared 10 5 ). The Hanish
+method is used to compute average distances, in order to eliminate the border bias. (b) Density of the
+aggregation as a function of the average nearest-neighbor distance r 3  1 . Each point corresponds to a
+distinct °ocking event and is an average over all instants of time belonging to that event (error bars are
+standard errors). The straight line is a linear ¯t of the data (reduced chi-squared ¼ 4  10 4 ). The linear
+correlation between density and r 3
+                                  1 shows that the average nearest-neighbor distance is a reliable measure
+of the sparseness of the °ock.
+
+===== PAGINA 17 =====
+
+1506                       A. Cavagna et al.
+
+
+                           1                                                                      4
+
+-1/3                                                                                             3.5
+
+
+
+
+  Topological range nc
+                                                                               Metric range rc
+                                                                                                  3
+
+                         0.5                                                                     2.5
+
+                                                                                                  2
+
+                                                                                                 1.5
+
+                          0                                                                        1
+                                 0.6       0.8         1    1.2        1.4                             0.6       0.8         1    1.2        1.4
+                                       Nearest neighbour distance r1                                         Nearest neighbour distance r1
+
+                                                 (a)                                                                   (b)
+                                                       1=3
+Fig. 6.                        (a) Topological range n c    as a function of the average nearest-neighbor distance r1 . There is no
+signi¯cative correlation between these two quantities, rather the topological range °uctuates around the
+average value hnc i 1=3 (black line), where hnc i ¼ 7:04  0:6. (b) Metric range rc as a function of the average
+nearest-neighbor distance r1 . In this case an evident linear correlation exists (reduced chi-squared 8  10 2 ,
+straight black line). These results indicate that the interaction between birds has a topological nature, each
+individual interacting with a ¯xed number of neighbors, irrespective of their distances.
+
+
+
+
+Fig. 7. (color online) Pictorial representation of a topological interaction: the number of interacting
+neighbors (in light blue) is the same in dense (left) and sparse (right) aggregations; on the contrary the
+metric range changes, being smaller the denser the °ock (dotted circle).
+
+
+r1 . Our data set comprises °ocking events with a wide range of densities and therefore
+                                                                                   1=3
+allows one to investigate this issue thoroughly. Figure 6 shows the behavior of n c
+and rc as a function of the nearest-neighbor distance r1 . The result indicates very
+clearly that the interaction has a topological nature, supporting the conclusion of
+Ref. 13, where half of the °ocking events were considered in the analysis. Thus, in
+starling °ocks each bird interacts with a ¯xed number of neighbors irrespective of
+their distances (see Fig. 7): averaging over all °ocking events we get hnc i ¼
+7:04  0:6, improving the previous empirical estimate of this number given in Ref. 13.
+
+
+5. Conclusions
+Our empirical analysis shows that the interaction at play between starlings during
+°ocking has a topological nature, each bird coordinating with a ¯xed number of
+interacting neighbors during motion, approximately seven, irrespective of their dis-
+tances. This ¯nding overturns one of the fundamental hypotheses of most models of
+self-organized motion, which assumed interactions depending on metric distances.
+
+===== PAGINA 18 =====
+
+                                    From Empirical Data to Inter-Individual Interactions   1507
+
+
+From a broader perspective, it fosters a number of important questions, which may
+help to improve our understanding of collective animal behavior and in°uence future
+research in this ¯eld.
+    Collective behavior in animals often has functional motivations, being in a group
+proving advantageous under many circumstances. Understanding how the group
+acquires its collective skills and which mechanisms grant functional e±ciency is a
+central issue both in evolutionary ecology and in applications to arti¯cial systems. In
+the case of starlings, as in many other bird species, °ocking mainly serves as a strong
+anti-predatory strategy. In this perspective one must expect that behavioral rules
+have been evolutionarily selected to enhance those group features that are crucial to
+this function: a strong cohesion of the group, robust to external perturbations (i.e.
+resilient to predator attacks); and an equally strong coherence, to change rapidly
+group direction when necessary. We remain truly impressed when observing a °ock
+dodging a falcon attack: the group undergoes sudden density variations, expanding,
+contracting, and changing shape and direction. Still, it always remains cohesive,
+leaving no stragglers behind. Interestingly, metric interactions are not well suited to
+sustain such behavior. If each bird interacts with neighbors within a ¯xed metric
+range, when the °ock expands the number of such neighbors drastically decreases,
+and several individuals may lose connection with the group remaining isolated (and,
+therefore, easy preys). Topological interactions, on the contrary, do not su®er any
+dampening with density variations as their ranges do not depend on metric distance.
+Indeed numerical simulations show that topological interactions make the group
+much more °exible and resilient to external perturbations, either disruptive as pre-
+dators, either passive as mere obstacles.13 Therefore, we can argue that birds in a
+°ock interact topologically because these interactions guarantee a much more robust
+cohesion to the group, enhancing their chance of survival.
+    The behavioral rules followed by individuals fully determine the collective features
+of the group. On the other hand, such rules ultimately depend on complicated bio-
+logical processes at individual level. The sensorimotor apparatus and the cognitive
+information processing capabilities of the individuals necessarily constrain the way
+animals interact with one another, determining the behavioral rules they follow.
+Understanding how this occurs may not be trivial. In °ocking, vision is known to be
+the main channel through which individuals interact. Still, it may not be vision in
+itself what matters. In particular, birds perform an elaboration of the visual signal,
+which goes beyond mere perception, and display prenumeric subitizing abilities (i.e.
+object tracking). This may play a crucial role in determining behavioral rules. For
+example, it has been shown in some empirical works that seven is the maximum
+number of objects that birds can discriminate.26 We ¯nd a very similar value for the
+number of interacting neighbors. It is possible that the two ¯ndings are in fact
+related, and that each individual considers its ¯rst seven neighbors to coordinate
+with, because this is the maximum number of individuals it can track. Obviously, this
+hypothesis needs to be investigated further, but the topological nature of the inter-
+action may in fact be related to a nontrivial cognitive ability.
+
+===== PAGINA 19 =====
+
+1508   A. Cavagna et al.
+
+
+   As topological interactions enhance robust cohesion in °ocking, we can see that
+sensory-cognitive constraints on the one hand shape the individual dynamics; on the
+other hand, they ensure e±cient group behavior. In a way, individual cognition scales
+up to collective information processing skills. It is not evident that topological
+interactions do play the same role in all other instances of collective behavior. We
+expect them to occur whenever structural robustness is functional to the group and
+compatible with individual abilities. Comparative empirical research on di®erent
+species can help to investigate this issue. Hopefully, we will understand what rules are
+better suited to achieve certain collective tasks, given speci¯c constraints on group
+members.
+   At methodological level, our approach has focused on correlation functions. The
+anisotropy gamma functions are in fact nothing else but some kind of nonstandard
+structural two-point functions. What we have done can be rephrased by saying that
+we measured the correlation length of this anisotropy function and used it as an
+estimate of the interaction range. This procedure makes perfect sense. Statistical
+physics teaches us that when the correlation length is ¯nite, it is indeed proportional
+to the interaction range. Being more cautious, we can say that nc provides an upper
+bound for the interaction range, as usually correlations extend beyond the range of
+direct interactions. The most important point is, however, that this estimated range
+does not depend on density, unequivocally showing the topological character of the
+interaction. We note also that nc does not show any signi¯cant correlation with other
+parameters of the °ock, like size, number of birds, velocity and degree of alignment,
+supporting its identi¯cation as a bona ¯de interaction range.
+   The analysis presented in this paper concerns structural degrees of freedom. We
+investigated properties relative to the distribution in space of individuals, which are
+mainly determined by the attractionrepulsion forces between birds. In this respect,
+the interaction range that we found is, strictly speaking, relative to this structural
+component of the interaction. Still, an important contribution to the interaction is
+given by mutual velocity alignment and concerns orientational degrees of freedom.
+Just as attraction forces are crucial to ensure cohesion in the group, alignment
+strongly determines the degree of global coordination. Here, we unveiled the topo-
+logical nature of structural forces, arguing that it ensures robust cohesion, enhancing
+response to predation. In the same way, we can ask whether orientational degrees of
+freedom also interact topologically and what kind of alignment interaction can grant
+e±cient global coordination. To answer this question, one can follow the same
+strategy that we used in this paper: identify a correlation function, which is mostly
+a®ected by the interaction and monitor its decay. We recently performed such an
+analysis in Ref. 17, where we studied velocity correlation functions for the same
+events discussed in this paper. What we found was startling: velocity correlations in
+°ocks are scale-free and span the entire group with minimal decay. On the one hand,
+this result tells us that °ocks are coherent in the strongest possible way, such that the
+collective response to perturbations, in terms of orientational changes, is maximal.
+On the other hand, scale-free behavior implies that correlations do not have a
+
+===== PAGINA 20 =====
+
+                                       From Empirical Data to Inter-Individual Interactions   1509
+
+
+well-de¯ned length-scale related to the original interaction range: direct inspection of
+these functions cannot therefore be used to trace back this range, as we did with the
+anisotropy. More sophisticated approaches, like maximum entropy models integrated
+with empirically based hypothesis, may provide this information. Work in this
+direction is underway.
+
+References
+ 1. S. Camazine, J.-L. Deneubourg, N. R. Franks, J. Sneyd, G. Theraulaz and E. Bonabeau,
+    Self-Organization in Biological Systems (Princeton Univ. Press, 2001).
+ 2. D. Helbing, I. J. Farkas and T. Vicsek, Simulating dynamical features of escape panic,
+    Nature 407 (2000) 487490.
+ 3. R. Cont and J.-P. Bouchaud, Herd behaviour and aggregate °uctuations in ¯nancial
+    markets, Macroecon. Dynam. 4 (2000) 170196.
+ 4. A. Jadbabaie, J. Lin and S. Morse, Coordination of groups of mobile autonomous agents
+    using nearest neighbour rules, IEEE Trans. Auto. Control 48 (2003) 9881001.
+ 5. Y. U. Cao, A. S. Fukunaga and A. B. Kahng, Cooperative mobile robotics: Antecedents
+    and directions, Autonomous Robots 4 (1997) 123.
+ 6. I. Giardina, Collective behavior in animal groups: Theoretical models and empirical
+    studies, HFSP J. 2 (2008) 205219.
+ 7. J. Toner and Y. Tu, Flocks, herds, and schools: A quantitative theory of °ocking, Phys.
+    Rev. E 58 (1998) 48284858.
+ 8. J. Toner Y. Tu and S. Ramaswamy, Hydrodynamics and phases of °ocks, Ann. Phys. 318
+    (2005) 170244.
+ 9. Special Issue on Mathematics and Complexity in Human and Life Sciences, Math. Models
+    Methods Appl. Sci. 19 (Suppl.) (2009) 1385.
+10. N. Bellomo, C. Bianca and M. Delitala, Complexity analysis and mathematical tools
+    towards the modelling of living systems, Phys. Life Rev. 6 (2009) 144175.
+11. T. Vicsek, A. Czirok, E. Ben-Jacob, I. Cohen and O. Shochet, Novel type of phase
+    transition in a system of self-driven particles, Phys. Rev. Lett. 75 (1995) 12261229.
+12. G. Gregoire and H. Chate, Onset of collective and cohesive motion, Phys. Rev. Lett. 92
+    (2004) 025702.
+13. M. Ballerini, N. Cabibbo, R. Candelier, A. Cavagna, E. Cisbani, I. Giardina, V. Lecomte,
+    A. Orlandi, G. Parisi, A. Procaccini, M. Viale and V. Zdravkovic, Interaction ruling
+    animal collective behaviour depends on topological rather than metric distance: Evidence
+    from a ¯eld study, Proc. Natl. Acad. Sci. USA 105 (2008) 12321237.
+14. P. W. Anderson, More is di®erent, Science 177 (1972) 393396.
+15. A. Procaccini et al., Agitation waves inside Starling (Sturnus vulgaris) °ocks under
+    predator attack, submitted (2009).
+16. F. Gerlotto, S. Bertrand, N. Bez and M. Gutierrez, Waves of agitation inside anchovies
+    school observed with multibeam sonar: A way to transmit information in response to
+    predation, ICES J. Marine. Sci. 63 (2006) 14051417.
+17. A. Cavagna, A. Cimarelli, I. Giardina, G. Parisi, R. Santagati, F. Stefanini and M. Viale,
+    Scale-free correlations in starling °ocks, Proc. Nat'l. Acad. Sci. USA 107 (2010)
+    1186511870.
+18. Eds. J. K. Parrish and W. M. Hammer, Animal Groups in Three Dimensions (Cambridge
+    Univ. Press, 1997).
+19. N. C. Manoukis et al., Structure and dynamics of male swarms of Anopheles gambiae,
+    J. Med. Enthom. 46 (2009) 227235.
+
+===== PAGINA 21 =====
+
+1510          A. Cavagna et al.
+
+
+20. A. Cavagna, I. Giardina, A. Orlandi, G. Parisi, A. Procaccini, M. Viale and V. Zdravkovic,
+    The STARFLAG handbook on collective animal behaviour: 1. Empirical methods, Anim.
+    Behav. 76 (2008) 217236.
+21. M. Ballerini, N. Cabibbo, R. Candelier, A. Cavagna, E. Cisbani, I. Giardina, A. Orlandi,
+    G. Parisi, A. Procaccini, M. Viale and V. Zdravkovic, Empirical investigation of starling
+    °ocks: A benchmark study in collective animal behaviour, Anim. Behav. 76 (2008)
+    201215.
+22. E. Schneidman, M. J. Berry, R. Segev and W. Bialek, Weak pairwise correlations imply
+    strongly correlated network states in a neural population, Nature 440 (2006) 10071012.
+23. A. Cavagna, I. Giardina, A. Orlandi, G. Parisi and A. Procaccini, The STARFLAG
+    handbook on collective animal behaviour: 2. Three-dimensional analysis, Anim. Behav. 76
+    (2008) 237248.
+24. H. Edelsbrunner and E. P. Mucke, Three-dimensional alpha shapes, ACM Trans.
+    Graphics 13 (1994) 4372.
+25. D. Stoyan and H. Stoyan, Fractals, Random Shapes and Point Fields (John Wiley and
+    Sons, 2004).
+26. J. D. Delius Emmerton, in Vision, Brain and Behaviour, eds. H. P. Zeigler and H. J.
+    Bischof (MIT Press, 1993).
+
+
+
+
+View publication stats
+

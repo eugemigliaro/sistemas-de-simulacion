@@ -44,3 +44,25 @@
 28. ¿Qué secuencia propone la guía para convertir evolución temporal en resultados paramétricos?
 29. ¿Qué condiciones debe cumplir una afirmación para aparecer como conclusión?
 30. ¿Cómo se prepara una exposición grupal para evitar partes desbalanceadas o respuestas superpuestas?
+
+## Autómatas celulares y fluidos en retícula
+
+31. ¿Qué propiedades definen un autómata celular y qué papel cumplen $k$ y $r$?
+32. ¿Cómo se distinguen las vecindades de von Neumann y Moore?
+33. ¿Cuáles son las reglas del Juego de la Vida y por qué ilustran emergencia?
+34. ¿Qué caracteriza las cuatro clases cualitativas de Wolfram?
+35. ¿Por qué el modelo FHP usa una retícula hexagonal?
+36. ¿Qué ocurre en las etapas de propagación y colisión?
+37. ¿Qué magnitudes deben conservar las colisiones para recuperar hidrodinámica macroscópica?
+38. ¿Por qué hacen falta promedios espaciales y temporales para obtener campos macroscópicos?
+
+## Bandadas y TP2
+
+39. ¿Cómo actualiza posición y orientación una partícula en el modelo de Vicsek?
+40. ¿Por qué el promedio angular debe calcularse con seno, coseno y `atan2`?
+41. ¿Qué mide la polarización $v_a$ y cuáles son sus valores límite?
+42. ¿Cuál es la diferencia exacta entre el modelo estándar y el modelo votante?
+43. ¿Cómo se define el cluster más grande y el observable $S$ en el TP2?
+44. ¿Cómo determinarías el comienzo del estacionario sin elegirlo arbitrariamente?
+45. ¿Qué comparaciones deben mantenerse en las mismas figuras para aislar modelo, densidad y ruido?
+46. ¿Por qué el simulador y la animación deben ser módulos independientes?

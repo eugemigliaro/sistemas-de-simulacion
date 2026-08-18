@@ -1,0 +1,2568 @@
+FUENTE: B10
+TITULO: Practice of Lattice Boltzmann Simulations — Akira Satoh
+ORIGINAL: material/externo/bibliografia-2/Chapter_7_LatticeBoltzman.pdf
+PAGINAS: 36
+
+===== PAGINA 1 =====
+
+7 Practice of Lattice Boltzmann
+           Simulations
+
+
+In this chapter, we consider the lattice Boltzmann method, which is generally used
+as a simulation technique for a pure liquid system but has a different approach to
+the molecular simulation and microsimulation methods. The lattice Boltzmann
+method is also a potential simulation technique for taking into account multibody
+hydrodynamic interactions among particles in a particle suspension or polymers in
+a polymeric liquid. Therefore, the lattice Boltzmann method may be a promising
+simulation tool in various fields in science and engineering.
+   In treating fluid properties, such as the flow field, the lattice Boltzmann method
+employs an abstract approach that makes use of the particle distribution function,
+whereas the usual fluid simulation method deals with quantities that are intuitively
+understandable, such as velocities and pressures. The reader may therefore find that
+the basic principle behind the lattice Boltzmann method is slightly more difficult to
+understand. However, once mastered, the concept of the particle distribution func-
+tion and the theoretical background of this simulation method will enable a
+research scientist to apply the lattice Boltzmann method to various types of flow
+problems in a relatively straightforward manner.
+   The present exercise addresses a uniform flow around a circular cylinder, which
+will be a foundation for applying the lattice Boltzmann method to flow problems in
+a particle dispersion or a polymeric liquid. The validity of the solution obtained by
+this method can be evaluated by comparing it with that obtained by a fully devel-
+oped simulation method, such as the finite difference method. The sample simula-
+tion program has been developed from the viewpoint of applying it to a particle
+suspension; it may thus be very valuable in a practical context.
+
+
+
+7.1        Uniform Flow Around a Two-Dimensional Circular
+           Cylinder
+We here consider solving the problem of uniform flow past a circular cylinder by
+means of the lattice Boltzmann method. In a certain limited range of the Reynolds
+number, a pair of vortices appears behind the cylinder. The formation of these vor-
+tices is very sensitive to the type of boundary model used for the interaction
+between the cylinder and the neighboring virtual fluid particles.
+Introduction to Practice of Molecular Simulation. DOI: 10.1016/B978-0-12-385148-2.00007-0
+© 2011 Elsevier Inc. All rights reserved.
+
+===== PAGINA 2 =====
+
+220                                               Introduction to Practice of Molecular Simulation
+
+
+7.2     Specification of Problems in Equations
+The important task in the formalization of the present problem is the treatment of
+the boundary condition between the cylinder and the virtual fluid particles in the
+neighboring lattice sites in addition to the outer boundary conditions.
+   We consider a uniform flow past a two-dimensional circular cylinder in the
+x-direction, as shown in Figure 7.1. The present flow problem is treated as a two-
+dimensional flow, so we use the D2Q9 lattice model, as explained in Section 1.5.
+The simulation region is divided into the lattice system shown in Figure 7.2. The
+two-dimensional circular cylinder with diameter D is fixed at the origin of the coor-
+dinate system. Numbering the velocity direction α in the unit cell is as shown in
+Figure 1.5B, and α is taken as α 5 0,1,2,. . .,8. If r is the position vector of an arbi-
+trary lattice point and fα(r,t) is the particle distribution function at time t, the func-
+tion after the time interval Δt, fα(r 1 cαΔt, t 1 Δt), can be evaluated from
+Eq. (1.91) as
+
+
+
+
+                           y
+                     l0
+
+
+
+
+                                              x
+
+–h0                                          h0
+
+
+
+
+                                                    Figure 7.1 Uniform flow past a circular
+                     –l0                            cylinder.
+
+
+
+
+                           y
+                     l0
+
+
+
+
+                                              x
+
+–h0                                          h0
+
+
+
+
+                                                   Figure 7.2 Simulation region made up
+                    –l0                            of square lattices.
+
+===== PAGINA 3 =====
+
+Practice of Lattice Boltzmann Simulations                                               221
+
+                                                          9
+      fα ðr 1 cα Δt; t 1 ΔtÞ 5 f~α ðr; tÞ                 >
+                                                          =
+                              1                                                        ð7:1Þ
+      f~α ðr; tÞ 5 fα ðr; tÞ 1 ffαð0Þ ðr; tÞ 2 fα ðr; tÞg >
+                                                          ;
+                              τ
+
+in which τ is the relaxation time, fαð0Þ is the thermodynamic equilibrium distribution
+function, and cα is the lattice velocity in the α-direction. With the notation u for
+the macroscopic velocity and ρ for the density, the equilibrium distribution function
+is written as
+                                                               
+                           cα Uu 3u2 9 ðcα UuÞ2
+      fαð0Þ 5 ρwα       113 2 2 2 1 U                                                  ð7:2Þ
+                            c    2c  2    c4
+
+in which wα is a weighting constant. For the case of the D2Q9 model, these terms
+are written as
+          8                                              8
+          < 4=9            for α 5 0                     < 0      for α 5 0
+      wα 5 1=9             for α 5 1; 2; 3; 4     jcα j 5 pcﬃﬃﬃﬃﬃ for α 5 1; 2; 3; 4   ð7:3Þ
+          :                                              :
+            1=36           for α 5 5; 6; 7; 8               2c for α 5 5; 6; 7; 8
+
+In these expressions, c is the velocity of the movement for the shortest lattice dis-
+tance, expressed as c 5 Δx/Δt, in which Δx is the shortest distance between two
+neighboring sites. The lattice velocities given in Eq. (7.3) guarantee that the fluid
+particles can move from site to site during the time interval Δt. If the particle dis-
+tributions fα (α 5 0,1,2,. . .,8) are known for all the directions, the macroscopic
+density and momentum can be evaluated from Eqs. (1.88) and (1.89). That is,
+
+                  X
+                  8                                     X
+                                                        8
+      ρðr; tÞ 5         fα ðr; tÞ;   ρðr; tÞuðr; tÞ 5         fα ðr; tÞcα              ð7:4Þ
+                  α50                                   α50
+
+
+   In the present case, a uniform flow is generated by employing a thermodynamic
+equilibrium distribution with a given uniform velocity at the upstream boundary
+surface at x 5 2h0. In order to ensure that we obtain reasonable solutions for the
+present flow problem, we must give careful attention to the interaction between
+the cylinder and the neighboring lattice sites, and to the outer boundary condition.
+In the next section we consider the treatment of the boundary conditions.
+
+
+7.3      Boundary Conditions
+We are now ready to formalize the boundary conditions that complement the basic
+equations explained previously. The boundary surfaces to be treated are the upstream
+and downstream boundaries, both outer side boundaries, and the cylinder surface
+boundary. Among these boundary surfaces, the boundary between the cylinder
+
+===== PAGINA 4 =====
+
+222                                                         Introduction to Practice of Molecular Simulation
+
+
+
+
+      r l″       r l′           rl    rw          rp
+
+                                                        Figure 7.3 Boundary          condition    on     the
+                                                        material surface.
+
+and its neighboring lattice points is the most important and complex. In the following
+paragraphs, the boundary conditions relating to the cylinder surface are treated first.
+   We first explain the YuMeiLuoShyy (YMLS) model [34] using Figure 7.3.
+The particle distribution function in the α-direction is considered (α 5 2 in
+Figure 7.3). In Figure 7.3, rw is the point at the cylinder surface, rp is the neighbor-
+ing point inside the cylinder, rl is the neighboring site in the liquid area, and rl0 is
+the next neighboring point. Since the next point of rl in the direction of α 5 1
+is inside the cylinder, f2(rl,t 1 Δt) cannot be obtained from Eq. (7.1). That is,
+f2(rl,t 1 Δt) is dependent on the particle distribution function at the cylinder surface
+rw, and not on that at rp. If the particle distribution function at rw, f2(rw,t 1 Δt) is
+known, f2(rl,t 1 Δt) at rl can be evaluated from the linear interpolation method using
+those at rl0 and rw as
+
+                                Δw                          1
+         f2 ðrl ; t 1 ΔtÞ 5          f2 ðrl0 ; t 1 ΔtÞ 1        f2 ðrw ; t 1 ΔtÞ                       ð7:5Þ
+                              1 1 Δw                     1 1 Δw
+
+in which Δw 5 jrl 2 rwj/jrl 2 rpj. Figure 7.3 shows the treatment for the direction
+of α 5 2 (in the opposite direction to α 5 1), and Eq. (7.5) is simply applied to the
+direction α 5 2; in which the connecting line in the opposite direction (α 5 1)
+crosses the cylinder surface. In order to evaluate f2(rl,t 1 Δt) from Eq. (7.5),
+f2(rw,t 1 Δt) at the surface is necessary, and this method uses the following
+equation:
+
+         f2 ðrw ; t 1 ΔtÞ 5 ð1 2 Δw Þf~1 ðrl0 ; tÞ 1 Δw f~1 ðrl ; tÞ                                   ð7:6Þ
+
+This expression means that the particle distribution function on the right-hand side,
+which is obtained from the linear interpolation method, becomes that in the oppo-
+site direction at the next time step. The linear YMLS method [34] uses the linear
+interpolation procedure with Eqs. (7.5) and (7.6) to obtain f2(rl,t 1 Δt). In this
+method, only two lattice points are used for the interpolation procedure, so it is
+suitable for many particle dispersions in which a near-contact situation of particles
+frequently arises.
+    In addition to the present YMLS boundary model, for the purpose of study, we will
+employ three other methods explained in Chapter 8: the historical bounce-back rule
+[35,36] in Eq. (8.106); the quadratic YMLS method, based on the quadratic curve with
+the additional point rlv (Eq. (8.121)); and the BouzidiFirdaoussLallemand (BFL)
+
+===== PAGINA 5 =====
+
+Practice of Lattice Boltzmann Simulations                                             223
+
+
+model [37] in Eqs. (8.113) and (8.116), or in Eqs. (8.117) and (8.118), which uses the
+slightly different interpolation scheme. The two different procedures are adopted for
+Δw # 1/2 and Δw . 1/2 in order not to lose the accuracy of the interpolation.
+    Next, we specify the treatment at the upstream and downstream surfaces. At the
+upstream surface, the equilibrium distribution with a given uniform velocity U is
+specified. On the other hand, the extrapolation condition, which is widely used in
+numerical analysis methods, may be employed at the downstream boundary sur-
+face. As will be shown in Chapter 8, the extrapolation method regards the last three
+values at rN 2 2, rN 2 1, and rN as having a linear relationship, expressed as
+
+      fα ðrN ; t 1 ΔtÞ 5 2fα ðrN 2 1 ; t 1 ΔtÞ 2 fα ðrN 2 2 ; t 1 ΔtÞ               ð7:7Þ
+
+in which α is the direction leaving the outer boundary toward the inside of the
+simulation region.
+   Similarly, the zero-gradient condition may be applicable, and in this condition
+the differential away from the boundary is regarded as zero:
+
+      fα ðrN ; t 1 ΔtÞ 5 fα ðrN 2 1 ; t 1 ΔtÞ                                       ð7:8Þ
+
+This condition is inferior to the previous extrapolation in accuracy but superior on
+the point of divergence. In addition, the uniform flow condition is employed, in
+which a uniform flow is assumed outside the simulation region.
+    Finally, the outer side boundary surfaces of the simulation region are specified.
+If the simulation region is sufficiently large compared with the cylinder diameter,
+the periodic boundary condition, which is generally used in molecular simulations,
+is applicable. With this condition, the particle distribution function at the upper
+surface in Figure 7.1, fα(x,y,t) jupper (α 5 0,1,. . .,8), is regarded as equal to
+fα(x,y,t) jlower at the lower surface. Also, the equilibrium distribution in Eq. (7.2) and
+the bounce-back rule may be applied at both side boundaries. However, these bound-
+ary models may cause significant distortion of the flow field, unless a sufficiently
+large simulation region is employed. The most effective method for removing the
+influences of the outer boundary surfaces is expected to be the extrapolation condi-
+tion. Hence, we next discuss the relative accuracy of the uniform flow condition
+(i.e., the equilibrium distribution condition), the extrapolation condition, and the
+zero-gradient condition.
+
+
+
+7.4      Various Treatments in the Simulation Program
+7.4.1     Definition and Evaluation of the Drag Coefficient
+The cylinder located in the fluid acts as a resistance to the smooth fluid flow. The
+drag coefficient CD for a uniform flow past a two-dimensional circular cylinder can
+be evaluated using the force F per unit length in the flow direction exerted by the
+ambient fluid, defined as
+
+===== PAGINA 6 =====
+
+224                                                        Introduction to Practice of Molecular Simulation
+
+
+                  F
+      CD 5                                                                                           ð7:9Þ
+               ρU 2 D=2
+
+in which ρ is the density of the fluid, U is the uniform flow velocity, and D is the
+cylinder diameter.
+   We now show the method of evaluating F. It is assumed that the point rcyl       l is the
+nearest neighbor site in the liquid to the cylinder surface, and the neighbor lattice
+point from the site in the α-direction is inside the cylinder. The momentum toward
+the cylinder surface from rcyl l  at time t is cαcyl f~αcyl ðrcyl
+                                                              l ; tÞΔxΔy; and that after the
+                                                 l      l
+collision with the cylinder surface at (t 1 Δt) is 2 cαcyl fαcyl ðrcyll ; t 1 ΔtÞΔxΔy: The
+                                                                l   l
+change in the momentum during the time interval Δt is equal to the impulse
+Fαcyl Δt: Hence, Fαcyl Δt can be obtained as
+  l                        l
+
+               n                                                             o
+      Fαcyl 5 cαcyl f~αcyl ðrcyl
+                             l   ; tÞΔxΔy 1 c cyl f cyl ðr
+                                             α α
+                                                           cyl
+                                                           l   ; t 1 ΔtÞΔxΔy  =Δt                  ð7:10Þ
+        l              l       l                   l   l
+
+
+
+The force acting on the cylinder by the fluid F can be evaluated by summing the
+contributions from the neighbor lattice sites interacting with the cylinder as
+            XX
+      F5                   Fαcyl                                                                   ð7:11Þ
+                                   l
+               l   αcyl
+                    l
+
+
+
+In the present flow, the absolute value of F 5 jFj is used to calculate the drag co-
+efficient in Eq. (7.9).
+   The flow field and the drag coefficient have already been obtained theoretically
+and numerically as a function of the Reynolds number Re for a uniform flow past a
+cylinder, so the accuracy of the present results can be evaluated by comparison
+with such theoretical and numerical solutions. The Reynolds number Re is defined
+as Re 5 DU/ν, in which the kinematic viscosity ν is expressed in Eq. (8.94) for the
+D2Q9 model. That is,
+
+            Δtc2
+      ν5         ðτ 2 1=2Þ                                                                         ð7:12Þ
+             3
+
+7.4.2       Choice of the Procedures by Coloring Lattice Sites
+All the lattice points can be classified into one of several groups. That is, the group
+is composed of (1) lattice points at the upstream and downstream boundary surfaces,
+(2) lattice points at the outer side boundary surfaces, (3) lattice points interacting
+with the cylinder, (4) lattice points inside the cylinder, and (5) all other usual lattice
+points. In the simulation program, this discrimination is expressed using the function
+“color.” The following values are given to color(i) in the sample program:
+
+color(i) 5 0       :       all the lattice points in the simulation region not included below
+color(i) 5 1       :       lattice points at the upstream boundary (both end points are included)
+
+===== PAGINA 7 =====
+
+Practice of Lattice Boltzmann Simulations                                                                            225
+
+
+color(i) 5 2      :    lattice points at the downstream boundary (both end points are included)
+color(i) 5 3      :    lattice points at the outer upper boundary surfaces (neither end point is
+                          included)
+color(i) 5 4      :    lattice points at the outer lower boundary surfaces (neither end point is
+                          included)
+color(i) 5 5      :    lattice points interacting with the cylinder
+color(i) 5 6      :    lattice points inside the cylinder, interacting with the neighboring outside
+                          points
+color(i) 5 7      :    lattice points inside the cylinder, not interacting with the neighboring
+                          outside points
+
+   In the present study, since the cylinder is fixed and does not move, the above
+checking procedure is only required once before starting the main loop in the pro-
+gram. The introduction of the color variable is useful to make the logical flow clear
+in the program, which is important in developing a simulation program. Moreover,
+this approach is directly applicable when the dispersed particles move with time, so
+that the checking procedure must be regularly undertaken until the end of the
+simulation.
+
+
+7.4.3     Treatment of Interactions on the Cylinder Surface
+In order to use the above-mentioned boundary conditions at the cylinder surface,
+the quantity Δw 5 jrl 2 rwj/jrl 2 rpj must be evaluated. Since the point rw is at the
+cylinder surface, the following equation has to be satisfied:
+
+     jð1 2 Δw Þðrl 2 rp Þ 1 rp 2 rcyl j 5 Rcyl                                                                    ð7:13Þ
+
+in which Rcyl is the cylinder radius (Rcyl 5 D/2), and rcyl is the cylinder position
+vector (rcyl 5 0 in the present exercise). Equation (7.13) reduces to an easily solved
+quadratic equation:
+                                        qﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃﬃ
+               ð^rl 2 2 r^ p U^rl Þ 2    ð^rl 2 2 ^rp U^rl Þ2 2 ð^rl 2 ^rp Þ2 ð^rl 2 2 R2cyl Þ
+     Δw 5                                                                                                         ð7:14Þ
+                                                     ð^rl 2 r^ p Þ2
+
+in which the notation of ^rl 5 rl 2 rcyl and ^rp 5 rp 2 rcyl is used for simplification.
+In simulations, the value of Δw for all pairs of the two interacting points on either
+side of the cylinder surface is calculated and saved.
+
+
+7.4.4     Evaluation of the Velocity and Density
+In order to employ the equilibrium distribution function, the macroscopic velocity
+u and density ρ at an arbitrary lattice point must be evaluated. The definition of the
+lattice velocities and the coordinate system are shown in Figure 1.4 and Figure 7.1,
+respectively. First, the density ρ(r,t) at an arbitrary point r is evaluated from
+
+===== PAGINA 8 =====
+
+226                                                              Introduction to Practice of Molecular Simulation
+
+
+Eq. (7.4), and then the velocity u 5 (ux,uy) is calculated from the following
+equations:                                                0pﬃﬃ                              1
+                                                                               pﬃﬃ
+                                                     pﬃﬃ        2               2
+      ρðr; tÞux ðr; tÞ 5 cðf1 ðr; tÞ 2 f2 ðr; tÞÞ 1 2c@            f5 ðr; tÞ 2     f6 ðr; tÞA
+                                                               2               2
+                                  0pﬃﬃ                pﬃﬃ           1
+                            pﬃﬃ        2                 2
+                         1 2c @           f7 ðr; tÞ 2      f8 ðr; tÞA
+                                      2                2
+
+                          5 cðf1 ðr; tÞ 2 f2 ðr; tÞ 1 f5 ðr; tÞ 2 f6 ðr; tÞ 1 f7 ðr; tÞ 2 f8 ðr; tÞÞ
+                                                                                                          ð7:15Þ
+
+      ρðr; tÞuy ðr; tÞ 5 cðf3 ðr; tÞ 2 f4 ðr; tÞ 1 f5 ðr; tÞ 2 f6 ðr; tÞ 2 f7 ðr; tÞ 1 f8 ðr; tÞÞ         ð7:16Þ
+
+
+
+7.5      Nondimensionalization of the Basic Equations
+In simulations, it is usual practice for each quantity to be nondimensionalized and
+for the nondimensionalized equations to be treated. Since this has been explained
+in Section 8.6, we briefly show the nondimensionalized results. Here time is nondi-
+mensionalized by Δt, velocities by c ( 5 Δx/Δt), and the particle distribution func-
+tion by ρ0, so that the basic equation (7.1) is expressed in nondimensional form as
+                                                                  9
+      fα ðr 1 cα ; t 1 1Þ 5 f~α ðr ; t Þ
+                                                                  >
+                                                                   =
+                                   1                                                                   ð7:17Þ
+       ~                
+      f α ðr ; t Þ 5 fα ðr ; t Þ 1         ð0Þ         
+                                          f ðr ; t Þ 2 fα ðr ; t Þ >
+                                    τ α                            ;
+
+
+in which
+                                                                       
+                                      9            2 3 2
+      fαð0Þ 5 wα ρ       1 1 3cα Uu 1            cα Uu 2 u                                              ð7:18Þ
+                                                2          2
+           8
+           <0     for α 5 0
+        
+       cα 5 p1 ﬃﬃ for α 5 1; 2; 3; 4                                                                      ð7:19Þ
+           :
+               2 for α 5 5; 6; 7; 8
+
+In these equations, wα has already been shown in Eq. (7.3), and τ is originally a
+nondimensional quantity. Note that the relationship c* 5 1 has been taken into
+account in the above derivations. The nondimensional expressions of Eq. (7.4) are:
+
+                        X
+                        8                                                       X
+                                                                                8
+      ρ ðr ; t Þ 5         fα ðr ; t Þ;    ρ ðr ; t Þu ðr ; t Þ 5         fα ðr ; t Þcα   ð7:20Þ
+                        α50                                                     α50
+
+===== PAGINA 9 =====
+
+Practice of Lattice Boltzmann Simulations                                            227
+
+
+                                                                  pﬃﬃ lattice speed c,
+Since the velocities of fluid particles are nondimensionalized by the
+the nondimensional speed of sound cs is expressed as cs 5 1= 3 in Eq. (8.46).
+Hence, it should be noted that one needs to treat flow problems for a macroscopic
+velocity u* of u*{1, unless the density significantly varies in the simulation
+region. The nondimensional kinematic viscosity, which is necessary for evaluating
+the Reynolds number, is expressed as ν * 5 (2τ 2 1)/6.
+
+
+
+7.6      Conditions for Simulations
+7.6.1     Initial Distribution
+As an initial distribution, the equilibrium distribution with a uniform velocity U
+and density ρ0 is used here for the inner simulation region, as well as for the
+entrance boundary surface. It is possible to use an equilibrium distribution with
+zero velocity, but this may induce a divergence of the system with time. It is
+important to discuss the validity of the various initial conditions adopted in order to
+clarify the characteristics of the simulation program.
+
+
+7.6.2     Parameters for Simulations
+The solution of the flow field and the drag coefficient for the case of a uniform
+flow past a two-dimensional circular cylinder has already been solved theoretically
+for Re & 1 and numerically for Re * 1. Since a pair of stable vortices appears
+behind the cylinder in the range of 7 & Re & 40, it is quite reasonable to focus on
+a pair of vortices for 7 & Re & 40; these vortices are very sensitive to the type of
+surface model employed. Hence, the present simulations have been conducted
+within the range of 1 # Re # 20. The Reynolds number can be expressed as
+Re 5 U*D*/((2τ 2 1)/6), so that in order to take a large Reynolds number, the relax-
+ation time τ is chosen as τC1/2. The uniform velocity U* cannot be large due to
+the restriction of the use of a slow uniform velocity compared with the speed of
+sound. From these considerations, the uniform flow velocity is taken as
+U* 5 0.0050.01 and the relaxation time as τ 5 0.5150.8. The cylinder diameter
+D* is D* 5 320, and the size of the simulation region is taken as
+2h0* 5 4D*14D*and 2l0* 5 3D*11D*. The influence of the boundary model will
+appear to be more significant for a smaller simulation region.
+
+
+
+7.7      Results of Simulations
+It is known that the flow field for outer flow problems is significantly distorted
+unless a sufficiently large simulation region is used. The results for a relatively small
+simulation region (2h0*,2l0*) 5 (7D*,6D*) are shown in Figure 7.4 for Re 5 20.
+Figures 7.4A and B depict the uniform flow condition and the zero-gradient
+
+===== PAGINA 10 =====
+
+228                                                Introduction to Practice of Molecular Simulation
+
+
+
+
+(A)                                              (B)
+
+
+
+
+                         (C)
+
+Figure 7.4 Dependence of the flow field on the outer boundary conditions for Re 5 20; the
+bounce-back rule is used for the cylinder surface: (A) uniform flow condition, (B) zero-gradient
+condition, and (C) numerical solution of NavierStokes equation.
+
+
+
+condition, respectively, and Figure 7.4C shows the NavierStokes solution. The his-
+torical bounce-back rule has been used for the treatment of the interactions with the
+cylinder. In the case of Re 5 20, the length of the pair of vortices is approximately
+the same as the cylinder diameter, and the formation of these vortices is quite sensi-
+tive to the outer boundary condition that has been adopted. The result in Figure 7.4C
+is the numerical solution obtained by the ordinary finite difference method, and it
+can be regarded as an exact solution. As shown in Figure 7.4A, for the uniform flow
+condition (the equilibrium distribution case), the pair of vortices behind the cylinder
+is significantly distorted and shortened, and the fluid flows along and does not tend
+to cross the outer side boundary surfaces. This is quite understandable in this case,
+because a uniform flow is assumed just outside the boundary surfaces; therefore, the
+flow crossing the boundaries does not tend to arise. The pair of distorted vortices is
+due to a similar reason—the flow crossing the downstream boundary surface is
+
+===== PAGINA 11 =====
+
+Practice of Lattice Boltzmann Simulations                                             229
+
+
+
+
+(A)                                           (B)
+
+
+
+
+                          (C)
+
+Figure 7.5 Dependence of the flow field on the size of the simulation region (Re 5 20,
+the bounce-back method): (A) (2h0*,2l0*) 5 (6D*,5D*); (B) (2h0*,2l0*) 5 (9D*,7D*); and (C)
+(2h0*, 2l0*) 5 (14D*,11D*).
+
+
+
+significantly distorted. These results clearly show that a uniform flow condition has
+the tendency to distort the flow field significantly unless a sufficiently large simula-
+tion region is used, although this condition is found to exhibit less divergence in the
+calculation procedures during a simulation run. In contrast, the result for the zero-
+gradient condition shown in Figure 7.4B is in agreement with the NavierStokes
+solution, but the pair of vortices is significantly distorted. As discussed in the follow-
+ing, this is again due to the use of a small simulation region. For the extrapolation
+boundary condition, it was found that stable solutions could not be obtained because
+the flow field diverged during the advance of the time steps.
+   Figure 7.5 shows the influence of the size of the simulation region on the forma-
+tion of a pair of vortices for the three cases of (2h0*,2l0*) 5 (6D*,5D*), (9D*,7D*),
+and (14D*,11D*), which correspond to Figure 7.5AC, respectively. The bounce-
+back rule has been used for the collision with the cylinder, and the zero-gradient
+
+===== PAGINA 12 =====
+
+230                                                Introduction to Practice of Molecular Simulation
+
+
+condition has been used for the boundaries of the simulation box. The Reynolds
+number Re is 20, as in the previous case. For the case of our smallest simulation
+region, shown in Figure 7.5A, the pair of vortices unreasonably lengthens in the
+downstream area due to the significantly small region used. The results obtained by
+the lattice Boltzmann method tend to approach the NavierStokes solution shown
+in Figure 7.4C with the size of the simulation region, and the flow field is in agree-
+ment with the exact solution. This clearly demonstrates the importance of grasping
+the influence of this effect by investigating several cases with different size simula-
+tion regions.
+   Figure 7.6 shows the influence of the boundary model employed at the cylinder
+surface on the formation of the pair of vortices. Figure 7.6AD illustrate the
+bounce-back rule, the linear YMLS method, the liner BFL method, and the
+NavierStokes solution. These results were obtained for Re 5 20, the simulation
+region (2h0*,2l0*) 5 (14D*,11D*), and the zero-gradient condition for the outer
+boundary surfaces. The quadratic YMLS and BFL methods give rise to a diver-
+gence of the flow field. As clearly seen in Figure 7.6, no significant difference can
+be observed among these flow fields, and these three boundary models show agree-
+ment concerning the formation of the pair of vortices behind the cylinder.
+Qualitative and quantitative agreement with the exact solution was also confirmed
+
+
+
+
+(A)                                              (B)
+
+
+
+
+(C)                                              (D)
+
+Figure 7.6 Dependence of the flow field on the surface models on the cylinder surface
+(Re 5 20, the zero-gradient condition): (A) bounce-back rule, (B) linear YMLS method, (C) linear
+BFL method, and (D) numerical solution of NavierStokes equation.
+
+===== PAGINA 13 =====
+
+Practice of Lattice Boltzmann Simulations                                                         231
+
+
+concerning the drag coefficient and the velocity distributions, although not shown
+here. In particular, agreement for the linear YMLS method is good, which may
+indicate there is some advantage to be found in the application of this
+boundary method for particle dispersions. As previously discussed, this is because
+the method that uses the fewer lattice points in the interpolation scheme is the most
+desirable.
+
+
+7.8      Simulation Program
+The following list is an example simulation program written in FORTRAN for the
+case discussed in this chapter, and it explains the significance of the important vari-
+ables used in the program:
+
+RX(I,J),RY(I,J)             :   (x,y) components of the position ri;j of lattice site (i,j)
+                                (I 5 0,1,. . .,PX; J 5 0,1,. . .,PY)
+VX(I,J),VY(I,J)             :   Macroscopic velocity ui;j at lattice site (i,j)
+RHO(I,J)                    :   Macroscopic density at lattice site (i,j)
+F(I,J,K)                    :   Particle distribution function (K 5 0,1,. . .,8)at lattice site
+                                (i,j)
+FTILD(I,J,K)                :   Particle distribution function after the collision at lattice (i,j)
+W(K)                        :   Weighting constant wα
+CVEL(2,K)                   :   Lattice velocity cα (CVEL(1,K)is x-component, and CVEL
+                                (2,K) is y-component)
+XL,YL                       :   Dimensions of the simulation region in the (x,y) directions
+DNS0                        :   Density of an inflow fluid
+DCYL                        :   Diameter of the cylinder
+UVELX                       :   Uniform flow velocity U*
+RE                          :   Reynolds number Re
+TAU                         :   Relaxation time τ
+RXCYL,RYCYL                 :   Center of the cylinder (equal to the origin in this practice)
+ICYL,JCYL                   :   Lattice site (in the (x,y) direction) representing the cylinder
+                                center
+COLOR(ITH)                  :   Color function representing the type of lattice site (i,j)
+                                (ITH 5 (1 1 PX)*J 1 I 1 1)
+TBLNAM(II)                  :   Save the name of lattice sites interacting with the cylinder
+POSINTBL(ITH)               :   Save the order in which each lattice site appears in TBLNAM
+TBLPOS(II)                  :   Save the order in which quantities relate to lattice site
+                                TBLNAM(II) appear in the variable TBLDW
+TBLNUM(II)                  :   Save the number of velocities interacting with the cylinder
+                                concerning lattice site TBLNAM(II)
+TBLDW(III)                  :   Save the value of Δw
+TBLAL(III)                  :   Save the name of the lattice directions α interacting with the
+                                cylinder
+
+  In order to assist the reader in understanding the program, explanatory state-
+ments have been added to the important features.
+
+===== PAGINA 14 =====
+
+232                                            Introduction to Practice of Molecular Simulation
+
+
+      0001 C*********************************************************************
+      0002 C*                           LBcyl5.f                                  *
+      0003 C*                                                                     *
+      0004 C*     OPEN(9, FILE='@bbba1.dat' ,STATUS='UNKNOWN'); para, results     *
+      0005 C*     OPEN(11,FILE='bbba11.dat' ,STATUS='UNKNOWN'); parameters        *
+      0006 C*     OPEN(12,FILE='bbba21.dat' ,STATUS='UNKNOWN'); VEL data          *
+      0007 C*     OPEN(21,FILE='bbba001.dat',STATUS='UNKNOWN'); VEL field         *
+      0008 C*     OPEN(22,FILE='bbba011.dat',STATUS='UNKNOWN'); VEL field         *
+      0009 C*     OPEN(23,FILE='bbba021.dat',STATUS='UNKNOWN'); VEL field         *
+      0010 C*     OPEN(24,FILE='bbba031.dat',STATUS='UNKNOWN'); VEL field         *
+      0011 C*     OPEN(25,FILE='bbba041.dat',STATUS='UNKNOWN'); VEL field         *
+      0012 C*     OPEN(26,FILE='bbba051.dat',STATUS='UNKNOWN'); VEL field         *
+      0013 C*     OPEN(27,FILE='bbba061.dat',STATUS='UNKNOWN'); VEL field         *
+      0014 C*     OPEN(28,FILE='bbba071.dat',STATUS='UNKNOWN'); VEL field         *
+      0015 C*     OPEN(29,FILE='bbba081.dat',STATUS='UNKNOWN'); VEL field         *
+      0016 C*     OPEN(30,FILE='bbba091.dat',STATUS='UNKNOWN'); VEL field         *
+      0017 C*     OPEN(41,FILE='avsvel1.fld',STATUS='UNKNOWN'); MicroAVS fld      *
+      0018 C*     OPEN(42,FILE='avsvel1.dat',STATUS='UNKNOWN'); MicroAVS data     *
+      0019 C*                                                                     *
+      0020 C*     ----- LATTICE BOLTZMANN SIMULATION OF A FLOW PAST       -----   *
+      0021 C*             A CIRCULAR CYLINDER IN A TWO-DIMENSIONAL SYSTEM         *
+      0022 C*                                                                     *
+      0023 C*     VER.1:                                                          *
+      0024 C*        1. D2Q9 MODEL IS USED                                        *
+      0025 C*        2. EQUILIBRIUM BC WITH GIVEN UNIFORM VEL. IS USED FOR        *
+      0026 C*           UPSTREAM BC                                               *
+      0027 C*        3. THREE FOLLOWING BC'S ARE USED FOR BOTH SIDES BC OF CYL    *
+      0028 C*           (1) EXTRAPOLATION BC     (ITREESID=1)                     *
+      0029 C*           (2) DEF=0                (ITREESID=2)                     *
+      0030 C*           (3A) UIFORM FLOW (Const)(ITREESID=3)                      *
+      0031 C*           (3B) UIFORM FLOW (DEF=0)(ITREESID=4)                      *
+      0032 C*           (3C) UIFORM FLOW (Extra)(ITREESID=5)                      *
+      0033 C*        4. THREE FOLLOWING BC'S ARE USED FOR DOWNSTREAM BC           *
+      0034 C*           (1) EXTRAPOLATION BC     (ITREEDWN=1)                     *
+      0035 C*           (2) DEF=0                (ITREEDWN=2)                     *
+      0036 C*           (3A) UIFORM FLOW (Const)(ITREEDWN=3)                      *
+      0037 C*           (3B) UIFORM FLOW (DEF=0)(ITREEDWN=4)                      *
+      0038 C*           (3C) UIFORM FLOW (Extra)(ITREEDWN=5)                      *
+      0039 C*        5. THREE FOLLOWING BC'S ARE USED FOR COLLISION BETWEEN       *
+      0040 C*           SITES AND CYLINDER                                        *
+      0041 C*           (1) BOUNCE-BACK               (ITREECYL=1)                *
+      0042 C*           (2A) YMLS METHOD(Quadratic) (ITREECYL=2)                  *
+      0043 C*           (2B) YMLS METHOD(Liner)       (ITREECYL=3)                *
+      0044 C*           (3A) BFL METHOD(Quadratic)    (ITREECYL=4)                *
+      0045 C*           (3B) BFL METHOD(Linear)       (ITREECYL=5)                *
+      0046 C*                                                                     *
+      0047 C*                                         VER.1 BY A.SATOH, '08 7/4 *
+      0048 C*********************************************************************
+      0049 C     ---- THE FOLLOWING NOTATIONS ARE USED FOR LATTICE BOLTZMANN ---
+      0050 C     F(I,J,K)      : DENSITY DISTRIBUTION FUNCTION
+      0051 C                      I=0,1,2,...,PX : J=0,1,2,...PY : K=0,1,...,8
+      0052 C     FTILD(I,J,K) : DENSITY DISTRIBUTION FUNCTION BEFORE TRAVEL
+      0053 C     CVEL(2,K)     : C_ALPHA
+      0054 C                      C_0=(0,0)
+      0055 C                      C_1=(1,0), C_2=(-1, 0), C_3=(0, 1), C_4=( 0,-1)
+      0056 C                      C_5=(1,1), C_6=(-1,-1), C_7=(1,-1), C_8=(-1, 1)
+      0057 C     W(K)          : WEIGHT CONSTANTS
+      0058 C                      W(0)=4/9, W(ALPHA)=1/9 (ALPHA=1,2,3,4),
+      0059 C                                W(ALPHA)=1/36 (ALPHA=5,6,7,8)
+      0060 C     ALPHAMX       : =8 FOR D2Q9
+      0061 C     IINC(2,K)     : INCREMENT IN EACH DIRECTION FOR TRANSFER
+      0062 C                      FOR ALPHA DIRECTION
+      0063 C                      (E.X., IINC(1,1)=1, IINC(2,1)=0)
+      0064 C     ANTIALPH(K) : NAME OF THE OPPOSITE DIRECTION SITE FOR ALPHA
+      0065 C                      (E.X., ANTIALPH(1)=2)
+      0066 C     RHO(I,J)      : DENSITY AT (I,J)
+      0067 C     RX(I,J),RY(I,J) : LATTICE POSITION
+      0068 C     VX(I,J),VY(I,J) : VELOCITY COMPONENTS IN X- AND Y-DIRECTIONS
+      0069 C     DNS0      : MEAN DENSITY (CONSTANT FOR NON-COMPRESSIVE FLOW)
+      0070 C     PX,PY     : NUMBER OF CELLS IN EACH DIRECTION (EVEN VALUES)
+      0071 C     PXY       : = (PX+1)*(PY+1)
+      0072 C     XL,YL     : LENGTHS OF SIMULATION REGION IN EACH DIRECTION
+      0073 C     TAU       : NON-DIMENSIONAL RELAXATION TIME
+      0074 C     DX        : UNIT LENGTH (=1)
+      0075 C     DT        : TIME INTERVAL(=1)
+      0076 C     CLAT      : LATTICE VELOCITY (=1)
+      0077 C     (UVELX,UVELY) : UNIFORM VELOCITY COMPONENTS
+      0078 C
+      0079 C     ------ THE FOLLOWING NOTATIONS ARE USED FOR THE CYLINDER ------
+
+===== PAGINA 15 =====
+
+Practice of Lattice Boltzmann Simulations                                                     233
+
+
+0080 C     DCYL          : DIAMETER OF CYLINDER
+0081 C     RXCYL,RYCYL : POSITION OF CYLINDER(=(0,0) FOR THE PRESENT CASE)
+0082 C     ICYL , JCYL : SITE POSITION OF CYLINDER
+0083 C     COLOR(PXY)    : COLOR FOR DISTINGUISHING PROCEDURES FOR EACH SITE
+0084 C     POSINTBL(PXY): POSITION OF THE SITE IN TBLNAM(*) FOR EACH SITE
+0085 C     TBLNAM(NTBL) : NAMES OF INTERACTING SITES WITH CYLINDER
+0086 C     TBLNUM(NTBL) : NUMBERS OF INTERACTING ALPHA-VELS FOR EACH SITE
+0087 C     TBLPOS(NTBL) : POSITION OF THE SITE APPEARING IN TBLDW(*) AND
+0088 C                      TBLAL(*)
+0089 C     TBLDW(NTBLDW): VALUES OF DW ARE SAVED IN TBLDW(*) FOR EACH SITE
+0090 C     TBLAL(NTBLDW): VALUES OF ALPHA-VEL ARE SAVED FOR EACH SITE
+0091 C     TBLNAMIN(NTBLNAMI) : THE NAMES OF SITES INSIDE CYLINDER
+0092 C
+0093 C     ------------------ CONCERNING DRAG COEFFICIENT -----------------
+0094 C     CD           : DRAG COEFFICIENT
+0095 C     CDFORCE(NSMPLCD) : FORCE IS SAVED FOR EACH TIME STEP
+0096 C     CDFORCE0     : COEFFICIENT (U**2)D/2 IS USED FOR CAL. CD
+0097 C     NSMPLCD      : TOTAL SAMPLING NUMBER
+0098 C     RE           : REYNOLDS NUMBER
+0099 C                    U=0.005 D=20 TAU=0.80 Re= 1
+0100 C                    U=0.005 D=20 TAU=0.60 Re= 3
+0101 C                    U=0.005 D=20 TAU=0.55 Re= 6
+0102 C                    U=0.005 D=20 TAU=0.53 Re= 10
+0103 C                    U=0.005 D=20 TAU=0.52 Re= 15
+0104 C                    U=0.005 D=20 TAU=0.515 Re= 20
+0105 C                    U=0.005 D=20 TAU=0.51 Re= 30
+0106 C
+0107 C        +++ -XL1<RX(I)<XL2 , -YL1<RY(I)<YL2 , -ZL1<RZ(I)<ZL2 +++
+0108 C---------------------------------------------------------------------
+0109       IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N)
+0110 C
+0111       COMMON /BLOCK1/ F       , FTILD
+0112       COMMON /BLOCK2/ CVEL , W , IINC , ANTIALPH, ALPHAMX
+0113       COMMON /BLOCK3/ RHO , RX , RY , VX , VY
+0114       COMMON /BLOCK4/ DNS0 , TAU , DX , DT , CLAT
+0115       COMMON /BLOCK5/ XL , YL , XL1 , YL1 , XL2 , YL2 , PX , PY , PXY
+0116       COMMON /BLOCK6/ UVELX , UVELY
+0117 C
+0118       COMMON /BLOCK14/ RXCYL , RYCYL , ICYL , JCYL , DCYL
+0119       COMMON /BLOCK15/ COLOR      , POSINTBL
+0120       COMMON /BLOCK16/ TBLNAM     , TBLNUM , TBLPOS , NTBL
+0121       COMMON /BLOCK17/ TBLDW      , TBLAL    , NTBLDW
+0122       COMMON /BLOCK18/ TBLNAMIN , NTBLNAMI
+0123 C
+0124       COMMON /BLOCK21/ CD , CDFORCE0 , CDFORCE , RE , NSMPLCD
+0125 C
+0126 C     -----------------------------
+0127       INTEGER     PP , QQ , KK
+0128       PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+0129 C
+0130       REAL*8     F(0:PP,0:QQ,0:KK), FTILD(0:PP,0:QQ,0:KK)
+0131       REAL*8     CVEL(2,0:KK)      , W(0:KK)
+0132       REAL*8     RHO(0:PP,0:QQ)
+0133       REAL*8     RX( 0:PP,0:QQ)    , RY(0:PP,0:QQ)
+0134       REAL*8     VX( 0:PP,0:QQ)    , VY(0:PP,0:QQ)
+0135       INTEGER   ALPHAMX , IINC(2,0:KK) , ANTIALPH(0:KK)
+0136       INTEGER    PX , PY , PXY
+0137 C     -----------------------------
+0138       INTEGER     PPXY
+0139       PARAMETER( PPXY=150000 , NNTBL=2200 , NNTBL2=4400 , NNTBL3=4400 )
+0140 C
+0141       REAL*8     TBLDW(NNTBL2)
+0142       INTEGER    COLOR(PPXY)    , POSINTBL(PPXY)
+0143       INTEGER    TBLNAM(NNTBL) , TBLNUM(NNTBL) , TBLPOS(NNTBL) , NTBL
+0144       INTEGER    TBLAL(NNTBL2) , NTBLDW
+0145       INTEGER    TBLNAMIN(NNTBL3) , NTBLNAMI
+0146 C     -----------------------------
+0147       INTEGER     NNCD                         • The given values are written out in @bbbd1
+0148       PARAMETER( NNCD=1000000 )                and bbbd11, and the velocities are written
+0149 C                                              out in bbbd21.
+0150       REAL*8     CDFORCE(NNCD)
+0151 C     -----------------------------
+0152       REAL*8     VXSUM(0:PP,0:QQ), VYSUM(0:PP,0:QQ), RHOSUM(0:PP,0:QQ)
+0153       REAL*8     H , DCYL2SQ , CD99 , C1
+0154       INTEGER    NTIMEMX , NGRAPH , NANIME , NOPT, NSMPLCD, NDUM
+0155       INTEGER    NTHROW , NSMPLVEL, NANMCTR, NSMPL1
+0156       INTEGER    ITREECYL, ITREESID, ITREEDWN
+
+===== PAGINA 16 =====
+
+234                                                    Introduction to Practice of Molecular Simulation
+
+
+0157 C
+0158                  OPEN(9,FILE='@bbbd1.dat' ,STATUS='UNKNOWN')
+0159                  OPEN(11,FILE='bbbd11.dat' ,STATUS='UNKNOWN')                  • The velocities and
+0160                  OPEN(12,FILE='bbbd21.dat' ,STATUS='UNKNOWN')                  densities are written
+0161                  OPEN(21,FILE='bbbd001.dat',STATUS='UNKNOWN')                  out in bbbd001 to
+0162                  OPEN(22,FILE='bbbd011.dat',STATUS='UNKNOWN')                  bbbd091, and the
+0163                  OPEN(23,FILE='bbbd021.dat',STATUS='UNKNOWN')
+0164                  OPEN(24,FILE='bbbd031.dat',STATUS='UNKNOWN')                  data are written out
+0165                  OPEN(25,FILE='bbbd041.dat',STATUS='UNKNOWN')                  in avsvel1 for Micro-
+0166                  OPEN(26,FILE='bbbd051.dat',STATUS='UNKNOWN')                  AVS.
+0167                  OPEN(27,FILE='bbbd061.dat',STATUS='UNKNOWN')
+0168                  OPEN(28,FILE='bbbd071.dat',STATUS='UNKNOWN')
+0169                  OPEN(29,FILE='bbbd081.dat',STATUS='UNKNOWN')
+0170                  OPEN(30,FILE='bbbd091.dat',STATUS='UNKNOWN')
+0171                  OPEN(41,FILE='avsvel1.fld',STATUS='UNKNOWN')
+0172                  OPEN(42,FILE='avsvel1.dat',STATUS='UNKNOWN')
+0173                                                                         NP=9
+0174 C                                                       --- PARAMETER (1) ---
+0175 C                                       ++ PX=140, PY=120 ; PX=280, PY=220 ++
+0176 C                                       ++ PX=180, PY=140 ; PX=320, PY=260 ++
+0177 C                                       ++ PX=220, PY=180 ; PX=340, PY=280 ++
+0178     AU      = 0.515D0
+0179     UVELX   = 0.005D0 • τ=0.515 and U*=0.005. The numbers of the lattice points in the x- and
+0180     UVELY   = 0.0D0   y-directions are (PX, PY), respectively. α=0,…,8. The size of the
+0181     PX      = 140     simulation box is (XL,YL) in each direction.
+0182     PY      = 120
+0183 C                                                        --- PARAMETER (2) ---
+0184       ALPHAMX = 8
+0185       XL      = DBLE(PX)               • The name of the first lattice point is 0, so that the total
+0186       YL      = DBLE(PY)               number of the lattice points is PXY=(PX+1)×(PY+1).
+0187       XL1     = XL/2.D0                • The cylinder diameter centered at the origin is DCYL=
+0188       YL1     = YL/2.D0                20, and its center is therefore (RXCYL,RYCYL)=(0,0).
+0189       XL2     = XL - XL1
+0190       YL2     = YL - YL1
+0191       DNS0    = 1.D0
+0192       DX      = 1.D0
+0193       DT      = 1.D0
+0194       CLAT    = 1.D0
+0195       PXY     = (PX+1)*(PY+1)
+0196 C                                                        --- PARAMETER (2) ---
+0197       DCYL    = 20.D0 - 0.0001D0
+0198       DCYL2SQ = DCYL**2 / 4.D0
+0199       RXCYL   = 0.D0
+0200       RYCYL   = 0.D0
+0201 C                                                        --- PARAMETER (4) ---
+0202 C                       ++ (1) BOUNCE-BACK                        (ITREECYL=1) ++
+0203 C                       ++ (2A) YMLS METHOD(Quadratic) (ITREECYL=2) ++
+0204 C                       ++ (2B) YMLS METHOD(Liner)                (ITREECYL=3) ++
+0205 C                       ++ (3A) BFL METHOD(Quadratic)             (ITREECYL=4) ++
+0206 C                       ++ (3B) BFL METHOD(Linear)                (ITREECYL=5) ++
+0207 C                               ++ (1) EXTRAPOLATION BC           (ITREESID=1) ++
+0208 C                               ++ (2) DEF=0                      (ITREESID=2) ++
+0209 C                               ++ (3A) UIFORM FLOW(Const)(ITREESID=3) ++
+0210 C                               ++ (3B) UIFORM FLOW(DEF=0)(ITREESID=4) ++
+0211 C                               ++ (3C) UIFORM FLOW(Extra)(ITREESID=5) ++
+0212 C                             ++ (1) EXTRAPOLATION BC             (ITREEDWN=1) ++
+0213 C                             ++ (2) DEF=0                        (ITREEDWN=2) ++
+0214 C                             ++ (3A) UIFORM FLOW(Const) (ITREEDWN=3) ++
+0215 C                             ++ (3B) UIFORM FLOW(DEF=0) (ITREEDWN=4) ++
+0216 C                             ++ (3C) UIFORM FLOW(Extra) (ITREEDWN=5) ++
+0217       ITREECYL= 1
+0218       ITREESID= 2              • The boundary condition is adopted according to the values of
+0219       ITREEDWN= 2              ITREECYL, ITREESID, and ITREEDWN.
+0220 C                                  • The total number of time steps is NTIMEMX= 200000. The
+0221       NTIMEMX = 200000
+0222       NGRAPH = NTIMEMX/10          velocity field data are written out at every NGRAPH time steps.
+0223       NANIME = NTIMEMX/10
+0224       NOPT    = 20
+0225 C                                                           --- PARAMETER (5) ---
+0226 C                                                           - NSMPLCD FOR CD    -
+0227 C                                                           - NSMPL1 FOR VEL    -
+0228       NSMPLCD =     NTIMEMX                              • 10 sets of data are written out for making
+0229       NSMPL1 =      5                                    an animation based on MicroAVS.
+0230       NTHROW =      NTIMEMX/10
+0231 C                                                --- PARAMETER (6) ---
+0232       CDFORCE0= (DNS0*(UVELX)**2)*DCYL /2.D0
+0233       RE      = UVELX*DCYL/( (2.D0*TAU - 1.D0 )/6.D0 )
+0234 C
+0235 C                                                     • The velocities and positions of
+           ----------------------------------------------------------------
+0236 C     ---------------------    INITIAL SETTING        the lattice points are assigned.
+                                                       --------------------
+
+===== PAGINA 17 =====
+
+Practice of Lattice Boltzmann Simulations                                                                235
+
+
+0237 C       ----------------------------------------------------------------
+0238 C                       --- SET C_VEL(2,8),W(8),IINC(2,8),ANTIALPH(8) ---
+0239         CALL INICVEL
+0240 C                            --- SET LATTICE POSITION RX(*,*),RY(*,*) ---
+0241         CALL INILAT
+0242 C                                      --- SET INITIAL POSIT. AND VEL. ---
+0243 C
+0244 CCC     OPEN(19,FILE='bbbd091.dat',STATUS='OLD')
+0245 CCC       READ(19,201) PX, PY, ALPHAMX
+0246 CCC       READ(19,202) ( ( ( F(I,J,K),K=0,ALPHAMX ),J=0,PY ), I=0,PX )
+0247 CCC       READ(19,204) ( (RX( I,J),J=0,PY),I=0,PX )
+0248 CCC       READ(19,204) ( (RY( I,J),J=0,PY),I=0,PX )
+0249 CCC       READ(19,206) ( (VX( I,J),J=0,PY),I=0,PX )
+0250 CCC       READ(19,206) ( (VY( I,J),J=0,PY),I=0,PX )
+0251 CCC       READ(19,208) ( (RHO(I,J),J=0,PY),I=0,PX )
+0252 CCC     CLOSE(19,STATUS='KEEP')
+0253 CCC     GOTO 7
+0254 C                                      --- SET• The     initial values
+                                                        INITIAL      DENSITYof the distribution function are
+                                                                                F(*,*,8)---
+0255         CALL INIDIST( DNS0 , ALPHAMX )           assigned, and the values of the variable color
+0256 C                                            ---inSET    COLOR
+                                                         Section        FORareEACH
+                                                                    7.4.2           SITE ---
+                                                                                evaluated.  This procedure
+0257 C                                            - COLOR, POSINTBL, TBLNAMIN -
+0258      7 CALL INICOLOR( PX , PY , DCYL2SQ ) is conducted only once because of the
+0259 C                                  --- MAKE TABLEcylinder
+                                                             OF being   fixed.
+                                                                  INTERACTING      SITES ---
+0260 C                                  -   WITH CYLINDER                                     -
+0261         CALL MAKETBLE( DCYL2SQ , NTBL , NTBLDW )                  • The lattice points interacting with
+0262 C                                                                 the cylinder are checked.
+0263 C                                            --- SET ZERO VEL INSIDE CYL ---
+0264         DO 9 J=0, PY
+0265         DO 8 I=0, PX
+0266           ITH = (PX+1)*J + (I+1)
+0267           IF( (COLOR(ITH).EQ.6) .OR. (COLOR(ITH).EQ.7) ) THEN
+0268             VX( I,J) = 0.D0
+0269             VY( I,J) = 0.D0               • The velocities at the lattice points inside the cylinder
+0270             RHO(I,J) = DNS0               are set to be zero.
+0271           END IF
+0272      8 CONTINUE
+0273      9 CONTINUE
+0274 C       ---------------------------------------- PRINT OUT CONSTANTS ---
+0275         WRITE(NP,10) DNS0, TAU, DX, DT, CLAT, ALPHAMX
+0276         WRITE(NP,11) PX, PY, PXY, XL, YL, XL1, YL1, XL2, YL2,
+0277       &               UVELX, UVELY
+0278         WRITE(NP,13) DCYL, ITREECYL, ITREESID, ITREEDWN
+0279         WRITE(NP,14) NTIMEMX, NGRAPH, NANIME, NSMPLCD, NTHROW, NSMPL1
+0280         WRITE(NP,15) CDFORCE0, RE
+0281 C       --------------------------------------------- INITIALIZATION ---
+0282 C
+0283 C                                                            --- INITIALIZE(1) ---
+0284         NSMPLCD = 0
+0285         DO 20 I=1, NTIMEMX
+0286           CDFORCE(I) = 0.D0
+0287     20 CONTINUE
+0288 C                                                            --- INITIALIZE(2) ---
+0289         DO 30 J=0, PY
+0290         DO 25 I=0, PX                         • The following procedure is conducted in the main
+0291           VXSUM( I,J) = 0.D0                  loop: (1) the velocities at each lattice point are
+0292           VYSUM( I,J) = 0.D0                  evaluated in VELCAL, (2) the collision treatment is
+0293           RHOSUM(I,J) = 0.D0                  carried out in COLLPROC, (3) the transfer of the
+0294     25 CONTINUE
+0295     30 CONTINUE                               distribution function is conducted in MOVEPROC,
+0296         NSMPLVEL = 0                          and (4) the BC treatment is conducted in BCPROC.
+0297 C                                                            --- INITIALIZE(3) ---
+0298         NANMCTR = 0
+0299 C
+0300 C       ----------------------------------------------------------------
+0301 C       -------------------     START OF MAIN LOOP              -------------------
+0302 C       ----------------------------------------------------------------
+0303 C
+0304         DO 1000 NTIME = 1,NTIMEMX
+0305 C
+0306 C                                       --- CAL. VEL AT EACH LAT. POS. ---
+0307 C                                       -      VX(*,*),VY(*,*),RHO(*,*)                  -
+0308           CALL VELCAL( COLOR , ITREESID , ITREEDWN, NTIME )
+0309 C                               --- COLLISION PROCEDURE FTILD(*,*,8) ---
+0310           CALL COLLPROC( COLOR , ALPHAMX )
+0311 C                          --- PROPAGATION PROCEDURE,FORCE EVALUATION ---
+0312 C                          -                             F(*,*,8) WITHOUT BC             -
+0313           NSMPLCD = NSMPLCD + 1
+0314           CALL MOVEPROC( PX , PY , ANTIALPH , RHO , DNS0 , ITREECYL )
+0315 C                                          --- BOUNDARY CONDITION PROC. ---
+
+===== PAGINA 18 =====
+
+236                                                   Introduction to Practice of Molecular Simulation
+
+
+0316 C                                        -             FX(*,*,8) FOR BC           -
+0317           CALL BCPROC( PX , PY , DNS0 , ALPHAMX , ITREESID ,
+0318       &                                                      ITREEDWN )
+0319 C
+0320 C                                    --- DATA OUTPUT (1) FOR GRAPHICS ---
+0321 C
+0322           IF( MOD(NTIME,NGRAPH) .EQ. 0 ) THEN
+0323 C
+0324             CALL VELCAL( COLOR , ITREESID , ITREEDWN , NTIME )
+0325 C
+0326             NOPT = NOPT + 1
+0327             WRITE(NOPT,201) PX, PY, ALPHAMX
+0328             WRITE(NOPT,202) (    ( ( F(I,J,K),K=0,ALPHAMX ),J=0,PY ),
+0329       &                                                            I=0,PX       )
+0330             WRITE(NOPT,204) ( (RX( I,J),J=0,PY),I=0,PX )
+0331             WRITE(NOPT,204) ( (RY( I,J),J=0,PY),I=0,PX )         • The velocity data, etc., are
+0332             WRITE(NOPT,206) ( (VX( I,J),J=0,PY),I=0,PX )         written out at every NGRAPH
+0333             WRITE(NOPT,206) ( (VY( I,J),J=0,PY),I=0,PX )         time steps for the post
+0334             WRITE(NOPT,208) ( (RHO(I,J),J=0,PY),I=0,PX )
+0335 C                                                                processing analysis.
+0336             CLOSE(NOPT,STATUS='KEEP')
+0337           END IF
+0338 C                                   --- DATA OUTPUT (2) FOR ANIMATION ---
+0339 C
+0340           IF( MOD(NTIME,NANIME) .EQ. 0 ) THEN
+0341 C
+0342             CALL VELCAL( COLOR , ITREESID , ITREEDWN , NTIME )
+0343 C
+0344             NANMCTR = NANMCTR + 1            • The velocity data, etc., are written out at every
+0345             CALL GRAPHVEL( NANMCTR )         NANIME time steps for making an animation.
+0346 C
+0347           END IF
+0348 C
+0349 C                                        --- DATA BETWEEN NTIME=0 AND ---
+0350 C                                        --- =NTHROW ARE THROWN AWAY. ---
+0351           IF( NTIME .LT. NTHROW ) GOTO 1000
+0352 C
+0353 C         --------------------------------------------------------------
+0354           IF( NTIME .EQ. NTHROW ) THEN
+0355 C                                                          +++ INITIALIZE +++
+0356             NSMPLCD = 0
+0357             DO 302 I=1, NTIMEMX
+0358               CDFORCE(I) = 0.D0
+0359   302       CONTINUE
+0360 C
+0361             DO 310 J=0, PY
+0362             DO 305 I=0, PX
+0363               VXSUM( I,J) = 0.D0
+0364               VYSUM( I,J) = 0.D0
+0365               RHOSUM(I,J) = 0..D0
+0366   305       CONTINUE
+0367   310       CONTINUE                               • In order to evaluate average values, the
+0368             NSMPLVEL     = 0                       velocity data, etc., are sampled at every
+0369 C                                                  NSMPL1 time steps.
+0370             GOTO 1000
+0371           END IF
+0372 C                                          --- CAL. SUM OF VELOCITIES ---
+0373 C
+0374           IF( MOD(NTIME,NSMPL1) .EQ. 0 )THEN
+0375             NSMPLVEL = NSMPLVEL + 1
+0376             CALL VELCAL( COLOR , ITREESID , ITREEDWN , NTIME )
+0377 C
+0378             DO 500 J=0, PY
+0379             DO 490 I=0, PX
+0380               VXSUM( I,J) = VXSUM( I,J) + VX( I,J)
+0381               VYSUM( I,J) = VYSUM( I,J) + VY( I,J)
+0382               RHOSUM(I,J) = RHOSUM(I,J) + RHO(I,J)
+0383   490       CONTINUE
+0384   500       CONTINUE
+0385           END IF
+0386 C
+0387 C
+0388 1000 CONTINUE
+0389 C
+0390 C       ----------------------------------------------------------------
+0391 C      ---------------------- END OF MAIN LOOP ------------------------
+0392 C       ----------------------------------------------------------------
+0393 C
+0394 C                                                              --- CAL. CD ---
+0395         C1 = 0.D0
+0396         DO 1100 I=1, NSMPLCD
+
+===== PAGINA 19 =====
+
+Practice of Lattice Boltzmann Simulations                                                      237
+
+
+0397           C1 = C1 + CDFORCE(I)
+0398 1100 CONTINUE
+0399        CD    = ( C1/DBLE(NSMPLCD) ) / CDFORCE0         • The drag coefficient is calculated.
+0400        CD99 =     CDFORCE( NSMPLCD ) / CDFORCE0
+0401 C
+0402 C                           --- CAL AVE. AND PRINT OUT CONSTANTS (1) ---
+0403        CALL AVECAL( NP, NSMPLVEL, VXSUM, VYSUM, RHOSUM,
+0404      &                                            PX, PY, ALPHAMX )
+0405 C
+0406 C                                                 --- DATA OUTPUT (3) ---
+0407        WRITE(11,1101) DNS0, TAU, DX, DT, CLAT, ALPHAMX
+0408        WRITE(11,1103) PX, PY, PXY, XL, YL, XL1, XL2, YL1, YL2
+0409        WRITE(11,1105) UVELX, UVELY
+0410        WRITE(11,1107) DCYL, ITREECYL, ITREESID, ITREEDWN
+0411        WRITE(11,1109) NTIMEMX, NGRAPH, NANIME, NSMPLCD, NTHROW, NSMPL1
+0412        WRITE(11,1111) CD, RE
+0413 C                                                 --- DATA OUTPUT (4) ---
+0414        WRITE(12,1121) PX, PY
+0415        WRITE(12,1123) ( ( VXSUM( I,J),J=0,PY ), I=0,PX       )
+0416        WRITE(12,1123) ( ( VYSUM( I,J),J=0,PY ), I=0,PX       )
+0417        WRITE(12,1125) ( ( RHOSUM(I,J),J=0,PY ), I=0,PX       )
+0418 C
+0419 C                                                   --- PRINT OUT (2) ---
+0420        WRITE(NP,1131) CD99 , CD , RE
+0421 C                                                 --- DATA OUTPUT (5) ---
+0422        WRITE(12,1133) CD , RE , NSMPLCD
+0423        WRITE(12,1135) ( CDFORCE(I), I=1, NSMPLCD )
+0424 C
+0425                                      CLOSE( 9,STATUS='KEEP')
+0426                                      CLOSE(11,STATUS='KEEP')
+0427                                      CLOSE(12,STATUS='KEEP')
+0428                                      CLOSE(41,STATUS='KEEP')
+0429                                      CLOSE(42,STATUS='KEEP')
+0430 C
+0431 C      ------------------------- FORMAT -------------------------------
+0432 C
+0433    10 FORMAT(/1H ,'--------------------------------------------------'
+0434      &         /1H ,1X,'LATTICE BOLTZMANN SIMULATION OF',
+0435      &                 ' A FLOW AROUND A CYLINDER'
+0436      &         /1H ,10X,' +++ TWO-DIMENSIONAL FLOW +++'
+0437      &         /1H ,'--------------------------------------------------'
+0438      &        //1H ,'DNS0=', F6.3, 2X, 'TAU=',F6.4,
+0439      &               2X, 'DX=', F6.2, 2X, 'DT=', F6.2, 2X, 'CLAT=',
+0440      &               F6.3
+0441      &         /1H , 'ALPHAMX=', I3)
+0442    11 FORMAT(1H ,'PX=', I3, 1X, 'PY=', I3, 1X, 'PXY=', I6, 1X,
+0443      &             'XL=', F6.2, 1X, 'YL=', F6.2, 1X, 'XL1=', F6.2, 1X,
+0444      &             'YL1=',F6.2
+0445      &        /1H ,'XL2=', F6.2, 1X, 'YL2=', F6.2, 2X,
+0446      &             'UVELX=', F6.2, 2X, 'UVELY=',F6.2)
+0447    13 FORMAT(1H ,'DCYL=', F7.3, 2X,'ITREECYL=',I3, 2X,'ITREESID=',I3,
+0448      &              2X,'ITREEDWN=',I3)
+0449    14 FORMAT(1H ,'NTIMEMX=', I8, 2X, 'NGRAPH=', I8, 2X, 'NANIME=', I8
+0450      &        /1H ,'NSMPLCD=',I8, 2X, 'NTHROW=',I8, 2X, 'NSMPL1=',I8)
+0451    15 FORMAT(1H ,'CDFORCE0=', F9.4, 2X, 'RE=', F9.3)
+0452   201 FORMAT( 3I9 )
+0453   202 FORMAT( (6E13.6) )
+0454   204 FORMAT( (6E13.6) )
+0455   206 FORMAT( (6E13.6) )
+0456   208 FORMAT( (6E13.6) )
+0457 1101 FORMAT( 5F9.4, I8 )
+0458 1103 FORMAT( 3I8, 6F9.3 )
+0459 1105 FORMAT( 2F11.5 )
+0460 1107 FORMAT( F6.2 , 3I3 )
+0461 1109 FORMAT( 6I10 )
+0462 1111 FORMAT( 2F12.6 )
+0463 1121 FORMAT( 2I10 )
+0464 1123 FORMAT( ( 8E10.3 ) )
+0465 1125 FORMAT( ( 8E10.3 ) )
+0466 1131 FORMAT(/1H ,'CD99=', F10.5, 3X, 'CD=', F10.5, 3X, 'RE=', F10.5)
+0467 1133 FORMAT( 2F10.4 , I9 )
+0468 1135 FORMAT( ( 7E11.4 ) )
+0469                                                                          STOP
+0470                                                                          END
+0471 C*********************************************************************
+0472 C************************ SUBROUTINE *******************************
+0473 C*********************************************************************
+0474 C
+0475 C**** SUB AVECAL *****
+0476        SUBROUTINE AVECAL( NP, NSMPLVEL, VXSUM, VYSUM, RHOSUM,
+
+===== PAGINA 20 =====
+
+238                                                    Introduction to Practice of Molecular Simulation
+
+
+0477      &                                            PX, PY, ALPHAMX )
+0478 C
+0479        IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N)             • The velocity field is calculated
+0480 C                                                           by an averaging procedure.
+0481        INTEGER   PP , QQ , KK
+0482        PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+0483 C
+0484        INTEGER   PX , PY , ALPHAMX
+0485        REAL*8    VXSUM(0:PP,0:QQ), VYSUM(0:PP,0:QQ), RHOSUM(0:PP,0:QQ)
+0486 C
+0487 C                                               --- CAL VELOCITY FIELD ---
+0488       DO 1010 J=0, PY
+0489       DO 1008 I=0, PX
+0490          VXSUM( I,J) = VXSUM( I,J) / DBLE(NSMPLVEL)
+0491          VYSUM( I,J) = VYSUM( I,J) / DBLE(NSMPLVEL)
+0492          RHOSUM(I,J) = RHOSUM(I,J) / DBLE(NSMPLVEL)
+0493 1008 CONTINUE
+0494 1010 CONTINUE
+0495 C                                   --- PRINT OUT (2) VELOCITY FIELD ---
+0496 C                                                                    +++ VX +++
+0497        WRITE(NP,1021)
+0498       DO 1030 I=0, PX
+0499        DO 1029 J=0, PY, 17
+0500          WRITE(NP,1026) VXSUM(I,J    ),VXSUM(I,J+ 1),VXSUM(I,J+ 2),
+0501      &                   VXSUM(I,J+ 3),VXSUM(I,J+ 4),VXSUM(I,J+ 5),
+0502      &                   VXSUM(I,J+ 6),VXSUM(I,J+ 7),VXSUM(I,J+ 8),
+0503      &                   VXSUM(I,J+ 9),VXSUM(I,J+10),VXSUM(I,J+11),
+0504      &                   VXSUM(I,J+12),VXSUM(I,J+13),VXSUM(I,J+14),
+0505      &                   VXSUM(I,J+15),VXSUM(I,J+16)
+0506 1029 CONTINUE
+0507 1030 CONTINUE
+0508 C                                                                    +++ VY +++
+0509        WRITE(NP,1041)
+0510       DO 1050 I=0, PX
+0511        DO 1049 J=0, PY, 17
+0512          WRITE(NP,1026) VYSUM(I,J    ),VYSUM(I,J+ 1),VYSUM(I,J+ 2),
+0513      &                   VYSUM(I,J+ 3),VYSUM(I,J+ 4),VYSUM(I,J+ 5),
+0514      &                   VYSUM(I,J+ 6),VYSUM(I,J+ 7),VYSUM(I,J+ 8),
+0515      &                   VYSUM(I,J+ 9),VYSUM(I,J+10),VYSUM(I,J+11),
+0516      &                   VYSUM(I,J+12),VYSUM(I,J+13),VYSUM(I,J+14),
+0517      &                   VYSUM(I,J+15),VYSUM(I,J+16)
+0518 1049 CONTINUE
+0519 1050 CONTINUE
+0520 C                                                                   +++ RHO +++
+0521        WRITE(NP,1061)
+0522       DO 1070 I=0, PX
+0523        DO 1069 J=0, PY, 17
+0524          WRITE(NP,1062) RHOSUM(I,J    ),RHOSUM(I,J+ 1),RHOSUM(I,J+ 2),
+0525      &                   RHOSUM(I,J+ 3),RHOSUM(I,J+ 4),RHOSUM(I,J+ 5),
+0526      &                   RHOSUM(I,J+ 6),RHOSUM(I,J+ 7),RHOSUM(I,J+ 8),
+0527      &                   RHOSUM(I,J+ 9),RHOSUM(I,J+10),RHOSUM(I,J+11),
+0528      &                   RHOSUM(I,J+12),RHOSUM(I,J+13),RHOSUM(I,J+14),
+0529      &                   RHOSUM(I,J+15),RHOSUM(I,J+16)
+0530 1069 CONTINUE
+0531 1070 CONTINUE
+0532 C
+0533 1021 FORMAT(/1H ,' VX1, VX2, VX3, VX4, VX5, VX6,...')
+0534 1026 FORMAT( (7E11.4) )
+0535 1041 FORMAT(/1H ,' VY1, VY2, VY3, VY4, VY5, VY6,...')
+0536 1061 FORMAT(/1H ,' RHO1, RHO2, RHO3, RHO4, RHO5, RHO6,...')
+0537 1062 FORMAT( (6E13.6) )
+0538                                                                            RETURN
+0539                                                                            END
+0540 C**** SUB INICVEL *****
+0541        SUBROUTINE INICVEL                  • A subroutine for setting the lattice velocities, etc.
+0542 C
+0543        IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N)
+0544 C
+0545        COMMON /BLOCK2/ CVEL , W , IINC , ANTIALPH, ALPHAMX
+0546 C
+0547        INTEGER    PP , QQ , KK
+0548        PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+0549 C
+0550        REAL*8    CVEL(2,0:KK) , W(0:KK)
+0551        INTEGER   ALPHAMX , IINC(2,0:KK) , ANTIALPH(0:KK)
+0552 C
+0553        CVEL(1,0) = 0.D0
+0554        CVEL(2,0) = 0.D0                                         • The lattice velocity cα is set.
+0555        CVEL(1,1) = 1.D0
+0556        CVEL(2,1) = 0.D0
+0557        CVEL(1,2) = -1.D0
+
+===== PAGINA 21 =====
+
+Practice of Lattice Boltzmann Simulations                                                       239
+
+
+0558       CVEL(2,2) = 0.D0
+0559       CVEL(1,3) = 0.D0
+0560       CVEL(2,3) = 1.D0
+0561       CVEL(1,4) = 0.D0
+0562       CVEL(2,4) = -1.D0
+0563       CVEL(1,5) = 1.D0
+0564       CVEL(2,5) = 1.D0
+0565       CVEL(1,6) = -1.D0
+0566       CVEL(2,6) = -1.D0
+0567       CVEL(1,7) = 1.D0
+0568       CVEL(2,7) = -1.D0
+0569       CVEL(1,8) = -1.D0
+0570       CVEL(2,8) = 1.D0
+0571 C
+0572       W(0) = 4.D0/9.D0
+0573       W(1) = 1.D0/9.D0
+0574       W(2) = W(1)                                    • The weighting coefficient wα is set.
+0575       W(3) = W(1)
+0576       W(4) = W(1)
+0577       W(5) = 1.D0/36.D0
+0578       W(6) = W(5)
+0579       W(7) = W(5)
+0580       W(8) = W(5)
+0581 C
+0582       IINC(1,1) = 1                               • IINC is used for describing the
+0583       IINC(2,1) = 0
+0584       IINC(1,2) = -IINC(1,1)                      relationship between the lattice point
+0585       IINC(2,2) = -IINC(2,1)                      and the α-direction. For example, the
+0586       IINC(1,3) = 0                               neighboring site in the α-direction of α
+0587       IINC(2,3) = 1
+0588       IINC(1,4) = -IINC(1,3)                      =1 is arrived at by moving (+1,0) in the
+0589       IINC(2,4) = -IINC(2,3)                      x- and y-direction from the site of
+0590       IINC(1,5) = 1                               interest. In this case, the movement is
+0591       IINC(2,5) = 1                               described      as     IINC(1,1)=1      and
+0592       IINC(1,6) = -IINC(1,5)
+0593       IINC(2,6) = -IINC(2,5)                      IINC(2,1)=0.
+0594       IINC(1,7) = 1
+0595       IINC(2,7) = -1
+0596       IINC(1,8) = -IINC(1,7)
+0597       IINC(2,8) = -IINC(2,7)
+0598 C
+0599       ANTIALPH(1) = 2
+0600       ANTIALPH(2) = 1                                  • The opposite direction of the
+0601       ANTIALPH(3) = 4                                  α-direction is saved in ATIALPH(*).
+0602       ANTIALPH(4) = 3
+0603       ANTIALPH(5) = 6
+0604       ANTIALPH(6) = 5
+0605       ANTIALPH(7) = 8
+0606       ANTIALPH(8) = 7
+0607                                                                        RETURN
+0608                                                                        END
+0609 C**** SUB INILAT *****
+0610       SUBROUTINE INILAT                     • A subroutine for setting the lattice positions.
+0611 C
+0612       IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N)
+0613 C
+0614       COMMON /BLOCK3/ RHO , RX , RY , VX , VY
+0615       COMMON /BLOCK5/ XL , YL , XL1 , YL1 , XL2 , YL2 , PX , PY , PXY
+0616 C
+0617       INTEGER     PP , QQ , KK
+0618       PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+0619 C
+0620       REAL*8    RHO(0:PP,0:QQ)
+0621       REAL*8    RX( 0:PP,0:QQ)   , RY(0:PP,0:QQ)
+0622       REAL*8    VX( 0:PP,0:QQ)   , VY(0:PP,0:QQ)
+0623       INTEGER   PX , PY , PXY
+0624 C
+0625       C1 = XL/DBLE(PX)                             • (PX+1,PY+1) lattice points are set in
+0626       C2 = YL/DBLE(PY)
+0627       DO 100 J=0, PY                               the x- and y-direction.
+0628       DO 90 I=0, PX
+0629         RX(I,J) = DBLE(I)*C1 - XL1
+0630         RY(I,J) = DBLE(J)*C1 - YL1
+0631    90 CONTINUE
+0632   100 CONTINUE
+0633                                                                        RETURN
+0634                                                                        END
+0635 C**** SUB INIDIST *****
+
+===== PAGINA 22 =====
+
+240                                                  Introduction to Practice of Molecular Simulation
+
+
+0636        SUBROUTINE INIDIST( DNS0 , ALPHAMX )
+0637 C
+0638        IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N)         • A subroutine for setting the initial
+0639 C                                                       value of the distribution functions.
+0640        COMMON /BLOCK1/ F , FTILD
+0641        COMMON /BLOCK5/ XL , YL , XL1 , YL1 , XL2 , YL2 , PX , PY , PXY
+0642        COMMON /BLOCK6/ UVELX , UVELY
+0643 C
+0644        INTEGER     PP , QQ , KK
+0645        PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+0646 C
+0647        REAL*8     F(0:PP,0:QQ,0:KK), FTILD(0:PP,0:QQ,0:KK)
+0648        INTEGER    PX , PY , PXY , ALPHAMX
+0649 C
+0650        REAL*8     FEQ, CDNS0
+0651 C
+0652        CDNS0 = DNS0
+0653 C
+0654        DO 110 J=0, PY
+0655        DO 100 I=0, PX
+0656          DO 10 K=0, ALPHAMX
+0657            IF( I.EQ.0 ) THEN                               • An equilibrium distribution
+0658               F(I,J,K)= FEQ( UVELX, UVELY, K, CDNS0 )      with the uniform velocity U is
+0659            ELSE                                            used as an initial distribution.
+0660 CCC           F(I,J,K)= FEQ( 0.D0 , 0.D0 , K, CDNS0 )
+0661               F(I,J,K)= FEQ( UVELX, UVELY, K, CDNS0 )
+0662            END IF
+0663     10   CONTINUE
+0664   100 CONTINUE
+0665   110 CONTINUE
+0666                                                                        RETURN
+0667                                                                        END
+0668 C**** SUB INICOLOR ****
+0669        SUBROUTINE INICOLOR( PX , PY , DCYL2SQ )
+0670 C                                       --------------------------------
+0671 C                                         0 : USUAL TREATMENT
+0672 C                                         1 : TREATMENT AT Bupstream
+0673 C                                         2 : TREATMENT AT Bdownstream
+0674 C                                         3 : TREATMENT AT Bupper_side
+0675 C                                         4 : TREATMENT AT Blower_side
+0676 C                                         5 : TREATMENT AT Bcyl_surface
+0677 C                                         6 : NO BC TREAT. INSIDE PTCL,
+0678 C                                             BUT INTERACTING OUTER SITES
+0679 C                                         7 : NO BC TREAT. INSIDE PTCL,
+0680 C                                             NOT INTERACTING OUTER SITES
+0681 C                                       --------------------------------
+0682        IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N)
+0683 C                                                                  • A subroutine for
+0684        COMMON /BLOCK3/ RHO , RX , RY , VX , VY                     evaluating the values of
+0685 C                                                                  the     variable     color
+0686        COMMON /BLOCK14/ RXCYL , RYCYL , ICYL , JCYL , DCYL
+0687        COMMON /BLOCK15/ COLOR     , POSINTBL                       explained in Section
+0688        COMMON /BLOCK18/ TBLNAMIN , NTBLNAMI                        7.4.2.
+0689 C
+0690 C      -----------------------------
+0691        INTEGER     PP , QQ , KK
+0692        PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+0693 C
+0694        REAL*8     RHO(0:PP,0:QQ)
+0695        REAL*8     RX( 0:PP,0:QQ)   , RY(0:PP,0:QQ)
+0696        REAL*8     VX( 0:PP,0:QQ)   , VY(0:PP,0:QQ)
+0697        INTEGER    PX , PY , PXY
+0698 C      -----------------------------
+0699        INTEGER     PPXY
+0700        PARAMETER( PPXY=150000 , NNTBL=2200 , NNTBL2=4400 , NNTBL3=4400 )
+0701 C
+0702        INTEGER    COLOR(PPXY )     , POSINTBL(PPXY)
+0703        INTEGER    TBLNAMIN(NNTBL3) , NTBLNAMI
+0704 C      -----------------------------
+0705        REAL*8     RJDG1 , RJDG2 , RJDG2SQ , RXI , RYI , C1
+0706        REAL*8     RXIJ , RYIJ , RIJSQ
+0707        INTEGER    ISITE, IC1, IS, IE, JS, JE
+0708 C
+0709        DO 120 J=0, PY
+0710        DO 100 I=0, PX
+0711          ISITE = (PX+1)*J + (I+1)
+0712 C
+0713          POSINTBL( ISITE ) = 0
+0714 C
+
+===== PAGINA 23 =====
+
+Practice of Lattice Boltzmann Simulations                                                        241
+
+
+0715          IF(       I.EQ.0 ) THEN
+0716                                   COLOR(ISITE) = 1        • The values shown in Section
+0717          ELSE IF( I.EQ.PX ) THEN
+0718                                   COLOR(ISITE) = 2        7.4.2 are assigned to the
+0719          ELSE IF( J.EQ.PY ) THEN                          lattice sites next to each
+0720                                   COLOR(ISITE) = 3        boundary surface.
+0721          ELSE IF( J.EQ.0 ) THEN
+0722                                   COLOR(ISITE) = 4
+0723          ELSE
+0724                                   COLOR(ISITE) = 0
+0725          END IF
+0726   100 CONTINUE
+0727   120 CONTINUE
+0728 C                 --- FOR SPECIAL TREATMENT OF SITES INSIDE CYLINDER ---
+0729       DO 150 I=1, PX
+0730          IF( RX(I,0) .GE. RXCYL ) THEN
+0731            ICYL = I                                      • The treatment concerning the
+0732            GOTO 170                                      sites related to the cylinder.
+0733          END IF
+0734   150 CONTINUE
+0735       ICYL = PX
+0736 C
+0737   170 DO 160 J=1, PY
+0738          IF( RY(0,J) .GE. RYCYL ) THEN
+0739            JCYL = J
+0740            GOTO 180
+0741          END IF
+0742   160 CONTINUE
+0743       JCYL = PY
+0744 C
+0745   180 C1      = (DCYL/2.D0+0.01D0) / ( RX(2,0)-RX(1,0) )
+0746 CCC   IC1     = IDINT(C1)                                   • The sites to be checked are
+0747       IC1     = IDINT(C1) + 2
+0748       IS      = ICYL - IC1 - 1                              limited to the neighboring
+0749       IE      = ICYL + IC1                                  sites around the cylinder to a
+0750       JS      = JCYL - IC1 - 1                              certain degree.
+0751       JE      = JCYL + IC1
+0752       RJDG1     = (DCYL/2.D0) + 3.D0*( RX(2,0)-RX(1,0) )
+0753       RJDG2     = RJDG1
+0754       RJDG2SQ = RJDG2**2
+0755 C
+0756       NTBLNAMI = 0
+0757       DO 220 J=JS, JE
+0758       DO 200 I=IS, IE
+0759 C
+0760          RXI = RX(I,J)
+0761          RYI = RY(I,J)
+0762 C
+0763          ISITE = (PX+1)*J + (I+1)
+0764          RXIJ    = RXI - RXCYL
+0765          IF( DABS(RXIJ) .GE. RJDG1 ) GOTO 200
+0766          RYIJ    = RYI - RYCYL
+0767          IF( DABS(RYIJ) .GE. RJDG1 ) GOTO 200
+0768          RIJSQ = RXIJ**2 + RYIJ**2
+0769          IF( RIJSQ .GE. RJDG2SQ )      GOTO 200
+0770 C
+0771          IF( RIJSQ .LE. DCYL2SQ ) THEN
+0772            COLOR(ISITE) = 7                                   • color(*)=7 is set for the site
+0773            NTBLNAMI = NTBLNAMI +1                             inside the cylinder.
+0774            TBLNAMIN(NTBLNAMI) = ISITE
+0775          END IF
+0776 C
+0777   200 CONTINUE
+0778   220 CONTINUE
+0779                                                                       RETURN
+0780                                                                       END
+0781 C**** SUB MAKETBLE ****
+0782       SUBROUTINE MAKETBLE( DCYL2SQ , NTBL , NTBLDW )           • A subroutine  for making a
+0783 C                                                              list of the lattice sites
+0784       IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N)                 interacting with the cylinder.
+0785 C
+0786       COMMON /BLOCK3/ RHO , RX , RY , VX , VY
+0787       COMMON /BLOCK5/ XL , YL , XL1 , YL1 , XL2 , YL2 , PX , PY , PXY
+0788 C
+0789       COMMON /BLOCK14/ RXCYL , RYCYL , ICYL , JCYL , DCYL
+0790       COMMON /BLOCK15/ COLOR , POSINTBL
+0791 C
+0792 C     -----------------------------
+0793       INTEGER      PP , QQ , KK
+0794       PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+0795 C
+
+===== PAGINA 24 =====
+
+242                                                      Introduction to Practice of Molecular Simulation
+
+
+0796         REAL*8     RHO(0:PP,0:QQ)
+0797         REAL*8     RX( 0:PP,0:QQ)     , RY(0:PP,0:QQ)
+0798         REAL*8     VX( 0:PP,0:QQ)     , VY(0:PP,0:QQ)
+0799         INTEGER    PX , PY , PXY
+0800 C       -----------------------------
+0801         INTEGER      PPXY
+0802         PARAMETER( PPXY=150000 , NNTBL=2200 , NNTBL2=4400 , NNTBL3=4400 )
+0803 C
+0804         INTEGER    COLOR(PPXY)     , POSINTBL(PPXY)
+0805 C       -----------------------------
+0806         REAL*8     C1 , RXI , RYI
+0807         REAL*8     RJDG1 , RJDG2 , RJDG2SQ
+0808         INTEGER    IS , IE , JS , JE , IC1 , ISITE
+0809 CCC    INTEGER     JJ , JJ2 , II , II2 , IALPHA(0:8) , NIALPHA
+0810         INTEGER    IALPHA(0:8) , NIALPHA
+0811 C
+0812 C                      --- CYLINDER POSITION IS (ICYL,JCYL) IN LATTICE ---
+0813         NTBL = 0
+0814         NTBLDW= 0
+0815 C                         --- CHECK WHETHER OR NOT SITES ARE INSIDE CYL ---
+0816 C
+0817     40 C1      = (DCYL/2.D0+0.01D0) / ( RX(2,0)-RX(1,0) )
+0818 CCC     IC1    = IDINT(C1)
+0819         IC1    = IDINT(C1) + 2
+0820         IS     = ICYL - IC1 - 1
+0821         IE     = ICYL + IC1                                      • The sites to be checked are
+0822         JS     = JCYL - IC1 - 1                                  limited to the neighboring
+0823         JE     = JCYL + IC1                                      sites around the cylinder to a
+0824 C                                                                certain degree.
+0825         RJDG1    = (DCYL/2.D0) + 3.D0*( RX(2,0)-RX(1,0) )
+0826         RJDG2    = RJDG1
+0827         RJDG2SQ = RJDG2**2
+0828 C
+0829 C
+0830         DO 220 J=JS, JE
+0831         DO 200 I=IS, IE                             • The treatment for the four corner sites of
+0832 C
+0833            RXI = RX(I,J)                            the outermost rectangle.
+0834            RYI = RY(I,J)
+0835 C          --------------------------------- FOR THE MOST OUTER SITES ---
+0836            IF(       (I.EQ.IS) .AND. (J.EQ.JS) ) THEN
+0837 C                                                  +++AT LEFT-DOWN CORNER+++
+0838              IALPHA(1) = 5
+0839              NIALPHA    = 1                                              • For the left-down site.
+0840              CALL INTERACT( I, J, RXI, RYI, RXCYL, RYCYL, NIALPHA, IALPHA,
+0841       &                       RJDG2SQ , DCYL2SQ )
+0842            ELSE IF( (I.EQ.IE) .AND. (J.EQ.JS) ) THEN
+0843 C                                                 +++AT RIGHT-DOWN CORNER+++
+0844              IALPHA(1) = 8
+0845              NIALPHA    = 1                                            • For the right-down site.
+0846              CALL INTERACT( I, J, RXI, RYI, RXCYL, RYCYL, NIALPHA, IALPHA,
+0847       &                       RJDG2SQ , DCYL2SQ )
+0848            ELSE IF( (I.EQ.IS) .AND. (J.EQ.JE) ) THEN
+0849 C                                                     +++AT LEFT-UP CORNER+++
+0850              IALPHA(1) = 7
+0851              NIALPHA    = 1                                                  • For the left-up site.
+0852              CALL INTERACT( I, J, RXI, RYI, RXCYL, RYCYL, NIALPHA, IALPHA,
+0853       &                       RJDG2SQ , DCYL2SQ )
+0854            ELSE IF( (I.EQ.IE) .AND. (J.EQ.JE) ) THEN
+0855 C                                                    +++AT RIGHT-UP CORNER+++
+0856              IALPHA(1) = 6                                                 • For the right-up site.
+0857              NIALPHA    = 1
+0858              CALL INTERACT( I, J, RXI, RYI, RXCYL, RYCYL, NIALPHA, IALPHA,
+0859       &                       RJDG2SQ , DCYL2SQ )
+0860 C                                               • The treatment for the sites on the outermost
+0861 C        ------- FOR OUTER CIRCUMFERENCE SITES OF CHECKING RECTANGLE ---
+0862 C                                               rectangle, except the four corner sites.
+0863            ELSE IF ( J.EQ.JS ) THEN
+0864 C                                                  +++ALONG X-AXIS (DOWN)+++
+0865              IALPHA(1) = 3
+0866              IALPHA(2) = 5
+0867              IALPHA(3) = 8                                         • For the sites on the bottom
+0868              NIALPHA    = 3                                        line along the x-axis.
+0869 C
+0870              CALL INTERACT( I, J, RXI, RYI, RXCYL, RYCYL, NIALPHA, IALPHA,
+0871       &                       RJDG2SQ , DCYL2SQ )
+0872            ELSE IF ( I.EQ.IS ) THEN
+0873 C                                              +++ ALONG Y-AXIS (LEFT) +++
+
+===== PAGINA 25 =====
+
+Practice of Lattice Boltzmann Simulations                                                      243
+
+
+0874            IALPHA(1) = 1
+0875            IALPHA(2) = 5                                    • For the sites on the left line
+0876            IALPHA(3) = 7                                    along the y-axis.
+0877            NIALPHA    = 3
+0878 C
+0879            CALL INTERACT( I, J, RXI, RYI, RXCYL, RYCYL, NIALPHA, IALPHA,
+0880      &                     RJDG2SQ , DCYL2SQ )
+0881          ELSE IF ( I.EQ.IE ) THEN
+0882 C                                            +++ ALONG Y-AXIS (RIGHT) +++
+0883            IALPHA(1) = 2
+0884            IALPHA(2) = 6                                  • For the sites on the right line
+0885            IALPHA(3) = 8                                  along the y-axis.
+0886            NIALPHA    = 3
+0887 C
+0888            CALL INTERACT( I, J, RXI, RYI, RXCYL, RYCYL, NIALPHA, IALPHA,
+0889      &                     RJDG2SQ , DCYL2SQ )
+0890          ELSE IF ( J.EQ.JE ) THEN
+0891 C                                            +++ ALONG X-AXIS (UP)         +++
+0892            IALPHA(1) = 4                                     • For the sites on the top line
+0893            IALPHA(2) = 6
+0894            IALPHA(3) = 7                                     along the x-axis.
+0895            NIALPHA    = 3
+0896 C
+0897            CALL INTERACT( I, J, RXI, RYI, RXCYL, RYCYL, NIALPHA, IALPHA,
+0898      &                     RJDG2SQ , DCYL2SQ )
+0899 C
+0900 C        ------------------- FOR INNER SITES OF CHECKING RECTANGLE ---
+0901          ELSE
+0902 C                                                                 • For the sites inside the
+0903            IALPHA(1) = 1                                          outermost rectangle.
+0904            IALPHA(2) = 2
+0905            IALPHA(3) = 3
+0906            IALPHA(4) = 4
+0907            IALPHA(5) = 5
+0908            IALPHA(6) = 6
+0909            IALPHA(7) = 7
+0910            IALPHA(8) = 8
+0911            NIALPHA    = 8
+0912 C
+0913            CALL INTERACT( I,J, RXI,RYI, RXCYL,RYCYL, NIALPHA,IALPHA,
+0914      &                     RJDG2SQ , DCYL2SQ )
+0915 C
+0916          END IF
+0917 C
+0918   200 CONTINUE
+0919   220 CONTINUE
+0920                                                                       RETURN
+0921                                                                       END
+0922 C**** SUB INTERACT *****
+0923        SUBROUTINE INTERACT( I, J, RXI, RYI, RXCYL , RYCYL ,
+0924      &                             NIALPHA, IALPHA, RJDG2SQ, DCYL2SQ )
+0925 C
+0926        IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N)
+0927 C
+0928        COMMON /BLOCK2/ CVEL , W , IINC , ANTIALPH, ALPHAMX
+0929        COMMON /BLOCK3/ RHO , RX , RY , VX , VY
+0930        COMMON /BLOCK5/ XL , YL , XL1 , YL1 , XL2 , YL2 , PX , PY , PXY
+0931 C
+0932        COMMON /BLOCK15/ COLOR     , POSINTBL                       • A subroutine for
+0933        COMMON /BLOCK16/ TBLNAM    , TBLNUM , TBLPOS , NTBL         assessing whether or
+0934        COMMON /BLOCK17/ TBLDW     , TBLAL    , NTBLDW              not the neighboring site
+0935 C                                                                  is inside the cylinder.
+0936 C      -----------------------------
+0937        INTEGER     PP , QQ , KK
+0938        PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+0939 C
+0940        REAL*8    CVEL(2,0:KK)      , W(0:KK)
+0941        REAL*8    RHO(0:PP,0:QQ)
+0942        REAL*8    RX( 0:PP,0:QQ)    , RY(0:PP,0:QQ)
+0943        REAL*8    VX( 0:PP,0:QQ)    , VY(0:PP,0:QQ)
+0944        INTEGER   ALPHAMX , IINC(2,0:KK) , ANTIALPH(0:KK)
+0945        INTEGER   PX , PY , PXY     , NIALPHA , IALPHA(0:8)
+0946 C      -----------------------------
+0947        INTEGER     PPXY
+0948        PARAMETER( PPXY=150000 , NNTBL=2200 , NNTBL2=4400 , NNTBL3=4400 )
+0949 C
+0950        REAL*8    TBLDW(NNTBL2)
+0951        INTEGER   COLOR(PPXY)    , POSINTBL(PPXY)
+0952        INTEGER   TBLNAM(NNTBL) , TBLNUM(NNTBL) , TBLPOS(NNTBL) , NTBL
+0953        INTEGER   TBLAL(NNTBL2) , NTBLDW
+0954 C      -----------------------------
+
+===== PAGINA 26 =====
+
+244                                                      Introduction to Practice of Molecular Simulation
+
+
+0955 C
+0956       INTEGER     ISITE, ISITE1, IPATH, IALPHA0
+0957       INTEGER     IX1 , IY1 , JJJ
+0958       REAL*8      RXI , RYI , RXIJ , RYIJ , RIJSQ
+0959       REAL*8      RXI1, RYI1, RXIJ1, RYIJ1, RIJSQ1 , RJDG2SQ
+0960       REAL*8      RXCYL, RYCYL , DCYL2SQ
+0961       REAL*8      C01 , C1 , C2 , C3 , CDW
+0962 C
+0963 C
+0964       ISITE = (PX+1)*J + (I+1)
+0965       RXIJ    = RXI - RXCYL                                 • The sites being far over the
+0966       RYIJ    = RYI - RYCYL                                 RJDG2SQ distance (note the square)
+0967       RIJSQ = RXIJ**2 + RYIJ**2                             have no interaction with the cylinder.
+0968       IF( RIJSQ .GE. RJDG2SQ ) THEN
+0969         COLOR(ISITE) = 0
+0970         RETURN
+0971       END IF
+0972       IF( RIJSQ .LE. DCYL2SQ ) RETURN
+0973 C
+0974       IPATH = 0
+0975       DO 200 JJJ = 1, NIALPHA
+0976 C                                           --- (I,J)             : ORIGINAL ---
+0977 C                                           --- ISITE             : ORIGINAL ---
+0978 C                                           --- (RXI,RYI) : ORIGINAL ---
+0979 C                                           --- (IX1,IY1) : CANDIDATE ---
+0980 C                                           --- ISITE1            : CANDITATE ---
+0981 C                                           --- (RXI1,RYI1): CANDIDATE ---
+0982 C                                           --- (RXCYL,RYCYL): CYLINDER---
+0983         IALPHA0= IALPHA(JJJ)
+0984         IX1     = I + IINC(1,IALPHA0)
+0985         IY1     = J + IINC(2,IALPHA0)
+0986         RXI1    = RX(IX1,IY1)
+0987         RYI1    = RY(IX1,IY1)
+0988         RXIJ1 = RXI1 - RXCYL                • If the neighboring site is inside the cylinder, then
+0989         RYIJ1 = RYI1 - RYCYL                the variable color is set to be 5 for this site, its site
+0990         RIJSQ1 = RXIJ1**2 + RYIJ1**2        name is saved in TBLNAM, and the order of the
+0991 C                                           site appearing in TBLNAM is saved in POSINTBL.
+0992         IF( RIJSQ1 .LE. DCYL2SQ ) THEN
+0993            IPATH = IPATH + 1
+0994            IF( IPATH .EQ. 1 ) THEN
+0995              NTBL = NTBL + 1          • Δw =CDW is calculated from Eq. (7.14). The direction
+0996              TBLNAM(NTBL) = ISITE     of the neighboring site inside the cylinder is saved in
+0997              COLOR(ISITE) = 5         TBLAL, and the value of Δw is saved in TBLDW.
+0998              POSINTBL(ISITE) = NTBL
+0999            END IF
+1000 C                                  --- FOR OUTSIDE SITES OF CYLINDER ---
+1001            C01 = RXIJ*RXIJ1 + RYIJ*RYIJ1
+1002            C1 = RIJSQ + RIJSQ1 - 2.D0*C01
+1003            C2 = -RIJSQ + C01
+1004            C3 = RIJSQ - DCYL2SQ                                    • The order of the quantities,
+1005            CDW = ( - C2 - DSQRT( C2**2 - C1*C3 ) ) / C1 related to the site of interest,
+1006 C                                                                  first appearing in TBLAL and
+1007            NTBLDW = NTBLDW + 1                                     TBLDW, is saved in TBLPOS.
+1008            TBLDW( NTBLDW ) = CDW
+1009            TBLAL( NTBLDW ) = IALPHA0
+1010            IF( IPATH .EQ. 1 ) TBLPOS(NTBL) = NTBLDW
+1011 C
+1012 C                                   --- FOR INSIDE SITES OF CYLINDER ---
+1013            ISITE1 = (PX+1)*IY1 + (IX1+1)
+1014            COLOR(ISITE1) = 6
+1015         END IF
+1016 C
+1017   200 CONTINUE
+1018 C
+1019       IF( IPATH .GE. 1 ) THEN
+1020         TBLNUM(NTBL) = IPATH         • The number of the sites, inside the cylinder, interacting
+1021       ELSE                           with the site of interest is saved in TBLNUM.
+1022         COLOR(ISITE) = 0
+1023       END IF
+1024                                                                               RETURN
+1025                                                                               END
+1026 C**** SUB VELCAL *****
+1027       SUBROUTINE VELCAL( COLOR , ITREESID , ITREEDWN , NTIME )
+1028 C
+1029       IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N) • A subroutine for calculating the veloci-
+1030 C                                                        ties and densities at each lattice site.
+1031       COMMON /BLOCK1/ F       , FTILD
+1032       COMMON /BLOCK3/ RHO , RX , RY , VX , VY
+1033       COMMON /BLOCK4/ DNS0 , TAU , DX , DT , CLAT
+1034       COMMON /BLOCK5/ XL , YL , XL1 , YL1 , XL2 , YL2 , PX , PY , PXY
+1035       COMMON /BLOCK6/ UVELX , UVELY
+
+===== PAGINA 27 =====
+
+Practice of Lattice Boltzmann Simulations                                                          245
+
+
+1036 C
+1037 C      -----------------------------
+1038        INTEGER      PP , QQ , KK
+1039        PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+1040 C
+1041        REAL*8      F(0:PP,0:QQ,0:KK), FTILD(0:PP,0:QQ,0:KK)
+1042        REAL*8      RHO(0:PP,0:QQ)
+1043        REAL*8      RX( 0:PP,0:QQ)   , RY(0:PP,0:QQ)
+1044        REAL*8      VX( 0:PP,0:QQ)   , VY(0:PP,0:QQ)
+1045        INTEGER     PX , PY , PXY
+1046 C      -----------------------------
+1047        INTEGER      PPXY
+1048        PARAMETER( PPXY=150000 , NNTBL=2200 , NNTBL2=4400 , NNTBL3=4400 )
+1049 C
+1050        INTEGER     COLOR(PPXY)
+1051 C      -----------------------------                               • A uniform flow is set at the
+1052        REAL*8      VX0, VY0, RHO0                                  upstream boundary surface.
+1053        INTEGER     ITH, ICLR
+1054 C                                                            --- Bupstream ---
+1055        DO 50 J=0, PY
+1056           VX( 0, J) = UVELX
+1057           VY( 0, J) = UVELY
+1058           RHO( 0, J) = DNS0
+1059    50 CONTINUE
+1060 C                                                          --- INSIDE AREA ---
+1061        DO 100 I=1, PX
+1062        DO 90 J=0, PY                                                 • The local velocities and
+1063           ITH = ( PX+1 )*J + ( I+1 )                                 densities are calculated
+1064           ICLR = COLOR(ITH)                                          inside the cylinder from Eq.
+1065           IF( (ICLR .EQ. 6) .OR. (ICLR .EQ. 7) ) GOTO 90
+1066 C                                                                    (7.20).
+1067           VX0 = F(I,J,1) - F(I,J,2) + F(I,J,5) - F(I,J,6)
+1068      &                                + F(I,J,7) - F(I,J,8)
+1069           VY0 = F(I,J,3) - F(I,J,4) + F(I,J,5) - F(I,J,6)
+1070      &                                + F(I,J,8) - F(I,J,7)
+1071           RHO0 = F(I,J,0) + F(I,J,1) + F(I,J,2) + F(I,J,3) + F(I,J,4)
+1072       &                    + F(I,J,5) + F(I,J,6) + F(I,J,7) + F(I,J,8)
+1073           VX( I,J) = VX0 /RHO0
+1074           VY( I,J) = VY0 /RHO0
+1075           RHO(I,J) = RHO0
+1076           IF( (ICLR.EQ.1) .OR. (ICLR.EQ.2) .OR. (ICLR.EQ.3) .OR.
+1077       &         (ICLR.EQ.4) ) THEN
+1078             IF( RHO(I,J) .LT. DNS0 ) RHO(I,J) = DNS0            • The densities are assumed to
+1079           END IF                                                be not smaller than the given
+1080    90 CONTINUE                                                  density at the outer boundary
+1081   100 CONTINUE                                                  surfaces.
+1082 C                                                                  --- Bside ---
+1083         IF( (ITREESID.EQ.3).OR.(ITREESID.EQ.4).OR.(ITREESID.EQ.5) ) THEN
+1084           DO 120 I=1, PX-1
+1085             IF( ITREESID.EQ.3 ) THEN             • The treatment at the side boundary surfaces.
+1086                VX( I,PY) = UVELX
+1087                VY( I,PY) = UVELY
+1088                RHO(I,PY) = DNS0                               • (1) The equilibrium distribution.
+1089                VX( I, 0) = UVELX
+1090                VY( I, 0) = UVELY
+1091                RHO(I, 0) = DNS0
+1092             ELSE IF( ITREESID.EQ.4 ) THEN
+1093                VX( I,PY) = VX( I,PY-1)                         • (2) The zero-gradient condition
+1094                VY( I,PY) = VY( I,PY-1)                         (Eq. (7.8)).
+1095                RHO(I,PY) = RHO(I,PY-1)
+1096                IF( RHO(I,PY) .LT. DNS0 ) RHO(I,PY) = DNS0
+1097                VX( I, 0) = VX( I,1)
+1098                VY( I, 0) = VY( I,1)
+1099                RHO(I, 0) = RHO(I,1)
+1100                IF( RHO(I, 0) .LT. DNS0 ) RHO(I, 0) = DNS0
+1101             ELSE IF( ITREESID.EQ.5 ) THEN
+1102                VX( I,PY) = 2.D0*VX( I,PY-1) - VX( I,PY-2)                 • (3) The extrapolation
+1103                VY( I,PY) = 2.D0*VY( I,PY-1) - VY( I,PY-2)                 condition (Eq. (7.7)).
+1104                RHO(I,PY) = 2.D0*RHO(I,PY-1) - RHO(I,PY-2)
+1105                IF( RHO(I,PY) .LT. DNS0 ) RHO(I,PY) = DNS0
+1106                VX( I, 0) = 2.D0*VX( I,1) - VX( I,2)
+1107                VY( I, 0) = 2.D0*VY( I,1) - VY( I,2)
+1108                RHO(I, 0) = 2.D0*RHO(I,1) - RHO(I,2)
+1109                IF( RHO(I, 0) .LT. DNS0 ) RHO(I, 0) = DNS0
+1110             END IF
+1111   120     CONTINUE                       • The treatment at the downstream boundary surface.
+1112         END IF
+1113 C                                                          --- Bdownstream ---
+1114         IF( (ITREEDWN.EQ.3).OR.(ITREEDWN.EQ.4).OR.(ITREEDWN.EQ.5) ) THEN
+
+===== PAGINA 28 =====
+
+246                                                     Introduction to Practice of Molecular Simulation
+
+
+1115         DO 140 J=1, PY-1
+1116           IF( ITREEDWN.EQ.3 ) THEN                               • (1) The equilibrium distribution.
+1117              VX( PX,J) = UVELX
+1118              VY( PX,J) = UVELY
+1119              RHO(PX,J) = DNS0
+1120           ELSE IF( ITREEDWN.EQ.4 ) THEN
+1121              VX( PX,J) = VX( PX-1,J)                             • (2) The zero-gradient condition
+1122              VY( PX,J) = VY( PX-1,J)                             (Eq. (7.8)).
+1123              RHO(PX,J) = RHO(PX-1,J)
+1124              IF( RHO(PX,J) .LT. DNS0 ) RHO(PX,J) = DNS0
+1125           ELSE IF( ITREEDWN.EQ.5 ) THEN
+1126              VX( PX,J) = 2.D0*VX( PX-1,J) - VX( PX-2,J)                      • (3) The extrapolation
+1127              VY( PX,J) = 2.D0*VY( PX-1,J) - VY( PX-2,J)                      condition (Eq. (7.7)).
+1128              RHO(PX,J) = 2.D0*RHO(PX-1,J) - RHO(PX-2,J)
+1129              IF( RHO(PX,J) .LT. DNS0 ) RHO(PX,J) = DNS0
+1130           END IF
+1131   140   CONTINUE
+1132 C                                                                    ++ Corners ++
+1133         IF( ITREEDWN.EQ.3 ) THEN
+1134           VX( PX,PY) = UVELX
+1135           VY( PX,PY) = UVELY
+1136           RHO(PX,PY) = DNS0                                     • (1) The equilibrium distribution.
+1137           VX( PX, 0) = UVELX
+1138           VY( PX, 0) = UVELY
+1139           RHO(PX, 0) = DNS0
+1140         ELSE IF( ITREEDWN.EQ.4 ) THEN
+1141           VX( PX,PY) = VX( PX-1,PY-1)                            • (2) The zero-gradient condition
+1142           VY( PX,PY) = VY( PX-1,PY-1)                            (Eq. (7.8)).
+1143           RHO(PX,PY) = RHO(PX-1,PY-1)
+1144           IF( RHO(PX,PY) .LT. DNS0 ) RHO(PX,PY) = DNS0
+1145           VX( PX, 0) = VX( PX-1,1)
+1146           VY( PX, 0) = VY( PX-1,1)
+1147           RHO(PX, 0) = RHO(PX-1,1)
+1148           IF( RHO(PX, 0) .LT. DNS0 ) RHO(PX, 0) = DNS0
+1149         ELSE IF( ITREEDWN.EQ.5 ) THEN
+1150           VX( PX,PY) = 2.D0*VX( PX-1,PY-1) - VX( PX-2,PY-2)                 • (3) The extrapolation
+1151           VY( PX,PY) = 2.D0*VY( PX-1,PY-1) - VY( PX-2,PY-2)                 condition (Eq. (7.7)).
+1152           RHO(PX,PY) = 2.D0*RHO(PX-1,PY-1) - RHO(PX-2,PY-2)
+1153           IF( RHO(PX,PY) .LT. DNS0 ) RHO(PX,PY) = DNS0
+1154           VX( PX, 0) = 2.D0*VX( PX-1,1) - VX( PX-2,2)
+1155           VY( PX, 0) = 2.D0*VY( PX-1,1) - VY( PX-2,2)
+1156           RHO(PX, 0) = 2.D0*RHO(PX-1,1) - RHO(PX-2,2)
+1157           IF( RHO(PX, 0) .LT. DNS0 ) RHO(PX, 0) = DNS0
+1158         END IF
+1159       END IF
+1160                                                                                 RETURN
+1161                                                                                 END
+1162 C**** SUB COLLPROC *****
+1163       SUBROUTINE COLLPROC( COLOR , ALPHAMX )
+1164 C                                        --------- COLLISION PROCEDURE ---
+1165       IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N)
+1166 C                                                                       • A subroutine for treating
+1167       COMMON /BLOCK1/ F       , FTILD                                   the collision at each site.
+1168       COMMON /BLOCK3/ RHO , RX , RY , VX , VY
+1169       COMMON /BLOCK4/ DNS0 , TAU , DX , DT , CLAT
+1170       COMMON /BLOCK5/ XL , YL , XL1 , YL1 , XL2 , YL2 , PX , PY , PXY
+1171 C
+1172 C     -----------------------------
+1173       INTEGER     PP , QQ , KK
+1174       PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+1175 C
+1176       REAL*8     F(0:PP,0:QQ,0:KK), FTILD(0:PP,0:QQ,0:KK)
+1177       REAL*8     RHO(0:PP,0:QQ)
+1178       REAL*8     RX( 0:PP,0:QQ)     , RY(0:PP,0:QQ)
+1179       REAL*8     VX( 0:PP,0:QQ)     , VY(0:PP,0:QQ)
+1180       INTEGER    ALPHAMX , PX , PY , PXY
+1181 C     -----------------------------
+1182       INTEGER     PPXY
+1183       PARAMETER( PPXY=150000 , NNTBL=2200 , NNTBL2=4400 , NNTBL3=4400 )
+1184 C
+1185       INTEGER    COLOR(PPXY)
+1186 C     -----------------------------
+1187       REAL*8     FEQ, CDNS0, UVELX0, UVELY0
+1188       INTEGER    ITH, ICLR
+1189 C
+1190 CCC   CDNS0 = DNS0
+1191 C                                • The treatment for the sites at the downstream boundary
+1192       DO 210 I=0, PX
+1193       DO 200 J=0, PY             surface and inside the simulation region, and also for the
+1194 C                                sites interacting with the cylinder according to Eq. (7.17).
+
+===== PAGINA 29 =====
+
+Practice of Lattice Boltzmann Simulations                                                           247
+
+
+1195           ITH = (PX+1)*J + (I+1)
+1196           ICLR = COLOR(ITH)
+1197           IF( (ICLR.EQ.6) .OR. (ICLR.EQ.7) ) GOTO 200
+1198 C                              --- FOR Busual,Bdownstream,Bcyl_surface ---
+1199           IF( (ICLR .EQ. 0) .OR. (ICLR .EQ. 2) .OR. (ICLR .EQ. 5) ) THEN
+1200             UVELX0 = VX( I,J)
+1201             UVELY0 = VY( I,J)
+1202             CDNS0 = RHO(I,J)
+1203             DO 100 K=0, ALPHAMX
+1204                FTILD(I,J,K) = F(I,J,K) * (TAU-1.D0)/TAU
+1205       &                    + FEQ( UVELX0, UVELY0, K, CDNS0 ) / TAU
+1206   100       CONTINUE
+1207 C                                                       --- FOR Bupstream ---
+1208           ELSE IF( ICLR .EQ. 1 ) THEN
+1209             UVELX0 = VX( 0,J)            • The treatment  for the sites at the upstream boundary
+1210             UVELY0 = VY( 0,J)            surface. The equilibrium distribution is used.
+1211             CDNS0 = RHO(0,J)
+1212             DO 120 K=0, ALPHAMX
+1213                FTILD(0,J,K) = FEQ( UVELX0, UVELY0, K, CDNS0 )
+1214   120       CONTINUE
+1215 C                                                    --- FOR Bupper_side ---
+1216           ELSE IF( ICLR .EQ. 3 ) THEN
+1217             UVELX0 = VX( I,PY)                    • The treatment for the sites at the upper side
+1218             UVELY0 = VY( I,PY)                    boundary surface. Eq. (7.17) is treated.
+1219             CDNS0 = RHO(I,PY)
+1220             DO 140 K=0, ALPHAMX
+1221                FTILD(I,PY,K) = F(I,PY,K) * (TAU-1.D0)/TAU
+1222       &                     + FEQ( UVELX0, UVELY0, K, CDNS0 ) / TAU
+1223   140       CONTINUE
+1224 C                                                       --- FOR Blower_side ---
+1225           ELSE IF( ICLR .EQ. 4 ) THEN
+1226             UVELX0 = VX( I,0)           • The treatment for the sites at the lower side boundary
+1227             UVELY0 = VY( I,0)           surface. Eq. (7.17) is treated.
+1228             CDNS0 = RHO(I,0)
+1229             DO 160 K=0, ALPHAMX
+1230                FTILD(I,0,K) = F(I,0,K) * (TAU-1.D0)/TAU
+1231       &                    + FEQ( UVELX0, UVELY0, K, CDNS0 ) / TAU
+1232   160       CONTINUE
+1233           END IF
+1234 C
+1235   200 CONTINUE
+1236   210 CONTINUE
+1237                                                                                RETURN
+1238                                                                                END
+1239 C**** SUB MOVEPROC *****
+1240         SUBROUTINE MOVEPROC( PX , PY , ANTIALPH , RHO , DNS0 , ITREECYL )
+1241 C                                          --------- MOVEMENT PROCEDURE ---
+1242         IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N)
+1243 C                                                      • A subroutine for the transfer process of
+1244         COMMON /BLOCK1/ F       , FTILD                the particle distribution function.
+1245 C
+1246         COMMON /BLOCK14/ RXCYL , RYCYL , ICYL , JCYL , DCYL
+1247         COMMON /BLOCK15/ COLOR      , POSINTBL
+1248         COMMON /BLOCK16/ TBLNAM     , TBLNUM , TBLPOS , NTBL
+1249         COMMON /BLOCK17/ TBLDW      , TBLAL     , NTBLDW
+1250 C
+1251         COMMON /BLOCK21/ CD , CDFORCE0 , CDFORCE , RE , NSMPLCD
+1252 C
+1253 C       -----------------------------
+1254         INTEGER     PP , QQ , KK
+1255         PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+1256 C
+1257         REAL*8     F(0:PP,0:QQ,0:KK), FTILD(0:PP,0:QQ,0:KK)
+1258         REAL*8     RHO(0:PP,0:QQ)
+1259         INTEGER    PX , PY , ANTIALPH(0:KK)
+1260 C       -----------------------------
+1261         INTEGER     PPXY
+1262         PARAMETER( PPXY=150000 , NNTBL=2200 , NNTBL2=4400 , NNTBL3=4400 )
+1263 C
+1264         REAL*8     TBLDW(NNTBL2)
+1265         INTEGER    COLOR(PPXY)    , POSINTBL(PPXY)
+1266         INTEGER    TBLNAM(NNTBL) , TBLNUM(NNTBL) , TBLPOS(NNTBL) , NTBL
+1267         INTEGER    TBLAL(NNTBL2) , NTBLDW
+1268 C       -----------------------------
+1269         INTEGER     NNCD
+1270         PARAMETER( NNCD=1000000 )
+1271 C
+1272         REAL*8     CDFORCE(NNCD)
+1273 C       -----------------------------
+1274         INTEGER    ITH , ICLR , ITBL , INUM , IPOS , IALPHA , K , KANTI
+1275         INTEGER    I1 , I2 , ID , J1 , J2 , JD , I00 , J00
+
+===== PAGINA 30 =====
+
+248                                           Introduction to Practice of Molecular Simulation
+
+
+1276       INTEGER   I11, J11, I21, I22, J21, J22
+1277       REAL*8    FWALL, CDW , C1    , C2
+1278       REAL*8    CA11 , CA12 , CA21 , CA22 , CA23
+1279       REAL*8    CB11 , CB12 , CB21 , CB22 , CB23
+1280       REAL*8    CD11 , CD12 , CD21 , CD22 , CD23
+1281 C
+1282 C     ------------------------------------------------ 0-DIRECTION ---
+1283       DO 3 I=0, PX
+1284       DO 1 J=0, PY
+1285         F(I,J,0)=FTILD(I,J,0)
+1286     1 CONTINUE
+1287     3 CONTINUE
+1288 C
+1289 C     ---------------------------------- 1,2,3,4,5,6,7,8-DIRECTION ---
+1290 C
+1291       DO 100 K=1,8
+1292 C                                                             • K means the α-direction.
+1293         IF( K.EQ.1 ) THEN
+1294           I1 = PX-1
+1295           I2 = 1                                          • The sites to be treated begin
+1296           ID = -1                                         from I1 to I2 at interval ID for
+1297           J1 = PY-1                                       the x-direction.
+1298           J2 = 1
+1299           JD = -1
+1300         ELSE IF( K.EQ.2 ) THEN
+1301           I1 = 1
+1302           I2 = PX-1                                       • The sites to be treated begin
+1303           ID = 1                                          from J1 to J2 at interval JD for
+1304           J1 = PY-1                                       the y-direction.
+1305           J2 = 1
+1306           JD = -1
+1307         ELSE IF( K.EQ.3 ) THEN
+1308           I1 = 1
+1309           I2 = PX-1
+1310           ID = 1
+1311           J1 = PY-1
+1312           J2 = 1
+1313           JD = -1
+1314         ELSE IF( K.EQ.4 ) THEN
+1315           I1 = 1
+1316           I2 = PX-1
+1317           ID = 1
+1318           J1 = 1
+1319           J2 = PY-1
+1320           JD = 1
+1321         ELSE IF( K.EQ.5 ) THEN
+1322           I1 = PX-1
+1323           I2 = 1
+1324           ID = -1
+1325           J1 = PY-1
+1326           J2 = 1
+1327           JD = -1
+1328         ELSE IF( K.EQ.6 ) THEN
+1329           I1 = 1
+1330           I2 = PX-1
+1331           ID = 1
+1332           J1 = 1
+1333           J2 = PY-1
+1334           JD = 1
+1335         ELSE IF( K.EQ.7 ) THEN
+1336           I1 = PX-1
+1337           I2 = 1
+1338           ID = -1
+1339           J1 = 1
+1340           J2 = PY-1
+1341           JD = 1
+1342         ELSE IF( K.EQ.8 ) THEN
+1343           I1 = 1
+1344           I2 = PX-1
+1345           ID = 1
+1346           J1 = PY-1
+1347           J2 = 1
+1348           JD = -1
+1349         END IF
+1350 C
+1351 C
+1352         DO 40 I= I1, I2, ID
+1353         DO 20 J= J1, J2, JD
+1354 C                                                          • The ITH-th site is treated in
+1355           ITH = (PX+1)*J + (I+1)                           the following.
+1356           ICLR = COLOR(ITH)
+
+===== PAGINA 31 =====
+
+Practice of Lattice Boltzmann Simulations                                                               249
+
+
+1357              IF( (ICLR.EQ.6) .OR. (ICLR.EQ.7) )        GOTO 20
+1358 C
+1359              IF( K.EQ.1) THEN
+1360                I00 = I-1                                          • The position (name) of the site
+1361                J00 = J                                            in the opposite direction to the
+1362              ELSE IF( K.EQ.2) THEN                                α-direction (K) is described as
+1363                I00 = I+1                                          (I00,J00). For example, if α=2
+1364                J00 = J
+1365              ELSE IF( K.EQ.3) THEN                                (K=2), such a site is I00=I+1 and
+1366                I00 = I                                            J00=J, where (I,J) is the position
+1367                J00 = J-1                                          (name) of the site of interest.
+1368              ELSE IF( K.EQ.4) THEN
+1369                I00 = I
+1370                J00 = J+1
+1371              ELSE IF( K.EQ.5) THEN
+1372                I00 = I-1
+1373                J00 = J-1
+1374              ELSE IF( K.EQ.6) THEN
+1375                I00 = I+1                                               • The treatment of the site
+1376                J00 = J+1                                               interacting with the cylinder.
+1377              ELSE IF( K.EQ.7) THEN
+1378                I00 = I-1
+1379                J00 = J+1                     • The order of the ITH-site, in which its information is
+1380              ELSE IF( K.EQ.8) THEN           saved in TBLNUM and TBLPOS, is extracted from
+1381                I00 = I+1                     POSINTBL. The result is saved in ITBL.
+1382                J00 = J-1
+1383              END IF
+1384 C                                                  ----- FOR CYL_surface -----
+1385              IF( ICLR .EQ. 5 ) THEN
+1386 C
+1387                ITBL = POSINTBL(ITH)
+1388                INUM = TBLNUM(ITBL)           • INUM is the number of the interacting sites inside
+1389                IPOS = TBLPOS(ITBL)           the cylinder. IPOS is the first position of such sites
+1390 C                                            appearing in the corresponding variables.
+1391                DO 10 JJ=0,INUM-1
+1392 C
+1393                  IALPHA = TBLAL( IPOS+JJ )
+1394                  KANTI = ANTIALPH(K)
+1395 C                                                                         • (I) For IALPHA=KANTI.
+1396                  IF( IALPHA .EQ. KANTI ) THEN
+1397 C
+1398                     IF( (K.EQ.1) .OR. (K.EQ.5) .OR. (K.EQ.7) ) THEN
+1399                       CDFORCE(NSMPLCD)=CDFORCE(NSMPLCD) - FTILD(I,J,KANTI)
+1400                     END IF
+1401 C
+1402                     IF( K.EQ.1 ) THEN
+1403                       I11 = I+1                 • IALPHA is the direction of the ITH-th site toward
+1404                       J11 = J                   the neighboring site inside the cylinder, and the
+1405                       I21 = I+1                 opposite direction to K is KANTI.
+1406                       I22 = I+2
+1407                       J21 = J
+1408                       J22 = J
+1409                     ELSE IF( K.EQ.2 ) THEN
+1410                       I11 = I-1                • The variables (I11,J11) are used in the linear
+1411                       J11 = J                  interpolation procedure of the BFL and YMLS
+1412                       I21 = I-1                methods.
+1413                       I22 = I-2                • The variables (I21,J21) and (I22,J22) are used in
+1414                       J21 = J
+1415                       J22 = J                  the quadratic interpolation procedure for the BFL
+1416                     ELSE IF( K.EQ.3 ) THEN     and YMLS methods.
+1417                       I11 = I
+1418                       J11 = J+1
+1419                       I21 = I
+1420                       I22 = I
+1421                       J21 = J+1
+1422                       J22 = J+2
+1423                     ELSE IF( K.EQ.4 ) THEN
+1424                       I11 = I
+1425                       J11 = J-1
+1426                       I21 = I
+1427                       I22 = I
+1428                       J21 = J-1
+1429                       J22 = J-2
+1430                     ELSE IF( K.EQ.5 ) THEN
+1431                       I11 = I+1
+1432                       J11 = J+1
+1433                       I21 = I+1
+1434                       I22 = I+2
+1435                       J21 = J+1
+1436                       J22 = J+2
+
+===== PAGINA 32 =====
+
+250                                     Introduction to Practice of Molecular Simulation
+
+
+1437         ELSE IF( K.EQ.6 ) THEN
+1438           I11 = I-1
+1439           J11 = J-1
+1440           I21 = I-1
+1441           I22 = I-2
+1442           J21 = J-1
+1443           J22 = J-2
+1444         ELSE IF( K.EQ.7 ) THEN
+1445           I11 = I+1
+1446           J11 = J-1
+1447           I21 = I+1
+1448           I22 = I+2
+1449           J21 = J-1
+1450           J22 = J-2
+1451         ELSE IF( K.EQ.8 ) THEN
+1452           I11 = I-1
+1453           J11 = J+1
+1454           I21 = I-1
+1455           I22 = I-2
+1456           J21 = J+1
+1457           J22 = J+2
+1458         END IF
+1459 C
+1460 C
+1461         IF( (ITREECYL.EQ.2) .OR. (ITREECYL.EQ.3) ) THEN
+1462           CDW   = TBLDW(IPOS+JJ)
+1463           FWALL = (1.D0-CDW) * FTILD(I11,J11,KANTI)
+1464     &                   + CDW * FTILD(I ,J ,KANTI)
+1465 C
+1466           C1      = 1.D0+CDW         • CA11 and CA12 are used in the linear
+1467           C2      = 2.D0+CDW         interpolation procedure of YMLS expressed
+1468           CA11    = CDW /C1          in Eq. (7.5), and CA21, CA22, and CA23 are
+1469           CA12    = 1.D0/C1
+1470           CA21    = 2.D0*CA12/C2     used in the quadratic interpolation procedure
+1471           CA22    = 2.D0*CA12*CDW    of YMLS in Eq. (8.121); in advance, the
+1472           CA23    = -CDW/C2          coefficients are calculated and saved in these
+1473         END IF                       variables for the successive procedures.
+1474 C
+1475         IF( (ITREECYL.EQ.4) .OR. (ITREECYL.EQ.5) ) THEN
+1476           CDW    = TBLDW(IPOS+JJ)
+1477           C1     = 1.D0+2.D0*CDW       • CB11 and CB12 are used in the linear
+1478           C2     = 1.D0-2.D0*CDW       interpolation procedure of BFL in Eq.
+1479           CB11   = C2                  (8.117), and CB21, CB22, and CB23 are
+1480           CB12   = 2.D0*CDW
+1481           CB21   = CDW*C1              used in the quadratic interpolation
+1482           CB22   = C1*C2               procedure of BFL in Eq. (8.112); in
+1483           CB23   = -CDW*C2             advance, the coefficients are calculated
+1484           CD11   = (-C2)/(2.D0*CDW)    and saved in these variables for the
+1485           CD12   = 1.D0/(2.D0*CDW)
+1486           CD21   = 1.D0/CB21           successive procedures. Similarly, CD11,
+1487           CD22   = (-C2)/CDW           CD12, …, CD23 are used in calculating
+1488           CD23   = C2/C1               Eqs. (8.118) and (8.116) for Δw>1/2.
+1489         END IF
+1490 C
+1491 C
+1492         IF(      ITREECYL .EQ. 1 ) THEN                     • The bounce-back rule.
+1493 C                       +++ (1) BOUNCE-BACK       +++++++++++++++++
+1494           F(I,J,K) = FTILD(I,J,KANTI)
+1495 C                                                    • The quadratic YMLS method.
+1496         ELSE IF( ITREECYL .EQ. 2 ) THEN
+1497 C                         +++ (2A) YMLS METHOD (Quadratic) +++
+1498           F(I,J,K) = CA21*FWALL + CA22*F(I21,J21,K)
+1499     &                           + CA23*F(I22,J22,K)       • The linear YMLS
+1500 C                                                                 method.
+1501         ELSE IF( ITREECYL .EQ. 3 ) THEN
+1502 C                         +++ (2B) YMLS METHOD (Liner) +++++++
+1503           F(I,J,K) = CA11*F(I11,J11,K) + CA12*FWALL
+1504 C                                                              • The quadratic BFL
+1505         ELSE IF( ITREECYL .EQ. 4 ) THEN                 method.
+1506 C                        +++ (3A) BFL METHOD (Quadratic) +++++
+1507           IF( CDW .LE. 0.5D0 ) THEN
+1508 C                                                         • Eq. (8.112) is evaluated.
+1509             F(I,J,K) = CB21*FTILD(I,J,KANTI)
+1510     &                                + CB22*FTILD(I21,J21,KANTI)
+1511     &                                + CB23*FTILD(I22,J22,KANTI)
+1512           ELSE
+                                                               • Eq. (8.116) is evaluated.
+
+===== PAGINA 33 =====
+
+Practice of Lattice Boltzmann Simulations                                                            251
+
+
+1513 C
+1514                         F(I,J,K) = CD21*FTILD(I,J,KANTI)
+1515       &                                             + CD22*FTILD(I ,J ,K)
+1516       &                                             + CD23*FTILD(I21,J21,K)
+1517                      END IF
+1518 C                                                                        • The linear BFL method.
+1519                    ELSE IF( ITREECYL .EQ. 5 ) THEN
+1520 C                                    +++ (3B) BFL METHOD (Linear) ++++++++
+1521                      IF( CDW .LE. 0.5D0 ) THEN
+1522 C                                                                       • Eq. (8.117) is evaluated.
+1523                         F(I,J,K) = CB11*FTILD(I11,J11,KANTI)
+1524       &                                               + CB12*FTILD(I,J,KANTI)
+1525                      ELSE
+1526 C                                                                       • Eq. (8.118) is evaluated.
+1527                         F(I,J,K) = CD11*FTILD(I,J,K)
+1528       &                                               + CD12*FTILD(I,J,KANTI)
+1529                      END IF
+1530 C
+1531                    END IF
+1532 C
+1533 C
+1534                    IF( (K.EQ.1) .OR. (K.EQ.5) .OR. (K.EQ.7) ) THEN
+1535                      CDFORCE(NSMPLCD) = CDFORCE(NSMPLCD) - F(I,J,K)
+1536                    ELSE IF( (K.EQ.2) .OR. (K.EQ.6) .OR. (K.EQ.8) ) THEN
+1537                      CDFORCE(NSMPLCD) = CDFORCE(NSMPLCD) + F(I,J,K)
+1538                    END IF
+1539 C
+1540                    GOTO 20
+1541 C
+1542                  ELSE IF( IALPHA .EQ. K        ) THEN                         • (II) For IALPHA=K.
+1543 C
+1544                    IF( (K.EQ.1) .OR. (K.EQ.5) .OR. (K.EQ.7) ) THEN
+1545                      CDFORCE(NSMPLCD) = CDFORCE(NSMPLCD) + FTILD(I,J,K)
+1546                    END IF
+1547 C
+1548                    F(I,J,K) = FTILD(I00, J00, K)
+1549                    GOTO 20
+1550 C
+1551                  END IF
+1552 C
+1553    10          CONTINUE
+1554             END IF
+1555 C                                                        ----- FOR USUAL -----
+1556             F(I,J,K) = FTILD(I00, J00, K)
+1557 C
+1558    20     CONTINUE
+1559    40     CONTINUE
+1560 C
+1561   100 CONTINUE
+1562                                                                               RETURN
+1563                                                                               END
+1564 C**** SUB BCPROC *****
+1565         SUBROUTINE BCPROC( PX , PY , DNS0 , ALPHAMX , ITREESID ,
+1566       &                                                      ITREEDWN )
+1567 C                                   --------- BOUNDARY CONDITION PROC. ---
+1568         IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N)
+1569 C                                                                   • A subroutine for treating the
+1570         COMMON /BLOCK1/ F       , FTILD                             boundary surfaces.
+1571         COMMON /BLOCK3/ RHO , RX , RY , VX , VY
+1572         COMMON /BLOCK6/ UVELX , UVELY
+1573 C
+1574         INTEGER     PP , QQ , KK
+1575        PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+1576 C
+1577         REAL*8     F(0:PP,0:QQ,0:KK), FTILD(0:PP,0:QQ,0:KK)
+1578         REAL*8     RHO(0:PP,0:QQ)
+1579         REAL*8     RX( 0:PP,0:QQ)    , RY(0:PP,0:QQ)
+1580         REAL*8     VX( 0:PP,0:QQ)    , VY(0:PP,0:QQ)
+1581         INTEGER    PX , PY , ALPHAMX
+1582 C
+1583         REAL*8     FEQ , CDNS0 , UVELX0 , UVELY0
+1584 C
+1585         CDNS0 = DNS0
+1586 C
+1587 C       ------------------------------------------- BC for Bupstream ---
+1588         DO 100 J=0, PY                    • I. The treatment at the upstream boundary surface.
+1589         DO 80 K=0, ALPHAMX
+1590 C                                                          +++ UNIFORM FLOW +++
+1591           F(0,J,K) = FEQ( UVELX, UVELY, K, CDNS0 )
+1592 C                                                        • An equilibrium distribution is assigned.
+
+===== PAGINA 34 =====
+
+252                                                      Introduction to Practice of Molecular Simulation
+
+
+1593     80 CONTINUE
+1594   100 CONTINUE                                • II. The treatment at the side boundary surfaces.
+1595 C
+1596 C       --------------------------- BC for Bupper_side & Blower_side ---
+1597         DO 300 I=1, PX-1
+1598         DO 280 K=0, ALPHAMX
+1599           IF( ITREESID .EQ. 1 ) THEN
+1600 C                                                    +++ (1) EXTRAPOLATION +++
+1601             F(I,PY,K) = 2.D0*F(I,PY-1,K) - F(I,PY-2,K)
+1602             F(I, 0,K) = 2.D0*F(I,1,K)     - F(I,2,K)                • The extrapolation condition in
+1603 C                                                                   Eq. (7.7) is applied.
+1604           ELSE IF( ITREESID .EQ. 2 ) THEN
+1605 C                                                    +++ (2) DEF=0                  +++
+1606             F(I,PY,K) = F(I,PY-1,K)
+1607             F(I, 0,K) = F(I,1,K)                       • The zero-gradient condition in Eq. (7.8) is
+1608 C                                                      applied.
+1609           ELSE IF( (ITREESID.EQ.3) .OR. (ITREESID.EQ.4) .OR.
+1610       &                                   (ITREESID.EQ.5) ) THEN
+1611 C                                                    +++ (3) UNIFORM FLOW +++
+1612             UVELX0 = VX( I,PY)
+1613             UVELY0 = VY( I,PY)                                     • An equilibrium distribution with
+1614             CDNS0 = RHO(I,PY)                                      each local velocity is assigned.
+1615             F(I,PY,K) = FEQ( UVELX0, UVELY0, K, CDNS0 )
+1616 C
+1617             UVELX0 = VX( I,0)
+1618             UVELY0 = VY( I,0)
+1619             CDNS0 = RHO(I,0)
+1620             F(I, 0,K) = FEQ( UVELX0, UVELY0, K, CDNS0 )
+1621 C
+1622           END IF
+1623 C
+1624   280 CONTINUE
+1625   300 CONTINUE                                   • III. The treatment at the downstream surface.
+1626 C
+1627 C       ----------------------------------------- BC for Bdownstream ---
+1628         DO 500 J=0, PY
+1629         DO 480 K=0, ALPHAMX                • The extrapolation condition in Eq. (7.7) is applied.
+1630           IF( ITREEDWN .EQ. 1 ) THEN
+1631 C                                                    +++ (1) EXTRAPOLATION +++
+1632             F(PX,J,K) = 2.D0*F(PX-1,J,K) - F(PX-2,J,K)
+1633 C
+1634           ELSE IF( ITREEDWN .EQ. 2 ) THEN
+1635 C                                                    +++ (2) DEF=0                  +++
+1636             F(PX,J,K) = F(PX-1,J,K)
+1637 C                                         • The zero-gradient condition in Eq. (7.8) is applied.
+1638           ELSE IF( (ITREEDWN.EQ.3) .OR. (ITREEDWN.EQ.4) .OR.
+1639       &                                   (ITREEDWN.EQ.5) ) THEN
+1640 C                                                    +++ (3) UNIFORM FLOW +++
+1641             UVELX0 = VX( PX,J)                                      • An equilibrium dist. with each
+1642             UVELY0 = VY( PX,J)
+1643             CDNS0 = RHO(PX,J)                                       local velocity is assigned.
+1644             F(PX,J,K) = FEQ( UVELX0, UVELY0, K, CDNS0 )
+1645 C
+1646           END IF
+1647   480 CONTINUE                                      • IV. The treatment at both corner sites of the
+1648   500 CONTINUE                                      downstream surface.
+1649 C
+1650 C       -------------------------------- TWO Corners for Bdownstream ---
+1651         DO 530 K=0, ALPHAMX                • The extrapolation condition in Eq. (7.7) is applied.
+1652           IF( ITREEDWN .EQ. 1 ) THEN
+1653             F(PX,PY,K) = 2.D0*F(PX-1,PY-1,K) - F(PX-2,PY-2,K)
+1654             F(PX, 0,K) = 2.D0*F(PX-1,    1,K) - F(PX-2,            2,K)
+1655           ELSE IF( ITREEDWN .EQ. 2 ) THEN
+1656             F(PX,PY,K) =       F(PX-1,PY-1,K)
+1657             F(PX, 0,K) =       F(PX-1,   1,K)                         • The zero-gradient condition
+1658           END IF                                                      in Eq. (7.8) is applied.
+1659   530 CONTINUE
+1660                                                                                 RETURN
+1661                                                                                 END
+1662 C**** SUB GRAPHVEL ****
+1663         SUBROUTINE GRAPHVEL( NANMCTR )                          • A subroutine for writing out the
+1664 C                                                               data used for making an animation
+1665 CCC     IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N)                based on the commercial software
+1666         IMPLICIT REAL (A-H,O-Z), INTEGER (I-N)                  MicroAVS.
+1667 C
+1668         COMMON /BLOCK3/ RHO , RX , RY , VX , VY
+1669         COMMON /BLOCK5/ XL , YL , XL1 , YL1 , XL2 , YL2 , PX , PY , PXY
+1670         COMMON /BLOCK6/ UVELX , UVELY
+1671         COMMON /BLOCK14/ RXCYL , RYCYL , ICYL , JCYL , DCYL
+1672 C
+
+===== PAGINA 35 =====
+
+Practice of Lattice Boltzmann Simulations                                                       253
+
+
+1673        INTEGER       PP , QQ , KK
+1674        REAL*8        PI
+1675        PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+1676 C
+1677 C      ---------------------------------
+1678        REAL*8      RHO(0:PP,0:QQ)
+1679        REAL*8      RX( 0:PP,0:QQ)    , RY(0:PP,0:QQ)
+1680        REAL*8      VX( 0:PP,0:QQ)    , VY(0:PP,0:QQ)
+1681        INTEGER     PX , PY , PXY
+1682 C      ---------------------------------
+1683        REAL*8      XL , YL , XL1 , YL1 , XL2 , YL2 , UVELX , UVELY
+1684        REAL*8      RXCYL , RYCYL , DCYL
+1685 C      ---------------------------------
+1686        INTEGER       QQSQ , NNDUM
+1687        PARAMETER( QQSQ=150000 , NNDUM=150000 )
+1688 C
+1689        REAL      DUMRX(NNDUM) ,DUMRY(NNDUM) , DUMVX(NNDUM) ,DUMVY(NNDUM)
+1690        REAL      VEL
+1691        INTEGER NDUM, ISKIP
+1692 C
+1693 C      ------------------------- DATA OUTPUT FOR VEL-FIELD MicroAVS ---
+1694 C
+1695        VEL = REAL( DSQRT( UVELX**2 + UVELY**2 ) )
+1696 C                                          +++ MAKE MicroAVS data FILE +++
+1697        WRITE(42,83) NANMCTR
+1698 C
+1699        II    = 0
+1700        DO 100 J=0, PY, 1
+1701        DO 90 I=0, PX, 1
+1702           II = II + 1
+1703           DUMRX(II) = REAL( RX(I,J) )
+1704           DUMRY(II) = REAL( RY(I,J) )
+1705           DUMVX(II) = REAL( VX(I,J) ) / VEL
+1706           DUMVY(II) = REAL( VY(I,J) ) / VEL
+1707           WRITE(42,85) DUMRX(II), DUMRY(II), DUMVX(II), DUMVY(II)
+1708    90 CONTINUE
+1709   100 CONTINUE
+1710 C
+1711        NDUM = II
+1712 C                                           +++ MAKE MicroAVS fld FILE +++
+1713        IF( NANMCTR .EQ. 1 ) THEN
+1714           WRITE(41,181)
+1715           WRITE(41,183)
+1716           WRITE(41,185) (PX+1), (PY+1)
+1717           WRITE(41,187)
+1718        END IF
+1719 C
+1720        ISKIP = (NDUM+1)*( NANMCTR-1) + 1
+1721 C
+1722       WRITE(41,188) ISKIP-1
+1723       WRITE(41,189) ISKIP
+1724       WRITE(41,191) ISKIP
+1725        WRITE(41,197)
+1726 C
+1727 C
+1728    83 FORMAT( I5 )
+1729    85 FORMAT( 4F8.3 )
+1730   181 FORMAT('# AVS field file'/ '#')
+1731   183 FORMAT( 'ndim=2' )
+1732   185 FORMAT( 'dim1=',I4/ 'dim2=',I4)
+1733   187 FORMAT( 'nspace= 2'/ 'veclen= 2'/ 'data= float'
+1734      &        / 'field= uniform'/ )
+1735   188 FORMAT( 'time file=./avsvel1.dat filetype=ascii '
+1736      &           'skip=',I7,' close=1')
+1737   189 FORMAT( 'variable 1 file=./avsvel1.dat filetype=ascii '
+1738      &           'skip=',I7,' offset=2 stride=4')
+1739   191 FORMAT( 'variable 2 file=./avsvel1.dat filetype=ascii '
+1740      &           'skip=',I7,' offset=3 stride=4')
+1741   197 FORMAT( 'EOT')
+1742                                                                         RETURN
+1743                                                                         END
+1744 C#### FUN FEQ ####
+1745        DOUBLE PRECISION FUNCTION FEQ( UVELX, UVELY, ALPHA, CDNS0 )
+1746 C                         -----------------------------------------------
+1747 C                             EQUILIBRIUM DISTRIBUTION FUNCTION F^(eq)
+1748 C                         -----------------------------------------------
+1749        IMPLICIT REAL*8 (A-H,O-Z), INTEGER (I-N)
+1750 C                                                     • The equilibrium distribution function.
+1751        COMMON /BLOCK2/ CVEL , W , IINC , ANTIALPH, ALPHAMX
+1752 C
+1753        INTEGER       PP , QQ , KK
+
+===== PAGINA 36 =====
+
+254                                             Introduction to Practice of Molecular Simulation
+
+
+1754     PARAMETER( PP=300 , QQ=400 , KK=8 , PI=3.141592653589793D0 )
+1755 C
+1756     REAL*8     CVEL(2,0:KK) , W(0:KK)
+1757     INTEGER    ALPHAMX , IINC(2,0:KK) , ANTIALPH(0:KK)
+1758     INTEGER    ALPHA
+1759 C
+1760     REAL*8      C0, C1, C2, C3
+1761 C
+1762     K   = ALPHA                                • An equilibrium distribution is assigned
+1763     C0 = W(K)*CDNS0                            according to Eq. (7.18).
+1764     C1 = CVEL(1,K)*UVELX + CVEL(2,K)*UVELY
+1765     C2 = C1*C1
+1766     C3 = UVELX**2 + UVELY**2
+1767     FEQ = C0*( 1.D0 + 3.D0*C1 + (9.D0/2.D0)*C2 - (3.D0/2.D0)*C3 )
+1768                                                                    RETURN
+1769                                                                    END
+

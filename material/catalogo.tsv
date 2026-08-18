@@ -11,3 +11,16 @@ B02	bibliografia	Advice to Beginning Physics Speakers — James C. Garland	mater
 B03	bibliografia	The Cell Index Method	material/externo/bibliografia-1/Cell_Index_Method.pdf	10	2026	vigente	Cell_Index_Method.pdf
 B04	bibliografia	Flocks, Herds, and Schools: A Distributed Behavioral Model — Craig W. Reynolds	material/externo/bibliografia-1/Flocks_Herds_Reynolds.pdf	10	2026	vigente	Flocks_Herds_Reynolds.pdf
 B05	bibliografia	Hydrodynamics of Soft Active Matter — Marchetti et al.	material/externo/bibliografia-1/marchetti_hydrodynamics_soft_active_matter.pdf	47	2026	vigente	marchetti_hydrodynamics_soft_active_matter.pdf
+T02	teoria	Autómatas celulares	material/catedra/teoria/Teorica_2.pdf	49	2026	vigente	Teorica_2.pdf
+TP02	trabajo-practico	Trabajo Práctico 2: Autómatas celulares y bandadas de agentes autopropulsados	material/catedra/practica/TP2_Enunciado.pdf	2	2026	vigente	TP2_Enunciado.pdf
+BIB02	paquete-bibliografico	Bibliografía 2: autómatas celulares, lattice gas, lattice Boltzmann y bandadas	material/externo/paquetes/Biblio2.zip		2026	contenedor	Biblio2.zip
+B06	bibliografia	Statistical Physics Is for the Birds — Toni Feder	material/externo/bibliografia-2/PhysicsToday.pdf	4	2026	vigente	PhysicsToday.pdf
+B07	bibliografia	Flocking Dynamics with Voter-Like Interactions — Gabriel Baglietto y Federico Vazquez	material/externo/bibliografia-2/Flocking_dynamics_with_voter-like_interactions.pdf	18	2026	vigente	Flocking dynamics with voter-like interactions.pdf
+B08	bibliografia	Lattice-Gas Cellular Automata and Lattice Boltzmann Models: An Introduction — Dieter A. Wolf-Gladrow	material/externo/bibliografia-2/Lattice-Gas_Cellular_Automata_and_Lattice_Boltzmann_Models.pdf	311	2026	vigente	lattice gas cellular automata and lattice boltzmann models.pdf
+B09	bibliografia	Noisy Multistate Voter Model for Flocking in Finite Dimensions — Loscar, Baglietto y Vazquez	material/externo/bibliografia-2/2021-PhysRevE-104-034111.pdf	10	2026	vigente	2021-PhysRevE-104-034111.pdf
+B10	bibliografia	Practice of Lattice Boltzmann Simulations — Akira Satoh	material/externo/bibliografia-2/Chapter_7_LatticeBoltzman.pdf	36	2026	vigente	Chapter_7_LatticeBoltzman.pdf
+B11	bibliografia	From Empirical Data to Inter-Individual Interactions: Unveiling the Rules of Collective Animal Behavior — Cavagna et al.	material/externo/bibliografia-2/M3AS_20SUPPL.P1491.pdf	21	2026	vigente	M3AS_20SUPPL.P1491.pdf
+B12	bibliografia	Lattice Gas Models — Michael C. Sukop y Daniel T. Thorne Jr.	material/externo/bibliografia-2/02_Lattice_Gas_Models.pdf	14	2026	vigente	02_Lattice Gas Models.pdf
+B13	bibliografia	Cellular Automata as Models of Complexity — Stephen Wolfram	material/externo/bibliografia-2/Cellular-Automata-Models-Complexity-Stephen-Wolfram-Article.pdf	7	2026	vigente	Cellular-Automata-Models-Complexity-Stephen-Wolfram-Article.pdf
+B14	bibliografia	Novel Type of Phase Transition in a System of Self-Driven Particles — Vicsek et al.	material/externo/bibliografia-2/NovelTypePhaseTransition2.pdf	4	2026	vigente	NovelTypePhaseTransition2.pdf
+B15	ficha-bibliografica	Lattice Boltzmann Modeling: An Introduction for Geoscientists and Engineers — Sukop y Thorne	material/externo/bibliografia-2/00_Book_LatticeBoltamannModeling.rtf		2026	referencia	00_Book_LatticeBoltamannModeling.rtf

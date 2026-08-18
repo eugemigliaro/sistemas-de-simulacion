@@ -1,0 +1,1091 @@
+FUENTE: T02
+TITULO: Autómatas celulares
+ORIGINAL: material/catedra/teoria/Teorica_2.pdf
+PAGINAS: 49
+
+===== PAGINA 1 =====
+
+Simulación de Sistemas
+
+
+    Autómatas Celulares
+
+
+
+
+             1
+
+===== PAGINA 2 =====
+
+Autómata Celular
+ Ideas Básicas:
+
+
+     - En general, se discretiza el espacio en una grilla (celdas).
+
+     - Cada sitio de la grilla tiene un estado (puede ser ocupado o no por una
+     partícula con velocidad, o el valor de alguna cantidad macroscópica, etc.)
+
+     - Reglas (Heurísticas) para definir transición de estados, entre celdas entre
+     un paso temporal y el siguiente.
+
+     - En algunos casos el AC pertenece al dominio Microscópico y promediando
+     sobre muchas celdas se llega al dominio Macroscópico.
+
+
+
+
+                                            2
+
+===== PAGINA 3 =====
+
+Autómatas Celulares: De nición
+
+ - AC son arreglos regulares de celdas individuales de la misma clase
+
+
+ - Cada celda tiene un numero finito de estados discretos.
+
+
+ - Los estados se actualizan simultáneamente (sincrónicamente) en
+ cada paso temporal.
+
+
+ - Las reglas de actualización son determinísticas y uniformes en tiempo y espacio.
+
+
+ - Las reglas para la evolución de una celda depende solamente de un vecindario
+ local a su alrededor.
+
+
+
+
+                                              3
+                                         fi
+
+===== PAGINA 4 =====
+
+Autómatas Celulares 1-D
+
+
+
+
+            4
+
+===== PAGINA 5 =====
+
+Autómatas Celulares en una dimensión
+ Sea una cadena uniforme de celdas:
+                        (i-1) i (i+1)
+             X       XX                   X                X
+
+      La celda i tiene un estado ai(t) en el instante t.
+
+     Cada estado ai(t) está definido por un nro. finito de enteros positivos (k)
+     etiquetados desde 0 hasta (k-1).
+
+
+
+
+                                              5
+
+===== PAGINA 6 =====
+
+Autómatas Celulares en una dimensión
+ Sea una cadena uniforme de celdas:
+                        (i-1) i (i+1)
+             X       XX                   X                X
+
+      La celda i tiene un estado ai(t) en el instante t.
+
+     La regla de evolución está dada por el mapeo:
+
+                                          donde:
+                                          - r es el rango (nro.) de vecinos a considerar.
+                                          - αj constantes enteras.
+                                          - f Función no lineal: “regla del autómata”.
+
+
+
+
+                                              6
+
+===== PAGINA 7 =====
+
+Autómatas Celulares en una dimensión
+ Un ejemplo de AC con k = 2 y r = 1:
+
+                                           En general el nro. de posibles
+                                           combinaciones es N = k 2 r +1
+
+
+                                           El nro. total de reglas posibles es
+                                           k N ,en este caso es 28 = 256.
+
+                                           Un AC de 1D cuya regla de
+                                           actualización solo depende de los
+                                           primeros vecinos (y de sí mismo)
+                                           se llama: “AC Elemental”.
+
+
+
+
+                                       7
+
+===== PAGINA 8 =====
+
+Autómatas Celulares en una dimensión
+Subclases de Reglas
+
+
+
+        - Regla Totalista: Todos los αj = 1.
+
+        - Regla Simétrica: f [ai−r , ..., ai+r ] = f [ai+r , ..., ai−r ].
+
+        - Regla Legal: No cambia la configuración nula (todos ceros).
+
+        - ...
+
+
+
+
+                                                     8
+
+===== PAGINA 9 =====
+
+Autómatas Celulares en una dimensión
+Hay 4 posibles patrones de Autómatas Celulares en 1-D
+
+
+                1) Desaparece con el tiempo.
+
+                2) Evoluciona a un tamaño fijo finito.
+
+                3) Crece indefinidamente a una velocidad fija.
+
+                4) Crece y se contrae periódicamente.
+
+
+
+
+                                            9
+
+===== PAGINA 10 =====
+
+Autómatas Celulares en una dimensión
+Ejemplos de Wolfram (1984, Nature, 311 pp:419)
+
+
+
+
+                                          10
+
+===== PAGINA 11 =====
+
+Autómatas Celulares 2-D
+
+
+
+
+            11
+
+===== PAGINA 12 =====
+
+                  In two dimensions there is much more freedom for arranging the
+                  defining
+                     In twothe neighborhoods
+                             dimensions   there for the updating
+                                                is much           rules. for
+                                                          more freedom    Herearranging
+                                                                                only the the
+                                                                                         sim
+                  figurations willneighborhoods
+                     defining the  be considered.forVarious  other rules.
+                                                      the updating  arrangements
+                                                                          Here only will  be
+                                                                                     the simp
+                  in the chapterwill
+                                  on lattice-gas  cellular automata.
+Autómatas Celulares 2D
+                     figurations      be considered.  Various other arrangements will be p
+                     in the chapter on lattice-gas cellular automata.
+                     2.4.1 Neighborhoods in 2D
+Definiciones de Vecindad
+                        2.4.1 Neighborhoods in 2D
+                   Von Neumann neighborhoods of range r are defined by
+                     Von Neumann neighborhoods
+                                      (vN )
+                                                  of range r are defined by
+  Vecindario Von Neumann             Ni,j := (k, l) 2 L |k i| + |l j|  r
+                                         (vN )
+  de alcance r                        Ni,j := (k, l) 2 L |k i| + |l j|  r
+                   and Moore neighborhoods of range r by
+                     and Moore neighborhoods of range r by
+                             (M)
+  Vecindario Moore         N       := (k, l) 2 L |k i|  r and |l j|  r .
+                             i,j (M)
+  de alcance r                Ni,j := (k, l) 2 L |k i|  r and |l j|  r .
+
+
+
+                  Fig. 2.4.6. Neighborhoods in 2D of range 1 and 2: von Neumann (uppe
+                     Fig. 2.4.6. Neighborhoods in 2D of range 1 and 2: von Neumann (uppe
+                  (lower).
+                     (lower).
+
+
+
+
+                                         12
+
+===== PAGINA 13 =====
+
+                           in the chapter on lattice-gas cellular automata.
+
+
+                           2.4.1 Neighborhoods in 2D
+
+                           Von Neumann neighborhoods of range r are defined by
+
+
+
+Autómatas Celulares 2D
+                                                (vN )
+                                             Ni,j       := (k, l) 2 L |k   i| + |l   j|  r       (2.4.8)
+                           and Moore neighborhoods of range r by
+                                      (M)
+                                    Ni,j    := (k, l) 2 L |k      i|  r   and |l    j|  r .     (2.4.9)
+
+Definiciones de Vecindad
+
+                           (lower).
+                                                                                                Von Neumann, r = 2
+                           Fig. 2.4.6. Neighborhoods in 2D of range 1 and 2: von Neumann (upper), Moore
+
+
+    Von Neumann, r = 1
+
+
+
+
+          Moore, r = 1                                                                                      Moore, r = 2
+
+
+
+
+                                                             13
+
+===== PAGINA 14 =====
+
+Autómatas Celulares 2D:
+   “Juego de la vida”
+
+
+
+
+            14
+
+===== PAGINA 15 =====
+
+Autómatas Celulares 2D: “Vida”
+   En la década de 1970, Conway definió un autómata celular que
+   simula la evolución de colonias de organismos vivos.
+
+   Las reglas son:
+
+   - Se considera 8 vecinos (Vecindad de Moore, r = 1).
+
+   - Cada celda tiene dos estados posibles “Viva” o “Muerta” (k = 2).
+
+   - Las Celdas Vivas, permanecerán vivas en el siguiente paso
+   temporal si tiene 2 o 3 vecinos vivos, de lo contrario morirá.
+
+   - Las Celdas Muertas se transformarán en Vivas solamente si tiene
+   exactamente 3 vecinos vivos.
+
+
+
+
+                                          15
+
+===== PAGINA 16 =====
+
+Autómatas Celulares 2D: “Vida”
+ Implementación:
+
+
+
+   - Condición Inicial:
+      Puede ser al azar (cada celda “Viva” o “Muerta”).
+      Puede ser una configuración predeterminada.
+
+   - Condición de Contorno:
+      Puede ser periódica o no.
+
+
+
+
+                                          16
+
+===== PAGINA 17 =====
+
+                      synchronous cellular automaton which simulates the evolution of a society of
+                      living organisms.
+                      ‘Life’ is defined by two rules involving eight neighbors (Moore neighborhood
+                      of range 1; compare Fig. 2.4.6):
+                      •   Each live site will remain alive the next time-step if it has two or three
+                          live neighbors, otherwise it will die.
+
+Autómatas Celulares 2D: “Vida”
+                      •   At a dead site new live will be born only if there are exactly three live
+                          neighbors.
+                      ‘Life’ contains many patterns which remain stable from iteration to iteration
+                      when not disturbed by other objects (see Fig. 2.4.8 for some examples).
+  Patrones Estables
+                      Fig. 2.4.8. The patterns shown here remain stable from generation to generation.
+
+
+
+
+                      The development in time of initial random configurations with equal proba-
+                      bilities of 1/2 for dead or alive is shown in Figures (2.4.9) and (2.4.10). In the
+                      limit of large domain size and time approximately 3 % of all cells are alive
+                      (compare Fig. 2.4.11).
+
+
+                                                              17
+
+===== PAGINA 18 =====
+
+Autómatas Celulares 2D: “Vida”
+                            32      2 Cellular Automata
+
+
+   Ejemplo de Evolución     (50x50)
+                   Fig. 2.4.10. ‘Life’ on a 50 times 50 array with periodic boundary conditions. Upper
+                                                                          Estados
+                   left: Random initialization with equal probability for dead       a tiempos
+                                                                               or alive. The other141
+                                                                                                   plotsa 148
+                            show the configurations at time levels 141 to 148.
+
+
+ Estado Inicial
+
+
+
+
+                                                                   18
+
+===== PAGINA 19 =====
+
+Autómatas Celulares 2D: “Vida”
+                                                                    2.4 Two-dimensional cellular automata    33
+
+  Ejemplo de Evolución     (50x50)
+              Fig. 2.4.11. ‘Life’ on a 50 times 50 array with periodic boundary conditions:
+                      percentage of alive cells as a function of time (iterations). The limit for large domain
+                      size and time is not yet reached.
+
+                                                   60
+
+
+
+
+                                                   50
+
+
+
+
+                       Percentage of alive cells
+                                                   40
+
+
+
+
+                                                   30
+
+
+
+
+                                                   20
+
+
+
+
+                                                   10
+
+
+
+
+                                                    0
+                                                        0   50     100           150           200          250
+                                                                 Number of iterations
+
+
+
+
+                                                                                 19
+
+===== PAGINA 20 =====
+
+Autómatas Celulares 2D: “Vida”
+
+
+
+
+                       20
+
+===== PAGINA 21 =====
+
+"Game of life" 3D (tiempo)
+
+
+
+
+                        21
+
+===== PAGINA 22 =====
+
+Autómatas Celulares 3D (x,y,z)
+
+
+
+
+                        22
+
+===== PAGINA 23 =====
+
+      Autómatas Celulares:
+Modelos de Fluidos 2D “Lattice Gas”
+
+
+
+
+                  23
+
+===== PAGINA 24 =====
+
+Autómatas Celulares: Fluidos 2D
+ (Antes) Ecuación de Navier Stokes
+
+
+
+
+- Conservación de la masa
+- Conservación de la energía
+- Conservación del momento
+- Hipótesis de medio Continuo
+
+                                          Ecuación de Continuidad
+
+
+
+                                          + Condiciones de Contorno
+
+
+
+
+                                     24
+
+===== PAGINA 25 =====
+
+Autómatas Celulares: Fluidos 2D
+ (Antes) Ecuación de Navier Stokes
+
+                                          - Ecuaciones Diferenciales No Lineales.
+
+                                          - Solución Analítica en pocos casos.
+
+                                          - En general se usan métodos numéricos.
+ Velocidad Presión      viscosidad
+           Cinemática
+           P = p/ρ0
+
+
+
+
+                                     25
+
+===== PAGINA 26 =====
+
+Autómatas Celulares: Fluidos 2D
+ Número de Reynolds
+
+                                          Longitud Característica
+   Velocidad Característica
+
+
+
+                                                 Número adimensional que considera
+                                                 fuerzas inerciales vs. viscosas
+
+
+
+               Re << 1    Flujo Laminar
+
+               Re >> 1    Flujo Turbulento
+
+
+
+
+                                            26
+
+===== PAGINA 27 =====
+
+Autómatas Celulares: Fluidos 2D
+
+ Modelo FHP
+
+
+
+    Frish, Hasslacher, and Pomeau (1986) definieron un modelo “lattice
+    gas” que es equivalente a resolver las ecuaciones de Navier-Stokes
+
+
+
+
+                                        27
+
+===== PAGINA 28 =====
+
+Autómatas Celulares: Fluidos 2D
+ Modelo FHP
+                      - Retícula triangular con simetría hexagonal.
+
+                      - Cada nodo tiene 6 primeros vecinos a la misma
+                      distancia.
+
+                      - Los vectores que unen estos nodos se llaman
+                      “lattice vectors” o velocidades de la retícula:
+
+
+
+
+                        28
+
+===== PAGINA 29 =====
+
+Autómatas Celulares: Fluidos 2D
+ Modelo FHP
+                                       - Cada nodo tiene asociada una Celda.
+
+                                       - La Celda puede estar vacía u ocupada por
+                                       varias partículas.
+
+                                       - Todas las partículas tienen la misma masa (=1) y
+                                       son indistinguibles.
+
+                                       - Evolución. Cada paso temporal tiene 2 etapas:
+                                         - Propagación (se mueve según velocidades).
+                                         - Colisión (adquieren nuevas velocidades, según
+                                           las reglas de colisión).
+ r es el vector posición de un nodo.
+ r + ci son las posiciones de sus
+ vecinos.
+
+
+                                           29
+
+===== PAGINA 30 =====
+
+Autómatas Celulares: Fluidos 2D
+
+- Todas las posibles colisiones
+deben conservar el momento
+(...además de la masa).
+
+
+
+
+- Cómo serían las de 5 y 6
+partículas?
+
+- y las de 2 a 60º o 120º?
+
+
+
+
+                                  30
+
+===== PAGINA 31 =====
+
+Autómatas Celulares: Fluidos 2D
+Implementación: Codificación estado de cada Celda
+
+
+
+
+                                         31
+
+===== PAGINA 32 =====
+
+ Autómatas Celulares: Fluidos 2D
+   Implementación: Codificación estado de cada Celda
+
+
+
+
+   Las 6
+  posibles
+direcciones
+
+
+
+
+  Sólido
+ Random
+
+
+
+                           Hay 256 estados posibles.
+
+
+
+
+                                            32
+
+===== PAGINA 33 =====
+
+Autómatas Celulares: Fluidos 2D
+Implementación:
+Ejemplo Tabla de mapeo de estados (sin
+considerar colisiones de 4 partículas)
+
+
+  Primero los que no cambian:
+  Desde 00000000 hasta 00111111
+  (de 0 a 63)
+  y
+  desde 10000000 hasta 10111111
+  (de 128 a 191)
+
+
+
+
+                                         33
+
+===== PAGINA 34 =====
+
+Autómatas Celulares: Fluidos 2D
+Implementación:
+Tabla de mapeo de estados
+                                 Al colisionar con un sólido la
+ Presencia de sólido             partícula regresa por donde
+ Desde 01000000 hasta 01111111   vino:
+ (de 64 a 127)                            A pasa a D,
+ y
+                                          B pasa a E,
+ desde 11000000 hasta 11111111
+ (de 192 a 255)                           C pasa a F,
+                                               …
+
+
+
+
+                                     34
+
+===== PAGINA 35 =====
+
+Autómatas Celulares: Fluidos 2D
+Implementación:
+Tabla de mapeo de estados
+
+   Colisión Frontal Binaria
+   AD, BE y CF cada una puede pasar a
+   cualquiera de las otras 2 con igual probabilidad.
+                      Ejemplo:
+
+
+
+
+                                              35
+
+===== PAGINA 36 =====
+
+Autómatas Celulares: Fluidos 2D
+Implementación:
+Tabla de mapeo de estados
+
+          Finalmente, Colisión de 3 partículas:
+
+
+
+
+                                             36
+
+===== PAGINA 37 =====
+
+Autómatas Celulares: Fluidos 2D
+Condimentos Finales.
+
+
+    1 - Promedios Macroscópicos. Por lo menos16 x16 celdas y 10 pasos temporales.
+
+    2 - Fuerza Impulsora. Incluir momentum desde los bordes o cambiando con
+    alguna probabilidad las velocidades de algunas celdas en una dirección deseada.
+
+    3 - Remapeo de la grilla hexagonal para cálculo de vecinos (ver biblio).
+
+
+
+
+                                              37
+
+===== PAGINA 38 =====
+
+Autómatas Celulares: Fluidos 2D
+Ejemplo: Fluido alrededor de una barrera (de largo L).
+
+
+  - Grilla de 1929 x 960
+  - 100,000 pasos
+  - Promedios cada 32x32 celdas
+  y cada 100 pasos temporales.
+
+
+
+  - Cómo se puede cambiar el
+  nro. de Reynolds en estas
+  simulaciones ?
+
+
+
+
+                                             38
+
+===== PAGINA 39 =====
+
+Autómatas Celulares:
+   “Off - Lattice”
+
+
+
+
+          39
+
+===== PAGINA 40 =====
+
+Autómatas Celulares: “Off - Lattice”
+                                          Vicsek et al. (1995)
+Bandadas de agentes autopropulsados
+
+
+                                                            Definiciones:
+                   r=1
+                                      - Cada partícula es puntual y se mueve en el
+                                      continuo dentro de la celda de lado L.
+                         v
+L
+                                      - r es el radio de interacción entre partículas.
+
+                                      - v es la velocidad de módulo v y dirección dada
+                                      por el ángulo θ.
+
+                                      - El paso temporal es dt = 1.
+              L
+
+
+
+
+                                         40
+
+===== PAGINA 41 =====
+
+Autómatas Celulares: “Off - Lattice”
+Bandadas de agentes autopropulsados
+
+
+                                                    Condiciones Iniciales:
+                   r=1
+                                      - a t = 0, se generan N partículas distribuidas
+                         v            rendom en la celda.
+L
+                                      - Todas tienen igual modulo v = 0.03.
+
+                                      - Y direcciones θ distribuidas random.
+
+
+
+              L
+
+
+
+
+                                         41
+
+===== PAGINA 42 =====
+
+        directions θ. The velocities {vi } of the particles were determined simultaneously at
+               twostep
+        each time   updating    of
+                              The
+                       andθ.the
+               directions          the  directions/positions.
+                                   velocities
+                                position of the{vith
+                                                  i } particle         were of
+                                                                   In most
+                                                      of the particles
+                                                               updated         our
+                                                                                 to simulations
+                                                                            determined
+                                                                       according        simulta
+               simplest
+               each time initial conditions:
+                          step and           i) at
+                                   the position    timeitht =
+                                                of the        0 N particles
+                                                            particle         were random
+                                                                     updated according to
+Autómatas   Celulares:     x “Off
+                             (t + 1) =-x Lattice”
+                                         (t) + v (t)∆t.
+                                           i                  i         i(1)
+       in the cell and ii) had the same absolute velocity v and iii) random
+Bandadas de agentes  autopropulsados           xi (t + 1) = xi (t) + vi (t)∆t.
+             directions
+      Here the velocity ofθ.a particle
+                               The velocities   {vi }constructed
+                                       vi (t+1) was    of the particles
+                                                                 to have were  determined
+                                                                          an absolute value vsimu
+                                                                                              and
+                each
+        a direction  time
+                    given  step
+                          by the and  the
+                                  angle   position
+                                        θ(t + 1).   Evolución
+                                                    of
+                                                  This the ith
+                                                       angle  temporal:
+                                                               particle
+                                                             was        updated
+                                                                 obtained from   according
+                                                                               the          to
+                                                                                   expression
+               Here the velocity of a particle vi (t+1) was constructed to have an absolute
+                      r=1
+               a direction given by the angle θ(t + 1). This angle was obtained from the
+                                               =i (t
+                                      θ(t + 1) x     + 1)r +
+                                                  ⟨θ(t)⟩   =x i (t) + vi (t)∆t.
+                                                             ∆θ,                      (2)
+                              v
+L                                              θ(t + 1) = ⟨θ(t)⟩r + ∆θ,
+        where ⟨θ(t)⟩ denotes
+              Here rthe       theofaverage
+                        velocity           direction
+                                    a particle       of the
+                                               vi (t+1) wasvelocities of particles
+                                                            constructed            (including
+                                                                          to have an  absolu
+                                               donde   ⟨θ (t)⟩r es el promedio de los ángulos de todas las
+                    being within
+        particleai)direction givena by
+                                    circle
+                                       theofangle
+                                              radiusθ(t
+                                            partículas  r+surrounding
+                                                       dentro 1).           the
+                                                                    This angle
+                                                              de r incluyendo     given
+                                                                                    was
+                                                                              la propia   obtained The
+                                                                                          particle.
+                                                                                        partícula:  fromav-
+                                                                                                          th
+               where ⟨θ(t)⟩r denotes the average direction of the velocities of particles
+        erage direction was given by the angle arctg[⟨sin(θ(t))⟩r /⟨cos(θ(t))⟩r ]. In (2) ∆θ is a
+              particle i) being within a circle of radius r surrounding the given particl
+        random number chosen with a unifom atan2[
+                                               θ(t + 1) =
+                                            probability    ⟨θ(t)⟩
+                                                        from the r +        ] η/2]. Thus,
+                                                                      ∆θ, [−η/2,
+                                                                  interval
+              erage
+                L   direction was given by the angle arctg[⟨sin(θ(t))⟩r /⟨cos(θ(t))⟩r ]. In
+                                             Y Δθ es un ruido uniforme entre [-η/2, η/2].
+        the term ∆θ represents noise which we shall use as a temperature-like variable. Corre-
+               random number chosen with a unifom probability from the interval [−η/2,
+                where
+        spondingly,     ⟨θ(t)⟩
+                     there       denotes
+                            arerthree      the average
+                                      free parameters  fordirection  of thesize:
+                                                           a given system     velocities
+                                                                                 η, ρ andofv, partic
+                                                                                              where
+               the term ∆θ represents noise which we shall use as a temperature-like varia
+        v is theparticle
+                 distancei)a particle
+                             being within
+                                      makes abetween
+                                               circle of
+                                                      tworadius  r surrounding the given part
+                                                           updatings.
+               spondingly, there are three free42   parameters for a given system size: η, ρ an
+                erage direction was given by the angle arctg[⟨sin(θ(t))⟩r /⟨cos(θ(t))⟩r ]. I
+
+===== PAGINA 43 =====
+
+Autómatas Celulares: “Off - Lattice”
+Bandadas de agentes autopropulsados
+                                           atan2[   ]
+
+                   r=1
+
+
+                         v
+L
+
+
+
+
+              L
+
+
+
+
+                                      43
+
+===== PAGINA 44 =====
+
+                   distributed randomly. (b) For small densities and noise the particles tend to form
+                   groups moving coherently in random directions. (c) At higher densities and noise the
+                   particles move randomly with some correlation. (d) perhaps the most interesting case
+
+AutómatasisCelulares:
+           when the density is “Off
+                               large and -
+                                         theLattice”
+                                             noise is small; in this case the motion becomes
+                   ordered on a macroscopic scale and all of the particles tend to move in the same
+Bandadas de agentes autopropulsados
+                   spontaneously selected direction.
+
+                          This kinetic Entonces   el sistema
+                                       phase transition is due totiene  3 variables
+                                                                   the fact           relevantes:
+                                                                            that the particles are driven with
+                      r = 1 absolute velocity; thus, unlike standard physical systems in our case the
+                   a constant
+                                   Modulo de la velocidad (v), Densidad (ρ = N/L ) y   2
+
+                                                   Amplitud
+                   net momentum of the interacting particles is del
+                                                                not ruido (η). during collision. We have
+                                                                    conserved
+                           v
+L                  studied in detail the nature of this transition by determining the absolute value of the
+                                        Se define el parámetro de orden (va) como:
+                   average normalized velocity
+                                                          !      !
+                                                            N
+                                                        1 !" !!
+                                                          !
+                                                  va =        vi !                                        (3)
+                                                       Nv !
+                                                          !
+                                                                 !
+                                                                   i=1
+
+
+                   of the entire system of particles as the noise and the density were changed. This
+                                       El cual tiende a cero para total desorden y a 1
+                L velocity is approximately zero if the direction of the motion of the individual particles
+                                                  para partículas “polarizadas”.
+                   is distributed randomly, while for the coherently moving phase (with ordered direction
+                   of velocities) va ≃ 1, so that we can consider the average velocity as an order parameter.
+
+                                                               5
+                                                  44
+
+===== PAGINA 45 =====
+
+Autómatas Celulares: “Off - Lattice”
+Bandadas de agentes autopropulsados
+
+                       va        0    para total desorden.
+
+                       (N=300, L=7, η=2)
+
+
+
+
+                                                va           1 para partículas “polarizadas”.
+
+                                                (N=300, L=5, η=0.1)
+
+
+
+
+                                           45
+
+===== PAGINA 46 =====
+
+Autómatas Celulares: “Off - Lattice”
+Bandadas de agentes autopropulsados
+
+
+                        Bajas densidades y bajo ruido, se
+                        tienden a formar grupos que se mueven
+                        coherentemente.
+                        (N=300, L=25, η=0.1)
+
+
+
+
+                          Se puede estudiar como varía va por
+                          ejemplo con η.
+
+
+
+
+                                         46
+
+===== PAGINA 47 =====
+
+Comentarios Finales
+
+
+
+
+          47
+
+===== PAGINA 48 =====
+
+Autómatas Celulares
+   Informe
+
+       - Formato:
+
+        - Redacción Técnica.
+        - Ecuaciones numeradas.
+        - Afirmaciones, Conclusiones, descripciones BASADAS en DATOS
+        - Figuras: Referenciarlas, Leyendas, Ejes, Tamaño de Fuente...
+        - PROMEDIAR varias REALIZACIONES.
+        - Usar Latex (Ej.: www.overleaf.com).
+        - Ver documentación en “.../GuíasFormato/“.
+
+
+
+                                     48
+
+===== PAGINA 49 =====
+
+Autómatas Celulares
+
+
+
+
+                      Fin
+
+
+
+
+                        49
+

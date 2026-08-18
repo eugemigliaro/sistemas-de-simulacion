@@ -1,0 +1,669 @@
+FUENTE: B09
+TITULO: Noisy Multistate Voter Model for Flocking in Finite Dimensions — Loscar, Baglietto y Vazquez
+ORIGINAL: material/externo/bibliografia-2/2021-PhysRevE-104-034111.pdf
+PAGINAS: 10
+
+===== PAGINA 1 =====
+
+                                       PHYSICAL REVIEW E 104, 034111 (2021)
+
+
+
+                            Noisy multistate voter model for flocking in finite dimensions
+
+                                                 Ernesto S. Loscar and Gabriel Baglietto
+                     Instituto de Física de Líquidos y Sistemas Biológicos (IFLYSIB), UNLP, CCT La Plata–CONICET,
+                                               Calle 59 no. 789, B1900BTE La Plata, Argentina
+
+                                                              Federico Vazquez*
+               Instituto de Cálculo, FCEN, Universidad de Buenos Aires and CONICET, C1428EGA Buenos Aires, Argentina
+
+                               (Received 26 January 2021; accepted 25 August 2021; published 8 September 2021)
+
+                  We study a model for the collective behavior of self-propelled particles subject to pairwise copying interactions
+               and noise. Particles move at a constant speed v on a two-dimensional space and, in a single step of the dynamics,
+               each particle adopts the direction of motion of a randomly chosen neighboring particle within a distance R = 1,
+               with the addition of a perturbation of amplitude η (noise). We investigate how the global level of particles’
+               alignment (order) is affected by their motion and the noise amplitude η. In the static case scenario v = 0 where
+               particles are fixed at the sites of a square lattice and interact with their first neighbors, we find that for any
+               noise η > 0 the system reaches a steady state of complete disorder in the thermodynamic limit, while for η = 0
+               full order is eventually achieved for a system with any number of particles N. Therefore, the model displays a
+               transition at zero noise when particles are static, and thus there are no ordered steady states for a finite noise
+               (η > 0). We show that the finite-size transition noise vanishes with N as ηc1D ∼ N −1 and ηc2D ∼ (N ln N )−1/2
+               in one- and two-dimensional lattices, respectively, which is linked to known results on the behavior of a type
+               of noisy voter model for catalytic reactions. When particles are allowed to move in the space at a finite speed
+               v > 0, an ordered phase emerges, characterized by a fraction of particles moving in a similar direction. The
+               system exhibits an order-disorder phase transition at a noise amplitude ηc > 0 that is proportional to v, and that
+               scales approximately as ηc ∼ v (− ln v)−1/2 for v  1. These results show that the motion of particles is able to
+               sustain a state of global order in a system with voter-like interactions.
+
+               DOI: 10.1103/PhysRevE.104.034111
+
+
+                       I. INTRODUCTION                                     polarization, in such a way that |M| ∼ 1 corresponds to a
+                                                                           polarized state where fish move in a coherent direction, while
+    The study of the collective properties of systems composed
+                                                                           |M| ∼ 0 represents a collectively disordered state—each fish
+by self-propelled individuals has been the focus of intense re-
+                                                                           moving in a random direction. Performing the experiments for
+search in the last two decades [1–3]. The flocking behavior of
+                                                                           group sizes N = 15, 30, and 60, they found that the collective
+a large group of animals is observed in many different species
+                                                                           alignment |M| increases as N decreases. An insight into this
+such as fish, birds, bacteria, and insects, among others. From
+                                                                           phenomenon is given by a phenomenological stochastic dif-
+a statistical physics viewpoint, the interactions between parti-
+                                                                           ferential equation (SDE) for the time evolution of M, where
+cles in a system are responsible of its collective behavior, and
+                                                                           its parameters were extracted from the experimental data. It
+lead to well-characterized classes represented by archetype
+                                                                           is shown that group polarization is the result of the interplay
+models. For the case of flocking, the alignment interaction
+                                                                           between the drift and the demographic (population) noise
+among individuals is usually modeled as a local averaging
+                                                                           terms in the SDE, that is, the fewer the fish, the greater the
+of moving directions of nearby individuals, plus a noise that
+                                                                           demographic noise and so the greater the alignment level.
+accounts for errors in the average process [4]. A crucial role
+                                                                           Thus, they conclude that schooling (highly polarized and co-
+in the emergent behavior of the system is played by the dis-
+                                                                           herent motion) is induced by the intrinsic population noise
+placement of the individuals, which changes dramatically its
+                                                                           that arises from the stochasticity related to the finite number
+ordering properties [5].
+                                                                           of interacting fish. They derived the SDE for M by means
+    Within the context of flocking, the dynamics of collec-
+                                                                           of a mean-field (MF) model in which particles (fish) interact
+tive alignment in groups of fish was recently studied in [6].
+                                                                           by pairs and follow a simple imitation dynamics: each parti-
+The authors performed experiments with cichlid fish Etroplus
+                                                                           cle either copies the direction of another random particle or
+suratensis that swim in a circular shallow tank, in order to
+                                                                           spontaneously changes its direction, modeled as an external
+explore how schooling is affected by the fish group size. The
+                                                                           noise of amplitude η. They also show that other ternary or
+level of group alignment is quantified by a vector order param-
+                                                                           higher-order aligning interactions, including local averages
+eter M that is the average velocity of fish, also called group
+                                                                           like in the Vicsek-like family of models, are unnecessary to
+                                                                           explain these experimental results. Therefore, they arrive to
+                                                                           the conclusion that the minimal theoretical mechanism that re-
+ *
+     fede.vazmin@gmail.com                                                 produces the collective alignment properties of fish observed
+
+2470-0045/2021/104(3)/034111(10)                                    034111-1                                  ©2021 American Physical Society
+
+===== PAGINA 2 =====
+
+LOSCAR, BAGLIETTO, AND VAZQUEZ                                                              PHYSICAL REVIEW E 104, 034111 (2021)
+
+in the experiments is that of pairwise interactions with copy-      weak. In square lattices, the NVM is equivalent to a particular
+ing dynamics and noise. We notice that the noiseless version        limit of the catalytic reaction model with desorption originally
+of this particular alignment dynamics that induces flocking         introduced in [15] and widely studied subsequently [16,17],
+was first introduced in [7], where the authors study the col-       which exhibits a finite-size transition induced by noise called
+lective motion of particles on a two-dimensional (2D) space         saturation transition [18–20]. More recently, the dynamics of
+subject to voter-like interactions, that is, each particle aligns   the NVM has been investigated in complex networks [21–23],
+its direction of motion with that of a random neighboring           and its version with multiple states has been explored in fully
+particle within an interaction radius.                              connected systems [8,24]. Also, an asymmetric variant of the
+    From the theoretical point of view, an interesting result can   NVM with long-range interactions has recently been proposed
+be inferred from the work in [6] by analyzing the SDE for           to study the competition between two species for territory
+the group polarization M. That is, this equation predicts com-      [25].
+plete order (|M| = 1) for zero noise (η = 0) and full disorder         While in 2D lattice models bulk noise inhibits the for-
+(|M| = 0) for any finite noise amplitude η > 0 in the N → ∞         mation of long-range order in the thermodynamic limit, it is
+limit. This observation is in agreement with recent analytical      known that in flocking systems the displacement of particles
+results obtained in a similar model with a discrete set of S        plays an ordering role. This ordering phenomenon is observed
+angular directions, a multistate voter model (MSVM) with            in the Vicsek model, thought as a nonequilibrium version
+external noise [8], where it is shown that the order parameter      of the XY model in two dimensions with particles moving
+|M|2 approaches 1.0 as 1 − |M|2 ∼ η2 N in the η → 0 limit,          ballistically in the directions of their spins. That is, while the
+and vanishes when N increases as 1/(η2 N ) for any 0 < η  1.       Vicsek model can sustain long-range order for finite values
+Thus, the partial order obtained with voter interactions and        of noise amplitude due to particles’ motion [5], the 2D XY
+noise in a MF setup is only a finite size effect that eventually    model is unable to do so [26]. Then, the velocity of particles
+disappears in the thermodynamic limit. These results suggest        in Vicsek-type models leads to steady states associated with
+a peculiar order-disorder transition at zero noise, unseen in       a new ordered phase below a transition noise ηc . However,
+related flocking models such as the binary Vicsek model [9]         voter-type interactions (copying) are different from Vicsek-
+where each particle averages its direction with that of other       type interactions (averaging), leading to different behaviors in
+random particle, and the transition happens at a critical noise     MF and three dimensions: long-range order in the XY model,
+larger than zero. However, we notice that the experimental          and disorder in the NVM. Therefore, in the flocking voter
+results obtained in [6] correspond to fish moving on a 2D           model (FVM) studied in this article, we expect a nontrivial
+setup (tank), while both the SDE and the model in [8] are for a     competition between the ordering mechanism generated by
+MF setup (infinite dimension), where every particle interacts       particles’ motion and the typical disordering effect induced
+with any other particle, and thus motion plays no role in the       by noisy voter interactions that leads to complete disorder in
+dynamics. It is natural, therefore, to wonder whether these         the thermodynamic limit. Thus, we aim to explore whether the
+results hold when particles move on a 2D space. Do space            ordered phase observed in flocking models is still present in
+and motion affect the transition at zero noise?                     the FVM, or it is rather completely suppressed by noise.
+    In this article we study a noisy multistate voter model for        The rest of the article is organized as follows. In Sec. II
+flocking in finite dimensions, and we investigate the order-        we define the model. Section III presents MF results, while
+disorder phase transition in different case scenarios. We start     Sec. IV is dedicated to the static version of the model in
+by analyzing the simplest case of all-to-all interactions or        one-dimensional (1D) and 2D square lattices. In Sec. V we
+MF. We then explore the static case where each particle oc-         study the dynamic version of the model in a continuous 2D
+cupies a site of a square lattice and interacts with its first      space. We investigate the effects of particles’ velocity in the
+nearest-neighbors, and we finally study the dynamic case in         transition, with a particular focus on the behavior at low
+which particles move on a 2D continuous space and change            speeds in the thermodynamic limit. Finally, in Sec. VI we
+their direction when they interact with other nearby parti-         summarize and give some conclusions.
+cles that are located within a distance R = 1. In the case
+that particles are allowed to have only two possible angular                                  II. THE MODEL
+states and interact on a MF setup, the model turns to be
+equivalent to the noisy voter model (NVM) introduced in                A set of N particles are allowed to move at a constant
+[10,11], in which each individual of a population holds one         speed v on a 2D square box of side L with periodic bound-
+of two states (opinions) that are updated by either copying         ary conditions. The position and velocity of particle i (i =
+the state of a random neighbor or spontaneously switching           1, 2, . . . , , N) at time t are denoted by rti = (xit , yti ) and vti =
+state (noise). In the absence of noise, any finite population       (v cos θit , v sin θit ), respectively, where v = |vti | is the parti-
+eventually reaches full order (consensus) in all dimensions,        cle’s speed and θit is its angular moving direction. The density
+as in the original voter model [12,13], with all individuals        of particles ρ = N/L 2 is fixed at 0.5 in our analysis, unless
+sharing the same opinion. However, the addition of a weak           stated. Initially, each particle adopts a random position inside
+noise leads to a bistable regime in which the system jumps          the box and points in a random direction. In a given time step
+between two steady states corresponding to a quasiconsensus         t = 1 of the dynamics, each particle i updates it position and
+in one or the other opinion [10,11], while for strong noise         direction according to
+the system remains disordered. This is in line with the fact
+                                                                                             rt+1
+                                                                                              i   = rti + vti t,                      (1a)
+that adding thermal bulk noise in the voter model destroys
+global order in any dimension [14], even when the noise is                                  θit+1 = θ tj + ξit+1 ,                     (1b)
+
+                                                              034111-2
+
+===== PAGINA 3 =====
+
+NOISY MULTISTATE VOTER MODEL FOR FLOCKING IN …                                                 PHYSICAL REVIEW E 104, 034111 (2021)
+
+where θ tj is the moving direction of a randomly chosen particle          We note that we are implementing here a random update
+ j that is inside a disk of radius R = 1 centered at rti , and ξit is a   (also called sequential update), in which one random particle
+random angle drawn uniformly in [−ηπ , ηπ ) with amplitude                updates its state in a time step, unlike the parallel update
+η (0 < η < 1). This update is performed for all particles at the          where all N particles are updated at once. However, we have
+same time (parallel update). That is, each particle moves at a            verified that the behavior of the macroscopic variables ϕ and χ
+constant speed v following a given straight path and updates              under the parallel update is recovered by making the substitu-
+its direction at integer times t = 1, 2, 3, . . ., by adopting the        tion N → 2N in the results obtained with the random update,
+direction of a random neighboring particle with an error of               as mathematically proved by Blythe and McKane [27] for
+amplitude η. If a particle has no neighbors inside its interac-           population genetic models akin to the voter model. Inversely,
+tion range R, then its direction is changed only by the noise             the transformation N → N/2 allows us to obtain the behavior
+ξ.                                                                        under the random update from the results with parallel update.
+    In flocking models, noise—in its various forms—plays a                Implementing a random update allows a direct comparison
+fundamental role in the behavior of the system. It is known               of the simulation results in MF with the theoretical results
+that the amplitude of noise η induces an order-disorder phase             obtained in [8].
+transition, from a phase where a large fraction of particles                 Figure 1 shows simulation results for the model in MF.
+move in a similar direction (order) for small η, to a phase in            Data points correspond to average values in a time interval
+which particles move in random directions (disorder) for large            after the system reached the stationary state, between times
+η. To study this phenomenon in the FVM we define the order                t = 106 and t = 2×107 , and over 10 independent realiza-
+parameter (see, for instance, [6,7])                                      tions. In Fig. 1(a) we observe that the order parameter ϕ
+                                                                         continuously decreases as η increases, and that approaches
+                 N            N            2  N             2      the value ϕ = 1 (full order) as η → 0, which corresponds
+                          1                     
+              1       t                                                to the absorbing consensus state obtained in the zero noise
+   ϕ(t ) ≡           v=               cos θi +
+                                             t             sin θi
+                                                                t
+            v N  i=1 i  N         i=1              i=1
+                                                                          case η = 0, as is known from previous works of the multistate
+                                                                    (2)   voter model [7,8,28,29]. We also see that, for a fixed value of
+that measures the level of collective alignment in the system             η > 0, ϕ vanishes as the system size N increases, suggesting
+(magnitude of the normalized mean velocity of all particles),             that ϕ → 0 for any η > 0 in the N → ∞ limit. Indeed, an
+and the susceptibility                                                    expression for the scaling of ϕ with η and N that confirms
+                                                                          this assumption can be obtained from analytical results of
+                       χ ≡ N[ϕ 2  − ϕ2 ],                      (3)    this model recently presented in [8], for an order parameter
+                                                                          ψ = ϕ 2 . It was shown in [8] that ψ ∼ (η2 N )−1 for η  1
+which accounts for the amplitude of fluctuations of ϕ at the              and η2 N  1, and thus assuming ϕ ∼ ψ1/2 we obtain the
+stationary state. Here ϕ m  is the mth moment of ϕ, and the             approximate MF behavior
+symbol · represents the average value of a given magnitude
+over many realizations of the dynamics at the steady state.                       ϕMF ∼ (η2 N )−1/2 for η  1 and η2 N  1.         (5)
+    Our aim is to explore via computational simulations and
+scaling theory how space and motion affects the phase tran-               In the inset of Fig. 1(a) we plot the data as a function of
+sition in the FVM. For that, we first study the model in MF               the scaling variable xMF ≡ η2 N, where we can see that ϕMF
+(R = L), we then explore the static case v = 0 in lattices,               obeys the power-law decay from Eq. (5) for η2 N  1 (dashed
+and we finally investigate the dynamic case v > 0 in two                  line). We also observe a good collapse of the curves for differ-
+dimensions.                                                               ent system sizes in the entire range of xMF , showing that the
+                                                                          order parameter is a function of xMF , ϕMF = f (η2 N ), with
+                                                                                       −1/2
+                                                                           f (xMF ) ∼ xMF   for xMF  1.
+                        III. MEAN FIELD
+                                                                               The results above imply that in the absence of noise η = 0
+    In order to gain an insight into the behavior of the FVM,             the system reaches full order (ϕ = 1), but a tiny amount of
+we start by analyzing in this section the simplest case scenario          noise η > 0 is enough to drive the system to complete dis-
+of all-to-all interactions or MF, which corresponds to the large          order (ϕ = 0) in the thermodynamic limit, which suggests a
+interaction range limit R → L of the model defined in Sec. II.            transition at zero noise. To study this in more detail, we show
+In this case, the dynamics of the angular directions of particles         in Fig. 1(b) the behavior of the susceptibility χ with η. We
+θ is independent of the positions of particles, and thus it is            observe that the curve for a given system size N exhibits a
+entirely determined by Eq. (1b). That is, each particle sim-              maximum that is an indication of a transition that depends on
+ply adopts the direction of another randomly chosen particle              N, between an ordered phase for η < ηc (N ) and a disordered
+in the system, with the addition of noise. This dynamics is               phase for η > ηc (N ), where the transition point ηc (N ) is es-
+equivalent to that of the multistate voter model with imperfect           timated as the location of the peak. In Fig. 2(a) we plot the
+copying introduced and studied in [8], in the limit of contin-            transition noise ηc vs N (circles), where we can see that ηc
+uum angular states. In a single time step t = 1/N, a particle            vanishes as N increases following a power-law behavior N −α ,
+i with state θi is picked at random, then it copies the state θ j of      with a best fitting exponent α = 0.5 ± 0.015. This implies a
+another randomly chosen particle j, and this state is slightly            transition value ηc (∞) = 0 in the thermodynamic limit. In
+perturbed:                                                                Fig. 2(b) we see that the maximum value of the susceptibility
+                                                                          increases with N as χ max ∼ N γ , where γ ≃ 1.01 ± 0.01 is the
+                θi (t + t ) = θ j (t ) + ξi (t + t ).            (4)    best fitting exponent.
+
+                                                                    034111-3
+
+===== PAGINA 4 =====
+
+LOSCAR, BAGLIETTO, AND VAZQUEZ                                                                    PHYSICAL REVIEW E 104, 034111 (2021)
+
+
+
+
+    FIG. 1. Results of the FVM in MF. (a) Average value of the order parameter ϕ at the stationary state as a function of noise amplitude η
+for the system sizes N indicated in the legend. Inset: Collapse of the data points when they are plotted as a function of the scaling variable
+xMF = η2 N. The dashed line has slope −1/2. (b) Susceptibility χ vs η for the same system sizes as in panel (a). Inset: Collapse of the data
+when it is plotted vs xMF and the y-axis is rescaled by N −1 . Averages were done in a time window t ∼ 107 over 10 independent realizations.
+
+
+    These scalings can be nicely verified by assuming that χ               the thermodynamic limit, between a perfectly ordered phase
+is also a function of the scaling variable xMF = η2 N for ϕ in             where ϕ = 1 for η = 0 and a completely disordered phase
+Fig. 1. Indeed, rescaling the y-axis of Fig. 1(b) by N −1 and              where ϕ = 0 for η > 0.
+plotting the resulting data vs xMF we find a good collapse of
+all curves for different N values (see inset), showing that the
+                                                                            IV. STATIC CASE v = 0 IN ONE AND TWO DIMENSIONS
+MF susceptibility behaves as
+                                                                              In this section we analyze the static version of the FVM
+                         χMF = Ng(η2 N ),                         (6)
+                                                                           in finite dimensions. For that, we consider that each particle
+where g(xMF ) is a smooth function of xMF . From Eq. (6)                   occupies a site of a square lattice of length L and d dimensions
+we have that at the MF transition point ηcMF is χMF
+                                                 max
+                                                     /N =                  (N = L d sites), and interacts with its 2d nearest neighbors
+g[(ηc ) N] = constant and, therefore,
+    MF 2
+                                                                           only. We have simulated the dynamics of the model under the
+                                                                           random update described in Sec. III on lattices of dimensions
+                          ηcMF ∼ N −1/2 ,                         (7)
+                                                                           d = 1 and d = 2 with periodic boundary conditions. In a
+in agreement with numerical results [Fig. 2(a)].                           time step t = 1/N, a randomly selected particle copies the
+   In summary, the mean-field version of the FVM exhibits                  angular state of a first neighbor chosen at random, with the
+an order-disorder phase transition at zero noise ηc = 0 in                 addition of an error of amplitude η. Implementing a random
+
+
+
+
+     FIG. 2. Results of the FVM in MF (circles) and in square lattices of dimensions d = 1 (diamonds) and d = 2 (squares). (a). Transition
+noise ηc vs system size N. Straight lines are best power-law fits ηc = A N −α with√exponents α = 0.5 ± 0.015 (MF), 0.99 ± 0.02 (d = 1) and
+0.56 ± 0.01 (d = 2). Inset: ηc for d = 2 (squares) and the effective noise η̂c = ηc − ln ηc (circles). The upper solid line is the best power-law
+fit η̂c ≃ B N −1/2 , with B = 1.3 ± 0.04, while the bottom solid curve is the approximation ηc ≃ 1.8(N ln N )−1/2 from Eq. (15c). (b) Maximum
+value of the susceptibility χ max vs N. Best power-law fits χ max ∼ N γ (straight lines) have exponents γ = 1.01 ± 0.01 (MF), 0.997 ± 0.005
+(d = 1) and 0.99 ± 0.01 (d = 2).
+
+                                                                   034111-4
+
+===== PAGINA 5 =====
+
+NOISY MULTISTATE VOTER MODEL FOR FLOCKING IN …                                                    PHYSICAL REVIEW E 104, 034111 (2021)
+
+
+
+
+    FIG. 3. Results of the static version of the FVM in one dimension. (a) Average value of ϕ at the stationary state vs η for the system sizes
+N indicated in the legend. Inset: Same data vs the scaling variable x1D = ηN showing the collapse of curves for different N values. The dashed
+line has slope −1/2. (b) Susceptibility χ vs η for the same system sizes as in panel (a). Inset: x- and y-axis are rescaled by N and N −1 ,
+respectively, to show the collapse of the data.
+
+
+update allows a direct comparison with known numerical and                variables, as we describe below. As happens for the MF and
+analytical results of the two-state VM on lattices (see below),           the 1D cases, the transition noise (given by the maximum of
+and provides the analytical background to obtain the scalings             the susceptibility) decays as a power law with the system size
+of ϕ and χ for the MSVM. We have run simulations and                      N as ηc2D ∼ N −α [square symbols in Fig. 2(a)], with a best
+verified that the behavior of ϕ and χ , and the scaling of ηc             power-law fitting exponent α ≃ 0.56 ± 0.01. Even though
+under the parallel update are the same as those obtained for              this exponent is different from the MF and 1D exponents 0.5
+the random update after the system size rescaling N → N/2,                and 1, respectively, this numerical scaling implies an extrapo-
+as happens in MF (Sec. III).                                              lated transition noise ηc2D = 0 in the N → ∞ limit. The peak
+   Figure 3 shows simulation results for the FVM in one                   of the susceptibility χ max seems to increase linearly with N as
+dimension. The behavior of ϕ and χ are similar to those                 in MF and 1D, with a best-fitting exponent γ ≃ 0.99 ± 0.01
+of the MF model, with a scaling variable x1D ≡ ηN in this                 [Fig. 2(b)]. Based on these results, we plot ϕ and χ /N
+1D case. The variable x1D was obtained from the behavior                  as a function of η2 N 1.1 in Figs. 4(a) and 4(b), respectively,
+of the transition noise ηc1D with N given by the peak of χ                where we observe a good collapse of curves for different
+in Fig. 3(b). We found ηc1D ∼ N −α , with α = 0.99 ± 0.02                 system sizes. For the sake of simple comparison, we have
+[Fig. 2(a)], while for the peak of the susceptibility we found            also collapsed the same data using the MF scaling variable
+the scaling χ max ∼ N γ , with γ = 0.997 ± 0.005 [Fig. 2(b)].
+Therefore, assuming the scalings
+                         ηc1D ∼ N −1 and                         (8)
+
+                            χ max ∼ N,                           (9)
+we arrive at the following scaling for the susceptibility:
+                        χ1D = Ng1 (ηN ),                        (10)
+and thus the scaling variable is x1D = ηN, as stated above.
+Indeed, we can check in the insets of Fig. 3 the collapse of the
+curves for different system sizes when the data are plotted vs
+x1D , and the y-axis in Fig. 3(b) is rescaled by N −1 . Also, in the
+inset of Fig. 3(a) we show that the order parameter scales as
+            −1/2
+ϕ1D ∼ x1D      for x1D  1 (dashed line), which exhibits the
+same behavior with respect to the scaling variable as that of
+MF [Eq. (5)], i.e., a power-law decay with exponent 1/2.
+    The scaling relation (8) shows that the transition noise
+vanishes with N, and, therefore, we conclude that the static
+version of the FVM in one dimension exhibits an order-                        FIG. 4. Static version of the FVM in 2D lattices. (a) Average
+disorder transition at zero noise in the thermodynamic limit,             order parameter ϕ and (b) normalized susceptibility χ /N vs the
+as happens in MF.                                                         scaling variable η2 N 1.1 for the system sizes N indicated in the legend.
+    We repeated the same analysis for the FVM model on 2D                 (c) ϕ and (d) χ /N vs the scaling variable x2D = η̂√2 N for the same
+lattices. Simulation results are presented in Fig. 4, where the           system sizes as in panels (a) and (b), with η̂ = η − ln η. Dashed
+data collapse was obtained by means of two different scaling              lines in panels (a) and (c) have slopes −0.45 and −1/2, respectively.
+
+                                                                  034111-5
+
+===== PAGINA 6 =====
+
+LOSCAR, BAGLIETTO, AND VAZQUEZ                                                             PHYSICAL REVIEW E 104, 034111 (2021)
+
+
+η2 N instead, and found that the data points do not fall into       where g2 is a smooth function of x2D [see Fig. 4(d)], we obtain
+a single curve but they look rather disperse (plot not shown).      the effective transition noise
+Therefore, we conclude that the 2D case appears to have its
+own scaling variable, which is proportional to a nontrivial                                   η̂c2D ≃ B N −1/2                  (12)
+power of N.
+   A more appealing scaling variable can be obtained from           in two dimensions, where B is a proportionality constant.
+known results of the behavior of the surface-reaction model         Interestingly, the exponent α̂ 2D ≡ 1/2 in the 2D case agrees
+introduced by Fichthorn, Gulari, and Ziff (FGZ) in [16]             with that of the MF case [Eq. (7)]. In the inset of Fig. 2(a) we
+and studied later in [18,18–20], akin to the two-state NVM          compare the effective transition noise
+[10,11], which be believe it belongs to the same class of
+the MSVM for flocking studied here. In the FGZ model, N                                    η̂c2D = ηc2D − ln ηc2D               (13)
+particles of two different species A and B occupy the sites
+of a square lattice that simulates a catalytic substrate. In a
+                                                                    from simulations (circles) with the approximate scaling given
+single step, two possible reaction events can take place: (1)
+                                                                    by Eq. (12) (upper solid line), with a best fitting constant
+With probability pd one particle is chosen at random and
+                                                                    B = 1.3 ± 0.04. The good agreement between simulations
+desorbs, and the vacant site is immediately occupied with a
+                                                                    and Eq. (12) shows that the transformation of the original
+particle of species A or B with the same probability 1/2. This
+                                                                    noise ηc2D into the effective noise η̂c2D leads to power-law
+corresponds to the external noise of the NVM that switches
+                                                                    decay in N with a MF exponent α̂ 2D = 1/2.
+the state of a particle with probability pd /2. (2) With the
+                                                                        We can now obtain an approximate expression for the
+complementary probability 1 − pd a pair of neighboring sites
+                                                                    transition noise assuming that it has the power-law behavior
+is chosen at random, and, if it is an AB pair, both particles
+                                                                    ηc2D ≃ A N −α as found numerically [squares in Fig. 2(a)],
+desorb and are replaced with an AA or a BB pair, equiprobably.
+                                                                    where the exponent α depends on N and A ≃ 0.96 is a con-
+This represents the copy dynamics of the NVM. The control
+                                                                    stant obtained from the fitting of the data. Starting from the
+parameter of the FGZ model is the desorption probability pd
+                                                                    relation Eq. (13) between the effective and original noise, we
+(noise amplitude). The steady state at pd = 0 is a poisoned
+                                                                    apply the logarithm at both sides and replace ln η̂c2D by ln B −
+absorbing state with a coverage equals to 1.0 (all particles        1
+                                                                    2
+                                                                       ln N from Eq. (12) and ln ηc2D by ln A − α ln N, which leads
+in state A or B), which is analogous to complete order for
+                                                                    to
+η = 0 in the FVM. For pd > 0 the coverage is smaller than
+1.0, depending on the values of pd and N, similarly to the
+                                                                         (2α − 1) ln N − 2 ln (A/B) − ln (ln N ) − ln α = 0,    (14)
+partial order in the FVM.
+   It turns out that the scaling variables that we obtained for
+                                                                    after doing some algebra and rearranging terms. We
+the FVM in MF and one dimension are the same as those of
+                                                                    have also considered the expansion ln(− ln A + α ln N ) =
+the FGZ model, by making a suitable change of variables. In
+                                                                    ln α + ln(ln N ) + O[(ln A)/(α ln N )] to zeroth order in
+the FGZ model they obtained analytically the scaling vari-
+                                                                    (ln A)/(α ln N )  1, as we can check for N  102 , A ≃ 0.96,
+ables XMF = pd N in MF (d = 3) and X1D = p1/2        d N in one     and α  1/2. Then, as we expect α to be similar to 1/2
+dimension [18,19], while in the FVM are xMF = η2 N in MF            (α ≃ 0.56 from the fitting of the 2D data in Fig. 2),
+and x1D = ηN in one dimension. Thus, the scaling variables          we replace ln α in Eq. (14) by the Taylor expansion
+of both models match if we make the substitution pd → η2 .          ln α ≃ ln(1/2) + 2α − 1, and solve for α. We finally arrive
+Finally, 2D is a marginal dimension in the FGZ model, with          at the following approximate scaling for the transition noise
+a scaling variable similar to that of MF with a logarithmic         with N:
+correction in pd , that is, X2D = pd ln(1/pd )N. Therefore, for
+the FVM in two dimensions we expect a scaling variable
+                                                                                   ηc2D ≃ A N −α , with                        (15a)
+x2D = η̂2 N,√where we have defined an effective noise ampli-
+tude η̂ ≡ η − ln η.                                                                         1 ln     A 1
+                                                                                                         ln N
+                                                                                                              1/2
+
+   Figures 4(c) and 4(d) show ϕ and χ /N plotted as a                          α(N ) ≃      +      B 2
+                                                                                                                    or         (15b)
+                                                                                            2    ln N − 1
+function of the scaling variable x2D , where we see a good data
+collapse. Even though this collapse with x2D seems as good as                      ηc2D ≃ 1.8(N ln N )−1/2 for N         1,    (15c)
+that with η2 N 1.1 [Figs. 4(a) and 4(b)], the advantage of using
+x2D = η̂2 N is twofold: we are not fitting any parameter and        using B ≃ 1.3. In the inset of Fig. 2 we can see that the ap-
+we recover the linear dependence on N found in MF and 1D            proximation from Eq. (15c) (bottom solid curve) reproduces
+scaling variables xMF and x1D . Additionally, Fig. 4(c) shows       very well the behavior of ηc2D vs N from simulations (squares).
+that the order parameter scales as ϕ2D ∼ x2D  −1/2
+                                                      for x2D  1   The second term in the exponent α(N ) [Eq. (15b)] leads to a
+(dashed line), consistent with the power-law decay found in         very slow curvature in log-log scale with an effective exponent
+MF and one dimension. In comparison, ϕ2D decays as a              α ≃ 0.56 in the shown range of N, which approaches very
+power law of η2 N 1.1 with a nontrivial exponent −0.45 [dashed      slowly the value 1/2 as N increases. Finally, from Eq. (15c)
+line in Fig. 4(a)]. Finally, from the scaling relation for the      we can see that the transition point ηc2D vanishes in the N →
+susceptibility                                                      ∞ limit.
+                                                                       Summarizing the results of this section, the static version
+                                                                    of the FVM in 1D and 2D lattices exhibits an order-disorder
+                      χ2D = Ng2 (η̂2 N ),                   (11)    transition at zero noise in the thermodynamic limit.
+
+                                                              034111-6
+
+===== PAGINA 7 =====
+
+NOISY MULTISTATE VOTER MODEL FOR FLOCKING IN …                                                 PHYSICAL REVIEW E 104, 034111 (2021)
+
+
+
+
+   FIG. 5. Results of the dynamic version of the FVM in a 2D continuous space with particles’ speed v = 0.1 (a) and v = 1.0 (b). The main
+panels show the susceptibility χ vs noise amplitude η for the system sizes indicated in the legend. The insets show the average of the order
+parameter ϕ vs η. Vertical dashed lines indicate the estimated location of the transition noise ηc (maximum of χ ).
+
+
+      V. DYNAMIC CASE v > 0 IN TWO DIMENSIONS                               The numerical results described above show that, in the
+                                                                        thermodynamic limit, there is an order-disorder transition at
+   When particles are allowed to move over the space, their
+                                                                        a finite noise amplitude ηc > 0 that increases with the speed
+speed v becomes a relevant parameter that drastically changes
+                                                                        v. To study this transition in more detail, we investigate below
+the behavior of the system respect to the static case analyzed
+                                                                        the scaling behavior of ηc with the speed and the system size.
+in Sec. IV, as we shall see below. Simulations were done on a
+                                                                            Since we have learned in Sec. IV that working with an
+2D continuous space (square box) using the parallel dynamics
+                                                                        effective noise η̂ in 2D lattices leads to scalings with simple
+defined in Sec. II; the standard update used in flocking dy-
+                                                                        MF exponents, it seems reasonable to explore the data of
+namics [1]. As happens in MF, 1D, and 2D lattices, we expect
+                                                                        Fig. 6 for an effective transition noise
+to find similar results for a random update. We remark that                                                  
+interactions are local, that is, each particle can only interact                     η̂c (v, N ) ≡ ηc (v, N ) − ln ηc (v, N ),        (16)
+with other particles that are less than a distance R = 1 apart,                                                  √
+                                                                        which incorporates a correction factor − ln ηc to the original
+by copying the direction of one of them chosen at random.               noise ηc . The approximate power-law decay of ηc for small
+   In Fig. 5 we plot the susceptibility χ and the order pa-             N and its saturation for large N [Fig. 6(a)] suggests that the
+rameter ϕ (inset) vs noise amplitude η for speeds v = 0.1             scaling behavior of η̂c (v, N ) could be described by the follow-
+[Fig. 5(a)] and v = 1.0 [Fig. 5(b)]. In principle, we observe a         ing standard Family-Vicsek function with two independent
+behavior similar to that of MF and the 1D and 2D static cases           exponents β and z [30]:
+studied previously where ϕ decays monotonically with η,
+and χ exhibits a maximum at a value ηc that decreases with                                   η̂c (v, N ) ∼ v β f (v z N ),             (17)
+N, as we can clearly see for v = 0.1. However, an inspection            where f is a scaling function with the asymptotic properties
+of the v = 1.0 plot reveals that ηc appears to decrease and                                     −α
+                                                                                                x          for x  1,
+saturate at a minimum value ηc ≃ 0.05 as N increases, unlike                           f (x) ∼                                   (18)
+                                                                                                constant for x     1.
+in MF and the static cases where ηc vanishes with N. Also, if
+we compare the level of order ϕ and its fluctuations χ for the        We can check that Eq. (17) exhibits the two limiting behaviors
+two speeds, we can see a larger order with smaller fluctuations
+for the largest speed v = 1.0, suggesting that the speed has an                               η̂c (v, N → ∞) ∼ v β                     (19)
+ordering effect.                                                        in the thermodynamic limit, and
+   To look at this in more detail, we plot in Fig. 6 the transition
+noise ηc (v, N ) vs the system size N for different speeds.                                   η̂c (v → 0, N ) ∼ N −α                   (20)
+Indeed, for a given speed v  0.2, we can see that ηc exhibits          in the zero speed limit, where the exponent α satisfies the
+a decay similar to a power law for small values of N, and               relation
+saturates at a minimum value ηc (v, ∞) > 0 for large N, which
+                                                                                                      β = z α.                         (21)
+decreases as v decreases. We also plot for comparison the
+transition noise ηc2D (N ) for the static case v = 0 in 2D lattices     By means of the scaling relation Eq. (17) we can collapse the
+(empty circles). For the sake of clarity, the dashed line has           data points of Fig. 6 into a single curve. For that, we first
+been shifted in the y-axis to match the estimated asymptotic            estimate the exponents β, α and z. From the plot η̂c (v, ∞)
+behavior of ηc (v, N ) in the zero speed limit v → 0, as we do          vs v in the inset of Fig. 6 (squares) we find the best power-
+not expect ηc2D (N ) and ηc (0, N ) to be exactly the same. This is     law fitting C v β (straight line), where C = 0.095 ± 0.01 and
+because some macroscopic magnitudes of the dynamic model                β = 1.01 ± 0.02. Then in the zero speed limit we assume that
+(ϕ, χ and ηc ) depend on other variables besides v and N,             α takes the value α = α 2D = 1/2 of the 2D static case, and
+such as the density of particles ρ.                                     thus we obtain z = 2.02 ± 0.04 from Eq. (21). Based on these
+
+                                                                 034111-7
+
+===== PAGINA 8 =====
+
+LOSCAR, BAGLIETTO, AND VAZQUEZ                                                                      PHYSICAL REVIEW E 104, 034111 (2021)
+
+
+
+
+     FIG. 6. (a) Transition noise ηc vs system size N for the speeds v indicated in the legend. The empty circles correspond to the 2D static case
+(v = 0) on square lattices. The horizontal dashed lines indicate the asymptotic values ηc (v, ∞) for large N. Inset: Transition noise ηc (v, ∞) vs
+v (circles) obtained from the main panel, and effective transition noise η̂c (v, ∞) vs v (squares). The straight line is best power-law fit C v β of
+ηˆc (v, ∞) for v ⩽ 0.75, with resulting constant C = 0.095 ± 0.01 and exponent 1.01 ± 0.02. (b) Collapse of the curves for the different speeds
+of panel (a) by means of η̂c (v, N ). The exponents z = 2 and β = 1 in the x- and y-axis, respectively, correspond to the scaling Eq. (22). The
+dashed line with slope −1/2 indicates the power-law regime for v 2 N  2. The inset shows ηc vs N for v = 0.1. The dashed line has slope
+−1/2.
+
+exponents, we propose the following scaling for the effective                  The second term in Eq. (25b) gives an effective expo-
+transition noise:                                                           nent β(v)  1 that decreases and approaches the value 1
+                        η̂c (v, N ) ∼ v f (v 2 N ),               (22)      very slowly as v decreases. Equations (25) are valid only
+                                                                            for low speeds due to the fact that the approximate expan-
+                 −1/2
+with f (x) ∼ x       for x  1 and f (x) ∼ const for x      1.              sion of the logarithm that we used in Eq. (24) assumes that
+Figure 6(b) shows a good data collapse obtained with the                    (ln D)/(β ln v) < 1, which happens for v  0.08. Unfortu-
+scaling Eq. (22). Remarkably, this result required only the                 nately, the comparison of Eq. (25) with simulation results is
+estimation of the best fitting exponent β of the η̂c (v, ∞) vs              not possible because to obtain the numerical value ηc (v, ∞)
+v data, and assuming that the scaling of the transition noise               for speeds v < 0.2 is extremely costly in terms of simulation
+with N in the zero speed limit is the same as that of the 2D                running times.
+static case.                                                                   Equation (22) also implies the scaling
+   The effective transition noise given by Eq. (22) scales
+linearly with the speed in the thermodynamic limit,                                         η̂c (v, N ) ∼ N −1/2 for v 2 N  1,                (26)
+                           η̂c (v, ∞) ≃ C v,                      (23)
+where C = 0.095 is the best fitting constant for low speeds                 which is confirmed in Fig. 6(b), where the collapsed data
+v  0.75 [straight line in the inset of Fig. 6(a)]. An approx-              exhibit an approximate power-law decay with exponent −1/2
+imate power-law scaling ηc (v, ∞) ≃ D v β for the original                  for v 2 N  2, denoted by the dashed line. Finally, in the inset
+noise can be obtained by following the same approach de-                    of Fig. 6(b) we compare the curve ηc vs N for the lowest
+scribed in Sec. IV to obtain the scaling of ηc2D with N                     speed v = 0.1 with the N −1/2 scaling (dashed line). A good
+[Eq. (15)]. For that, we start from the relation between η̂c                agreement is observed only at intermediate values of N, while
+and ηc in logarithmic scale ln η̂c = ln ηc + (1/2) ln(− ln ηc )             for small or large sizes a deviation from the slope −1/2
+and replace ln η̂c by ln C + ln v [Eq. (23)] and ln ηc by ln D +            becomes clear. We understand that the discrepancy √   for small
+β ln v. After rearranging terms and making the approxima-                   N is due to the absence of the logarithmic correction − ln ηc
+tion ln(− ln D − β ln v) ≃ ln β + ln(− ln v) to zeroth order in             that becomes more relevant as ηc decreases, while for large
+(ln D)/(β ln v) < 1 we arrive at                                            N we expect that ηc reaches a saturation at a minimum
+                                                                            value ηc (0.1, ∞) > 0. This asymptotic value of ηc (0.1, N )
+   2(β − 1) ln v − 2 ln(C/D) + ln(− ln v) + ln β = 0.             (24)      is reached for system sizes outside the shown range and, in
+As we expect β to be similar to 1.0 [circles in the inset of                general, the approximate system size from where we start to
+Fig. 6(a)], we use the linear approximation ln β ≃ β − 1 in                 see a plateau in ηc seems to diverge as v approaches zero
+Eq. (24) and solve for β. We finally obtain the following                   [see Fig. 6(a)]. An insight into this can be given in terms
+approximate expressions for the transition noise:                           of the crossover size Ncross that separates the two limiting
+                                                                            behaviors of ηc (v, N ) for small and large N. For N  Ncross
+            ηc (v, ∞) ≃ D v β , with                             (25a)      the effective transition noise decays with N as η̂c ∼ N −1/2 ,
+                                  ln   C
+                                         (− ln v)−1/2                       while for N      Ncross is η̂c ∼ v. At the crossover size, these
+                 β(v) ≃ 1 +            D
+                                                        or       (25b)      two limiting scalings should match, leading to Ncross ∼ v −2 .
+                                       ln v + 1/2
+                                                                            This simple relation shows that, as v approaches zero, the
+            ηc (v, ∞) ≃ C v(− ln v)−1/2 for v  1.               (25c)      crossover size diverges very fast, and so we need to run
+
+                                                                    034111-8
+
+===== PAGINA 9 =====
+
+NOISY MULTISTATE VOTER MODEL FOR FLOCKING IN …                                              PHYSICAL REVIEW E 104, 034111 (2021)
+
+simulations in very large systems to observe the asymptotic           noise η > 0, increasing the speed leads to a larger value of ϕ
+value of ηc (v, N ).                                                  with smaller fluctuations (smaller susceptibility χ ), eventually
+    In summary, we showed in this section that the FVM in a           inducing a stationary state of collective order for high enough
+2D continuous space exhibits and order-disorder phase transi-         speeds. We understand that this ordering effect produced by
+tion at a finite noise amplitude ηc > 0 that is proportional to       particles’ motion is analogous to that found in Vicsek-type
+the speed v of particles. For low speeds, ηc is linear in v with      models, and, as a consequence, the system exhibits an ordered
+a logarithmic correction that leads to an effective power law         phase below a finite transition noise amplitude ηc (v) > 0 that
+with a v-dependent exponent slightly larger than 1. Thus, the         depends on the speed. For low √   speeds, the behavior of the ef-
+transition at a finite noise ηc > 0 induced by particles’ motion      fective transition noise ηˆc = ηc − ln ηc with v and N is well
+is in contrast with the zero-noise transition found in MF and         described by a scaling function with two simple exponents.
+the static version of the model in lattices.                          On the one hand, this leads to the scaling behavior ηˆc ∼ N −1/2
+                                                                      for v 2 N  1, which agrees with that of the 2D static case, and
+            VI. SUMMARY AND CONCLUSIONS                               also with the theory developed for the saturation transition in
+                                                                      the FGZ model [18,19]. On the other hand, the effective noise
+    We studied a model for the flocking dynamics of self-             reaches an asymptotic value as N increases, which behaves
+propelled particles with pairwise copying interactions and            as ηˆc ∼ v in the N → ∞ limit. This results in a transition
+noise. This model can be considered as a version of the noisy         noise with a superlinear dependence on the speed of the form
+voter model with infinite number of angular states, which             ηc ∼ v(− ln v)−1/2 for v  1, in the thermodynamic limit.
+also incorporates the motion of particles over the space. We          For the sake of comparison, it was recently found that in
+focused on the ordering properties of the system by explor-           the Vicsek model the transition noise scales as ηc ∼ v 0.45 in
+ing the order parameter ϕ that measures the global level of           the low-density and low-speed regime [31]. We also note that
+alignment of particles. We found that the system undergoes            the transition noise for a given speed and density ρ = 0.5 in
+a transition as the noise amplitude η overcomes a threshold           the FVM is much smaller than that of the Vicsek model.
+ηc , from an ordered phase for η < ηc where a fraction of                 In summary, we found that the collective motion of self-
+particles are aligned and thus ϕ > 0, to a disordered phase           propelled particles on a 2D space with noisy voter interactions
+for η > ηc characterized by each particle moving in a random          exhibits an order-disorder transition at a finite noise amplitude
+direction, leading to ϕ = 0. We performed a numerical anal-           ηc proportional to the speed of particles. This is a surprising
+ysis to investigate how the speed of particles, the space and         result within the literature of the voter model, as it is known
+its dimension affect the order-disorder phase transition. We          that adding an external noise to the copying dynamics of
+started by the simplest case of all-to-all interactions or infinite   the model wipes up collective order in the thermodynamic
+dimension or MF, followed by the static case of fixed particles       limit, and in this article we showed that order can indeed be
+on 1D and 2D square lattices, and ending with the dynamic             sustained by particles’ motion.
+case of particles moving on a bounded continuous 2D space.                It seems that the effect of motion is to correlate distant
+The transition point ηc was determined by the location of             particles generating a state of global order, as happens in the
+the peak of the susceptibility, which depends on the system           Vicsek model. Thus, it might be interesting to study the corre-
+size N. By doing suitable finite size scaling analysis we were        lations between particles’ velocities and positions in order to
+able to infer the scaling behavior of the relevant magnitudes         understand the mechanisms that lead to flocking in the model.
+in the thermodynamic limit, including the transition noise.           We also note that the MF approximation, which predicts a
+    In the MF case we showed that the transition noise vanishes       transition at zero noise, fails for the full version of the FVM
+with N as ηcMF ∼ N −1/2 , which is related to known analytical        with particles moving at a finite speed, showing the impor-
+MF results of the MSVM. In the static case (v = 0) we found           tance of taking into account the space and motion of particles
+the scalings ηc1D ∼ N −1 in one dimension
+                                               and η̂c2D ∼ N −1/2    in real-life situations, as happens, for instance, in the recent
+in two dimensions, where η̂c2D = ηc2D − ln ηc2D is an effective       experiments with fish [6] described in Sec. I. It would be
+noise amplitude. This effective noise with a logarithmic cor-         worthwhile to develop a mathematical description of the FVM
+rection in ηc2D was found by drawing an analogy between our           that goes beyond MF and accounts for correlations between
+FVM and the FGZ model for catalytic reactions with desorp-            particles, which could correctly capture the ordering effect of
+tion probability pd , and making the transformation pd → η2 .         motion. Finally, within the context of the experiments in [6],
+Our scaling results on MF and lattices are compatible with            the results we obtained in the present article suggests that a
+those predicted theoretically for the FGZ model, which is a           group of fish could eventually reach an asymptotic polarized
+version of the noisy two-state voter model.                           state when the group size increases, depending on the relation
+    We therefore conclude that, in MF and 1D and 2D static            between the amplitude of the spontaneous directional change
+cases, the FVM displays an order-disorder transition at zero          (noise) of fish and their speed.
+noise in the thermodynamic limit. This result means that any
+finite noise suppresses completely any level of order in the
+                                                                                         ACKNOWLEDGMENTS
+thermodynamic limit. That is, even a tiny amount of noise is
+enough to bring the system to complete disorder.                         We acknowledge financial support from CONICET (PIP
+    The behavior of the model in the dynamic case, where              11220150100039CO) and (PIP 0443/2014). We also ac-
+particles move at a finite speed v > 0 on a 2D box, is very           knowledge support from Agencia Nacional de Promoción
+different from that of the MF and static cases. We observed           Científica y Tecnológica (PICT-2015-3628) and (PICT 2016
+that, for a fixed density of particles ρ = 0.5 and a given            Nro 201-0215).
+
+                                                                034111-9
+
+===== PAGINA 10 =====
+
+LOSCAR, BAGLIETTO, AND VAZQUEZ                                                                PHYSICAL REVIEW E 104, 034111 (2021)
+
+ [1] T. Vicsek and A. Zafiris, Phys. Rep. 517, 71 (2012).              [17] D. Considine, S. Redner, and H. Takayasu, Phys. Rev. Lett. 63,
+ [2] M. C. Marchetti, J. F. Joanny, S. Ramaswamy, T. B. Liverpool,          2857 (1989).
+     J. Prost, M. Rao, and R. A. Simha, Rev. Mod. Phys. 85, 1143       [18] E. Clement, P. Leroux-Hugon, and L. M. Sander, Phys. Rev.
+     (2013).                                                                Lett. 67, 1661 (1991).
+ [3] A. M. Menzel, Phys. Rep. 554, 1 (2015).                           [19] E. Clement, P. Leroux-Hugon, and L. M. Sander, J. Stat. Phys.
+ [4] T. Vicsek, A. Czirók, E. Ben-Jacob, I. Cohen, and O. Shochet,          65, 925 (1991).
+     Phys. Rev. Lett. 75, 1226 (1995).                                 [20] C. Flament, E. Clement, P. Leroux Hugon, and L. M. Sander,
+ [5] J. Toner and Y. Tu, Phys. Rev. Lett. 75, 4326 (1995).                  Phys. A: Math. Gen. 25, L1311 (1992).
+ [6] J. Jhawar, R. G. Morris, U. R. Amith-kumar, M. Danny Raj, T.      [21] A. Carro, R. Toral, and M. San Miguel, Sci. Rep. 6, 24775
+     Rogers, H. Rajendran, and V. Guttal, Nat. Phys. 16, 488 (2020)         (2016).
+ [7] G. Baglietto and F. Vazquez, J. Stat. Mech. (2018) 033403.        [22] A. F. Peralta, A. Carro, M. S. Miguel, and R. Toral, New J. Phys.
+ [8] F. Vazquez, E. S. Loscar, and G. Baglietto, Phys. Rev. E 100,          20, 103045 (2018).
+     042301 (2019).                                                    [23] A. F. Peralta, A. Carro, M. San Miguel, and R. Toral, Chaos 28,
+ [9] Y.-L. Chou and T. Ihle, Phys. Rev. E 91, 022103 (2015).                075516 (2018).
+[10] A. Kirman, Q. J. Econ. 108, 137 (1993).                           [24] F. Herrerías-Azcué and T. Galla, Phys. Rev. E 100, 022304
+[11] B. L. Granovsky and N. Madras, Stoch. Proc. Appl. 55, 23               (2019).
+     (1995).                                                           [25] R. Martinez-Garcia, C. López, and F. Vazquez, Phys. Rev. E
+[12] P. Clifford and A. Sudbury, Biometrika 60, 581 (1973).                 103, 032406 (2021).
+[13] R. Holley and T. M. Liggett, Ann. Probab. 4, 195 (1975).          [26] N. D. Mermin and H. Wagner, Phys. Rev. Lett. 17, 1133 (1966).
+[14] M. Henkel, H. Hinrichsen, and S. Lübeck, Non-Equilibrium          [27] R. A. Blythe and A. J. McKane, J. Stat. Mech. (2007) P07018.
+     Phase Transitions, Volume I: Absorbing Phase Transitions          [28] M. Starnini, A. Baronchelli, and R. Pastor-Satorras, J. Stat.
+     (Springer, Bristol, UK, 2008).                                         Mech. (2012) P10027.
+[15] K. Fichthorn, E. Gulari, and R. Ziff, Chem. Eng. Sci. 44, 1411    [29] W. Pickering and C. Lim, Phys. Rev. E 93, 032318 (2016).
+     (1989).                                                           [30] F. Family and T. Vicsek, J. Phys. A: Math. Gen. 18, L75 (1985).
+[16] K. Fichthorn, E. Gulari, and R. Ziff, Phys. Rev. Lett. 63, 1527   [31] M. L. Rubio Puzzo, A. De Virgiliis, and T. S. Grigera,
+     (1989).                                                                Phys. Rev. E 99, 052602 (2019).
+
+
+
+
+                                                                 034111-10
+

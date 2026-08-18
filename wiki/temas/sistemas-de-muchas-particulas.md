@@ -18,6 +18,8 @@ El modelo de fuerzas sociales para peatones combina términos granulares, social
 
 El modelo de Reynolds representa cada “boid” como actor independiente con percepción local. La bandada no sigue un guion central: el patrón agregado emerge de tres reglas priorizadas —evitar colisiones, igualar velocidad y acercarse al centro local de la bandada— [B04, p. 1] [B04, p. 4]. Es un ejemplo directo de cómo reglas microscópicas locales producen organización macroscópica.
 
+El modelo de Vicsek y su variante de interacción tipo votante convierten esa idea general en reglas cuantitativas de alineación local, ruido y movimiento. Su desarrollo y el alcance experimental de la segunda práctica están en [Bandadas autopropulsadas y TP2](bandadas-y-tp2.md).
+
 ## Escalas de descripción
 
 Las fuentes muestran una progresión útil:

@@ -1,0 +1,249 @@
+FUENTE: B06
+TITULO: Statistical Physics Is for the Birds — Toni Feder
+ORIGINAL: material/externo/bibliografia-2/PhysicsToday.pdf
+PAGINAS: 4
+
+===== PAGINA 1 =====
+
+            Physics Today
+            Statistical physics is for the birds
+            Toni Feder
+
+
+            Citation: Physics Today 60(10), 28 (2007); doi: 10.1063/1.2800090
+            View online: http://dx.doi.org/10.1063/1.2800090
+            View Table of Contents: http://scitation.aip.org/content/aip/magazine/physicstoday/60/10?ver=pdfcov
+            Published by the AIP Publishing
+
+
+
+
+This article is copyrighted as indicated in the article. Reuse of AIP content is subject to the terms at: http://scitation.aip.org/termsconditions. Downloaded to IP:
+                                                            200.68.94.105 On: Thu, 10 Jul 2014 13:21:20
+
+===== PAGINA 2 =====
+
+                                             Statistical physics is for the birds
+                                             Three-dimensional mapping of starling flocks could shed light not only
+                                             on the birds’ collective behavior but also on a broad range of other
+                                             aggregate systems.
+
+       At dusk each winter evening, mil-                ior patterns to such systems as cells in         dimensional data on large aggrega-
+       lions of starlings fly in from the coun-         wound healing, aggregates of robots,             tions—thousands, rather than tens, of
+       tryside to their roosting sites in Rome          and financial markets.                           animals—understand what’s going on,
+       and, before settling into trees for the                                                           and then formulate, or reformulate,
+       night, “they spend something like                Three-dimensional data                           models in feedback with the data.”
+       20 minutes doing these incredible aerial         Many earlier flocking studies were                  Collecting the data involved setting
+       displays. It’s a truly amazing sight,” says      done with fish. “You put them in a tank,         up cameras each evening on the roof of
+       Andrea Cavagna, a statistical physicist          and usually you watch only 20 to 40              a building near the Rome railway sta-
+       at Italy’s National Institute for the            fish. We wanted to take data in the field,       tion. “To do three-dimensional imag-
+       Physics of Condensed Matter (INFM).              and this is difficult and expensive to do        ing, you have to do stereoscopy. It takes
+       “If you watch a flock of starlings under         in water, so we thought about birds,”            an hour and a half to mount everything,
+       attack by a predator, they split, merge,         says Cavagna. “You have loads of mod-            align the cameras, synchronize the elec-
+       and do all these incredible maneuvers to         els and theories [on flocking], but no           tronics,” says Cavagna. Then, during
+       confuse the predator. How can they keep          data whatsoever, especially in three di-         the 20-minute aerial display, the team
+       cohesion in the face of that strong per-         mensions, so everyone could propose a            shoots 10 frames per second for a max-
+       turbation—the attack?”                           model and be happy, since there was no           imum of 8 seconds, until the cameras’
+           Inspired by the aerial displays, a           comparison with experiments.” The                memories are full. What they record is
+       group of scientists led by theoretical           reason, he adds, “was that having three-         a matter of luck, since “once they’re set
+       physicists in Rome set up StarFlag, a            dimensional data on large aggregations           up, we can’t move the cameras, so we
+       multidisciplinary, multinational collab-         of moving animals was considered im-             just stay there, fishing in one place.”
+       oration to study the birds’ flocking be-         possible until now.” With StarFlag, he           Flocks can be too big to photograph, or
+       havior. The main aim was to determine            says, “we wanted to start from quanti-           they may not stay in the field of view.
+       “the fundamental laws of collective be-          tative experimental data. The backbone              A given flock can have anywhere
+       havior and self-organization of animal           of the project was to collect three-             from 200 to 50 000 starlings, and once
+       aggregations in three dimensions,”
+
+
+
+
+                                                                                                                                                      HUGUES CHATÉ AND FRANCK RAYNAUD, CEA-SACLAY
+       says Cavagna, the project’s deputy co-
+       ordinator. In addition to the Rome
+       INFM group, which focuses on collect-
+       ing quantitative data on flocking, the
+       project includes physicists and theoret-
+       ical biologists who do computer mod-
+       eling, biologists who study details of
+       starling flight and behavior, and physi-
+       cists and economists who work on ex-
+       tending the starlings’ collective behav-
+
+
+
+
+                                                                                        Starlings flock every winter evening above the Rome
+                                                                                        railway station (left; see also cover). The simulation
+                                                                                        above is based on a three-dimensional model with
+                                                                                        birds as particles of fixed velocity. The model accounts
+                                                                                        for alignment and builds in pair-wise isotropic attrac-
+                                                                                        tion and repulsion. Says Saclay’s Hugues Chaté, who
+                                                                                        made the simulation, “Visually we are doing well. We
+                                                                                        are now working on how to characterize changing
+        STARFLAG PROJECT, CNR-INFM
+                                                                                        [flock] shapes in three dimensions.”
+
+This article
+        28 is October
+              copyrighted as indicated
+                       2007     Physicsin the article. Reuse of AIP content is subject to the terms at: http://scitation.aip.org/termsconditions. Downloaded to IP:
+                                          Today                                                       © 2007 American Institute of Physics, S-0031-9228-0710-340-9
+                                                          200.68.94.105 On: Thu, 10 Jul 2014 13:21:20
+
+===== PAGINA 3 =====
+
+           you have the data, says Cavagna, “you                The Rome team is now extending the
+           have to say who is who in two pictures,          data analysis to reconstruct trajectories
+           and you have more or less lots of black          of individual birds. “We don’t have re-
+           dots. Matching was the bottleneck. It            sults yet,” says Cavagna. “We have to
+           took two years for us to crack this prob-        find algorithms for dynamical match-
+           lem using statistical physics methods.           ing. But we will be able to ask new ques-
+           It’s an optimization problem.”                   tions, such as ‘How long does a bird re-
+                                                            main correlated with its neighbors?’
+           Anisotropic interactions                         and ‘How does a flock rearrange itself
+           Flock cohesiveness was a mystery, says           when it turns?’ ”
+           Cavagna. “It’s clear that the interaction
+           [between birds] decreases with increas-          Model behavior
+           ing separation, but how do the birds             Although computer models of flocking
+           measure distance? We came in as physi-           don’t yet explicitly build in the ani-
+           cists, our experience was with spin              sotropy, StarFlag’s modelers have re-
+           glasses, and we used the same tools.”            fined their simulations since the collab-
+           Those tools include techniques from sta-         oration began in 2005; the project’s
+           tistical physics, optimization theory, and       three-year grant from the European
+           computer vision. Quantifying the inter-          Commission runs through this year.
+           action among birds is StarFlag’s most            “We keep three old rules—hard-core re-
+           important result so far, Cavagna says.           pulsion, longer-range attraction, and we
+               The Rome team found that a given             assume that the particles [birds] assume
+           bird interacts not with all birds within         the average direction of their neigh-
+           a certain distance, as most models had           bors,” says Tamás Vicsek of Hungary’s
+           assumed, but rather with a fixed num-            Loránd Eötvös University. “But now we
+           ber of neighboring birds, independent            feed into the model details of the dy-
+           of how far apart they may be. “If flocks         namics, such as that the birds change di-
+           always had the same density, there               rection, in order to understand landing
+           would not be a striking difference be-           and how they self-organize behavior.” In
+           tween this [behavior] and interacting            particular, Vicsek and others have ex-
+           with all birds within a certain dis-             tended their models to three dimen-
+           tance,” says Irene Giardina, another             sions. “We have developed a very nice—
+           statistical physicist in the 10-strong           fast, beautiful—visualization of flocking
+           INFM group. “But when a flock is at-             data points. The graphics shows birds
+           tacked, it undergoes rapid changes in            flapping their wings and contracting
+           density. You can watch a flock split, but        when moving away,” says Vicsek.
+           it comes together again. We asked what              Hugues Chaté, a physicist at the
+           sort of interaction can guarantee such a         Atomic Energy Commission in Saclay,
+           robust resilience to perturbation.”              France, says that to incorporate ani-
+               “We looked at our three-dimen-               sotropy into the attractive and repul-
+           sional data and considered a given               sive potentials of his models, “we
+           bird, and then we measured the angu-             need to introduce not just an axis
+           lar positions of its nearest neighbors,”         for the flight direction, but another for
+           she continues. The distribution of               the wings. Then we can modulate the
+           angular positions turns out to be                strength of the interactions.” So far, he
+           anisotropic, a result that StarFlag sci-         adds, the interactions in his models rely
+           entists presented at a couple of confer-         on a “nice mix of topological and met-
+           ences over the summer. “There is much            ric criteria”—a bird interacts with its
+           more probability of finding its nearest          neighbors, but the strength of each pair
+           neighbor on the side, rather than in             interaction is modulated by distance,
+           front or back along the direction of mo-         and the “interactions are strictly local,
+           tion,” says Giardina. “We measured               which makes the emergence of collec-
+           this probability also for the second and         tive motion more spectacular.”
+           third neighbors, and so on. And we                  The Rome group’s findings of
+           found that birds interact with six or            anisotropic interactions and a fixed
+           seven neighbors. After that, the                 number of partners with which birds
+           anisotropy decays. That’s the point              interact were no surprise to Charlotte
+           where the spatial structure becomes              Hemelrijk, a theoretical biologist at the
+           isotropic.”                                      Netherlands’ University of Groningen,
+               It turns out, Giardina says, that these      whose earlier models of fish schools
+           “topological interactions are much               showed a similar anisotropy. Modify-
+           more robust to perturbations” than a             ing the fish models to account for bird
+           model in which a bird interacts with             behavior and interactions, she says,
+           other birds within a fixed distance. The         “caused a remarkable switch in emer-
+           anisotropy, she adds, makes sense bio-           gent patterns” and yielded the “vari-
+           logically: “It’s related to vision, since the    able patterns of flocking observed in
+           physiology of the eye is not isotropic.”         aerial displays of starlings. We do not
+
+This article www.physicstoday.org
+             is copyrighted as indicated in the article. Reuse of AIP content
+                                                                  October     is subject
+                                                                           2007          to theToday
+                                                                                     Physics    terms at: 29
+                                                                                                          http://scitation.aip.org/termsconditions.
+                                                                                                                          See www.pt.ims.ca/12311-19Downloaded to IP:
+                                                            200.68.94.105 On: Thu, 10 Jul 2014 13:21:20
+
+===== PAGINA 4 =====
+
+       need to incorporate these findings [of           on starlings to apply, with tweaking, to                   create a collective effect.”
+       anisotropic interactions] in our model.          other birds, fish, insects, bats—any                           Bouchaud is currently focusing on
+       They come out automatically due to the           species that swarms or travels in                          two examples of human behavior. One
+       coordination among individuals and               schools.                                                   involves how others’ choices affect
+       their movement direction. It is what                                                                        what music people download. The
+       you expect of animals, due to limita-            Collective glue                                            other—topical to France’s summer elec-
+       tions of perception and cognition.”              And then there is the question of                          tions—is how people are influenced by
+       Compared with physicists’ flocking               whether starlings might shed light                         others when they vote. Along the same
+       models, she adds, biologists “make               on human behavior. StarFlag’s Jean-                        lines, a group of economists in Pisa,
+       models that are closer to animals. We            Philippe Bouchaud, a theoretical physi-                    Italy, is studying the collective behavior
+       try to incorporate flight dynamics—              cist who heads research at a hedge                         of banks as indicated by where they
+       how birds cope with gravity to produce           fund in Paris, asks, “How do people                        open branches. Starling flocking is
+       lift and how they turn corners.”                 coordinate and imitate each other to                       more complex, says Bouchaud, “be-
+           “We come from very different view-           create collective phenomena that are                       cause it’s a three-dimensional organiza-
+       points,” says Chaté. As a biologist,             surprising if you think about individu-                    tion of birds in space. But the idea is to
+       Hemelrijk “is worried about the details          als? People are extremely influenced by                    work up from the behavior of individ-
+       [of flight].” In contrast, he adds, physi-       their neighbors, by fashions and fads.                     ual birds to the behavior of the flock.”
+       cists try to get rid of details. “StarFlag       This might have an impact on mar-                          The connection to studies of people is
+       is an opportunity to talk to each other          kets—possibly events like crashes or                       indirect, he adds. “Behind these proj-
+       and learn each other’s points of view,           bubbles are due to the coordination of                     ects is the same fascination with collec-
+       and to meet somewhere in the middle,             people. We are looking for situations                      tive effects that glues the whole project
+       or at least get closer to each other.” The       where you can measure, or try to meas-                     together. We have a lot of things to
+       StarFlag scientists expect their results         ure, the ways people interact and                          share when we meet.”           Toni Feder
+
+
+           Fermilab forms backup plan to avoid science gap
+          High-intensity beams of rare particles could give Fermilab a vibrant scientific program if delays in
+          the International Linear Collider spell a dry period for the lab.
+       Anticipating delays with the multi-              lider that would succeed the Large                         likely to shut down the Tevatron at the
+       billion-dollar International Linear Col-         Hadron Collider (LHC), which is set to                     end of 2009, so if a decision is not
+       lider, Fermilab wants to get started on          come on line next year at CERN—is the                      reached to build the ILC soon after that,
+       R&D for a new $500 million–$1 billion            priority, says Fermilab director Pier                      “the lab is in a peculiar position. And if
+       accelerator so as to be poised to forge          Oddone. “Our goal is to host the ILC,                      you look at any historical international
+       ahead with it if indeed the bigger proj-         and we would like to see that move                         agreement, like ITER [the international
+       ect is held up.                                  along and be decided as expeditiously                      thermonuclear energy reactor], it took
+           The ILC—an electron–positron col-            as possible.” But, he adds, Fermilab is                    many years to happen. So with a proj-
+                                                                                                                   ect of that scale, it’s prudent to prepare
+
+                                                                                                        FERMILAB
+                                                                                                                   for the fact that we may actually be tied
+                                                                                                                   up in negotiations, site selection, and all
+                                                                                                                   sorts of things for a number of years.”
+                                                                                                                   Intensity frontier
+                                                                                                                   The centerpiece of Fermilab’s backup
+                                                                                                                   plan is Project X, which would produce
+                                                                                                                   a high flux of protons at 8 GeV that
+                                                                                                                   could be converted through collisions
+                                                                                                                   into high-intensity beams of neutrinos,
+                                                                                                                   muons, or kaons. “Project X would pro-
+
+
+                                                                                                                   Project X would pump 8-GeV protons
+                                                                                                                   into Fermilab’s existing Recycler Ring
+                                                                                                                   (light blue in schematic) and Main Injector
+                                                                                                                   (dark blue), which would each require
+                                                                                                                   some modification. Project X’s accelerat-
+                                                                                                                   ing portion (red) would include around
+        120-GeV fast extraction                                                                                    200 superconducting RF cavities (top) of
+                                                                                                                   the sort the International Linear Collider
+                                                                                                                   would use. Protons kicked out by the
+                                                                                        Main Injector              Main Injector would be high energy and
+        8-GeV slow or fast spill                                                                                   high intensity and would be used for neu-
+                                                                                                                   trino experiments. High-intensity, lower-
+                                                                                                                   energy protons could be extracted from
+                                                                                    Recycler Ring
+                                                                                                                   the Recycler Ring to create beams of
+        ILC-Style 8-GeV H Linac                                  Stripping foil                                    muons and leptons for other experiments.
+
+This article
+        30 is October
+              copyrighted as indicated
+                       2007     Physicsin the article. Reuse of AIP content is subject to the terms at: http://scitation.aip.org/termsconditions.
+                                          Today                                                                                                   Downloaded to IP:
+                                                                                                                                 www.physicstoday.org
+                                                          200.68.94.105 On: Thu, 10 Jul 2014 13:21:20
+

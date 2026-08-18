@@ -1,0 +1,65 @@
+FUENTE: B13
+TITULO: Cellular Automata as Models of Complexity — Stephen Wolfram
+ORIGINAL: material/externo/bibliografia-2/Cellular-Automata-Models-Complexity-Stephen-Wolfram-Article.pdf
+PAGINAS: 7
+
+===== PAGINA 1 =====
+
+
+===== PAGINA 2 =====
+
+
+===== PAGINA 3 =====
+
+
+===== PAGINA 4 =====
+
+
+===== PAGINA 5 =====
+
+
+===== PAGINA 6 =====
+
+
+===== PAGINA 7 =====
+
+4
+~2~
+  4 _________________________________________                                         ARTICLES ______________________~N~AT~U~R~E~V~O~L~.~31~1~4~O~CT~O~B~ER~19~84
+only whether halting occurred before some fixed time, and not                                 less, involve exponentially-growing computational resources, so
+whether it occurred after an arbitrarily long time.                                           that it would rapidly become computationally Intractable. It
+   For class 4 cellular automata, the outcome of evolution from                               seems likely that the identification of possible sequences gener-
+almost all initial configurations can probably be determined                                  ated by class 3 and 4 cellular automata is, in general, an NP-
+only by explicit simulation, while for class 3 cellular automata                              complete problem (see ref. 15). It can, therefore, presumably
+this is the case for only a small fraction of initial states. Neverthe-                       not be solved in any time polynomial in n or t, and essentially
+less, this possibility suggests that the occurrence of particular                             requires explicit simulation of all possibilities.              _
+site value sequences in the infinite time limit is in general                                    Undecidiibifity-and intractability are common in problems of
+undecidable. The large time limit of the entropy for class 3 and                              mathematics and computation. They may well afflict all but the
+4 cellular automata would then, in general, be non-computable:                                simplest cellular automata. One may speculate that they are
+bounds on it could be given, but there could be no finite                                     widespread in natural systems, perhaps occurring almost
+procedure to compute it to arbitrary precision. (This would be                                whenever nonlinearity is present. No simple formulae for the
+the case if the limit sets for class 3 and 4 cellular automata                                behaviour of many natural systems could then be given; the
+formed at least context-sensitive languages.)                                                 consequences of their evolution could be found effectively only
+   While the occurrence of a particular length n site value                                   by direct simulation or observation.
+sequence in the infinite time limit may be undecidable, its                                      I thank O. Martin, J. Milnor, N. Packard and many others
+occurrence after any finite time t can, in principle, be determined                           for discussions. The computer mathematics system SMp24 was
+by considering all length no = n + 2rt initial sequences that could                           used during this work. The work was supported in part by the
+ev~lye to it. For increasing n or t this procedure would, neverth<:-                           US Office of Naval Research (contract No. NOOOI4-80-C-0657).
+ I. Wolfram, S. Rev. Mod. Phys. 55, 601--M4 (1983).                                             14 Guckenheimer, 1. & Holmes, P. Nonlinear Oscillations, Dynamical Systems, and Bifurcations
+ 2. Wolfram, S. Physica 100, 1-35 (1984).                                                             of Vector Fields (Springer, Berlin, 1983).
+ 3. Wolfram, S. Commun. Math. Phys. (in the press).                                             15. Hopcroft;"J. E. & Ullman, J. D. Introduction to Automata Theory, Languages, and Computa-
+ 4. Wolfram, S. Cellular Automata (Los Alamos Science, Autumn, 1983).                                 tion (Addison-Wesley, New York, 1979).
+ 5. Mandelbrot, B. The Fractal Geometry of Nature (Freeman, San Francisco, 1982).               16. Packard, N. Preprint, CompleXity of Growing Patterns in Cellular Automata (Institute for
+ 6. Packard, N. Preprint, Cellular Automaton Models for Dendritic Growth (Institute for               Advanced Study, 1983).
+      Advanced Study, 1984).                                                                    17. Manin, 0, Odlyzko, A. & Wolfram, S. Commun. Math. Phys. 93, 219-258 (1984).
+ 7. Madore, B. & Freedman, W. Science 222, 615-616 (1983).                                      18. Grassberger, P. Physico 100,52-58 (1984).
+ 8. Greenberg, J. M., Hassard, B. D. & Hastings, S. P. Bull. Amer. Math. Soc. 84, 1296-1327     19. Lind, D. Physico 100,36-44 (1984).
+       (1978).                                                                                  20. Margolus, N. Physica 100,81-95 (1984).
+ 9. Vichniac, G. Physica 100,96-116 (1984).                                                     21. Smith, A. R. lournal of the Association for Computing Machinery 18, 339-353 (1971).
+10. Dornany, E. & Kinzel, W. Phys. Rev. Lell. 53, 311-314 (1984).                               22. Berlekamp, E. R., Conway, J. H. & Guy, R. K. Winning Ways for your Mathematical Plays
+II. Waddington C. H. & Cowe, R. J. J. theor. Bioi. 25, 219-225 ( 1969).                               Vol. 2, Ch. 25 (Academic, New York, 1982).
+12. Lindsay, D. T. VeJiger 24, 297-299 (1977).                                                . 23. Gardner, M. Meels, Life and other Mathematical Amusements (Freeman, San Francisco,
+13. Young, D. A. A Local Activator-Inhibitor Model of Vertebrate Skin Patterns (Lawrence              1983).
+      Livermore National Laboratory Rep., 1983).                                                24. Wolfram, S. SMP Reference Manual (Computer Mathematics Group, Inference Corpor-
+                                                                                                      ation, Los Angeles, 1983).
+

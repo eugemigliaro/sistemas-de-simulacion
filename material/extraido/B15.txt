@@ -1,0 +1,13 @@
+FUENTE: B15
+TITULO: Lattice Boltzmann Modeling: An Introduction for Geoscientists and Engineers — Sukop y Thorne
+ORIGINAL: material/externo/bibliografia-2/00_Book_LatticeBoltamannModeling.rtf
+PAGINAS:
+
+===== DOCUMENTO COMPLETO =====
+
+Ficha bibliográfica con enlace a Springer:
+http://link.springer.com/book/10.1007/978-3-540-27982-2/page/1
+
+Año: 2006
+Título: Lattice Boltzmann Modeling: An Introduction for Geoscientists and Engineers
+Autores: Michael C. Sukop y Daniel T. Thorne Jr.

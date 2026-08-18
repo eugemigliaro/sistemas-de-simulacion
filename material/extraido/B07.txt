@@ -1,0 +1,921 @@
+FUENTE: B07
+TITULO: Flocking Dynamics with Voter-Like Interactions — Gabriel Baglietto y Federico Vazquez
+ORIGINAL: material/externo/bibliografia-2/Flocking_dynamics_with_voter-like_interactions.pdf
+PAGINAS: 18
+
+===== PAGINA 1 =====
+
+                                                  Flocking dynamics with voter-like interactions
+
+
+
+
+arXiv:1608.08231v3 [physics.soc-ph] 11 Apr 2019
+                                                          Gabriel Baglietto1
+
+
+                                                          Federico Vazquez1
+                                                          1
+                                                            IFLYSIB, Instituto de Fı́sica de Lı́quidos y Sistemas Biológicos
+                                                          (UNLP-CONICET), 1900 La Plata, Argentina
+
+                                                          Abstract. We study the collective motion of a large set of self-propelled particles
+                                                          subject to voter-like interactions. Each particle moves on a two-dimensional space at
+                                                          a constant speed in a direction that is randomly assigned initially. Then, at every step
+                                                          of the dynamics, each particle adopts the direction of motion of a randomly chosen
+                                                          neighboring particle. We investigate the time evolution of the global alignment of
+                                                          particles measured by the order parameter ϕ, until complete order ϕ = 1.0 is reached
+                                                          (polar consensus). We find that ϕ increases as t1/2 for short times and approaches
+                                                          exponentially fast to 1.0 for long times. Also, the mean time to consensus τ varies non-
+                                                          monotonically with the density of particles ρ, reaching a minimum at some intermediate
+                                                          density ρmin . At ρmin , the mean consensus time scales with the system size N as
+                                                          τmin ∼ N 0.765 , and thus the consensus is faster than in the case of all-to-all interactions
+                                                          (large ρ) where τ = 2N . We show that the fast consensus, also observed at intermediate
+                                                          and high densities, is a consequence of the segregation of the system into clusters of
+                                                          equally-oriented particles which breaks the balance of transitions between directional
+                                                          states in well mixed systems.
+
+===== PAGINA 2 =====
+
+Flocking dynamics with voter-like interactions                                          2
+
+1. Introduction
+
+Imitation is one of the a fundamental social mechanisms implemented in most statistical
+physics models of opinion formation [1]. By means of local pairwise interactions between
+agents, the imitation mechanism generates an ordering dynamics that allows to study
+how a population of individuals reaches consensus, i e., a state where all individuals
+share the same opinion. Among the most studied opinion formation models, the so-
+called voter model (VM) is the most basic model that introduces social imitation in a
+simple way. In its original formulation [2, 3], each individual or voter is located at the
+site of a d-dimensional lattice and can take one of two possible opinions represented by
+an up or a down spin (S =↑ or ↓). At each time step of the dynamics, a voter chosen at
+random simply adopts the opinion of a randomly chosen nearest neighbor. This local
+alignment dynamics leads to the formation of same-spin domains that growth in size
+until one domain takes over the entire lattice and the system reaches consensus in a time
+that scales as N 2 , N ln N and N in one, two and three dimensions, respectively [4, 5].
+This ultimate state is frozen as spins cannot longer evolve. The macroscopic dynamic
+behavior of the VM can be understood in terms of its associated Langevin equation for
+the magnetization field [6, 7], whose Ginzburg-Landau potential is zero. The VM with
+an arbitrary number of opinion states (the multi-state Voter Model) has recently been
+studied in [8, 9], where the authors found interesting properties on the evolution of the
+number of different opinions and the consensus times. The VM has also been applied
+to the study of other processes like kinetics of heterogeneous catalysis [4, 5], species
+competition [2] and ecological diversity [10, 11, 12]. Several extensions of the VM have
+been investigated in the literature, including the presence of zealots or inhomogeneities
+[13], constrained interactions [14], non-equivalent states [15], asymmetric transitions or
+bias [16], noise [17] and memory effects [18, 19, 20, 21], among others.
+      While all these works assumed that agents are fixed in space, some recent works have
+considered the case in which agents are allowed to move. In reference [22] Sousa et al.
+introduced mobility in the Sznadj Model for opinion formation and found that consensus
+is always reached given that agents’ diffusion remove the typical frustrations observed
+in the static case. Terranova et al. [23] studied a multi-state opinion model with moving
+individuals and showed that low motility enhances the tendency of the population to
+adopt moderate states. Lipowska and Lipowski [24] explored the influence of migrations
+in language formation by means of a model called Naming Game in which agents move
+diffusively on a two-dimensional (2D) lattice, finding that the language of agents with
+lowest mobility is favored and that consensus is slower than in systems without motility.
+      The models described above assume that the direction of motion of a given
+particle is independent on its opinion or language state. However, in some other social
+phenomena like the flocking behavior of large groups of animals such as bird flocks, fish
+schools or insects swarm (see [25, 26, 27] for recent reviews), the direction of motion
+of each individual is given by its opinion or decision. For instance, Couzin et al. [28]
+combined experiments and theory to study collective decision making in fish schools. In
+
+===== PAGINA 3 =====
+
+Flocking dynamics with voter-like interactions                                           3
+
+these experiments, a group of fish is released in a pool and then each fish decides whether
+to go to a yellow or a blue target. Starting from a minority group trained to have a
+strong preference for a given target and that is able to persuade the majority group, they
+showed that the addition of a large enough group of uninformed individuals can promote
+democratic consensus, returning the control to the majority. In one of the seminal
+works that connected the field of swarming behavior with that of opinion formation [29]
+the authors introduced an non-spatial adaptive network approach to model swarming
+experiments with locusts on a ring-shaped arena [30]. Agents were endowed with one
+of two possible states (right or left) representing the two possible moving directions
+of each locust (clockwise and anti-clockwise), and updated their states by interacting
+with their neighbors in the network. The model reproduced qualitatively the collective
+properties observed in the experiment, such as a spontaneous symmetry breaking and
+a density-driven order-disorder transition.
+     In this article we explore the mechanism of social imitation in flocking dynamics,
+where the direction of motion of each particle is associated to its opinion state. We
+propose and study a simple two-dimensional flocking model with voter-like interactions
+in which, in a single iteration step, each particle adopts the direction of one particle
+chosen at random within its interacting neighborhood. Unlike the models studied in [28]
+and [29] and other related models [31], where the possible moving options are binary, all
+possible directions in the range (−π, π] are allowed in our model. Besides, interactions
+are not of mean-field type as in [29], but rather take into account the distance between
+nearby particles in an euclidean 2D space. If we think in the example of a flock of birds,
+the imitation rule can be interpreted as each bird copying the direction of one close-by
+bird even if it is able to see a group of, for instance, 10 birds around. Some recent
+works have also implemented other types of social interactions to study flocking, like
+the majority rule dynamics explored in [32], where interactions are not pairwise as in our
+model but they include a group of neighbors as in the Standard Vicsek Model (SVM)
+[33]. Also, the model proposed by Chou and Ihle [34] considered the low density limit
+of the SVM where particles interact by pairs and both take their average orientations,
+unlike in our model where only one of the two particles updates its direction. We want
+to note as well that the flocking voter model (FVM) proposed here can be framed as
+a particular type of coevolving network model [35, 36, 37], in which the network of
+interactions evolve as particles enter and leave the interaction range of other particles.
+     We show in this article that the ordering dynamics of the FVM is much slower than
+that in the SVM. Also, the interplay between the interaction pattern and the alignment
+dynamics leads to a relaxation to the final ordered state that largely deviates from the
+one observed in mean-field, as well as in lattices with static particles. As a consequence,
+the mean time to reach full polar order (consensus) exhibits a non-monotonic dependence
+with the density of particles. The motion appears to accelerate the polar consensus by
+a non-trivial mechanism that breaks the equivalence between particle states typically
+observed in the voter dynamics, introducing a net drift from minority to majority states.
+     The article is organized as follows. We introduce the model and its dynamics in
+
+===== PAGINA 4 =====
+
+Flocking dynamics with voter-like interactions                                                        4
+
+section 2. In section 3 we explore the ordering dynamics. We analyze the consensus
+times to the final ordered state in section 4. Finally, we discuss the results and state
+the conclusions in section 5.
+
+2. The Model
+
+We consider a set of N particles that move on a continuous two-dimensional space [0, L]2
+with periodic boundary conditions. The density of particles ρ = N/L2 is conserved at
+all times. At a given time t, the position of particle i is denoted by r~i t = (xti , yit) and its
+velocity by v~i t = (v cos θit , v sin θit ), with speed |~
+                                                          vi | = v and direction θit , for i = 1, .., N.
+That is, all particles move at the same speed v but not necessarily in the same direction.
+At each time step of length ∆t = 1, each particle i selects a random neighboring particle
+j inside a circular region of radius R = 1 centered at r~i , and updates its position and
+direction according to
+                r~i t+1 = rit + v~i t ∆t,                                                          (1a)
+                θit+1 = θjt ,                                                                      (1b)
+     where θjt is the direction of the particle j at time t. In case particle i has no
+neighbors inside the interaction range R, then its direction is not changed. At t = 0,
+positions of particles are assigned randomly with a uniform distribution inside the box
+[0, L]2 , while their directions are randomly chosen from the interval (−π, π]. Then, each
+particle moves at a constant speed following a given straight path and can update its
+direction at integer times t = 1, 2, 3, ..., by adopting the direction of a neighbor chosen
+at random. We mention that we are choosing in our model the updating rule used in the
+original version of the Vicsek model [33], which is known under the name of backward
+update. In the backward update the velocity at time t is used to obtain the position of
+a particle at the next time t + 1 (Eq. 1a), whereas in the forward update that position is
+obtained using the velocity at time t + 1. This ambiguity in the selection of the position
+update and their consequences in the dynamics of the Vicsek model were discussed in
+some works (see for instance [38]). However, we expect the qualitative behavior of the
+FVM to be the same under both updates at low speeds. Qualitative differences may
+appear at high speeds where the difference between moving a particle before or after
+adopting a direction could be very large in some cases.
+
+3. Ordering dynamics
+
+Voter-like interactions in the dynamics of the model tend to align the direction of
+neighboring particles. This leads to a local order in the short run, and to global
+or macroscopic polar order in the long run, as it happens in flocking models with
+ferromagnetic interactions like the SVM. The ordering properties in these systems are
+
+===== PAGINA 5 =====
+
+Flocking dynamics with voter-like interactions                                                       5
+
+                                0
+                           10
+
+
+
+
+                        ϕ 10-1
+
+
+                                -2
+                           10        0        1        2         3         4
+                                10       10       10        10        10
+                                                  time
+              Figure 1. (Color online) Time evolution of the average order parameter hϕi in a
+              system with N = 4000 particles, with speed v = 0.1. Blue (upper) symbols correspond
+              to results of the SVM at zero noise for particle densities ρ = 21 (triangles) and
+              ρ = 5 (diamonds). Red (lower) symbols are results for the FVM with densities ρ = 5
+              (squares) and ρ = 21 (circles). The solid line is the theoretical approximation Eq. (10),
+              while the dashed lines are guides to the eye with slope 1/2.
+
+
+characterized by the parameter ϕ, defined as
+                        N
+                    1 X
+              ϕ≡           v~i ,                                                                   (2)
+                   v N i=1
+which is the absolute value of the normalized mean velocity of all particles. The order
+parameter ϕ can vary from 0 (total disorder) to 1.0 (full order).
+     In Fig. 1 we show the temporal behavior of the average value of the order parameter
+hϕi for speed v = 0.1, and two different densities. Averages were done over 104
+independent realizations of the dynamics, as in most plots shown the article unless
+stated. The two lower curves correspond to the FVM. We also show, for comparison,
+hϕi for the SVM at zero noise (two upper curves). We observe that, in all cases, full order
+ϕ = 1.0 is eventually achieved in the long run. In this final ordered state all particles
+move in the same direction, thus no more direction updates are possible. Although
+this final state is not frozen because particles continue moving, it is analogous to the
+consensus state in the VM. The ordering in the FVM is characterized by an initial
+increase of hϕi as a power law in time, with an exponent close to 1/2 (lower dashed line)
+and a final exponential approach to 1.0. Even though the approach to complete order
+in the FVM is much slower than that in the noiseless SVM, we see that the SVM also
+exhibits an initial algebraic increase of hϕi with time, with an exponent similar to 1/2
+(upper dashed line).
+     As we see below, the behavior of ϕ is closely related to that of the mean number of
+different directions S(t) at time t shown in Fig. 2. Initially, all directions are different
+as they are randomly assigned, and thus S(t = 0) = N. Then, for densities ρ ≥ 2 we
+
+===== PAGINA 6 =====
+
+Flocking dynamics with voter-like interactions                                            6
+
+see that S decreases very slowly during an initial transient of order N, as
+                        N
+              S(t) ≃          ,                                                         (3)
+                      1 + t/2
+represented by a solid line in Fig. 2. This result was derived analytically in [8] following
+a Master Equation approach and in [9] using generating functions, for the multi-state
+voter model under sequential update on a complete graph (all-to-all interactions). In the
+synchronous version of the model that we use here time is rescaled by a factor 1/2. In
+the final regime S relaxes exponentially fast to 1.0, corresponding to the single direction
+of full order (see Fig. 2). We note that the decrease of S is monotonic at all times. This
+is because some directions may not be copied by any particle in a single step (mainly
+those directions followed by few particles), and thus these directions disappear from the
+system. Then, given that new directions are never created in the voter dynamics, S just
+decreases monotonically with time.
+     Solid lines in Fig. 2 correspond to Eq. (3), which reproduces quite well the
+evolution of S from simulations on a fully-connected system (all-to-all interactions),
+represented by empty circles. We also see that these mean-field (MF) curves agree
+very pwell with simulations on 2D for large particle densities. Indeed, as the box’s length
+L = N/ρ decreases with ρ, the MF limit of all-to-all interactions is achieved as ρ → ∞,
+independent on v, because L approaches the interaction range R = 1. Deviations from
+MF are evident for very low values of ρ (see ρ = 0.06 curve), where the number of
+neighbors is very small and local interactions rule the dynamics. We also observe that
+for low speed v = 0.1 [Fig. 2(a)] the agreement between MF and 2D is quite good for
+ρ ≥ 2, but for high speeds v = 20 [Fig. 2(b)] 2D results depart from the MF curve at a
+time around 103 . We shall discuss this fast decay of S for large speeds in section 4.
+     An approximate expression for the relation between ϕ and S can be obtained by
+assuming that the directions of particles are randomly distributed at all times, as we
+describe below. Even though this assumption is only strictly valid at t = 0 we shall
+see that it also works reasonable well for longer times. Let’s consider that, at a given
+time t, there are S(t) different independent directions in the system of particles, drawn
+uniformly in the (−π, π] range. The number of different directions at time t may vary
+between realizations, but here we assume that they are all equal to its mean number
+S(t). Then, we can rewrite the order parameter at time t from Eq. (2) in the form
+                        S(t)
+                      1 X
+              ϕ(t) =         nk (t) v~k ,                                               (4)
+                     vN
+                            k=1
+
+where the sum is over the different particles’ directions θkt labeled by the index k, which
+runs from 1 to its total number S(t). The number of particles
+                                                         P          moving in
+                                                                              the direction
+ t                                                             S(t)
+θk is denoted by nk (t) and is normalized at all times         k=1 nk (t) = N . As particles
+are initially assigned random directions, we have that S(0) = N and nk (0) = 1 for all
+k = 1, .., N. The evolution of the occupation numbers nk is not trivial, thus we make an
+
+===== PAGINA 7 =====
+
+Flocking dynamics with voter-like interactions                                                                                                        7
+
+      4                                                                                   4
+ 10                                                                                  10
+                                                                     (a)                                                                  (b)
+      3                                                                                   3
+ 10                                                                                  10
+
+S 102 1.2                                                                           S 102         8
+
+           SMF/S                                                                              SMF/S
+                                                                                                  6
+                                                                                                  4
+       1                                                                                  1
+  10          1                                                                      10           2
+                    2            4                                                                     2        4
+                   10        10                                                                       10       10
+      0
+                    time                                                                  0
+                                                                                                       time
+ 10 0                        1            2          3           4              5    10 0                  1             2       3    4          5
+   10                   10           10       10            10             10          10              10            10      10      10         10
+                                          time                                                                            time
+                                 Figure 2. Mean number of different directions S vs time for a system of N = 4000
+                                 particles, speeds v = 0.1 (a) and v = 20 (b), and densities ρ = 0.06 (circles), 2
+                                 (squares), 5 (diamonds) and 50 (triangles). Empty circles correspond to numerical
+                                 results of S on a fully-connected system (SMF ), while solid lines are the analytical
+                                 expression Eq. (3). Insets: Plots of SMF  (t)
+                                                                        S(t) as function of time for densities ρ = 5 and
+                                 50 in panel (a), and ρ = 2, 5 and 50 in panel (b). The peaks of the curves make evident
+                                 the departure of the FVM dynamics from the mean field case.
+
+
+approximation and assume that at all times t > 0 they are all equal to its mean value
+nk (t) ≃ N/S(t) (k = 1, .., S). Therefore, Eq. (4) can be written as
+                                                         S(t)
+                                          1
+                                                   v~k = |V~ |,
+                                               X
+                                 ϕ(t) ≃                                                                                                              (5)
+                                        v S(t) k=1
+                                                          PS(t)
+where we have defined the resulting vector V~ ≡ v S(t)1
+                                                             k=1 v
+                                                                 ~k . Given the assumption
+that all velocities v~k are independent and uniformly distributed in (−π, π], the respective
+x and y components of V~ , Vx and Vy , are uncorrelated. Then, from the central limit
+theorem we know that, in the S ≫ 1 limit, Vx and Vy are normally distributed with
+zero mean (hVx i = hVy i = 0)
+                                                                 2                                                  V2
+                                              1     V
+                                                   − x1       − y2
+                                 P (Vx ) = √
+                                         P (Vy ) = √
+                                                  e 2σx2 ,  e 2σy ,                      (6)
+                                             2πσx    2πσy
+and equal variance σ 2 = σ 2 = σ 2 = 1/(2S), and thus |V~ | is characterized by the Rayleigh
+                                          x      y
+distribution
+                            |V~ | − |V~ |22
+               P (|V~ |) =        e 2σ .                                         (7)
+                           2πσ 2
+Now, we can calculate the average value of the order parameter by implementing polar
+coordinates as
+                                                       |V~ |2 − |V~ |22
+                                     Z π Z ∞                            r
+                            ~                      ~                      π
+               hϕ(t)i = h|V |i =            dθ   d|V |      2
+                                                              e 2σ =        σ.   (8)
+                                      −π       0       2πσ                2
+                        √
+Finally, using σ = 1/ 2S we arrive to
+                        √
+                          π −1/2
+               hϕi ≃       S       .                                             (9)
+                         2
+
+===== PAGINA 8 =====
+
+Flocking dynamics with voter-like interactions                                                     8
+
+                               4
+                          10
+
+                               3
+                          10
+
+                               2
+                        S 10
+                               1
+                          10
+
+                               0
+                          10
+                              -2                      -1                   0
+                           10                    10        〈ϕ〉        10
+
+
+              Figure 3. Average number of different directions S vs average order parameter hϕi for
+              a system of N = 4000 particles, speed v = 0.1, and densities ρ = 0.06 (filled circles),
+              5 (squares) and 50 (triangles). Empty circles correspond to numerical results on a
+              fully-connected system, while the solid line is the analytical estimation from Eq. (9).
+
+
+In Fig. 3 we plot hϕi vs S obtained from computational simulations on a fully-connected
+system (empty circles) and on a 2D system for v = 0.1 and different densities, and
+compare with the behavior predicted by Eq. (9) (solid line). At t = 0 (S = N) the
+expression from Eq. (9) works very well because all velocities are actually randomly
+distributed, and thus the occupation number distribution is uniform (nk = 1 for all
+k = 1, .., N). Then, as groups of particles start to have the same direction the nk
+distribution deviates from uniform, and thus the assumption nk (t) ≃ N/S(t) for all k
+implemented above does not hold any more. However, for short times –or large values
+of S– the uniform approximation still works quite well, and the relation between ϕ and
+S for 2D systems is well described by Eq. (9), as we can see in Fig. 3.
+     Combining Eqs. (3) and (9) we arrive to the following approximate expression for
+the time dependence of hϕi
+                      √           1/2
+                        π 1 + t/2
+               hϕi ≃                    ,                                          (10)
+                       2      N
+indicated by a solid line in Fig. 1. Even though there are discrepancies between
+the numerics and the analytical expression Eq. (10) for t > 1, the algebraic increase
+       √
+hϕi ∼ t/N for intermediate times (dashed line) predicted by Eq. (10) seems to hold
+quite well for both particle densities. In Fig. 3 we can see that for a fixed value of S, 2D
+simulations (filled symbols) show more orientational order than the corresponding MF
+simulation (empty circles), as hϕi is larger in the former case. This is a consequence of
+the fact that in 2D the different directions of particles at a given time are not uniformly
+distributed in the (−π, π] interval. Instead, longer lasting directions tend to be similar.
+This happens because orthogonal directions quickly tend to annihilate each other, given
+that interactions (and alignments) are more frequent between particles with high relative
+cross section. This can be seen in the time = 6800 frame of Fig. 7 where the two largest
+
+===== PAGINA 9 =====
+
+Flocking dynamics with voter-like interactions                                             9
+
+clusters move almost parallel to each other.
+
+4. Consensus times
+
+A magnitude of interest in models that exhibit a complete order is the time to reach the
+final ordered state or consensus time. In Fig. 4(a) we plot the mean consensus time τ
+over many realizations as a function of the particle density ρ, for a system of N = 600
+particles and different speeds. We need to mention that there was a very small fraction
+of realizations that did not reach consensus, specially at low densities. Those realizations
+were not considered in the calculation of τ . In the static case scenario v = 0 (circles)
+τ decreases with ρ and approaches the MF value (τMF ≃ 2N = 1200) for large N [8, 9]
+(horizontal dashed line). As discussed in section 3, the MF limiting case is obtained
+               √
+when L ≤ 2 and thus each particle falls in the interaction range of any other particle.
+Therefore, for N = 600 this happens when ρ overcomes the value N/2 = 300. However,
+already for ρ ≃ 50 is τ ≃ τMF and the system behaves as in MF. In Fig. 4(b) we show
+the dependence of τ with the number of particles for v = 0 and different densities. For
+high densities, τ approaches the MF linear behavior τMF ≃ 2N (dashed line), but for low
+densities there are logarithmic deviations consistent with the 2D behavior τ ∼ N ln N
+[4, 5]. This crossover between 2D and MF can be better seen in the inset of Fig. 4(b),
+where we show τ /N vs N on a log-linear scale to capture logarithmic corrections. We
+observe that data points fall on a straight line with density dependent y-coordinate A(ρ)
+and slope B(ρ). As ρ increases, B goes to zero and A approaches 2.0, recovering the
+MF behavior.
+      The dynamic case scenario v > 0 is different from the static case v = 0, as τ
+exhibits a non-monotonic behavior with ρ. The mean consensus time τ is much larger
+than τMF for low densities, but it decays to values smaller than τMF as ρ increases and,
+after reaching a minimum value τmin , increases and saturates at the MF value. As
+expected, τ becomes independent of v at high densities. The behavior of τ with the
+system size N also shows interesting properties, as we see in Fig. 5(a) where we plot
+τ vs ρ for a fixed speed v = 20 and several values of N. The shape of all curves are
+non-monotonic, and the location of the minimum ρmin and its value τmin increase with
+N. When the data corresponding to each size N is shifted by the factors N 0.42 and
+N 0.765 on the x and y axis, respectively, all curves collapse into a single curve [see inset
+of Fig. 5(a)]. To obtain these scaling exponents we first selected a set of data points
+(ρmin , τmin ) around the minimum of each curve, over an interval of ρ where the curve τ (ρ)
+is approximately flat. The sets (τmin , N) and (ρmin , N) which consisted on 43 points each
+are plotted by dots in Fig. 5(b) and its inset, respectively, while circles correspond to
+average values for each N. By doing a linear regression analysis on a double logarithmic
+scale, ln(ρmin ) = α + β ln(N), we obtained the estimators β̂ = 0.42 and α̂ = −1.83 that
+provide the best fit to the (ρmin , N) data, and their associated error bars given by the
+95% confidence intervals β = 0.42 ± 0.09 and α = −1.83 ± 0.64, respectively. Then, we
+used the power-law best fit ρmin ≃ 0.16 N 0.42 to estimate ρmin for larger values of N (up
+
+===== PAGINA 10 =====
+
+Flocking dynamics with voter-like interactions                                                                                                    10
+
+
+          7
+     10                                                                                        30000
+
+          6                                     1024
+     10                                          τ
+                                                                                                                       2.8
+
+
+          5                                     512                                            20000                   2.6
+     10
+ τ                                                     0       5   10       15   20        τ                    τ/N 2.4
+          4                                                        ρ                                                2.2
+     10
+                                                                                               10000                    2
+          3                                                                                                                  2          3    4
+     10                                                                                                                 10         10       10
+                        (a)                                                                            (b)                          N
+          2
+     10                                                                                           0
+              10
+                   -3
+                        10
+                             -2
+                                  10
+                                       -1
+                                                     10
+                                                           0
+                                                                   10
+                                                                        1
+                                                                                  10
+                                                                                       2           0    5000   10000             15000           20000
+                                            ρ                                                                   N
+
+                        Figure 4. (a) Mean consensus time τ vs particle density ρ for a system of N = 600
+                        particles and speeds v = 0 (circles), v = 0.1 (triangles), v = 5 (diamonds) and
+                        v = 20 (squares). The horizontal dashed line denotes the mean field consensus time
+                        τMF ≃ 2N = 1200, while the upper dashed line is the approximation from Eq. (11).
+                        Inset: Same data on a linear-log scale showing the non-monotonic behavior regime. (b)
+                        τ vs N for v = 0 and densities ρ = 5 (circles), ρ = 10 (squares) and ρ = 21 (diamonds).
+                        The dashed line is the expression τ = 2N . Inset: τ /N vs N on a log-linear scale. Solid
+                        lines are the best linear fits A(ρ) + B(ρ) ln N , with coefficients A = 1.285, 1.668 and
+                        1.817 and slopes B = 0.170, 0.069 and 0.032 for densities ρ = 5, 10 and 21, respectively.
+
+
+
+to N = 76800) and calculated τmin for those estimated minima. The results are plotted
+in Fig. 5(b) where we observe that τmin follows an asymptotic power law in the interval
+2400 . N . 76800, with an exponent γ = 0.765 ± 0.018 (error bars were estimated
+using 25 data points for N = 2400, 4800, 9600, 19200, 38400 and 76800). We note that
+the scaling τmin ∼ N 0.765 is consistent with a consensus that is reached faster than in
+MF, where τ grows linearly with N.
+     The peculiar shape of τ vs ρ is a consequence of the non-trivial interplay between
+particles’ speed and the propagation of directions over the space. We understand that
+the approach to consensus depends on the relation between the time scales associated
+to these two processes –convection and diffusion–, which vary with ρ and v. Below we
+explore in more detail the origin of the non-monotonic behavior of τ with ρ. We first
+provide some scaling arguments that explain the behavior of τ in the limit of small
+densities and large speeds, and then study the clustering dynamics at intermediate and
+high densities.
+
+4.1. Limit of small densities and high speeds
+Let us consider the case where particles move fast, and so they travel such a long
+distance in each time step that their distribution remains nearly uniform over the
+box. This is so because the backward update [38] used in simulations involves two
+consecutive events: each particle first aligns its direction with a neighboring particle
+
+===== PAGINA 11 =====
+
+Flocking dynamics with voter-like interactions                                                                                                                           11
+
+
+        6
+   10
+                                                                                                                                                      1
+                                              2                                                                                                 10
+                                -0.765
+                                         10                                                                           slope = 0.42
+        5                                                                                                4                                      ρmin
+                                τN
+                                              1
+   10                                    10                                                         10
+                                              0                                                                                                       0
+                                         10        -3    -2           -1        0        1                                                     4 10
+ τ 104                                                                                       τmin
+                                                                                                                  2                 3
+                                              10        10     10          10       10                       10                10         10
+                                                              -0.42
+                                                        ρN                                                                      N
+                                                                                                         3
+                                                                                                    10
+        3                                                                                                                               slope = 0.765
+   10
+                                                                                (a)                                                                                (b)
+                                                                                                         2
+                 -2        -1                 0                   1                 2               10                            3                            4              5
+            10        10                 10                  10             10                                               10                           10             10
+                                          ρ                                                                                               N
+
+                      Figure 5. (a) τ vs ρ for speed v = 20 and system sizes N = 300 (circles), 600
+                      (squares), 1200 (diamonds), 2400 (up triangles) and 4800 (left triangles). Dashed lines
+                      are the analytic approximation 2N/πρ at low densities [Eq. (11)], for N = 1200, 600
+                      and 300 (from top to bottom). Inset: Rescaled τ vs rescaled ρ showing the collapse
+                      of the curves. (b) Auxiliary plots showing the regression lines with the exponents
+                      γ = 0.765 ± 0.018 and β = 0.42 ± 0.09 used in the inset of panel (a). Dots in the main
+                      plot and the inset correspond to the set of points (ρmin , τmin ) around the minima of the
+                      τ vs ρ curves of panel (a), while circles represent respective average values for each N .
+                      Main: Minimum mean consensus time τmin vs N . The straight line is the power-law
+                      fitting function τmin = 2.378 N 0.765 for the range 2400 ≤ N ≤ 76800. Inset: Density at
+                      the minimum value of τ , ρmin , vs N . The straight line is the best fit ρmin = 0.16 N 0.42
+                      to the data.
+
+
+
+and then moves a distance v with the old direction. As a consequence, for large
+speeds (v & L) aligned particles could be at any distance from each other, leading
+to a quite uniform spatial pattern. Therefore, we can assume that the system remains
+well mixed at high speeds and thus interactions are as in MF. Then, at each time
+step, direction updates take place only among those particles that have at least one
+neighboring particle inside their interaction range. For each particle this happens with
+probability p = 1 − (1 − πρ/N)N −1 ≃ πρ for πρ ≤ 1 ≪ N, assuming that particles
+are uniformly distributed. The fact that particles not always update their directions at
+every time step introduces a time delay in the alignment dynamics, which rescales the
+MF consensus time τMF ≃ 2N by a factor of 1/p (the mean number of attempts between
+interactions). Therefore, we arrive to
+                                2N
+                      τ≃                          for ρ ≤ π1 .                                                                                                       (11)
+                                πρ
+We observe in Fig. 4(a) that the expression from Eq. (11) (dashed line) gives a reasonable
+estimation of τ for high speed v = 20 in the limit of low densities. The power-law decay
+τ ∼ ρ−1 at low ρ is also observed for speed v = 5. Figure 5(a) shows how Eq. (11)
+performs as the system size is varied (dashed lines). We see that for densities in the
+range 0.01 < ρ < 0.5 the approximation is very good for N = 300 (bottom line), but
+
+===== PAGINA 12 =====
+
+Flocking dynamics with voter-like interactions                                          12
+
+it becomes worst for larger system sizes N = 600 (middle line) and N = 1200 (top
+line).pThis is because by increasing N, while keeping ρ and v fixed, the box’s length
+L = N/ρ increases and thus the ratio v/L eventually becomes small. Therefore, we
+expect that for large enough system sizes the well-mixed system assumption v & L
+does not hold any more, and thus the MF approximation is not longer valid. We also
+speculate that, for a fixed N, the agreement becomes better as ρ decreases and gets
+far from the minimum, as we can see for the N = 600 curve of Figs. 4(a) and 5(a).
+We observe as well that Eq. (11) underestimates the numerical data at intermediate
+densities, where the formation of clusters plays an important role, as we show in the
+next subsection.
+
+4.2. Clustering dynamics at intermediate and high densities
+For intermediate densities, the consensus turns to be faster than in MF. This is consistent
+with the behavior of the number of different directions S in Fig. 2. There we can see that
+S decays as in MF (S ∼ N/t) during an initial transient, but then it starts to decay faster
+(exponentially), leading to a consensus time that is smaller than τMF . This effect is more
+pronounced for large speeds [see Fig. 2(b)]. As we explain below, the departure observed
+in S from a power law to an exponential decay is caused by a dynamic reordering of the
+spatial pattern of interactions, from a well mixed system to structures localized in space.
+To explore this in more detail, we studied the time evolution of the mean number of
+neighbors hki (mean degree). Results are shown in Fig. 6 for N = 4000 (the same as in
+Fig. 2), v = 20 and various densities, where we observe that hki starts to increase very
+slowly from its initial value πρ –corresponding to a uniform distribution of particles–
+until it saturates for long times when the system reaches consensus. This increase in
+the number of neighbors suggests that particles aggregate into spatial clusters. Indeed,
+when two particles are less than a distance R = 1 apart they can align their directions
+and then move together until one of them changes direction by interacting with a third
+particle. Thus, one can see that alignment implies the “sticking” of nearby particles,
+forming large sets of particles that move together in the same direction. These structures
+can be seen in Fig. 7 for a system of N = 600 particles, with v = 0.1 and ρ = 0.1. The
+panels represent snapshots of the system at different times, showing the transition from
+a uniform distribution of particles moving in random directions at t = 0 (a), to a spatial
+segregation into clusters of particles with the same direction at t = 150 (b) and t = 470
+(c), and to a quasi-consensus state at t = 6800. The segregation occurs for higher
+densities as well, but clusters may overlap when densities are very high.
+     By comparing Fig. 2(b) with Fig. 6, we observe that the deviation of S from the
+MF value starts approximately when hki starts to be significantly larger than its initial
+value πρ; for instance at time t ≃ 400 for ρ = 2. This indicates that the formation
+of clusters speeds up the dynamics and the approach to consensus. It turns out that
+spatial segregation induces a drift in the transitions between directions, from directions
+followed by small clusters to directions of large clusters. In other words, large clusters
+
+===== PAGINA 13 =====
+
+Flocking dynamics with voter-like interactions                                            13
+
+                           200
+
+                           160
+
+                           120
+                       〈k〉
+                            80
+
+                            40
+
+                             0 0             1        2        3        4        5
+                             10         10       10       10       10       10
+                                                      time
+              Figure 6. Time evolution of the mean number of interacting neighbors hki, for
+              N = 4000, speed v = 20 and densities ρ = 0.06 (circles), ρ = 2 (squares), ρ = 5
+              (diamonds) and ρ = 50 (triangles).
+
+
+are more likely to gain particles while small clusters tend to loose particles. This might
+seem obvious in a typical coarsening dynamics like the one in the Ising model, where
+smaller clusters tend to vanish and the average size of clusters increases with time.
+However, ordering in the original voter dynamics is quite different because same-state
+domains gain and loose particles at the same rate, independent on their size, and thus
+coarsening is only driven by fluctuations. This is due to the fact that all opinion states
+are equivalent in the VM on regular topologies [39] and, as consequence, the average
+fraction of particles in each state is conserved at all times. Therefore, the drift or net
+flow of particles between any two states is zero in the VM.
+     To study whether the transitions to a given direction α are correlated with the
+number of particles with direction α (mass mα ), we define the drift from direction β to
+direction α at time t as
+                                 XN
+               D(β → α, t) ≡           p(θi → α, t),                                  (12)
+                                   i=1/θi =β
+
+where the sum is over all particles with direction θi = β, and p(θi → α, t) is the
+probability that particle i adopts the direction α at time t, calculated as the fraction of
+i’s neighbors with direction α. Then, the net drift from small to large clusters is defined
+as
+                       XX
+               D(t) =         sign(mα − mβ ) D(β → α, t),                              (13)
+                       α     β
+
+where sign(x) is a function that takes the value 1 (−1) for x > 0 (x < 0), and 0 for
+x = 0, thus it assigns a positive weight to drifts towards larger clusters, and a negative
+weight to drifts towards smaller clusters. Therefore, a positive (negative) value of D
+means that, in average, the net drift in the system is from smaller (larger) to larger
+(smaller) clusters. In Fig. 8(a) we show the time evolution of D averaged over 3 × 104
+
+===== PAGINA 14 =====
+
+Flocking dynamics with voter-like interactions                                                         14
+
+
+
+
+               Figure 7. (Color online) Snapshots showing the configuration of the system at
+               different times, composed by N = 600 particles with a density ρ = 0.1 and speed
+               v = 0.1. Particles are depicted by filled circles of radius 1.0, thus interacting particles
+               overlap in this scale. Arrows indicate the direction of motion of each cluster, shown in
+               a particular color.
+
+
+
+realizations, on a system with N = 600 particles moving at speed v = 5 and for various
+densities. We observe that D is larger than zero for all times, showing that there is
+a net drift from small to large clusters. This generates a positive feedback in which
+large clusters tend to increase their size while small clusters tend to shrink, and is in
+contrast with the MF behavior, where no direction has a prevalence on the others and
+thus D = 0 at all times. Therefore, the presence of a positive drift breaks the symmetry
+of the system and speeds up the evolution towards consensus, as compared to MF. We
+can check that the MF limit is achieved as ρ increases, where we see that D decreases
+and is already very small for ρ = 31.
+     As we can see in Fig. 8(b), the shape of the time derivative of hki agrees quite
+well with the shape of D(t), showing a direct relationship between clustering and drift.
+Also, D reaches a maximum when S starts to deviate from the MF curve [see Fig. 8(c)],
+indicating that the drift accelerates the evolution towards consensus. Figure 8 shows
+only the case of v = 5, but we found similar results for v = 0.1 and v = 20 as well. We
+speculate that the reason why larger clusters tend to increase their size more rapidly
+than smaller clusters is because particles that belong to larger clusters have, in average, a
+larger number of neighbors. And, it is known that in disordered topologies of interactions
+
+===== PAGINA 15 =====
+
+Flocking dynamics with voter-like interactions                                                                     15
+
+
+           3.0
+                                                    (a)                   0.05
+                                                                                                       (b)
+               2.5
+
+           2.0                                                            0.04
+
+                                                                d〈k〉/dt
+        D 1.5                                                             0.03
+
+           1.0                                                            0.02
+
+               0.5                                                        0.01
+
+           0.0 1                                                                0
+                                       2            3                              1           2               3
+             10                   10           10                               10        10           10
+                                       time                                                time
+
+               2.5                                                             200
+                                                    (c)                                                    (d)
+
+
+
+                                                                  Cov(m,<k>)
+           2.0
+
+       SMF/S                                                                   100
+               1.5
+
+
+           1.0                                                                   0
+                     1                 2            3                                 1        2           3
+                10                10           10                                10       10          10
+                                       time                                                    time
+
+                         Figure 8. Time evolution of four different magnitudes: (a) the net drift D from small
+                         to large clusters, (b) the time derivative of the mean number of neighbors hki, (c) the
+                         ratio between the mean number of directions in MF (SMF ) and in 2D (S) as defined
+                         in Fig. 2, and (d) the covariance cov(m, hki) between the size of a cluster and its mean
+                         degree. Simulations correspond to systems with N = 600 particles, speed v = 5 and
+                         densities ρ = 2 (circles), ρ = 9 (squares), ρ = 16 (diamonds) and ρ = 31 (triangles).
+
+
+
+like complex networks, the weighted magnetization (m = N
+                                                          P
+                                                             i=1 Si ki /N, with Si and ki
+the state and degree of node i, respectively) is conserved in the voter dynamics [39],
+rather than the state magnetization. This means that nodes are more likely to copy
+the opinion state of other nodes with large degrees, breaking the equivalence between
+states.
+     To check the relation between cluster size and mean degree we calculated the time
+evolution of the covariance cov(m, hki) between the mass m of a given cluster and the
+mean degree hki of the particles that belong to that cluster, regardless whether the
+neighbors belong to the same or to a different cluster. The evolution of the covariance
+averaged over many realizations is shown in Fig. 8(d). We observe a positive covariance
+between m and hki which shows that, indeed, larger clusters have more neighbors,
+increasing their chances to gain more particles. A similar result was obtained in the
+SVM for which bigger clusters have larger mean degrees as well [40]. The fact that
+larger clusters tend to have a larger mean degree and grow faster, breaks the symmetry
+of the FVM.
+
+===== PAGINA 16 =====
+
+Flocking dynamics with voter-like interactions                                           16
+
+5. Discussion and conclusions
+
+We proposed and studied a flocking model in which self-propelled particles interact via a
+simple dynamics of velocity imitation. We studied the ordering dynamics of the system
+and its approach to the fully ordered state (consensus) hϕi = 1. We found that the
+dynamics is characterized by an algebraic increase with time (hϕi ∼ t1/2 ) during an
+initial transient, and a final exponential approach to the ordered state. Interestingly,
+a similar ordering behavior is observed in the SVM model at zero noise, although the
+initial algebraic increase happens earlier, and thus the approach to order is much faster
+than in the FVM. We suspect that the scaling exponent 1/2 found in the noiseless SVM
+might be related to the coarsening exponents found in the ordered phase of the SVM
+with noise [41, 42]. The ordering in the FVM is related to the decreasing number of
+different directions of motion in the system, which is well explained by the MF theory of
+the multi-state voter model during a first stage. On a second stage, and for high enough
+particle density ρ, the ordering dynamics is faster than in MF due to a break in the
+symmetry of directional states that speeds up the dynamics. As a consequence, the mean
+time to reach consensus τ is non-monotonic with ρ, that is, there is an optimal density
+for which the system reaches full order in the shortest time. The shape of the τ vs ρ curve
+can be qualitatively explained in terms of three main mechanisms that act on different
+density scales. At low densities, the dynamics is limited by the sporadic encounters
+between particles that introduce a delay in the interactions and lead to large consensus
+times. At intermediate densities, the dynamics undergoes a breaking in the symmetry
+of transitions between directions, induced by the spatial segregation of particles into
+same-direction clusters. This symmetry breaking is enhanced by the motion of particles,
+generating a net mass drift from small to large clusters and accelerating the approach
+to consensus respect to the MF behavior. The sublinear scaling of the mean consensus
+time with N at the minimum of the τ vs ρ curve (τmin ∼ N 0.765 ) is consistent with a
+consensus that is faster than in MF. Finally, at high densities the MF case of all-to-all
+interactions is recovered.
+     We explored a voter-like dynamics acting on self-propelled agents subject to
+metric interactions, which by definition occur when two particles are less than a
+predefined cutoff distance apart. This type of interactions was adopted for its simplicity.
+Nevertheless, it is known that some social living organisms, like birds or humans, may
+interact in a different way, for instance by considering the first k closest neighbors
+regardless of the distance to them [43]. It would be worthwhile to study a system
+with voter-like interactions in this context. In particular, the density dependence of the
+dynamics could turn out to be very different with respect to the one found in this article,
+as it happens with the Vicsek model where the dynamics is essentially independent of
+the density in the case of non-metric interactions [44, 45]. Finally, a natural extension of
+the model would consist on the introduction of noise perturbing the direction of motion
+of particles as in the SVM. We plan to study this extended version of the FVM in a
+future work.
+
+===== PAGINA 17 =====
+
+Flocking dynamics with voter-like interactions                                                   17
+
+Acknowledgement
+
+We acknowledge discussions with Dr. J. Candia, Dr. E. Albano, Dr. T. Grigera and Dr.
+E. Loscar. We acknowledge financial support from CONICET (PIP 11220150100039CO
+and PIP 0443/2014) and Agencia Nacional de Promoción Cientı́fica y Tecnológica
+(PICT-2015-3628) (Argentina). G. Baglietto and F. Vazquez are members of CONICET.
+
+References
+
+ [1] Castellano C, Fortunato S and Loreto V 2009 Rev. Mod. Phys. 81 591646.
+ [2] P. Clifford, and A. Sudbury, Biometrika 60, 581 (1973).
+ [3] R. Holley and T. M. Liggett, Ann. Probab. 4, 195 (1975).
+ [4] P. L. Krapivsky, Phys. Rev. A 45, 1067 (1992).
+ [5] L. Frachebourg, and P. L. Krapivsky, Phys. Rev. E 53, 3009(R) (1996).
+ [6] O. Al Hammal, H. Chaté, I. Dornic, and M. A. Muñoz, Phys. Rev. Lett. 94, 230601 (2005).
+ [7] F. Vazquez and C. López, Phys. Rev. E 78, 061127 (2008).
+ [8] M. Starnini, A. Baronchelli, and R. Pastor-Satorras, J. Stat. Mech. 2012, 10027 (2012).
+ [9] W. Pickering and C. Lim, Phys. Rev. E 93, 032318 (2016).
+[10] Durrett R and Levin S A 1996 J. Theor. Biol. 179 119.
+[11] Chave J and Leigh E G 2002 Theor. Popul. Biol. 62 153.
+[12] Zillio T, Volkov I, Banavar J R, Hubbell S P and Maritan A 2005 Phys. Rev. Lett. 95.
+[13] Mobilia M 2003 Phys. Rev. Lett. 91 028701.
+        Mobilia M and Georgiev I T 2005 Phys. Rev. E 71 046102.
+        Mobilia M, Petersen A and Redner S 2007 J. Stat. Mech. P08029.
+[14] Vazquez F, Krapivsky P L and Redner S 2003 J. Phys. A: Math. Gen. 36 L61.
+        Vazquez F and Redner S 2004 J. Phys. A: Math. Gen. 37 8479-94.
+[15] Castelló X, Eguluz V M and San Miguel M 2006 New J. Phys. 8 308; Stauffer D, Castell X, Eguluz
+        V M and San Miguel M 2007 Physica A 374 835-42.
+[16] Antal T, Redner S and Sood V 2006 Phys. Rev. Lett. 96 188104.
+[17] Medeiros N G F, Silva A T C and Moreira F G B 2006 Phys. Rev. E 73 046120.
+[18] Dall’Asta L. and Castellano C., Europhys. Lett. 77 60005 (2007).
+[19] H.-U. Stark, C. J. Tessone, and F. Schweitzer, Physical Review Letters 101, 018701 (2008).
+[20] Naoki Masuda, N. Gibert, and S. Redner Phys. Rev. E 82, 010103 (2010).
+[21] Anthony Woolcock, Colm Connaughton, Yasmin Merali, and Federico Vazquez, Phys. Rev. E 96,
+        032313 (2017).
+[22] Sousa A. O., Yu-Song T. and Ausloos M., Eur. Phys. J. B, 66 (2008) 115.
+[23] Eur. Phys. Lett. 105, (2014) 30007.
+[24] Phys. Rev. E 95, 052308 (2017).
+[25] T. Vicsek, and A. Zafiris, Phys. Rep. 517, 71 (2012).
+[26] M. C. Marchetti, J. F. Joanny, S. Ramaswamy, T. B. Liverpool, J. Prost, Madan Rao, and R.
+        Aditi Simha, Rev. Mod. Phys, 85, 1143, (2013).
+[27] A. M. Menzel, Phys. Rep. 554, 1 (2015).
+[28] I. D. Couzin, C. C. Ioannou, G. Demirel, T. Gross, C. J. Torney, A. Hartnett, L. Conradt, S. a.
+        Levin, and N. E. Leonard, Science 334, 1578 (2011).
+[29] C. Huepe, G. Zschaler, A.-L. Do, T. Gross, New J. Phys. 13, 073022 (2011).
+[30] Buhl J, Sumpter D J T, Couzin I D, Hale J J, Despland E, Miller E R and Simpson S J 2006
+        Science 312 14026.
+[31] R. Martı́nez-Garcı́a, C. López, and F. Vazquez, Phys. Rev. E 91, 022117 (2015).
+[32] M. Aldana, V. Dossetti, C. Huepe, V.M. Kenkre and H. Larralde, Phys. Rev. Lett., 98, 095702
+        (2007).
+
+===== PAGINA 18 =====
+
+Flocking dynamics with voter-like interactions                                                    18
+
+[33] T. Vicsek, A. Czirók, E. Ben-Jacob, I. Cohen, and O. Shochet, Phys. Rev. Lett. 75, 1226 (1995).
+[34] Yen-Liang Chou and Thomas Ihle, Phys. Rev. E 91, 022103 (2015).
+[35] P. Holme and M. E. J. Newman, Phys. Rev. E 74, 056108 (2006).
+[36] F. Vazquez, V. M. Eguı́luz, and M. San Miguel, Phys. Rev. Lett. 100, 108702 (2008).
+[37] F. Vazquez, Opinion dynamics on coevolving networks. Dynamics On and Of Complex Networks,
+        Volume 2, Modeling and Simulation in Science, Engineering and Technology, pages 89-107.
+        Springer New York, (2013).
+[38] G. Baglietto, and E. V. Albano, Phys. Rev. E 80, 050103(R) (2009).
+[39] K. Suchecki, V. M. Eguı́luz and M. San Miguel , Europhys. Lett. 69, 228 (2005).
+[40] G. Baglietto, E. V. Albano, and J. Candia, J. Stat, Phys. 153, 270 (2013).
+[41] H. Chaté, F. Ginelli, G. Grégoire, and F. Raynaud, Phys. Rev. E 77, 046113 (2008).
+[42] S. Dey, D. Das, and R. Rajesh, Phys. Rev. Lett. 108, 238001 (2012).
+[43] M. Ballerini, N. Cabibbo, R. Candelier, A. Cavagna, E. Cisbani, I. Giardina, V. Lecomte, A.
+        Orlandi, G. Parisi, A. Procaccini, M. Viale, and V. Zdravkovic, PNAS 105, 1232 (2008).
+[44] F. Ginelli and H. Chaté, Phys. Rev. Lett. 105 168103 (2010).
+[45] A. Peshkov, S. Ngo, E. Bertin, H. Chaté, and F. Ginelli, Phys. Rev. Lett. 109, 098101 (2012).
+

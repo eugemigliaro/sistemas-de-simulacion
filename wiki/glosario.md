@@ -3,6 +3,7 @@
 Definiciones breves. Los temas enlazados desarrollan las relaciones entre conceptos.
 
 - **Animación:** representación visual de una secuencia; puede derivar de una simulación, pero no es equivalente a ella [T00, p. 64].
+- **Autómata celular:** arreglo regular de celdas con estados discretos, actualización sincrónica y una regla local uniforme [T02, p. 3].
 - **Barra de error:** representación de la dispersión o incertidumbre asociada a un valor agregado; su significado debe declararse [T00, p. 69].
 - **Cell Index Method:** método que divide el dominio en celdas y restringe las comparaciones de distancia a la celda propia y sus vecinas [T01, p. 21].
 - **Comportamiento emergente:** patrón colectivo espontáneo, de escala mayor que un agente, generado por muchos agentes simples e interacciones locales [T01, p. 15].
@@ -13,11 +14,17 @@ Definiciones breves. Los temas enlazados desarrollan las relaciones entre concep
 - **Espacio de estados:** conjunto de valores posibles de las variables de estado [T00, p. 27].
 - **Estado:** información que, junto con la entrada futura, determina unívocamente la salida [T00, p. 26].
 - **Lista de vecinos:** asociación de cada partícula con las partículas situadas dentro del alcance de interacción [T01, p. 20] [T01, p. 27].
+- **Lattice gas:** modelo de partículas discretas que se propagan y colisionan sobre una retícula conservando masa y momento [T02, p. 29] [T02, p. 30].
+- **Modelo de Vicsek:** modelo *off-lattice* de partículas autopropulsadas que alinean su dirección con el promedio local más ruido [T02, p. 40] [T02, p. 42].
+- **Modelo votante de bandadas:** variante en la que cada partícula copia la dirección de una vecina elegida al azar, más ruido [TP02, p. 2].
 - **Materia activa:** sistema de unidades autopropulsadas cuyo aporte de energía ocurre localmente a escala de agente [T01, p. 6].
 - **Modelo:** abstracción o simplificación no única de un sistema real [T00, p. 16].
 - **Modelo dinámico:** modelo con memoria, cuya salida depende de entradas o estados anteriores [T00, p. 34].
 - **Modelo estocástico:** modelo en el que al menos una entrada es aleatoria [T00, p. 40].
 - **Observable:** cantidad medible o calculada que caracteriza la respuesta del sistema; puede evolucionar en el tiempo o resumirse en un escalar [T00, p. 22].
+- **Polarización:** módulo de la velocidad media normalizada; vale cerca de cero en desorden y cerca de uno en alineación global [T02, p. 44].
+- **Vecindad de Moore:** celdas cuya diferencia por coordenada respecto de la celda central no supera el alcance $r$ [T02, p. 12].
+- **Vecindad de von Neumann:** celdas cuya distancia Manhattan respecto de la celda central no supera el alcance $r$ [T02, p. 12].
 - **Radio de corte:** distancia a partir de la cual una interacción se descarta en un modelo de corto alcance [B03, p. 1].
 - **Salida:** respuesta producida por el modelo ante entradas y estado [T00, p. 16] [T00, p. 28].
 - **Simulación:** ejecución computacional que reproduce el comportamiento de un modelo y genera salidas analizables [T00, p. 62] [T00, p. 63].

@@ -1,0 +1,317 @@
+FUENTE: B14
+TITULO: Novel Type of Phase Transition in a System of Self-Driven Particles — Vicsek et al.
+ORIGINAL: material/externo/bibliografia-2/NovelTypePhaseTransition2.pdf
+PAGINAS: 4
+
+===== PAGINA 1 =====
+
+VOLUME 75, NUMBER 6                       PH YS ICAL REVIEW                 LETTERS                                7 AUGUs~ 1995
+
+
+                  Novel Type of Phase Transition in a System of Self-Driven Particles
+
+                 Tamas Vicsek,     '   Andras Czirok, ' Eshel Ben-Jacob,     Inon Cohen,     and Ofer Shochet
+                    Department of Atomic Physics, Eotvos University, Budapest, Puskin u 5-7, 1088 Hungary
+                                                                             0
+                              2Institute for Technical Physics, Budapest, P B . 76. , .1325 Hungary
+                                 3School of Physics, Tel Aviv -University, 69978 Tel Aviv-, Israel
+                                                     (Received 25 April 1994)
+               A simple model with a novel type of dynamics is introduced in order to investigate the emergence
+             of self-ordered motion in systems of particles with biologically motivated interaction. In our model
+             particles are driven with a constant absolute velocity and at each time step assume the average direction
+             of motion of the particles in their neighborhood   with some random perturbation (g) added. We present
+             numerical evidence that this model results in a kinetic phase transition from no transport (zero average
+             velocity, ~v, ( = 0) to finite net transport through spontaneous symmetry breaking of the rotational
+             symmetry.     The transition is continuous, since ~v, is found to scale as (71, —g)t with p = 0.45.
+                                                                ~
+
+
+
+
+             PACS numbers: 87. 10.+e, 64.60.—i
+
+
+
+   One of the most interesting aspects of many particle             elementary event is the motion of a particle between two
+systems is that they exhibit a complex cooperative behav-           time steps. Thus the analogy can be formulated as fol-
+ior during phase transition [1]. This remarkable feature            lows: The rule corresponding to the ferromagnetic inter-
+of equilibrium systems has been studied in great detail for         action tending to align the spins in the same direction, in
+the last couple of decades leading to a deeper understand-          the case of equilibrium models, is replaced by the rule of
+ing of processes which may take place in an assembly of             aligning the direction of motion of particles in our model
+interacting particles. Concepts like scaling, universality,         of cooperative motion. The level of random perturbations
+and renormalization have resulted in a systematic picture           we apply are in analogy with the temperature.
+of a wide range of systems in physics [1,2].                           Beyond the above aspects, the proposed model
+   Recently, there has been an increasing interest in the           is interesting    because of possible applications      in a
+rich behavior of systems which are far from equilibrium.            wide range of biological           systems    involving clus-
+Processes such as aggregation, viscous fIows, or biologi-           tering and migration.        Biological subjects have the
+cal pattern formation have been shown to involve scaling            tendency to move as other subjects do in their neigh-
+of the related geometrical and dynamic quantities char-             borhood [9]. In addition to such trivial examples as
+acterizing these phenomena [3,4]. As a further similarity           schools of fish, herds of quadrupeds, or Rocks of Hying
+with equilibrium systems, the existence of phase transition         birds, our model can be applied to the less known phe-
+type behavior has also been demonstrated in several inves-          nomena during bacterial colony growth [10]. There are
+tigations of growth processes [5 —8]. These analogies with          bacteria (e.g. , a strain of Bacillus Subtilis) which exhibit
+the basic features of equilibrium systems have represented          cooperative motion in order to survive under unfavorable
+a particularly important contribution to the understanding          conditions. The present model, with some modifications,
+of the complex behavior of nonequilibrium processes.                is already capable of reproducing the main observed
+   In this work we introduce a model with a novel type              features of the motion (collective rotation and llocking)
+of dynamics in order to investigate clustering, transport,          of bacteria [10]. Other biologically motivated, recent
+and phase transition in nonequilibrium      systems where the       theoretical investigations of clustering, aggregation, and
+velocity of the particles is determined by a simple rule            orientational order in systems with diffusing directed
+and random fluctuations.       The only rule of the model           objects have concentrated on the possible spatial patterns
+is at each time step a given particle driven with a                 arising from an integro-differential equation approach and
+constant absolute velocity assumes the average direction            from cellular automata type models [11].
+of motion of the particles in its neighborhood of radius r              Furthermore, we expect that our model can be used
+with some random perturbation added. We show using                  to interpret the results of experiments on clustering and
+simulations that, in spite of its simplicity, this model            convection in a system of disks floating on air table
+results in a rich, realistic dynamics, including a kinetic          [12]. These experiments represent a physically motivated
+phase transition from no transport to finite net transport          possible application of the present model, since they
+through spontaneous symmetry breaking of the rotational             are being carried out in order to understand the How
+symmetry.                                                           of granular materials under specific conditions. We are
+   In this sense our model is a transport related, nonequi-         aware that two groups are working on developing models
+librium analog of the ferromagnetic type of models, with            similar to ours in order to interpret these air table
+the important difference that it is inherently dynamic: The         experiments [13].
+
+
+1226                 0031-9007/95/75(6) /1226(4) $06.00                 1995 The American Physical Society
+
+===== PAGINA 2 =====
+
+VOLUME 75, NUMBER 6                     PHYS ICAL REVIEW LETTERS                                                7 AUGvsT 1995
+
+   The actual simulations were carried out in a square           (a)   ~ p   q~&.     ~    "„~ (b)
+shaped cell of linear size L with periodic boundary
+conditions.    The particles were represented by points
+moving continuously       (off lattice) on the plane. We
+used the interaction radius r as the unit to measure
+distances (r = 1), while the time unit At = 1 was the
+time interval between two updatings of the directions
+and positions.    In most of our simulations we used the
+simplest initial conditions: (i) at time t = 0, N particles
+were randomly distributed in the cell and (ii) had the
+same absolute velocity v and (iii) randomly distributed
+directions 0. the velocities (v;) of the particles were
+determined simultaneously      at each time step, and the
+position of the ith particle updated according to
+
+
+
+Here the velocity of a particle v; (r + 1) was constructed
+to have an absolute value v and a direction given by
+the angle 0(t + 1). This angle was obtained from the            FIG. l.    In this figure the velocities of the particles are
+expression                                                      displayed for varying values of the density and the noise. The
+                                                                actual velocity of a particle is indicated by a small arrow, while
+                                                                their trajectory for the last 20 time steps is shown by a short
+                                                                continuous curve. The number of particles is N = 300 in each
+where (0(t))„denotes the average direction of the               case. (a) t = 0, L = 7, rj = 2.0. (b) For small densities and
+                                                                noise the particles tend to form groups moving coherently in
+velocities of particles (including        particle i) being     random directions, here L = 25, ri = 0. 1. (c) After some
+within a circle of radius r surrounding        the given par-   time at higher densities and noise (L = 7, 71 = 2.0) the
+ticle. The average direction was given by the angle             particles move randomly with some correlation. (d) For higher
+arctan[(sin (0(t))„/(cos (0(t)))„]. In Eq. (2) 50 is a          density and small noise (L = 5, rl = 0. 1) the motion becomes
+random number chosen with a uniform probability from            ordered. All of our results shown in Figs. 1 —3 were obtained
+                                                                from simulations in which v was set to be equal to 0.03.
+the interval [—rI/2, g/2]. Thus the term 50 represents
+noise, which we shall use as a temperaturelike variable.
+Correspondingly,      there are three free parameters for a
+given system size: g, p, and v, where v is the distance             Figures 1(a) —1(d) demonstrate the velocity fields dur-
+a particle makes between two updatings.                         ing runs with various selections for the value of the pa-
+   We have chosen this realization because of its simplic-      rameters p and g. The actual velocity of a particle is in-
+ity, however, there may be several more interesting alter-      dicated by a small arrow, while their trajectory for the last
+natives of implementing the main rules of the model. In         20 time steps is shown by a short continuous curve. (a) At
+particular, the absolute value of the velocities does not       t = 0 the positions and the direction of velocities are dis-
+have to be fixed, one can introduce further kinds of parti-     tributed randomly.    (b) For small densities and noise the
+cle interactions and or consider lattice alternatives of the    particles tend to form groups moving coherently in ran-
+model. In the rest of this paper we shall concentrate on        dom directions. (c) At higher densities and noise the par-
+the simplest version, described above, and investigate the      ticles move randomly with some correlation. (d) Perhaps
+nontrivial behavior of the transport properties as the two      the most interesting case is when the density is large and
+basic parameters of the model, the noise g and the density      the noise is small; in this case the motion becomes or-
+p = N/L, are varied. We used v = 0.03 in the simula-            dered on a macroscopic scale and all of the particles tend
+tions we report on for the following reasons. In the limit
+v ~    0 the particles do not move and the model becomes
+                                                                to move in the same spontaneously selected direction.
+an analog of the well-known XY model. For v        ~    ~ the       This kinetic phase transition is due to the fact that
+                                                                the particles are driven with a constant absolute velocity;
+particles become completely mixed between two updates,          thus, unlike standard physical systems in our case, the net
+and this limit corresponds to the so-called mean-field be-      momentum of the interacting particles is not conserved
+havior of a ferromagnet. We use v = 0.03 for which the          during collision. We have studied in detail the nature of
+particles always interact with their actual neighbors and       this transition by determining the absolute value of the
+move fast enough to change the configuration after a few        average normalized velocity
+updates of the directions. According to our simulations,
+in a wide range of the velocities (0.003 & v & 0.3), the                                       1
+actual value of v does not affect the results.
+                                                                                      Va
+                                                                                             Nv
+                                                                                                    Pv,                        (3)
+
+
+                                                                                                                            1227
+
+===== PAGINA 3 =====
+
+VOLUME 75, NUMBER 6                                     PH YS ICAL REVIEW      LETTERS                                                                            7 AUcUsT 1995
+
+of the entire system of particles as the noise and the                ing [see Fig. 3(a)]. Only an extremely unusual crossover
+density were changed.       This velocity is approximately            could change this tendency. A plausible physical picture
+zero if the direction of the motion of the individual                 behind our finding is the following:      Since the particles
+particles is distributed randomly, while for the coherently           are diffusing, there is mixing in the system resulting in an
+moving phase (with ordered direction of velocities) v, =              effective (long range) interaction radius.
+1 so that we can consider the average velocity as an order               Thus we can assume that in the thermodynamic          limit
+parameter.                                                            our model exhibits a kinetic phase transition analogous
+   First we gradually decreased the amount of noise g in              to the continuous phase transition in equilibrium systems,
+cells of various sizes for a fixed density p and observed             i.e. ,
+a transition from a disorderly moving phase to a phase
+                                                                                                              and
+with a coherent motion of the particles [Fig. 2(a)]. The
+uncertainty of the data points is within the range of the                                                                                                                     (4)
+symbols except for runs carried out with 4000 and 10000
+                                                                      where    P and 6 are critical exponents and rI, (p) and
+                                                                      p, (rI) are the critical noise and density (for L ~ ~),
+particles close to the transition.  For these g values the
+statistical errors estimated from five runs with different
+                                                                      respectively.  We can determine p and 6 corresponding
+initial conditions are in the range of 5% (resulting in an
+                                                                      to the rate of vanishing of the order parameter from
+overlap of the results for a limited number of zI values)
+                                                                      plotting ln v, as a function of ln([rI, (L) —rI]/zj, (L))
+due to the slow convergence and large fluctuations.       In
+                                                                      and ln([p —p, (L)]/p, (L)) for some fixed values
+Fig. 2(b) we show how v, changes if the noise is kept
+                                                                      of p and ri, respectively (Fig. 3). For finite sizes
+constant and the density is increased.
+   Quite remarkably, the behavior of the kinetic order pa-
+                                                                      rj, (L) and p, (L) are L dependent; thus we used such
+                                                                      values of quantities for which the plots in Fig. 3 were
+rameter Ij, is very similar to that of the order parameter
+                                                                      the straightest in the relevant region of noise or density
+of some equilibrium systems close to their critical point.
+                                                                      values. The slope of the lines fitted to the data can
+The strongest indication of a transition in our nonequilib-
+                                                                      be associated with the critical exponents for which we
+rium model is the fact that as we go to larger system sizes
+                                                                      obtained p = 0.45 ~ 0.07 and 6 = 0.35 ~ 0.06. The
+the region over which the data show scaling is increas-
+                                                                      errors in determining P and 6 are due to the uncertainties
+                                                                      in the (i) v, and the (ii) rI, (L) and p, (L) values. Since
+
+
+                                                                                        1.0—
+                    0.8—                                                                         G
+             'Ua                                                                                 +
+                                                                                                 X
+                    0.6—
+                                                                                        0.5 —    0
+                    0.4—
+
+
+
+                                                                                        02 — x
+                     0
+                          0
+                              I
+
+
+
+                                  1.0   2.0       3.0   4.0   5.0                                0
+                                                                                                     I    I     I       I   I   I   I   t   I             I
+                                                                                                                                                              (a)
+                                                                                                                                                              I   I   I
+
+
+
+                                                                                          0.01           0.03                           0. 1        0.3                   1
+
+                    0.8                                                                                   (~, (L) —ri)/q, (1)
+
+                                                                                        0.8
+                    0.6                                                                                                                                           pp
+             Vg
+                                                                                        0.6—
+                    0.4
+                                                                                        0.5—
+
+
+
+
+                     0
+                          0             4         6     8     10
+                                              0                                                                                                               b)
+                                                                                                                    I
+
+
+
+
+FIG. 2.   (a) The   absolute value of the average velocity                                0. 1           0.3                                    1
+
+(v, ) versus the noise 7I in cells of various sizes for                                                   (a —e.(L))/e. (-L)
+a fixed density p. The symbols correspond          to
+N = 40, L = 3 1 + N = 100, L = 5 X N = 400, L =                       FIG. 3. Dependence of lnv, on In([rj, (L) —rl]/tI, (L)) and
+10;6:   N = 4000, L = 31.6; C': N = 10000, L = 50.        In          ln([p —p, (L)]/p, (L)). The slope of the lines fitted to the
+(b) (for L = 20) we show how v, changes if the noise is kept          data can be associated with the critical exponents P and B.
+constant and the density is increased.                                (a) is for p = 0 4, (b) is for L = 20 and rI = 2 0.
+
+===== PAGINA 4 =====
+
+VOLUME 75, NUMBER 6                    PHYSICAL REVIEW LETTERS                                               7 AUrUsT 1995
+
+the scaling plots in Fig. 3 depend sensitively on the           indicate that a model with hard core repulsion and specific
+choice of the critical noise and density and our method of      boundary conditions can be successfully used to interpret
+determining their value is indirect (from the straightness      recent observations of coherent motions in geometrically
+of the data sets), we give rather conservative estimates for    complex bacterial colonies growing on soft agar surfaces
+the errors of P and B.                                          [10,16—18].
+   We have carried out a finite size scaling analysis of           The present research in part was supported by the
+7i, (L) and obtained ri, (~) = 2.9 ~ 0.05 for p = 0.4           Hungarian Research Foundation Grant No. T4439, by a
+(note that the "infinite temperature" limit of our model        grant from the German-Israeli Foundation for Scientific
+is zl, = 2')     As. indicated, rl, depends on p, in fact, we   Research and Development, and by the Program for
+expect a phase diagram (a line of critical temperatures)        Alternative Thinking at Tel-Aviv University.
+analogous to that of disordered ferromagnets, g, playing
+the role of temperature, and p playing the role of the
+density of spins.      In this case P and 8 are expected
+to have the same value. On the other hand, strong                [1] H. E. Stanley, Introduction  to Phase Transitions and
+crossover effects are likely to effect their actual values           Critical Phenomena    (Oxford University Press, Oxford,
+in a finite size simulation.     Although our estimates for          1971).
+P and 6 are different, on the basis of our simulations           [2] See, e.g. , S.-k. Ma, Statistical Mechanics (World Scien-
+we cannot exclude the possibility (allowed by our error              tific, Singapore, 1985); Modern Theory of Critical Phe
+                                                                     nomena (Benjamin, New York, 1976).
+bars) that they become equal in the thermodynamic limit.
+However, the determination of the phase diagram and a            [3] P. Meakin, in Phase Transitions and Critical Phenomena,
+                                                                     edited by C. Domb and J. Lebowitz (Academic Press, New
+more precise calculation of the exponents of our new
+                                                                     York, 1987), Vol. 12.
+model are outside of the scope of the present work,              [4] T. Vicsek, Fractal Growth Phenomena (World Scientific,
+which concentrates on demonstrating the main features of             Singapore, 1992).
+a novel nonequilibrium system.                                   [5] Surface Disordering, edited by R. Jullien, J. Kertesz,
+   The emergence of cooperative motion in our model                  P. Meakin and D. Wolf (Nova Science, New York, 1992).
+has analogies with the appearance of spatial order in            [6] J. Kertesz and D. E. Wolf, Phys. Rev. Lett. 62, 2571
+equilibrium    systems.    This fact and the simplicity of           (1989).
+our model suggests that, with appropriate modifications,         [7] N. Martys, M. Cieplak, and M. O. Robbins, Phys. Rev.
+the theoretical methods for describing critical phenomena            Lett. 66, 1058 (1991).
+may be applicable to the present kind of far-from-               [8] Z. Csahok, K. Honda, E. Somfai, M. Vicsek, and
+                                                                     T. Vicsek, Physica (Amsterdam) 200A, 136 (1993).
+equilibrium phase transition. The kinetic phase transitions
+                                                                 [9] D. P. O' Brien, J. Exp. Mar. Biol. Ecol. 128, 1 (1989).
+which have been observed in surface growth models [5—
+                                                                [10] E. Ben-Jacob, A. Czir6k, I. Cohen, O. Shochet, A. Ten-
+8] are both in analogy and different from the situation              enbaum, and T. Vicsek (to be published).
+described here. The similarity is in the scaling behavior       [11] L. Edelstein-Keshet and G. B. Ermentrout, J. Math. Biol.
+of an inherently nonequilibrium order parameter, while               29, 33 (1990).
+the two kinds of processes are distinct from the point          [12] J. Lemaitre, A. Gervois, H. Peerhossaini, D. Bideau, and
+of the driving force acting on the particles. Self-driven            J. P. Troadec, J. Phys. 23, 1396 (1990).
+particles are uncommon in physics, but they are typical in      [13] H. J. Herrmann (private communication) .
+biological systems, including live organisms and the so-        [14] See, e.g. , R. D. Astumian and M. Bier, Phys. Rev. Lett.
+called "molecular motors", having attracted great interest           72, 1766 (1994).
+recently [14]. Transitions have been observed in traffic        [15] See, e.g. , K. Nagel and H. J. Herrmann, Physica (Amster-
+                                                                     dam) 199A, 254 (1993), and references therein.
+models [15] consisting of particles (cars) which can also
+                                                                [16] E. Ben-Jacob, H. Shmueli, O. Shochet, and A. Tenen-
+be interpreted as self-driven particles.                             baum, Physica (Amsterdam) 187A, 378 (1992).
+   There are interesting further variations of the model        [17] E. Ben- Jacob, I. Cohen, O. Shochet, A. Tenenbaum,
+investigated in this work. It is expected that taking                A. Czir6k, and T. Vicsek, Nature (London) 368, 46
+into account a hard core term in the interaction or                  (1994).
+using semiperiodic or open boundary conditions results in       [18] T. Matsuyama, R. M. Harshey, and M. Matsushita, Frac-
+additional nontrivial effects. Our preliminary results [10]          tals 1, 302 (1993).
+
+
+
+
+                                                                                                                         1229
+
