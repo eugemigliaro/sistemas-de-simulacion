@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tp2analysis"
+version = "0.1.0"
+description = "Análisis y animación independientes para el TP2"
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib",
+    "pillow",
+]
+
+[project.scripts]
+tp2analysis = "tp2analysis.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

@@ -1,0 +1,10 @@
+{
+  "binary": "cpp/build/release/tp2",
+  "output_dir": "experiments/raw/pilot",
+  "models": ["vicsek", "voter"],
+  "densities": [2, 4, 8],
+  "etas": [0, 0.25, 0.5, 0.75, 1],
+  "seeds": [1, 2],
+  "steps": 1000,
+  "M": 9
+}
