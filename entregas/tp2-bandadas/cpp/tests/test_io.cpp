@@ -37,12 +37,14 @@ void test_small_run_writes_reproducible_shape() {
     EXPECT_TRUE(summary.observations_written == 3);
     EXPECT_TRUE(
         trajectory.str().starts_with(
-            "model,density,eta,seed,time,id,x,y,vx,vy,angle\n"
+            "model,density,particle_count,side,cells_per_side,cutoff,"
+            "speed,time_step,eta,seed,time,id,x,y,vx,vy,angle\n"
         )
     );
     EXPECT_TRUE(
         observations.str().starts_with(
-            "model,density,eta,seed,time,polarization,"
+            "model,density,particle_count,side,cells_per_side,cutoff,"
+            "speed,time_step,eta,seed,time,polarization,"
         )
     );
 

@@ -1,3 +1,5 @@
+#include <cmath>
+#include <cstdint>
 #include <numbers>
 #include <random>
 
@@ -74,6 +76,65 @@ void test_voter_includes_self_for_isolated_particle() {
     );
 }
 
+void test_voter_can_copy_self_or_neighbor() {
+    bool copied_self = false;
+    bool copied_neighbor = false;
+    for (std::uint64_t seed = 0; seed < 100; ++seed) {
+        tp2::System system{
+            .side = 10.0,
+            .particles = {
+                particle(1, 5.0, 5.0, 0.0),
+                particle(2, 5.2, 5.0, std::numbers::pi_v<double> / 2.0),
+            },
+        };
+        const auto neighbors = tp2::brute_force_neighbors(system, 1.0).neighbors;
+        const tp2::DynamicsConfig config{
+            .model = tp2::AlignmentModel::Voter,
+            .cutoff = 1.0,
+            .speed = 0.03,
+            .time_step = 1.0,
+            .eta = 0.0,
+        };
+        std::mt19937_64 generator{seed};
+        tp2::advance(system, neighbors, config, generator);
+        copied_self = copied_self || std::abs(system.particles[0].angle) < 1e-12;
+        copied_neighbor = copied_neighbor || std::abs(
+            system.particles[0].angle - std::numbers::pi_v<double> / 2.0
+        ) < 1e-12;
+    }
+    EXPECT_TRUE(copied_self);
+    EXPECT_TRUE(copied_neighbor);
+}
+
+void test_noise_uses_normalized_eta_amplitude() {
+    constexpr double eta = 0.25;
+    constexpr double amplitude = eta * std::numbers::pi_v<double>;
+    bool saw_positive = false;
+    bool saw_negative = false;
+    for (std::uint64_t seed = 0; seed < 100; ++seed) {
+        tp2::System system{
+            .side = 10.0,
+            .particles = {particle(1, 5.0, 5.0, 0.0)},
+        };
+        const tp2::NeighborList neighbors(1);
+        const tp2::DynamicsConfig config{
+            .model = tp2::AlignmentModel::Vicsek,
+            .cutoff = 1.0,
+            .speed = 0.03,
+            .time_step = 1.0,
+            .eta = eta,
+        };
+        std::mt19937_64 generator{seed};
+        tp2::advance(system, neighbors, config, generator);
+        const double angle = system.particles[0].angle;
+        EXPECT_TRUE(angle >= -amplitude && angle <= amplitude);
+        saw_positive = saw_positive || angle > 0.0;
+        saw_negative = saw_negative || angle < 0.0;
+    }
+    EXPECT_TRUE(saw_positive);
+    EXPECT_TRUE(saw_negative);
+}
+
 void test_generation_is_reproducible() {
     const tp2::InitializationConfig config{
         .particle_count = 20,
@@ -88,6 +149,8 @@ void test_generation_is_reproducible() {
 int main() {
     test_vicsek_is_synchronous_and_moves_with_old_angle();
     test_voter_includes_self_for_isolated_particle();
+    test_voter_can_copy_self_or_neighbor();
+    test_noise_uses_normalized_eta_amplitude();
     test_generation_is_reproducible();
     return test::finish("Simulation tests");
 }

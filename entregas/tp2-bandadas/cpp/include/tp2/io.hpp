@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
 #include <iosfwd>
 #include <string_view>
@@ -11,6 +12,12 @@ namespace tp2 {
 struct RunMetadata {
     std::string_view model{};
     double density{};
+    std::size_t particle_count{};
+    double side{};
+    std::size_t cells_per_side{};
+    double cutoff{};
+    double speed{};
+    double time_step{};
     double eta{};
     std::uint64_t seed{};
 };

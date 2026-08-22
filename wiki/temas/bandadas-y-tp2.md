@@ -42,4 +42,6 @@ El sistema pedido tiene $L=10$, contorno periódico y densidades $\rho=2,4,8$. S
 - comparaciones directas entre ambos modelos;
 - tiempos del CIM comparables con los del TP1 [TP02, p. 2].
 
+Una indicación oral posterior de la cátedra amplía específicamente el estudio de $S$: como en las densidades originales la componente gigante cambia poco, para sus gráficos también se deben considerar las densidades nominales $1/\pi$, $1/(2\pi)$ y $1/(3\pi)$ [N-2026-08-22-densidades-s-tp2]. Esta ampliación no figura en el enunciado publicado. Con $L=10$ requerirían respectivamente $N\approx31{,}83$, $15{,}92$ y $10{,}61$; para esta resolución se adoptan los enteros más cercanos $N=32$, $16$ y $11$, con densidades reales $0{,}32$, $0{,}16$ y $0{,}11$.
+
 La simulación debe escribir archivos de texto y la animación debe ejecutarse como módulo independiente. Los entregables son presentación oral de 13 minutos, PDF de diapositivas, ZIP con solo la versión final del motor e informe. La fecha indicada es el 4 de septiembre de 2026 a las 13:00 [TP02, p. 1].

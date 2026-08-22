@@ -20,13 +20,16 @@ void require_output(std::ostream& output) {
 
 void write_trajectory_header(std::ostream& output) {
     require_output(output);
-    output << "model,density,eta,seed,time,id,x,y,vx,vy,angle\n";
+    output
+        << "model,density,particle_count,side,cells_per_side,cutoff,"
+        << "speed,time_step,eta,seed,time,id,x,y,vx,vy,angle\n";
 }
 
 void write_observations_header(std::ostream& output) {
     require_output(output);
     output
-        << "model,density,eta,seed,time,polarization,"
+        << "model,density,particle_count,side,cells_per_side,cutoff,"
+        << "speed,time_step,eta,seed,time,polarization,"
         << "largest_cluster_fraction,cim_time_ns,neighbor_pairs,"
         << "distance_evaluations\n";
 }
@@ -47,6 +50,12 @@ void write_trajectory_frame(
         output
             << metadata.model << ','
             << metadata.density << ','
+            << metadata.particle_count << ','
+            << metadata.side << ','
+            << metadata.cells_per_side << ','
+            << metadata.cutoff << ','
+            << metadata.speed << ','
+            << metadata.time_step << ','
             << metadata.eta << ','
             << metadata.seed << ','
             << system.time << ','
@@ -69,6 +78,12 @@ void write_observation(
     output << std::setprecision(17)
            << metadata.model << ','
            << metadata.density << ','
+           << metadata.particle_count << ','
+           << metadata.side << ','
+           << metadata.cells_per_side << ','
+           << metadata.cutoff << ','
+           << metadata.speed << ','
+           << metadata.time_step << ','
            << metadata.eta << ','
            << metadata.seed << ','
            << observation.time << ','

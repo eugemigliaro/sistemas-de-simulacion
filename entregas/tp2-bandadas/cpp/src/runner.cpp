@@ -52,6 +52,12 @@ RunSummary run_simulation(
         .model = model_name(config.dynamics.model),
         .density = static_cast<double>(system.particles.size())
             / (system.side * system.side),
+        .particle_count = system.particles.size(),
+        .side = system.side,
+        .cells_per_side = config.cells_per_side,
+        .cutoff = config.dynamics.cutoff,
+        .speed = config.dynamics.speed,
+        .time_step = config.dynamics.time_step,
         .eta = config.dynamics.eta,
         .seed = config.initialization.seed,
     };

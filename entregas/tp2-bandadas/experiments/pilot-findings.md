@@ -11,6 +11,7 @@ Configuración: dos semillas, 1000 pasos, `eta = 0, 0.25, 0.5, 0.75, 1`, `rho = 
 - El votante con `eta = 0` seguía aumentando su polarización al comparar los intervalos que empiezan en 500 y 800, sobre todo para `rho = 8`. Mil pasos no alcanzan para fijar su estacionario.
 - Para ruido positivo, la mayoría de las diferencias entre los cortes 500 y 800 fueron pequeñas, pero dos semillas son insuficientes para estimar barras finales.
 - En las densidades pedidas, `S` resultó cercano a uno en gran parte del piloto. Esto no autoriza a omitir el observable: la consigna exige su evolución, media, desvío y relación con `va` [TP02, p. 2].
+- Una indicación oral posterior agrega densidades bajas nominales `1/pi`, `1/(2*pi)` y `1/(3*pi)` específicamente para que el estudio de `S` sea informativo [N-2026-08-22-densidades-s-tp2].
 
 ## Siguiente calibración
 
@@ -19,4 +20,4 @@ Configuración: dos semillas, 1000 pasos, `eta = 0, 0.25, 0.5, 0.75, 1`, `rho = 
 - Extender las corridas y comparar medias por bloques antes de elegir `t_inicio`.
 - Aumentar realizaciones solamente después de fijar duración y malla.
 
-Los CSV crudos y resúmenes del piloto están en `experiments/raw/pilot/` y permanecen fuera de Git.
+Los CSV crudos regenerados con metadatos completos están en `experiments/raw/pilot-metadata-v2/` y permanecen fuera de Git. Los pilotos del esquema anterior no se usan en el análisis actual.

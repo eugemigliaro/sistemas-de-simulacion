@@ -7,6 +7,7 @@
 - Se modelan partículas puntuales en una caja cuadrada periódica de lado `L = 10` [TP02, p. 1] [T02, p. 40].
 - La rapidez es `v = 0.03`, el radio de interacción `rc = 1` y el paso `dt = 1` [T02, pp. 40–42].
 - Las densidades `2`, `4` y `8` corresponden a `N = 200`, `400` y `800`.
+- Para estudiar `S`, una indicación oral de la cátedra agrega las densidades nominales `1/pi`, `1/(2*pi)` y `1/(3*pi)` [N-2026-08-22-densidades-s-tp2]. Con `L = 10` se adoptan los enteros más cercanos `N = 32`, `16` y `11`, cuyas densidades reales son `0.32`, `0.16` y `0.11`. Las figuras mostrarán ambos valores.
 - Dos partículas distintas son vecinas cuando su distancia centro-centro periódica es menor o igual que `rc`.
 - La lista geométrica del CIM no contiene a la propia partícula. Cada regla de alineación la agrega explícitamente para separar geometría de dinámica.
 - Vicsek promedia los vectores dirección de todas las vecinas geométricas y de la propia partícula [T02, p. 42].
@@ -20,6 +21,12 @@
 - `S` es el tamaño de la mayor componente conexa de la red geométrica dividido por `N` [TP02, p. 2].
 - El CIM se validará por igualdad exacta de listas contra fuerza bruta, como en el TP1.
 - Con una grilla que solo revisa la celda propia y las ocho adyacentes se exige `L/M > rc`; para `L = 10` y `rc = 1`, el valor predeterminado será `M = 9`.
+- Los CSV de observables y trayectoria guardan la configuración física completa (`N`, `L`, `M`, `rc`, `v` y `dt`) además de modelo, densidad, ruido y semilla. Python acepta únicamente este esquema para impedir mezclas silenciosas con corridas antiguas.
+- El análisis estacionario promedia primero en el tiempo dentro de cada semilla y luego calcula media y desvío muestral entre semillas. No toma instantes correlacionados como realizaciones independientes [T00, p. 69].
+- El inicio estacionario puede definirse globalmente o por combinación `(modelo, densidad, eta)`. Antes de fijarlo se inspeccionan las series y las medias de bloques temporales completos.
+- La animación se sincroniza con el CSV de observables y muestra `va(t)` y `S(t)` en tiempo real. Su valor predeterminado es `5 fps`; la velocidad simulada depende también del intervalo con que se guardó la trayectoria.
+- La comparación temporal del CIM con TP1 se considera orientativa porque las configuraciones físicas y el trabajo realizado por paso no son idénticos.
+- El ZIP de entrega del motor se genera desde una lista blanca de fuentes C++ y excluye binarios, pruebas, resultados y herramientas Python.
 
 ## Pendientes experimentales
 
@@ -27,4 +34,4 @@
 - Inicio estacionario para cada región de parámetros.
 - Cantidad de realizaciones independientes.
 - Malla gruesa y refinada de valores de `eta`.
-- Convención definitiva de barras para `va`; para `S` la consigna pide desvío [TP02, p. 2].
+- Confirmar, luego de la calibración, si diez semillas alcanzan para estabilizar los desvíos. Tanto `va` como `S` se informarán con desvío muestral entre semillas; la consigna lo exige explícitamente para `S` [TP02, p. 2].

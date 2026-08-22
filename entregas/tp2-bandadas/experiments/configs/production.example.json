@@ -1,0 +1,17 @@
+{
+  "binary": "cpp/build/release/tp2",
+  "output_dir": "experiments/raw/production",
+  "models": ["vicsek", "voter"],
+  "densities": [2, 4, 8],
+  "model_etas": {
+    "vicsek": [0, 0.25, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75, 1],
+    "voter": [0, 0.025, 0.05, 0.075, 0.1, 0.15, 0.2, 0.25, 0.5, 0.75, 1]
+  },
+  "seeds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  "steps": 10000,
+  "M": 9,
+  "L": 10,
+  "rc": 1,
+  "v": 0.03,
+  "dt": 1
+}

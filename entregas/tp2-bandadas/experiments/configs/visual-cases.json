@@ -1,0 +1,15 @@
+{
+  "binary": "cpp/build/release/tp2",
+  "output_dir": "experiments/raw/visual-cases",
+  "cases": [
+    {"model": "vicsek", "density": 4, "eta": 0.25, "seed": 1},
+    {"model": "vicsek", "density": 4, "eta": 0.75, "seed": 1},
+    {"model": "voter", "density": 4, "eta": 0.05, "seed": 1},
+    {"model": "voter", "density": 4, "eta": 0.25, "seed": 1}
+  ],
+  "defaults": {
+    "steps": 400,
+    "trajectory_every": 2,
+    "fps": 5
+  }
+}
