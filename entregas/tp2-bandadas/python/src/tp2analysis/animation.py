@@ -12,6 +12,61 @@ from .data import (
 )
 
 
+def _normalized_angle(angle: float) -> float:
+    return (angle + math.pi) / (2 * math.pi)
+
+
+def _draw_angle_wheel(axis, matplotlib) -> None:
+    from matplotlib.collections import PatchCollection
+    from matplotlib.patches import Wedge
+
+    segment_count = 180
+    width_degrees = 360.0 / segment_count
+    wedges = []
+    colors = []
+    color_map = matplotlib.colormaps["hsv"]
+    for index in range(segment_count):
+        start_degrees = index * width_degrees
+        middle_angle = math.radians(start_degrees + width_degrees / 2)
+        physical_angle = (
+            (middle_angle + math.pi) % (2 * math.pi)
+        ) - math.pi
+        wedges.append(
+            Wedge(
+                (0.0, 0.0),
+                1.0,
+                start_degrees,
+                start_degrees + width_degrees,
+                width=0.28,
+            )
+        )
+        colors.append(color_map(_normalized_angle(physical_angle)))
+    wheel = PatchCollection(
+        wedges,
+        facecolors=colors,
+        edgecolors="none",
+        antialiased=False,
+    )
+    axis.add_collection(wheel)
+    for angle in (0, math.pi / 2, math.pi, 3 * math.pi / 2):
+        axis.plot(
+            [0.68 * math.cos(angle), 1.03 * math.cos(angle)],
+            [0.68 * math.sin(angle), 1.03 * math.sin(angle)],
+            color="black",
+            linewidth=0.8,
+        )
+    axis.text(1.12, 0.0, "0°  →", ha="left", va="center")
+    axis.text(0.0, 1.12, "90°  ↑", ha="center", va="bottom")
+    axis.text(-1.12, 0.0, "←  ±180°", ha="right", va="center")
+    axis.text(0.0, -1.12, "↓  −90°", ha="center", va="top")
+    axis.text(0.0, 0.0, "θ", ha="center", va="center", fontsize=12)
+    axis.set_xlim(-1.75, 1.75)
+    axis.set_ylim(-1.35, 1.35)
+    axis.set_aspect("equal")
+    axis.set_title("Color según la dirección de la velocidad", fontsize=10, pad=2)
+    axis.axis("off")
+
+
 def _synchronized_observations(
     frames: list[tuple[float, list[ParticleState]]],
     observations: list[Observation],
@@ -59,9 +114,15 @@ def animate(
     import matplotlib.pyplot as plt
     from matplotlib.animation import FuncAnimation, PillowWriter
 
-    figure = plt.figure(figsize=(11, 6.5), layout="constrained")
+    figure = plt.figure(figsize=(11, 7.5), layout="constrained")
     grid = figure.add_gridspec(2, 2, width_ratios=(1.25, 1.0))
-    particle_axis = figure.add_subplot(grid[:, 0])
+    left_grid = grid[:, 0].subgridspec(
+        2,
+        1,
+        height_ratios=(4.8, 1.3),
+    )
+    particle_axis = figure.add_subplot(left_grid[0, 0])
+    angle_axis = figure.add_subplot(left_grid[1, 0])
     polarization_axis = figure.add_subplot(grid[0, 1])
     cluster_axis = figure.add_subplot(grid[1, 1], sharex=polarization_axis)
 
@@ -76,7 +137,7 @@ def animate(
         [state.y for state in first],
         [state.vx for state in first],
         [state.vy for state in first],
-        [(state.angle + math.pi) / (2 * math.pi) for state in first],
+        [_normalized_angle(state.angle) for state in first],
         cmap="hsv",
         clim=(0, 1),
         angles="xy",
@@ -84,14 +145,7 @@ def animate(
         scale=0.15,
         width=0.004,
     )
-    colorbar = figure.colorbar(
-        quiver,
-        ax=particle_axis,
-        orientation="horizontal",
-        fraction=0.05,
-        pad=0.08,
-    )
-    colorbar.set_label("Ángulo normalizado")
+    _draw_angle_wheel(angle_axis, matplotlib)
 
     times = [time for time, _frame in frames]
     minimum_time = min(times)
@@ -132,7 +186,7 @@ def animate(
         quiver.set_UVC(
             [state.vx for state in frame],
             [state.vy for state in frame],
-            [(state.angle + math.pi) / (2 * math.pi) for state in frame],
+            [_normalized_angle(state.angle) for state in frame],
         )
         visible_times = times[: frame_index + 1]
         visible_observations = synchronized[: frame_index + 1]
