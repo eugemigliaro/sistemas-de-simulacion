@@ -19,14 +19,20 @@ def _pyplot():
 
 def _density_label(density: float) -> str:
     low_density_labels = {
-        0.32: "1/pi (real=0.32, N=32)",
-        0.16: "1/(2*pi) (real=0.16, N=16)",
-        0.11: "1/(3*pi) (real=0.11, N=11)",
+        0.32: (r"1/\pi", 32),
+        0.16: (r"1/(2\pi)", 16),
+        0.11: (r"1/(3\pi)", 11),
     }
-    for actual, label in low_density_labels.items():
+    for actual, (symbol, count) in low_density_labels.items():
         if abs(density - actual) < 1e-12:
-            return f"rho~{label}"
-    return f"rho={density:g}"
+            return (
+                rf"$\rho \simeq {symbol}$ (${density:g}$, $N={count}$)"
+            )
+    return rf"$\rho={density:g}$"
+
+
+def _model_label(model: str) -> str:
+    return {"vicsek": "Vicsek", "voter": "Votante"}.get(model, model)
 
 
 def plot_time_series(
@@ -46,8 +52,8 @@ def plot_time_series(
         values.sort(key=lambda row: row.time)
         first = values[0]
         label = (
-            f"{first.model}, {_density_label(first.density)}, "
-            f"eta={first.eta:g}, semilla={first.seed}"
+            f"{_model_label(first.model)}, {_density_label(first.density)}, "
+            rf"$\eta={first.eta:g}$, semilla ${first.seed}$"
         )
         times = [row.time for row in values]
         axes[0].plot(times, [row.polarization for row in values], label=label)
@@ -56,9 +62,9 @@ def plot_time_series(
             [row.largest_cluster_fraction for row in values],
             label=label,
         )
-    axes[0].set_ylabel("Polarización va")
-    axes[1].set_ylabel("Componente gigante S")
-    axes[1].set_xlabel("Tiempo")
+    axes[0].set_ylabel(r"Polarización $v_a$")
+    axes[1].set_ylabel(r"Fracción de la componente gigante $S$")
+    axes[1].set_xlabel(r"Tiempo $t$")
     if stationary_start is not None:
         starts: set[float] = set()
         for values in grouped.values():
@@ -77,7 +83,7 @@ def plot_time_series(
                     color="black",
                     linestyle="--",
                     alpha=0.75,
-                    label=f"Inicio estacionario t={start:g}",
+                    label=rf"Inicio del estacionario $t_0={start:g}$",
                 )
     for axis in axes:
         axis.legend(fontsize="small")
@@ -105,7 +111,10 @@ def plot_blocks(
     for (model, density, eta, seed), values in sorted(grouped.items()):
         values.sort(key=lambda row: row.block_start)
         centers = [(row.block_start + row.block_end) / 2 for row in values]
-        label = f"{model}, {_density_label(density)}, eta={eta:g}, semilla={seed}"
+        label = (
+            f"{_model_label(model)}, {_density_label(density)}, "
+            rf"$\eta={eta:g}$, semilla ${seed}$"
+        )
         axes[0].errorbar(
             centers,
             [row.polarization_mean for row in values],
@@ -122,9 +131,9 @@ def plot_blocks(
             capsize=3,
             label=label,
         )
-    axes[0].set_ylabel("Media por bloque de va")
-    axes[1].set_ylabel("Media por bloque de S")
-    axes[1].set_xlabel("Centro del bloque temporal")
+    axes[0].set_ylabel(r"Media por bloque de $v_a$")
+    axes[1].set_ylabel(r"Media por bloque de $S$")
+    axes[1].set_xlabel(r"Centro del bloque temporal $t$")
     for axis in axes:
         axis.set_ylim(-0.03, 1.03)
         axis.grid(alpha=0.2)
@@ -156,20 +165,20 @@ def plot_eta(
         if observable == "polarization":
             means = [value.polarization_mean for value in values]
             errors = [value.polarization_std for value in values]
-            ylabel = "Polarización estacionaria"
+            ylabel = r"Polarización estacionaria $\langle v_a \rangle$"
         else:
             means = [value.cluster_mean for value in values]
             errors = [value.cluster_std for value in values]
-            ylabel = "Componente gigante estacionaria S"
+            ylabel = r"Componente gigante estacionaria $\langle S \rangle$"
         axis.errorbar(
             [value.eta for value in values],
             means,
             yerr=errors,
             marker="o",
             capsize=3,
-            label=f"{model}, {_density_label(density)}",
+            label=f"{_model_label(model)}, {_density_label(density)}",
         )
-    axis.set_xlabel("Ruido normalizado eta")
+    axis.set_xlabel(r"Ruido normalizado $\eta$")
     axis.set_ylabel(ylabel)
     axis.set_ylim(-0.03, 1.03)
     axis.legend()
@@ -198,10 +207,10 @@ def plot_polarization_vs_cluster(
             [value.cluster_mean for value in values],
             [value.polarization_mean for value in values],
             marker="o",
-            label=f"{model}, {_density_label(density)}",
+            label=f"{_model_label(model)}, {_density_label(density)}",
         )
-    axis.set_xlabel("Componente gigante S")
-    axis.set_ylabel("Polarización va")
+    axis.set_xlabel(r"Fracción de la componente gigante $\langle S \rangle$")
+    axis.set_ylabel(r"Polarización $\langle v_a \rangle$")
     axis.set_xlim(-0.03, 1.03)
     axis.set_ylim(-0.03, 1.03)
     axis.legend()

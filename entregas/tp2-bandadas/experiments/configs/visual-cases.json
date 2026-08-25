@@ -5,7 +5,8 @@
     {"model": "vicsek", "density": 4, "eta": 0.25, "seed": 1},
     {"model": "vicsek", "density": 4, "eta": 0.75, "seed": 1},
     {"model": "voter", "density": 4, "eta": 0.05, "seed": 1},
-    {"model": "voter", "density": 4, "eta": 0.25, "seed": 1}
+    {"model": "voter", "density": 4, "eta": 0.25, "seed": 1},
+    {"model": "vicsek", "density": 0.32, "eta": 0.25, "seed": 1}
   ],
   "defaults": {
     "steps": 400,

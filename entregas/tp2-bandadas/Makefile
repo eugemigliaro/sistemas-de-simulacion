@@ -1,7 +1,7 @@
 PYTHON ?= python3
 PYTHONPATH := python/src
 
-.PHONY: debug release test cpp-test python-test visual-test sanitize clean
+.PHONY: debug release test cpp-test python-test visual-test sanitize clean informe informe-ver
 
 debug:
 	$(MAKE) -C cpp debug
@@ -25,3 +25,10 @@ sanitize:
 
 clean:
 	$(MAKE) -C cpp clean
+
+informe:
+	cd informe && tectonic -X compile informe.tex
+	@echo "PDF generado en informe/informe.pdf"
+
+informe-ver: informe
+	open informe/informe.pdf

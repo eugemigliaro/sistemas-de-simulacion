@@ -12,6 +12,9 @@ from .data import (
 )
 
 
+_MODEL = {"vicsek": "Vicsek", "voter": "Votante"}
+
+
 def _normalized_angle(angle: float) -> float:
     return (angle + math.pi) / (2 * math.pi)
 
@@ -129,8 +132,8 @@ def animate(
     particle_axis.set_xlim(0, actual_side)
     particle_axis.set_ylim(0, actual_side)
     particle_axis.set_aspect("equal")
-    particle_axis.set_xlabel("x")
-    particle_axis.set_ylabel("y")
+    particle_axis.set_xlabel(r"$x$")
+    particle_axis.set_ylabel(r"$y$")
     first = frames[0][1]
     quiver = particle_axis.quiver(
         [state.x for state in first],
@@ -153,14 +156,14 @@ def animate(
     if minimum_time == maximum_time:
         maximum_time = minimum_time + 1.0
     for axis, label in (
-        (polarization_axis, "Polarización va"),
-        (cluster_axis, "Componente gigante S"),
+        (polarization_axis, r"Polarización $v_a$"),
+        (cluster_axis, r"Componente gigante $S$"),
     ):
         axis.set_xlim(minimum_time, maximum_time)
         axis.set_ylim(-0.03, 1.03)
         axis.set_ylabel(label)
         axis.grid(alpha=0.25)
-    cluster_axis.set_xlabel("Tiempo simulado")
+    cluster_axis.set_xlabel(r"Tiempo simulado $t$")
 
     polarization_line, = polarization_axis.plot([], [], color="tab:blue")
     cluster_line, = cluster_axis.plot([], [], color="tab:orange")
@@ -174,9 +177,10 @@ def animate(
     )
     first_observation = synchronized[0]
     title = particle_axis.set_title(
-        f"{first_observation.model} | t={first_observation.time:g} | "
-        f"va={first_observation.polarization:.3f} | "
-        f"S={first_observation.largest_cluster_fraction:.3f}"
+        f"{_MODEL[first_observation.model]}  |  "
+        rf"$t={first_observation.time:g}$  |  "
+        rf"$v_a={first_observation.polarization:.3f}$  |  "
+        rf"$S={first_observation.largest_cluster_fraction:.3f}$"
     )
 
     def update(frame_index: int):
@@ -201,9 +205,10 @@ def animate(
         polarization_cursor.set_xdata([time, time])
         cluster_cursor.set_xdata([time, time])
         title.set_text(
-            f"{observation.model} | t={time:g} | "
-            f"va={observation.polarization:.3f} | "
-            f"S={observation.largest_cluster_fraction:.3f}"
+            f"{_MODEL[observation.model]}  |  "
+            rf"$t={time:g}$  |  "
+            rf"$v_a={observation.polarization:.3f}$  |  "
+            rf"$S={observation.largest_cluster_fraction:.3f}$"
         )
         return (
             quiver,

@@ -38,7 +38,10 @@ class CimTests(unittest.TestCase):
                 encoding="utf-8",
             )
             loaded = read_tp1_cim(tp1)
-            self.assertIn("TP1 fixed", loaded)
+            self.assertEqual(len(loaded), 1)
+            label = next(iter(loaded))
+            self.assertTrue(label.startswith("TP1"))
+            self.assertEqual(loaded[label], [(200, 300.0, 20.0)])
 
 
 if __name__ == "__main__":

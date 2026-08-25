@@ -116,6 +116,12 @@ def read_cim_summaries(path: str | Path) -> list[CimSummary]:
     return result
 
 
+_TP1_LABELS = {
+    "fixed": r"TP1, densidad constante ($\rho=1{,}25$)",
+    "free": r"TP1, caja constante ($L=20$)",
+}
+
+
 def read_tp1_cim(path: str | Path) -> dict[str, list[tuple[int, float, float]]]:
     source = Path(path)
     grouped: dict[str, list[tuple[int, float, float]]] = defaultdict(list)
@@ -129,7 +135,7 @@ def read_tp1_cim(path: str | Path) -> dict[str, list[tuple[int, float, float]]]:
             if row["boundary"] != "periodic" or row["method"] != "cim":
                 continue
             regime = row.get("regime") or "barrido M"
-            grouped[f"TP1 {regime}"].append(
+            grouped[f"{_TP1_LABELS.get(regime, regime)}"].append(
                 (
                     int(row["N"]),
                     float(row["mean_time_ns"]),
@@ -178,13 +184,15 @@ def plot_cim_comparison(
             yerr=[value.stddev_time_ns / 1000.0 for value in values],
             marker="o",
             capsize=3,
-            label=f"TP2 {model}",
+            label=(
+                f"TP2 {'Vicsek' if model == 'vicsek' else 'Votante'}"
+                r" ($L=10$)"
+            ),
         )
-    axis.set_xlabel("Cantidad de partículas N")
-    axis.set_ylabel("Tiempo CIM [microsegundos]")
+    axis.set_xlabel(r"Cantidad de partículas $N$")
+    axis.set_ylabel(r"Tiempo de búsqueda de vecinos [$\mu$s]")
     axis.set_xscale("log")
     axis.set_yscale("log")
-    axis.set_title("Comparación orientativa del CIM (configuraciones distintas)")
     axis.grid(alpha=0.25, which="both")
     axis.legend()
     figure.tight_layout()

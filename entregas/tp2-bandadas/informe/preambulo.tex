@@ -1,0 +1,30 @@
+% Configuración común del informe.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage{newtxtext,newtxmath}   % Times New Roman (texto y ecuaciones)
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{siunitx}
+\usepackage{hyperref}
+
+\hypersetup{hidelinks}
+\sisetup{output-decimal-marker={,}, separate-uncertainty=true}
+
+% "Figura 1: ..." y "Tabla 1: ..." con la etiqueta en negrita.
+\captionsetup{labelfont=bf, font=small, width=0.9\textwidth}
+
+% Abreviaturas de referencia cruzada usadas en el texto.
+\newcommand{\figref}[1]{Fig.~\ref{#1}}
+\newcommand{\ecref}[1]{Ec.~(\ref{#1})}
+\newcommand{\tabref}[1]{Tabla~\ref{#1}}
+
+% Vectores: negrita sin itálica. Escalares: itálica sin negrita.
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+% Babel en español rotula las tablas como "Cuadro"; el informe usa "Tabla".
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
