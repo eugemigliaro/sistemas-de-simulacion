@@ -68,6 +68,7 @@ def build_parser() -> argparse.ArgumentParser:
     va_s = commands.add_parser("plot-va-s")
     va_s.add_argument("--input", required=True, type=Path)
     va_s.add_argument("--output", required=True, type=Path)
+    va_s.add_argument("--invert-axes", action="store_true")
 
     animation = commands.add_parser("animate")
     animation.add_argument("--input", required=True, type=Path)
@@ -136,6 +137,7 @@ def main(argv: list[str] | None = None) -> int:
         plot_polarization_vs_cluster(
             read_summaries(arguments.input),
             arguments.output,
+            arguments.invert_axes,
         )
     elif arguments.command == "animate":
         animate(

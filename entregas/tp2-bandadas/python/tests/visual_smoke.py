@@ -40,19 +40,21 @@ class VisualizationSmokeTests(unittest.TestCase):
                 root / "polarization.png",
                 root / "cluster.png",
                 root / "va-s.png",
+                root / "va-s-inverted.png",
                 root / "animation.gif",
             ]
             plot_time_series(observations, outputs[0], stationary_start=1.0)
             plot_eta(summaries, outputs[1], "polarization")
             plot_eta(summaries, outputs[2], "cluster")
             plot_polarization_vs_cluster(summaries, outputs[3])
-            animate(states, observations, outputs[4], side=10.0, fps=2)
+            plot_polarization_vs_cluster(summaries, outputs[4], invert_axes=True)
+            animate(states, observations, outputs[5], side=10.0, fps=2)
 
             for output in outputs:
                 self.assertGreater(output.stat().st_size, 0)
                 with Image.open(output) as image:
                     image.verify()
-            with Image.open(outputs[4]) as animation:
+            with Image.open(outputs[5]) as animation:
                 self.assertEqual(animation.n_frames, 2)
                 self.assertEqual(animation.info.get("duration"), 500)
 

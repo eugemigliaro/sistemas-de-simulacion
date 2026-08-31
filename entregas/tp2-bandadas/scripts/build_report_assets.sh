@@ -48,7 +48,8 @@ run plot-eta --input "$RES/summary-baja-densidad.csv" --observable polarization 
 
 echo "== 5. Polarización contra componente gigante =="
 run plot-va-s --input "$RES/summary-densidades.csv"   --output "$FIG/va-vs-s.png"
-run plot-va-s --input "$RES/summary-baja-densidad.csv" --output "$FIG/va-vs-s-baja-densidad.png"
+run plot-va-s --input "$RES/summary-baja-densidad.csv" --invert-axes \
+    --output "$FIG/va-vs-s-baja-densidad.png"
 
 echo "== 6. Tiempos del CIM y comparación con el TP1 =="
 run cim-summary "$RAW"/*-observables.csv --start "$T0" --output "$RES/cim-summary.csv"

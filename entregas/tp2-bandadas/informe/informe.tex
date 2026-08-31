@@ -326,15 +326,24 @@ $t_0$      & Inicio del estado estacionario   & 4\,000 \\
 \end{table}
 
 La malla de ruido se eligió por separado para cada modelo, tras un barrido
-exploratorio que localizó las regiones de variación rápida. Para Vicsek se
-recorrió $\eta \in \{0;\,0{,}25;\,0{,}40;\,0{,}45;\,0{,}50;\,0{,}55;\,0{,}60;\,
-0{,}65;\,0{,}70;\,0{,}75;\,1\}$, refinando el intervalo $[0{,}40;\,0{,}75]$. Para
-el votante se utilizó $\eta \in \{0;\,0{,}025;\,0{,}05;\,0{,}075;\,0{,}10;\,
-0{,}15;\,0{,}20;\,0{,}25;\,0{,}50;\,0{,}75;\,1\}$, con resolución concentrada por
-debajo de $\eta = 0{,}1$. Esta asimetría no es arbitraria: como se anticipó en la
-Sección~\ref{sec:modelo} y se confirma en los resultados, el votante pierde el
-orden con niveles de ruido mucho menores que Vicsek, y una malla uniforme habría
-dejado su transición sin resolver.
+exploratorio que localizó las regiones de variación rápida. Para Vicsek se usó
+\[
+\begin{aligned}
+\eta \in \{&0;\,0{,}25;\,0{,}40;\,0{,}45;\,0{,}50;\\
+             &0{,}55;\,0{,}60;\,0{,}65;\,0{,}70;\,0{,}75;\,1\},
+\end{aligned}
+\]
+refinando el intervalo $[0{,}40;\,0{,}75]$. Para el votante se utilizó
+\[
+\begin{aligned}
+\eta \in \{&0;\,0{,}025;\,0{,}05;\,0{,}075;\,0{,}10;\\
+             &0{,}15;\,0{,}20;\,0{,}25;\,0{,}50;\,0{,}75;\,1\},
+\end{aligned}
+\]
+con resolución concentrada por debajo de $\eta = 0{,}1$. Esta asimetría no es
+arbitraria: como se anticipó en la Sección~\ref{sec:modelo} y se confirma en los
+resultados, el votante pierde el orden con niveles de ruido mucho menores que
+Vicsek, y una malla uniforme habría dejado su transición sin resolver.
 
 El estudio de la componente gigante requirió además sistemas de densidad baja. En
 las tres densidades pedidas el radio de interacción es lo bastante grande frente
@@ -442,6 +451,7 @@ con el mismo ruido $\eta = 0{,}25$ y la misma densidad, el modelo de Vicsek se
 mantiene fuertemente polarizado mientras que el del votante es indistinguible de
 un gas desordenado.
 
+\FloatBarrier
 \subsection{Evolución temporal de los observables}
 
 La \figref{fig:series-vicsek} muestra la evolución de ambos observables para tres
@@ -484,6 +494,7 @@ La línea vertical marca $t_0 = \num{4000}$.}
 \label{fig:series-votante}
 \end{figure}
 
+\FloatBarrier
 \subsection{Polarización en función del ruido}
 
 La \figref{fig:va-eta} reúne las seis curvas de polarización estacionaria. La
@@ -669,6 +680,7 @@ $\eta \gtrsim 0{,}6$ las seis curvas colapsan, porque con ruido alto ningún
 modelo sostiene agrupamiento y $S$ queda determinado únicamente por las
 fluctuaciones de una distribución espacial esencialmente aleatoria.
 
+\FloatBarrier
 \subsection{Relación entre polarización y componente gigante}
 \label{sec:va-s}
 
@@ -688,9 +700,11 @@ limita la polarización.}
 \label{fig:va-s}
 \end{figure}
 
-Antes de analizar ese régimen conviene mostrar cómo se comporta allí la
-polarización. La \figref{fig:va-eta-baja} presenta $v_a$ frente a $\eta$ en las
-densidades bajas. Se conserva la jerarquía entre modelos, pero el rasgo
+La \figref{fig:va-s} muestra que, para las densidades pedidas, la escasa variación
+de $S$ concentra los puntos cerca del borde derecho y dificulta observar una
+relación entre ambos observables. Por eso conviene repetir el análisis en las
+densidades bajas. Antes, la \figref{fig:va-eta-baja} presenta $v_a$ frente a
+$\eta$ en ese régimen. Se conserva la jerarquía entre modelos, pero el rasgo
 dominante es que el piso de ruido máximo es mucho más alto que en la
 \figref{fig:va-eta}: vale $0{,}157$, $0{,}222$ y $0{,}268$ para $N = 32$, $16$ y
 $11$. Estos valores vuelven a coincidir con la \ecref{eq:piso}, que predice
@@ -708,19 +722,21 @@ de la \ecref{eq:piso} y crece al disminuir $N$.}
 \label{fig:va-eta-baja}
 \end{figure}
 
-El panorama cambia en densidad baja. La \figref{fig:va-s-baja} muestra que allí
-los puntos se ordenan a lo largo de una relación monótona y aproximadamente
-lineal que las seis series comparten: la polarización crece con la fracción de
-partículas conectadas. La correspondencia es notablemente estrecha —para
-$\rho \simeq 1/(3\pi)$ se obtienen los pares $(S, v_a)$ iguales a
-$(0{,}577;\,0{,}571)$ y $(0{,}388;\,0{,}398)$, prácticamente sobre la diagonal—.
+El panorama cambia en densidad baja. La \figref{fig:va-s-baja}, con $v_a$ en el
+eje horizontal y $S$ en el vertical, muestra que los puntos se ordenan a lo largo
+de una relación monótona y aproximadamente lineal compartida por las seis series:
+la componente gigante crece con la polarización. La correspondencia es
+notablemente estrecha —para $\rho \simeq 1/(3\pi)$ se obtienen los pares
+$(v_a,S)$ iguales a $(0{,}571;\,0{,}577)$ y $(0{,}398;\,0{,}388)$,
+prácticamente sobre la diagonal—.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.72\textwidth]{figuras/va-vs-s-baja-densidad.png}
-\caption{Polarización frente a componente gigante en las densidades bajas. Las
+\caption{Componente gigante frente a polarización en las densidades bajas. Las
 seis series colapsan aproximadamente sobre una misma relación monótona, lo que
-indica que en este régimen la conectividad controla la polarización alcanzable.}
+indica que en este régimen la conectividad y el orden direccional están
+estrechamente relacionados.}
 \label{fig:va-s-baja}
 \end{figure}
 
@@ -733,6 +749,7 @@ mutuamente independientes, de modo que la polarización global queda acotada por
 el tamaño relativo de la componente mayor. En ese régimen $S$ deja de ser un
 observable redundante y pasa a ser el que fija el techo de $v_a$.
 
+\FloatBarrier
 \subsection{Desempeño del Cell Index Method}
 
 El tiempo de búsqueda de vecinos se midió por separado en corridas dedicadas

@@ -193,6 +193,7 @@ def plot_eta(
 def plot_polarization_vs_cluster(
     summaries: Iterable[Summary],
     output: str | Path,
+    invert_axes: bool = False,
 ) -> None:
     grouped: dict[tuple[str, float], list[Summary]] = defaultdict(list)
     for summary in summaries:
@@ -203,14 +204,20 @@ def plot_polarization_vs_cluster(
     figure, axis = plt.subplots(figsize=(7, 6))
     for (model, density), values in sorted(grouped.items()):
         values.sort(key=lambda value: value.eta)
+        cluster = [value.cluster_mean for value in values]
+        polarization = [value.polarization_mean for value in values]
         axis.plot(
-            [value.cluster_mean for value in values],
-            [value.polarization_mean for value in values],
+            polarization if invert_axes else cluster,
+            cluster if invert_axes else polarization,
             marker="o",
             label=f"{_model_label(model)}, {_density_label(density)}",
         )
-    axis.set_xlabel(r"Fracción de la componente gigante $\langle S \rangle$")
-    axis.set_ylabel(r"Polarización $\langle v_a \rangle$")
+    if invert_axes:
+        axis.set_xlabel(r"Polarización $\langle v_a \rangle$")
+        axis.set_ylabel(r"Fracción de la componente gigante $\langle S \rangle$")
+    else:
+        axis.set_xlabel(r"Fracción de la componente gigante $\langle S \rangle$")
+        axis.set_ylabel(r"Polarización $\langle v_a \rangle$")
     axis.set_xlim(-0.03, 1.03)
     axis.set_ylim(-0.03, 1.03)
     axis.legend()
