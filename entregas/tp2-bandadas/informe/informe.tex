@@ -348,22 +348,15 @@ y $11$ partículas, es decir, densidades efectivas de $0{,}32$, $0{,}16$ y $0{,}
 \label{sec:estacionario}
 
 Los valores escalares que se informan más adelante son promedios temporales sobre
-el régimen estacionario, y elegir mal el instante $t_0$ a partir del cual promediar
-sesga sistemáticamente el resultado: incluir el transitorio inicial contamina la
-media con estados que el sistema ya abandonó. El criterio adoptado consiste en
-dividir cada corrida en bloques temporales completos de igual duración, promediar
-el observable dentro de cada bloque y aceptar como estacionario el intervalo a
-partir del cual las medias por bloque fluctúan sin deriva sistemática, con
-fluctuaciones comparables a su propia dispersión. Los bloques parciales del final
-se descartan.
+el régimen estacionario; por ello se descartó el transitorio inicial de cada
+corrida. Se inspeccionaron las series temporales de las diez realizaciones de cada
+caso y se eligió un único inicio de promediado para el que todos los observables
+ya fluctuaran alrededor de un valor estable, sin una relajación sistemática
+apreciable.
 
-La \figref{fig:bloques} aplica ese criterio al modelo de Vicsek en la región de
-ruido intermedio, que es la más exigente. El primer bloque se aparta
-sistemáticamente de los siguientes, mientras que a partir del segundo las medias
-oscilan alrededor de un valor común sin tendencia apreciable. Las barras internas
-de cada bloque son grandes comparadas con la separación entre bloques
-consecutivos, lo que indica que la variabilidad remanente es fluctuación
-estadística y no relajación.
+La \figref{fig:bloques} ilustra esta revisión para el modelo de Vicsek en una
+región de ruido intermedio. El primer bloque se aparta de los siguientes, mientras
+que luego las medias oscilan alrededor de un valor común sin tendencia apreciable.
 
 \begin{figure}[htbp]
 \centering
@@ -376,22 +369,9 @@ deriva sistemática.}
 \label{fig:bloques}
 \end{figure}
 
-Para fijar un único valor de $t_0$ válido para todas las combinaciones se midió
-el tiempo de relajación de forma sistemática. Para cada modelo, densidad y ruido
-se promediaron las diez realizaciones a cada instante —el promedio de ensamble
-cancela las fluctuaciones y deja visible únicamente la relajación sistemática— y
-se registró el primer instante en que esa curva entra en la banda definida por
-dos desviaciones estándar de su valor de largo plazo. Entre las \num{66}
-combinaciones de las densidades pedidas el máximo resultó $t = \num{3000}$, y
-entre las \num{54} combinaciones de densidad baja, $t = \num{4000}$. En ambos
-casos el máximo corresponde a $\eta = 0$, donde la relajación es más lenta porque
-no hay ruido que acelere la exploración del espacio de configuraciones.
-
-En consecuencia se adoptó $t_0 = \num{4000}$ para todas las corridas. La elección
-es deliberadamente conservadora: excede el transitorio más largo observado y aun
-así deja \num{6000} unidades de tiempo de promediado, el \SI{60}{\percent} de cada corrida.
-Usar un valor único evita, además, introducir un criterio distinto por punto, que
-podría sesgar la forma de las curvas.
+Se adoptó $t_0 = \num{4000}$ para todas las corridas. Esta elección conservadora
+deja \num{6000} unidades de tiempo para promediar y aplica el mismo criterio a
+todas las combinaciones de modelo, densidad y ruido.
 
 \subsection{Promedios y barras de error}
 
@@ -837,10 +817,7 @@ que se promedia y hace más confiable el promedio: $\eta_{1/2}$ crece de $0{,}47
 a $0{,}555$ entre $\rho = 2$ y $\rho = 8$. En el votante, aumentarla lo degrada,
 porque la calidad de la información copiada no depende del número de vecinas
 mientras que el consenso debe propagarse por una red mayor: $\eta_{1/2}$
-disminuye de $0{,}061$ a $0{,}035$ en el mismo rango. El mismo mecanismo se
-observa en el transitorio, donde el tiempo de relajación del votante sin ruido
-crece con la densidad hasta unas \num{3000} unidades de tiempo para $\rho = 8$,
-frente a las pocas decenas que necesita Vicsek.
+disminuye de $0{,}061$ a $0{,}035$ en el mismo rango.
 
 En las densidades $\rho = 2$, $4$ y $8$ la componente gigante no discrimina entre
 estados: el sistema está percolado en todo el rango de ruido y $S$ se mantiene por
