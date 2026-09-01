@@ -23,7 +23,7 @@
 transición al orden colectivo en bandadas\\[0.25cm]
 de agentes autopropulsados\\[0.4cm]}
 \rule{\textwidth}{0.6pt}\\[1.6cm]
-{\large Grupo \numerogrupo{} --- Comisión \comision}\\[1.0cm]
+{\large Grupo \numerogrupo{} - Comisión \comision}\\[1.0cm]
 {\large \integrantes}\\[\fill]
 {\large 4 de septiembre de 2026}
 \end{titlepage}
@@ -52,7 +52,7 @@ parámetro de ruido $\eta$ actúa como variable de control de esa transición.
 La regla de alineamiento no es, sin embargo, la única posible. El modelo del
 votante~\cite{loscar2021} reemplaza el promedio sobre todo el vecindario por la
 copia de la dirección de un único vecino elegido al azar. Ambas reglas comparten
-la información disponible —las direcciones de las partículas cercanas— pero la
+la información disponible -las direcciones de las partículas cercanas- pero la
 procesan de manera distinta: una promedia y la otra imita. Esa diferencia, que
 parece menor, altera de forma sustancial cómo el ruido destruye el orden y a
 partir de qué valor de $\eta$ el sistema deja de estar polarizado.
@@ -165,7 +165,8 @@ $\eta = 1$ corresponde a un ángulo siguiente uniformemente distribuido en toda 
 circunferencia, es decir, a la pérdida completa de memoria direccional;
 $\eta = 0$ corresponde a la dinámica determinista.
 
-Esta convención difiere de la del trabajo original~\cite{vicsek1995}, donde el
+Esta convención difiere de la utilizada en el artículo de Vicsek
+et~al.~\cite{vicsek1995}, donde el
 ruido se sortea en $[-\eta_V/2,\, \eta_V/2]$ con $\eta_V \in [0, 2\pi]$. Ambas
 escalas se relacionan por
 %
@@ -191,7 +192,7 @@ v_a(t) = \frac{1}{N v} \left\| \sum_{i=1}^{N} \vec{v}_i(t) \right\|
 La \ecref{eq:polarizacion} toma el valor $1$ cuando todas las partículas se
 mueven en la misma dirección. En el estado desordenado los versores se suman como
 una caminata aleatoria de $N$ pasos, por lo que $v_a$ no se anula sino que
-fluctúa en torno a un valor del orden de $N^{-1/2}$. Este piso finito debe tenerse
+fluctúa en torno a un valor del orden de $N^{-1/2}$. Este piso debe tenerse
 presente al interpretar el régimen de ruido alto: un valor pequeño pero no nulo
 de $v_a$ es compatible con desorden completo.
 
@@ -222,10 +223,7 @@ y no una consecuencia de sus definiciones.
 El trabajo se resolvió con dos programas independientes. El motor de simulación
 está escrito en C++20 y su única salida son archivos de texto; la animación y el
 análisis estadístico están escritos en Python~3 y consumen esos archivos como
-entrada. La separación es deliberada: al no acoplar la animación al cálculo, la
-velocidad con la que se visualiza el sistema es independiente de la velocidad con
-la que se lo simula, y una misma corrida puede reanalizarse cuantas veces sea
-necesario sin volver a ejecutarla.
+entrada.
 
 El motor emite dos archivos por corrida. El primero contiene la serie temporal de
 observables, con una fila por paso de tiempo. El segundo, opcional, contiene la
@@ -260,8 +258,7 @@ simulaciones de este trabajo. La condición se verifica en tiempo de ejecución 
 el programa aborta si se le solicita un $M$ inválido.
 
 Para evitar contar dos veces cada par, cada celda se compara consigo misma y
-únicamente con las celdas adyacentes de índice mayor. La periodicidad de las
-distancias se resuelve con la convención de imagen mínima.
+únicamente con las celdas adyacentes de índice mayor.
 
 \subsection{Cálculo de la componente gigante}
 
@@ -366,6 +363,7 @@ contiene el transitorio; a partir de $t = \num{1000}$ las medias fluctúan sin
 deriva sistemática.}
 \label{fig:bloques}
 \end{figure}
+\FloatBarrier
 
 Se adoptó $t_0 = \num{4000}$ para todas las corridas. Esta elección conservadora
 deja \num{6000} unidades de tiempo para promediar y aplica el mismo criterio a
@@ -434,13 +432,13 @@ desordenado con $\eta = 0{,}25$ ($v_a = 0{,}157$), ruido con el que Vicsek
 conserva $v_a = 0{,}884$.}
 \label{fig:cuadros}
 \end{figure}
+\FloatBarrier
 
 El contraste entre los paneles (a) y (d) resume el resultado central del trabajo:
 con el mismo ruido $\eta = 0{,}25$ y la misma densidad, el modelo de Vicsek se
 mantiene fuertemente polarizado mientras que el del votante es indistinguible de
 un gas desordenado.
 
-\FloatBarrier
 \subsection{Evolución temporal de los observables}
 
 La \figref{fig:series-vicsek} muestra la evolución de ambos observables para tres
@@ -464,6 +462,7 @@ trazos marca el inicio del intervalo de promediado, $t_0 = \num{4000}$. En
 $\eta = 0{,}5$ se observan excursiones lentas de gran amplitud.}
 \label{fig:series-vicsek}
 \end{figure}
+\FloatBarrier
 
 El panel inferior revela que, en las densidades pedidas, $S$ permanece por encima
 de $0{,}88$ en todo momento y vale prácticamente $1$ salvo en caídas breves. El
@@ -482,7 +481,6 @@ $\rho = 4$ y semilla 1. Obsérvese que la escala de ruido difiere de la de la
 La línea vertical marca $t_0 = \num{4000}$.}
 \label{fig:series-votante}
 \end{figure}
-
 \FloatBarrier
 \subsection{Polarización en función del ruido}
 
@@ -495,7 +493,8 @@ valores se listan en la \tabref{tab:eta-medio}.
 \begin{table}[htbp]
 \centering
 \caption{Ruido $\eta_{1/2}$ al que la polarización cae a $0{,}5$, y su
-equivalente en la escala del trabajo original según la \ecref{eq:conversion}. La
+equivalente en la escala del artículo de Vicsek et~al.~\cite{vicsek1995} según
+la \ecref{eq:conversion}. La
 última columna muestra cuántas veces más ruido tolera Vicsek que el votante a
 igual densidad.}
 \label{tab:eta-medio}
@@ -520,7 +519,6 @@ son la desviación estándar entre realizaciones. Las mallas de $\eta$ difieren
 entre modelos para resolver cada transición.}
 \label{fig:va-eta}
 \end{figure}
-
 \FloatBarrier
 Las dos familias de curvas no solo difieren en escala, sino que responden a la
 densidad en sentidos opuestos. En el modelo de Vicsek, aumentar la densidad
@@ -545,11 +543,8 @@ El resultado neto es que la densidad perjudica al orden en el modelo del votante
 Un último aspecto de la \figref{fig:va-eta} merece atención. En $\eta = 1$ las
 curvas no se anulan exactamente porque la suma de un número finito de direcciones
 aleatorias presenta fluctuaciones. Para $N$ direcciones independientes y
-uniformes, su módulo sigue una distribución de Rayleigh y el valor residual es
-del orden de
-\[
-\langle v_a \rangle \simeq \frac{\sqrt{\pi}}{2\sqrt{N}}.
-\]
+uniformes, su módulo sigue una distribución estadística cuyo valor residual es
+del orden de $1/\sqrt{N}$.
 Por lo tanto, una polarización pequeña en este límite es compatible con un estado
 completamente desordenado y no debe interpretarse como orden residual.
 
@@ -572,6 +567,7 @@ marca $t_0 = \num{4000}$. Las caídas de $S$ en $\rho = 2$ coinciden
 temporalmente con caídas de $v_a$.}
 \label{fig:series-densidades}
 \end{figure}
+\FloatBarrier
 
 Un rasgo relevante de la \figref{fig:series-densidades} es que las caídas de $S$
 en $\rho = 2$ ocurren simultáneamente con caídas de $v_a$. La fragmentación de la
@@ -597,6 +593,7 @@ pedidas. El observable satura cerca de $1$ en todo el rango de ruido, con un
 mínimo poco profundo alrededor de $\eta \approx 0{,}6$ para $\rho = 2$.}
 \label{fig:s-eta}
 \end{figure}
+\FloatBarrier
 
 El único rasgo apreciable es un mínimo poco profundo en $\rho = 2$, donde $S$
 desciende hasta $0{,}90$ alrededor de $\eta \approx 0{,}6$ y vuelve a crecer
@@ -621,6 +618,7 @@ y $11$ partículas. A diferencia de la \figref{fig:s-eta}, aquí el observable
 recorre casi todo su rango y separa claramente ambos modelos.}
 \label{fig:s-eta-baja}
 \end{figure}
+\FloatBarrier
 
 \begin{figure}[htbp]
 \centering
@@ -632,6 +630,7 @@ regiones vacías y la red de interacción deja de estar percolada
 ($S = 0{,}750$ en este cuadro).}
 \label{fig:cuadro-baja}
 \end{figure}
+\FloatBarrier
 
 El cambio de régimen es visible directamente en la dinámica. La
 \figref{fig:cuadro-baja} muestra que, en densidad baja, las partículas se
@@ -649,7 +648,6 @@ $\eta \gtrsim 0{,}6$ las seis curvas colapsan, porque con ruido alto ningún
 modelo sostiene agrupamiento y $S$ queda determinado únicamente por las
 fluctuaciones de una distribución espacial esencialmente aleatoria.
 
-\FloatBarrier
 \subsection{Relación entre polarización y componente gigante}
 \label{sec:va-s}
 
@@ -668,6 +666,7 @@ La escasa variación horizontal indica que en este régimen la conectividad no
 limita la polarización.}
 \label{fig:va-s}
 \end{figure}
+\FloatBarrier
 
 La \figref{fig:va-s} muestra que, para las densidades pedidas, la escasa variación
 de $S$ concentra los puntos cerca del borde derecho y dificulta observar una
@@ -688,14 +687,15 @@ El valor residual en $\eta = 1$ es un efecto de tamaño finito y crece al
 disminuir $N$.}
 \label{fig:va-eta-baja}
 \end{figure}
+\FloatBarrier
 
 El panorama cambia en densidad baja. La \figref{fig:va-s-baja}, con $v_a$ en el
 eje horizontal y $S$ en el vertical, muestra que los puntos se ordenan a lo largo
 de una relación monótona y aproximadamente lineal compartida por las seis series:
 la componente gigante crece con la polarización. La correspondencia es
-notablemente estrecha —para $\rho \simeq 1/(3\pi)$ se obtienen los pares
+notablemente estrecha -para $\rho \simeq 1/(3\pi)$ se obtienen los pares
 $(v_a,S)$ iguales a $(0{,}571;\,0{,}577)$ y $(0{,}398;\,0{,}388)$,
-prácticamente sobre la diagonal—.
+prácticamente sobre la diagonal-.
 
 \begin{figure}[htbp]
 \centering
@@ -706,6 +706,7 @@ indica que en este régimen la conectividad y el orden direccional están
 estrechamente relacionados.}
 \label{fig:va-s-baja}
 \end{figure}
+\FloatBarrier
 
 La lectura conjunta de ambas figuras precisa el papel de cada observable. Cuando
 la red está percolada, la información direccional puede recorrer todo el sistema
@@ -716,12 +717,11 @@ mutuamente independientes, de modo que la polarización global queda acotada por
 el tamaño relativo de la componente mayor. En ese régimen $S$ deja de ser un
 observable redundante y pasa a ser el que fija el techo de $v_a$.
 
-\FloatBarrier
 \subsection{Desempeño del Cell Index Method}
 
 El tiempo de búsqueda de vecinos se midió por separado en corridas dedicadas
 ejecutadas de a una por vez, dado que las mediciones tomadas durante los barridos
-de producción —doce procesos simultáneos— resultaron inutilizables por la
+de producción -doce procesos simultáneos- resultaron inutilizables por la
 competencia entre procesos. La \tabref{tab:cim} resume los resultados y los
 compara con los del trabajo práctico anterior sobre configuraciones periódicas.
 
@@ -744,7 +744,7 @@ sobre el costo de la búsqueda pese a no intervenir en ella: a igual $N$ y $\rho
 las corridas de Vicsek requieren cerca del doble de evaluaciones de distancia que
 las del votante. La causa es que ambas fueron medidas con $\eta = 0{,}5$, ruido
 con el que Vicsek se encuentra parcialmente ordenado y forma agrupamientos densos
-—que concentran muchas partículas en pocas celdas— mientras que el votante ya
+-que concentran muchas partículas en pocas celdas- mientras que el votante ya
 está desordenado y distribuye las partículas de manera casi homogénea. El costo
 del CIM depende, entonces, del estado dinámico del sistema y no solo de sus
 parámetros nominales.
@@ -766,10 +766,10 @@ TP2 & Votante & 400 & 4,00 & 10,0 & 154,5 & 17,0 \\
 TP2 & Vicsek  & 800 & 8,00 & 10,0 & 914,9 & 16,3 \\
 TP2 & Votante & 800 & 8,00 & 10,0 & 577,7 & 16,0 \\
 \midrule
-TP1 & ---     & 200 & 1,25 & 12,6 & 95,6  & 34,8 \\
-TP1 & ---     & 200 & 0,50 & 20,0 & 45,0  & 43,8 \\
-TP1 & ---     & 800 & 1,25 & 25,3 & 406,8 & 37,0 \\
-TP1 & ---     & 800 & 2,00 & 20,0 & 582,2 & 34,8 \\
+TP1 & -       & 200 & 1,25 & 12,6 & 95,6  & 34,8 \\
+TP1 & -       & 200 & 0,50 & 20,0 & 45,0  & 43,8 \\
+TP1 & -       & 800 & 1,25 & 25,3 & 406,8 & 37,0 \\
+TP1 & -       & 800 & 2,00 & 20,0 & 582,2 & 34,8 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -784,6 +784,7 @@ mediciones periódicas del TP1. Las configuraciones no son equivalentes: difiere
 en densidad, en $L$ y en el número de celdas por lado.}
 \label{fig:cim}
 \end{figure}
+\FloatBarrier
 
 % ========================== CONCLUSIONES ==========================
 \section{Conclusiones}
@@ -826,13 +827,12 @@ gobernado por la densidad local y no por la cantidad total de partículas.
 Normalizada por evaluación de distancia, la implementación de este trabajo es
 aproximadamente el doble de rápida que la del trabajo anterior, diferencia
 compatible con el uso de partículas puntuales en lugar de discos de radio finito.
-La observación de que el costo también depende del estado dinámico —las
+La observación de que el costo también depende del estado dinámico -las
 configuraciones ordenadas de Vicsek concentran partículas y encarecen la
-búsqueda— indica que cualquier estimación de rendimiento debe especificar el
+búsqueda- indica que cualquier estimación de rendimiento debe especificar el
 régimen en el que fue medida.
 
 % =========================== REFERENCIAS ===========================
-\section*{Referencias}
 \addcontentsline{toc}{section}{Referencias}
 
 \begin{thebibliography}{9}

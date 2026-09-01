@@ -1,0 +1,414 @@
+% ---------------------------------------------------------------------------
+% SdS - TP2: Autómatas celulares y bandadas de agentes autopropulsados
+% Presentación oral: 13 minutos.
+%
+% Formato según material/catedra/practica/GuiaPresentaciones.pdf y las
+% correcciones devueltas a otros grupos, resumidas en
+% restricciones-por-seccion.md.
+%
+% Los recuadros grises son ranuras de contenido pendiente. Cada uno indica el
+% archivo esperado en figuras/ y los datos que debe traer. Reemplazar
+% \slot{...} por \includegraphics[width=\textwidth]{figuras/<archivo>}.
+% Lo marcado con \pend{...} son valores todavía no medidos.
+% ---------------------------------------------------------------------------
+\documentclass[aspectratio=169,10pt]{beamer}
+
+\usetheme{Warsaw}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+% miniframes trae el pie vacío: hay que pedir el número de diapositiva explícitamente.
+\setbeamertemplate{footline}[frame number]
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{url}
+
+\sisetup{exponent-product=\times}
+
+% Ranura de contenido pendiente: #1 ancho, #2 alto, #3 descripción
+\newcommand{\slot}[3]{%
+  \fbox{\parbox[c][#2][c]{#1}{\centering\footnotesize\color{gray}#3}}}
+% Valor pendiente de medición
+\newcommand{\pend}[1]{{\color{red}\textbf{[#1]}}}
+% Bloque de parámetros fijos, al costado de la figura y fuera de ella
+\newcommand{\params}[1]{{\scriptsize #1}}
+% Link a animación: debe verse la URL completa
+\newcommand{\anim}[1]{{\small\texttt{#1}}}
+
+\title[SdS TP2]{Bandadas de agentes autopropulsados}
+\subtitle{Modelo estándar y modelo de votante}
+\author{\pend{Integrante 1} \and \pend{Integrante 2} \and \pend{Integrante 3}}
+\institute{Simulación de Sistemas — Grupo \pend{XX}, Comisión \pend{S}}
+\date{4 de septiembre de 2026}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% 
+\section*{Introducción}
+\begin{frame}\sectionpage\end{frame}
+
+\begin{frame}{Sistema real}
+  \begin{columns}[T]
+    \begin{column}{0.52\textwidth}
+      \slot{\textwidth}{4.4cm}{figuras/01-sistema-real.png\\[2pt] foto o esquema de una bandada real}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \begin{itemize}
+        \item Agentes autopropulsados a rapidez constante.
+        \item Sin líder ni control central: solo interacción local.
+        \item Orden colectivo emergente frente a perturbaciones.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Modelo matemático}
+  Cada agente $i$ tiene posición $\bm{x}_i$ y orientación $\theta_i$, con $|\bm{v}_i| = v$ constante:
+  \begin{align}
+    \bm{x}_i(t+\Delta t) &= \bm{x}_i(t) + \bm{v}_i(t)\,\Delta t, \\
+    \theta_i(t+\Delta t) &= \Theta_i(t) + \Delta\theta,
+  \end{align}
+  donde $\Delta\theta$ es uniforme en $[-\eta/2,\ \eta/2]$ y $\Theta_i$ es la dirección que la
+  regla de interacción asigna a partir de las vecinas dentro del radio $r_c$.
+\end{frame}
+
+\begin{frame}{Reglas de interacción}
+  \begin{columns}[T]
+    \begin{column}{0.48\textwidth}
+      \textbf{Estándar}\\[4pt]
+      Promedia las direcciones de todas sus vecinas, incluida ella misma:
+      \begin{equation}
+        \Theta_i = \operatorname{atan2}\!\big(\langle \sin\theta \rangle_{r_c},\ \langle \cos\theta \rangle_{r_c}\big)
+      \end{equation}
+      {\scriptsize Vicsek \emph{et al.}, \emph{Phys.\ Rev.\ Lett.}, 1995}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \textbf{Votante}\\[4pt]
+      Elige una sola vecina al azar y copia su dirección:
+      \begin{equation}
+        \Theta_i = \theta_j, \qquad j \sim \mathcal{U}(\mathcal{V}_i)
+      \end{equation}
+      {\scriptsize Loscar, Baglietto y Vazquez, \emph{Phys.\ Rev.\ E}, 2021}
+    \end{column}
+  \end{columns}
+  \vspace{0.6em}
+  \centering\slot{0.5\textwidth}{2.0cm}{figuras/02-esquema-reglas.pdf\\[2pt] misma vecindad, las dos reglas lado a lado}
+\end{frame}
+
+% ===========================================================================
+\section*{Implementación}
+\begin{frame}\sectionpage\end{frame}
+
+\begin{frame}{Arquitectura del motor de simulación}
+  \begin{columns}[T]
+    \begin{column}{0.56\textwidth}
+      \slot{\textwidth}{4.4cm}{figuras/03-arquitectura.pdf\\[2pt] diagrama de módulos o UML del motor\\ (sin post-proceso ni formato de archivos)}
+    \end{column}
+    \begin{column}{0.40\textwidth}
+      \begin{itemize}\small
+        \item \pend{Módulo de estado / partículas}
+        \item \pend{Grilla CIM con contorno periódico}
+        \item \pend{Regla de actualización (estándar / votante)}
+        \item \pend{Integrador temporal}
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Paso de simulación}
+  \begin{columns}[T]
+    \begin{column}{0.56\textwidth}
+      \slot{\textwidth}{4.4cm}{figuras/04-pseudocodigo.pdf\\[2pt] pseudocódigo del paso $t \to t+\Delta t$:\\ construir grilla, buscar vecinas,\\ actualizar $\theta$, actualizar $\bm{x}$, aplicar PBC}
+    \end{column}
+    \begin{column}{0.40\textwidth}
+      \begin{itemize}\small
+        \item Actualización sincrónica: todas las $\theta$ nuevas se calculan sobre el estado en $t$.
+        \item Vecinas por CIM con $M$ celdas por lado, $L/M \geq r_c$.
+        \item Distancias con imagen mínima.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ===========================================================================
+\section*{Simulaciones}
+\begin{frame}\sectionpage\end{frame}
+
+\begin{frame}{Sistema particular}
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \slot{\textwidth}{4.6cm}{figuras/05-esquema-caja.pdf\\[2pt] caja con contorno periódico.\\ $L$ y $r_c$ acotados \emph{sobre el dibujo},\\ una partícula con su vector velocidad}
+    \end{column}
+    \begin{column}{0.50\textwidth}
+      \params{
+      \begin{tabular}{@{}ll@{}}
+        \multicolumn{2}{@{}l}{\textbf{Fijos}} \\
+        \midrule
+        Lado de la caja & $L = 10$ \\
+        Contorno & periódico \\
+        Radio de interacción & $r_c = 1$ \\
+        Rapidez & $v = \num{3e-2}$ \\
+        Paso temporal & $\Delta t = 1$ \\
+        Pasos por corrida & \pend{t} \\
+        \addlinespace
+        \multicolumn{2}{@{}l}{\textbf{Variables}} \\
+        \midrule
+        Densidad & $\rho = 2,\ 4,\ 8$ \\
+        Partículas & $N = \rho L^2 = 200,\ 400,\ 800$ \\
+        Ruido & $\eta \in [\pend{$\eta_{\min}$},\ \pend{$\eta_{\max}$}]$ \\
+        Regla & estándar, votante \\
+        \addlinespace
+        Realizaciones & $n_r \in \pend{[a, b]}$ \\
+        \bottomrule
+      \end{tabular}}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Observables}
+  \textbf{Polarización}, instante a instante:
+  \begin{equation}
+    v_a(t) = \frac{1}{N v}\left| \sum_{i=1}^{N} \bm{v}_i(t) \right| \in [0,1]
+  \end{equation}
+
+  \textbf{Fracción de la componente gigante}. Un \emph{cluster} es un conjunto de partículas donde
+  todo par está unido por una cadena de vecinas a distancia $\le r_c$:
+  \begin{equation}
+    S(t) = \frac{1}{N}\max_{c\,\in\,\mathcal{C}(t)} |c| \in (0,1]
+  \end{equation}
+
+  \vspace{0.4em}
+  \textbf{Observables escalares}: $\langle v_a\rangle$ y $\langle S\rangle$ promedian los valores de
+  $v_a(t)$ y $S(t)$ sobre los pasos posteriores a $t_0$, el instante en que el sistema alcanza el
+  estacionario, y sobre las $n_r$ realizaciones. La barra de error es la dispersión entre realizaciones.
+\end{frame}
+
+% ===========================================================================
+\section*{Resultados}
+\begin{frame}\sectionpage\end{frame}
+
+% --- Estudio 1: ruido, modelo estándar ------------------------------------
+\begin{frame}{Respuesta al ruido: modelo estándar}
+  \framesubtitle{Dinámica para ruido bajo y ruido alto}
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \centering
+      \slot{\textwidth}{3.0cm}{figuras/06-anim-estandar-eta-bajo.png}\\[3pt]
+      \anim{\pend{https://youtu.be/xxxxxxxxxxx}}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \centering
+      \slot{\textwidth}{3.0cm}{figuras/07-anim-estandar-eta-alto.png}\\[3pt]
+      \anim{\pend{https://youtu.be/xxxxxxxxxxx}}
+    \end{column}
+  \end{columns}
+  \vspace{0.5em}
+  \params{$L=10$ \quad $\rho = \pend{$\rho$}$ \quad $N = \pend{N}$ \quad $v=\num{3e-2}$ \quad $r_c=1$
+  \quad $\eta = \pend{$\eta_{\min}$}$ (izq.) y $\pend{$\eta_{\max}$}$ (der.)}
+\end{frame}
+
+\begin{frame}{Respuesta al ruido: modelo estándar}
+  \framesubtitle{Evolución temporal de la polarización}
+  \begin{columns}[T]
+    \begin{column}{0.64\textwidth}
+      \slot{\textwidth}{4.8cm}{figuras/10-va-vs-t-estandar.pdf\\[2pt] polarización vs.\ tiempo\\ leyenda: solo los valores de $\eta$\\ línea vertical en $t_0$}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \params{
+      $L = 10$\\
+      $\rho = \pend{$\rho$}$, $N = \pend{N}$\\
+      $v = \num{3e-2}$, $r_c = 1$\\
+      $n_r = \pend{n}$\\[6pt]
+      $t_0 = \pend{t}$: a partir de ahí se promedia para obtener $\langle v_a\rangle$.}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Respuesta al ruido: modelo estándar}
+  \framesubtitle{Polarización en función del ruido}
+  \begin{columns}[T]
+    \begin{column}{0.64\textwidth}
+      \slot{\textwidth}{4.8cm}{figuras/11-va-vs-eta-estandar.pdf\\[2pt] polarización vs.\ ruido, con barras de error\\ leyenda: solo los valores de $\rho$}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \params{
+      $L = 10$\\
+      $v = \num{3e-2}$, $r_c = 1$\\
+      $n_r = \pend{n}$ por punto\\
+      Promedio para $t > t_0$}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Respuesta al ruido: modelo estándar}
+  \framesubtitle{Evolución temporal de la componente gigante}
+  \begin{columns}[T]
+    \begin{column}{0.64\textwidth}
+      \slot{\textwidth}{4.8cm}{figuras/12-S-vs-t-estandar.pdf\\[2pt] fracción de la componente gigante vs.\ tiempo\\ leyenda: solo los valores de $\rho$\\ línea vertical en $t_0$}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \params{
+      $L = 10$\\
+      $v = \num{3e-2}$, $r_c = 1$\\
+      $\eta = \pend{$\eta$}$\\
+      $n_r = \pend{n}$}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Respuesta al ruido: modelo estándar}
+  \framesubtitle{Componente gigante en función del ruido}
+  \begin{columns}[T]
+    \begin{column}{0.64\textwidth}
+      \slot{\textwidth}{4.8cm}{figuras/13-S-vs-eta-estandar.pdf\\[2pt] componente gigante vs.\ ruido, con barras de error\\ leyenda: solo los valores de $\rho$}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \params{
+      $L = 10$\\
+      $v = \num{3e-2}$, $r_c = 1$\\
+      $n_r = \pend{n}$ por punto\\
+      Promedio para $t > t_0$}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- Estudio 2: ruido, modelo de votante ----------------------------------
+\begin{frame}{Respuesta al ruido: modelo de votante}
+  \framesubtitle{Dinámica para ruido bajo y ruido alto}
+  \begin{columns}[T]
+    \begin{column}{0.46\textwidth}
+      \centering
+      \slot{\textwidth}{3.0cm}{figuras/08-anim-votante-eta-bajo.png}\\[3pt]
+      \anim{\pend{https://youtu.be/xxxxxxxxxxx}}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \centering
+      \slot{\textwidth}{3.0cm}{figuras/09-anim-votante-eta-alto.png}\\[3pt]
+      \anim{\pend{https://youtu.be/xxxxxxxxxxx}}
+    \end{column}
+  \end{columns}
+  \vspace{0.5em}
+  \params{$L=10$ \quad $\rho = \pend{$\rho$}$ \quad $N = \pend{N}$ \quad $v=\num{3e-2}$ \quad $r_c=1$
+  \quad $\eta = \pend{$\eta_{\min}$}$ (izq.) y $\pend{$\eta_{\max}$}$ (der.)}
+\end{frame}
+
+\begin{frame}{Respuesta al ruido: modelo de votante}
+  \framesubtitle{Evoluciones temporales}
+  \begin{columns}[T]
+    \begin{column}{0.64\textwidth}
+      \slot{\textwidth}{4.8cm}{figuras/16-evoluciones-votante.pdf\\[2pt] dos paneles: polarización vs.\ tiempo\\ y componente gigante vs.\ tiempo\\ línea vertical en $t_0$}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \params{
+      $L = 10$\\
+      $\rho = \pend{$\rho$}$, $N = \pend{N}$\\
+      $v = \num{3e-2}$, $r_c = 1$\\
+      $\eta = \pend{$\eta_{\min}$}$ y $\pend{$\eta_{\max}$}$\\
+      $n_r = \pend{n}$\\[6pt]
+      Mismo criterio de $t_0$ que en el modelo estándar.}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Respuesta al ruido: modelo de votante}
+  \framesubtitle{Polarización en función del ruido, comparada con el modelo estándar}
+  \begin{columns}[T]
+    \begin{column}{0.64\textwidth}
+      \slot{\textwidth}{4.8cm}{figuras/17-va-vs-eta-comparacion.pdf\\[2pt] polarización vs.\ ruido, con barras de error\\ leyenda: valores de $\rho$ y regla de interacción}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \params{
+      $L = 10$\\
+      $v = \num{3e-2}$, $r_c = 1$\\
+      $n_r = \pend{n}$ por punto\\
+      Promedio para $t > t_0$}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Respuesta al ruido: modelo de votante}
+  \framesubtitle{Componente gigante en función del ruido, comparada con el modelo estándar}
+  \begin{columns}[T]
+    \begin{column}{0.64\textwidth}
+      \slot{\textwidth}{4.8cm}{figuras/18-S-vs-eta-comparacion.pdf\\[2pt] componente gigante vs.\ ruido, con barras de error\\ leyenda: valores de $\rho$ y regla de interacción}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \params{
+      $L = 10$\\
+      $v = \num{3e-2}$, $r_c = 1$\\
+      $n_r = \pend{n}$ por punto\\
+      Promedio para $t > t_0$}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- Estudio 3: relación entre observables --------------------------------
+\begin{frame}{Relación entre polarización y componente gigante}
+  \begin{columns}[T]
+    \begin{column}{0.64\textwidth}
+      \slot{\textwidth}{4.8cm}{figuras/14-va-vs-S.pdf\\[2pt] polarización vs.\ componente gigante\\ leyenda: valores de $\rho$ y regla de interacción}
+    \end{column}
+    \begin{column}{0.32\textwidth}
+      \params{
+      $L = 10$\\
+      $v = \num{3e-2}$, $r_c = 1$\\
+      Cada punto corresponde a un valor de $\eta$\\
+      $n_r = \pend{n}$}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% --- Estudio 4: costo computacional ---------------------------------------
+\begin{frame}{Tiempos de ejecución del CIM}
+  \begin{columns}[T]
+    \begin{column}{0.60\textwidth}
+      \slot{\textwidth}{4.4cm}{figuras/15-tiempos-cim.pdf\\[2pt] tiempo de ejecución (s) vs.\ número de partículas\\ leyenda: TP1 y TP2}
+    \end{column}
+    \begin{column}{0.36\textwidth}
+      \params{
+      \begin{tabular}{@{}lcc@{}}
+        \toprule
+        $N$ & TP1 (s) & TP2 (s) \\
+        \midrule
+        \pend{N} & \pend{t} & \pend{t} \\
+        \pend{N} & \pend{t} & \pend{t} \\
+        \pend{N} & \pend{t} & \pend{t} \\
+        \bottomrule
+      \end{tabular}\\[6pt]
+      $L = 10$, $r_c = 1$, $M = \pend{M}$\\
+      \pend{n} repeticiones por punto}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ===========================================================================
+\section*{Conclusiones}
+\begin{frame}\sectionpage\end{frame}
+
+\begin{frame}{Conclusiones}
+  \begin{itemize}
+    \item \pend{Cómo decrece $\langle v_a\rangle$ al aumentar $\eta$ en el modelo estándar, con el rango numérico observado}
+    \item \pend{Cómo cambia ese comportamiento con $\rho$ en el modelo estándar}
+    \item \pend{En qué se diferencia el modelo de votante del estándar, nombrando el modelo en cada afirmación}
+    \item \pend{Qué relación cuantitativa muestran $\langle v_a\rangle$ y $\langle S\rangle$}
+    \item \pend{Cómo se comparan los tiempos del CIM con los del TP1}
+  \end{itemize}
+  \vspace{0.5em}
+  {\scriptsize Cada afirmación nombra el modelo al que corresponde y se sostiene en una figura mostrada.}
+\end{frame}
+
+\begin{frame}
+  \centering\vfill{\Large Muchas gracias}\vfill
+\end{frame}
+
+\end{document}
