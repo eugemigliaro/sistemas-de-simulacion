@@ -277,20 +277,11 @@ aportar precisión.
 
 \subsection{Validación}
 
-La implementación se verificó con una batería de pruebas automáticas antes de
-producir resultados. La prueba central compara, sobre sistemas generados al azar,
-las listas de vecinas devueltas por el CIM con las obtenidas por fuerza bruta y
-exige coincidencia exacta, no meramente estadística. Otras pruebas cubren la
-aritmética periódica, la normalización de ángulos, el rechazo de configuraciones
-inválidas —incluido el caso $M = 10$ mencionado antes—, el formato de los
-archivos de salida y la interfaz de línea de comandos. La totalidad del código se
-compila además con los desinfectantes de direcciones y de comportamiento
-indefinido activados, y las pruebas se ejecutan también bajo esa configuración.
-
-Como control físico independiente, el caso $\eta = 0$ debe alcanzar
-$v_a = 1$ de forma exacta y permanecer allí, ya que sin ruido el alineamiento es
-absorbente. Ese comportamiento se observa en las corridas y se discute en la
-Sección~\ref{sec:estacionario}.
+La implementación se validó comparando, sobre sistemas generados al azar, las
+listas de vecinas obtenidas con el CIM y por fuerza bruta; ambas coincidieron de
+forma exacta. Como control físico independiente, las corridas con $\eta = 0$
+alcanzan $v_a = 1$ y permanecen allí, de acuerdo con el carácter absorbente del
+estado completamente alineado en ausencia de ruido.
 
 % ========================== SIMULACIONES ==========================
 \section{Simulaciones}
