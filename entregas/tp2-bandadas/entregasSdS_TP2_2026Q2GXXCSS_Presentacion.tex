@@ -1,294 +1,302 @@
-% Presentación oral del TP2 — 13 minutos.
-% Estructura basada en GuiaPresentaciones.pdf y TP2_Enunciado.pdf.
-\documentclass[aspectratio=169,10pt]{beamer}
+% Presentación oral del TP2 - versión alineada con el informe final.
+\documentclass[aspectratio=169,11pt]{beamer}
 \usetheme{Warsaw}
-\useoutertheme{miniframes}
 \setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{headline}{}
 \setbeamertemplate{footline}[frame number]
 
 \usepackage[spanish,es-noquoting]{babel}
-\renewcommand{\sectionname}{Sección}
 \usepackage{amsmath,amssymb,bm}
-\usepackage{siunitx}
 \usepackage{graphicx}
 \usepackage{booktabs}
 \usepackage{xcolor}
-\usepackage{url}
 
-\sisetup{exponent-product=\times,output-decimal-marker={,}}
 \definecolor{itbablue}{RGB}{0,91,145}
 \definecolor{accent}{RGB}{211,92,32}
+\definecolor{softblue}{RGB}{232,243,249}
 \setbeamercolor{structure}{fg=itbablue}
 \setbeamercolor{alerted text}{fg=accent}
+\setbeamercolor{block title}{fg=white,bg=itbablue}
+\setbeamercolor{block body}{bg=softblue}
+\setbeamerfont{frametitle}{size=\large}
+\setbeamerfont{title}{size=\LARGE}
 
-\newcommand{\params}[1]{{\scriptsize #1}}
+\setbeamertemplate{section page}{%
+  \begin{centering}
+    \vfill
+    {\usebeamercolor[fg]{structure}\usebeamerfont{title}\insertsectionhead\par}
+    \vfill
+  \end{centering}
+}
+
 \newcommand{\figbase}{informe/figuras}
 \newcommand{\presfig}{presentacion/figuras}
-\newcommand{\pendingurl}{{\scriptsize\color{accent}\texttt{URL pública pendiente de carga}}}
+\newcommand{\parametros}[1]{{\small #1}}
+\newcommand{\pendiente}{{\tiny\color{accent}Video: enlace público pendiente de carga}}
 
-\title[SdS TP2]{Transición al orden colectivo en bandadas autopropulsadas}
+\title[Orden colectivo]{Transición al orden colectivo en bandadas autopropulsadas}
 \subtitle{Modelo de Vicsek y modelo del votante}
-\author{Grupo XX -- Comisión S}
-\institute{72.25 Simulación de Sistemas -- ITBA}
+\author[Grupo 7]{Grupo 7 - Comisión S\\Eugenio Migliaro, Francisco Costa y Franco Branda}
+\institute{72.25 Simulación de Sistemas - ITBA}
 \date{4 de septiembre de 2026}
 
 \begin{document}
 
-\begin{frame}[plain]\titlepage\end{frame}
+% 1
+\begin{frame}
+  \titlepage
+\end{frame}
 
-% ===========================================================================
-\section{Introducción}
-\begin{frame}\sectionpage\end{frame}
+% 2
+\section{Introducción / Sistema real / Fundamentos}
+\begin{frame}
+  \sectionpage
+\end{frame}
 
-\begin{frame}{El orden global puede emerger de reglas locales}
+% 3
+\begin{frame}{Sistema real}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.57\textwidth}
+      \centering
+      \includegraphics[width=\textwidth,height=5.4cm,keepaspectratio]{\presfig/sistema-real-bandada.png}
+    \end{column}
+    \begin{column}{0.39\textwidth}
+      \begin{itemize}
+        \item Agentes autopropulsados, sin líder.
+        \item Interacción sólo con vecinos cercanos.
+        \item Competencia entre alineamiento y ruido.
+      \end{itemize}
+      \vspace{0.4em}
+      \begin{block}{Pregunta}
+        ¿Qué cambia si cada agente promedia a sus vecinos o copia sólo a uno?
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 4
+\begin{frame}{Dinámica común}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.58\textwidth}
+      \[
+        \bm{x}_i(t+\Delta t)=\bm{x}_i(t)+v\,\Delta t\,
+        \bigl(\cos\theta_i(t),\sin\theta_i(t)\bigr)
+      \]
+      \[
+        \theta_i(t+\Delta t)=\Theta_i(t)+\Delta\theta_i(t)
+      \]
+    \end{column}
+    \begin{column}{0.38\textwidth}
+      \begin{block}{Ruido normalizado}
+        \[
+          \eta\in[0,1],\quad
+          \Delta\theta_i\sim\mathcal U[-\eta\pi,\eta\pi]
+        \]
+      \end{block}
+      \begin{itemize}
+        \item Rapidez constante.
+        \item La regla sólo cambia $\Theta_i$.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 5
+\begin{frame}{Reglas de interacción}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Vicsek: promedia}
+        \[
+          \Theta_i=\operatorname{atan2}\!\left(
+          \sum_{j\in\mathcal N_i}\sin\theta_j,
+          \sum_{j\in\mathcal N_i}\cos\theta_j\right)
+        \]
+        Usa todas las partículas del vecindario, incluida la propia.
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Votante: copia}
+        \[
+          J_i\sim\mathcal U(\mathcal N_i),\qquad
+          \Theta_i=\theta_{J_i}
+        \]
+        Elige una única partícula del vecindario, incluida la propia.
+      \end{block}
+    \end{column}
+  \end{columns}
+  \vfill
+  \centering\scriptsize Vicsek, PRL, 1995 \quad $\cdot$ \quad Loscar et al., PRE, 2021
+\end{frame}
+
+% 6
+\section{Implementación}
+\begin{frame}
+  \sectionpage
+\end{frame}
+
+% 7
+\begin{frame}{Modelo computacional}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.47\textwidth}
+      \begin{block}{Estado en $t$}
+        Posición y orientación de cada partícula, más el generador aleatorio de la realización.
+      \end{block}
+      \begin{block}{Vecindarios}
+        El Cell Index Method obtiene candidatos bajo contorno periódico.
+      \end{block}
+    \end{column}
+    \begin{column}{0.47\textwidth}
+      \begin{block}{Actualización}
+        Todas las partículas de $t+1$ leen exclusivamente el estado completo en $t$.
+      \end{block}
+      \begin{block}{Medición}
+        Polarización y conectividad se calculan sobre el mismo estado simulado.
+      \end{block}
+    \end{column}
+  \end{columns}
+  \vfill
+  \centering\alert{Una misma semilla reproduce exactamente una realización.}
+\end{frame}
+
+% 8
+\begin{frame}{Paso sincrónico}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.59\textwidth}
-      \includegraphics[width=\textwidth,height=5.2cm,keepaspectratio]{\presfig/sistema-real-bandada.png}
-      \vspace{-0.2em}
-
-      {\tiny Ilustración generada para esta presentación.}
+      \begin{enumerate}
+        \item Construir el CIM con $\bm{x}(t)$.
+        \item Medir $v_a(t)$ y $S(t)$.
+        \item Calcular todas las orientaciones nuevas y su ruido.
+        \item Avanzar posiciones con $\theta_i(t)$ y aplicar periodicidad.
+        \item Intercambiar el estado completo.
+      \end{enumerate}
     \end{column}
     \begin{column}{0.37\textwidth}
-      \begin{itemize}
-        \item Cada agente se autopropulsa sin líder ni control central.
-        \item La interacción es local: solo importa el vecindario inmediato.
-        \item El ruido compite con el alineamiento y controla el orden colectivo.
-      \end{itemize}
-      \vspace{0.5em}
-      \alert{Pregunta:} ¿qué cambia cuando se promedian todas las vecinas o se copia solo una?
+      \begin{block}{Validaciones}
+        \begin{itemize}
+          \item CIM igual a fuerza bruta.
+          \item Estado alineado con $\eta=0$: $v_a=1$.
+          \item Resultados reproducibles por semilla.
+        \end{itemize}
+      \end{block}
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Una dinámica común describe posiciones y orientaciones}
-  Cada partícula puntual $i$ tiene posición $\bm{x}_i$, orientación $\theta_i$ y rapidez constante $v$:
-  \begin{align*}
-    \bm{x}_i(t+1) &= \bm{x}_i(t)+v\,(\cos\theta_i(t),\,\sin\theta_i(t)),\\[0.5em]
-    \theta_i(t+1) &= \Theta_i(t)+\Delta\theta_i(t).
-  \end{align*}
-  En este trabajo el ruido está normalizado como
-  \[
-    \eta\in[0,1], \qquad \Delta\theta_i\sim\mathcal{U}[-\eta\pi,\eta\pi].
-  \]
-  La única diferencia entre modelos está en la dirección de interacción $\Theta_i$.
-\end{frame}
-
-\begin{frame}{Promediar y copiar usan distinta cantidad de información}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.48\textwidth}
-      \textbf{Vicsek: promedio vectorial local}
-      \[
-        \Theta_i=\operatorname{atan2}\!\left(
-        \sum_{j\in\mathcal N_i}\sin\theta_j,
-        \sum_{j\in\mathcal N_i}\cos\theta_j\right)
-      \]
-      Usa todas las vecinas dentro de $r_c$, incluida la propia partícula.
-
-      {\scriptsize Vicsek \emph{et al.}, \emph{Phys. Rev. Lett.}, 1995.}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \textbf{Votante: copia de una vecina}
-      \[
-        J_i\sim\mathcal U(\mathcal N_i),\qquad \Theta_i=\theta_{J_i}
-      \]
-      Elige una única candidata al azar, también pudiendo elegirse a sí misma.
-
-      {\scriptsize Loscar, Baglietto y Vazquez, \emph{Phys. Rev. E}, 2021.}
-    \end{column}
-  \end{columns}
-  \vspace{0.6em}
-  \centering\alert{Vicsek atenúa fluctuaciones locales; el votante las transmite sin promediarlas.}
-\end{frame}
-
-% ===========================================================================
-\section{Implementación}
-\begin{frame}\sectionpage\end{frame}
-
-\begin{frame}{El motor separa geometría, dinámica y medición}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.52\textwidth}
-      \begin{description}
-        \item[Estado y dinámica] \texttt{model.hpp}, \texttt{simulation.cpp}
-        \item[Geometría periódica] \texttt{geometry.cpp}
-        \item[Vecindarios CIM] \texttt{neighbors.cpp}
-        \item[Observables] \texttt{observables.cpp}
-        \item[Configuración y salida] \texttt{runner.cpp}, \texttt{io.cpp}
-      \end{description}
-    \end{column}
-    \begin{column}{0.44\textwidth}
-      \textbf{Decisiones de diseño}
-      \begin{itemize}
-        \item Motor reproducible en C++20.
-        \item Regla de interacción intercambiable.
-        \item Actualización sincrónica: todo $t+1$ lee únicamente el estado en $t$.
-        \item Trayectorias y observables se escriben como texto.
-        \item Animación y análisis se ejecutan después, de forma independiente.
-      \end{itemize}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{Cada paso actualiza todas las partículas en paralelo}
-  \begin{enumerate}
-    \item Construir la grilla del Cell Index Method con las posiciones en $t$.
-    \item Medir $v_a(t)$ y la componente gigante $S(t)$.
-    \item Buscar vecinas en la celda propia y las ocho adyacentes, usando imagen mínima.
-    \item Calcular $\Theta_i(t)$ con la regla de Vicsek o del votante.
-    \item Agregar ruido, avanzar la posición y aplicar el contorno periódico.
-    \item Reemplazar el estado completo solo después de calcular todas las partículas.
-  \end{enumerate}
-  \vspace{0.4em}
-  \begin{block}{Validaciones}
-    El CIM coincide exactamente con fuerza bruta; con $\eta=0$, el estado alineado satisface $v_a=1$ y permanece absorbente.
-  \end{block}
-\end{frame}
-
-% ===========================================================================
+% 9
 \section{Simulaciones}
-\begin{frame}\sectionpage\end{frame}
+\begin{frame}
+  \sectionpage
+\end{frame}
 
-\begin{frame}{Una caja periódica fija la escala espacial del estudio}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.53\textwidth}
-      \includegraphics[width=\textwidth,height=5.3cm,keepaspectratio]{\presfig/esquema-caja-periodica.png}
+% 10
+\begin{frame}{Caja periódica y parámetros}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.55\textwidth}
+      \centering
+      \includegraphics[width=\textwidth,height=5.5cm,keepaspectratio]{\presfig/esquema-caja-periodica.png}
     \end{column}
-    \begin{column}{0.43\textwidth}
-      \params{
+    \begin{column}{0.41\textwidth}
+      La caja fija la escala espacial y su contorno es periódico.
+      \vspace{0.35em}
+
+      \parametros{
       \begin{tabular}{@{}ll@{}}
         \toprule
-        \multicolumn{2}{c}{\textbf{Parámetros fijos}}\\
-        \midrule
-        Lado & $L=10$\\
-        Contorno & periódico\\
-        Radio & $r_c=1$\\
-        Rapidez & $v=3\times10^{-2}$\\
-        Paso & $\Delta t=1$\\
-        CIM & $M=9$ celdas/lado\\
-        Duración & $T=10\,000$\\
-        Estacionario & $t_0=4\,000$\\
-        Realizaciones & 10 por punto\\
+        Lado & $L=10$ \\
+        Radio & $r_c=1$ \\
+        Rapidez & $v=0{,}03$ \\
+        Paso & $\Delta t=1$ \\
+        CIM & $M=9$ celdas/lado \\
+        Duración & $T=10\,000$ \\
+        Transitorio & $t_0=4\,000$ \\
+        Réplicas & 10 por punto \\
         \bottomrule
       \end{tabular}}
-      \vspace{0.5em}
-
-      \textbf{Variables:} regla de interacción, ruido $\eta$ y densidad.
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Dos observables separan orden y conectividad}
-  \textbf{Polarización instantánea}
-  \[
-    v_a(t)=\frac{1}{N}\left|\sum_{i=1}^{N}(\cos\theta_i(t),\sin\theta_i(t))\right|\in[0,1].
-  \]
-  \textbf{Fracción de la componente gigante}
-  \[
-    S(t)=\frac{1}{N}\max_{c\in\mathcal C(t)}|c|\in(0,1].
-  \]
-  $\mathcal C(t)$ contiene las componentes conexas de la red geométrica definida por distancias periódicas menores o iguales que $r_c$.
-
-  \vspace{0.5em}
-  Para cada semilla se promedia $v_a(t)$ o $S(t)$ en $[4\,000,10\,000]$; cada punto es la media de 10 realizaciones y su barra es la desviación estándar entre realizaciones.
-\end{frame}
-
-\begin{frame}{El intervalo estacionario deja 6 000 pasos para promediar}
+% 11
+\begin{frame}{Observables y promediado}
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.68\textwidth}
-      \includegraphics[width=\textwidth,height=5.3cm,keepaspectratio]{\figbase/bloques-vicsek.png}
+    \begin{column}{0.48\textwidth}
+      \textbf{Orden global}
+      \[
+        v_a(t)=\frac{1}{N}\left|\sum_{i=1}^N
+        (\cos\theta_i,\sin\theta_i)\right|
+      \]
+      \textbf{Conectividad}
+      \[
+        S(t)=\frac{n_{\max}(t)}{N}
+      \]
     \end{column}
-    \begin{column}{0.28\textwidth}
-      \params{$\rho=4$\\$\eta=0{,}5$\\Vicsek\\3 realizaciones mostradas\\Bloques de 1 000 pasos}
-      \vspace{1em}
-
-      Se inspeccionaron las 10 realizaciones de cada caso.
-
-      \vspace{0.7em}
-      \alert{$t_0=4\,000$} se eligió de forma conservadora y se aplicó a todas las combinaciones.
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Por realización}
+        \[
+          \overline A_s=\frac{1}{N_t}\sum_{t=t_0}^{T} A_s(t)
+        \]
+      \end{block}
+      \begin{block}{Por punto}
+        Media de las 10 realizaciones. Las barras muestran su desviación estándar.
+      \end{block}
     \end{column}
   \end{columns}
 \end{frame}
 
-% ===========================================================================
+% 12
 \section{Resultados}
-\begin{frame}\sectionpage\end{frame}
+\begin{frame}
+  \sectionpage
+\end{frame}
 
-\begin{frame}{Vicsek conserva orden con ruido moderado}
-  \framesubtitle{Respuesta al ruido -- $\rho=4$, semilla 1, $t=400$}
+% 13
+\begin{frame}{Fotogramas representativos}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.48\textwidth}
       \centering
-      \includegraphics[height=4.8cm,trim=0 0 0 25,clip]{\figbase/cuadro-vicsek-rho4-eta0p25-seed1.png}\\[-0.2em]
-      $\eta=0{,}25$: $v_a=0{,}884$\\
-      \pendingurl
+      \textbf{Vicsek}\\[-0.1em]
+      \includegraphics[height=4.85cm,trim=0 0 0 25,clip]{\figbase/cuadro-vicsek-rho4-eta0p25-seed1.png}\\[-0.15em]
+      \parametros{$\rho=4$, $\eta=0{,}25$, $t=400$, semilla 1}\\
+      \pendiente
     \end{column}
     \begin{column}{0.48\textwidth}
       \centering
-      \includegraphics[height=4.8cm,trim=0 0 0 25,clip]{\figbase/cuadro-vicsek-rho4-eta0p75-seed1.png}\\[-0.2em]
-      $\eta=0{,}75$: $v_a=0{,}049$\\
-      \pendingurl
+      \textbf{Votante}\\[-0.1em]
+      \includegraphics[height=4.85cm,trim=0 0 0 25,clip]{\figbase/cuadro-voter-rho4-eta0p25-seed1.png}\\[-0.15em]
+      \parametros{$\rho=4$, $\eta=0{,}25$, $t=400$, semilla 1}\\
+      \pendiente
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{Las fluctuaciones lentas justifican promedios largos}
-  \framesubtitle{Vicsek -- evolución temporal de $v_a$ y $S$}
+% 14
+\begin{frame}{Evolución temporal}
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.78\textwidth}
-      \includegraphics[width=\textwidth,height=5.6cm,keepaspectratio]{\figbase/series-vicsek.png}
+    \begin{column}{0.49\textwidth}
+      \centering\textbf{Vicsek}\\[-0.2em]
+      \includegraphics[width=\textwidth]{\presfig/serie-va-vicsek-presentacion.png}
     \end{column}
-    \begin{column}{0.18\textwidth}
-      \params{$\rho=4$\\semilla 1\\$\eta=0;\,0{,}5;\,1$\\$t_0=4\,000$}
-      \vspace{1em}
-
-      En $\eta=0{,}5$, $v_a$ presenta excursiones de cientos de pasos.
+    \begin{column}{0.49\textwidth}
+      \centering\textbf{Votante}\\[-0.2em]
+      \includegraphics[width=\textwidth]{\presfig/serie-va-votante-presentacion.png}
     \end{column}
   \end{columns}
+  \vfill
+  \centering\parametros{$\rho=4$, semilla 1; la línea punteada marca $t_0=4\,000$}
 \end{frame}
 
-\begin{frame}{El votante pierde el orden con mucho menos ruido}
-  \framesubtitle{Respuesta al ruido -- $\rho=4$, semilla 1, $t=400$}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.48\textwidth}
-      \centering
-      \includegraphics[height=4.8cm,trim=0 0 0 25,clip]{\figbase/cuadro-voter-rho4-eta0p05-seed1.png}\\[-0.2em]
-      $\eta=0{,}05$: $v_a=0{,}524$\\
-      \pendingurl
+% 15
+\begin{frame}{Orden frente al ruido}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.73\textwidth}
+      \includegraphics[width=\textwidth]{\presfig/va-vs-eta-presentacion.png}
     \end{column}
-    \begin{column}{0.48\textwidth}
-      \centering
-      \includegraphics[height=4.8cm,trim=0 0 0 25,clip]{\figbase/cuadro-voter-rho4-eta0p25-seed1.png}\\[-0.2em]
-      $\eta=0{,}25$: $v_a=0{,}157$\\
-      \pendingurl
-    \end{column}
-  \end{columns}
-\end{frame}
+    \begin{column}{0.23\textwidth}
+      \parametros{$\rho=2,4,8$\\10 realizaciones\\$t_0=4\,000$}
+      \vspace{0.65em}
 
-\begin{frame}{La escala relevante del votante está cerca de $\eta=0$}
-  \framesubtitle{Votante -- evolución temporal de $v_a$ y $S$}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.78\textwidth}
-      \includegraphics[width=\textwidth,height=5.6cm,keepaspectratio]{\figbase/series-votante.png}
-    \end{column}
-    \begin{column}{0.18\textwidth}
-      \params{$\rho=4$\\semilla 1\\$\eta=0;\,0{,}05;\,0{,}25$\\$t_0=4\,000$}
-      \vspace{1em}
-
-      Con $\eta=0{,}25$ el votante ya fluctúa alrededor de una polarización baja.
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{Vicsek tolera entre 7,7 y 15,9 veces más ruido}
-  \framesubtitle{Polarización estacionaria en función de $\eta$}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.74\textwidth}
-      \includegraphics[width=\textwidth,height=5.5cm,keepaspectratio]{\figbase/va-vs-eta.png}
-    \end{column}
-    \begin{column}{0.22\textwidth}
-      \params{$L=10$\\$v=3\times10^{-2}$\\$r_c=1$\\10 realizaciones\\promedio en $[4\,000,10\,000]$}
-      \vspace{0.8em}
-
-      \params{\begin{tabular}{@{}ccc@{}}
+      \parametros{
+      \begin{tabular}{@{}ccc@{}}
         \toprule
         $\rho$ & $\eta_{1/2}^{V}$ & $\eta_{1/2}^{vot}$\\
         \midrule
@@ -297,109 +305,145 @@
         8 & 0,555 & 0,035\\
         \bottomrule
       \end{tabular}}
+      \vspace{0.6em}
+
+      \alert{Vicsek tolera entre 7,7 y 15,9 veces más ruido.}
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{En las densidades pedidas la red permanece percolada}
-  \framesubtitle{Componente gigante estacionaria en función de $\eta$}
-  \begin{columns}[T,onlytextwidth]
+% 16
+\begin{frame}{Efecto de la densidad}
+  \begin{columns}[c,onlytextwidth]
     \begin{column}{0.76\textwidth}
-      \includegraphics[width=\textwidth,height=5.5cm,keepaspectratio]{\figbase/s-vs-eta.png}
+      \includegraphics[width=\textwidth]{\presfig/series-densidades-presentacion.png}
     \end{column}
     \begin{column}{0.20\textwidth}
-      \params{$\rho=2,4,8$\\ambos modelos\\10 realizaciones\\$t_0=4\,000$}
-      \vspace{1em}
+      \parametros{Vicsek\\$\eta=0{,}5$\\$\rho=2,4,8$\\semilla 1\\$t_0=4\,000$}
+      \vspace{0.7em}
 
-      $S>0{,}90$ en todo el rango: el ruido desordena las direcciones sin desconectar la red.
+      En $\rho=2$, las caídas de orden coinciden con una componente gigante menor.
     \end{column}
   \end{columns}
 \end{frame}
 
-\begin{frame}{En baja densidad la fragmentación se vuelve observable}
-  \framesubtitle{Evolución temporal -- Vicsek, $\eta=0{,}25$, semilla 1}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.66\textwidth}
-      \includegraphics[width=\textwidth,height=5.5cm,keepaspectratio]{\figbase/series-baja-densidad.png}
+% 17
+\begin{frame}{Conectividad en $\rho=2,4,8$}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.76\textwidth}
+      \includegraphics[width=\textwidth]{\presfig/s-vs-eta-presentacion.png}
     \end{column}
-    \begin{column}{0.30\textwidth}
-      \centering
-      \includegraphics[height=3.3cm,trim=0 0 0 25,clip]{\figbase/cuadro-vicsek-rho0p32-eta0p25-seed1.png}
-
-      \vspace{0.1em}
-      \params{$L=10$\\$N=32,16,11$\\$\rho=0{,}32;\,0{,}16;\,0{,}11$\\$t_0=4\,000$}
-      \vspace{0.2em}
-
-      Los grupos separados producen grandes fluctuaciones de $S(t)$.
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{$S$ recorre casi todo su rango en las densidades bajas}
-  \framesubtitle{Componente gigante estacionaria en función de $\eta$}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.75\textwidth}
-      \includegraphics[width=\textwidth,height=5.5cm,keepaspectratio]{\figbase/s-vs-eta-baja-densidad.png}
-    \end{column}
-    \begin{column}{0.21\textwidth}
-      \params{$\rho\simeq 1/\pi,1/(2\pi),1/(3\pi)$\\$N=32,16,11$\\ambos modelos\\10 realizaciones}
-      \vspace{1em}
-
-      Para $\eta\lesssim0{,}5$, el votante presenta sistemáticamente menor $S$ que Vicsek.
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{La conectividad solo limita el orden cuando la red se fragmenta}
-  \framesubtitle{Componente gigante frente a polarización}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.48\textwidth}
-      \centering
-      \includegraphics[width=\textwidth,height=5.1cm,keepaspectratio]{\figbase/va-vs-s.png}\\
-      {\scriptsize $\rho=2,4,8$: $S\simeq1$ mientras $v_a$ varía.}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \centering
-      \includegraphics[width=\textwidth,height=5.1cm,keepaspectratio]{\figbase/va-vs-s-baja-densidad.png}\\
-      {\scriptsize Baja densidad: $S$ crece monótonamente con $v_a$.}
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}{El costo del CIM depende de la densidad local}
-  \framesubtitle{Comparación orientativa con el TP1}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.72\textwidth}
-      \includegraphics[width=\textwidth,height=5.5cm,keepaspectratio]{\figbase/cim-comparacion.png}
-    \end{column}
-    \begin{column}{0.24\textwidth}
-      \params{TP2: $L=10$, $\rho=2,4,8$\\TP1: geometrías distintas\\corridas dedicadas}
+    \begin{column}{0.20\textwidth}
+      \parametros{Ambos modelos\\10 realizaciones\\$t_0=4\,000$}
       \vspace{0.8em}
 
-      Por evaluación de distancia:
-      \begin{itemize}
-        \item TP2: 16--20 ns;
-        \item TP1: 35--44 ns.
-      \end{itemize}
-      Las configuraciones no son equivalentes; la comparación absoluta no mide solo el algoritmo.
+      \alert{$S>0{,}90$} en todo el rango de ruido.
+      \vspace{0.6em}
+
+      La pérdida de orden no requiere desconectar la red.
     \end{column}
   \end{columns}
 \end{frame}
 
-% ===========================================================================
-\section{Conclusiones}
-\begin{frame}\sectionpage\end{frame}
+% 18
+\begin{frame}{Baja densidad}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.62\textwidth}
+      \centering
+      \includegraphics[height=5.35cm,trim=0 0 0 25,clip]{\figbase/cuadro-vicsek-rho0p32-eta0p25-seed1.png}
+    \end{column}
+    \begin{column}{0.34\textwidth}
+      \parametros{Vicsek\\$N=32$ ($\rho=0{,}32$)\\$\eta=0{,}25$\\$t=400$, semilla 1}
+      \vspace{0.8em}
 
-\begin{frame}{Las dos reglas producen transiciones cualitativamente distintas}
-  \begin{itemize}
-    \item Vicsek tolera entre \alert{7,7 y 15,9 veces más ruido} que el votante antes de alcanzar $\langle v_a\rangle=0{,}5$.
-    \item Al aumentar $\rho$ de 2 a 8, $\eta_{1/2}$ \alert{crece de 0,470 a 0,555 en Vicsek}, pero \alert{cae de 0,061 a 0,035 en el votante}.
-    \item Para $\rho=2,4,8$, la componente gigante permanece por encima de 0,90 y no discrimina estados de orden.
-    \item En densidades bajas, $S$ recorre casi todo su rango y crece monótonamente con $v_a$; allí conectividad y orden dejan de ser independientes.
-    \item Normalizado por evaluación de distancia, el CIM del TP2 requiere 16--20 ns frente a 35--44 ns en el TP1, bajo geometrías diferentes.
-  \end{itemize}
+      Se observan grupos separados que no intercambian orientación.
+      \vspace{0.8em}
+
+      \pendiente
+    \end{column}
+  \end{columns}
 \end{frame}
 
-\begin{frame}\centering\vfill{\Huge Muchas gracias}\vfill\end{frame}
+% 19
+\begin{frame}{Fragmentación temporal}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.76\textwidth}
+      \includegraphics[width=\textwidth]{\presfig/series-baja-densidad-presentacion.png}
+    \end{column}
+    \begin{column}{0.20\textwidth}
+      \parametros{Vicsek\\$\eta=0{,}25$\\$N=11,16,32$\\semilla 1\\$t_0=4\,000$}
+      \vspace{0.8em}
+
+      Orden y conectividad fluctúan en la misma escala temporal.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 20
+\begin{frame}{Conectividad en baja densidad}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.76\textwidth}
+      \includegraphics[width=\textwidth]{\presfig/s-vs-eta-baja-presentacion.png}
+    \end{column}
+    \begin{column}{0.20\textwidth}
+      \parametros{$N=11,16,32$\\ambos modelos\\10 realizaciones\\$t_0=4\,000$}
+      \vspace{0.8em}
+
+      El votante conserva una componente gigante menor para el mismo $N$ y $\eta$.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 21
+\begin{frame}{Orden y conectividad}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \centering\textbf{$\rho=2,4,8$}\\[-0.2em]
+      \includegraphics[width=\textwidth]{\presfig/va-vs-s-presentacion.png}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \centering\textbf{$N=11,16,32$}\\[-0.2em]
+      \includegraphics[width=\textwidth]{\presfig/va-vs-s-baja-presentacion.png}
+    \end{column}
+  \end{columns}
+  \vfill
+  \centering\parametros{En baja densidad, una mayor componente conectada acompaña a un mayor orden global.}
+\end{frame}
+
+% 22
+\begin{frame}{Desempeño del CIM}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.73\textwidth}
+      \includegraphics[width=\textwidth]{\presfig/cim-presentacion.png}
+    \end{column}
+    \begin{column}{0.23\textwidth}
+      \parametros{$L=10$, $r_c=1$\\$M=9$\\200 pasos\\5 repeticiones}
+      \vspace{0.8em}
+
+      \begin{block}{Costo normalizado}
+        TP2: 16-20 ns por evaluación de distancia.
+
+        TP1: 35-44 ns, con otra geometría.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 23
+\section{Conclusiones}
+\begin{frame}
+  \sectionpage
+\end{frame}
+
+% 24
+\begin{frame}{Conclusiones}
+  \begin{itemize}
+    \item Vicsek tolera entre 7,7 y 15,9 veces más ruido que el votante.
+    \item Al aumentar la densidad, Vicsek resiste más ruido y el votante menos.
+    \item Para $\rho=2,4,8$, $S>0{,}90$: orden y conectividad pueden desacoplarse.
+    \item En baja densidad, la conectividad limita el orden global.
+    \item El CIM sostuvo 16-20 ns por evaluación de distancia en este sistema.
+  \end{itemize}
+\end{frame}
 
 \end{document}
