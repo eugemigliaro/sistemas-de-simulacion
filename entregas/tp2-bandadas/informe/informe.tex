@@ -558,22 +558,15 @@ $\eta_{1/2} = 0{,}512$ equivale a $\eta_V = 3{,}22$, del orden de magnitud
 esperado para un sistema de este tamaño.
 
 Un último aspecto de la \figref{fig:va-eta} merece atención. En $\eta = 1$ las
-seis curvas no se anulan sino que convergen a valores pequeños que dependen de
-$N$: $0{,}063$, $0{,}044$ y $0{,}031$ para $\rho = 2$, $4$ y $8$. Estos valores
-coinciden con la predicción para $N$ direcciones independientes y uniformemente
-distribuidas, en la que la suma de versores sigue una distribución de Rayleigh y
-el valor esperado de la \ecref{eq:polarizacion} es
-%
-\begin{equation}
-\label{eq:piso}
-\langle v_a \rangle_{\text{desordenado}} = \frac{\sqrt{\pi}}{2\sqrt{N}},
-\end{equation}
-%
-que da $0{,}0627$, $0{,}0443$ y $0{,}0313$ respectivamente. El acuerdo es mejor
-que el \SI{0.3}{\percent} en los tres casos y constituye una verificación cuantitativa
-independiente de la implementación: en el límite de ruido máximo el simulador
-reproduce exactamente el resultado analítico del desorden completo. También
-implica que $v_a$ nunca debe interpretarse como nulo por debajo de este piso.
+curvas no se anulan exactamente porque la suma de un número finito de direcciones
+aleatorias presenta fluctuaciones. Para $N$ direcciones independientes y
+uniformes, su módulo sigue una distribución de Rayleigh y el valor residual es
+del orden de
+\[
+\langle v_a \rangle \simeq \frac{\sqrt{\pi}}{2\sqrt{N}}.
+\]
+Por lo tanto, una polarización pequeña en este límite es compatible con un estado
+completamente desordenado y no debe interpretarse como orden residual.
 
 \subsection{Componente gigante}
 
@@ -697,19 +690,17 @@ relación entre ambos observables. Por eso conviene repetir el análisis en las
 densidades bajas. Antes, la \figref{fig:va-eta-baja} presenta $v_a$ frente a
 $\eta$ en ese régimen. Se conserva la jerarquía entre modelos, pero el rasgo
 dominante es que el piso de ruido máximo es mucho más alto que en la
-\figref{fig:va-eta}: vale $0{,}157$, $0{,}222$ y $0{,}268$ para $N = 32$, $16$ y
-$11$. Estos valores vuelven a coincidir con la \ecref{eq:piso}, que predice
-$0{,}1567$, $0{,}2216$ y $0{,}2672$; el acuerdo se mantiene, entonces, sobre un
-rango de $N$ que abarca casi dos órdenes de magnitud. La consecuencia práctica
-es que en estos sistemas pequeños una polarización de $0{,}25$ no indica orden
-alguno, y las curvas deben leerse siempre por encima de ese piso.
+\figref{fig:va-eta}, porque aquí el número de partículas es menor. En estos
+sistemas pequeños, una polarización de $0{,}25$ puede ser compatible con el
+desorden y las curvas deben interpretarse teniendo en cuenta ese efecto de tamaño
+finito.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.88\textwidth]{figuras/va-vs-eta-baja-densidad.png}
 \caption{Polarización estacionaria en función del ruido en las densidades bajas.
-El valor al que satura cada curva en $\eta = 1$ corresponde al piso de desorden
-de la \ecref{eq:piso} y crece al disminuir $N$.}
+El valor residual en $\eta = 1$ es un efecto de tamaño finito y crece al
+disminuir $N$.}
 \label{fig:va-eta-baja}
 \end{figure}
 
@@ -841,11 +832,8 @@ monótona, y la fracción de partículas conectadas fija el máximo alcanzable p
 polarización, ya que componentes conexas distintas se alinean en direcciones
 mutuamente independientes.
 
-El límite de ruido máximo proporciona una validación cuantitativa de la
-implementación: la polarización medida en $\eta = 1$ reproduce la predicción
-analítica de la \ecref{eq:piso} con un error menor al \SI{0.3}{\percent} en las tres
-densidades. Este piso, del orden de $N^{-1/2}$, debe descontarse al interpretar
-como orden residual cualquier valor pequeño de $v_a$.
+En el límite de ruido máximo queda una polarización residual debida al tamaño
+finito del sistema, que no debe confundirse con orden colectivo.
 
 Respecto del desempeño, el costo de la búsqueda de vecinos con el CIM está
 gobernado por la densidad local y no por la cantidad total de partículas.

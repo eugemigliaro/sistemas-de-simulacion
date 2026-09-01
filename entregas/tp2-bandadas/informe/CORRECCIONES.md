@@ -11,16 +11,9 @@ PDF recompilado cuando afecte la composición visual.
 - [ ] Revisar el bloque asociado a la ecuación 7, incluida la conversión entre la
   escala de ruido normalizada y la del trabajo original. Se decidió postergar
   esta corrección.
-- [ ] Decidir si se conserva la derivación basada en la distribución de Rayleigh.
-  La alternativa propuesta es eliminar el desarrollo extenso y mencionar
-  brevemente que la polarización no se anula exactamente en `eta = 1` por el
-  tamaño finito del sistema.
-- [ ] Verificar las barras de error de la figura 5 contra los resúmenes de las
-  realizaciones y confirmar que el pie describe correctamente la magnitud
-  graficada.
 - [ ] Revisar el fundamento teórico y la interpretación de la componente gigante,
   incluida la forma de calcular `S` y las afirmaciones sobre conectividad y
-  percolación.
+  percolación. Se decidió postergar esta corrección.
 - [ ] Revisar visualmente todas las páginas del PDF recompilado, en particular la
   página 8 y cualquier página modificada por las barreras de flotantes.
 
@@ -76,6 +69,19 @@ PDF recompilado cuando afecte la composición visual.
 - **Después:** conserva en un único párrafo las dos comprobaciones relevantes para
   el informe: coincidencia exacta entre CIM y fuerza bruta, y el control físico
   `v_a = 1` cuando `eta = 0`.
+
+### Barras de error de la figura 5
+
+- [x] Se verificó que el gráfico usa la desviación estándar muestral entre las diez
+  medias temporales independientes. Las 66 filas tienen un desvío calculado;
+  algunas barras no se distinguen porque son muy pequeñas. No fue necesario
+  modificar la figura.
+
+### Piso de polarización y distribución de Rayleigh
+
+- [x] Se redujo el desarrollo a una mención de la distribución de Rayleigh y a la
+  estimación no numerada `sqrt(pi)/(2 sqrt(N))`, usada únicamente para explicar
+  que la polarización residual en `eta = 1` es un efecto de tamaño finito.
 
 ## Pendientes de verificación visual
 
