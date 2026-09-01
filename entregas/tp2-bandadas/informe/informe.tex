@@ -4,10 +4,10 @@
 % ---------------------------------------------------------------
 % Datos de la portada. Completar con los del grupo antes de entregar.
 % ---------------------------------------------------------------
-\newcommand{\numerogrupo}{XX}
+\newcommand{\numerogrupo}{7}
 \newcommand{\comision}{S}
 \newcommand{\integrantes}{%
-  Apellido, Nombre \\ Apellido, Nombre \\ Apellido, Nombre%
+  Eugenio Migliaro \\ Francisco Costa \\ Franco Branda%
 }
 
 \begin{document}
@@ -271,9 +271,7 @@ CIM, el grafo está disponible sin costo adicional y solo resta recorrerlo. Se
 empleó una estructura de conjuntos disjuntos (\emph{union--find}) con compresión
 de caminos y unión por tamaño, que procesa las aristas en tiempo prácticamente
 lineal y mantiene actualizado el tamaño de cada componente. El máximo de esos
-tamaños, dividido por $N$, da directamente la \ecref{eq:cluster}. La alternativa
-de recorrer el grafo en anchura para cada partícula habría sido más costosa sin
-aportar precisión.
+tamaños, dividido por $N$, da directamente la \ecref{eq:cluster}.
 
 \subsection{Validación}
 
@@ -405,25 +403,25 @@ codificación por color permite distinguir de un vistazo el grado de orden: un
 sistema polarizado aparece dominado por una única tonalidad, mientras que uno
 desordenado presenta todos los colores mezclados.
 
-\begin{figure}[htbp]
+\begin{figure}[p]
 \centering
-\begin{subfigure}{0.49\textwidth}
+\begin{subfigure}{0.40\textwidth}
   \includegraphics[width=\textwidth]{figuras/cuadro-vicsek-rho4-eta0p25-seed1.png}
   \caption{Vicsek, $\eta = 0{,}25$}
 \end{subfigure}
 \hfill
-\begin{subfigure}{0.49\textwidth}
+\begin{subfigure}{0.40\textwidth}
   \includegraphics[width=\textwidth]{figuras/cuadro-vicsek-rho4-eta0p75-seed1.png}
   \caption{Vicsek, $\eta = 0{,}75$}
 \end{subfigure}
 
-\vspace{0.4cm}
-\begin{subfigure}{0.49\textwidth}
+\vspace{0.2cm}
+\begin{subfigure}{0.40\textwidth}
   \includegraphics[width=\textwidth]{figuras/cuadro-voter-rho4-eta0p05-seed1.png}
   \caption{Votante, $\eta = 0{,}05$}
 \end{subfigure}
 \hfill
-\begin{subfigure}{0.49\textwidth}
+\begin{subfigure}{0.40\textwidth}
   \includegraphics[width=\textwidth]{figuras/cuadro-voter-rho4-eta0p25-seed1.png}
   \caption{Votante, $\eta = 0{,}25$}
 \end{subfigure}
@@ -494,17 +492,6 @@ Para cuantificarla se define $\eta_{1/2}$ como el ruido al que $v_a$ desciende
 hasta $0{,}5$, obtenido por interpolación lineal entre los puntos medidos; los
 valores se listan en la \tabref{tab:eta-medio}.
 
-\begin{figure}[htbp]
-\centering
-\includegraphics[width=0.88\textwidth]{figuras/va-vs-eta.png}
-\caption{Polarización estacionaria en función del ruido para ambos modelos y las
-tres densidades. Cada punto es el promedio sobre \num{10} realizaciones
-independientes de la media temporal en $[\num{4000}, \num{10000}]$; las barras
-son la desviación estándar entre realizaciones. Las mallas de $\eta$ difieren
-entre modelos para resolver cada transición.}
-\label{fig:va-eta}
-\end{figure}
-
 \begin{table}[htbp]
 \centering
 \caption{Ruido $\eta_{1/2}$ al que la polarización cae a $0{,}5$, y su
@@ -523,6 +510,18 @@ $\rho$ & $\eta_{1/2}$ (Vicsek) & $\eta_{1/2}$ (votante) & Cociente \\
 \end{tabular}
 \end{table}
 
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.88\textwidth]{figuras/va-vs-eta.png}
+\caption{Polarización estacionaria en función del ruido para ambos modelos y las
+tres densidades. Cada punto es el promedio sobre \num{10} realizaciones
+independientes de la media temporal en $[\num{4000}, \num{10000}]$; las barras
+son la desviación estándar entre realizaciones. Las mallas de $\eta$ difieren
+entre modelos para resolver cada transición.}
+\label{fig:va-eta}
+\end{figure}
+
+\FloatBarrier
 Las dos familias de curvas no solo difieren en escala, sino que responden a la
 densidad en sentidos opuestos. En el modelo de Vicsek, aumentar la densidad
 \emph{favorece} el orden: a $\eta = 0{,}25$ la polarización crece de
@@ -542,20 +541,6 @@ vecinas. Lo único que cambia al aumentar la densidad es que la red de interacci
 tiene más nodos entre los que debe propagarse el consenso, y el ruido dispone de
 más oportunidades por unidad de tiempo para destruirlo antes de que se propague.
 El resultado neto es que la densidad perjudica al orden en el modelo del votante.
-
-La misma asimetría se manifiesta en el transitorio. En $\eta = 0$ el modelo del
-votante tarda tanto más en alcanzar $v_a = 1$ cuanto mayor es la densidad
-—alrededor de $t = \num{1500}$ para $\rho = 2$ y de $t = \num{3000}$ para
-$\rho = 8$—, mientras que Vicsek converge en unas pocas decenas de pasos con
-independencia de la densidad. Es el mismo mecanismo visto en el tiempo: el
-consenso por copia debe propagarse nodo a nodo, y ese proceso se vuelve más lento
-al crecer el sistema.
-
-Conviene señalar que el sistema de $\rho = 4$ coincide con uno de los estudiados
-en el trabajo original ($N = 400$, $L = 10$)~\cite{vicsek1995}. Expresado en la
-escala de aquella referencia mediante la \ecref{eq:conversion}, el valor
-$\eta_{1/2} = 0{,}512$ equivale a $\eta_V = 3{,}22$, del orden de magnitud
-esperado para un sistema de este tamaño.
 
 Un último aspecto de la \figref{fig:va-eta} merece atención. En $\eta = 1$ las
 curvas no se anulan exactamente porque la suma de un número finito de direcciones
@@ -740,6 +725,30 @@ de producción —doce procesos simultáneos— resultaron inutilizables por la
 competencia entre procesos. La \tabref{tab:cim} resume los resultados y los
 compara con los del trabajo práctico anterior sobre configuraciones periódicas.
 
+Los tiempos absolutos no son directamente comparables, porque a igual $N$ las
+densidades difieren: las configuraciones de este trabajo son entre $1{,}6$ y
+$6{,}4$ veces más densas que las del TP1, y el costo del CIM está gobernado por
+la cantidad de partículas contenidas en el bloque de nueve celdas, no por $N$. La
+comparación adecuada es la de la última columna, que normaliza por el número de
+evaluaciones de distancia realmente ejecutadas. En esa métrica la implementación
+del TP2 requiere entre \SI{16}{\nano\second} y \SI{20}{\nano\second} por
+evaluación, frente a \SI{35}{\nano\second} a \SI{44}{\nano\second} en el TP1: es
+aproximadamente el doble de rápida por operación elemental. La diferencia es
+atribuible a la geometría del problema, ya que el TP1 trabajaba con discos de
+radio finito y debía calcular distancias borde a borde, mientras que aquí las
+partículas son puntuales y basta comparar el cuadrado de la distancia con
+$r_c^2$, sin extracción de raíz ni corrección por radios.
+
+Un efecto secundario, visible en la \tabref{tab:cim}, es que el modelo influye
+sobre el costo de la búsqueda pese a no intervenir en ella: a igual $N$ y $\rho$,
+las corridas de Vicsek requieren cerca del doble de evaluaciones de distancia que
+las del votante. La causa es que ambas fueron medidas con $\eta = 0{,}5$, ruido
+con el que Vicsek se encuentra parcialmente ordenado y forma agrupamientos densos
+—que concentran muchas partículas en pocas celdas— mientras que el votante ya
+está desordenado y distribuye las partículas de manera casi homogénea. El costo
+del CIM depende, entonces, del estado dinámico del sistema y no solo de sus
+parámetros nominales.
+
 \begin{table}[htbp]
 \centering
 \caption{Tiempo medio de búsqueda de vecinos por invocación del CIM. Los valores
@@ -765,30 +774,7 @@ TP1 & ---     & 800 & 2,00 & 20,0 & 582,2 & 34,8 \\
 \end{tabular}
 \end{table}
 
-Los tiempos absolutos no son directamente comparables, porque a igual $N$ las
-densidades difieren: las configuraciones de este trabajo son entre $1{,}6$ y
-$6{,}4$ veces más densas que las del TP1, y el costo del CIM está gobernado por
-la cantidad de partículas contenidas en el bloque de nueve celdas, no por $N$. La
-comparación adecuada es la de la última columna, que normaliza por el número de
-evaluaciones de distancia realmente ejecutadas. En esa métrica la implementación
-del TP2 requiere entre \SI{16}{\nano\second} y \SI{20}{\nano\second} por
-evaluación, frente a \SI{35}{\nano\second} a \SI{44}{\nano\second} en el TP1: es
-aproximadamente el doble de rápida por operación elemental. La diferencia es
-atribuible a la geometría del problema, ya que el TP1 trabajaba con discos de
-radio finito y debía calcular distancias borde a borde, mientras que aquí las
-partículas son puntuales y basta comparar el cuadrado de la distancia con
-$r_c^2$, sin extracción de raíz ni corrección por radios.
-
-Un efecto secundario, visible en la \tabref{tab:cim}, es que el modelo influye
-sobre el costo de la búsqueda pese a no intervenir en ella: a igual $N$ y $\rho$,
-las corridas de Vicsek requieren cerca del doble de evaluaciones de distancia que
-las del votante. La causa es que ambas fueron medidas con $\eta = 0{,}5$, ruido
-con el que Vicsek se encuentra parcialmente ordenado y forma agrupamientos densos
-—que concentran muchas partículas en pocas celdas— mientras que el votante ya
-está desordenado y distribuye las partículas de manera casi homogénea. El costo
-del CIM depende, entonces, del estado dinámico del sistema y no solo de sus
-parámetros nominales.
-
+\FloatBarrier
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.88\textwidth]{figuras/cim-comparacion.png}
