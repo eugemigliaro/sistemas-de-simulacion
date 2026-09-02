@@ -1,0 +1,38 @@
+---
+config:
+  look: handDrawn
+  theme: base
+  flowchart:
+    curve: linear
+    nodeSpacing: 28
+    rankSpacing: 34
+  themeVariables:
+    fontFamily: "Arial, sans-serif"
+    fontSize: "18px"
+    primaryColor: "#e8f3f9"
+    primaryTextColor: "#111111"
+    primaryBorderColor: "#005b91"
+    lineColor: "#005b91"
+    secondaryColor: "#ffffff"
+    tertiaryColor: "#fff4ec"
+---
+flowchart LR
+    state["Estado<br/><b>System + Particle</b>"]:::data
+    cim["Vecindarios<br/><b>CIM</b>"]:::component
+    neighbors["Relaciones<br/><b>NeighborList</b>"]:::data
+    dynamics["Dinámica<br/><b>advance</b>"]:::component
+    next["Estado siguiente<br/><b>System(t + Δt)</b>"]:::data
+    runner["Coordinador<br/><b>run_simulation</b>"]:::component
+    observables["Observables<br/><b>vₐ y S</b>"]:::component
+    geometry["Geometría periódica<br/>distancia y contorno"]:::service
+
+    state --> cim --> neighbors --> dynamics --> next
+    runner --> cim
+    neighbors --> observables
+    geometry -.-> cim
+    geometry -.-> dynamics
+
+    classDef component fill:#e8f3f9,stroke:#005b91,stroke-width:2px,color:#111111
+    classDef data fill:#ffffff,stroke:#005b91,stroke-width:2px,color:#111111
+    classDef service fill:#fff4ec,stroke:#d35c20,stroke-width:2px,color:#111111
+    linkStyle default stroke:#005b91,stroke-width:2px

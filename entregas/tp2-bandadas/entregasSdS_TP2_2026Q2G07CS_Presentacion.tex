@@ -1,8 +1,8 @@
 % Presentación oral del TP2 - versión alineada con el informe final.
 \documentclass[aspectratio=169,11pt]{beamer}
 \usetheme{Warsaw}
+\useoutertheme{miniframes}
 \setbeamertemplate{navigation symbols}{}
-\setbeamertemplate{headline}{}
 \setbeamertemplate{footline}[frame number]
 
 \usepackage[spanish,es-noquoting]{babel}
@@ -36,7 +36,7 @@
 
 \title[Orden colectivo]{Transición al orden colectivo en bandadas autopropulsadas}
 \subtitle{Modelo de Vicsek y modelo del votante}
-\author[Grupo 7]{Grupo 7 - Comisión S\\Eugenio Migliaro, Francisco Costa y Franco Branda}
+\author[Grupo 07]{Grupo 07 - Comisión S\\Eugenio Migliaro, Francisco Costa y Franco Branda}
 \institute{72.25 Simulación de Sistemas - ITBA}
 \date{4 de septiembre de 2026}
 
@@ -48,7 +48,7 @@
 \end{frame}
 
 % 2
-\section{Introducción / Sistema real / Fundamentos}
+\section{Introducción}
 \begin{frame}
   \sectionpage
 \end{frame}
@@ -75,7 +75,7 @@
 \end{frame}
 
 % 4
-\begin{frame}{Dinámica común}
+\begin{frame}{Fundamentos}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.58\textwidth}
       \[
@@ -102,7 +102,7 @@
 \end{frame}
 
 % 5
-\begin{frame}{Reglas de interacción}
+\begin{frame}{Fundamentos}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.48\textwidth}
       \begin{block}{Vicsek: promedia}
@@ -135,47 +135,45 @@
 \end{frame}
 
 % 7
-\begin{frame}{Modelo computacional}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.47\textwidth}
-      \begin{block}{Estado en $t$}
-        Posición y orientación de cada partícula, más el generador aleatorio de la realización.
-      \end{block}
-      \begin{block}{Vecindarios}
-        El Cell Index Method obtiene candidatos bajo contorno periódico.
-      \end{block}
-    \end{column}
-    \begin{column}{0.47\textwidth}
-      \begin{block}{Actualización}
-        Todas las partículas de $t+1$ leen exclusivamente el estado completo en $t$.
-      \end{block}
-      \begin{block}{Medición}
-        Polarización y conectividad se calculan sobre el mismo estado simulado.
-      \end{block}
-    \end{column}
-  \end{columns}
+\begin{frame}{Arquitectura del motor}
+  \centering
+  \includegraphics[width=0.98\textwidth,height=5.15cm,keepaspectratio]{\presfig/arquitectura-motor.pdf}
+
   \vfill
-  \centering\alert{Una misma semilla reproduce exactamente una realización.}
+  {\small El coordinador repite el ciclo; el estado sólo cambia a través de la dinámica.}
 \end{frame}
 
 % 8
-\begin{frame}{Paso sincrónico}
+\begin{frame}{Algoritmo de simulación}
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.59\textwidth}
-      \begin{enumerate}
-        \item Construir el CIM con $\bm{x}(t)$.
-        \item Medir $v_a(t)$ y $S(t)$.
-        \item Calcular todas las orientaciones nuevas y su ruido.
-        \item Avanzar posiciones con $\theta_i(t)$ y aplicar periodicidad.
-        \item Intercambiar el estado completo.
-      \end{enumerate}
+    \begin{column}{0.68\textwidth}
+      \begin{beamercolorbox}[sep=0.6em,rounded=true]{block body}
+        {\small\ttfamily
+        estado $\leftarrow$ inicializar(configuración, semilla)\\[0.25em]
+        \textbf{para} paso $=0,\ldots,T$:\\
+        \quad vecinos $\leftarrow$ CIM(estado, $r_c$, $M$)\\
+        \quad $(v_a,S) \leftarrow$ medir(estado, vecinos)\\
+        \quad \textbf{si} paso $=T$: terminar\\
+        \quad siguiente $\leftarrow$ copia(estado)\\
+        \quad \textbf{para cada} partícula $i$:\\
+        \qquad base $\leftarrow$ regla(modelo, estado, vecinos[$i$])\\
+        \qquad siguiente[$i$].posición $\leftarrow$\\
+        \qquad\quad periódica(posición[$i$] $+v\Delta t\,\hat{e}(\theta_i)$)\\
+        \qquad siguiente[$i$].ángulo $\leftarrow$\\
+        \qquad\quad normalizar(base $+\mathcal U[-\eta\pi,\eta\pi]$)\\
+        \quad estado $\leftarrow$ siguiente
+        }
+      \end{beamercolorbox}
     \end{column}
-    \begin{column}{0.37\textwidth}
+    \begin{column}{0.28\textwidth}
+      \begin{block}{Sincronía}
+        El bucle interno siempre lee el estado en $t$ y escribe en una copia.
+      \end{block}
       \begin{block}{Validaciones}
         \begin{itemize}
-          \item CIM igual a fuerza bruta.
-          \item Estado alineado con $\eta=0$: $v_a=1$.
-          \item Resultados reproducibles por semilla.
+          \item CIM = fuerza bruta.
+          \item $\eta=0$, alineado: $v_a=1$.
+          \item Repetible por semilla.
         \end{itemize}
       \end{block}
     \end{column}
@@ -254,15 +252,15 @@
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.48\textwidth}
       \centering
-      \textbf{Vicsek}\\[-0.1em]
-      \includegraphics[height=4.85cm,trim=0 0 0 25,clip]{\figbase/cuadro-vicsek-rho4-eta0p25-seed1.png}\\[-0.15em]
+      \textbf{Vicsek}\\[0.30em]
+      \includegraphics[height=4.70cm,trim=0 0 0 25,clip]{\figbase/cuadro-vicsek-rho4-eta0p25-seed1.png}\\[-0.15em]
       \parametros{$\rho=4$, $\eta=0{,}25$, $t=400$, semilla 1}\\
       \pendiente
     \end{column}
     \begin{column}{0.48\textwidth}
       \centering
-      \textbf{Votante}\\[-0.1em]
-      \includegraphics[height=4.85cm,trim=0 0 0 25,clip]{\figbase/cuadro-voter-rho4-eta0p25-seed1.png}\\[-0.15em]
+      \textbf{Votante}\\[0.30em]
+      \includegraphics[height=4.70cm,trim=0 0 0 25,clip]{\figbase/cuadro-voter-rho4-eta0p25-seed1.png}\\[-0.15em]
       \parametros{$\rho=4$, $\eta=0{,}25$, $t=400$, semilla 1}\\
       \pendiente
     \end{column}
@@ -273,12 +271,12 @@
 \begin{frame}{Evolución temporal}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.49\textwidth}
-      \centering\textbf{Vicsek}\\[-0.2em]
-      \includegraphics[width=\textwidth]{\presfig/serie-va-vicsek-presentacion.png}
+      \centering\textbf{Vicsek}\\[0.30em]
+      \includegraphics[width=0.96\textwidth]{\presfig/serie-va-vicsek-presentacion.png}
     \end{column}
     \begin{column}{0.49\textwidth}
-      \centering\textbf{Votante}\\[-0.2em]
-      \includegraphics[width=\textwidth]{\presfig/serie-va-votante-presentacion.png}
+      \centering\textbf{Votante}\\[0.30em]
+      \includegraphics[width=0.96\textwidth]{\presfig/serie-va-votante-presentacion.png}
     \end{column}
   \end{columns}
   \vfill
@@ -316,7 +314,7 @@
 \begin{frame}{Efecto de la densidad}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.76\textwidth}
-      \includegraphics[width=\textwidth]{\presfig/series-densidades-presentacion.png}
+      \includegraphics[width=\textwidth,height=5.05cm,keepaspectratio]{\presfig/series-densidades-presentacion.png}
     \end{column}
     \begin{column}{0.20\textwidth}
       \parametros{Vicsek\\$\eta=0{,}5$\\$\rho=2,4,8$\\semilla 1\\$t_0=4\,000$}
@@ -368,7 +366,7 @@
 \begin{frame}{Fragmentación temporal}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.76\textwidth}
-      \includegraphics[width=\textwidth]{\presfig/series-baja-densidad-presentacion.png}
+      \includegraphics[width=\textwidth,height=5.05cm,keepaspectratio]{\presfig/series-baja-densidad-presentacion.png}
     \end{column}
     \begin{column}{0.20\textwidth}
       \parametros{Vicsek\\$\eta=0{,}25$\\$N=11,16,32$\\semilla 1\\$t_0=4\,000$}
@@ -380,16 +378,20 @@
 \end{frame}
 
 % 20
-\begin{frame}{Conectividad en baja densidad}
+\begin{frame}{Componente gigante frente al ruido}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.76\textwidth}
       \includegraphics[width=\textwidth]{\presfig/s-vs-eta-baja-presentacion.png}
     \end{column}
     \begin{column}{0.20\textwidth}
-      \parametros{$N=11,16,32$\\ambos modelos\\10 realizaciones\\$t_0=4\,000$}
+      \parametros{Densidades agregadas para $S$:\\[0.2em]
+      $\rho\simeq1/\pi$ ($N=32$)\\
+      $\rho\simeq1/(2\pi)$ ($N=16$)\\
+      $\rho\simeq1/(3\pi)$ ($N=11$)\\[0.35em]
+      Ambos modelos\\10 realizaciones\\$t_0=4\,000$}
       \vspace{0.8em}
 
-      El votante conserva una componente gigante menor para el mismo $N$ y $\eta$.
+      En este régimen, $S$ recorre casi todo su rango y separa ambos modelos.
     \end{column}
   \end{columns}
 \end{frame}
@@ -398,12 +400,12 @@
 \begin{frame}{Orden y conectividad}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.49\textwidth}
-      \centering\textbf{$\rho=2,4,8$}\\[-0.2em]
-      \includegraphics[width=\textwidth]{\presfig/va-vs-s-presentacion.png}
+      \centering\textbf{$\rho=2,4,8$}\\[0.30em]
+      \includegraphics[width=0.96\textwidth]{\presfig/va-vs-s-presentacion.png}
     \end{column}
     \begin{column}{0.49\textwidth}
-      \centering\textbf{$N=11,16,32$}\\[-0.2em]
-      \includegraphics[width=\textwidth]{\presfig/va-vs-s-baja-presentacion.png}
+      \centering\textbf{$N=11,16,32$}\\[0.30em]
+      \includegraphics[width=0.96\textwidth]{\presfig/va-vs-s-baja-presentacion.png}
     \end{column}
   \end{columns}
   \vfill

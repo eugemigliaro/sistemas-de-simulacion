@@ -6,7 +6,7 @@ Duración objetivo: **13 minutos**, incluyendo aproximadamente 30 segundos de an
 
 ### 1. Portada - 0:20
 
-Buenas tardes. Somos Eugenio Migliaro, Francisco Costa y Franco Branda, del grupo 7. En este trabajo estudiamos la transición al orden colectivo en bandadas autopropulsadas. Comparamos el modelo estándar de Vicsek con una variante tipo votante y analizamos cómo responden al ruido y a la densidad.
+Buenas tardes. Somos Eugenio Migliaro, Francisco Costa y Franco Branda, del grupo 07. En este trabajo estudiamos la transición al orden colectivo en bandadas autopropulsadas. Comparamos el modelo estándar de Vicsek con una variante tipo votante y analizamos cómo responden al ruido y a la densidad.
 
 ### 2. Introducción - 0:05
 
@@ -32,15 +32,15 @@ En el modelo del votante no se promedia. Cada partícula elige uniformemente una
 
 Con esas reglas construimos un único motor capaz de ejecutar ambos modelos.
 
-### 7. Modelo computacional - 0:45
+### 7. Arquitectura del motor - 0:50
 
-El estado contiene la posición y la orientación de cada partícula, además del generador aleatorio asociado a la realización. Los vecindarios se calculan con el Cell Index Method bajo condiciones periódicas. La actualización es sincrónica: ninguna partícula puede leer un valor ya actualizado de otra partícula. Los observables se calculan sobre el mismo estado de la simulación y cada semilla permite reproducir exactamente una realización.
+La arquitectura se organiza alrededor del estado del sistema, que contiene el tiempo y las partículas con su posición y orientación. El coordinador ejecuta el ciclo completo. Primero invoca el Cell Index Method, que transforma las posiciones en una lista de relaciones entre vecinos. Esa misma lista alimenta dos componentes: el cálculo de observables y la dinámica. Los observables obtienen la polarización a partir del estado y la componente gigante a partir de la red de vecinos. La dinámica aplica la regla de Vicsek o del votante y construye el estado siguiente. Tanto el CIM como la actualización usan el servicio de geometría periódica para calcular distancias o envolver posiciones. De esta manera, sólo la dinámica modifica el estado y el coordinador controla el orden de las operaciones.
 
-### 8. Paso sincrónico - 0:55
+### 8. Algoritmo de simulación - 0:50
 
-En cada paso construimos el CIM con las posiciones actuales y medimos la polarización y la componente gigante. Después calculamos todas las orientaciones nuevas y sus ruidos, pero todavía sin reemplazar el estado anterior. Las posiciones avanzan con la orientación corriente, se aplica el contorno periódico y recién al final se intercambia el estado completo.
+El pseudocódigo reproduce ese recorrido. Inicializamos el estado y el generador con una semilla. En cada paso construimos los vecinos con el CIM y medimos ve sub a y ese sobre el estado corriente. Si todavía quedan pasos, creamos una copia para el estado siguiente. Para cada partícula elegimos la dirección base con la regla configurada: promedio local para Vicsek o copia de un vecino para el votante. La posición se actualiza usando el ángulo corriente y se aplica el contorno periódico; el nuevo ángulo resulta de sumar el ruido a la dirección base. Sólo después de recorrer todas las partículas reemplazamos el estado, garantizando la sincronía.
 
-Validamos tres aspectos: los vecinos obtenidos con CIM coincidieron con fuerza bruta; un estado inicialmente alineado y sin ruido mantuvo polarización uno; y una misma semilla reprodujo los resultados. Con el modelo computacional definido, Francisco va a explicar cómo configuramos las simulaciones y los resultados para las densidades principales.
+Validamos que el CIM coincidiera con fuerza bruta, que un estado alineado sin ruido mantuviera polarización uno y que cada semilla fuera reproducible. Con el modelo computacional definido, Francisco va a explicar cómo configuramos las simulaciones y los resultados para las densidades principales.
 
 ## Francisco - diapositivas 9 a 11 - 4:25
 
@@ -103,9 +103,9 @@ En este caso usamos sólo treinta y dos partículas, que corresponden a una dens
 
 Para Vicsek, con eta igual a cero coma veinticinco, mostramos treinta y dos, dieciséis y once partículas. La polarización fluctúa con fuerza y la componente gigante cambia de forma escalonada, porque una unión o separación involucra una fracción apreciable del sistema. Ambas magnitudes varían en escalas temporales comparables. La línea punteada vuelve a indicar el mismo inicio del promedio estacionario, t cero igual a cuatro mil.
 
-### 20. Conectividad en baja densidad - 0:45
+### 20. Componente gigante frente al ruido - 0:45
 
-Al promediar las realizaciones, el observable S deja de estar cerca de uno y recorre una parte amplia de su rango. Para ambos modelos disminuye al aumentar el ruido y al reducir la cantidad de partículas. Además, para un mismo tamaño y un mismo ruido, el votante presenta en general una componente gigante menor que Vicsek. Las barras muestran nuevamente el desvío entre las diez realizaciones.
+Al promediar las realizaciones, el observable S deja de estar cerca de uno y recorre una parte amplia de su rango. Estas curvas corresponden a las densidades nominales uno sobre pi, uno sobre dos pi y uno sobre tres pi; con lado diez usamos respectivamente treinta y dos, dieciséis y once partículas. Para ambos modelos, S disminuye al aumentar el ruido y al reducir la cantidad de partículas. Además, para un mismo tamaño y un mismo ruido, el votante presenta en general una componente gigante menor que Vicsek. Las barras muestran nuevamente el desvío entre las diez realizaciones.
 
 ### 21. Orden y conectividad - 0:50
 
