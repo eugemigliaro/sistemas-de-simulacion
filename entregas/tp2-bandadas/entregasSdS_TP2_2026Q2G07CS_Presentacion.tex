@@ -137,13 +137,16 @@
 % 7
 \begin{frame}{Arquitectura del motor}
   \centering
-  \includegraphics[width=0.98\textwidth,height=5.15cm,keepaspectratio]{\presfig/arquitectura-motor.pdf}
-
-  \vfill
-  {\small El coordinador repite el ciclo; el estado sólo cambia a través de la dinámica.}
+  \includegraphics[width=0.98\textwidth,height=6.0cm,keepaspectratio]{\presfig/arquitectura-motor.pdf}
 \end{frame}
 
 % 8
+\begin{frame}{Diagrama de clases (UML)}
+  \centering
+  \includegraphics[width=0.85\textwidth,height=6.1cm,keepaspectratio]{\presfig/uml-motor.pdf}
+\end{frame}
+
+% 9
 \begin{frame}{Algoritmo de simulación}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.68\textwidth}
@@ -180,13 +183,13 @@
   \end{columns}
 \end{frame}
 
-% 9
+% 10
 \section{Simulaciones}
 \begin{frame}
   \sectionpage
 \end{frame}
 
-% 10
+% 11
 \begin{frame}{Caja periódica y parámetros}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.55\textwidth}
@@ -210,11 +213,18 @@
         Réplicas & 10 por punto \\
         \bottomrule
       \end{tabular}}
+      \vspace{0.5em}
+
+      \begin{block}{Estudiado}
+        \parametros{Modelo: Vicsek, votante\\
+        Densidad: $\rho=2,4,8$\\
+        Ruido: $\eta\in[0,1]$}
+      \end{block}
     \end{column}
   \end{columns}
 \end{frame}
 
-% 11
+% 12
 \begin{frame}{Observables y promediado}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.48\textwidth}
@@ -241,13 +251,13 @@
   \end{columns}
 \end{frame}
 
-% 12
+% 13
 \section{Resultados}
 \begin{frame}
   \sectionpage
 \end{frame}
 
-% 13
+% 14
 \begin{frame}{Fotogramas representativos}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.48\textwidth}
@@ -267,7 +277,7 @@
   \end{columns}
 \end{frame}
 
-% 14
+% 15
 \begin{frame}{Evolución temporal}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.49\textwidth}
@@ -283,7 +293,7 @@
   \centering\parametros{$\rho=4$, semilla 1; la línea punteada marca $t_0=4\,000$}
 \end{frame}
 
-% 15
+% 16
 \begin{frame}{Orden frente al ruido}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.73\textwidth}
@@ -310,7 +320,7 @@
   \end{columns}
 \end{frame}
 
-% 16
+% 17
 \begin{frame}{Efecto de la densidad}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.76\textwidth}
@@ -325,7 +335,7 @@
   \end{columns}
 \end{frame}
 
-% 17
+% 18
 \begin{frame}{Conectividad en $\rho=2,4,8$}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.76\textwidth}
@@ -343,7 +353,7 @@
   \end{columns}
 \end{frame}
 
-% 18
+% 19
 \begin{frame}{Baja densidad}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.62\textwidth}
@@ -362,7 +372,7 @@
   \end{columns}
 \end{frame}
 
-% 19
+% 20
 \begin{frame}{Fragmentación temporal}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.76\textwidth}
@@ -377,7 +387,7 @@
   \end{columns}
 \end{frame}
 
-% 20
+% 21
 \begin{frame}{Componente gigante frente al ruido}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.76\textwidth}
@@ -396,7 +406,7 @@
   \end{columns}
 \end{frame}
 
-% 21
+% 22
 \begin{frame}{Orden y conectividad}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.49\textwidth}
@@ -408,11 +418,9 @@
       \includegraphics[width=0.96\textwidth]{\presfig/va-vs-s-baja-presentacion.png}
     \end{column}
   \end{columns}
-  \vfill
-  \centering\parametros{En baja densidad, una mayor componente conectada acompaña a un mayor orden global.}
 \end{frame}
 
-% 22
+% 23
 \begin{frame}{Desempeño del CIM}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.73\textwidth}
@@ -431,13 +439,13 @@
   \end{columns}
 \end{frame}
 
-% 23
+% 24
 \section{Conclusiones}
 \begin{frame}
   \sectionpage
 \end{frame}
 
-% 24
+% 25
 \begin{frame}{Conclusiones}
   \begin{itemize}
     \item Vicsek tolera entre 7,7 y 15,9 veces más ruido que el votante.

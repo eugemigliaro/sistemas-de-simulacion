@@ -1,0 +1,71 @@
+---
+config:
+  theme: base
+  themeVariables:
+    fontFamily: "Helvetica, Arial, sans-serif"
+    fontSize: "20px"
+    primaryColor: "#e8f3f9"
+    primaryTextColor: "#111111"
+    primaryBorderColor: "#005b91"
+    lineColor: "#005b91"
+    secondaryColor: "#ffffff"
+    tertiaryColor: "#fff4ec"
+  class:
+    hideEmptyMembersBox: true
+---
+classDiagram
+    direction TB
+
+    namespace Modelo {
+        class System {
+            +double side
+            +double time
+            +Particle[] particles
+        }
+        class Particle {
+            +size_t id
+            +Vec2 position
+            +double angle
+        }
+        class DynamicsConfig {
+            +AlignmentModel model
+            +double cutoff
+            +double eta
+        }
+    }
+
+    namespace Motor {
+        class Runner {
+            <<módulo>>
+            +run_simulation() RunSummary
+        }
+        class Neighbors {
+            <<módulo>>
+            +cell_index_neighbors() NeighborList
+        }
+        class Simulation {
+            <<módulo>>
+            +generate_system() System
+            +advance() void
+        }
+        class Observables {
+            <<módulo>>
+            +polarization() double
+            +largest_cluster_fraction() double
+        }
+        class Geometry {
+            <<módulo>>
+            +periodic_distance_squared() double
+            +wrap_coordinate() double
+        }
+    }
+
+    System "1" *-- "N" Particle : contiene
+
+    Runner ..> Neighbors : invoca
+    Runner ..> Simulation : invoca
+    Runner ..> Observables : invoca
+    Simulation ..> Geometry : usa
+    Neighbors ..> Geometry : usa
+    Simulation ..> System : produce
+    Simulation ..> DynamicsConfig : parametriza
