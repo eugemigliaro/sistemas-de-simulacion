@@ -46,86 +46,90 @@ El pseudocódigo reproduce ese recorrido. Inicializamos el estado y el generador
 
 Validamos que el CIM coincidiera con fuerza bruta, que un estado alineado sin ruido mantuviera polarización uno y que cada semilla fuera reproducible. Con el modelo computacional definido, Francisco va a explicar cómo configuramos las simulaciones y los resultados para las densidades principales.
 
-## Francisco - diapositivas 10 a 12 - 4:25
+## Francisco - diapositivas 10 a 13 - 4:50
 
 ### 10. Simulaciones - 0:05
 
 Pasemos entonces al protocolo experimental.
 
-### 11. Caja periódica y parámetros - 0:45
+### 11. Flujo de trabajo del proyecto - 0:25
+
+Antes de los parámetros, así se conecta todo el proyecto. El usuario dispara el barrido de experimentos, que ejecuta el motor en C++ una vez por combinación de parámetros; el motor escribe los datos crudos de cada corrida. Esos archivos alimentan dos caminos: el análisis estadístico, que produce los datos ya promediados, y el graficado, que además lee directamente los datos crudos para las animaciones. De ahí salen las figuras y animaciones que vamos a mostrar en Resultados.
+
+### 12. Caja periódica y parámetros - 0:45
 
 La caja tiene lado diez y fija la escala espacial del estudio. El contorno es periódico: una partícula que sale por un lado vuelve a entrar por el opuesto. Usamos radio de interacción uno, rapidez cero coma cero tres y paso temporal uno. Para el CIM dividimos cada lado en nueve celdas. Cada simulación dura diez mil pasos y descartamos los primeros cuatro mil como transitorio. Para cada combinación de modelo, densidad y ruido ejecutamos diez realizaciones independientes.
 
-### 12. Observables y promediado - 0:50
+### 13. Observables y promediado - 0:50
 
 Medimos dos propiedades distintas. La polarización, ve sub a, es el módulo de la suma de los versores velocidad dividido por la cantidad de partículas. Vale uno si todas se mueven en la misma dirección y queda cerca de cero en un estado desordenado.
 
 El segundo observable es ese: la fracción de partículas que pertenece a la componente conexa más grande del grafo de vecinos. Para obtener un escalar estacionario, primero promediamos cada realización desde t cero igual a cuatro mil hasta el final. Después promediamos las diez realizaciones. Las barras de error representan la desviación estándar entre realizaciones, no el error de ajuste ni fluctuaciones instantáneas.
 
-## Franco diapositivas 13 a 19
-### 13. Resultados - 0:05
+## Franco diapositivas 14 a 20
+### 14. Resultados - 0:05
 
 Ahora mostramos los resultados en el orden indicado por la consigna.
 
-### 14. Fotogramas representativos - 0:45
+### 15. Fotogramas representativos - 0:45
 
 [Reproducir aproximadamente 10 segundos de cada animación.]
 
 Estas dos animaciones usan la misma densidad, el mismo ruido y el mismo instante. El color representa la orientación de cada velocidad. En Vicsek se observa una dirección dominante y un valor instantáneo de polarización alto. En el votante, para el mismo eta igual a cero coma veinticinco, las orientaciones están mucho más dispersas y la polarización es baja. El fotograma sirve como evidencia visual inicial; ahora cuantificamos esa diferencia.
 
-### 15. Evolución temporal - 0:50
+### 16. Evolución temporal - 0:50
 
 Estas series muestran la polarización para densidad cuatro. La línea vertical marca el comienzo del intervalo estacionario usado para promediar. Sin ruido, ambos modelos llegan al estado alineado. En Vicsek, eta igual a cero coma cinco mantiene una polarización intermedia, aunque con caídas prolongadas. En el votante, un ruido de sólo cero coma cero cinco ya genera fluctuaciones fuertes, y con cero coma veinticinco la polarización permanece baja. Esto justifica tanto el descarte inicial como el uso de un intervalo largo de seis mil pasos.
 
-### 16. Orden frente al ruido - 0:55
+### 17. Orden frente al ruido - 0:55
 
 - Al promediar las diez realizaciones aparece la diferencia principal. Las curvas continuas de Vicsek pierden el orden en valores de ruido mucho mayores que las curvas punteadas del votante.
 - Para resumirlo calculamos eta un medio, el ruido donde la polarización cruza cero coma cinco. Según la densidad, Vicsek alcanza valores entre cero coma cuarenta y siete y cero coma cincuenta y cinco; el votante, entre cero coma cero treinta y cinco y cero coma cero sesenta y uno. La razón entre ambos va de siete coma siete a quince coma nueve. 
 - Además, al aumentar la densidad Vicsek resiste más ruido, mientras que el votante resiste menos.
 lo que podemos comentar aca que es interesante es que al aumentar la densidad el visek aguanta mas porque posee mas informacion y logra promediar mejor mientras que en el votante es al revez resiste menos y disminuye mas rapido la polarizacion pues aumenta mas el randomess por cada particula la probabilidad de que tomen la misma direccion es mas baja.
 
-### 17. Efecto de la densidad - 0:35
+### 18. Efecto de la densidad - 0:35
 
 - Para Vicsek con eta igual a cero coma cinco, la densidad también modifica las fluctuaciones temporales. 
 - En densidad dos aparecen las caídas más profundas de polarización. 
 - Esas caídas coinciden temporalmente con reducciones de la componente gigante lo que tiene sentido porque, cuando el sistema pierde conectividad, se forman grupos que dejan de intercambiar información de orientación y pueden moverse en direcciones distintas.
 - En densidades cuatro y ocho, ambos observables son más estables.
 
-### 18. Conectividad en densidades principales - 0:35
+### 19. Conectividad en densidades principales - 0:35
 
 Sin embargo, al promediar en las densidades pedidas, la componente gigante permanece por encima de cero coma nueve para ambos modelos y para todo el rango de ruido. Entonces la gran diferencia de polarización entre Vicsek y votante no puede atribuirse simplemente a que la red se desconecte. Para hacer informativo el análisis de conectividad estudiamos también densidades menores. Franco presenta esa parte y el cierre.
 
-## Negro - diapositivas 19 a 25 - 4:20
+## Negro - diapositivas 20 a 26 - 4:20
 
-### 19. Baja densidad - 0:45
+### 20. Baja densidad - 0:45
 
 [Reproducir aproximadamente 10 segundos de la animación.]
 
 En este caso usamos sólo treinta y dos partículas, que corresponden a una densidad real de cero coma treinta y dos. La animación permite ver grupos espacialmente separados. Mientras permanecen desconectados, esos grupos no intercambian orientación. Este régimen amplía el estudio solicitado para el observable S y permite analizar valores de conectividad que no están concentrados cerca de uno.
 
-### 20. Fragmentación temporal - 0:50
+### 21. Fragmentación temporal - 0:50
 
 Para Vicsek, con eta igual a cero coma veinticinco, mostramos treinta y dos, dieciséis y once partículas. La polarización fluctúa con fuerza y la componente gigante cambia de forma escalonada, porque una unión o separación involucra una fracción apreciable del sistema. Ambas magnitudes varían en escalas temporales comparables. La línea punteada vuelve a indicar el mismo inicio del promedio estacionario, t cero igual a cuatro mil.
 
-### 21. Componente gigante frente al ruido - 0:45
+### 22. Componente gigante frente al ruido - 0:45
 
 Al promediar las realizaciones, el observable S deja de estar cerca de uno y recorre una parte amplia de su rango. Estas curvas corresponden a las densidades nominales uno sobre pi, uno sobre dos pi y uno sobre tres pi; con lado diez usamos respectivamente treinta y dos, dieciséis y once partículas. Para ambos modelos, S disminuye al aumentar el ruido y al reducir la cantidad de partículas. Además, para un mismo tamaño y un mismo ruido, el votante presenta en general una componente gigante menor que Vicsek. Las barras muestran nuevamente el desvío entre las diez realizaciones.
 
-### 22. Orden y conectividad - 0:50
+### 23. Orden y conectividad - 0:50
 
 Acá relacionamos directamente los dos observables, como pide la consigna. A la izquierda están las densidades principales: ese cambia poco, aunque la polarización recorre casi todo su rango. Esto confirma que, en ese régimen, orden y conectividad pueden desacoplarse.
 
 A la derecha están los sistemas de baja densidad. Allí sí aparece una asociación clara: los puntos con una componente conectada mayor también presentan mayor polarización media. No afirmamos causalidad a partir de esta figura; mostramos la relación observada entre ambos promedios.
 
-### 23. Desempeño del CIM - 0:45
+### 24. Desempeño del CIM - 0:45
 
 Finalmente comparamos los tiempos del Cell Index Method con mediciones del TP1 para cantidades de partículas semejantes. El tiempo total crece con N en todos los casos. Para separar parte de las diferencias de carga, también calculamos el costo por evaluación de distancia: en el TP2 se mantuvo entre dieciséis y veinte nanosegundos, frente a treinta y cinco a cuarenta y cuatro en el TP1. La comparación es orientativa, porque la geometría y el trabajo realizado por paso no son idénticos; no la interpretamos como un factor universal de aceleración.
 
-### 24. Conclusiones - 0:05
+### 25. Conclusiones - 0:05
 
 Con esto llegamos a las conclusiones respaldadas por los resultados mostrados.
 
-### 25. Conclusiones - 1:05
+### 26. Conclusiones - 1:05
 
 Primero, Vicsek toleró entre siete coma siete y quince coma nueve veces más ruido que el modelo del votante, según el criterio de polarización cero coma cinco. Segundo, la densidad produjo tendencias opuestas: aumentó la resistencia al ruido de Vicsek y redujo la del votante.
 

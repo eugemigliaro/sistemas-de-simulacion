@@ -1,0 +1,23 @@
+---
+config:
+  theme: base
+  flowchart:
+    curve: linear
+    nodeSpacing: 35
+    rankSpacing: 55
+  themeVariables:
+    fontFamily: "Helvetica, Arial, sans-serif"
+    fontSize: "26px"
+    primaryColor: "#ffffff"
+    primaryTextColor: "#111111"
+    primaryBorderColor: "#333333"
+    lineColor: "#555555"
+---
+flowchart LR
+    usuario(["Usuario"]):::usuario --> orquestacion("Orquestación de<br/>experimentos<br/><i>run_sweep.py</i>"):::script
+    orquestacion -- "ejecuta N corridas" --> motor("Motor de<br/>simulación en C++<br/><i>main.cpp · runner</i>"):::script
+    motor -- "escribe" --> crudos[("Datos crudos<br/>trayectoria.csv<br/>observables.csv")]:::datos
+
+    classDef usuario fill:#cdeeff,stroke:#4a90c2,stroke-width:2px,color:#0a3050
+    classDef script fill:#d7f2d2,stroke:#4c9a4c,stroke-width:2px,color:#123a12
+    classDef datos fill:#fff6c2,stroke:#c9a227,stroke-width:2px,color:#4a3b00
