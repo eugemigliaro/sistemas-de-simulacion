@@ -42,7 +42,7 @@ En cada paso construimos el CIM con las posiciones actuales y medimos la polariz
 
 Validamos tres aspectos: los vecinos obtenidos con CIM coincidieron con fuerza bruta; un estado inicialmente alineado y sin ruido mantuvo polarización uno; y una misma semilla reprodujo los resultados. Con el modelo computacional definido, Francisco va a explicar cómo configuramos las simulaciones y los resultados para las densidades principales.
 
-## Francisco - diapositivas 9 a 17 - 4:25
+## Francisco - diapositivas 9 a 11 - 4:25
 
 ### 9. Simulaciones - 0:05
 
@@ -58,6 +58,7 @@ Medimos dos propiedades distintas. La polarización, ve sub a, es el módulo de 
 
 El segundo observable es ese: la fracción de partículas que pertenece a la componente conexa más grande del grafo de vecinos. Para obtener un escalar estacionario, primero promediamos cada realización desde t cero igual a cuatro mil hasta el final. Después promediamos las diez realizaciones. Las barras de error representan la desviación estándar entre realizaciones, no el error de ajuste ni fluctuaciones instantáneas.
 
+## Franco diapositivas 12 a 18
 ### 12. Resultados - 0:05
 
 Ahora mostramos los resultados en el orden indicado por la consigna.
@@ -74,17 +75,23 @@ Estas series muestran la polarización para densidad cuatro. La línea vertical 
 
 ### 15. Orden frente al ruido - 0:55
 
-Al promediar las diez realizaciones aparece la diferencia principal. Las curvas continuas de Vicsek pierden el orden en valores de ruido mucho mayores que las curvas punteadas del votante. Para resumirlo calculamos eta un medio, el ruido donde la polarización cruza cero coma cinco. Según la densidad, Vicsek alcanza valores entre cero coma cuarenta y siete y cero coma cincuenta y cinco; el votante, entre cero coma cero treinta y cinco y cero coma cero sesenta y uno. La razón entre ambos va de siete coma siete a quince coma nueve. Además, al aumentar la densidad Vicsek resiste más ruido, mientras que el votante resiste menos.
+- Al promediar las diez realizaciones aparece la diferencia principal. Las curvas continuas de Vicsek pierden el orden en valores de ruido mucho mayores que las curvas punteadas del votante.
+- Para resumirlo calculamos eta un medio, el ruido donde la polarización cruza cero coma cinco. Según la densidad, Vicsek alcanza valores entre cero coma cuarenta y siete y cero coma cincuenta y cinco; el votante, entre cero coma cero treinta y cinco y cero coma cero sesenta y uno. La razón entre ambos va de siete coma siete a quince coma nueve. 
+- Además, al aumentar la densidad Vicsek resiste más ruido, mientras que el votante resiste menos.
+lo que podemos comentar aca que es interesante es que al aumentar la densidad el visek aguanta mas porque posee mas informacion y logra promediar mejor mientras que en el votante es al revez resiste menos y disminuye mas rapido la polarizacion pues aumenta mas el randomess por cada particula la probabilidad de que tomen la misma direccion es mas baja.
 
 ### 16. Efecto de la densidad - 0:35
 
-Para Vicsek con eta igual a cero coma cinco, la densidad también modifica las fluctuaciones temporales. En densidad dos aparecen las caídas más profundas de polarización. Esas caídas coinciden temporalmente con reducciones de la componente gigante. En densidades cuatro y ocho, ambos observables son más estables.
+- Para Vicsek con eta igual a cero coma cinco, la densidad también modifica las fluctuaciones temporales. 
+- En densidad dos aparecen las caídas más profundas de polarización. 
+- Esas caídas coinciden temporalmente con reducciones de la componente gigante lo que tiene sentido porque, cuando el sistema pierde conectividad, se forman grupos que dejan de intercambiar información de orientación y pueden moverse en direcciones distintas.
+- En densidades cuatro y ocho, ambos observables son más estables.
 
 ### 17. Conectividad en densidades principales - 0:35
 
 Sin embargo, al promediar en las densidades pedidas, la componente gigante permanece por encima de cero coma nueve para ambos modelos y para todo el rango de ruido. Entonces la gran diferencia de polarización entre Vicsek y votante no puede atribuirse simplemente a que la red se desconecte. Para hacer informativo el análisis de conectividad estudiamos también densidades menores. Franco presenta esa parte y el cierre.
 
-## Franco - diapositivas 18 a 24 - 4:20
+## Negro - diapositivas 18 a 24 - 4:20
 
 ### 18. Baja densidad - 0:45
 
