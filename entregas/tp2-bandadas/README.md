@@ -44,9 +44,13 @@ La animación muestra las partículas con color según su ángulo y, en el mismo
 PYTHONPATH=python/src python3 -m tp2analysis animate \
   --input data/generated/trajectory.csv \
   --observables data/generated/observables.csv \
-  --fps 5 \
-  --output data/generated/animation.gif
+  --fps 24 \
+  --output data/generated/animation.mp4
 ```
+
+La salida puede ser MP4 (requiere `ffmpeg`) o GIF. Para una tasa exacta de
+24 fps conviene MP4, porque GIF cuantiza la duración de cada cuadro en
+centésimas de segundo.
 
 La rapidez percibida se controla con dos parámetros. La cantidad de unidades simuladas mostradas por segundo es:
 

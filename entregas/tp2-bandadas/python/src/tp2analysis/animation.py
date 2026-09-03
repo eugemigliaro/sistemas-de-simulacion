@@ -115,7 +115,7 @@ def animate(
 
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    from matplotlib.animation import FuncAnimation, PillowWriter
+    from matplotlib.animation import FFMpegWriter, FuncAnimation, PillowWriter
 
     figure = plt.figure(figsize=(11, 7.5), layout="constrained")
     grid = figure.add_gridspec(2, 2, width_ratios=(1.25, 1.0))
@@ -230,5 +230,15 @@ def animate(
     )
     destination = Path(output)
     destination.parent.mkdir(parents=True, exist_ok=True)
-    animation.save(destination, writer=PillowWriter(fps=fps))
+    if destination.suffix.lower() == ".gif":
+        writer = PillowWriter(fps=fps)
+    elif destination.suffix.lower() == ".mp4":
+        writer = FFMpegWriter(
+            fps=fps,
+            codec="libx264",
+            extra_args=["-pix_fmt", "yuv420p"],
+        )
+    else:
+        raise ValueError("la animación debe guardarse como .gif o .mp4")
+    animation.save(destination, writer=writer)
     plt.close(figure)
