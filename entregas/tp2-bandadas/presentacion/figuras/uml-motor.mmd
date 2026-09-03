@@ -3,69 +3,123 @@ config:
   theme: base
   themeVariables:
     fontFamily: "Helvetica, Arial, sans-serif"
-    fontSize: "20px"
-    primaryColor: "#e8f3f9"
+    fontSize: "17px"
     primaryTextColor: "#111111"
-    primaryBorderColor: "#005b91"
     lineColor: "#005b91"
-    secondaryColor: "#ffffff"
-    tertiaryColor: "#fff4ec"
   class:
     hideEmptyMembersBox: true
 ---
 classDiagram
     direction TB
 
-    namespace Modelo {
-        class System {
-            +double side
-            +double time
-            +Particle[] particles
-        }
-        class Particle {
-            +size_t id
-            +Vec2 position
-            +double angle
-        }
-        class DynamicsConfig {
-            +AlignmentModel model
-            +double cutoff
-            +double eta
-        }
+    class Runner {
+        <<utility>>
+        +run_simulation() RunSummary
+    }
+    class Simulation {
+        <<utility>>
+        +generate_system() System
+        +advance() void
+    }
+    class Neighbors {
+        <<utility>>
+        +cell_index_neighbors() NeighborSearchResult
+        +brute_force_neighbors() NeighborSearchResult
+    }
+    class Observables {
+        <<utility>>
+        +polarization() double
+        +largest_cluster_fraction() double
+    }
+    class Geometry {
+        <<utility>>
+        +periodic_distance_squared() double
+        +wrap_coordinate() double
+        +normalize_angle() double
+    }
+    class IO {
+        <<utility>>
+        +write_trajectory_frame() void
+        +write_observation() void
     }
 
-    namespace Motor {
-        class Runner {
-            <<módulo>>
-            +run_simulation() RunSummary
-        }
-        class Neighbors {
-            <<módulo>>
-            +cell_index_neighbors() NeighborList
-        }
-        class Simulation {
-            <<módulo>>
-            +generate_system() System
-            +advance() void
-        }
-        class Observables {
-            <<módulo>>
-            +polarization() double
-            +largest_cluster_fraction() double
-        }
-        class Geometry {
-            <<módulo>>
-            +periodic_distance_squared() double
-            +wrap_coordinate() double
-        }
+    class RunConfig {
+        +cells_per_side : size_t
+        +steps : size_t
+        +trajectory_every : size_t
+    }
+    class InitializationConfig {
+        +particle_count : size_t
+        +side : double
+        +seed : uint64_t
+    }
+    class DynamicsConfig {
+        +model : AlignmentModel
+        +cutoff : double
+        +speed : double
+        +time_step : double
+        +eta : double
+    }
+    class AlignmentModel {
+        <<enumeration>>
+        Vicsek
+        Voter
+    }
+    class System {
+        +side : double
+        +time : double
+        +particles : vector~Particle~
+    }
+    class Particle {
+        +id : size_t
+        +position : Vec2
+        +angle : double
+    }
+    class Vec2 {
+        +x : double
+        +y : double
+    }
+    class NeighborSearchResult {
+        +neighbors : NeighborList
+        +pair_count : size_t
+        +distance_evaluations : size_t
+    }
+    class Observation {
+        +time : double
+        +polarization : double
+        +largest_cluster_fraction : double
+        +cim_time_ns : int64_t
     }
 
-    System "1" *-- "N" Particle : contiene
+    RunConfig "1" *-- "1" InitializationConfig
+    RunConfig "1" *-- "1" DynamicsConfig
+    DynamicsConfig ..> AlignmentModel
+    System "1" *-- "N" Particle
+    Particle "1" *-- "1" Vec2
 
-    Runner ..> Neighbors : invoca
-    Runner ..> Simulation : invoca
-    Runner ..> Observables : invoca
-    Simulation ..> Geometry : usa
-    Neighbors ..> Geometry : usa
-    Simulation ..> System : produce
-    Simulation ..> DynamicsConfig : parametriza
+    Runner ..> RunConfig : «usa»
+    Runner ..> Simulation : «usa»
+    Runner ..> Neighbors : «usa»
+    Runner ..> Observables : «usa»
+    Runner ..> IO : «usa»
+    Simulation ..> Geometry : «usa»
+    Neighbors ..> Geometry : «usa»
+    Simulation ..> System : «crea»
+    Neighbors ..> NeighborSearchResult : «crea»
+    IO ..> Observation : «usa»
+
+    style Runner fill:#fff4ec,stroke:#c2560a
+    style Simulation fill:#fff4ec,stroke:#c2560a
+    style Neighbors fill:#fff4ec,stroke:#c2560a
+    style Observables fill:#fff4ec,stroke:#c2560a
+    style Geometry fill:#fff4ec,stroke:#c2560a
+    style IO fill:#fff4ec,stroke:#c2560a
+    style RunConfig fill:#e8f3f9,stroke:#005b91
+    style InitializationConfig fill:#e8f3f9,stroke:#005b91
+    style DynamicsConfig fill:#e8f3f9,stroke:#005b91
+    style AlignmentModel fill:#e8f3f9,stroke:#005b91
+    style System fill:#e8f3f9,stroke:#005b91
+    style Particle fill:#e8f3f9,stroke:#005b91
+    style Vec2 fill:#e8f3f9,stroke:#005b91
+    style NeighborSearchResult fill:#e8f3f9,stroke:#005b91
+    style Observation fill:#e8f3f9,stroke:#005b91

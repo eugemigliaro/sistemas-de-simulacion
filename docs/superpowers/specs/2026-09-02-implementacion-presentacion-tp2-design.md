@@ -17,7 +17,7 @@ Diagrama de componentes vectorial, definido en Mermaid y renderizado con Mermaid
 
 Las flechas representarán dependencias reales del código. No se mostrarán módulos de Python, archivos CSV ni detalles de postproceso.
 
-El fuente editable queda en `presentacion/figuras/arquitectura-motor.mmd` y su derivado vectorial en `presentacion/figuras/arquitectura-motor.pdf`.
+La versión final reemplaza este primer diagrama por el flujo ya empleado entre el motor y los resultados. La diapositiva independiente de flujo se elimina para evitar repetición. El diagrama UML se conserva como descripción interna del motor.
 
 ## Diapositiva 8 - Algoritmo del motor
 
@@ -42,3 +42,13 @@ La actualización sincrónica debe quedar explícita. Las validaciones se conser
 - Confirmar que el PDF conserve 24 páginas y el encabezado con cinco secciones.
 - Renderizar e inspeccionar todas las páginas, con atención especial a las diapositivas 7 y 8.
 - Ejecutar `./scripts/verificar_repo.sh` y `git diff --check`.
+
+Además del PDF de entrega, se genera un PPTX de alta fidelidad visual para importar en Google Slides. Cada página del PDF ocupa una diapositiva completa; los videos se agregan luego como objetos nativos de Google Slides sobre los fotogramas correspondientes.
+
+## Enlaces de las animaciones
+
+El PDF muestra un vínculo visible y clicable debajo de cada fotograma, como exige [GPRES, p. 3]. Se usa la forma corta `youtu.be` para evitar desbordes, conservando como destino la URL original de YouTube. La correspondencia verificada mediante los metadatos públicos es:
+
+- Vicsek, $\rho=4$, $\eta=0{,}25$: `rdCnXcYPSuY`;
+- votante, $\rho=4$, $\eta=0{,}25$: `M_k5zIgXsTU`;
+- Vicsek, $\rho=0{,}32$, $\eta=0{,}25$: `VN1cVtJb4IU`.
