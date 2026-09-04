@@ -7,7 +7,7 @@
 - Se modelan partículas puntuales en una caja cuadrada periódica de lado `L = 10` [TP02, p. 1] [T02, p. 40].
 - La rapidez es `v = 0.03`, el radio de interacción `rc = 1` y el paso `dt = 1` [T02, pp. 40–42].
 - Las densidades `2`, `4` y `8` corresponden a `N = 200`, `400` y `800`.
-- Para estudiar `S`, una indicación oral de la cátedra agrega las densidades nominales `1/pi`, `1/(2*pi)` y `1/(3*pi)` [N-2026-08-22-densidades-s-tp2]. Con `L = 10` se adoptan los enteros más cercanos `N = 32`, `16` y `11`, cuyas densidades reales son `0.32`, `0.16` y `0.11`. Las figuras mostrarán ambos valores.
+- Para estudiar `S`, una indicación oral de la cátedra agrega las densidades nominales `1/pi`, `1/(2*pi)` y `1/(3*pi)` [N-2026-08-22-densidades-s-tp2]. Con `L = 10` se adoptan los enteros más cercanos `N = 32`, `16` y `11`, cuyas densidades reales son `0.32`, `0.16` y `0.11`. Las figuras mostrarán las densidades reales para mantener una notación uniforme.
 - Dos partículas distintas son vecinas cuando su distancia centro-centro periódica es menor o igual que `rc`.
 - La lista geométrica del CIM no contiene a la propia partícula. Cada regla de alineación la agrega explícitamente para separar geometría de dinámica.
 - Vicsek promedia los vectores dirección de todas las vecinas geométricas y de la propia partícula [T02, p. 42].

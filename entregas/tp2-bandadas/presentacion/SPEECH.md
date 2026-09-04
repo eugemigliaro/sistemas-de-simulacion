@@ -1,6 +1,6 @@
 # Guion oral del TP2
 
-Duración objetivo: **13 minutos**, incluyendo aproximadamente 30 segundos de animaciones. La distribución está balanceada entre los tres integrantes y sigue el orden pedido por la consigna: animación característica, evolución temporal y observable estacionario contra el parámetro de entrada [TP02, pp. 1-2]. Todos deberían poder presentar el guion completo y responder sobre cualquier sección [GPRES, p. 3].
+Duración objetivo: **12 minutos y 10 segundos**, incluyendo aproximadamente 30 segundos de animaciones. La distribución está balanceada entre los tres integrantes y sigue el orden pedido por la consigna: animación característica, evolución temporal y observable estacionario contra el parámetro de entrada [TP02, pp. 1-2]. Todos deberían poder presentar el guion completo y responder sobre cualquier sección [GPRES, p. 3].
 
 ## Eugenio - diapositivas 1 a 9 - 4:40
 
@@ -95,37 +95,35 @@ lo que podemos comentar aca que es interesante es que al aumentar la densidad el
 
 Sin embargo, al promediar en las densidades pedidas, la componente gigante permanece por encima de cero coma nueve para ambos modelos y para todo el rango de ruido. Entonces la gran diferencia de polarización entre Vicsek y votante no puede atribuirse simplemente a que la red se desconecte. Para hacer informativo el análisis de conectividad estudiamos también densidades menores. Franco presenta esa parte y el cierre.
 
-## Negro - diapositivas 19 a 25 - 4:20
+## Negro - diapositivas 19 a 24 - 3:30
 
 ### 19. Baja densidad - 0:45
 
 [Reproducir aproximadamente 10 segundos de la animación.]
 
-En este caso usamos sólo treinta y dos partículas, que corresponden a una densidad real de cero coma treinta y dos. La animación permite ver grupos espacialmente separados. Mientras permanecen desconectados, esos grupos no intercambian orientación. Este régimen amplía el estudio solicitado para el observable S y permite analizar valores de conectividad que no están concentrados cerca de uno.
+En este caso usamos una densidad de cero coma treinta y dos. La animación permite ver grupos espacialmente separados. Mientras permanecen desconectados, esos grupos no intercambian orientación. Este régimen amplía el estudio solicitado para el observable S y permite analizar valores de conectividad que no están concentrados cerca de uno.
 
-### 20. Fragmentación temporal - 0:50
+### 20. Componente gigante frente al ruido - 0:45
 
-Para Vicsek, con eta igual a cero coma veinticinco, mostramos treinta y dos, dieciséis y once partículas. La polarización fluctúa con fuerza y la componente gigante cambia de forma escalonada, porque una unión o separación involucra una fracción apreciable del sistema. Ambas magnitudes varían en escalas temporales comparables. La línea punteada vuelve a indicar el mismo inicio del promedio estacionario, t cero igual a cuatro mil.
+Al promediar las realizaciones, el observable S deja de estar cerca de uno y recorre una parte amplia de su rango. Las curvas corresponden a densidades cero coma treinta y dos, cero coma dieciséis y cero coma once. Para ambos modelos, S disminuye al aumentar el ruido y al reducir la densidad. Además, para una misma densidad y un mismo ruido, el votante presenta en general una componente gigante menor que Vicsek. Las barras muestran nuevamente el desvío entre las diez realizaciones.
 
-### 21. Componente gigante frente al ruido - 0:45
-
-Al promediar las realizaciones, el observable S deja de estar cerca de uno y recorre una parte amplia de su rango. Estas curvas corresponden a las densidades nominales uno sobre pi, uno sobre dos pi y uno sobre tres pi; con lado diez usamos respectivamente treinta y dos, dieciséis y once partículas. Para ambos modelos, S disminuye al aumentar el ruido y al reducir la cantidad de partículas. Además, para un mismo tamaño y un mismo ruido, el votante presenta en general una componente gigante menor que Vicsek. Las barras muestran nuevamente el desvío entre las diez realizaciones.
-
-### 22. Orden y conectividad - 0:50
+### 21. Orden y conectividad - 0:50
 
 Acá relacionamos directamente los dos observables, como pide la consigna. A la izquierda están las densidades principales: ese cambia poco, aunque la polarización recorre casi todo su rango. Esto confirma que, en ese régimen, orden y conectividad pueden desacoplarse.
 
 A la derecha están los sistemas de baja densidad. Allí sí aparece una asociación clara: los puntos con una componente conectada mayor también presentan mayor polarización media. No afirmamos causalidad a partir de esta figura; mostramos la relación observada entre ambos promedios.
 
-### 23. Desempeño del CIM - 0:45
+En ambos paneles, las barras horizontales representan la desviación estándar entre las diez medias estacionarias de polarización y las verticales, la desviación estándar entre las diez medias estacionarias de la componente gigante.
+
+### 22. Desempeño del CIM - 0:45
 
 Finalmente comparamos los tiempos del Cell Index Method con mediciones del TP1 para cantidades de partículas semejantes. El tiempo total crece con N en todos los casos. Para separar parte de las diferencias de carga, también calculamos el costo por evaluación de distancia: en el TP2 se mantuvo entre dieciséis y veinte nanosegundos, frente a treinta y cinco a cuarenta y cuatro en el TP1. La comparación es orientativa, porque la geometría y el trabajo realizado por paso no son idénticos; no la interpretamos como un factor universal de aceleración.
 
-### 24. Conclusiones - 0:05
+### 23. Conclusiones - 0:05
 
 Con esto llegamos a las conclusiones respaldadas por los resultados mostrados.
 
-### 25. Conclusiones - 1:05
+### 24. Conclusiones - 1:05
 
 Primero, Vicsek toleró entre siete coma siete y quince coma nueve veces más ruido que el modelo del votante, según el criterio de polarización cero coma cinco. Segundo, la densidad produjo tendencias opuestas: aumentó la resistencia al ruido de Vicsek y redujo la del votante.
 

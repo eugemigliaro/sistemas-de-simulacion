@@ -7,7 +7,7 @@
 3. **Producción:** ejecutar suficientes realizaciones independientes y generar resúmenes con media y desvío.
 4. **Casos visuales:** guardar trayectorias solo para situaciones características de cada modelo.
 
-El estudio de clusters agrega, por indicación oral de la cátedra, las densidades nominales `1/pi`, `1/(2*pi)` y `1/(3*pi)` [N-2026-08-22-densidades-s-tp2]. Con `L = 10` se adoptan `N = 32`, `16` y `11`, es decir densidades reales `0.32`, `0.16` y `0.11`. Las leyendas muestran la densidad nominal, la real y `N`.
+El estudio de clusters agrega, por indicación oral de la cátedra, las densidades nominales `1/pi`, `1/(2*pi)` y `1/(3*pi)` [N-2026-08-22-densidades-s-tp2]. Con `L = 10` se adoptan `N = 32`, `16` y `11`, es decir densidades reales `0.32`, `0.16` y `0.11`. Las leyendas de los gráficos muestran las densidades reales.
 
 ## Configuraciones disponibles
 

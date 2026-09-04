@@ -367,7 +367,7 @@
       \includegraphics[height=5.35cm,trim=0 0 0 25,clip]{\figbase/cuadro-vicsek-rho0p32-eta0p25-seed1.png}
     \end{column}
     \begin{column}{0.34\textwidth}
-      \parametros{Vicsek\\$N=32$ ($\rho=0{,}32$)\\$\eta=0{,}25$\\$t=400$, semilla 1}
+      \parametros{Vicsek\\$\rho=0{,}32$\\$\eta=0{,}25$\\$t=400$, semilla 1}
       \vspace{0.8em}
 
       Se observan grupos separados que no intercambian orientación.
@@ -379,21 +379,6 @@
 \end{frame}
 
 % 20
-\begin{frame}{Fragmentación temporal}
-  \begin{columns}[c,onlytextwidth]
-    \begin{column}{0.76\textwidth}
-      \includegraphics[width=\textwidth,height=5.05cm,keepaspectratio]{\presfig/series-baja-densidad-presentacion.png}
-    \end{column}
-    \begin{column}{0.20\textwidth}
-      \parametros{Vicsek\\$\eta=0{,}25$\\$N=11,16,32$\\semilla 1\\$t_0=4\,000$}
-      \vspace{0.8em}
-
-      Orden y conectividad fluctúan en la misma escala temporal.
-    \end{column}
-  \end{columns}
-\end{frame}
-
-% 21
 \begin{frame}{Componente gigante frente al ruido}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.76\textwidth}
@@ -401,9 +386,9 @@
     \end{column}
     \begin{column}{0.20\textwidth}
       \parametros{Densidades agregadas para $S$:\\[0.2em]
-      $\rho\simeq1/\pi$ ($N=32$)\\
-      $\rho\simeq1/(2\pi)$ ($N=16$)\\
-      $\rho\simeq1/(3\pi)$ ($N=11$)\\[0.35em]
+      $\rho=0{,}32$\\
+      $\rho=0{,}16$\\
+      $\rho=0{,}11$\\[0.35em]
       Ambos modelos\\10 realizaciones\\$t_0=4\,000$}
       \vspace{0.8em}
 
@@ -412,7 +397,7 @@
   \end{columns}
 \end{frame}
 
-% 22
+% 21
 \begin{frame}{Orden y conectividad}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.49\textwidth}
@@ -420,13 +405,13 @@
       \includegraphics[width=0.96\textwidth]{\presfig/va-vs-s-presentacion.png}
     \end{column}
     \begin{column}{0.49\textwidth}
-      \centering\textbf{$N=11,16,32$}\\[0.30em]
+      \centering\textbf{$\rho=0{,}11;\ 0{,}16;\ 0{,}32$}\\[0.30em]
       \includegraphics[width=0.96\textwidth]{\presfig/va-vs-s-baja-presentacion.png}
     \end{column}
   \end{columns}
 \end{frame}
 
-% 23
+% 22
 \begin{frame}{Desempeño del CIM}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.73\textwidth}
@@ -445,13 +430,13 @@
   \end{columns}
 \end{frame}
 
-% 24
+% 23
 \section{Conclusiones}
 \begin{frame}
   \sectionpage
 \end{frame}
 
-% 25
+% 24
 \begin{frame}{Conclusiones}
   \begin{itemize}
     \item Vicsek tolera entre 7,7 y 15,9 veces más ruido que el votante.

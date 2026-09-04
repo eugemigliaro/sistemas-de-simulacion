@@ -92,10 +92,8 @@ def time_series_density(base: Path, files: list[tuple[str, str]], name: str) -> 
 
 
 def density_label(density: float, low: bool) -> str:
-    if not low:
-        return rf"$\rho={density:g}$"
-    counts = {0.11: 11, 0.16: 16, 0.32: 32}
-    return rf"$N={counts[round(density, 2)]}$"
+    value = f"{density:g}".replace(".", "{,}")
+    return rf"$\rho={value}$"
 
 
 def plot_eta(summary_path: Path, observable: str, name: str, low: bool = False) -> None:
@@ -139,12 +137,15 @@ def plot_va_s(summary_path: Path, name: str, low: bool = False) -> None:
     palette = LOW_COLORS if low else COLORS
     for (model, density), values in sorted(grouped.items()):
         values.sort(key=lambda row: float(row["eta"]))
-        axis.plot(
+        axis.errorbar(
             [float(row["polarization_mean"]) for row in values],
             [float(row["cluster_mean"]) for row in values],
+            xerr=[float(row["polarization_std"]) for row in values],
+            yerr=[float(row["cluster_std"]) for row in values],
             color=palette[round(density, 2)],
             marker="o" if model == "vicsek" else "s",
             linestyle="-" if model == "vicsek" else "--",
+            capsize=3,
             label=("V, " if model == "vicsek" else "vot, ")
             + density_label(density, low),
         )
@@ -221,9 +222,9 @@ def main() -> None:
     time_series_density(
         LOW,
         [
-            ("vicsek-rho0p32-eta0p25-seed1-observables.csv", r"$N=32$"),
-            ("vicsek-rho0p16-eta0p25-seed1-observables.csv", r"$N=16$"),
-            ("vicsek-rho0p11-eta0p25-seed1-observables.csv", r"$N=11$"),
+            ("vicsek-rho0p32-eta0p25-seed1-observables.csv", r"$\rho=0{,}32$"),
+            ("vicsek-rho0p16-eta0p25-seed1-observables.csv", r"$\rho=0{,}16$"),
+            ("vicsek-rho0p11-eta0p25-seed1-observables.csv", r"$\rho=0{,}11$"),
         ],
         "series-baja-densidad-presentacion.png",
     )

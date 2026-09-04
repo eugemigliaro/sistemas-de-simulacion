@@ -18,17 +18,8 @@ def _pyplot():
 
 
 def _density_label(density: float) -> str:
-    low_density_labels = {
-        0.32: (r"1/\pi", 32),
-        0.16: (r"1/(2\pi)", 16),
-        0.11: (r"1/(3\pi)", 11),
-    }
-    for actual, (symbol, count) in low_density_labels.items():
-        if abs(density - actual) < 1e-12:
-            return (
-                rf"$\rho \simeq {symbol}$ (${density:g}$, $N={count}$)"
-            )
-    return rf"$\rho={density:g}$"
+    value = f"{density:g}".replace(".", "{,}")
+    return rf"$\rho={value}$"
 
 
 def _model_label(model: str) -> str:
@@ -205,11 +196,16 @@ def plot_polarization_vs_cluster(
     for (model, density), values in sorted(grouped.items()):
         values.sort(key=lambda value: value.eta)
         cluster = [value.cluster_mean for value in values]
+        cluster_errors = [value.cluster_std for value in values]
         polarization = [value.polarization_mean for value in values]
-        axis.plot(
+        polarization_errors = [value.polarization_std for value in values]
+        axis.errorbar(
             polarization if invert_axes else cluster,
             cluster if invert_axes else polarization,
+            xerr=polarization_errors if invert_axes else cluster_errors,
+            yerr=cluster_errors if invert_axes else polarization_errors,
             marker="o",
+            capsize=3,
             label=f"{_model_label(model)}, {_density_label(density)}",
         )
     if invert_axes:
