@@ -36,7 +36,9 @@ Una trayectoria en el espacio de fases representa la evolución del estado; por 
 
 Una simulación computacional es un programa que reproduce el comportamiento de un sistema a partir de ecuaciones, interacciones entre agentes, algoritmos o heurísticas. Puede producir una evolución temporal, pero también otros tipos de salida [T00, p. 62] [T00, p. 63]. Una animación es una representación visual: puede originarse en una simulación, pero no es la simulación, y una simulación no necesita tener animación [T00, p. 64].
 
-La arquitectura de trabajo separa tres responsabilidades: el simulador genera el estado; una herramienta de análisis calcula observables y resultados; y un visualizador produce imágenes o videos. La cátedra pide mantener especialmente separadas la simulación y la animación [T01, p. 32] [T01, p. 33] [T01, p. 35].
+La arquitectura de trabajo separa tres responsabilidades: el simulador recibe entradas y parámetros y genera el estado del sistema en función del tiempo, que es el *output primario*; una herramienta de análisis calcula observables sobre ese output; y una herramienta de animación produce videos [T00, p. 20]. La cátedra pide mantener especialmente separadas la simulación y la animación [T01, p. 32] [T01, p. 33] [T01, p. 35].
+
+Esta separación se evalúa. En la devolución del TP2 se marcó como error importante calcular los observables dentro del bucle principal del motor: el motor solo debe producir la trayectoria y los observables se calculan después, en un post-proceso aparte, tal como indica la teórica 0 [COR02] [T00, p. 20]. La misma devolución distingue parámetros físicos de datos de configuración: un dato es parámetro solo si la salida del sistema cambia al variarlo; la duración de la corrida, el inicio del estacionario o el tamaño de grilla del CIM no lo son, y el inicio del estacionario es en realidad un resultado [COR02].
 
 ## Criterio de trazabilidad
 

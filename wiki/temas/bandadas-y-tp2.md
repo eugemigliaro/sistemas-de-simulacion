@@ -45,3 +45,15 @@ El sistema pedido tiene $L=10$, contorno periódico y densidades $\rho=2,4,8$. S
 Una indicación oral posterior de la cátedra amplía específicamente el estudio de $S$: como en las densidades originales la componente gigante cambia poco, para sus gráficos también se deben considerar las densidades nominales $1/\pi$, $1/(2\pi)$ y $1/(3\pi)$ [N-2026-08-22-densidades-s-tp2]. Esta ampliación no figura en el enunciado publicado. Con $L=10$ requerirían respectivamente $N\approx31{,}83$, $15{,}92$ y $10{,}61$; para esta resolución se adoptan los enteros más cercanos $N=32$, $16$ y $11$, con densidades reales $0{,}32$, $0{,}16$ y $0{,}11$.
 
 La simulación debe escribir archivos de texto y la animación debe ejecutarse como módulo independiente. Los entregables son presentación oral de 13 minutos, PDF de diapositivas, ZIP con solo la versión final del motor e informe. La fecha indicada es el 4 de septiembre de 2026 a las 13:00 [TP02, p. 1].
+
+## Devolución de la entrega
+
+La entrega del Grupo 7 obtuvo nota 6 y la cátedra la consideró en líneas generales correcta [COR02]. Las observaciones específicas de este trabajo, útiles si se retoma el código o se compara con futuros trabajos:
+
+- El motor calculaba $v_a$ y $S$ en cada paso del bucle principal. Se marcó como error importante: el motor debe generar solo la trayectoria y los observables van en un post-proceso aparte [COR02]. El paquete entregado en `entregas/tp2-bandadas/` conserva esa arquitectura; su documentación lo declara y no fue refactorizado.
+- La diapositiva de parámetros mezclaba parámetros físicos ($L$, $r_c$, $v$, $\Delta t$, $\rho$, $\eta$) con datos que no lo son ($T$, $t_0$, $M$). El $t_0$ del estacionario es un resultado, no una entrada [COR02].
+- La diapositiva de observables definía $v_a(t)$ y $S(t)$ instantáneos sin explicitar cómo se obtienen media y desvío estándar entre realizaciones [COR02]. El informe sí lo hacía en su sección de promedios y barras de error; la presentación debía mostrarlo también.
+- El cociente entre los ruidos $\eta_{1/2}$ de ambos modelos, presentado como "Vicsek tolera entre 7,7 y 15,9 veces más ruido", fue objetado por poco claro y porque estas relaciones no suelen ser lineales [COR02].
+- En el informe: la figura de medias por bloques no debía estar en la introducción, la figura de evolución de $v_a$ no correspondía a la sección de componente gigante, y la tabla y la figura de tiempos del CIM duplicaban información [COR02].
+
+Las lecciones generalizables están sintetizadas en [Comunicación científica](comunicacion-cientifica.md).

@@ -137,6 +137,8 @@ un ZIP menor a 100 KB con sólo el motor final y un archivo de texto con la
 configuración de obstáculos. El simulador debe escribir texto y la animación
 debe leerlo como módulo independiente [TP03, p. 1].
 
+- el motor escribe solo el estado del sistema (posiciones, velocidades y eventos); $F_u(t)$, $t_{90}$ y el DCM se calculan en un post-proceso aparte, como exigió la devolución del TP2 [COR02] [T00, p. 20];
+- listar como parámetros solo los que cambian la salida del sistema; $t_f$, $t_{\max}$ o el número de realizaciones son configuración, no parámetros [COR02];
 - validar ausencia de solapamientos iniciales y obstáculos admisibles;
 - separar predicción, avance y resolución de eventos;
 - rechazar eventos pasados, imposibles o invalidados;

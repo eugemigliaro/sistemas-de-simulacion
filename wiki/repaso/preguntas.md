@@ -83,3 +83,11 @@
 58. ¿Qué referencia experimental debe acompañar siempre a las configuraciones con obstáculos?
 59. ¿Cómo se estima el coeficiente de difusión a partir del DCM y qué convención dimensional debe aclararse?
 60. ¿Qué archivos se entregan y qué contenido debe excluirse del ZIP de código?
+
+## Lecciones de la devolución del TP2
+
+61. ¿Qué debe producir el motor de simulación y qué debe quedar para el post-proceso?
+62. ¿Con qué criterio se decide si un dato es un parámetro físico del sistema o solo configuración de la corrida?
+63. ¿Por qué el inicio del estacionario es un resultado y no un parámetro?
+64. ¿Qué falta en una diapositiva que define $v_a(t)$ y $S(t)$ pero no dice cómo se obtienen los puntos y las barras de error de las curvas?
+65. ¿Por qué un cociente entre umbrales de ruido de dos modelos puede confundir más que aclarar?

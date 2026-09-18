@@ -4,7 +4,14 @@ Resolución reproducible del Trabajo Práctico 2 de Sistemas de Simulación. El 
 
 ## Estado
 
-El motor, los observables, el análisis, las animaciones y la automatización experimental están implementados y probados. Todavía no se consideran cerrados los resultados numéricos finales: primero hay que ejecutar la calibración, justificar el inicio estacionario y recién entonces fijar la configuración de producción.
+Entregado el 4 de septiembre de 2026; la versión final (informe, presentación y ZIP de código) está en [`entrega-final/`](entrega-final/). Nota: 6.
+
+## Devolución de la cátedra
+
+La devolución completa está catalogada como [COR02] en `material/catedra/practica/Correcciones_TP2.md` y sus lecciones generalizables en `wiki/temas/comunicacion-cientifica.md`. Lo específico de este código:
+
+- El motor calcula `va` y `S` dentro del bucle principal (`cpp/src/runner.cpp`) y los escribe en `observables.csv`. La cátedra lo marcó como error importante: el motor solo debe escribir la trayectoria y los observables deben calcularse en un post-proceso sobre ese archivo. No se refactorizó porque la entrega ya fue evaluada; en trabajos siguientes el cálculo debe ir del lado de Python.
+- `T`, `t0` y `M` se presentaron como parámetros; no lo son. `t0` es un resultado.
 
 ## Convenciones principales
 

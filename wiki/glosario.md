@@ -24,7 +24,9 @@ Definiciones breves. Los temas enlazados desarrollan las relaciones entre concep
 - **Modelo:** abstracción o simplificación no única de un sistema real [T00, p. 16].
 - **Modelo dinámico:** modelo con memoria, cuya salida depende de entradas o estados anteriores [T00, p. 34].
 - **Modelo estocástico:** modelo en el que al menos una entrada es aleatoria [T00, p. 40].
-- **Observable:** cantidad medible o calculada que caracteriza la respuesta del sistema; puede evolucionar en el tiempo o resumirse en un escalar [T00, p. 22].
+- **Observable:** cantidad medible o calculada que caracteriza la respuesta del sistema; puede evolucionar en el tiempo o resumirse en un escalar [T00, p. 22]. Se calcula en un post-proceso sobre la salida del simulador, no dentro del motor [COR02] [T00, p. 20].
+- **Parámetro físico:** dato de entrada cuya variación cambia el comportamiento o la salida del sistema. La duración de la corrida, el inicio del estacionario o el tamaño de grilla del CIM no son parámetros físicos [COR02].
+- **Post-proceso:** etapa posterior a la simulación que lee el estado guardado y calcula observables, promedios y barras de error; se implementa como programa separado del motor [T00, p. 20] [COR02].
 - **Polarización:** módulo de la velocidad media normalizada; vale cerca de cero en desorden y cerca de uno en alineación global [T02, p. 44].
 - **Vecindad de Moore:** celdas cuya diferencia por coordenada respecto de la celda central no supera el alcance $r$ [T02, p. 12].
 - **Vecindad de von Neumann:** celdas cuya distancia Manhattan respecto de la celda central no supera el alcance $r$ [T02, p. 12].
