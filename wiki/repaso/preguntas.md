@@ -66,3 +66,20 @@
 44. ¿Cómo determinarías el comienzo del estacionario sin elegirlo arbitrariamente?
 45. ¿Qué comparaciones deben mantenerse en las mismas figuras para aislar modelo, densidad y ruido?
 46. ¿Por qué el simulador y la animación deben ser módulos independientes?
+
+## Simulación dirigida por eventos y TP3
+
+47. ¿Cuándo es válido representar una colisión como un evento instantáneo?
+48. ¿Qué diferencia operativa hay entre avanzar con un $\Delta t$ fijo y avanzar hasta el próximo evento?
+49. ¿Qué seis etapas forman el ciclo de una simulación de discos rígidos dirigida por eventos?
+50. ¿Cómo se calcula el tiempo candidato de choque con una pared y qué casos deben descartarse?
+51. ¿Qué significan $\Delta\mathbf r$, $\Delta\mathbf v$, $\sigma$ y el discriminante $d$ en la predicción de una colisión binaria?
+52. ¿Por qué $\Delta\mathbf v\cdot\Delta\mathbf r\geq0$ permite descartar una colisión futura?
+53. ¿Qué magnitudes deben conservarse al resolver una colisión elástica?
+54. ¿Cómo puede detectarse que un evento guardado en una cola de prioridad quedó invalidado?
+55. ¿Cómo se define un gol, la fracción $F_u(t)$ y el tiempo $t_{90}$ en el TP3?
+56. ¿Qué restricciones geométricas debe satisfacer una configuración de obstáculos?
+57. ¿Por qué $t_{90}$ debe obtenerse por realización antes de calcular su promedio y su barra de error?
+58. ¿Qué referencia experimental debe acompañar siempre a las configuraciones con obstáculos?
+59. ¿Cómo se estima el coeficiente de difusión a partir del DCM y qué convención dimensional debe aclararse?
+60. ¿Qué archivos se entregan y qué contenido debe excluirse del ZIP de código?

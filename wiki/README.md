@@ -18,10 +18,11 @@
 - [Autómatas celulares](temas/automatas-celulares.md): definición, reglas, vecindades, Juego de la Vida y clases de complejidad.
 - [Lattice gas y lattice Boltzmann](temas/lattice-gas-y-boltzmann.md): fluidos sobre retículas, modelo FHP, propagación, colisiones y escala macroscópica.
 - [Bandadas autopropulsadas y TP2](temas/bandadas-y-tp2.md): modelos de Vicsek y votante, polarización, clusters y contrato de la segunda práctica.
+- [Simulación dirigida por eventos y TP3](temas/eventos-y-tp3.md): dinámica molecular de discos rígidos, predicción y resolución de colisiones, difusión y contrato del Billar-Metegol.
 - [Comunicación científica](temas/comunicacion-cientifica.md): estructura y criterios para informes, presentaciones, figuras, conclusiones y exposición oral.
 
 ## Cobertura inicial
 
-- Material oficial: teóricas `T00` a `T02`; guías `GINF` y `GPRES`; consignas `TP01` y `TP02`; datos `EJ01`.
-- Material externo: publicaciones `B01` a `B14` y ficha `B15`, preservadas también dentro de los contenedores `BIB01` y `BIB02`.
+- Material oficial: teóricas `T00` a `T03`; guías `GINF` y `GPRES`; consignas `TP01` a `TP03`; datos `EJ01`.
+- Material externo: publicaciones `B01` a `B14` y `B16`, y ficha `B15`; `B01` a `B15` también están preservadas dentro de los contenedores `BIB01` y `BIB02`.
 - Todos los PDF tienen extracción por página en `material/extraido/`. Los escaneos `B03` y `B13` cuentan además con transcripciones temáticas manuales; `B15` tiene un derivado textual.
