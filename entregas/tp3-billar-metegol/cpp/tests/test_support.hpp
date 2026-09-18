@@ -61,6 +61,48 @@ void expect_invalid_argument(
     }
 }
 
+template <typename Exception, typename Callable>
+void expect_throws(
+    Callable&& callable,
+    std::string_view expression,
+    std::string_view file,
+    int line
+) {
+    try {
+        callable();
+        std::cerr << file << ':' << line
+                  << ": expected an exception: " << expression << '\n';
+        ++failures;
+    } catch (const Exception&) {
+    } catch (...) {
+        std::cerr << file << ':' << line
+                  << ": expected a different exception type: "
+                  << expression << '\n';
+        ++failures;
+    }
+}
+
+template <typename Callable>
+void expect_no_throw(
+    Callable&& callable,
+    std::string_view expression,
+    std::string_view file,
+    int line
+) {
+    try {
+        callable();
+    } catch (const std::exception& error) {
+        std::cerr << file << ':' << line
+                  << ": unexpected exception in " << expression
+                  << ": " << error.what() << '\n';
+        ++failures;
+    } catch (...) {
+        std::cerr << file << ':' << line
+                  << ": unexpected exception in " << expression << '\n';
+        ++failures;
+    }
+}
+
 inline int finish(std::string_view suite_name) {
     if (failures == 0) {
         std::cout << suite_name << " OK\n";
@@ -87,6 +129,18 @@ inline int finish(std::string_view suite_name) {
 
 #define EXPECT_INVALID_ARGUMENT(statement) \
     ::test::expect_invalid_argument( \
+        [&]() { static_cast<void>(statement); }, \
+        #statement, __FILE__, __LINE__ \
+    )
+
+#define EXPECT_THROWS(exception_type, statement) \
+    ::test::expect_throws<exception_type>( \
+        [&]() { static_cast<void>(statement); }, \
+        #statement, __FILE__, __LINE__ \
+    )
+
+#define EXPECT_NO_THROW(statement) \
+    ::test::expect_no_throw( \
         [&]() { static_cast<void>(statement); }, \
         #statement, __FILE__, __LINE__ \
     )

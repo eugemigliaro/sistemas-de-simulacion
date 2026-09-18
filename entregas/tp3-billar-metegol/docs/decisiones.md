@@ -32,8 +32,19 @@
 - El ajuste lineal sigue el método de barrido de `E(c)` de la Teórica 0, tal como exige la consigna: se reporta el gráfico de `E(c)` con su mínimo además de los datos con la recta ajustada [T00, pp. 79-81] [TP03, p. 3].
 - La recta del DCM **no lleva ordenada al origen**: `DCM(0) = 0` por definición. El modelo tiene un único parámetro libre y es `D` [T00, p. 82].
 
+### Generación de condiciones iniciales
+
+- El muestreo es **por rechazo**: se sortea una posición uniforme en el área disponible y se descarta si solapa. Es lo que preserva la uniformidad que exige la consigna ("a azar en toda el área disponible" [TP03, p. 3]); por eso no se usa el atajo de una grilla perturbada, que sería más rápido pero no uniforme.
+- El bucle de rechazo está **acotado** por `max_placement_attempts` por partícula. Al agotarlo, el motor **falla con `std::runtime_error`** indicando cuántas partículas llegó a ubicar.
+- Se descartan las alternativas de reintentar indefinidamente (un barrido del punto 1.2 se colgaría en silencio al generar una configuración demasiado densa) y de reducir `N` avisando (cambiaría la densidad, que es justamente el parámetro que debe permanecer fijo para comparar configuraciones).
+- La justificación es de la propia consigna: la restricción (ii) exige `Rk >= r` **y tal que permita la generación de las N partículas** [TP03, p. 3]. Una configuración donde la generación no termina es inválida, no un problema que el motor deba salvar.
+- El algoritmo no puede distinguir "imposible" de "muy improbable": desde adentro del bucle ambos casos se ven igual. Por eso el tope es necesario y no solo conveniente.
+
 ### Salida
 
+- Formato de trayectoria: cabecera de líneas `#` con los parámetros del sistema y la lista de obstáculos, y después cuadros `frame <índice> <tiempo> <eventos> <motivo>` seguidos de una línea `x y vx vy state` por partícula, en orden de id. El estado es `0` para fresca y `1` para usada.
+- El motivo del cuadro (`initial`, `periodic`, `color`) le permite al post-proceso encontrar los cambios de color sin recorrer todo el archivo.
+- La precisión de escritura es de 9 cifras significativas: resolución del orden del nanómetro para posiciones en metros, y archivos compactos.
 - Se guarda el estado cada `n` eventos y, además, **siempre que un evento cambie un color**. Así el post-proceso reconstruye `Ng(t)` y `t90` con precisión exacta sin que el motor calcule observables y sin llenar el disco [TP03, p. 2].
 - El archivo de configuración de obstáculos tiene una línea `xk yk Rk` por obstáculo, en metros y separados por espacios [TP03, p. 3].
 

@@ -12,7 +12,7 @@ En desarrollo. Entrega: 28 de septiembre de 2026, 13:00.
 Fases completadas:
 
 - [x] Fase 1 — geometría, modelo y validación de configuraciones
-- [ ] Fase 2 — generación de condiciones iniciales e I/O
+- [x] Fase 2 — generación de condiciones iniciales e I/O
 - [ ] Fase 3 — predicción y resolución de colisiones
 - [ ] Fase 4 — motor ingenuo (oráculo de correctitud)
 - [ ] Fase 5 — motor con cola de prioridad
@@ -56,3 +56,40 @@ make sanitize
 ```bash
 make debug && ./cpp/build/debug/tp3 --version
 ```
+
+## Uso
+
+Generar una condición inicial sobre la mesa vacía:
+
+```bash
+./cpp/build/debug/tp3 generate --n 100 --seed 1 --output data/generated/init.txt
+```
+
+Con obstáculos, desde un archivo con una línea `xk yk Rk` por obstáculo:
+
+```bash
+./cpp/build/debug/tp3 generate --n 100 --seed 1 --config experiments/configs/ejemplo.txt
+```
+
+Si la configuración no permite ubicar las `N` partículas, el motor falla con
+error en lugar de reintentar para siempre o bajar `N` en silencio. La
+restricción (ii) del punto 1.2 pone esa carga del lado de la configuración
+[TP03, p. 3].
+
+## Formato de la trayectoria
+
+```
+# tp3-trajectory 1
+# length 1.2
+# ...
+# obstacle 0.6 0.34 0.05
+# frame_columns x y vx vy state
+frame 0 0 0 initial
+0.801620613 0.042329024 0.154643474 0.987970342 0
+...
+```
+
+Cada cuadro trae una línea por partícula, en orden de id. El estado es `0` para
+fresca y `1` para usada. El motivo (`initial`, `periodic`, `color`) indica por
+qué se guardó el cuadro: los cuadros `color` dejan que el post-proceso
+reconstruya `Ng(t)` y `t90` con precisión exacta sin que el motor cuente goles.

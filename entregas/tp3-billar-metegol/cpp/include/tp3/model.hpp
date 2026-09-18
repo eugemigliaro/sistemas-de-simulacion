@@ -80,6 +80,12 @@ struct InitializationConfig {
     double particle_mass{default_particle_mass};
     double initial_speed{default_initial_speed};
     std::uint64_t seed{};
+
+    // Tope de candidatos sorteados por particula antes de declarar que la
+    // configuracion no permite generar las N particulas. No es un parametro
+    // fisico: acotar el muestreo por rechazo evita que una configuracion
+    // demasiado densa cuelgue un barrido en silencio [TP03, p. 3].
+    std::size_t max_placement_attempts{10000};
 };
 
 }  // namespace tp3
