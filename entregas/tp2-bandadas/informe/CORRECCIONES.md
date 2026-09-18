@@ -1,6 +1,6 @@
 # Correcciones del informe del TP2
 
-Última actualización: 2026-08-31.
+Última actualización: 2026-09-04.
 
 Este archivo registra las observaciones de revisión del informe, su estado y los
 cambios acordados. Una corrección se considera cerrada solo después de revisar el
@@ -24,7 +24,20 @@ PDF recompilado cuando afecte la composición visual.
 - **Antes:** se presentaba un procedimiento formal extenso basado en bloques,
   promedios de ensamble y bandas de dos desviaciones estándar.
 - **Después:** se indica que se inspeccionaron las diez realizaciones de cada caso
-  y que se adoptó de forma conservadora `t_0 = 4000` para todas las corridas.
+  y que se adoptó `t_0 = 4000` para las corridas generales. La revisión posterior
+  de ruido nulo en baja densidad detectó una realización que alcanzaba el estado
+  absorbente después de `T = 10000`; esos seis parámetros se recalcularon con
+  `T = 30000` y `t_0 = 20000`.
+
+### Barra anómala de la figura 12 en ruido nulo
+
+- **Antes:** el punto de Vicsek con `rho = 0.32` y `eta = 0` mezclaba nueve
+  realizaciones absorbentes con una realización todavía transitoria, lo que
+  producía `v_a = 0.933756 +/- 0.209462`.
+- **Después:** se extendieron solamente los 60 casos de baja densidad con ruido
+  nulo. Con la ventana `[20000, 30000]`, las diez realizaciones de Vicsek tienen
+  `v_a = S = 1` y desaparece la barra espuria. La dispersión de `S` que permanece
+  en el votante corresponde a estados finales espacialmente distintos.
 
 ### Tiempo de relajación en las conclusiones
 

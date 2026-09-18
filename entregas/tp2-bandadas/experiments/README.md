@@ -15,6 +15,7 @@ El estudio de clusters agrega, por indicación oral de la cátedra, las densidad
 |---|---|---|
 | `configs/pilot.json` | `rho = 2, 4, 8`, ambos modelos | ejecutado con el CSV actual |
 | `configs/cluster-low-density.json` | densidades bajas para `S` | ejecutado con el CSV actual |
+| `configs/cluster-zero-noise.json` | extensión de `eta = 0` en densidad baja | ejecutado |
 | `configs/calibration.json` | mallas refinadas y corridas más largas | pendiente |
 | `configs/production.example.json` | plantilla para resultados principales | no definitiva |
 | `configs/cluster-production.example.json` | plantilla para resultados de clusters | no definitiva |
@@ -26,6 +27,7 @@ Los pilotos se ejecutan con:
 make release
 python3 scripts/run_sweep.py experiments/configs/pilot.json
 python3 scripts/run_sweep.py experiments/configs/cluster-low-density.json
+python3 scripts/run_sweep.py experiments/configs/cluster-zero-noise.json
 ```
 
 Los archivos actuales quedan en `experiments/raw/pilot-metadata-v2/` y `experiments/raw/cluster-low-density-metadata-v2/`. El sufijo distingue estas corridas de pilotos antiguos que no incluían todos los metadatos. Cada directorio contiene el `manifest.json` exacto de su barrido. Si cambia la configuración, se debe elegir otro `output_dir`; `--force` solo vuelve a ejecutar la misma configuración.

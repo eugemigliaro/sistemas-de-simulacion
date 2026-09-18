@@ -7,6 +7,8 @@ PY="${PY:-python/.venv/bin/python}"
 export PYTHONPATH=python/src
 RAW=experiments/raw/production
 LOW=experiments/raw/cluster-production
+LOW_ZERO=experiments/raw/cluster-zero-noise
+LOW_STARTS=experiments/configs/stationary-starts-low-density.csv
 RES=experiments/results
 FIG=informe/figuras
 T0=4000
@@ -14,9 +16,14 @@ mkdir -p "$RES" "$FIG"
 
 run() { "$PY" -m tp2analysis "$@"; }
 
-echo "== 1. Resúmenes estacionarios (t0 = $T0) =="
+echo "== 1. Resúmenes estacionarios =="
 run summary "$RAW"/*-observables.csv --stationary-start "$T0" --output "$RES/summary-densidades.csv"
-run summary "$LOW"/*-observables.csv --stationary-start "$T0" --output "$RES/summary-baja-densidad.csv"
+low_inputs=("$LOW_ZERO"/*-observables.csv)
+for eta in 0p125 0p25 0p375 0p5 0p625 0p75 0p875 1; do
+    low_inputs+=("$LOW"/*-eta"$eta"-seed*-observables.csv)
+done
+run summary "${low_inputs[@]}" --stationary-starts "$LOW_STARTS" \
+    --output "$RES/summary-baja-densidad.csv"
 
 echo "== 2. Bloques que justifican el descarte =="
 run blocks "$RAW"/vicsek-rho4-eta0p5-seed[123]-observables.csv \

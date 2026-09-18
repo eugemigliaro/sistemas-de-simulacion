@@ -107,6 +107,8 @@ En este caso usamos una densidad de cero coma treinta y dos. La animación permi
 
 Al promediar las realizaciones, el observable S deja de estar cerca de uno y recorre una parte amplia de su rango. Las curvas corresponden a densidades cero coma treinta y dos, cero coma dieciséis y cero coma once. Para ambos modelos, S disminuye al aumentar el ruido y al reducir la densidad. Además, para una misma densidad y un mismo ruido, el votante presenta en general una componente gigante menor que Vicsek. Las barras muestran nuevamente el desvío entre las diez realizaciones.
 
+En ruido nulo extendimos estas corridas hasta treinta mil pasos y promediamos desde veinte mil. Una semilla de Vicsek recién alcanzaba el consenso después del paso quince mil seiscientos, de modo que el descarte general de cuatro mil mezclaba el transitorio con el estacionario.
+
 ### 21. Orden y conectividad - 0:50
 
 Acá relacionamos directamente los dos observables, como pide la consigna. A la izquierda están las densidades principales: ese cambia poco, aunque la polarización recorre casi todo su rango. Esto confirma que, en ese régimen, orden y conectividad pueden desacoplarse.
@@ -145,4 +147,4 @@ Reparto sugerido:
 - Francisco: protocolo, promediado y resultados de densidades principales.
 - Franco: baja densidad, relación entre observables, CIM y conclusiones.
 
-Todos deben poder responder por qué se eligió $t_0=4000$, qué significan las barras de error, cómo se define un vecino bajo periodicidad y por qué la comparación temporal con TP1 es sólo orientativa.
+Todos deben poder responder por qué se eligió $t_0=4000$ en el caso general y $t_0=20000$ para baja densidad con $\eta=0$, qué significan las barras de error, cómo se define un vecino bajo periodicidad y por qué la comparación temporal con TP1 es sólo orientativa.

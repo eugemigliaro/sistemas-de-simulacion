@@ -291,9 +291,10 @@ $800$ partículas.
 
 \begin{table}[htbp]
 \centering
-\caption{Parámetros fijos de todas las simulaciones. El valor de $M$ es el mayor
-compatible con la condición $L/M > r_c$ y el paso $\Delta t$ define la unidad de
-tiempo del trabajo.}
+\caption{Parámetros de las simulaciones. El valor de $M$ es el mayor compatible
+con la condición $L/M > r_c$ y el paso $\Delta t$ define la unidad de tiempo del
+trabajo. Las corridas de baja densidad con $\eta=0$ usan la extensión temporal
+indicada en las dos últimas filas.}
 \label{tab:parametros}
 \begin{tabular}{llr}
 \toprule
@@ -304,8 +305,10 @@ $v$        & Rapidez de las partículas        & 0,03 \\
 $r_c$      & Radio de interacción             & 1 \\
 $\Delta t$ & Paso temporal                    & 1 \\
 $M$        & Celdas por lado del CIM          & 9 \\
-$T$        & Duración de cada corrida         & 10\,000 \\
-$t_0$      & Inicio del estado estacionario   & 4\,000 \\
+$T$        & Duración, caso general            & 10\,000 \\
+$t_0$      & Inicio estacionario, caso general & 4\,000 \\
+$T$        & Duración, baja densidad y $\eta=0$ & 30\,000 \\
+$t_0$      & Inicio, baja densidad y $\eta=0$ & 20\,000 \\
            & Realizaciones independientes     & 10 \\
 \bottomrule
 \end{tabular}
@@ -365,9 +368,13 @@ deriva sistemática.}
 \end{figure}
 \FloatBarrier
 
-Se adoptó $t_0 = \num{4000}$ para todas las corridas. Esta elección conservadora
-deja \num{6000} unidades de tiempo para promediar y aplica el mismo criterio a
-todas las combinaciones de modelo, densidad y ruido.
+Se adoptó $t_0 = \num{4000}$ para las corridas de duración $T=\num{10000}$.
+La revisión por bloques de las densidades bajas detectó una excepción en ruido
+nulo: una realización de Vicsek con $\rho=0{,}32$ alcanzó el estado absorbente
+recién en $t=\num{15624}$. Por eso las corridas de baja densidad con $\eta=0$ se
+extendieron hasta $T=\num{30000}$ y se promediaron desde $t_0=\num{20000}$. En
+las diez realizaciones usadas, ambos observables permanecen constantes después
+de ese descarte.
 
 \subsection{Promedios y barras de error}
 
@@ -606,8 +613,8 @@ deja regiones vacías entre ellos y fragmenta ocasionalmente la red.
 
 Para que el observable resulte discriminante se recurrió a las densidades bajas
 descritas en la Sección~\ref{sec:simulaciones}. La \figref{fig:s-eta-baja}
-muestra que allí $S$ sí recorre casi todo su rango: cae desde valores próximos a
-$0{,}95$ en $\eta = 0$ hasta $0{,}15$--$0{,}20$ en $\eta = 1$.
+muestra que allí $S$ sí recorre casi todo su rango: parte de valores próximos a
+uno en $\eta = 0$ y cae hasta $0{,}15$--$0{,}20$ en $\eta = 1$.
 
 \begin{figure}[htbp]
 \centering
@@ -615,7 +622,9 @@ $0{,}95$ en $\eta = 0$ hasta $0{,}15$--$0{,}20$ en $\eta = 1$.
 \caption{Componente gigante en función del ruido para las densidades nominales
 $1/\pi$, $1/(2\pi)$ y $1/(3\pi)$, que con $L = 10$ corresponden a $N = 32$, $16$
 y $11$ partículas. A diferencia de la \figref{fig:s-eta}, aquí el observable
-recorre casi todo su rango y separa claramente ambos modelos.}
+recorre casi todo su rango y separa claramente ambos modelos. Los puntos con
+$\eta=0$ se promedian en $[\num{20000},\num{30000}]$; los restantes, en
+$[\num{4000},\num{10000}]$.}
 \label{fig:s-eta-baja}
 \end{figure}
 \FloatBarrier
@@ -685,7 +694,8 @@ finito.
 \includegraphics[width=0.88\textwidth]{figuras/va-vs-eta-baja-densidad.png}
 \caption{Polarización estacionaria en función del ruido en las densidades bajas.
 El valor residual en $\eta = 1$ es un efecto de tamaño finito y crece al
-disminuir $N$.}
+disminuir $N$. Para $\eta=0$ se usa el intervalo
+$[\num{20000},\num{30000}]$.}
 \label{fig:va-eta-baja}
 \end{figure}
 \FloatBarrier
@@ -705,7 +715,8 @@ prácticamente sobre la diagonal-.
 seis series colapsan aproximadamente sobre una misma relación monótona, lo que
 indica que en este régimen la conectividad y el orden direccional están
 estrechamente relacionados. Las barras horizontales y verticales indican la
-desviación estándar entre las diez medias estacionarias de cada observable.}
+desviación estándar entre las diez medias estacionarias de cada observable. Los
+puntos con $\eta=0$ usan el intervalo $[\num{20000},\num{30000}]$.}
 \label{fig:va-s-baja}
 \end{figure}
 \FloatBarrier
