@@ -31,14 +31,17 @@ void write_obstacles(std::ostream& stream, const std::vector<Obstacle>& obstacle
 //   <x> <y> <vx> <vy> <estado>      (N lineas, una por particula, en orden de id)
 //
 // El estado es 0 para fresca y 1 para usada. El motivo indica por que se
-// guardo el cuadro: "initial", "periodic" o "color". Los cuadros "color"
-// permiten que el post-proceso reconstruya Ng(t) y t90 con precision exacta
-// sin que el motor cuente goles.
+// guardo el cuadro: "initial", "periodic", "color" o "final". Los cuadros
+// "color" permiten que el post-proceso reconstruya Ng(t) y t90 con precision
+// exacta sin que el motor cuente goles. El cuadro "final" cierra la corrida y
+// le dice al post-proceso hasta donde llego el reloj, que es lo que distingue
+// una realizacion que no alcanzo Fu = 0.9 de un archivo truncado [TP03, p. 3].
 
 enum class FrameReason : std::uint8_t {
     Initial,
     Periodic,
     Color,
+    Final,
 };
 
 [[nodiscard]] std::string to_string(FrameReason reason);

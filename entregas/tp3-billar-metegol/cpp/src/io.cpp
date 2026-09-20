@@ -94,6 +94,8 @@ std::string to_string(FrameReason reason) {
             return "periodic";
         case FrameReason::Color:
             return "color";
+        case FrameReason::Final:
+            return "final";
     }
     return "unknown";
 }
