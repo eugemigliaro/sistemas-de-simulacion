@@ -16,7 +16,7 @@ Fases completadas:
 - [x] Fase 3 — predicción y resolución de colisiones
 - [x] Fase 4 — motor ingenuo (oráculo de correctitud)
 - [x] Fase 5 — motor con cola de prioridad
-- [ ] Fase 6 — post-proceso (Fu, t90, DCM, D)
+- [x] Fase 6 — post-proceso (Fu, t90, DCM, D)
 - [ ] Fase 7 — experimentos 1.1, 1.2 y 1.3
 - [ ] Fase 8 — animación y entregables
 
@@ -49,7 +49,8 @@ Las decisiones completas están en [`docs/decisiones.md`](docs/decisiones.md).
 ## Compilación y pruebas
 
 ```bash
-make test
+make python-env   # una sola vez: crea python/.venv con numpy y matplotlib
+make test         # tests de C++ y de Python
 make sanitize
 ```
 
@@ -177,6 +178,8 @@ lugar de mirar una corrida.
 # tp3-trajectory 1
 # length 1.2
 # ...
+# max_time 30
+# max_events 0
 # obstacle 0.6 0.34 0.05
 # frame_columns x y vx vy state
 frame 0 0 0 initial
@@ -194,3 +197,41 @@ que distingue una realización que no alcanzó `Fu = 0.9` de un archivo truncado
 Con esto alcanza para el análisis: en una corrida de `N = 100` con tres
 obstáculos y `tmax = 30` s, los 95 cuadros `color` dan directamente
 `t90 = 19,40` s sin que el motor calcule un solo observable.
+
+`max_time` y `max_events` los escribe solo `simulate`. Sirven para distinguir
+una realización que llegó a `tmax` sin alcanzar `Fu = 0.9` de una cortada por
+el tope de eventos.
+
+## Post-proceso
+
+El paquete `python/src/tp3analysis` lee las trayectorias y escribe tablas CSV.
+No corre simulaciones ni grafica.
+
+```bash
+export PYTHONPATH=python/src
+PY=python/.venv/bin/python
+
+# t90 por realización y su promedio (con desvío y error estándar)
+$PY -m tp3analysis t90 data/generated/run_seed*.txt --output experiments/results/t90.csv
+
+# Ng(t) y Fu(t) de una realización, para graficar
+$PY -m tp3analysis goals data/generated/run_seed1.txt --output experiments/results/goals.csv
+
+# DCM con múltiples orígenes y coeficiente de difusión
+$PY -m tp3analysis diffusion data/generated/run_seed*.txt \
+  --window 0.3 1.5 --bin-width 0.02 --max-lag 5 \
+  --output-dir experiments/results/diffusion
+```
+
+Todas las realizaciones que se promedian tienen que ser del mismo sistema y
+tener semillas distintas; si no, el comando falla.
+
+| Comando | Qué calcula | Salida |
+|---|---|---|
+| `t90` | `t90` exacto por realización, `<t90>` sobre las que alcanzaron el 90 %, goles al final (criterio de desempate de la competencia) | una fila por realización |
+| `goals` | `Ng(t)` y `Fu(t)` como escalones en los instantes de gol | `time, goals, used_fraction` |
+| `diffusion` | DCM por realización y promediado, `D` con sus tres estimaciones | `msd_seed*.csv`, `msd_pooled.csv`, `ec_*.csv` (curvas `E(c)`), `diffusion.csv` |
+
+Para el DCM, `--save-every 10` con `N = 100` da un cuadro cada ~12 ms, de
+sobra para una ventana de ajuste de décimas de segundo. Los criterios están en
+[`docs/decisiones.md`](docs/decisiones.md#post-proceso-fase-6).

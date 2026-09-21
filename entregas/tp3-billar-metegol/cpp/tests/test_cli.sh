@@ -34,6 +34,9 @@ fi
 grep -q "^# tp3-trajectory 1$" "$workdir/empty.txt" || fail "falta la cabecera"
 grep -q "^# particle_count 10$" "$workdir/empty.txt" || fail "falta particle_count"
 grep -q "^# obstacle_count 0$" "$workdir/empty.txt" || fail "falta obstacle_count"
+if grep -q "^# max_time" "$workdir/empty.txt"; then
+    fail "generate no deberia escribir max_time"
+fi
 grep -q "^frame 0 0 0 initial$" "$workdir/empty.txt" || fail "falta el cuadro inicial"
 lines="$(grep -c -v '^#' "$workdir/empty.txt")"
 [ "$lines" -eq 11 ] || fail "se esperaban 11 lineas sin comentario, hay $lines"
@@ -91,6 +94,8 @@ fi
 "$binary" simulate --n 15 --seed 4 --tmax 2 --save-every 20 \
     --output "$workdir/run.txt" 2>"$workdir/run.err"
 grep -q "^# save_every 20$" "$workdir/run.txt" || fail "falta save_every en la cabecera"
+grep -q "^# max_time 2$" "$workdir/run.txt" || fail "falta max_time en la cabecera"
+grep -q "^# max_events 0$" "$workdir/run.txt" || fail "falta max_events en la cabecera"
 grep -q "^frame 0 0 0 initial$" "$workdir/run.txt" || fail "falta el cuadro inicial"
 grep -q " final$" "$workdir/run.txt" || fail "falta el cuadro final"
 grep -q "^engine queue particles 15 seed 4 events " "$workdir/run.err" \

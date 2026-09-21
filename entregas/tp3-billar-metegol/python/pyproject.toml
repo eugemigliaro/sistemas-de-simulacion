@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tp3analysis"
+version = "0.1.0"
+description = "Post-proceso y animación independientes para el TP3"
+requires-python = ">=3.11"
+dependencies = [
+    "numpy",
+    "matplotlib",
+]
+
+[project.scripts]
+tp3analysis = "tp3analysis.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

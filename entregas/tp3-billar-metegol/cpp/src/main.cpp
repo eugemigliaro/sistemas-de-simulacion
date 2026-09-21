@@ -274,6 +274,8 @@ int run_simulate(const std::vector<std::string_view>& arguments) {
             .seed = options.seed,
             .initial_speed = tp3::default_initial_speed,
             .save_every = options.save_every,
+            .max_time = options.max_time,
+            .max_events = options.max_events,
         }
     );
 

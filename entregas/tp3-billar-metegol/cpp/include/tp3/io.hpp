@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <iosfwd>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -53,6 +54,12 @@ struct TrajectoryMetadata {
     // se guardan cuadros periodicos. No es un parametro fisico, pero se
     // registra en la cabecera para poder reproducir la corrida.
     std::uint64_t save_every{1};
+    // Horizonte y tope de eventos pedidos a simulate. Tampoco son parametros
+    // fisicos: le permiten al post-proceso distinguir una realizacion que
+    // llego a tmax sin alcanzar Fu = 0.9 de una cortada por el tope de
+    // eventos [TP03, p. 3]. generate no los escribe.
+    std::optional<double> max_time{};
+    std::optional<std::uint64_t> max_events{};
 };
 
 void write_trajectory_header(

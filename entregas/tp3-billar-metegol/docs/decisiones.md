@@ -83,6 +83,35 @@ Medido con el motor de cola, `N = 100`, `tmax = 100` s, 30 semillas por configur
 - Un obstáculo bien puesto **reduce también la dispersión** (3,81 → 1,98 s), no solo la media. Para la competencia, que promedia apenas 5 realizaciones, la varianza baja vale tanto como la media baja.
 - Dato preliminar en contra de la intuición: el arreglo tipo embudo que probamos a ojo quedó **peor** que la mesa vacía. Es una sola configuración de esa familia y no prueba nada sobre la familia, pero confirma que el punto 1.2 hay que hacerlo midiendo y no razonando.
 
+### Post-proceso (fase 6)
+
+- El post-proceso es el paquete `tp3analysis` en Python, con numpy. Lee la trayectoria, valida sus invariantes (formato, cuadros completos, tiempo que no retrocede, una partícula usada que nunca vuelve a ser fresca) y escribe tablas CSV. No grafica: los gráficos van en la fase 7, sobre esas tablas.
+- **Indicación oral de la cátedra** (transmitida por el grupo, sin fuente escrita en el repositorio): no usar estados que el motor no calcula como eventos, por ejemplo interpolar posiciones para suavizar animaciones. En consecuencia:
+  - se descartó agregar al motor cuadros a intervalos fijos de tiempo (`--save-dt`), aunque el movimiento entre eventos sea rectilíneo y el estado intermedio sea exacto;
+  - el DCM usa únicamente cuadros `initial`, `periodic` y `color`. El cuadro `final` se excluye porque es un avance rectilíneo hasta `tmax`, no un evento.
+- **La cabecera registra `max_time` y `max_events`.** Sin ellos el post-proceso no puede distinguir una realización que llegó a `tmax` sin alcanzar `Fu = 0.9` de una cortada por el tope de eventos. No son parámetros físicos; `generate` no los escribe.
+- `Ng` es la cantidad de partículas usadas en cada cuadro. Se verifica que cada escalón sea de exactamente un gol y ocurra en un cuadro `color`: así `t90` es el instante exacto del gol que alcanza el umbral, sin interpolar. El umbral se calcula como `ceil(0.9·N)` en enteros, para no depender del redondeo de `0.9·N`.
+- Un archivo sin cuadro final que no alcanzó el umbral es un error, no una realización que "no llegó": no se puede distinguir de un archivo truncado.
+- `<t90>` se promedia sobre las realizaciones que alcanzaron el umbral. Las que no lo alcanzan se listan por semilla y además se reporta el promedio de goles al final para todas, que es el criterio de desempate de la competencia [TP03, p. 3].
+- Antes de promediar se exige que todas las realizaciones sean del mismo sistema (mismos parámetros físicos y obstáculos) y tengan semillas distintas. Una semilla repetida es la misma realización contada dos veces, no una muestra independiente.
+
+#### DCM
+
+- **Múltiples orígenes temporales**: cada par de cuadros `(tᵢ, tⱼ)` de la misma corrida aporta una muestra con desfasaje `τ = tⱼ − tᵢ`, promediada sobre todas las partículas [T03, p. 25]. Como los cuadros se guardan cada un número entero de eventos, los tiempos son irregulares; las muestras se agrupan por desfasaje en intervalos `(j·Δ, (j+1)·Δ]` y a cada intervalo se le asigna el desfasaje medio de sus muestras, no el centro.
+- Control físico: con `N = 100` en la mesa vacía el DCM satura en ~0,28 m², contra `[(L−2r)² + (W−2r)²]/6 ≈ 0,296` m² para posiciones uniformes en la caja accesible, y a desfasajes muy cortos es balístico (`≈ v0²τ²`). Los dos quedan como test sobre la salida real del motor.
+- **La ventana de ajuste es la misma para todas las configuraciones** y se fija en la fase 7 mirando la mesa vacía. Medición preliminar (una corrida, mesa vacía): `DCM/4t` no tiene una meseta limpia, sube hasta ~0,024 m²/s cerca de 0,5 s y cae después por el confinamiento. `D` varía entre 0,021 y 0,024 m²/s según la ventana, así que la elección hay que justificarla con un gráfico y declararla.
+
+#### Ajuste y barras de error
+
+- El ajuste es por barrido de `E(c)` sobre una recta por el origen: primero una grilla acotada entre el menor y el mayor cociente `yᵢ/xᵢ` (el óptimo siempre cae ahí) y después refinamientos sucesivos alrededor del mínimo. No se usa la fórmula cerrada; hay un test que la usa solo como control. La grilla del primer barrido se guarda para graficar `E(c)` [T00, pp. 79-81].
+- El error de la pendiente sale de la curvatura de la parábola: `σ_c² = 2s²/E''(c*)`, con `s² = E(c*)/(n−1)` y `E'' = 2Σx²`.
+- **Para `D` se calculan tres estimaciones** y se decide en la fase 7 cuál presentar:
+  1. media de los `D` por realización, con desvío y con error estándar;
+  2. media ponderada por el error de cada ajuste, `x̄ = Σ(xᵢ/σᵢ²)/Σ(1/σᵢ²)`, `σ = 1/√Σ(1/σᵢ²)`;
+  3. un único ajuste sobre el DCM promediado entre realizaciones, como sugiere la teórica.
+- **El error del ajuste de una sola corrida es optimista.** Los puntos de un DCM con múltiples orígenes están correlacionados, porque comparten trayectoria, y el error por residuos los trata como independientes. Medido: ~1·10⁻⁴ m²/s, diez veces menos que lo que cambia `D` al mover la ventana. La media ponderada hereda ese sesgo, así que si difiere de la media simple con error estándar, manda la segunda.
+- Para `t90` no hay ponderación posible: cada realización da un único valor exacto, sin error propio. Se reportan desvío y error estándar; cuál se grafica se decide al presentar y se explicita cómo se calculó [COR02].
+
 ### Convenciones numéricas
 
 - Dos discos se solapan cuando la distancia entre centros es **estrictamente menor** que la suma de radios. El caso tangente no se considera solapamiento.
@@ -124,7 +153,7 @@ Siguiendo el criterio de [COR02] ("si el output del sistema no cambia al variar 
 ## Pendientes experimentales
 
 - Rango final de `N` para el punto 1.1. Punto de partida propuesto: `N` en `{10, 25, 50, 100, 200, 400}`, a ajustar tras el piloto.
-- Cadencia de guardado `n` para las corridas de DCM. La ventana difusiva estimada es angosta (del orden de 0.3 s a 1.5 s), así que hace falta resolución temporal fina al principio de la corrida.
+- Ventana del ajuste del DCM, común a todas las configuraciones. Para la cadencia de guardado alcanza con `--save-every 10` (un cuadro cada ~12 ms con `N = 100`).
 - Familias paramétricas concretas a explorar en el punto 1.2.
 - Cantidad de realizaciones por punto: la consigna pide un mínimo de 10 para 1.1 y de 5 para 1.2 [TP03, p. 3].
 - Si hace falta búsqueda espacial de vecinas (CIM). Con `N = 100` la fracción de área ocupada es ~11.8 %, densidad baja; se decide después de medir el punto 1.1.

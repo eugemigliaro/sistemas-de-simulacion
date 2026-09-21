@@ -121,8 +121,16 @@ void write_trajectory_header(
 
     stream << "# initial_speed " << metadata.initial_speed << '\n'
            << "# seed " << metadata.seed << '\n'
-           << "# save_every " << metadata.save_every << '\n'
-           << "# obstacle_count " << system.obstacles.size() << '\n';
+           << "# save_every " << metadata.save_every << '\n';
+
+    if (metadata.max_time) {
+        stream << "# max_time " << *metadata.max_time << '\n';
+    }
+    if (metadata.max_events) {
+        stream << "# max_events " << *metadata.max_events << '\n';
+    }
+
+    stream << "# obstacle_count " << system.obstacles.size() << '\n';
 
     for (const Obstacle& obstacle : system.obstacles) {
         stream << "# obstacle " << obstacle.center.x << ' '
