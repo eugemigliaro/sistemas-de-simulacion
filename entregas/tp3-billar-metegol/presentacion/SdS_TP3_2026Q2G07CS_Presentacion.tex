@@ -1,0 +1,487 @@
+% Presentacion oral del TP3 - basada en el formato Beamer final del TP2.
+\documentclass[aspectratio=169,11pt]{beamer}
+\usetheme{Warsaw}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+\usepackage[spanish,es-noquoting]{babel}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+\definecolor{itbablue}{RGB}{0,91,145}
+\definecolor{accent}{RGB}{211,92,32}
+\definecolor{softblue}{RGB}{232,243,249}
+\setbeamercolor{structure}{fg=itbablue}
+\setbeamercolor{alerted text}{fg=accent}
+\setbeamercolor{block title}{fg=white,bg=itbablue}
+\setbeamercolor{block body}{bg=softblue}
+\setbeamerfont{frametitle}{size=\large}
+\setbeamerfont{title}{size=\LARGE}
+
+\setbeamertemplate{section page}{%
+  \begin{centering}
+    \vfill
+    {\usebeamercolor[fg]{structure}\usebeamerfont{title}\insertsectionhead\par}
+    \vfill
+  \end{centering}
+}
+
+\newcommand{\slot}[3]{%
+  \fbox{\parbox[c][#2][c]{\dimexpr#1-2\fboxsep-2\fboxrule\relax}{\centering\footnotesize\color{gray}#3}}}
+\newcommand{\pend}[1]{{\color{accent}\textbf{[#1]}}}
+\newcommand{\parametros}[1]{{\small #1}}
+\newcommand{\videolink}[1]{{\tiny\color{accent}\texttt{#1}}}
+
+\title[Billar-Metegol]{Simulacion dirigida por eventos de un Billar-Metegol}
+\subtitle{Busqueda de obstaculos para minimizar el tiempo al 90\,\% de goles}
+\author[Grupo 07]{Grupo 07 - Comision S\\Eugenio Migliaro, Francisco Costa y Franco Branda}
+\institute{72.25 Simulacion de Sistemas - ITBA}
+\date{28 de septiembre de 2026}
+
+\begin{document}
+
+% 1
+\begin{frame}
+  \titlepage
+\end{frame}
+
+% 2
+\section{Introduccion}
+\begin{frame}
+  \sectionpage
+\end{frame}
+
+% 3
+\begin{frame}{Sistema real}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.56\textwidth}
+      \centering
+      \begin{tikzpicture}[x=5.4cm,y=5.4cm]
+        \draw[very thick] (0,0) rectangle (1.2,0.68);
+        \draw[line width=3pt,itbablue] (0,0.24) -- (0,0.44);
+        \draw[line width=3pt,itbablue] (1.2,0.24) -- (1.2,0.44);
+        \fill[accent] (0.60,0.34) circle (0.075);
+        \fill[itbablue] (0.24,0.16) circle (0.023);
+        \fill[itbablue] (0.87,0.51) circle (0.023);
+        \fill[red!75!black] (1.04,0.27) circle (0.023);
+        \draw[->,thick] (0.24,0.16) -- (0.34,0.22);
+        \draw[->,thick] (0.87,0.51) -- (0.77,0.45);
+        \node[rotate=90,anchor=south] at (-0.04,0.34) {arco};
+        \node[rotate=90,anchor=north] at (1.24,0.34) {arco};
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.40\textwidth}
+      \begin{itemize}
+        \item Particulas en movimiento rectilineo entre colisiones.
+        \item Choques elasticos con paredes, particulas y obstaculos.
+        \item El primer contacto con un arco cambia su estado.
+      \end{itemize}
+      \begin{block}{Objetivo}
+        Minimizar $\langle t_{90}\rangle$ mediante la configuracion de obstaculos.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 4
+\begin{frame}{Fundamentos}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.47\textwidth}
+      \begin{block}{Movimiento libre}
+        \[
+          \bm{x}_i(t+\tau)=\bm{x}_i(t)+\bm{v}_i(t)\,\tau
+        \]
+        Cada trayectoria se propaga hasta el proximo evento.
+      \end{block}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Choque elastico}
+        \[
+          \sum_i m_i\bm{v}_i^{\,-}=\sum_i m_i\bm{v}_i^{\,+},
+          \qquad E_c^{-}=E_c^{+}
+        \]
+        Las paredes y los obstaculos producen reflexion especular.
+      \end{block}
+    \end{column}
+  \end{columns}
+  \vfill
+  \centering\small El reloj avanza de colision en colision, con un paso temporal variable.
+\end{frame}
+
+% 5
+\begin{frame}{Fundamentos}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.58\textwidth}
+      \begin{block}{Proximo evento}
+        Para cada candidato se resuelve analiticamente su tiempo de choque
+        $\tau_e\geq 0$ y se elige
+        \[
+          e^*=\operatorname*{arg\,min}_e\{t+\tau_e\}.
+        \]
+      \end{block}
+      \begin{block}{Estado discreto}
+        Una particula fresca pasa a usada al tocar por primera vez un arco.
+        Luego continua colisionando sin volver a sumar un gol.
+      \end{block}
+    \end{column}
+    \begin{column}{0.38\textwidth}
+      \centering
+      \begin{tikzpicture}[node distance=1.0cm,>=latex]
+        \node[draw,rounded corners,fill=softblue,minimum width=2.8cm] (p) {predecir};
+        \node[draw,rounded corners,fill=softblue,below of=p,minimum width=2.8cm] (a) {avanzar};
+        \node[draw,rounded corners,fill=softblue,below of=a,minimum width=2.8cm] (r) {resolver};
+        \draw[->,thick] (p) -- (a);
+        \draw[->,thick] (a) -- (r);
+        \draw[->,thick] (r.east) -- ++(0.55,0) |- (p.east);
+      \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 6
+\section{Implementacion}
+\begin{frame}
+  \sectionpage
+\end{frame}
+
+% 7
+\begin{frame}{Arquitectura del motor}
+  \centering
+  \begin{tikzpicture}[node distance=0.36cm, every node/.style={font=\small}]
+    \node[draw,fill=softblue,minimum width=3.4cm,minimum height=0.58cm] (cli) {CLI y configuracion};
+    \node[draw,fill=softblue,below=of cli,minimum width=3.4cm,minimum height=0.58cm] (gen) {Generacion del sistema};
+    \node[draw,fill=softblue,below=of gen,minimum width=3.4cm,minimum height=0.58cm] (sim) {Motor dirigido por eventos};
+    \node[draw,fill=softblue,below left=0.48cm and 0.25cm of sim,minimum width=3.2cm,minimum height=0.58cm] (col) {Prediccion y colisiones};
+    \node[draw,fill=softblue,below right=0.48cm and 0.25cm of sim,minimum width=3.2cm,minimum height=0.58cm] (geo) {Geometria y validacion};
+    \node[draw,fill=softblue,below=1.48cm of sim,minimum width=3.4cm,minimum height=0.58cm] (io) {Trayectoria de estados};
+    \draw[->,thick] (cli) -- (gen);
+    \draw[->,thick] (gen) -- (sim);
+    \draw[->,thick] (sim) -- (col);
+    \draw[->,thick] (sim) -- (geo);
+    \draw[->,thick] (sim) -- (io);
+  \end{tikzpicture}
+
+  \vspace{0.15em}
+  \begin{block}{Separacion exigida}
+    El motor solo genera tiempo, posiciones, velocidades y color. El post-proceso calcula $F_u$, $t_{90}$, DCM y $D$.
+  \end{block}
+\end{frame}
+
+% 8
+\begin{frame}{Estructuras principales}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \begin{block}{System}
+        \begin{itemize}
+          \item \texttt{Table}: $L$, $W$ y $d$.
+          \item \texttt{Particle}: $\bm{x}$, $\bm{v}$, estado y contador.
+          \item \texttt{Obstacle}: centro y radio.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \begin{block}{Event}
+        \begin{itemize}
+          \item Instante absoluto y tipo de choque.
+          \item Participantes del evento.
+          \item Contadores al momento de agendar.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+  \vfill
+  \centering
+  \begin{tikzpicture}[every node/.style={font=\small},>=latex]
+    \node[draw,fill=softblue,minimum width=2.4cm] (s) {System};
+    \node[draw,fill=softblue,right=1.7cm of s,minimum width=2.4cm] (q) {EventQueue};
+    \node[draw,fill=softblue,right=1.7cm of q,minimum width=2.4cm] (e) {Event};
+    \draw[->,thick] (s) -- node[above]{agenda} (q);
+    \draw[->,thick] (q) -- node[above]{extrae} (e);
+  \end{tikzpicture}
+\end{frame}
+
+% 9
+\begin{frame}{Algoritmo de simulacion}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.67\textwidth}
+      \begin{beamercolorbox}[sep=0.6em,rounded=true]{block body}
+        {\small\ttfamily
+        estado $\leftarrow$ generar(configuracion, semilla)\\[0.25em]
+        cola $\leftarrow$ agendar todos los choques\\
+        \textbf{mientras} cola no este vacia:\\
+        \quad evento $\leftarrow$ extraer minimo\\
+        \quad \textbf{si} evento esta invalidado: continuar\\
+        \quad \textbf{si} evento.t $>$ tmax: terminar\\
+        \quad avanzar todas las particulas hasta evento.t\\
+        \quad resolver(evento)\\
+        \quad escribir estado si corresponde\\
+        \quad reagendar participantes
+        }
+      \end{beamercolorbox}
+    \end{column}
+    \begin{column}{0.29\textwidth}
+      \begin{block}{Invalidacion perezosa}
+        Un evento vence si cambio el contador de choque de algun participante.
+      \end{block}
+      \begin{block}{Costo}
+        Cola: $O(N\log E)$ por evento, dominado por reagendar participantes.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 10
+\section{Simulaciones}
+\begin{frame}
+  \sectionpage
+\end{frame}
+
+% 11
+\begin{frame}{Sistema particular}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.55\textwidth}
+      \centering
+      \begin{tikzpicture}[x=5.35cm,y=5.35cm]
+        \draw[very thick] (0,0) rectangle (1.2,0.68);
+        \draw[line width=4pt,itbablue] (0,0.24) -- (0,0.44);
+        \draw[line width=4pt,itbablue] (1.2,0.24) -- (1.2,0.44);
+        \fill[accent] (0.62,0.34) circle (0.080);
+        \draw[<->] (0,-0.07) -- node[below] {$L=1{,}20\ \mathrm{m}$} (1.2,-0.07);
+        \draw[<->] (-0.07,0) -- node[rotate=90,above] {$W=0{,}68\ \mathrm{m}$} (-0.07,0.68);
+        \draw[<->] (0.62,0.34) -- node[above] {$R_k$} (0.70,0.34);
+        \draw[<->] (1.16,0.24) -- node[left] {$d$} (1.16,0.44);
+        \fill[itbablue] (0.25,0.18) circle (0.0175);
+        \draw[->,thick] (0.25,0.18) -- node[below] {$\bm{v}_i$} (0.38,0.23);
+        \draw[<->] (0.25,0.18) -- node[left] {$r$} (0.25,0.1975);
+      \end{tikzpicture}
+    \end{column}
+    \begin{column}{0.41\textwidth}
+      {\scriptsize
+      \begin{tabular}{@{}ll@{}}
+        \toprule
+        Particulas & $N=100$ \\
+        Radio & $r=1{,}75\,10^{-2}\ \mathrm{m}$ \\
+        Masa & $m=2{,}5\,10^{-2}\ \mathrm{kg}$ \\
+        Rapidez inicial & $v_0=1\ \mathrm{m\,s^{-1}}$ \\
+        Colisiones & elasticas \\
+        \bottomrule
+      \end{tabular}}
+      \vspace{0.5em}
+      \begin{block}{Configuracion}
+        $K>0$ discos fijos, $R_k\geq r$, contenidos y sin solaparse.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 12
+\begin{frame}{Protocolo experimental}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.47\textwidth}
+      \begin{block}{Parametros fisicos}
+        $N$, $L$, $W$, $d$, $r$, $m$, $v_0$ y $(x_k,y_k,R_k)$.
+      \end{block}
+      \begin{block}{1.1 Rendimiento}
+        Mesa vacia, $t_f=30\ \mathrm{s}$, al menos 10 realizaciones por $N$.
+      \end{block}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \begin{block}{1.2 Configuraciones}
+        Mesa vacia y familias de obstaculos, con al menos 5 realizaciones por punto.
+      \end{block}
+      \begin{block}{Datos de ejecucion}
+        $t_{\max}$, semilla, cadencia de guardado y cantidad de realizaciones no son parametros fisicos.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 13
+\begin{frame}{Goles y tiempo caracteristico}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.47\textwidth}
+      \textbf{Fraccion de particulas usadas}
+      \[
+        F_u^{(s)}(t)=\frac{N_g^{(s)}(t)}{N}.
+      \]
+      \textbf{Tiempo por realizacion}
+      \[
+        t_{90}^{(s)}=\min\{t:F_u^{(s)}(t)\geq0{,}9\}.
+      \]
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Promedio entre realizaciones}
+        \[
+          \langle t_{90}\rangle=\frac{1}{n_r}\sum_{s=1}^{n_r}t_{90}^{(s)}
+        \]
+        \[
+          \sigma_{t_{90}}=\sqrt{\frac{1}{n_r-1}\sum_{s=1}^{n_r}
+          \left(t_{90}^{(s)}-\langle t_{90}\rangle\right)^2}.
+        \]
+      \end{block}
+      \small Las corridas que no llegan al 90\,\% antes de $t_{\max}$ se informan, no se descartan.
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 14
+\begin{frame}{Difusion}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.51\textwidth}
+      \textbf{Desplazamiento cuadratico medio}
+      \[
+        \mathrm{DCM}^{(s)}(t)=\frac{1}{N}\sum_{i=1}^{N}
+        \left\lVert\bm{x}_i^{(s)}(t)-\bm{x}_i^{(s)}(0)\right\rVert^2.
+      \]
+      En la ventana difusiva:
+      \[
+        \mathrm{DCM}(t)=4Dt.
+      \]
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \begin{block}{Ajuste por realizacion}
+        \[
+          E(c)=\sum_j\left[\mathrm{DCM}(t_j)-c\,t_j\right]^2
+        \]
+        \[
+          D=\frac{c_{\min}}{4}.
+        \]
+      \end{block}
+      \begin{block}{Reporte}
+        Se calcula $D^{(s)}$ para cada semilla y luego $\langle D\rangle\pm\sigma_D$.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 15
+\section{Resultados}
+\begin{frame}
+  \sectionpage
+\end{frame}
+
+% 16
+\begin{frame}{Dinamica del sistema}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.47\textwidth}
+      \centering
+      \slot{\textwidth}{3.7cm}{Fotograma: mesa vacia\\archivo esperado: \texttt{figuras/anim-vacia.png}}\\[3pt]
+      \videolink{https://youtu.be/REEMPLAZAR}
+    \end{column}
+    \begin{column}{0.47\textwidth}
+      \centering
+      \slot{\textwidth}{3.7cm}{Fotograma: mejor configuracion\\archivo esperado: \texttt{figuras/anim-mejor.png}}\\[3pt]
+      \videolink{https://youtu.be/REEMPLAZAR}
+    \end{column}
+  \end{columns}
+  \vspace{0.4em}
+  \centering\parametros{$N=100$, $v_0=1\ \mathrm{m\,s^{-1}}$, $r=1{,}75\,10^{-2}\ \mathrm{m}$, semilla \pend{valor}.}
+\end{frame}
+
+% 17
+\begin{frame}{Tiempo de ejecucion en funcion de $N$}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.68\textwidth}
+      \slot{\textwidth}{5.25cm}{\texttt{figuras/runtime-vs-N.pdf}\\Media y desvio estandar; puntos visibles; ejes con unidades}
+    \end{column}
+    \begin{column}{0.28\textwidth}
+      \parametros{Mesa vacia\\$t_f=30\ \mathrm{s}$\\$n_r=\pend{cantidad}$ por $N$\\Motor: \pend{naive/queue}}
+      \vspace{0.8em}
+      \begin{block}{Lectura}
+        \pend{Describir la tendencia observada sin extrapolar fuera del rango medido.}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 18
+\begin{frame}{Evolucion de la fraccion usada}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.68\textwidth}
+      \slot{\textwidth}{5.25cm}{\texttt{figuras/Fu-vs-tiempo.pdf}\\Dos evoluciones tipicas; linea $F_u=0{,}9$; marcar cada $t_{90}$}
+    \end{column}
+    \begin{column}{0.28\textwidth}
+      \parametros{$N=100$\\Mesa vacia y mejor configuracion\\Semillas: \pend{valores}}
+      \vspace{0.8em}
+      \begin{block}{Escalar}
+        $t_{90}$ se extrae por realizacion antes de promediar.
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 19
+\begin{frame}{Exploracion de configuraciones}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.68\textwidth}
+      \slot{\textwidth}{5.25cm}{\texttt{figuras/t90-vs-configuracion.pdf}\\$\langle t_{90}\rangle$ con desvio; referencia de mesa vacia; puntos visibles}
+    \end{column}
+    \begin{column}{0.28\textwidth}
+      \parametros{$N=100$\\$n_r=\pend{cantidad}$ por punto\\Variable: \pend{definir}\\$t_{\max}=\pend{valor}\ \mathrm{s}$}
+      \vspace{0.6em}
+      \begin{block}{Elegida}
+        $K=\pend{valor}$\\$(x_k,y_k,R_k)=\pend{valores}$
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 20
+\begin{frame}{Coeficiente de difusion}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.48\textwidth}
+      \slot{\textwidth}{4.2cm}{\texttt{figuras/DCM-ajuste.pdf}\\DCM y recta $4Dt$; indicar ventana de ajuste}
+    \end{column}
+    \begin{column}{0.48\textwidth}
+      \slot{\textwidth}{4.2cm}{\texttt{figuras/error-ajuste.pdf}\\$E(c)$ y minimo que determina $D$}
+    \end{column}
+  \end{columns}
+  \vspace{0.35em}
+  \centering\parametros{Configuracion: \pend{nombre}; semilla: \pend{valor}; ventana: \pend{$[t_a,t_b]$ s}; $D=\pend{valor}\ \mathrm{m^2\,s^{-1}}$.}
+\end{frame}
+
+% 21
+\begin{frame}{Difusion y tiempo al 90\,\%}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.67\textwidth}
+      \slot{\textwidth}{5.2cm}{\texttt{figuras/D-vs-t90.pdf}\\$\langle D\rangle$ frente a $\langle t_{90}\rangle$ con barras de error}
+    \end{column}
+    \begin{column}{0.29\textwidth}
+      \parametros{$N=100$\\Mismas configuraciones que en la exploracion\\$n_r=\pend{cantidad}$}
+      \vspace{0.8em}
+      \begin{block}{Relacion observada}
+        \pend{Indicar solo la correlacion respaldada por los datos.}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 22
+\section{Conclusiones}
+\begin{frame}
+  \sectionpage
+\end{frame}
+
+% 23
+\begin{frame}{Conclusiones}
+  \begin{itemize}
+    \item \pend{Conclusion respaldada por el grafico de tiempo de ejecucion.}
+    \item \pend{Conclusion respaldada por la exploracion de configuraciones.}
+    \item \pend{Conclusion respaldada por la comparacion entre $D$ y $\langle t_{90}\rangle$.}
+  \end{itemize}
+\end{frame}
+
+% 24
+\begin{frame}
+  \centering
+  \vfill
+  {\usebeamercolor[fg]{structure}\usebeamerfont{title}Gracias por su atencion}
+  \vfill
+\end{frame}
+
+\end{document}
