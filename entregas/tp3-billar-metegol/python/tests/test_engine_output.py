@@ -19,7 +19,10 @@ from tp3analysis.trajectory import read_trajectory
 
 
 ROOT = Path(__file__).resolve().parents[2]
-BINARIES = [ROOT / "cpp/build/release/tp3", ROOT / "cpp/build/debug/tp3"]
+# `make test` garantiza que el binario debug esta actualizado antes de correr
+# estas pruebas. El release puede existir de una compilacion anterior, asi que
+# usarlo primero haria que la integracion probara codigo obsoleto.
+BINARIES = [ROOT / "cpp/build/debug/tp3", ROOT / "cpp/build/release/tp3"]
 ENGINE = next((path for path in BINARIES if path.exists()), None)
 
 

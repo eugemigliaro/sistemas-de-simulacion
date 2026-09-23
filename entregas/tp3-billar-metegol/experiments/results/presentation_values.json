@@ -1,0 +1,12 @@
+{
+  "runtime_exponent": 3.2971460478801577,
+  "runtime_n400_mean_seconds": 11.27487,
+  "runtime_n400_std_seconds": 0.044747043353599275,
+  "empty_mean_t90_seconds": 22.68352748,
+  "empty_std_t90_seconds": 2.9775981604614588,
+  "best_improvement_percent": 31.487615111733348,
+  "best_mean_D_m2_s": 0.00752252387851475,
+  "best_std_D_m2_s": 0.0003643931366961141,
+  "best_pooled_D_m2_s": 0.0075225252496360605,
+  "diffusion_t90_pearson_r": 0.1348345434433284
+}

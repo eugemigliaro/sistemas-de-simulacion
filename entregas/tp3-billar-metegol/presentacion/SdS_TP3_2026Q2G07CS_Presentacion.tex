@@ -370,30 +370,30 @@
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.47\textwidth}
       \centering
-      \slot{\textwidth}{3.7cm}{Fotograma: mesa vacia\\archivo esperado: \texttt{figuras/anim-vacia.png}}\\[3pt]
-      \videolink{https://youtu.be/REEMPLAZAR}
+      \includegraphics[width=\textwidth,height=3.7cm,keepaspectratio]{figuras/anim-vacia.png}\\[3pt]
+      \videolink{URL YouTube/Vimeo pendiente de publicacion}
     \end{column}
     \begin{column}{0.47\textwidth}
       \centering
-      \slot{\textwidth}{3.7cm}{Fotograma: mejor configuracion\\archivo esperado: \texttt{figuras/anim-mejor.png}}\\[3pt]
-      \videolink{https://youtu.be/REEMPLAZAR}
+      \includegraphics[width=\textwidth,height=3.7cm,keepaspectratio]{figuras/anim-mejor.png}\\[3pt]
+      \videolink{URL YouTube/Vimeo pendiente de publicacion}
     \end{column}
   \end{columns}
   \vspace{0.4em}
-  \centering\parametros{$N=100$, $v_0=1\ \mathrm{m\,s^{-1}}$, $r=1{,}75\,10^{-2}\ \mathrm{m}$, semilla \pend{valor}.}
+  \centering\parametros{$N=100$, $v_0=1\ \mathrm{m\,s^{-1}}$, $r=1{,}75\,10^{-2}\ \mathrm{m}$; semillas 2006 y 2010.}
 \end{frame}
 
 % 17
 \begin{frame}{Tiempo de ejecucion en funcion de $N$}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.68\textwidth}
-      \slot{\textwidth}{5.25cm}{\texttt{figuras/runtime-vs-N.pdf}\\Media y desvio estandar; puntos visibles; ejes con unidades}
+      \includegraphics[width=\textwidth,height=5.25cm,keepaspectratio]{figuras/runtime-vs-N.pdf}
     \end{column}
     \begin{column}{0.28\textwidth}
-      \parametros{Mesa vacia\\$t_f=30\ \mathrm{s}$\\$n_r=\pend{cantidad}$ por $N$\\Motor: \pend{naive/queue}}
+      \parametros{Mesa vacia\\$t_f=30\ \mathrm{s}$\\$n_r=10$ por $N$\\Motor: cola de prioridad}
       \vspace{0.8em}
       \begin{block}{Lectura}
-        \pend{Describir la tendencia observada sin extrapolar fuera del rango medido.}
+        En el rango medido, el ajuste para $N\geq50$ da $t\propto N^{3{,}30}$; a $N=400$, $t=11{,}27\pm0{,}04$ s.
       \end{block}
     \end{column}
   \end{columns}
@@ -403,10 +403,10 @@
 \begin{frame}{Evolucion de la fraccion usada}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.68\textwidth}
-      \slot{\textwidth}{5.25cm}{\texttt{figuras/Fu-vs-tiempo.pdf}\\Dos evoluciones tipicas; linea $F_u=0{,}9$; marcar cada $t_{90}$}
+      \includegraphics[width=\textwidth,height=5.25cm,keepaspectratio]{figuras/Fu-vs-tiempo.pdf}
     \end{column}
     \begin{column}{0.28\textwidth}
-      \parametros{$N=100$\\Mesa vacia y mejor configuracion\\Semillas: \pend{valores}}
+      \parametros{$N=100$\\Mesa vacia: semilla 2006\\Elegida: semilla 2010}
       \vspace{0.8em}
       \begin{block}{Escalar}
         $t_{90}$ se extrae por realizacion antes de promediar.
@@ -419,13 +419,14 @@
 \begin{frame}{Exploracion de configuraciones}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.68\textwidth}
-      \slot{\textwidth}{5.25cm}{\texttt{figuras/t90-vs-configuracion.pdf}\\$\langle t_{90}\rangle$ con desvio; referencia de mesa vacia; puntos visibles}
+      \includegraphics[width=\textwidth,height=5.25cm,keepaspectratio]{figuras/t90-vs-configuracion.pdf}
     \end{column}
     \begin{column}{0.28\textwidth}
-      \parametros{$N=100$\\$n_r=\pend{cantidad}$ por punto\\Variable: \pend{definir}\\$t_{\max}=\pend{valor}\ \mathrm{s}$}
+      \parametros{$N=100$\\$n_r=15$ por punto\\Variables: $x_k$ y $R_k$\\$t_{\max}=100\ \mathrm{s}$}
       \vspace{0.6em}
       \begin{block}{Elegida}
-        $K=\pend{valor}$\\$(x_k,y_k,R_k)=\pend{valores}$
+        $K=1$\\$(x_k,y_k,R_k)=(0{,}60;0{,}34;0{,}34)\ \mathrm{m}$\\
+        $\langle t_{90}\rangle=15{,}54\pm1{,}55\ \mathrm{s}$
       \end{block}
     \end{column}
   \end{columns}
@@ -435,27 +436,27 @@
 \begin{frame}{Coeficiente de difusion}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.48\textwidth}
-      \slot{\textwidth}{4.2cm}{\texttt{figuras/DCM-ajuste.pdf}\\DCM y recta $4Dt$; indicar ventana de ajuste}
+      \includegraphics[width=\textwidth,height=4.2cm,keepaspectratio]{figuras/DCM-ajuste.pdf}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \slot{\textwidth}{4.2cm}{\texttt{figuras/error-ajuste.pdf}\\$E(c)$ y minimo que determina $D$}
+      \includegraphics[width=\textwidth,height=4.2cm,keepaspectratio]{figuras/error-ajuste.pdf}
     \end{column}
   \end{columns}
   \vspace{0.35em}
-  \centering\parametros{Configuracion: \pend{nombre}; semilla: \pend{valor}; ventana: \pend{$[t_a,t_b]$ s}; $D=\pend{valor}\ \mathrm{m^2\,s^{-1}}$.}
+  \centering\parametros{Configuracion elegida; 5 semillas; ventana $[0{,}3;1{,}5]$ s; $\langle D\rangle=(0{,}00752\pm0{,}00036)\ \mathrm{m^2\,s^{-1}}$.}
 \end{frame}
 
 % 21
 \begin{frame}{Difusion y tiempo al 90\,\%}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.67\textwidth}
-      \slot{\textwidth}{5.2cm}{\texttt{figuras/D-vs-t90.pdf}\\$\langle D\rangle$ frente a $\langle t_{90}\rangle$ con barras de error}
+      \includegraphics[width=\textwidth,height=5.2cm,keepaspectratio]{figuras/D-vs-t90.pdf}
     \end{column}
     \begin{column}{0.29\textwidth}
-      \parametros{$N=100$\\Mismas configuraciones que en la exploracion\\$n_r=\pend{cantidad}$}
+      \parametros{$N=100$\\Mismas configuraciones\\$n_r=15$ para $t_{90}$\\$n_r=5$ para $D$\\Barras: error estandar}
       \vspace{0.8em}
       \begin{block}{Relacion observada}
-        \pend{Indicar solo la correlacion respaldada por los datos.}
+        No aparece una correlacion global relevante ($r=0{,}13$): la geometria importa mas que $D$ por si solo.
       \end{block}
     \end{column}
   \end{columns}
@@ -470,9 +471,9 @@
 % 23
 \begin{frame}{Conclusiones}
   \begin{itemize}
-    \item \pend{Conclusion respaldada por el grafico de tiempo de ejecucion.}
-    \item \pend{Conclusion respaldada por la exploracion de configuraciones.}
-    \item \pend{Conclusion respaldada por la comparacion entre $D$ y $\langle t_{90}\rangle$.}
+    \item El costo crecio como $N^{3{,}30}$ en el rango $50\leq N\leq400$; la cola no evita el fuerte aumento de eventos a alta densidad.
+    \item El obstaculo central de radio maximo redujo $\langle t_{90}\rangle$ un 31,5 por ciento y tambien redujo su dispersion frente a la mesa vacia.
+    \item $D$ no predijo por si solo el tiempo al 90 por ciento: en el barrido completo la correlacion fue debil ($r=0{,}13$).
   \end{itemize}
 \end{frame}
 

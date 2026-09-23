@@ -14,6 +14,7 @@ from pathlib import Path
 from typing import Iterable, Sequence
 
 from .diffusion import summarize_diffusion
+from .animation import render_animation, render_snapshot
 from .goals import T90Result, goal_curve, time_to_fraction
 from .msd import MsdCurve, trajectory_msd
 from .stats import describe
@@ -23,7 +24,7 @@ from .trajectory import Header, read_trajectory
 def _write_csv(path: Path, fields: Sequence[str], rows: Iterable[Sequence[object]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as output:
-        writer = csv.writer(output)
+        writer = csv.writer(output, lineterminator="\n")
         writer.writerow(fields)
         writer.writerows(rows)
 
@@ -168,6 +169,15 @@ def command_diffusion(arguments: argparse.Namespace) -> int:
     return 0
 
 
+def command_animate(arguments: argparse.Namespace) -> int:
+    trajectory = read_trajectory(arguments.trajectory)
+    render_animation(trajectory, arguments.output, arguments.fps, arguments.duration)
+    if arguments.snapshot:
+        usable = [i for i, reason in enumerate(trajectory.reasons) if reason != "final"]
+        render_snapshot(trajectory, arguments.snapshot, usable[len(usable) // 2])
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="tp3analysis",
@@ -198,6 +208,14 @@ def build_parser() -> argparse.ArgumentParser:
                            help="descarta orígenes anteriores a este tiempo")
     diffusion.add_argument("--output-dir", type=Path, required=True)
     diffusion.set_defaults(handler=command_diffusion)
+
+    animate = commands.add_parser("animate", help="anima una trayectoria ya calculada")
+    animate.add_argument("trajectory", type=Path)
+    animate.add_argument("--output", type=Path, required=True)
+    animate.add_argument("--snapshot", type=Path)
+    animate.add_argument("--fps", type=int, default=30)
+    animate.add_argument("--duration", type=float, default=15.0)
+    animate.set_defaults(handler=command_animate)
     return parser
 
 

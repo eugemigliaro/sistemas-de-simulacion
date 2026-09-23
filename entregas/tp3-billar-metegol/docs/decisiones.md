@@ -150,13 +150,13 @@ Siguiendo el criterio de [COR02] ("si el output del sistema no cambia al variar 
 - `D` se ajusta **por realización** y se reporta `<D> ± σ` sobre semillas independientes. La dispersión entre partículas dentro de una misma corrida no es una barra de error válida: las partículas interactúan y no son muestras independientes.
 - Las realizaciones que no alcanzan `Fu = 0.9` antes de `tmax` se reportan explícitamente, no se descartan [TP03, p. 3].
 
-## Pendientes experimentales
+## Decisiones experimentales finales
 
-- Rango final de `N` para el punto 1.1. Punto de partida propuesto: `N` en `{10, 25, 50, 100, 200, 400}`, a ajustar tras el piloto.
-- Ventana del ajuste del DCM, común a todas las configuraciones. Para la cadencia de guardado alcanza con `--save-every 10` (un cuadro cada ~12 ms con `N = 100`).
-- Familias paramétricas concretas a explorar en el punto 1.2.
-- Cantidad de realizaciones por punto: la consigna pide un mínimo de 10 para 1.1 y de 5 para 1.2 [TP03, p. 3].
-- Si hace falta búsqueda espacial de vecinas (CIM). Con `N = 100` la fracción de área ocupada es ~11.8 %, densidad baja; se decide después de medir el punto 1.1.
+- Punto 1.1: `N` en `{10, 25, 50, 75, 100, 150, 200, 300, 400}`, diez semillas por punto, mesa vacía, motor de cola y `tf = 30 s`. En el rango `N >= 50` se midió `t ∝ N^3,30`; no se interpreta ese ajuste finito como complejidad asintótica.
+- Punto 1.2: un obstáculo sobre el eje longitudinal, con `yk = 0.34 m`, barrido de posición y radio, quince semillas por punto y `tmax = 100 s`. La mejor configuración medida fue `(xk, yk, Rk) = (0.60, 0.34, 0.34) m`, con `<t90> = 15.54 ± 1.55 s`, frente a `22.68 ± 2.98 s` para la mesa vacía.
+- Punto 1.3: cinco semillas por configuración, `tmax = 8 s`, `--save-every 20`, intervalos de DCM de `0.05 s`, desfasaje máximo de `3 s` y ventana común `[0.3, 1.5] s`. Para la elegida se obtuvo `<D> = 0.00752 ± 0.00036 m²/s`.
+- En el barrido completo la correlación de Pearson entre `<D>` y `<t90>` fue débil (`r = 0.13`). La conclusión se limita a la familia explorada.
+- No se agregó CIM al motor: para el alcance pedido, la cola de prioridad completa las corridas y el esfuerzo de optimización se concentró en evitar el recálculo global de eventos.
 
 ## Estimaciones de referencia
 

@@ -7,7 +7,8 @@ exige la consigna [TP03, p. 1].
 
 ## Estado
 
-En desarrollo. Entrega: 28 de septiembre de 2026, 13:00.
+En cierre. Entrega: 28 de septiembre de 2026, 13:00. Solo faltan publicar las
+dos animaciones y colocar sus URL explícitas en la presentación.
 
 Fases completadas:
 
@@ -17,8 +18,8 @@ Fases completadas:
 - [x] Fase 4 — motor ingenuo (oráculo de correctitud)
 - [x] Fase 5 — motor con cola de prioridad
 - [x] Fase 6 — post-proceso (Fu, t90, DCM, D)
-- [ ] Fase 7 — experimentos 1.1, 1.2 y 1.3
-- [ ] Fase 8 — animación y entregables
+- [x] Fase 7 — experimentos 1.1, 1.2 y 1.3
+- [ ] Fase 8 — animación y entregables (solo faltan publicar los videos y pegar sus URL)
 
 ## Separación de responsabilidades
 
@@ -235,3 +236,18 @@ tener semillas distintas; si no, el comando falla.
 Para el DCM, `--save-every 10` con `N = 100` da un cuadro cada ~12 ms, de
 sobra para una ventana de ajuste de décimas de segundo. Los criterios están en
 [`docs/decisiones.md`](docs/decisiones.md#post-proceso-fase-6).
+
+## Resultados y entrega
+
+El protocolo, los resultados numéricos y su interpretación están documentados
+en [`experiments/RESULTADOS.md`](experiments/RESULTADOS.md). La configuración
+elegida tiene un obstáculo en `(0.60, 0.34)` de radio `0.34 m` y redujo
+`<t90>` un 31,5 % respecto de la mesa vacía en el barrido realizado.
+
+```bash
+make assets   # figuras, fotogramas y MP4 locales
+make package  # PDF, Config.txt y ZIP del motor (< 100 KB)
+```
+
+Los MP4 no se incluyen en la entrega: deben publicarse en YouTube o Vimeo y
+sus enlaces explícitos deben incorporarse al PDF [TP03, p. 1].

@@ -1,0 +1,29 @@
+{
+  "best": {
+    "label": "x60_r34",
+    "x": 0.6,
+    "y": 0.34,
+    "radius": 0.34,
+    "mean_t90_seconds": 15.541025653333332,
+    "std_t90_seconds": 1.550187367777102,
+    "sem_t90_seconds": 0.4002566572601219
+  },
+  "diffusion_window_seconds": [
+    0.3,
+    1.5
+  ],
+  "vacia": {
+    "label": "vacia",
+    "seed": 2006,
+    "trajectory": "data/generated/anim_vacia.txt",
+    "t90_seconds": 22.4888409,
+    "search_trajectory": "experiments/raw/search/vacia/seed2006.txt"
+  },
+  "mejor": {
+    "label": "x60_r34",
+    "seed": 2010,
+    "trajectory": "data/generated/anim_mejor.txt",
+    "t90_seconds": 15.4127498,
+    "search_trajectory": "experiments/raw/search/x60_r34/seed2010.txt"
+  }
+}
