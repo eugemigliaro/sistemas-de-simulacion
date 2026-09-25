@@ -34,6 +34,16 @@ ORANGE = "#d35c20"
 RED = "#c73e36"
 GREEN = "#2d7f5e"
 
+# Las figuras se proyectan durante la exposición: ejes y leyendas deben
+# conservarse legibles aun cuando se inserten en una diapositiva.
+plt.rcParams.update({
+    "font.size": 14,
+    "axes.labelsize": 16,
+    "xtick.labelsize": 13,
+    "ytick.labelsize": 13,
+    "legend.fontsize": 14,
+})
+
 
 def read_csv(name: str) -> list[dict[str, str]]:
     with (RESULTS / name).open(newline="", encoding="utf-8") as file:
@@ -57,7 +67,7 @@ def runtime_figure(metadata: dict[str, object]) -> None:
     alpha, log_a = np.polyfit(np.log(np.array(values)[selected]), np.log(means[selected]), 1)
     fitted = np.exp(log_a) * np.array(values, dtype=float) ** alpha
 
-    fig, axis = plt.subplots(figsize=(8.2, 5.0), constrained_layout=True)
+    fig, axis = plt.subplots(figsize=(10.5, 4.2), constrained_layout=True)
     axis.errorbar(values, means, yerr=stds, fmt="o", color=BLUE, capsize=4,
                   label="media ± desvío estándar (10 semillas)")
     axis.plot(values, fitted, "--", color=ORANGE, label=fr"ajuste $t\propto N^{{{alpha:.2f}}}$, $N\geq50$")
@@ -72,7 +82,7 @@ def runtime_figure(metadata: dict[str, object]) -> None:
 
 
 def goal_figure(selection: dict[str, object]) -> None:
-    fig, axis = plt.subplots(figsize=(8.2, 5.0), constrained_layout=True)
+    fig, axis = plt.subplots(figsize=(10.5, 4.2), constrained_layout=True)
     for role, color, label in (
         ("vacia", BLUE, "mesa vacía"),
         ("mejor", ORANGE, "configuración elegida"),
@@ -91,14 +101,14 @@ def goal_figure(selection: dict[str, object]) -> None:
     axis.set(xlabel="Tiempo [s]", ylabel=r"Fracción usada, $F_u(t)$",
              xlim=(0, 32), ylim=(0, 1.02))
     axis.grid(True, alpha=0.25)
-    axis.legend(frameon=False, loc="lower right")
+    axis.legend(frameon=False, loc="upper left")
     finish(fig, "Fu-vs-tiempo.pdf")
 
 
 def search_figure(selection: dict[str, object], metadata: dict[str, object]) -> None:
     rows = read_csv("t90_summary.csv")
     empty = next(row for row in rows if row["label"] == "vacia")
-    fig, axis = plt.subplots(figsize=(8.2, 5.0), constrained_layout=True)
+    fig, axis = plt.subplots(figsize=(10.5, 4.2), constrained_layout=True)
     colors = [BLUE, GREEN, ORANGE, RED]
     for x, color in zip((0.30, 0.40, 0.50, 0.60), colors):
         selected = sorted(
@@ -123,7 +133,8 @@ def search_figure(selection: dict[str, object], metadata: dict[str, object]) -> 
     axis.set(xlabel="Radio del obstáculo [m]", ylabel=r"$\langle t_{90}\rangle$ [s]",
              xlim=(0.04, 0.35))
     axis.grid(True, alpha=0.25)
-    axis.legend(frameon=False, ncol=2, fontsize=9)
+    axis.legend(frameon=False, ncol=3, loc="lower left",
+                bbox_to_anchor=(0, 1.01))
     finish(fig, "t90-vs-configuracion.pdf")
     improvement = 100 * (empty_mean - float(best["mean_t90_seconds"])) / empty_mean
     metadata["empty_mean_t90_seconds"] = empty_mean
@@ -154,7 +165,7 @@ def diffusion_figures(selection: dict[str, object], metadata: dict[str, object])
                  label=fr"ventana [{window[0]:.1f}, {window[1]:.1f}] s")
     axis.set(xlabel="Desfasaje [s]", ylabel=r"DCM [m$^2$]", xlim=(0, 3.0))
     axis.grid(True, alpha=0.25)
-    axis.legend(frameon=False, fontsize=9)
+    axis.legend(frameon=False, loc="lower right")
     finish(fig, "DCM-ajuste.pdf")
 
     ec_rows = read_csv(f"ec_{label}.csv")
@@ -186,7 +197,7 @@ def correlation_figure(metadata: dict[str, object]) -> None:
     yerr = np.array([float(t90[label]["sem_t90_seconds"]) for label in labels])
     correlation = float(np.corrcoef(x, y)[0, 1])
 
-    fig, axis = plt.subplots(figsize=(8.2, 5.0), constrained_layout=True)
+    fig, axis = plt.subplots(figsize=(10.5, 4.2), constrained_layout=True)
     for label in labels:
         index = labels.index(label)
         is_empty = label == "vacia"

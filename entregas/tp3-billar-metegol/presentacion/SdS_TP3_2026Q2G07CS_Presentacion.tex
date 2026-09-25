@@ -1,4 +1,4 @@
-% Presentacion oral del TP3 - basada en el formato Beamer final del TP2.
+% Presentación oral del TP3, basada en el formato Beamer final del TP2.
 \documentclass[aspectratio=169,11pt]{beamer}
 \usetheme{Warsaw}
 \useoutertheme{miniframes}
@@ -37,10 +37,10 @@
 \newcommand{\parametros}[1]{{\small #1}}
 \newcommand{\videolink}[1]{{\tiny\color{accent}\texttt{#1}}}
 
-\title[Billar-Metegol]{Simulacion dirigida por eventos de un Billar-Metegol}
-\subtitle{Busqueda de obstaculos para minimizar el tiempo al 90\,\% de goles}
-\author[Grupo 07]{Grupo 07 - Comision S\\Eugenio Migliaro, Francisco Costa y Franco Branda}
-\institute{72.25 Simulacion de Sistemas - ITBA}
+\title[Billar-Metegol]{Simulación dirigida por eventos de un Billar-Metegol}
+\subtitle{Búsqueda de obstáculos para minimizar el tiempo al 90\,\% de goles}
+\author[Grupo 07]{Grupo 07 - Comisión S\\Eugenio Migliaro, Francisco Costa y Franco Branda}
+\institute{72.25 Simulación de Sistemas - ITBA}
 \date{28 de septiembre de 2026}
 
 \begin{document}
@@ -51,7 +51,7 @@
 \end{frame}
 
 % 2
-\section{Introduccion}
+\section{Introducción}
 \begin{frame}
   \sectionpage
 \end{frame}
@@ -77,12 +77,12 @@
     \end{column}
     \begin{column}{0.40\textwidth}
       \begin{itemize}
-        \item Particulas en movimiento rectilineo entre colisiones.
-        \item Choques elasticos con paredes, particulas y obstaculos.
+        \item Partículas en movimiento rectilíneo entre colisiones.
+        \item Choques elásticos con paredes, partículas y obstáculos.
         \item El primer contacto con un arco cambia su estado.
       \end{itemize}
       \begin{block}{Objetivo}
-        Minimizar $\langle t_{90}\rangle$ mediante la configuracion de obstaculos.
+        Minimizar $\langle t_{90}\rangle$ mediante la configuración de obstáculos.
       \end{block}
     \end{column}
   \end{columns}
@@ -96,37 +96,37 @@
         \[
           \bm{x}_i(t+\tau)=\bm{x}_i(t)+\bm{v}_i(t)\,\tau
         \]
-        Cada trayectoria se propaga hasta el proximo evento.
+        Cada trayectoria se propaga hasta el próximo evento.
       \end{block}
     \end{column}
     \begin{column}{0.49\textwidth}
-      \begin{block}{Choque elastico}
+      \begin{block}{Choque elástico}
         \[
           \sum_i m_i\bm{v}_i^{\,-}=\sum_i m_i\bm{v}_i^{\,+},
           \qquad E_c^{-}=E_c^{+}
         \]
-        Las paredes y los obstaculos producen reflexion especular.
+        Las paredes y los obstáculos producen reflexión especular.
       \end{block}
     \end{column}
   \end{columns}
   \vfill
-  \centering\small El reloj avanza de colision en colision, con un paso temporal variable.
+  \centering\small El reloj avanza de colisión en colisión, con un paso temporal variable.
 \end{frame}
 
 % 5
 \begin{frame}{Fundamentos}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.58\textwidth}
-      \begin{block}{Proximo evento}
-        Para cada candidato se resuelve analiticamente su tiempo de choque
+      \begin{block}{Próximo evento}
+        Para cada candidato se resuelve analíticamente su tiempo de choque
         $\tau_e\geq 0$ y se elige
         \[
           e^*=\operatorname*{arg\,min}_e\{t+\tau_e\}.
         \]
       \end{block}
       \begin{block}{Estado discreto}
-        Una particula fresca pasa a usada al tocar por primera vez un arco.
-        Luego continua colisionando sin volver a sumar un gol.
+        Una partícula fresca pasa a usada al tocar por primera vez un arco.
+        Luego continúa colisionando sin volver a sumar un gol.
       \end{block}
     \end{column}
     \begin{column}{0.38\textwidth}
@@ -144,7 +144,7 @@
 \end{frame}
 
 % 6
-\section{Implementacion}
+\section{Implementación}
 \begin{frame}
   \sectionpage
 \end{frame}
@@ -153,11 +153,11 @@
 \begin{frame}{Arquitectura del motor}
   \centering
   \begin{tikzpicture}[node distance=0.36cm, every node/.style={font=\small}]
-    \node[draw,fill=softblue,minimum width=3.4cm,minimum height=0.58cm] (cli) {CLI y configuracion};
-    \node[draw,fill=softblue,below=of cli,minimum width=3.4cm,minimum height=0.58cm] (gen) {Generacion del sistema};
+    \node[draw,fill=softblue,minimum width=3.4cm,minimum height=0.58cm] (cli) {CLI y configuración};
+    \node[draw,fill=softblue,below=of cli,minimum width=3.4cm,minimum height=0.58cm] (gen) {Generación del sistema};
     \node[draw,fill=softblue,below=of gen,minimum width=3.4cm,minimum height=0.58cm] (sim) {Motor dirigido por eventos};
-    \node[draw,fill=softblue,below left=0.48cm and 0.25cm of sim,minimum width=3.2cm,minimum height=0.58cm] (col) {Prediccion y colisiones};
-    \node[draw,fill=softblue,below right=0.48cm and 0.25cm of sim,minimum width=3.2cm,minimum height=0.58cm] (geo) {Geometria y validacion};
+    \node[draw,fill=softblue,below left=0.48cm and 0.25cm of sim,minimum width=3.2cm,minimum height=0.58cm] (col) {Predicción y colisiones};
+    \node[draw,fill=softblue,below right=0.48cm and 0.25cm of sim,minimum width=3.2cm,minimum height=0.58cm] (geo) {Geometría y validación};
     \node[draw,fill=softblue,below=1.48cm of sim,minimum width=3.4cm,minimum height=0.58cm] (io) {Trayectoria de estados};
     \draw[->,thick] (cli) -- (gen);
     \draw[->,thick] (gen) -- (sim);
@@ -167,8 +167,8 @@
   \end{tikzpicture}
 
   \vspace{0.15em}
-  \begin{block}{Separacion exigida}
-    El motor solo genera tiempo, posiciones, velocidades y color. El post-proceso calcula $F_u$, $t_{90}$, DCM y $D$.
+  \begin{block}{Separación exigida}
+    El motor genera tiempo, posiciones, velocidades y color. El posprocesamiento calcula $F_u$, $t_{90}$, DCM y $D$.
   \end{block}
 \end{frame}
 
@@ -206,18 +206,18 @@
 \end{frame}
 
 % 9
-\begin{frame}{Algoritmo de simulacion}
+\begin{frame}{Algoritmo de simulación}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.67\textwidth}
       \begin{beamercolorbox}[sep=0.6em,rounded=true]{block body}
         {\small\ttfamily
-        estado $\leftarrow$ generar(configuracion, semilla)\\[0.25em]
+        estado $\leftarrow$ generar(configuración, semilla)\\[0.25em]
         cola $\leftarrow$ agendar todos los choques\\
-        \textbf{mientras} cola no este vacia:\\
-        \quad evento $\leftarrow$ extraer minimo\\
-        \quad \textbf{si} evento esta invalidado: continuar\\
+        \textbf{mientras} cola no esté vacía:\\
+        \quad evento $\leftarrow$ extraer mínimo\\
+        \quad \textbf{si} evento está invalidado: continuar\\
         \quad \textbf{si} evento.t $>$ tmax: terminar\\
-        \quad avanzar todas las particulas hasta evento.t\\
+        \quad avanzar todas las partículas hasta evento.t\\
         \quad resolver(evento)\\
         \quad escribir estado si corresponde\\
         \quad reagendar participantes
@@ -225,11 +225,11 @@
       \end{beamercolorbox}
     \end{column}
     \begin{column}{0.29\textwidth}
-      \begin{block}{Invalidacion perezosa}
-        Un evento vence si cambio el contador de choque de algun participante.
+      \begin{block}{Invalidación perezosa}
+        Un evento se invalida si cambió el contador de choques de algún participante.
       \end{block}
       \begin{block}{Costo}
-        Cola: $O(N\log E)$ por evento, dominado por reagendar participantes.
+        Cola: $O(N\log E)$ por evento; predomina el costo de reagendar participantes.
       \end{block}
     \end{column}
   \end{columns}
@@ -264,15 +264,15 @@
       {\scriptsize
       \begin{tabular}{@{}ll@{}}
         \toprule
-        Particulas & $N=100$ \\
+        Partículas & $N=100$ \\
         Radio & $r=1{,}75\,10^{-2}\ \mathrm{m}$ \\
         Masa & $m=2{,}5\,10^{-2}\ \mathrm{kg}$ \\
         Rapidez inicial & $v_0=1\ \mathrm{m\,s^{-1}}$ \\
-        Colisiones & elasticas \\
+        Colisiones & elásticas \\
         \bottomrule
       \end{tabular}}
       \vspace{0.5em}
-      \begin{block}{Configuracion}
+      \begin{block}{Configuración}
         $K>0$ discos fijos, $R_k\geq r$, contenidos y sin solaparse.
       \end{block}
     \end{column}
@@ -283,33 +283,33 @@
 \begin{frame}{Protocolo experimental}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.47\textwidth}
-      \begin{block}{Parametros fisicos}
+      \begin{block}{Parámetros físicos}
         $N$, $L$, $W$, $d$, $r$, $m$, $v_0$ y $(x_k,y_k,R_k)$.
       \end{block}
       \begin{block}{1.1 Rendimiento}
-        Mesa vacia, $t_f=30\ \mathrm{s}$, al menos 10 realizaciones por $N$.
+        Mesa vacía, $t_f=30\ \mathrm{s}$, al menos 10 realizaciones por $N$.
       \end{block}
     \end{column}
     \begin{column}{0.49\textwidth}
       \begin{block}{1.2 Configuraciones}
-        Mesa vacia y familias de obstaculos, con al menos 5 realizaciones por punto.
+        Mesa vacía y familias de obstáculos, con al menos 5 realizaciones por punto.
       \end{block}
-      \begin{block}{Datos de ejecucion}
-        $t_{\max}$, semilla, cadencia de guardado y cantidad de realizaciones no son parametros fisicos.
+      \begin{block}{Datos de ejecución}
+        $t_{\max}$, semilla, cadencia de guardado y cantidad de realizaciones no son parámetros físicos.
       \end{block}
     \end{column}
   \end{columns}
 \end{frame}
 
 % 13
-\begin{frame}{Goles y tiempo caracteristico}
+\begin{frame}{Goles y tiempo característico}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.47\textwidth}
-      \textbf{Fraccion de particulas usadas}
+      \textbf{Fracción de partículas usadas}
       \[
         F_u^{(s)}(t)=\frac{N_g^{(s)}(t)}{N}.
       \]
-      \textbf{Tiempo por realizacion}
+      \textbf{Tiempo por realización}
       \[
         t_{90}^{(s)}=\min\{t:F_u^{(s)}(t)\geq0{,}9\}.
       \]
@@ -330,10 +330,10 @@
 \end{frame}
 
 % 14
-\begin{frame}{Difusion}
+\begin{frame}{Difusión}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.51\textwidth}
-      \textbf{Desplazamiento cuadratico medio}
+      \textbf{Desplazamiento cuadrático medio}
       \[
         \mathrm{DCM}^{(s)}(t)=\frac{1}{N}\sum_{i=1}^{N}
         \left\lVert\bm{x}_i^{(s)}(t)-\bm{x}_i^{(s)}(0)\right\rVert^2.
@@ -344,7 +344,7 @@
       \]
     \end{column}
     \begin{column}{0.45\textwidth}
-      \begin{block}{Ajuste por realizacion}
+      \begin{block}{Ajuste por realización}
         \[
           E(c)=\sum_j\left[\mathrm{DCM}(t_j)-c\,t_j\right]^2
         \]
@@ -366,17 +366,17 @@
 \end{frame}
 
 % 16
-\begin{frame}{Dinamica del sistema}
+\begin{frame}{Dinámica del sistema}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.47\textwidth}
       \centering
       \includegraphics[width=\textwidth,height=3.7cm,keepaspectratio]{figuras/anim-vacia.png}\\[3pt]
-      \videolink{URL YouTube/Vimeo pendiente de publicacion}
+      \videolink{URL YouTube/Vimeo pendiente de publicación}
     \end{column}
     \begin{column}{0.47\textwidth}
       \centering
       \includegraphics[width=\textwidth,height=3.7cm,keepaspectratio]{figuras/anim-mejor.png}\\[3pt]
-      \videolink{URL YouTube/Vimeo pendiente de publicacion}
+      \videolink{URL YouTube/Vimeo pendiente de publicación}
     \end{column}
   \end{columns}
   \vspace{0.4em}
@@ -384,82 +384,53 @@
 \end{frame}
 
 % 17
-\begin{frame}{Tiempo de ejecucion en funcion de $N$}
-  \begin{columns}[c,onlytextwidth]
-    \begin{column}{0.68\textwidth}
-      \includegraphics[width=\textwidth,height=5.25cm,keepaspectratio]{figuras/runtime-vs-N.pdf}
-    \end{column}
-    \begin{column}{0.28\textwidth}
-      \parametros{Mesa vacia\\$t_f=30\ \mathrm{s}$\\$n_r=10$ por $N$\\Motor: cola de prioridad}
-      \vspace{0.8em}
-      \begin{block}{Lectura}
-        En el rango medido, el ajuste para $N\geq50$ da $t\propto N^{3{,}30}$; a $N=400$, $t=11{,}27\pm0{,}04$ s.
-      \end{block}
-    \end{column}
-  \end{columns}
+\begin{frame}{Tiempo de ejecución en función de $N$}
+  \centering
+  \includegraphics[width=\textwidth,height=5.25cm,keepaspectratio]{figuras/runtime-vs-N.pdf}
+  \vspace{0.2em}
+  \par\parametros{Mesa vacía; $t_f=30\ \mathrm{s}$; 10 realizaciones por $N$; motor con cola de prioridad.\\
+  En $50\leq N\leq400$, $t\propto N^{3{,}30}$; para $N=400$, $t=11{,}27\pm0{,}04\ \mathrm{s}$.}
 \end{frame}
 
 % 18
-\begin{frame}{Evolucion de la fraccion usada}
-  \begin{columns}[c,onlytextwidth]
-    \begin{column}{0.68\textwidth}
-      \includegraphics[width=\textwidth,height=5.25cm,keepaspectratio]{figuras/Fu-vs-tiempo.pdf}
-    \end{column}
-    \begin{column}{0.28\textwidth}
-      \parametros{$N=100$\\Mesa vacia: semilla 2006\\Elegida: semilla 2010}
-      \vspace{0.8em}
-      \begin{block}{Escalar}
-        $t_{90}$ se extrae por realizacion antes de promediar.
-      \end{block}
-    \end{column}
-  \end{columns}
+\begin{frame}{Evolución de la fracción usada}
+  \centering
+  \includegraphics[width=\textwidth,height=5.25cm,keepaspectratio]{figuras/Fu-vs-tiempo.pdf}
+  \vspace{0.2em}
+  \par\parametros{$N=100$; mesa vacía: semilla 2006; configuración elegida: semilla 2010.\\
+  Se calcula $t_{90}$ por realización antes de promediar.}
 \end{frame}
 
 % 19
-\begin{frame}{Exploracion de configuraciones}
-  \begin{columns}[c,onlytextwidth]
-    \begin{column}{0.68\textwidth}
-      \includegraphics[width=\textwidth,height=5.25cm,keepaspectratio]{figuras/t90-vs-configuracion.pdf}
-    \end{column}
-    \begin{column}{0.28\textwidth}
-      \parametros{$N=100$\\$n_r=15$ por punto\\Variables: $x_k$ y $R_k$\\$t_{\max}=100\ \mathrm{s}$}
-      \vspace{0.6em}
-      \begin{block}{Elegida}
-        $K=1$\\$(x_k,y_k,R_k)=(0{,}60;0{,}34;0{,}34)\ \mathrm{m}$\\
-        $\langle t_{90}\rangle=15{,}54\pm1{,}55\ \mathrm{s}$
-      \end{block}
-    \end{column}
-  \end{columns}
+\begin{frame}{Exploración de configuraciones}
+  \centering
+  \includegraphics[width=\textwidth,height=5.1cm,keepaspectratio]{figuras/t90-vs-configuracion.pdf}
+  \vspace{0.1em}
+  \par\parametros{$N=100$; 15 realizaciones por punto; $t_{\max}=100\ \mathrm{s}$; variables: $x_k$ y $R_k$.\\
+  Elegida: $K=1$, $(x_k,y_k,R_k)=(0{,}60;0{,}34;0{,}34)\ \mathrm{m}$; $\langle t_{90}\rangle=15{,}54\pm1{,}55\ \mathrm{s}$.}
 \end{frame}
 
 % 20
-\begin{frame}{Coeficiente de difusion}
+\begin{frame}{Coeficiente de difusión}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.48\textwidth}
-      \includegraphics[width=\textwidth,height=4.2cm,keepaspectratio]{figuras/DCM-ajuste.pdf}
+      \includegraphics[width=\textwidth,height=5.0cm,keepaspectratio]{figuras/DCM-ajuste.pdf}
     \end{column}
     \begin{column}{0.48\textwidth}
-      \includegraphics[width=\textwidth,height=4.2cm,keepaspectratio]{figuras/error-ajuste.pdf}
+      \includegraphics[width=\textwidth,height=5.0cm,keepaspectratio]{figuras/error-ajuste.pdf}
     \end{column}
   \end{columns}
-  \vspace{0.35em}
-  \centering\parametros{Configuracion elegida; 5 semillas; ventana $[0{,}3;1{,}5]$ s; $\langle D\rangle=(0{,}00752\pm0{,}00036)\ \mathrm{m^2\,s^{-1}}$.}
+  \vspace{0.15em}
+  \centering\parametros{Configuración elegida; 5 semillas; ventana $[0{,}3;1{,}5]$ s; $\langle D\rangle=(0{,}00752\pm0{,}00036)\ \mathrm{m^2\,s^{-1}}$.}
 \end{frame}
 
 % 21
-\begin{frame}{Difusion y tiempo al 90\,\%}
-  \begin{columns}[c,onlytextwidth]
-    \begin{column}{0.67\textwidth}
-      \includegraphics[width=\textwidth,height=5.2cm,keepaspectratio]{figuras/D-vs-t90.pdf}
-    \end{column}
-    \begin{column}{0.29\textwidth}
-      \parametros{$N=100$\\Mismas configuraciones\\$n_r=15$ para $t_{90}$\\$n_r=5$ para $D$\\Barras: error estandar}
-      \vspace{0.8em}
-      \begin{block}{Relacion observada}
-        No aparece una correlacion global relevante ($r=0{,}13$): la geometria importa mas que $D$ por si solo.
-      \end{block}
-    \end{column}
-  \end{columns}
+\begin{frame}{Difusión y tiempo al 90\,\%}
+  \centering
+  \includegraphics[width=\textwidth,height=5.25cm,keepaspectratio]{figuras/D-vs-t90.pdf}
+  \vspace{0.2em}
+  \par\parametros{$N=100$; 15 realizaciones para $t_{90}$ y 5 para $D$; barras: error estándar.\\
+  En estas configuraciones, $D$ por sí solo no predijo $t_{90}$ ($r=0{,}13$).}
 \end{frame}
 
 % 22
@@ -471,9 +442,9 @@
 % 23
 \begin{frame}{Conclusiones}
   \begin{itemize}
-    \item El costo crecio como $N^{3{,}30}$ en el rango $50\leq N\leq400$; la cola no evita el fuerte aumento de eventos a alta densidad.
-    \item El obstaculo central de radio maximo redujo $\langle t_{90}\rangle$ un 31,5 por ciento y tambien redujo su dispersion frente a la mesa vacia.
-    \item $D$ no predijo por si solo el tiempo al 90 por ciento: en el barrido completo la correlacion fue debil ($r=0{,}13$).
+    \item El tiempo de ejecución creció como $N^{3{,}30}$ en el rango $50\leq N\leq400$.
+    \item El obstáculo central de radio máximo redujo $\langle t_{90}\rangle$ un 31,5\,\% y también redujo su dispersión frente a la mesa vacía.
+    \item En el barrido completo, $D$ y $t_{90}$ mostraron una correlación débil ($r=0{,}13$).
   \end{itemize}
 \end{frame}
 
@@ -481,7 +452,7 @@
 \begin{frame}
   \centering
   \vfill
-  {\usebeamercolor[fg]{structure}\usebeamerfont{title}Gracias por su atencion}
+  {\usebeamercolor[fg]{structure}\usebeamerfont{title}Gracias por su atención}
   \vfill
 \end{frame}
 
