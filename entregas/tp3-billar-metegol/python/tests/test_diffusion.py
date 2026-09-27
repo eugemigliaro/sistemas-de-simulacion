@@ -7,7 +7,7 @@ import numpy as np
 
 from support import trajectory_text
 from tp3analysis.diffusion import fit_diffusion, pool_curves, summarize_diffusion
-from tp3analysis.msd import MsdCurve, msd_multiple_origins, trajectory_msd
+from tp3analysis.msd import MsdCurve, msd_multiple_origins, msd_single_origin, trajectory_msd
 from tp3analysis.trajectory import parse_trajectory
 
 
@@ -44,6 +44,26 @@ class MsdTests(unittest.TestCase):
             self.assertEqual(count, lags.size)
             self.assertAlmostEqual(lag, lags.mean())
             self.assertAlmostEqual(msd, np.mean(5.0 * lags**2))
+
+    def test_single_origin_measures_from_the_first_frame(self) -> None:
+        # Ningún tiempo cae en un borde de intervalo.
+        times = np.array([0.0, 0.031, 0.072, 0.143, 0.214, 0.396])
+        curve = msd_single_origin(times, ballistic(times, [1.0, 3.0]), 0.1, 0.4)
+        # Intervalos (0, 0.1], (0.1, 0.2], (0.2, 0.3] y (0.3, 0.4].
+        self.assertEqual(curve.bins.tolist(), [0, 1, 2, 3])
+        self.assertEqual(curve.pairs.tolist(), [2, 1, 1, 1])
+        self.assertAlmostEqual(curve.lags[0], (0.031 + 0.072) / 2)
+        # <v²> = (1 + 9)/2 = 5 y cada intervalo promedia 5·t².
+        self.assertAlmostEqual(curve.msd[0], 5.0 * (0.031**2 + 0.072**2) / 2)
+        self.assertAlmostEqual(curve.msd[3], 5.0 * 0.396**2)
+
+    def test_single_origin_and_multiple_origins_differ(self) -> None:
+        # Con orígenes múltiples, el intervalo (0, 0.1] también recibe pares
+        # que no empiezan en t = 0; con origen único solo cuenta desde t = 0.
+        times = np.array([0.0, 0.031, 0.072, 0.143])
+        single = msd_single_origin(times, ballistic(times, [1.0]), 0.1, 0.2)
+        multiple = msd_multiple_origins(times, ballistic(times, [1.0]), 0.1, 0.2)
+        self.assertLess(single.pairs[0], multiple.pairs[0])
 
     def test_counts_every_origin(self) -> None:
         # Paso 1/8, exacto en binario: los desfasajes caen en el borde
