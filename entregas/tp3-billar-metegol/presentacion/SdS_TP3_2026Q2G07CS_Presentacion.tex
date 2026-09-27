@@ -210,6 +210,7 @@
 % 9
 \begin{frame}{Diagrama UML del motor}
   \centering
+  \resizebox{\textwidth}{!}{%
   \begin{tikzpicture}[font=\scriptsize]
     % Datos del sistema
     \node[umldato=3.8cm,anchor=north west] (system) at (0,0) {\umlname{System}
@@ -250,7 +251,7 @@
       ([yshift=-0.35cm]engine.north west -| system.east);
     \draw[usa] (engine.east) -- ++(0.35,0) |- node[pos=0.3,left] {usa} (collisions.west);
     \draw[usa] (generation.north) -- ++(0,0.3) -| node[pos=0.25,above] {crea} (system.north);
-  \end{tikzpicture}
+  \end{tikzpicture}}
 \end{frame}
 
 % 10
@@ -373,7 +374,9 @@
     \begin{column}{0.45\textwidth}
       \begin{block}{Ajuste por realización}
         \[
-          E(c)=\sum_j\left[\mathrm{DCM}(t_j)-c\,t_j\right]^2,\qquad
+          E(c)=\sum_j\left[\mathrm{DCM}(t_j)-c\,t_j\right]^2
+        \]
+        \[
           D=\frac{c_{\min}}{4}
         \]
       \end{block}
