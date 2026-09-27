@@ -1,0 +1,10 @@
+label,cuello,profundidad_m,semiancho_m,exponente,retroceso_m,rho_m,obstaculos,rellenos,area_centros_m2,fraccion_atrapada,ruta
+super_P170_B268_p472_s113_rho175,superelipse,0.17,0.268,4.72,0.113,0.0175,79,29,0.167709,0.0,experiments/raw/elipses/configs/super_P170_B268_p472_s113_rho175.txt
+super_P200_B268_p472_s113_rho175,superelipse,0.2,0.268,4.72,0.113,0.0175,78,26,0.198399,0.0,experiments/raw/elipses/configs/super_P200_B268_p472_s113_rho175.txt
+super_P230_B268_p472_s113_rho175,superelipse,0.23,0.268,4.72,0.113,0.0175,80,25,0.229012,0.0,experiments/raw/elipses/configs/super_P230_B268_p472_s113_rho175.txt
+super_P250_B268_p472_s113_rho175,superelipse,0.25,0.268,4.72,0.113,0.0175,82,25,0.24937299999999998,0.0,experiments/raw/elipses/configs/super_P250_B268_p472_s113_rho175.txt
+super_P277_B268_p472_s113_rho175,superelipse,0.277,0.268,4.72,0.113,0.0175,87,27,0.276819,0.0,experiments/raw/elipses/configs/super_P277_B268_p472_s113_rho175.txt
+super_P300_B268_p472_s113_rho175,superelipse,0.3,0.268,4.72,0.113,0.0175,88,27,0.300581,0.0,experiments/raw/elipses/configs/super_P300_B268_p472_s113_rho175.txt
+super_P330_B268_p472_s113_rho175,superelipse,0.33,0.268,4.72,0.113,0.0175,92,25,0.330579,0.0,experiments/raw/elipses/configs/super_P330_B268_p472_s113_rho175.txt
+super_P360_B268_p472_s113_rho175,superelipse,0.36,0.268,4.72,0.113,0.0175,95,25,0.36112099999999997,0.0,experiments/raw/elipses/configs/super_P360_B268_p472_s113_rho175.txt
+super_P400_B268_p472_s113_rho175,superelipse,0.4,0.268,4.72,0.113,0.0175,99,26,0.402097,0.0,experiments/raw/elipses/configs/super_P400_B268_p472_s113_rho175.txt

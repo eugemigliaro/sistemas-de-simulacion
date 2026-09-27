@@ -14,10 +14,10 @@ import json
 import math
 import os
 import re
-import shutil
 import statistics
 import subprocess
 import sys
+from concurrent.futures import ProcessPoolExecutor
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -27,7 +27,6 @@ ENGINE = ROOT / "cpp/build/release/tp3"
 RAW = ROOT / "experiments/raw"
 RESULTS = ROOT / "experiments/results"
 GENERATED_CONFIGS = RAW / "configs"
-FINAL_CONFIG = ROOT / "experiments/configs/SdS_TP3_2026Q2G07CS_Config.txt"
 PYTHON_SRC = ROOT / "python/src"
 
 sys.path.insert(0, str(PYTHON_SRC))
@@ -40,8 +39,19 @@ from tp3analysis.trajectory import read_trajectory  # noqa: E402
 
 RUNTIME_NS = (10, 25, 50, 75, 100, 150, 200, 300, 400)
 RUNTIME_REPETITIONS = 10
+# Punto 1.1 con saturación: posiciones al azar mientras el muestreo por rechazo
+# alcanza (se traba cerca de 446) y red triangular después, hasta que las
+# corridas dejan de terminar. La cátedra indicó cortar a los 10 minutos y
+# considerarlo "no terminó".
+SATURATION_RANDOM_NS = (10, 25, 50, 75, 100, 150, 200, 250, 300, 350, 400, 430)
+SATURATION_LATTICE_NS = (450, 500, 550, 600, 625, 650, 675, 700, 737)
+SATURATION_LIMIT_SECONDS = 600.0
+SATURATION_MAX_ATTEMPTS = 10_000_000
+SATURATION_STOP_AFTER = 2  # corridas sin terminar que cierran la búsqueda
 SEARCH_REPETITIONS = 15
-DIFFUSION_REPETITIONS = 5
+DIFFUSION_REPETITIONS = 10
+# DCM(t) desde t = 0, como pidió la cátedra; antes: múltiples orígenes.
+DIFFUSION_SINGLE_ORIGIN = True
 SEARCH_X = (0.30, 0.40, 0.50, 0.60)
 SEARCH_RADII = (0.05, 0.10, 0.15, 0.20, 0.25, 0.28, 0.30, 0.32, 0.33, 0.34)
 SEARCH_TMAX = 100.0
@@ -248,34 +258,40 @@ def select_best() -> tuple[Configuration, dict[str, str]]:
     return config, best_row
 
 
+def _diffusion_config(config: Configuration) -> dict[str, object]:
+    curves = []
+    rows = []
+    directory = RAW / "diffusion" / config.label
+    directory.mkdir(parents=True, exist_ok=True)
+    for repetition in range(DIFFUSION_REPETITIONS):
+        seed = 3000 + repetition
+        output = directory / f"seed{seed}.txt"
+        simulate(100, seed, DIFFUSION_TMAX, output, config, save_every=DIFFUSION_SAVE_EVERY)
+        curves.append(trajectory_msd(
+            read_trajectory(output), DIFFUSION_BIN_WIDTH, DIFFUSION_MAX_LAG,
+            single_origin=DIFFUSION_SINGLE_ORIGIN,
+        ))
+        # Unos 6 MB por corrida: se regeneran con la semilla si hacen falta.
+        output.unlink()
+    summary = summarize_diffusion(curves, DIFFUSION_WINDOW)
+    for repetition, fit in enumerate(summary.per_run):
+        rows.append({
+            "label": config.label,
+            "seed": 3000 + repetition,
+            "D_m2_s": fit.coefficient,
+            "fit_error_m2_s": fit.error,
+        })
+    return {"config": config, "summary": summary, "rows": rows}
+
+
 def run_diffusion() -> None:
     run_rows: list[dict[str, object]] = []
     summary_rows: list[dict[str, object]] = []
-    for config in configurations():
-        directory = RAW / "diffusion" / config.label
-        directory.mkdir(parents=True, exist_ok=True)
-        curves = []
-        for repetition in range(DIFFUSION_REPETITIONS):
-            seed = 3000 + repetition
-            output = directory / f"seed{seed}.txt"
-            if not output.exists():
-                simulate(
-                    100, seed, DIFFUSION_TMAX, output, config,
-                    save_every=DIFFUSION_SAVE_EVERY,
-                )
-            curve = trajectory_msd(
-                read_trajectory(output), DIFFUSION_BIN_WIDTH, DIFFUSION_MAX_LAG
-            )
-            curves.append(curve)
-            print(f"difusion {config.label} semilla={seed}", flush=True)
-        summary = summarize_diffusion(curves, DIFFUSION_WINDOW)
-        for repetition, fit in enumerate(summary.per_run):
-            run_rows.append({
-                "label": config.label,
-                "seed": 3000 + repetition,
-                "D_m2_s": fit.coefficient,
-                "fit_error_m2_s": fit.error,
-            })
+    with ProcessPoolExecutor() as pool:
+        results = list(pool.map(_diffusion_config, configurations()))
+    for result in results:
+        config, summary = result["config"], result["summary"]
+        run_rows.extend(result["rows"])
         summary_rows.append({
             "label": config.label,
             "mean_D_m2_s": summary.plain.mean,
@@ -308,6 +324,7 @@ def run_diffusion() -> None:
                 )
             ],
         )
+        print(f"difusion {config.label}", flush=True)
     write_rows(
         RESULTS / "diffusion_runs.csv",
         ("label", "seed", "D_m2_s", "fit_error_m2_s"),
@@ -323,11 +340,67 @@ def run_diffusion() -> None:
     )
 
 
+def run_saturation() -> None:
+    """Tiempo de ejecución hasta que las corridas dejan de terminar (1.1).
+
+    Secuencial a propósito: medir en paralelo contamina los tiempos. Cada
+    corrida se agrega al CSV apenas termina, así que una interrupción no
+    pierde lo medido y al relanzar se saltean las corridas ya hechas.
+    """
+    path = RESULTS / "runtime_saturacion.csv"
+    fields = ("particle_count", "layout", "seed", "finished", "events", "runtime_seconds")
+    done = {(int(r["particle_count"]), int(r["seed"])): r for r in _read_csv(path)} \
+        if path.exists() else {}
+    if not path.exists():
+        write_rows(path, fields, [])
+    plan = [(n, "random") for n in SATURATION_RANDOM_NS]
+    plan += [(n, "triangular") for n in SATURATION_LATTICE_NS]
+    for particle_count, layout in plan:
+        unfinished = sum(
+            1 for (n, _), row in done.items()
+            if n == particle_count and row["finished"] == "0"
+        )
+        for repetition in range(RUNTIME_REPETITIONS):
+            seed = 1000 + repetition
+            if unfinished >= SATURATION_STOP_AFTER:
+                break
+            if (particle_count, seed) in done:
+                continue
+            command = [
+                str(ENGINE), "simulate", "--n", str(particle_count), "--seed", str(seed),
+                "--tmax", "30", "--save-every", "0", "--layout", layout,
+                "--max-attempts", str(SATURATION_MAX_ATTEMPTS), "--output", os.devnull,
+            ]
+            try:
+                result = subprocess.run(
+                    command, cwd=ROOT, text=True, capture_output=True, check=True,
+                    timeout=SATURATION_LIMIT_SECONDS,
+                )
+                match = RUNTIME_PATTERN.search(result.stderr)
+                if match is None:
+                    raise RuntimeError(f"salida del motor inesperada: {result.stderr!r}")
+                row = {"finished": 1, "events": int(match["events"]),
+                       "runtime_seconds": float(match["runtime"])}
+            except subprocess.TimeoutExpired:
+                row = {"finished": 0, "events": "", "runtime_seconds": SATURATION_LIMIT_SECONDS}
+                unfinished += 1
+            row = {"particle_count": particle_count, "layout": layout, "seed": seed, **row}
+            with path.open("a", newline="", encoding="utf-8") as file:
+                csv.DictWriter(file, fieldnames=fields, lineterminator="\n").writerow(row)
+            done[(particle_count, seed)] = {k: str(v) for k, v in row.items()}
+            print(f"saturacion N={particle_count} {layout} semilla={seed} "
+                  f"terminó={row['finished']} t={row['runtime_seconds']}", flush=True)
+        if unfinished >= SATURATION_STOP_AFTER:
+            print(f"límite: N={particle_count} no termina en "
+                  f"{SATURATION_LIMIT_SECONDS:.0f} s", flush=True)
+            break
+
+
 def run_display_runs() -> None:
     best, best_row = select_best()
-    FINAL_CONFIG.parent.mkdir(parents=True, exist_ok=True)
+    # El Config.txt entregado ya no sale de este barrido de un disco: lo
+    # escribe `busqueda_elipses.py adoptar`. Acá solo se elige el mejor disco.
     assert best.path is not None
-    shutil.copyfile(best.path, FINAL_CONFIG)
 
     runs = _read_csv(RESULTS / "t90_runs.csv")
     display: dict[str, object] = {
@@ -364,7 +437,7 @@ def run_display_runs() -> None:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "stage", choices=("runtime", "search", "diffusion", "display", "all")
+        "stage", choices=("runtime", "search", "diffusion", "display", "saturation", "all")
     )
     return parser
 
@@ -377,9 +450,11 @@ def main() -> int:
         ("search", run_search),
         ("diffusion", run_diffusion),
         ("display", run_display_runs),
+        ("saturation", run_saturation),
     )
     for name, function in stages:
-        if arguments.stage in (name, "all"):
+        # La saturación lleva horas y tiene que correr sola: no entra en "all".
+        if arguments.stage == name or (arguments.stage == "all" and name != "saturation"):
             function()
     return 0
 
