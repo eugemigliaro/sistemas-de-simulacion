@@ -1,0 +1,1177 @@
+label,seed,tmax_s,reached,t90_seconds,goals_at_end,error,etapa
+abierto_b220_rho175_d330,6000,60.0,1,16.1565017,100,,separacion_extension
+abierto_b220_rho175_d330,6001,60.0,1,12.201152,100,,separacion_extension
+abierto_b220_rho175_d330,6002,60.0,1,14.9411988,100,,separacion_extension
+abierto_b220_rho175_d330,6003,60.0,1,14.1180963,100,,separacion_extension
+abierto_b220_rho175_d330,6004,60.0,1,14.7298475,100,,separacion_extension
+abierto_b220_rho175_d330,6005,60.0,1,13.9752702,100,,separacion_extension
+abierto_b220_rho175_d330,6006,60.0,1,16.7350414,100,,separacion_extension
+abierto_b220_rho175_d330,6007,60.0,1,15.0853611,100,,separacion_extension
+abierto_b220_rho175_d330,6008,60.0,1,12.5821533,100,,separacion_extension
+abierto_b220_rho175_d330,6009,60.0,1,13.0429109,100,,separacion_extension
+abierto_b220_rho175_d330,6010,60.0,1,13.296893,100,,separacion_extension
+abierto_b220_rho175_d330,6011,60.0,1,14.10801,100,,separacion_extension
+abierto_b220_rho175_d330,6012,60.0,1,18.3697516,100,,separacion_extension
+abierto_b220_rho175_d330,6013,60.0,1,18.2527376,99,,separacion_extension
+abierto_b220_rho175_d330,6014,60.0,1,15.5530852,100,,separacion_extension
+abierto_b220_rho175_d330,6015,60.0,1,12.320546,100,,separacion_extension
+abierto_b220_rho175_d330,6016,60.0,1,13.3557248,100,,separacion_extension
+abierto_b220_rho175_d330,6017,60.0,1,16.25963,100,,separacion_extension
+abierto_b220_rho175_d330,6018,60.0,1,13.564505,100,,separacion_extension
+abierto_b220_rho175_d330,6019,60.0,1,14.8921806,100,,separacion_extension
+abierto_b220_rho175_d330,6020,60.0,1,13.420839,100,,separacion_extension
+abierto_b220_rho175_d330,6021,60.0,1,14.4345904,100,,separacion_extension
+abierto_b220_rho175_d330,6022,60.0,1,15.4229645,100,,separacion_extension
+abierto_b220_rho175_d330,6023,60.0,1,14.9590011,100,,separacion_extension
+abierto_b240_rho175_d330,6000,60.0,1,17.7561281,100,,separacion_extension
+abierto_b240_rho175_d330,6001,60.0,1,17.0084853,100,,separacion_extension
+abierto_b240_rho175_d330,6002,60.0,1,15.4843334,100,,separacion_extension
+abierto_b240_rho175_d330,6003,60.0,1,12.7824957,100,,separacion_extension
+abierto_b240_rho175_d330,6004,60.0,1,13.4336094,100,,separacion_extension
+abierto_b240_rho175_d330,6005,60.0,1,14.7655322,100,,separacion_extension
+abierto_b240_rho175_d330,6006,60.0,1,12.0189636,100,,separacion_extension
+abierto_b240_rho175_d330,6007,60.0,1,13.0272109,100,,separacion_extension
+abierto_b240_rho175_d330,6008,60.0,1,14.530617,100,,separacion_extension
+abierto_b240_rho175_d330,6009,60.0,1,12.4248357,100,,separacion_extension
+abierto_b240_rho175_d330,6010,60.0,1,12.918136,100,,separacion_extension
+abierto_b240_rho175_d330,6011,60.0,1,16.0115041,100,,separacion_extension
+abierto_b240_rho175_d330,6012,60.0,1,13.9742101,100,,separacion_extension
+abierto_b240_rho175_d330,6013,60.0,1,16.3288433,100,,separacion_extension
+abierto_b240_rho175_d330,6014,60.0,1,13.551874,100,,separacion_extension
+abierto_b240_rho175_d330,6015,60.0,1,13.5074574,100,,separacion_extension
+abierto_b240_rho175_d330,6016,60.0,1,15.4187242,100,,separacion_extension
+abierto_b240_rho175_d330,6017,60.0,1,11.6344424,100,,separacion_extension
+abierto_b240_rho175_d330,6018,60.0,1,16.4321779,100,,separacion_extension
+abierto_b240_rho175_d330,6019,60.0,1,12.4826054,100,,separacion_extension
+abierto_b240_rho175_d330,6020,60.0,1,14.6852738,100,,separacion_extension
+abierto_b240_rho175_d330,6021,60.0,1,13.7410428,100,,separacion_extension
+abierto_b240_rho175_d330,6022,60.0,1,14.6472283,100,,separacion_extension
+abierto_b240_rho175_d330,6023,60.0,1,13.1045837,100,,separacion_extension
+abierto_b260_rho175_d330,6000,60.0,1,12.9518368,100,,separacion_extension
+abierto_b260_rho175_d330,6001,60.0,1,14.4527887,100,,separacion_extension
+abierto_b260_rho175_d330,6002,60.0,1,14.3576404,100,,separacion_extension
+abierto_b260_rho175_d330,6003,60.0,1,12.5391816,100,,separacion_extension
+abierto_b260_rho175_d330,6004,60.0,1,13.3400876,100,,separacion_extension
+abierto_b260_rho175_d330,6005,60.0,1,12.0382555,100,,separacion_extension
+abierto_b260_rho175_d330,6006,60.0,1,15.4664405,100,,separacion_extension
+abierto_b260_rho175_d330,6007,60.0,1,13.4941613,100,,separacion_extension
+abierto_b260_rho175_d330,6008,60.0,1,13.0174261,100,,separacion_extension
+abierto_b260_rho175_d330,6009,60.0,1,10.899963,100,,separacion_extension
+abierto_b260_rho175_d330,6010,60.0,1,13.5542782,100,,separacion_extension
+abierto_b260_rho175_d330,6011,60.0,1,16.5463256,100,,separacion_extension
+abierto_b260_rho175_d330,6012,60.0,1,16.0224738,100,,separacion_extension
+abierto_b260_rho175_d330,6013,60.0,1,11.7697277,100,,separacion_extension
+abierto_b260_rho175_d330,6014,60.0,1,12.5841749,100,,separacion_extension
+abierto_b260_rho175_d330,6015,60.0,1,14.2217206,100,,separacion_extension
+abierto_b260_rho175_d330,6016,60.0,1,15.4994496,100,,separacion_extension
+abierto_b260_rho175_d330,6017,60.0,1,14.6193882,100,,separacion_extension
+abierto_b260_rho175_d330,6018,60.0,1,12.3892416,100,,separacion_extension
+abierto_b260_rho175_d330,6019,60.0,1,16.2599678,100,,separacion_extension
+abierto_b260_rho175_d330,6020,60.0,1,16.2181691,100,,separacion_extension
+abierto_b260_rho175_d330,6021,60.0,1,15.6789098,100,,separacion_extension
+abierto_b260_rho175_d330,6022,60.0,1,13.0733575,100,,separacion_extension
+abierto_b260_rho175_d330,6023,60.0,1,14.1936031,100,,separacion_extension
+abierto_b280_rho175_d330,6000,60.0,1,14.7364137,100,,separacion_extension
+abierto_b280_rho175_d330,6001,60.0,1,11.9574029,100,,separacion_extension
+abierto_b280_rho175_d330,6002,60.0,1,15.8833297,100,,separacion_extension
+abierto_b280_rho175_d330,6003,60.0,1,14.3736776,100,,separacion_extension
+abierto_b280_rho175_d330,6004,60.0,1,13.5308658,100,,separacion_extension
+abierto_b280_rho175_d330,6005,60.0,1,14.4019258,100,,separacion_extension
+abierto_b280_rho175_d330,6006,60.0,1,14.4381608,100,,separacion_extension
+abierto_b280_rho175_d330,6007,60.0,1,14.0237708,100,,separacion_extension
+abierto_b280_rho175_d330,6008,60.0,1,15.9092204,100,,separacion_extension
+abierto_b280_rho175_d330,6009,60.0,1,14.1690468,100,,separacion_extension
+abierto_b280_rho175_d330,6010,60.0,1,13.9366914,100,,separacion_extension
+abierto_b280_rho175_d330,6011,60.0,1,14.3278508,100,,separacion_extension
+abierto_b280_rho175_d330,6012,60.0,1,15.5809224,100,,separacion_extension
+abierto_b280_rho175_d330,6013,60.0,1,11.5603032,100,,separacion_extension
+abierto_b280_rho175_d330,6014,60.0,1,11.9047265,100,,separacion_extension
+abierto_b280_rho175_d330,6015,60.0,1,14.048776,100,,separacion_extension
+abierto_b280_rho175_d330,6016,60.0,1,14.7255051,100,,separacion_extension
+abierto_b280_rho175_d330,6017,60.0,1,13.8195625,100,,separacion_extension
+abierto_b280_rho175_d330,6018,60.0,1,11.7964003,100,,separacion_extension
+abierto_b280_rho175_d330,6019,60.0,1,11.8565978,100,,separacion_extension
+abierto_b280_rho175_d330,6020,60.0,1,15.0279913,100,,separacion_extension
+abierto_b280_rho175_d330,6021,60.0,1,15.9955419,100,,separacion_extension
+abierto_b280_rho175_d330,6022,60.0,1,14.5012189,100,,separacion_extension
+abierto_b280_rho175_d330,6023,60.0,1,12.9957603,100,,separacion_extension
+abierto_b300_rho175_d330,6000,60.0,1,17.5837055,100,,separacion_extension
+abierto_b300_rho175_d330,6001,60.0,1,13.4355184,100,,separacion_extension
+abierto_b300_rho175_d330,6002,60.0,1,16.0236151,100,,separacion_extension
+abierto_b300_rho175_d330,6003,60.0,1,14.7684037,100,,separacion_extension
+abierto_b300_rho175_d330,6004,60.0,1,14.7234813,100,,separacion_extension
+abierto_b300_rho175_d330,6005,60.0,1,13.6927439,100,,separacion_extension
+abierto_b300_rho175_d330,6006,60.0,1,18.6520513,100,,separacion_extension
+abierto_b300_rho175_d330,6007,60.0,1,15.718322,100,,separacion_extension
+abierto_b300_rho175_d330,6008,60.0,1,11.4240857,100,,separacion_extension
+abierto_b300_rho175_d330,6009,60.0,1,13.8684782,100,,separacion_extension
+abierto_b300_rho175_d330,6010,60.0,1,16.5065074,100,,separacion_extension
+abierto_b300_rho175_d330,6011,60.0,1,11.3690038,100,,separacion_extension
+abierto_b300_rho175_d330,6012,60.0,1,16.0326389,100,,separacion_extension
+abierto_b300_rho175_d330,6013,60.0,1,15.0317042,100,,separacion_extension
+abierto_b300_rho175_d330,6014,60.0,1,14.3041692,100,,separacion_extension
+abierto_b300_rho175_d330,6015,60.0,1,14.8868776,100,,separacion_extension
+abierto_b300_rho175_d330,6016,60.0,1,11.269875,100,,separacion_extension
+abierto_b300_rho175_d330,6017,60.0,1,11.5908183,100,,separacion_extension
+abierto_b300_rho175_d330,6018,60.0,1,14.2915182,100,,separacion_extension
+abierto_b300_rho175_d330,6019,60.0,1,12.9749983,100,,separacion_extension
+abierto_b300_rho175_d330,6020,60.0,1,12.4051248,100,,separacion_extension
+abierto_b300_rho175_d330,6021,60.0,1,13.9550682,100,,separacion_extension
+abierto_b300_rho175_d330,6022,60.0,1,15.2082808,100,,separacion_extension
+abierto_b300_rho175_d330,6023,60.0,1,14.8671521,100,,separacion_extension
+abierto_b320_rho175_d330,6000,60.0,1,15.6103985,100,,separacion_extension
+abierto_b320_rho175_d330,6001,60.0,1,10.4090912,100,,separacion_extension
+abierto_b320_rho175_d330,6002,60.0,1,16.3562629,100,,separacion_extension
+abierto_b320_rho175_d330,6003,60.0,1,13.9186242,100,,separacion_extension
+abierto_b320_rho175_d330,6004,60.0,1,12.6261022,100,,separacion_extension
+abierto_b320_rho175_d330,6005,60.0,1,15.1534592,100,,separacion_extension
+abierto_b320_rho175_d330,6006,60.0,1,14.4434896,100,,separacion_extension
+abierto_b320_rho175_d330,6007,60.0,1,16.1299188,100,,separacion_extension
+abierto_b320_rho175_d330,6008,60.0,1,12.7204248,100,,separacion_extension
+abierto_b320_rho175_d330,6009,60.0,1,12.5799516,100,,separacion_extension
+abierto_b320_rho175_d330,6010,60.0,1,10.4591882,100,,separacion_extension
+abierto_b320_rho175_d330,6011,60.0,1,15.0731469,100,,separacion_extension
+abierto_b320_rho175_d330,6012,60.0,1,15.0551911,100,,separacion_extension
+abierto_b320_rho175_d330,6013,60.0,1,16.253877,100,,separacion_extension
+abierto_b320_rho175_d330,6014,60.0,1,17.8556765,100,,separacion_extension
+abierto_b320_rho175_d330,6015,60.0,1,14.1537231,100,,separacion_extension
+abierto_b320_rho175_d330,6016,60.0,1,15.8331293,100,,separacion_extension
+abierto_b320_rho175_d330,6017,60.0,1,14.4085877,100,,separacion_extension
+abierto_b320_rho175_d330,6018,60.0,1,14.2148918,100,,separacion_extension
+abierto_b320_rho175_d330,6019,60.0,1,16.1326016,100,,separacion_extension
+abierto_b320_rho175_d330,6020,60.0,1,17.1270133,100,,separacion_extension
+abierto_b320_rho175_d330,6021,60.0,1,16.3144194,100,,separacion_extension
+abierto_b320_rho175_d330,6022,60.0,1,15.201043,100,,separacion_extension
+abierto_b320_rho175_d330,6023,60.0,1,15.4750073,100,,separacion_extension
+abierto_b340_rho175_d330,6000,60.0,1,17.7068247,100,,separacion_extension
+abierto_b340_rho175_d330,6001,60.0,1,13.9181741,100,,separacion_extension
+abierto_b340_rho175_d330,6002,60.0,1,13.3252658,100,,separacion_extension
+abierto_b340_rho175_d330,6003,60.0,1,16.3596483,100,,separacion_extension
+abierto_b340_rho175_d330,6004,60.0,1,17.1396588,100,,separacion_extension
+abierto_b340_rho175_d330,6005,60.0,1,15.6514534,100,,separacion_extension
+abierto_b340_rho175_d330,6006,60.0,1,14.8159155,100,,separacion_extension
+abierto_b340_rho175_d330,6007,60.0,1,15.8167517,100,,separacion_extension
+abierto_b340_rho175_d330,6008,60.0,1,16.0698457,100,,separacion_extension
+abierto_b340_rho175_d330,6009,60.0,1,18.1457784,100,,separacion_extension
+abierto_b340_rho175_d330,6010,60.0,1,16.4048917,100,,separacion_extension
+abierto_b340_rho175_d330,6011,60.0,1,13.2495827,100,,separacion_extension
+abierto_b340_rho175_d330,6012,60.0,1,14.1360665,100,,separacion_extension
+abierto_b340_rho175_d330,6013,60.0,1,12.5321462,100,,separacion_extension
+abierto_b340_rho175_d330,6014,60.0,1,16.0149832,100,,separacion_extension
+abierto_b340_rho175_d330,6015,60.0,1,17.7458032,100,,separacion_extension
+abierto_b340_rho175_d330,6016,60.0,1,15.8869357,100,,separacion_extension
+abierto_b340_rho175_d330,6017,60.0,1,20.4158699,100,,separacion_extension
+abierto_b340_rho175_d330,6018,60.0,1,15.3327259,100,,separacion_extension
+abierto_b340_rho175_d330,6019,60.0,1,13.9803615,100,,separacion_extension
+abierto_b340_rho175_d330,6020,60.0,1,13.3891192,100,,separacion_extension
+abierto_b340_rho175_d330,6021,60.0,1,14.5596092,100,,separacion_extension
+abierto_b340_rho175_d330,6022,60.0,1,17.1004792,100,,separacion_extension
+abierto_b340_rho175_d330,6023,60.0,1,12.5096752,100,,separacion_extension
+abierto_b220_rho175_d350,6000,60.0,1,14.4822915,100,,separacion_extension
+abierto_b220_rho175_d350,6001,60.0,1,18.3606918,100,,separacion_extension
+abierto_b220_rho175_d350,6002,60.0,1,15.4543783,100,,separacion_extension
+abierto_b220_rho175_d350,6003,60.0,1,14.4093121,100,,separacion_extension
+abierto_b220_rho175_d350,6004,60.0,1,17.372583,100,,separacion_extension
+abierto_b220_rho175_d350,6005,60.0,1,16.6986903,100,,separacion_extension
+abierto_b220_rho175_d350,6006,60.0,1,16.3793081,100,,separacion_extension
+abierto_b220_rho175_d350,6007,60.0,1,15.8685655,100,,separacion_extension
+abierto_b220_rho175_d350,6008,60.0,1,14.0330423,100,,separacion_extension
+abierto_b220_rho175_d350,6009,60.0,1,15.7327552,100,,separacion_extension
+abierto_b220_rho175_d350,6010,60.0,1,15.4613508,100,,separacion_extension
+abierto_b220_rho175_d350,6011,60.0,1,15.1535654,100,,separacion_extension
+abierto_b220_rho175_d350,6012,60.0,1,15.5418197,100,,separacion_extension
+abierto_b220_rho175_d350,6013,60.0,1,13.5818443,100,,separacion_extension
+abierto_b220_rho175_d350,6014,60.0,1,14.6713075,100,,separacion_extension
+abierto_b220_rho175_d350,6015,60.0,1,18.3528858,100,,separacion_extension
+abierto_b220_rho175_d350,6016,60.0,1,17.9277212,99,,separacion_extension
+abierto_b220_rho175_d350,6017,60.0,1,17.9341548,100,,separacion_extension
+abierto_b220_rho175_d350,6018,60.0,1,17.2234759,100,,separacion_extension
+abierto_b220_rho175_d350,6019,60.0,1,13.7557749,100,,separacion_extension
+abierto_b220_rho175_d350,6020,60.0,1,15.4816434,100,,separacion_extension
+abierto_b220_rho175_d350,6021,60.0,1,14.5164524,100,,separacion_extension
+abierto_b220_rho175_d350,6022,60.0,1,13.6664991,100,,separacion_extension
+abierto_b220_rho175_d350,6023,60.0,1,14.4738777,100,,separacion_extension
+abierto_b240_rho175_d350,6000,60.0,1,15.9242122,100,,separacion_extension
+abierto_b240_rho175_d350,6001,60.0,1,14.7033019,100,,separacion_extension
+abierto_b240_rho175_d350,6002,60.0,1,13.0648646,100,,separacion_extension
+abierto_b240_rho175_d350,6003,60.0,1,15.0007882,100,,separacion_extension
+abierto_b240_rho175_d350,6004,60.0,1,12.7173336,100,,separacion_extension
+abierto_b240_rho175_d350,6005,60.0,1,13.3290423,100,,separacion_extension
+abierto_b240_rho175_d350,6006,60.0,1,15.4755732,100,,separacion_extension
+abierto_b240_rho175_d350,6007,60.0,1,17.0242502,100,,separacion_extension
+abierto_b240_rho175_d350,6008,60.0,1,14.7300933,100,,separacion_extension
+abierto_b240_rho175_d350,6009,60.0,1,14.6796419,100,,separacion_extension
+abierto_b240_rho175_d350,6010,60.0,1,13.3643323,100,,separacion_extension
+abierto_b240_rho175_d350,6011,60.0,1,14.6728684,100,,separacion_extension
+abierto_b240_rho175_d350,6012,60.0,1,18.8676287,99,,separacion_extension
+abierto_b240_rho175_d350,6013,60.0,1,11.9591867,100,,separacion_extension
+abierto_b240_rho175_d350,6014,60.0,1,12.0171539,100,,separacion_extension
+abierto_b240_rho175_d350,6015,60.0,1,12.0228184,100,,separacion_extension
+abierto_b240_rho175_d350,6016,60.0,1,12.7377497,100,,separacion_extension
+abierto_b240_rho175_d350,6017,60.0,1,15.1490225,100,,separacion_extension
+abierto_b240_rho175_d350,6018,60.0,1,13.0710135,100,,separacion_extension
+abierto_b240_rho175_d350,6019,60.0,1,12.670934,100,,separacion_extension
+abierto_b240_rho175_d350,6020,60.0,1,14.276289,100,,separacion_extension
+abierto_b240_rho175_d350,6021,60.0,1,11.9811835,100,,separacion_extension
+abierto_b240_rho175_d350,6022,60.0,1,14.3828135,100,,separacion_extension
+abierto_b240_rho175_d350,6023,60.0,1,10.5820596,100,,separacion_extension
+abierto_b260_rho175_d350,6000,60.0,1,12.0483375,100,,separacion_extension
+abierto_b260_rho175_d350,6001,60.0,1,10.1987241,100,,separacion_extension
+abierto_b260_rho175_d350,6002,60.0,1,13.1015526,100,,separacion_extension
+abierto_b260_rho175_d350,6003,60.0,1,11.8876879,100,,separacion_extension
+abierto_b260_rho175_d350,6004,60.0,1,15.3817048,100,,separacion_extension
+abierto_b260_rho175_d350,6005,60.0,1,13.2072025,100,,separacion_extension
+abierto_b260_rho175_d350,6006,60.0,1,15.3266697,100,,separacion_extension
+abierto_b260_rho175_d350,6007,60.0,1,13.400112,100,,separacion_extension
+abierto_b260_rho175_d350,6008,60.0,1,11.863766,100,,separacion_extension
+abierto_b260_rho175_d350,6009,60.0,1,11.1623653,100,,separacion_extension
+abierto_b260_rho175_d350,6010,60.0,1,14.3630697,100,,separacion_extension
+abierto_b260_rho175_d350,6011,60.0,1,17.6621775,100,,separacion_extension
+abierto_b260_rho175_d350,6012,60.0,1,14.9570582,100,,separacion_extension
+abierto_b260_rho175_d350,6013,60.0,1,13.6059349,100,,separacion_extension
+abierto_b260_rho175_d350,6014,60.0,1,11.1818581,100,,separacion_extension
+abierto_b260_rho175_d350,6015,60.0,1,16.2948597,100,,separacion_extension
+abierto_b260_rho175_d350,6016,60.0,1,14.1495459,100,,separacion_extension
+abierto_b260_rho175_d350,6017,60.0,1,14.5897232,100,,separacion_extension
+abierto_b260_rho175_d350,6018,60.0,1,12.356596,100,,separacion_extension
+abierto_b260_rho175_d350,6019,60.0,1,15.7858974,100,,separacion_extension
+abierto_b260_rho175_d350,6020,60.0,1,15.5538221,100,,separacion_extension
+abierto_b260_rho175_d350,6021,60.0,1,14.1618151,100,,separacion_extension
+abierto_b260_rho175_d350,6022,60.0,1,14.1743098,100,,separacion_extension
+abierto_b260_rho175_d350,6023,60.0,1,14.5021469,100,,separacion_extension
+abierto_b280_rho175_d350,6000,60.0,1,13.1179103,100,,separacion_extension
+abierto_b280_rho175_d350,6001,60.0,1,13.7891042,100,,separacion_extension
+abierto_b280_rho175_d350,6002,60.0,1,13.406424,100,,separacion_extension
+abierto_b280_rho175_d350,6003,60.0,1,15.9238998,100,,separacion_extension
+abierto_b280_rho175_d350,6004,60.0,1,14.8849689,100,,separacion_extension
+abierto_b280_rho175_d350,6005,60.0,1,11.6879508,100,,separacion_extension
+abierto_b280_rho175_d350,6006,60.0,1,13.1634604,100,,separacion_extension
+abierto_b280_rho175_d350,6007,60.0,1,14.3041062,100,,separacion_extension
+abierto_b280_rho175_d350,6008,60.0,1,14.2346058,100,,separacion_extension
+abierto_b280_rho175_d350,6009,60.0,1,14.6154435,100,,separacion_extension
+abierto_b280_rho175_d350,6010,60.0,1,13.5750029,100,,separacion_extension
+abierto_b280_rho175_d350,6011,60.0,1,13.7830259,100,,separacion_extension
+abierto_b280_rho175_d350,6012,60.0,1,15.5565841,100,,separacion_extension
+abierto_b280_rho175_d350,6013,60.0,1,12.4996575,100,,separacion_extension
+abierto_b280_rho175_d350,6014,60.0,1,13.9186387,100,,separacion_extension
+abierto_b280_rho175_d350,6015,60.0,1,12.6438934,100,,separacion_extension
+abierto_b280_rho175_d350,6016,60.0,1,16.1362128,100,,separacion_extension
+abierto_b280_rho175_d350,6017,60.0,1,13.4069893,100,,separacion_extension
+abierto_b280_rho175_d350,6018,60.0,1,14.8101344,100,,separacion_extension
+abierto_b280_rho175_d350,6019,60.0,1,11.8422062,100,,separacion_extension
+abierto_b280_rho175_d350,6020,60.0,1,15.2783114,100,,separacion_extension
+abierto_b280_rho175_d350,6021,60.0,1,14.0467201,100,,separacion_extension
+abierto_b280_rho175_d350,6022,60.0,1,14.6562166,100,,separacion_extension
+abierto_b280_rho175_d350,6023,60.0,1,11.1943476,100,,separacion_extension
+abierto_b300_rho175_d350,6000,60.0,1,13.874421,100,,separacion_extension
+abierto_b300_rho175_d350,6001,60.0,1,12.3372643,100,,separacion_extension
+abierto_b300_rho175_d350,6002,60.0,1,12.1534731,100,,separacion_extension
+abierto_b300_rho175_d350,6003,60.0,1,11.5452058,100,,separacion_extension
+abierto_b300_rho175_d350,6004,60.0,1,14.1675499,100,,separacion_extension
+abierto_b300_rho175_d350,6005,60.0,1,14.0550055,100,,separacion_extension
+abierto_b300_rho175_d350,6006,60.0,1,13.1184929,100,,separacion_extension
+abierto_b300_rho175_d350,6007,60.0,1,14.8563309,100,,separacion_extension
+abierto_b300_rho175_d350,6008,60.0,1,13.6644564,100,,separacion_extension
+abierto_b300_rho175_d350,6009,60.0,1,14.759097,100,,separacion_extension
+abierto_b300_rho175_d350,6010,60.0,1,13.8274855,100,,separacion_extension
+abierto_b300_rho175_d350,6011,60.0,1,14.085478,100,,separacion_extension
+abierto_b300_rho175_d350,6012,60.0,1,13.6111278,100,,separacion_extension
+abierto_b300_rho175_d350,6013,60.0,1,15.2472728,100,,separacion_extension
+abierto_b300_rho175_d350,6014,60.0,1,15.818681,100,,separacion_extension
+abierto_b300_rho175_d350,6015,60.0,1,14.4913028,100,,separacion_extension
+abierto_b300_rho175_d350,6016,60.0,1,16.2716553,100,,separacion_extension
+abierto_b300_rho175_d350,6017,60.0,1,15.2918353,100,,separacion_extension
+abierto_b300_rho175_d350,6018,60.0,1,14.4679038,100,,separacion_extension
+abierto_b300_rho175_d350,6019,60.0,1,15.2386358,100,,separacion_extension
+abierto_b300_rho175_d350,6020,60.0,1,13.9219148,100,,separacion_extension
+abierto_b300_rho175_d350,6021,60.0,1,15.9485047,100,,separacion_extension
+abierto_b300_rho175_d350,6022,60.0,1,16.8376339,100,,separacion_extension
+abierto_b300_rho175_d350,6023,60.0,1,13.6198769,100,,separacion_extension
+abierto_b320_rho175_d350,6000,60.0,1,16.3717514,100,,separacion_extension
+abierto_b320_rho175_d350,6001,60.0,1,13.8355463,100,,separacion_extension
+abierto_b320_rho175_d350,6002,60.0,1,12.6863695,100,,separacion_extension
+abierto_b320_rho175_d350,6003,60.0,1,15.651381,100,,separacion_extension
+abierto_b320_rho175_d350,6004,60.0,1,14.9471233,100,,separacion_extension
+abierto_b320_rho175_d350,6005,60.0,1,15.4518286,100,,separacion_extension
+abierto_b320_rho175_d350,6006,60.0,1,15.1388908,100,,separacion_extension
+abierto_b320_rho175_d350,6007,60.0,1,15.6561301,100,,separacion_extension
+abierto_b320_rho175_d350,6008,60.0,1,13.912196,100,,separacion_extension
+abierto_b320_rho175_d350,6009,60.0,1,13.1085608,100,,separacion_extension
+abierto_b320_rho175_d350,6010,60.0,1,11.7761529,100,,separacion_extension
+abierto_b320_rho175_d350,6011,60.0,1,12.9797371,100,,separacion_extension
+abierto_b320_rho175_d350,6012,60.0,1,16.8540853,100,,separacion_extension
+abierto_b320_rho175_d350,6013,60.0,1,16.130592,100,,separacion_extension
+abierto_b320_rho175_d350,6014,60.0,1,16.7767056,100,,separacion_extension
+abierto_b320_rho175_d350,6015,60.0,1,11.9329502,100,,separacion_extension
+abierto_b320_rho175_d350,6016,60.0,1,17.1402783,100,,separacion_extension
+abierto_b320_rho175_d350,6017,60.0,1,11.4628312,100,,separacion_extension
+abierto_b320_rho175_d350,6018,60.0,1,14.682247,100,,separacion_extension
+abierto_b320_rho175_d350,6019,60.0,1,13.0913415,100,,separacion_extension
+abierto_b320_rho175_d350,6020,60.0,1,15.0362952,100,,separacion_extension
+abierto_b320_rho175_d350,6021,60.0,1,13.1195048,100,,separacion_extension
+abierto_b320_rho175_d350,6022,60.0,1,16.1701179,100,,separacion_extension
+abierto_b320_rho175_d350,6023,60.0,1,13.5034675,100,,separacion_extension
+abierto_b340_rho175_d350,6000,60.0,1,14.9320786,100,,separacion_extension
+abierto_b340_rho175_d350,6001,60.0,1,14.7289411,100,,separacion_extension
+abierto_b340_rho175_d350,6002,60.0,1,13.6875529,100,,separacion_extension
+abierto_b340_rho175_d350,6003,60.0,1,14.8749954,100,,separacion_extension
+abierto_b340_rho175_d350,6004,60.0,1,17.4241109,100,,separacion_extension
+abierto_b340_rho175_d350,6005,60.0,1,13.5439178,100,,separacion_extension
+abierto_b340_rho175_d350,6006,60.0,1,17.4110712,100,,separacion_extension
+abierto_b340_rho175_d350,6007,60.0,1,13.7497515,100,,separacion_extension
+abierto_b340_rho175_d350,6008,60.0,1,17.3752692,100,,separacion_extension
+abierto_b340_rho175_d350,6009,60.0,1,17.8924947,100,,separacion_extension
+abierto_b340_rho175_d350,6010,60.0,1,12.6460418,100,,separacion_extension
+abierto_b340_rho175_d350,6011,60.0,1,14.7837712,100,,separacion_extension
+abierto_b340_rho175_d350,6012,60.0,1,14.9010622,100,,separacion_extension
+abierto_b340_rho175_d350,6013,60.0,1,15.1400615,100,,separacion_extension
+abierto_b340_rho175_d350,6014,60.0,1,13.1724213,100,,separacion_extension
+abierto_b340_rho175_d350,6015,60.0,1,17.0334019,100,,separacion_extension
+abierto_b340_rho175_d350,6016,60.0,1,17.4484208,100,,separacion_extension
+abierto_b340_rho175_d350,6017,60.0,1,15.7174272,100,,separacion_extension
+abierto_b340_rho175_d350,6018,60.0,1,14.8116467,100,,separacion_extension
+abierto_b340_rho175_d350,6019,60.0,1,14.8224237,100,,separacion_extension
+abierto_b340_rho175_d350,6020,60.0,1,15.2515335,100,,separacion_extension
+abierto_b340_rho175_d350,6021,60.0,1,15.2428603,100,,separacion_extension
+abierto_b340_rho175_d350,6022,60.0,1,15.2430779,100,,separacion_extension
+abierto_b340_rho175_d350,6023,60.0,1,11.8625323,100,,separacion_extension
+abierto_b220_rho175_d370,6000,60.0,1,15.3613692,100,,separacion_extension
+abierto_b220_rho175_d370,6001,60.0,1,17.6920206,100,,separacion_extension
+abierto_b220_rho175_d370,6002,60.0,1,16.7988087,100,,separacion_extension
+abierto_b220_rho175_d370,6003,60.0,1,15.5879976,100,,separacion_extension
+abierto_b220_rho175_d370,6004,60.0,1,15.3125257,100,,separacion_extension
+abierto_b220_rho175_d370,6005,60.0,1,13.5129559,100,,separacion_extension
+abierto_b220_rho175_d370,6006,60.0,1,15.7815587,100,,separacion_extension
+abierto_b220_rho175_d370,6007,60.0,1,16.7875985,100,,separacion_extension
+abierto_b220_rho175_d370,6008,60.0,1,16.4930354,100,,separacion_extension
+abierto_b220_rho175_d370,6009,60.0,1,15.5071046,100,,separacion_extension
+abierto_b220_rho175_d370,6010,60.0,1,18.5204367,100,,separacion_extension
+abierto_b220_rho175_d370,6011,60.0,1,20.4403386,100,,separacion_extension
+abierto_b220_rho175_d370,6012,60.0,1,17.1950374,100,,separacion_extension
+abierto_b220_rho175_d370,6013,60.0,1,17.2234756,100,,separacion_extension
+abierto_b220_rho175_d370,6014,60.0,1,17.5936013,100,,separacion_extension
+abierto_b220_rho175_d370,6015,60.0,1,21.6938981,100,,separacion_extension
+abierto_b220_rho175_d370,6016,60.0,1,18.7559801,100,,separacion_extension
+abierto_b220_rho175_d370,6017,60.0,1,13.3065806,100,,separacion_extension
+abierto_b220_rho175_d370,6018,60.0,1,17.4072204,100,,separacion_extension
+abierto_b220_rho175_d370,6019,60.0,1,15.2169044,100,,separacion_extension
+abierto_b220_rho175_d370,6020,60.0,1,15.6823035,100,,separacion_extension
+abierto_b220_rho175_d370,6021,60.0,1,16.2171507,100,,separacion_extension
+abierto_b220_rho175_d370,6022,60.0,1,17.9452661,100,,separacion_extension
+abierto_b220_rho175_d370,6023,60.0,1,17.1707871,100,,separacion_extension
+abierto_b240_rho175_d370,6000,60.0,1,12.1738353,100,,separacion_extension
+abierto_b240_rho175_d370,6001,60.0,1,14.1264325,100,,separacion_extension
+abierto_b240_rho175_d370,6002,60.0,1,14.4258322,100,,separacion_extension
+abierto_b240_rho175_d370,6003,60.0,1,14.8242085,100,,separacion_extension
+abierto_b240_rho175_d370,6004,60.0,1,13.1457724,100,,separacion_extension
+abierto_b240_rho175_d370,6005,60.0,1,11.585599,100,,separacion_extension
+abierto_b240_rho175_d370,6006,60.0,1,17.439281,100,,separacion_extension
+abierto_b240_rho175_d370,6007,60.0,1,16.0797441,100,,separacion_extension
+abierto_b240_rho175_d370,6008,60.0,1,16.1823749,100,,separacion_extension
+abierto_b240_rho175_d370,6009,60.0,1,13.5674374,100,,separacion_extension
+abierto_b240_rho175_d370,6010,60.0,1,13.6473879,100,,separacion_extension
+abierto_b240_rho175_d370,6011,60.0,1,12.4372562,100,,separacion_extension
+abierto_b240_rho175_d370,6012,60.0,1,14.4308069,100,,separacion_extension
+abierto_b240_rho175_d370,6013,60.0,1,14.3302853,100,,separacion_extension
+abierto_b240_rho175_d370,6014,60.0,1,19.1956303,100,,separacion_extension
+abierto_b240_rho175_d370,6015,60.0,1,13.8082072,100,,separacion_extension
+abierto_b240_rho175_d370,6016,60.0,1,17.4093404,100,,separacion_extension
+abierto_b240_rho175_d370,6017,60.0,1,14.4187031,100,,separacion_extension
+abierto_b240_rho175_d370,6018,60.0,1,13.0201049,100,,separacion_extension
+abierto_b240_rho175_d370,6019,60.0,1,13.6712431,100,,separacion_extension
+abierto_b240_rho175_d370,6020,60.0,1,17.0736279,100,,separacion_extension
+abierto_b240_rho175_d370,6021,60.0,1,14.5832352,100,,separacion_extension
+abierto_b240_rho175_d370,6022,60.0,1,10.494643,100,,separacion_extension
+abierto_b240_rho175_d370,6023,60.0,1,15.3257694,100,,separacion_extension
+abierto_b260_rho175_d370,6000,60.0,1,13.3594277,100,,separacion_extension
+abierto_b260_rho175_d370,6001,60.0,1,14.2887171,100,,separacion_extension
+abierto_b260_rho175_d370,6002,60.0,1,13.6439228,100,,separacion_extension
+abierto_b260_rho175_d370,6003,60.0,1,13.9229898,100,,separacion_extension
+abierto_b260_rho175_d370,6004,60.0,1,14.2352236,100,,separacion_extension
+abierto_b260_rho175_d370,6005,60.0,1,13.0145326,100,,separacion_extension
+abierto_b260_rho175_d370,6006,60.0,1,12.458786,100,,separacion_extension
+abierto_b260_rho175_d370,6007,60.0,1,15.6294514,100,,separacion_extension
+abierto_b260_rho175_d370,6008,60.0,1,13.6773887,100,,separacion_extension
+abierto_b260_rho175_d370,6009,60.0,1,16.6169,100,,separacion_extension
+abierto_b260_rho175_d370,6010,60.0,1,13.5062597,100,,separacion_extension
+abierto_b260_rho175_d370,6011,60.0,1,14.4952632,100,,separacion_extension
+abierto_b260_rho175_d370,6012,60.0,1,15.9032914,100,,separacion_extension
+abierto_b260_rho175_d370,6013,60.0,1,17.1468004,100,,separacion_extension
+abierto_b260_rho175_d370,6014,60.0,1,15.4279881,100,,separacion_extension
+abierto_b260_rho175_d370,6015,60.0,1,15.9072636,100,,separacion_extension
+abierto_b260_rho175_d370,6016,60.0,1,16.5558811,100,,separacion_extension
+abierto_b260_rho175_d370,6017,60.0,1,13.098115,100,,separacion_extension
+abierto_b260_rho175_d370,6018,60.0,1,15.2088759,100,,separacion_extension
+abierto_b260_rho175_d370,6019,60.0,1,15.1717791,100,,separacion_extension
+abierto_b260_rho175_d370,6020,60.0,1,12.2348005,100,,separacion_extension
+abierto_b260_rho175_d370,6021,60.0,1,15.1826119,100,,separacion_extension
+abierto_b260_rho175_d370,6022,60.0,1,11.9496971,100,,separacion_extension
+abierto_b260_rho175_d370,6023,60.0,1,16.8660994,100,,separacion_extension
+abierto_b280_rho175_d370,6000,60.0,1,16.1381958,100,,separacion_extension
+abierto_b280_rho175_d370,6001,60.0,1,12.3661961,100,,separacion_extension
+abierto_b280_rho175_d370,6002,60.0,1,11.7229563,100,,separacion_extension
+abierto_b280_rho175_d370,6003,60.0,1,13.2321531,100,,separacion_extension
+abierto_b280_rho175_d370,6004,60.0,1,13.0539632,100,,separacion_extension
+abierto_b280_rho175_d370,6005,60.0,1,12.3743377,100,,separacion_extension
+abierto_b280_rho175_d370,6006,60.0,1,10.869965,100,,separacion_extension
+abierto_b280_rho175_d370,6007,60.0,1,14.4971392,100,,separacion_extension
+abierto_b280_rho175_d370,6008,60.0,1,13.7895968,100,,separacion_extension
+abierto_b280_rho175_d370,6009,60.0,1,15.5798636,100,,separacion_extension
+abierto_b280_rho175_d370,6010,60.0,1,19.3237089,100,,separacion_extension
+abierto_b280_rho175_d370,6011,60.0,1,15.2861535,100,,separacion_extension
+abierto_b280_rho175_d370,6012,60.0,1,11.9436476,100,,separacion_extension
+abierto_b280_rho175_d370,6013,60.0,1,15.2995486,100,,separacion_extension
+abierto_b280_rho175_d370,6014,60.0,1,14.9990588,100,,separacion_extension
+abierto_b280_rho175_d370,6015,60.0,1,14.5014041,100,,separacion_extension
+abierto_b280_rho175_d370,6016,60.0,1,14.3084483,100,,separacion_extension
+abierto_b280_rho175_d370,6017,60.0,1,14.7283229,100,,separacion_extension
+abierto_b280_rho175_d370,6018,60.0,1,15.0516103,100,,separacion_extension
+abierto_b280_rho175_d370,6019,60.0,1,15.3846284,100,,separacion_extension
+abierto_b280_rho175_d370,6020,60.0,1,15.5218274,99,,separacion_extension
+abierto_b280_rho175_d370,6021,60.0,1,12.6144418,100,,separacion_extension
+abierto_b280_rho175_d370,6022,60.0,1,13.1091925,100,,separacion_extension
+abierto_b280_rho175_d370,6023,60.0,1,11.5898023,100,,separacion_extension
+abierto_b300_rho175_d370,6000,60.0,1,13.0411551,100,,separacion_extension
+abierto_b300_rho175_d370,6001,60.0,1,15.8753956,100,,separacion_extension
+abierto_b300_rho175_d370,6002,60.0,1,15.6742259,100,,separacion_extension
+abierto_b300_rho175_d370,6003,60.0,1,14.258632,100,,separacion_extension
+abierto_b300_rho175_d370,6004,60.0,1,12.7390178,100,,separacion_extension
+abierto_b300_rho175_d370,6005,60.0,1,12.3423584,100,,separacion_extension
+abierto_b300_rho175_d370,6006,60.0,1,12.7754995,100,,separacion_extension
+abierto_b300_rho175_d370,6007,60.0,1,13.2934213,100,,separacion_extension
+abierto_b300_rho175_d370,6008,60.0,1,16.914451,100,,separacion_extension
+abierto_b300_rho175_d370,6009,60.0,1,13.2101903,100,,separacion_extension
+abierto_b300_rho175_d370,6010,60.0,1,17.8004125,100,,separacion_extension
+abierto_b300_rho175_d370,6011,60.0,1,14.425146,100,,separacion_extension
+abierto_b300_rho175_d370,6012,60.0,1,13.9378135,100,,separacion_extension
+abierto_b300_rho175_d370,6013,60.0,1,13.7807169,100,,separacion_extension
+abierto_b300_rho175_d370,6014,60.0,1,13.3496985,100,,separacion_extension
+abierto_b300_rho175_d370,6015,60.0,1,13.9083475,100,,separacion_extension
+abierto_b300_rho175_d370,6016,60.0,1,13.7826903,100,,separacion_extension
+abierto_b300_rho175_d370,6017,60.0,1,12.7505063,100,,separacion_extension
+abierto_b300_rho175_d370,6018,60.0,1,16.7818931,100,,separacion_extension
+abierto_b300_rho175_d370,6019,60.0,1,12.9223392,100,,separacion_extension
+abierto_b300_rho175_d370,6020,60.0,1,12.0493378,100,,separacion_extension
+abierto_b300_rho175_d370,6021,60.0,1,15.3621848,100,,separacion_extension
+abierto_b300_rho175_d370,6022,60.0,1,11.5098585,100,,separacion_extension
+abierto_b300_rho175_d370,6023,60.0,1,11.631077,100,,separacion_extension
+abierto_b320_rho175_d370,6000,60.0,1,13.8506757,100,,separacion_extension
+abierto_b320_rho175_d370,6001,60.0,1,13.1063098,100,,separacion_extension
+abierto_b320_rho175_d370,6002,60.0,1,12.5843964,100,,separacion_extension
+abierto_b320_rho175_d370,6003,60.0,1,14.5542334,100,,separacion_extension
+abierto_b320_rho175_d370,6004,60.0,1,14.8599573,100,,separacion_extension
+abierto_b320_rho175_d370,6005,60.0,1,14.8743809,100,,separacion_extension
+abierto_b320_rho175_d370,6006,60.0,1,14.7775935,100,,separacion_extension
+abierto_b320_rho175_d370,6007,60.0,1,12.9782993,100,,separacion_extension
+abierto_b320_rho175_d370,6008,60.0,1,15.5756705,100,,separacion_extension
+abierto_b320_rho175_d370,6009,60.0,1,13.634198,100,,separacion_extension
+abierto_b320_rho175_d370,6010,60.0,1,16.6840394,100,,separacion_extension
+abierto_b320_rho175_d370,6011,60.0,1,16.1792569,100,,separacion_extension
+abierto_b320_rho175_d370,6012,60.0,1,14.5953375,100,,separacion_extension
+abierto_b320_rho175_d370,6013,60.0,1,11.742009,100,,separacion_extension
+abierto_b320_rho175_d370,6014,60.0,1,14.20796,100,,separacion_extension
+abierto_b320_rho175_d370,6015,60.0,1,12.5947679,100,,separacion_extension
+abierto_b320_rho175_d370,6016,60.0,1,17.0779376,100,,separacion_extension
+abierto_b320_rho175_d370,6017,60.0,1,13.8362806,100,,separacion_extension
+abierto_b320_rho175_d370,6018,60.0,1,15.1682181,100,,separacion_extension
+abierto_b320_rho175_d370,6019,60.0,1,14.087267,100,,separacion_extension
+abierto_b320_rho175_d370,6020,60.0,1,12.9989577,100,,separacion_extension
+abierto_b320_rho175_d370,6021,60.0,1,15.0602957,100,,separacion_extension
+abierto_b320_rho175_d370,6022,60.0,1,17.5630289,99,,separacion_extension
+abierto_b320_rho175_d370,6023,60.0,1,15.8333444,100,,separacion_extension
+abierto_b340_rho175_d370,6000,60.0,1,15.1273101,100,,separacion_extension
+abierto_b340_rho175_d370,6001,60.0,1,12.1392758,100,,separacion_extension
+abierto_b340_rho175_d370,6002,60.0,1,14.2472167,100,,separacion_extension
+abierto_b340_rho175_d370,6003,60.0,1,18.853496,100,,separacion_extension
+abierto_b340_rho175_d370,6004,60.0,1,15.1117622,100,,separacion_extension
+abierto_b340_rho175_d370,6005,60.0,1,15.3228037,100,,separacion_extension
+abierto_b340_rho175_d370,6006,60.0,1,15.0922669,100,,separacion_extension
+abierto_b340_rho175_d370,6007,60.0,1,14.61893,100,,separacion_extension
+abierto_b340_rho175_d370,6008,60.0,1,11.9856509,100,,separacion_extension
+abierto_b340_rho175_d370,6009,60.0,1,13.4837008,100,,separacion_extension
+abierto_b340_rho175_d370,6010,60.0,1,14.0902164,100,,separacion_extension
+abierto_b340_rho175_d370,6011,60.0,1,15.7191723,100,,separacion_extension
+abierto_b340_rho175_d370,6012,60.0,1,12.9069211,100,,separacion_extension
+abierto_b340_rho175_d370,6013,60.0,1,12.7567505,100,,separacion_extension
+abierto_b340_rho175_d370,6014,60.0,1,13.776345,100,,separacion_extension
+abierto_b340_rho175_d370,6015,60.0,1,15.427696,100,,separacion_extension
+abierto_b340_rho175_d370,6016,60.0,1,15.3433815,100,,separacion_extension
+abierto_b340_rho175_d370,6017,60.0,1,16.4005752,100,,separacion_extension
+abierto_b340_rho175_d370,6018,60.0,1,15.2480941,100,,separacion_extension
+abierto_b340_rho175_d370,6019,60.0,1,16.3027226,100,,separacion_extension
+abierto_b340_rho175_d370,6020,60.0,1,13.288485,100,,separacion_extension
+abierto_b340_rho175_d370,6021,60.0,1,16.1016233,100,,separacion_extension
+abierto_b340_rho175_d370,6022,60.0,1,16.8303176,100,,separacion_extension
+abierto_b340_rho175_d370,6023,60.0,1,12.953352,100,,separacion_extension
+abierto_b220_rho175_d390,6000,60.0,1,15.5737339,100,,separacion_extension
+abierto_b220_rho175_d390,6001,60.0,1,17.3372463,100,,separacion_extension
+abierto_b220_rho175_d390,6002,60.0,1,18.2173649,100,,separacion_extension
+abierto_b220_rho175_d390,6003,60.0,0,,0,error: no se pudo ubicar la particula 98 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d390,6004,60.0,1,21.3576687,100,,separacion_extension
+abierto_b220_rho175_d390,6005,60.0,1,20.4843445,100,,separacion_extension
+abierto_b220_rho175_d390,6006,60.0,1,15.0703652,100,,separacion_extension
+abierto_b220_rho175_d390,6007,60.0,0,,0,error: no se pudo ubicar la particula 98 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d390,6008,60.0,1,20.616656,100,,separacion_extension
+abierto_b220_rho175_d390,6009,60.0,1,14.6648534,100,,separacion_extension
+abierto_b220_rho175_d390,6010,60.0,1,16.2962483,100,,separacion_extension
+abierto_b220_rho175_d390,6011,60.0,1,22.7475041,100,,separacion_extension
+abierto_b220_rho175_d390,6012,60.0,1,17.7734424,100,,separacion_extension
+abierto_b220_rho175_d390,6013,60.0,1,19.8017643,100,,separacion_extension
+abierto_b220_rho175_d390,6014,60.0,1,14.6249065,100,,separacion_extension
+abierto_b220_rho175_d390,6015,60.0,1,17.964081,100,,separacion_extension
+abierto_b220_rho175_d390,6016,60.0,1,21.0432564,100,,separacion_extension
+abierto_b220_rho175_d390,6017,60.0,1,15.1666179,100,,separacion_extension
+abierto_b220_rho175_d390,6018,60.0,1,17.8336357,100,,separacion_extension
+abierto_b220_rho175_d390,6019,60.0,1,18.2834414,100,,separacion_extension
+abierto_b220_rho175_d390,6020,60.0,1,17.4198516,100,,separacion_extension
+abierto_b220_rho175_d390,6021,60.0,1,17.165635,100,,separacion_extension
+abierto_b220_rho175_d390,6022,60.0,1,17.5926419,100,,separacion_extension
+abierto_b220_rho175_d390,6023,60.0,1,15.0234796,100,,separacion_extension
+abierto_b240_rho175_d390,6000,60.0,1,14.8726413,99,,separacion_extension
+abierto_b240_rho175_d390,6001,60.0,1,14.9648878,100,,separacion_extension
+abierto_b240_rho175_d390,6002,60.0,1,16.3910538,99,,separacion_extension
+abierto_b240_rho175_d390,6003,60.0,1,14.9988019,100,,separacion_extension
+abierto_b240_rho175_d390,6004,60.0,1,13.6215283,100,,separacion_extension
+abierto_b240_rho175_d390,6005,60.0,1,12.9798187,100,,separacion_extension
+abierto_b240_rho175_d390,6006,60.0,1,12.6858406,100,,separacion_extension
+abierto_b240_rho175_d390,6007,60.0,1,13.8231054,100,,separacion_extension
+abierto_b240_rho175_d390,6008,60.0,1,13.5384594,100,,separacion_extension
+abierto_b240_rho175_d390,6009,60.0,1,15.4450314,100,,separacion_extension
+abierto_b240_rho175_d390,6010,60.0,1,13.5322898,100,,separacion_extension
+abierto_b240_rho175_d390,6011,60.0,1,16.16006,100,,separacion_extension
+abierto_b240_rho175_d390,6012,60.0,1,16.5478126,100,,separacion_extension
+abierto_b240_rho175_d390,6013,60.0,1,12.5039358,100,,separacion_extension
+abierto_b240_rho175_d390,6014,60.0,1,15.9499152,100,,separacion_extension
+abierto_b240_rho175_d390,6015,60.0,1,15.1506988,100,,separacion_extension
+abierto_b240_rho175_d390,6016,60.0,1,18.0533582,100,,separacion_extension
+abierto_b240_rho175_d390,6017,60.0,1,14.4657791,100,,separacion_extension
+abierto_b240_rho175_d390,6018,60.0,1,16.3391332,100,,separacion_extension
+abierto_b240_rho175_d390,6019,60.0,1,15.0645317,100,,separacion_extension
+abierto_b240_rho175_d390,6020,60.0,1,21.5643098,100,,separacion_extension
+abierto_b240_rho175_d390,6021,60.0,1,15.3641157,100,,separacion_extension
+abierto_b240_rho175_d390,6022,60.0,1,13.9828568,100,,separacion_extension
+abierto_b240_rho175_d390,6023,60.0,1,12.5721358,100,,separacion_extension
+abierto_b260_rho175_d390,6000,60.0,1,13.6320337,100,,separacion_extension
+abierto_b260_rho175_d390,6001,60.0,1,13.5394333,100,,separacion_extension
+abierto_b260_rho175_d390,6002,60.0,1,15.3387045,100,,separacion_extension
+abierto_b260_rho175_d390,6003,60.0,1,10.5088226,100,,separacion_extension
+abierto_b260_rho175_d390,6004,60.0,1,13.0768104,100,,separacion_extension
+abierto_b260_rho175_d390,6005,60.0,1,14.6102219,100,,separacion_extension
+abierto_b260_rho175_d390,6006,60.0,1,11.6441507,100,,separacion_extension
+abierto_b260_rho175_d390,6007,60.0,1,13.9147697,100,,separacion_extension
+abierto_b260_rho175_d390,6008,60.0,1,12.0624269,100,,separacion_extension
+abierto_b260_rho175_d390,6009,60.0,1,13.7093782,100,,separacion_extension
+abierto_b260_rho175_d390,6010,60.0,1,13.2256762,100,,separacion_extension
+abierto_b260_rho175_d390,6011,60.0,1,13.6204828,100,,separacion_extension
+abierto_b260_rho175_d390,6012,60.0,1,12.0499381,100,,separacion_extension
+abierto_b260_rho175_d390,6013,60.0,1,16.624042,100,,separacion_extension
+abierto_b260_rho175_d390,6014,60.0,1,15.9251592,100,,separacion_extension
+abierto_b260_rho175_d390,6015,60.0,1,15.5173201,100,,separacion_extension
+abierto_b260_rho175_d390,6016,60.0,1,14.0516594,100,,separacion_extension
+abierto_b260_rho175_d390,6017,60.0,1,12.6248743,100,,separacion_extension
+abierto_b260_rho175_d390,6018,60.0,1,13.2294202,100,,separacion_extension
+abierto_b260_rho175_d390,6019,60.0,1,10.8240454,100,,separacion_extension
+abierto_b260_rho175_d390,6020,60.0,1,14.5751681,100,,separacion_extension
+abierto_b260_rho175_d390,6021,60.0,1,16.2853855,100,,separacion_extension
+abierto_b260_rho175_d390,6022,60.0,1,14.205294,100,,separacion_extension
+abierto_b260_rho175_d390,6023,60.0,1,15.4468467,100,,separacion_extension
+abierto_b280_rho175_d390,6000,60.0,1,16.1504454,100,,separacion_extension
+abierto_b280_rho175_d390,6001,60.0,1,14.3419228,100,,separacion_extension
+abierto_b280_rho175_d390,6002,60.0,1,15.8283788,100,,separacion_extension
+abierto_b280_rho175_d390,6003,60.0,1,15.3388556,100,,separacion_extension
+abierto_b280_rho175_d390,6004,60.0,1,15.1838094,100,,separacion_extension
+abierto_b280_rho175_d390,6005,60.0,1,14.6767612,100,,separacion_extension
+abierto_b280_rho175_d390,6006,60.0,1,13.9416386,100,,separacion_extension
+abierto_b280_rho175_d390,6007,60.0,1,15.6830568,100,,separacion_extension
+abierto_b280_rho175_d390,6008,60.0,1,13.3235546,100,,separacion_extension
+abierto_b280_rho175_d390,6009,60.0,1,13.9344062,100,,separacion_extension
+abierto_b280_rho175_d390,6010,60.0,1,14.9675225,100,,separacion_extension
+abierto_b280_rho175_d390,6011,60.0,1,12.1103068,100,,separacion_extension
+abierto_b280_rho175_d390,6012,60.0,1,10.8775592,100,,separacion_extension
+abierto_b280_rho175_d390,6013,60.0,1,14.19728,100,,separacion_extension
+abierto_b280_rho175_d390,6014,60.0,1,11.8142276,100,,separacion_extension
+abierto_b280_rho175_d390,6015,60.0,1,11.8181229,100,,separacion_extension
+abierto_b280_rho175_d390,6016,60.0,1,16.0834623,100,,separacion_extension
+abierto_b280_rho175_d390,6017,60.0,1,14.9041199,100,,separacion_extension
+abierto_b280_rho175_d390,6018,60.0,1,12.8188462,100,,separacion_extension
+abierto_b280_rho175_d390,6019,60.0,1,12.5157739,100,,separacion_extension
+abierto_b280_rho175_d390,6020,60.0,1,12.4356383,100,,separacion_extension
+abierto_b280_rho175_d390,6021,60.0,1,12.9882443,100,,separacion_extension
+abierto_b280_rho175_d390,6022,60.0,1,12.9015724,100,,separacion_extension
+abierto_b280_rho175_d390,6023,60.0,1,12.3355283,100,,separacion_extension
+abierto_b300_rho175_d390,6000,60.0,1,12.8239242,100,,separacion_extension
+abierto_b300_rho175_d390,6001,60.0,1,15.7829489,100,,separacion_extension
+abierto_b300_rho175_d390,6002,60.0,1,11.633492,100,,separacion_extension
+abierto_b300_rho175_d390,6003,60.0,1,17.3696701,100,,separacion_extension
+abierto_b300_rho175_d390,6004,60.0,1,13.4880183,100,,separacion_extension
+abierto_b300_rho175_d390,6005,60.0,1,14.1402928,100,,separacion_extension
+abierto_b300_rho175_d390,6006,60.0,1,12.0430173,100,,separacion_extension
+abierto_b300_rho175_d390,6007,60.0,1,15.2338325,100,,separacion_extension
+abierto_b300_rho175_d390,6008,60.0,1,13.6238869,100,,separacion_extension
+abierto_b300_rho175_d390,6009,60.0,1,13.0750697,100,,separacion_extension
+abierto_b300_rho175_d390,6010,60.0,1,13.3509616,100,,separacion_extension
+abierto_b300_rho175_d390,6011,60.0,1,14.0146945,100,,separacion_extension
+abierto_b300_rho175_d390,6012,60.0,1,11.7672279,100,,separacion_extension
+abierto_b300_rho175_d390,6013,60.0,1,12.3369625,100,,separacion_extension
+abierto_b300_rho175_d390,6014,60.0,1,12.6908212,100,,separacion_extension
+abierto_b300_rho175_d390,6015,60.0,1,11.5363874,100,,separacion_extension
+abierto_b300_rho175_d390,6016,60.0,1,11.6337339,100,,separacion_extension
+abierto_b300_rho175_d390,6017,60.0,1,13.4673096,100,,separacion_extension
+abierto_b300_rho175_d390,6018,60.0,1,16.8274105,100,,separacion_extension
+abierto_b300_rho175_d390,6019,60.0,1,15.3442914,100,,separacion_extension
+abierto_b300_rho175_d390,6020,60.0,1,14.1438563,100,,separacion_extension
+abierto_b300_rho175_d390,6021,60.0,1,11.6910667,100,,separacion_extension
+abierto_b300_rho175_d390,6022,60.0,1,12.9446736,100,,separacion_extension
+abierto_b300_rho175_d390,6023,60.0,1,10.8961181,100,,separacion_extension
+abierto_b320_rho175_d390,6000,60.0,1,15.1997352,100,,separacion_extension
+abierto_b320_rho175_d390,6001,60.0,1,14.1147201,100,,separacion_extension
+abierto_b320_rho175_d390,6002,60.0,1,13.7654036,100,,separacion_extension
+abierto_b320_rho175_d390,6003,60.0,1,12.5112636,100,,separacion_extension
+abierto_b320_rho175_d390,6004,60.0,1,14.108667,100,,separacion_extension
+abierto_b320_rho175_d390,6005,60.0,1,16.5119498,100,,separacion_extension
+abierto_b320_rho175_d390,6006,60.0,1,14.7627275,100,,separacion_extension
+abierto_b320_rho175_d390,6007,60.0,1,15.3559311,100,,separacion_extension
+abierto_b320_rho175_d390,6008,60.0,1,13.9411743,100,,separacion_extension
+abierto_b320_rho175_d390,6009,60.0,1,14.4408933,100,,separacion_extension
+abierto_b320_rho175_d390,6010,60.0,1,12.4757178,100,,separacion_extension
+abierto_b320_rho175_d390,6011,60.0,1,11.751843,100,,separacion_extension
+abierto_b320_rho175_d390,6012,60.0,1,11.221868,100,,separacion_extension
+abierto_b320_rho175_d390,6013,60.0,1,12.7385899,100,,separacion_extension
+abierto_b320_rho175_d390,6014,60.0,1,13.5379703,100,,separacion_extension
+abierto_b320_rho175_d390,6015,60.0,1,13.2156295,100,,separacion_extension
+abierto_b320_rho175_d390,6016,60.0,1,11.9785374,100,,separacion_extension
+abierto_b320_rho175_d390,6017,60.0,1,13.8011904,100,,separacion_extension
+abierto_b320_rho175_d390,6018,60.0,1,12.8792264,100,,separacion_extension
+abierto_b320_rho175_d390,6019,60.0,1,14.0320833,100,,separacion_extension
+abierto_b320_rho175_d390,6020,60.0,1,12.9197408,100,,separacion_extension
+abierto_b320_rho175_d390,6021,60.0,1,16.5932936,100,,separacion_extension
+abierto_b320_rho175_d390,6022,60.0,1,13.3610263,100,,separacion_extension
+abierto_b320_rho175_d390,6023,60.0,1,13.1827931,100,,separacion_extension
+abierto_b340_rho175_d390,6000,60.0,1,14.6743932,100,,separacion_extension
+abierto_b340_rho175_d390,6001,60.0,1,14.0276632,100,,separacion_extension
+abierto_b340_rho175_d390,6002,60.0,1,14.3483625,100,,separacion_extension
+abierto_b340_rho175_d390,6003,60.0,1,13.2487206,100,,separacion_extension
+abierto_b340_rho175_d390,6004,60.0,1,14.9902964,100,,separacion_extension
+abierto_b340_rho175_d390,6005,60.0,1,13.2400757,100,,separacion_extension
+abierto_b340_rho175_d390,6006,60.0,1,13.6339773,100,,separacion_extension
+abierto_b340_rho175_d390,6007,60.0,1,14.050318,100,,separacion_extension
+abierto_b340_rho175_d390,6008,60.0,1,14.7650153,100,,separacion_extension
+abierto_b340_rho175_d390,6009,60.0,1,11.6164502,100,,separacion_extension
+abierto_b340_rho175_d390,6010,60.0,1,14.2542518,100,,separacion_extension
+abierto_b340_rho175_d390,6011,60.0,1,12.2693459,100,,separacion_extension
+abierto_b340_rho175_d390,6012,60.0,1,14.5891081,100,,separacion_extension
+abierto_b340_rho175_d390,6013,60.0,1,12.6854501,100,,separacion_extension
+abierto_b340_rho175_d390,6014,60.0,1,12.2861021,100,,separacion_extension
+abierto_b340_rho175_d390,6015,60.0,1,11.7094791,100,,separacion_extension
+abierto_b340_rho175_d390,6016,60.0,1,16.0891965,100,,separacion_extension
+abierto_b340_rho175_d390,6017,60.0,1,12.333898,100,,separacion_extension
+abierto_b340_rho175_d390,6018,60.0,1,15.5124495,100,,separacion_extension
+abierto_b340_rho175_d390,6019,60.0,1,16.9459544,100,,separacion_extension
+abierto_b340_rho175_d390,6020,60.0,1,14.4340436,100,,separacion_extension
+abierto_b340_rho175_d390,6021,60.0,1,13.8561152,100,,separacion_extension
+abierto_b340_rho175_d390,6022,60.0,1,13.1586817,100,,separacion_extension
+abierto_b340_rho175_d390,6023,60.0,1,15.8036698,100,,separacion_extension
+abierto_b220_rho175_d410,6000,60.0,0,,0,error: no se pudo ubicar la particula 95 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6001,60.0,0,,0,error: no se pudo ubicar la particula 94 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6002,60.0,0,,0,error: no se pudo ubicar la particula 99 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6003,60.0,0,,0,error: no se pudo ubicar la particula 89 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6004,60.0,0,,0,error: no se pudo ubicar la particula 96 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6005,60.0,0,,0,error: no se pudo ubicar la particula 94 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6006,60.0,0,,0,error: no se pudo ubicar la particula 95 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6007,60.0,0,,0,error: no se pudo ubicar la particula 99 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6008,60.0,0,,0,error: no se pudo ubicar la particula 95 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6009,60.0,0,,0,error: no se pudo ubicar la particula 88 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6010,60.0,0,,0,error: no se pudo ubicar la particula 98 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6011,60.0,0,,0,error: no se pudo ubicar la particula 97 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6012,60.0,0,,0,error: no se pudo ubicar la particula 92 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6013,60.0,0,,0,error: no se pudo ubicar la particula 98 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6014,60.0,0,,0,error: no se pudo ubicar la particula 90 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6015,60.0,0,,0,error: no se pudo ubicar la particula 92 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6016,60.0,0,,0,error: no se pudo ubicar la particula 98 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6017,60.0,0,,0,error: no se pudo ubicar la particula 92 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6018,60.0,0,,0,error: no se pudo ubicar la particula 97 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6019,60.0,0,,0,error: no se pudo ubicar la particula 94 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6020,60.0,0,,0,error: no se pudo ubicar la particula 91 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6021,60.0,0,,0,error: no se pudo ubicar la particula 94 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6022,60.0,0,,0,error: no se pudo ubicar la particula 93 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d410,6023,60.0,0,,0,error: no se pudo ubicar la particula 90 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d410,6000,60.0,1,17.3131423,100,,separacion_extension
+abierto_b240_rho175_d410,6001,60.0,1,18.5407284,100,,separacion_extension
+abierto_b240_rho175_d410,6002,60.0,1,17.0900688,100,,separacion_extension
+abierto_b240_rho175_d410,6003,60.0,1,16.5915751,100,,separacion_extension
+abierto_b240_rho175_d410,6004,60.0,1,17.5289528,100,,separacion_extension
+abierto_b240_rho175_d410,6005,60.0,1,17.0015149,100,,separacion_extension
+abierto_b240_rho175_d410,6006,60.0,1,13.9918538,100,,separacion_extension
+abierto_b240_rho175_d410,6007,60.0,1,24.9185703,100,,separacion_extension
+abierto_b240_rho175_d410,6008,60.0,1,14.3437716,100,,separacion_extension
+abierto_b240_rho175_d410,6009,60.0,1,17.4717479,100,,separacion_extension
+abierto_b240_rho175_d410,6010,60.0,1,15.4562623,100,,separacion_extension
+abierto_b240_rho175_d410,6011,60.0,1,14.3325298,100,,separacion_extension
+abierto_b240_rho175_d410,6012,60.0,1,16.7881115,100,,separacion_extension
+abierto_b240_rho175_d410,6013,60.0,1,20.4995049,100,,separacion_extension
+abierto_b240_rho175_d410,6014,60.0,1,17.4967909,100,,separacion_extension
+abierto_b240_rho175_d410,6015,60.0,1,15.8567246,100,,separacion_extension
+abierto_b240_rho175_d410,6016,60.0,1,15.0682547,100,,separacion_extension
+abierto_b240_rho175_d410,6017,60.0,1,19.8967477,100,,separacion_extension
+abierto_b240_rho175_d410,6018,60.0,1,21.4935802,99,,separacion_extension
+abierto_b240_rho175_d410,6019,60.0,1,16.6829718,100,,separacion_extension
+abierto_b240_rho175_d410,6020,60.0,1,18.1152251,100,,separacion_extension
+abierto_b240_rho175_d410,6021,60.0,1,15.7183549,100,,separacion_extension
+abierto_b240_rho175_d410,6022,60.0,1,17.942996,100,,separacion_extension
+abierto_b240_rho175_d410,6023,60.0,1,15.5567129,100,,separacion_extension
+abierto_b260_rho175_d410,6000,60.0,1,11.4054349,100,,separacion_extension
+abierto_b260_rho175_d410,6001,60.0,1,17.6632027,100,,separacion_extension
+abierto_b260_rho175_d410,6002,60.0,1,12.9586748,100,,separacion_extension
+abierto_b260_rho175_d410,6003,60.0,1,16.9791273,100,,separacion_extension
+abierto_b260_rho175_d410,6004,60.0,1,15.0939666,100,,separacion_extension
+abierto_b260_rho175_d410,6005,60.0,1,12.3726045,100,,separacion_extension
+abierto_b260_rho175_d410,6006,60.0,1,15.2523614,100,,separacion_extension
+abierto_b260_rho175_d410,6007,60.0,1,12.0695037,100,,separacion_extension
+abierto_b260_rho175_d410,6008,60.0,1,14.7110882,100,,separacion_extension
+abierto_b260_rho175_d410,6009,60.0,1,11.9993056,100,,separacion_extension
+abierto_b260_rho175_d410,6010,60.0,1,12.6430634,100,,separacion_extension
+abierto_b260_rho175_d410,6011,60.0,1,16.5587636,100,,separacion_extension
+abierto_b260_rho175_d410,6012,60.0,1,16.283818,100,,separacion_extension
+abierto_b260_rho175_d410,6013,60.0,1,13.0265983,100,,separacion_extension
+abierto_b260_rho175_d410,6014,60.0,1,13.6565042,100,,separacion_extension
+abierto_b260_rho175_d410,6015,60.0,1,13.2763209,100,,separacion_extension
+abierto_b260_rho175_d410,6016,60.0,1,15.1895605,100,,separacion_extension
+abierto_b260_rho175_d410,6017,60.0,1,14.9633565,100,,separacion_extension
+abierto_b260_rho175_d410,6018,60.0,1,12.5359058,100,,separacion_extension
+abierto_b260_rho175_d410,6019,60.0,1,16.2006751,100,,separacion_extension
+abierto_b260_rho175_d410,6020,60.0,1,14.4812888,100,,separacion_extension
+abierto_b260_rho175_d410,6021,60.0,1,15.1937117,100,,separacion_extension
+abierto_b260_rho175_d410,6022,60.0,1,14.3078033,100,,separacion_extension
+abierto_b260_rho175_d410,6023,60.0,1,12.7507174,100,,separacion_extension
+abierto_b280_rho175_d410,6000,60.0,1,15.4346016,100,,separacion_extension
+abierto_b280_rho175_d410,6001,60.0,1,16.2131284,100,,separacion_extension
+abierto_b280_rho175_d410,6002,60.0,1,14.607763,100,,separacion_extension
+abierto_b280_rho175_d410,6003,60.0,1,14.2813569,100,,separacion_extension
+abierto_b280_rho175_d410,6004,60.0,1,14.6740226,100,,separacion_extension
+abierto_b280_rho175_d410,6005,60.0,1,14.0195402,100,,separacion_extension
+abierto_b280_rho175_d410,6006,60.0,1,13.5459639,100,,separacion_extension
+abierto_b280_rho175_d410,6007,60.0,1,14.2611314,100,,separacion_extension
+abierto_b280_rho175_d410,6008,60.0,1,14.6517772,100,,separacion_extension
+abierto_b280_rho175_d410,6009,60.0,1,12.1308164,100,,separacion_extension
+abierto_b280_rho175_d410,6010,60.0,1,11.5172562,100,,separacion_extension
+abierto_b280_rho175_d410,6011,60.0,1,14.8906882,100,,separacion_extension
+abierto_b280_rho175_d410,6012,60.0,1,12.4134037,100,,separacion_extension
+abierto_b280_rho175_d410,6013,60.0,1,14.2939218,100,,separacion_extension
+abierto_b280_rho175_d410,6014,60.0,1,15.2371866,100,,separacion_extension
+abierto_b280_rho175_d410,6015,60.0,1,12.6656398,100,,separacion_extension
+abierto_b280_rho175_d410,6016,60.0,1,15.5497174,100,,separacion_extension
+abierto_b280_rho175_d410,6017,60.0,1,15.8589337,100,,separacion_extension
+abierto_b280_rho175_d410,6018,60.0,1,11.2906748,100,,separacion_extension
+abierto_b280_rho175_d410,6019,60.0,1,15.1700052,100,,separacion_extension
+abierto_b280_rho175_d410,6020,60.0,1,12.4855581,100,,separacion_extension
+abierto_b280_rho175_d410,6021,60.0,1,12.780408,100,,separacion_extension
+abierto_b280_rho175_d410,6022,60.0,1,13.4977018,99,,separacion_extension
+abierto_b280_rho175_d410,6023,60.0,1,13.071155,100,,separacion_extension
+abierto_b300_rho175_d410,6000,60.0,1,10.8589454,100,,separacion_extension
+abierto_b300_rho175_d410,6001,60.0,1,13.3429205,100,,separacion_extension
+abierto_b300_rho175_d410,6002,60.0,1,14.1482902,100,,separacion_extension
+abierto_b300_rho175_d410,6003,60.0,1,14.7455086,100,,separacion_extension
+abierto_b300_rho175_d410,6004,60.0,1,12.2321355,100,,separacion_extension
+abierto_b300_rho175_d410,6005,60.0,1,15.7917348,100,,separacion_extension
+abierto_b300_rho175_d410,6006,60.0,1,13.6947071,100,,separacion_extension
+abierto_b300_rho175_d410,6007,60.0,1,12.654787,100,,separacion_extension
+abierto_b300_rho175_d410,6008,60.0,1,13.206565,100,,separacion_extension
+abierto_b300_rho175_d410,6009,60.0,1,13.2375517,100,,separacion_extension
+abierto_b300_rho175_d410,6010,60.0,1,12.6863014,100,,separacion_extension
+abierto_b300_rho175_d410,6011,60.0,1,11.4311358,100,,separacion_extension
+abierto_b300_rho175_d410,6012,60.0,1,11.7546863,100,,separacion_extension
+abierto_b300_rho175_d410,6013,60.0,1,13.9962763,100,,separacion_extension
+abierto_b300_rho175_d410,6014,60.0,1,14.2033372,100,,separacion_extension
+abierto_b300_rho175_d410,6015,60.0,1,13.4362408,100,,separacion_extension
+abierto_b300_rho175_d410,6016,60.0,1,13.48498,100,,separacion_extension
+abierto_b300_rho175_d410,6017,60.0,1,14.2977489,100,,separacion_extension
+abierto_b300_rho175_d410,6018,60.0,1,11.8214026,100,,separacion_extension
+abierto_b300_rho175_d410,6019,60.0,1,14.0594598,100,,separacion_extension
+abierto_b300_rho175_d410,6020,60.0,1,11.6356745,100,,separacion_extension
+abierto_b300_rho175_d410,6021,60.0,1,15.9751184,100,,separacion_extension
+abierto_b300_rho175_d410,6022,60.0,1,12.3545683,100,,separacion_extension
+abierto_b300_rho175_d410,6023,60.0,1,13.5974535,100,,separacion_extension
+abierto_b320_rho175_d410,6000,60.0,1,12.9521372,100,,separacion_extension
+abierto_b320_rho175_d410,6001,60.0,1,16.2279173,100,,separacion_extension
+abierto_b320_rho175_d410,6002,60.0,1,17.6112764,100,,separacion_extension
+abierto_b320_rho175_d410,6003,60.0,1,13.384257,100,,separacion_extension
+abierto_b320_rho175_d410,6004,60.0,1,12.7293415,100,,separacion_extension
+abierto_b320_rho175_d410,6005,60.0,1,11.990776,100,,separacion_extension
+abierto_b320_rho175_d410,6006,60.0,1,12.3901053,100,,separacion_extension
+abierto_b320_rho175_d410,6007,60.0,1,13.2192725,100,,separacion_extension
+abierto_b320_rho175_d410,6008,60.0,1,14.1748125,100,,separacion_extension
+abierto_b320_rho175_d410,6009,60.0,1,12.0483945,100,,separacion_extension
+abierto_b320_rho175_d410,6010,60.0,1,11.9296426,100,,separacion_extension
+abierto_b320_rho175_d410,6011,60.0,1,14.3788761,100,,separacion_extension
+abierto_b320_rho175_d410,6012,60.0,1,12.5405737,100,,separacion_extension
+abierto_b320_rho175_d410,6013,60.0,1,11.6703739,100,,separacion_extension
+abierto_b320_rho175_d410,6014,60.0,1,13.5635175,100,,separacion_extension
+abierto_b320_rho175_d410,6015,60.0,1,15.5960508,100,,separacion_extension
+abierto_b320_rho175_d410,6016,60.0,1,12.0481445,100,,separacion_extension
+abierto_b320_rho175_d410,6017,60.0,1,13.564765,100,,separacion_extension
+abierto_b320_rho175_d410,6018,60.0,1,9.71660832,100,,separacion_extension
+abierto_b320_rho175_d410,6019,60.0,1,16.9973265,100,,separacion_extension
+abierto_b320_rho175_d410,6020,60.0,1,14.3434655,100,,separacion_extension
+abierto_b320_rho175_d410,6021,60.0,1,14.2518366,100,,separacion_extension
+abierto_b320_rho175_d410,6022,60.0,1,12.4644758,100,,separacion_extension
+abierto_b320_rho175_d410,6023,60.0,1,14.5066383,100,,separacion_extension
+abierto_b340_rho175_d410,6000,60.0,1,17.6863469,100,,separacion_extension
+abierto_b340_rho175_d410,6001,60.0,1,13.1180704,100,,separacion_extension
+abierto_b340_rho175_d410,6002,60.0,1,12.6495925,100,,separacion_extension
+abierto_b340_rho175_d410,6003,60.0,1,13.0956601,100,,separacion_extension
+abierto_b340_rho175_d410,6004,60.0,1,13.9529164,100,,separacion_extension
+abierto_b340_rho175_d410,6005,60.0,1,17.1663519,100,,separacion_extension
+abierto_b340_rho175_d410,6006,60.0,1,13.1757742,100,,separacion_extension
+abierto_b340_rho175_d410,6007,60.0,1,12.8214144,100,,separacion_extension
+abierto_b340_rho175_d410,6008,60.0,1,13.6704238,99,,separacion_extension
+abierto_b340_rho175_d410,6009,60.0,1,13.9440187,100,,separacion_extension
+abierto_b340_rho175_d410,6010,60.0,1,12.0165371,100,,separacion_extension
+abierto_b340_rho175_d410,6011,60.0,1,17.2151432,100,,separacion_extension
+abierto_b340_rho175_d410,6012,60.0,1,17.8492404,100,,separacion_extension
+abierto_b340_rho175_d410,6013,60.0,1,12.811087,100,,separacion_extension
+abierto_b340_rho175_d410,6014,60.0,1,13.0848528,100,,separacion_extension
+abierto_b340_rho175_d410,6015,60.0,1,10.6259854,100,,separacion_extension
+abierto_b340_rho175_d410,6016,60.0,1,13.3908019,100,,separacion_extension
+abierto_b340_rho175_d410,6017,60.0,1,16.2438552,100,,separacion_extension
+abierto_b340_rho175_d410,6018,60.0,1,11.9602514,100,,separacion_extension
+abierto_b340_rho175_d410,6019,60.0,1,14.1871307,100,,separacion_extension
+abierto_b340_rho175_d410,6020,60.0,1,14.1034429,100,,separacion_extension
+abierto_b340_rho175_d410,6021,60.0,1,11.5714726,100,,separacion_extension
+abierto_b340_rho175_d410,6022,60.0,1,14.8314866,100,,separacion_extension
+abierto_b340_rho175_d410,6023,60.0,1,13.3687721,100,,separacion_extension
+abierto_b220_rho175_d430,6000,60.0,0,,0,error: no se pudo ubicar la particula 85 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6001,60.0,0,,0,error: no se pudo ubicar la particula 88 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6002,60.0,0,,0,error: no se pudo ubicar la particula 86 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6003,60.0,0,,0,error: no se pudo ubicar la particula 84 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6004,60.0,0,,0,error: no se pudo ubicar la particula 85 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6005,60.0,0,,0,error: no se pudo ubicar la particula 84 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6006,60.0,0,,0,error: no se pudo ubicar la particula 82 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6007,60.0,0,,0,error: no se pudo ubicar la particula 89 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6008,60.0,0,,0,error: no se pudo ubicar la particula 90 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6009,60.0,0,,0,error: no se pudo ubicar la particula 84 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6010,60.0,0,,0,error: no se pudo ubicar la particula 85 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6011,60.0,0,,0,error: no se pudo ubicar la particula 87 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6012,60.0,0,,0,error: no se pudo ubicar la particula 81 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6013,60.0,0,,0,error: no se pudo ubicar la particula 77 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6014,60.0,0,,0,error: no se pudo ubicar la particula 84 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6015,60.0,0,,0,error: no se pudo ubicar la particula 85 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6016,60.0,0,,0,error: no se pudo ubicar la particula 88 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6017,60.0,0,,0,error: no se pudo ubicar la particula 89 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6018,60.0,0,,0,error: no se pudo ubicar la particula 82 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6019,60.0,0,,0,error: no se pudo ubicar la particula 83 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6020,60.0,0,,0,error: no se pudo ubicar la particula 84 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6021,60.0,0,,0,error: no se pudo ubicar la particula 87 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6022,60.0,0,,0,error: no se pudo ubicar la particula 85 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d430,6023,60.0,0,,0,error: no se pudo ubicar la particula 81 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6000,60.0,0,,0,error: no se pudo ubicar la particula 90 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6001,60.0,0,,0,error: no se pudo ubicar la particula 92 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6002,60.0,0,,0,error: no se pudo ubicar la particula 98 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6003,60.0,0,,0,error: no se pudo ubicar la particula 91 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6004,60.0,0,,0,error: no se pudo ubicar la particula 93 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6005,60.0,0,,0,error: no se pudo ubicar la particula 98 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6006,60.0,1,15.2021231,100,,separacion_extension
+abierto_b240_rho175_d430,6007,60.0,0,,0,error: no se pudo ubicar la particula 98 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6008,60.0,0,,0,error: no se pudo ubicar la particula 95 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6009,60.0,0,,0,error: no se pudo ubicar la particula 95 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6010,60.0,0,,0,error: no se pudo ubicar la particula 98 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6011,60.0,0,,0,error: no se pudo ubicar la particula 92 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6012,60.0,0,,0,error: no se pudo ubicar la particula 91 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6013,60.0,0,,0,error: no se pudo ubicar la particula 99 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6014,60.0,0,,0,error: no se pudo ubicar la particula 93 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6015,60.0,0,,0,error: no se pudo ubicar la particula 95 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6016,60.0,1,19.018345,100,,separacion_extension
+abierto_b240_rho175_d430,6017,60.0,0,,0,error: no se pudo ubicar la particula 94 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6018,60.0,0,,0,error: no se pudo ubicar la particula 95 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6019,60.0,1,20.2584331,100,,separacion_extension
+abierto_b240_rho175_d430,6020,60.0,0,,0,error: no se pudo ubicar la particula 96 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6021,60.0,0,,0,error: no se pudo ubicar la particula 89 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6022,60.0,0,,0,error: no se pudo ubicar la particula 93 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d430,6023,60.0,0,,0,error: no se pudo ubicar la particula 97 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d430,6000,60.0,1,16.5988765,100,,separacion_extension
+abierto_b260_rho175_d430,6001,60.0,1,16.0641395,100,,separacion_extension
+abierto_b260_rho175_d430,6002,60.0,1,16.352296,100,,separacion_extension
+abierto_b260_rho175_d430,6003,60.0,1,14.8578808,100,,separacion_extension
+abierto_b260_rho175_d430,6004,60.0,1,16.2925203,100,,separacion_extension
+abierto_b260_rho175_d430,6005,60.0,1,18.5073719,100,,separacion_extension
+abierto_b260_rho175_d430,6006,60.0,1,16.3978547,100,,separacion_extension
+abierto_b260_rho175_d430,6007,60.0,1,15.2657747,100,,separacion_extension
+abierto_b260_rho175_d430,6008,60.0,1,17.1888136,100,,separacion_extension
+abierto_b260_rho175_d430,6009,60.0,1,15.9019147,100,,separacion_extension
+abierto_b260_rho175_d430,6010,60.0,1,18.0334531,100,,separacion_extension
+abierto_b260_rho175_d430,6011,60.0,1,21.9662555,100,,separacion_extension
+abierto_b260_rho175_d430,6012,60.0,1,16.3032676,100,,separacion_extension
+abierto_b260_rho175_d430,6013,60.0,1,16.1837282,99,,separacion_extension
+abierto_b260_rho175_d430,6014,60.0,1,16.8679012,100,,separacion_extension
+abierto_b260_rho175_d430,6015,60.0,1,18.0068367,100,,separacion_extension
+abierto_b260_rho175_d430,6016,60.0,1,17.9973465,100,,separacion_extension
+abierto_b260_rho175_d430,6017,60.0,1,18.3069531,100,,separacion_extension
+abierto_b260_rho175_d430,6018,60.0,1,17.3323457,100,,separacion_extension
+abierto_b260_rho175_d430,6019,60.0,1,18.5204422,100,,separacion_extension
+abierto_b260_rho175_d430,6020,60.0,1,14.5051829,100,,separacion_extension
+abierto_b260_rho175_d430,6021,60.0,1,16.1764098,100,,separacion_extension
+abierto_b260_rho175_d430,6022,60.0,1,19.4762676,100,,separacion_extension
+abierto_b260_rho175_d430,6023,60.0,1,17.373461,100,,separacion_extension
+abierto_b280_rho175_d430,6000,60.0,1,15.0729723,100,,separacion_extension
+abierto_b280_rho175_d430,6001,60.0,1,14.9210689,100,,separacion_extension
+abierto_b280_rho175_d430,6002,60.0,1,13.328368,100,,separacion_extension
+abierto_b280_rho175_d430,6003,60.0,1,16.7128647,100,,separacion_extension
+abierto_b280_rho175_d430,6004,60.0,1,13.6316442,100,,separacion_extension
+abierto_b280_rho175_d430,6005,60.0,1,15.7829229,100,,separacion_extension
+abierto_b280_rho175_d430,6006,60.0,1,13.8727858,100,,separacion_extension
+abierto_b280_rho175_d430,6007,60.0,1,14.4730285,100,,separacion_extension
+abierto_b280_rho175_d430,6008,60.0,1,11.4433176,100,,separacion_extension
+abierto_b280_rho175_d430,6009,60.0,1,13.7262267,100,,separacion_extension
+abierto_b280_rho175_d430,6010,60.0,1,14.9961261,100,,separacion_extension
+abierto_b280_rho175_d430,6011,60.0,1,15.4433316,100,,separacion_extension
+abierto_b280_rho175_d430,6012,60.0,1,13.1749574,100,,separacion_extension
+abierto_b280_rho175_d430,6013,60.0,1,14.6850864,100,,separacion_extension
+abierto_b280_rho175_d430,6014,60.0,1,12.8743541,100,,separacion_extension
+abierto_b280_rho175_d430,6015,60.0,1,12.7551011,100,,separacion_extension
+abierto_b280_rho175_d430,6016,60.0,1,19.6076649,100,,separacion_extension
+abierto_b280_rho175_d430,6017,60.0,1,13.0389246,100,,separacion_extension
+abierto_b280_rho175_d430,6018,60.0,1,13.9617516,100,,separacion_extension
+abierto_b280_rho175_d430,6019,60.0,1,16.3605623,100,,separacion_extension
+abierto_b280_rho175_d430,6020,60.0,1,14.0237625,100,,separacion_extension
+abierto_b280_rho175_d430,6021,60.0,1,13.2395879,100,,separacion_extension
+abierto_b280_rho175_d430,6022,60.0,1,14.779792,100,,separacion_extension
+abierto_b280_rho175_d430,6023,60.0,1,11.7493634,100,,separacion_extension
+abierto_b300_rho175_d430,6000,60.0,1,12.6225867,100,,separacion_extension
+abierto_b300_rho175_d430,6001,60.0,1,13.3924515,100,,separacion_extension
+abierto_b300_rho175_d430,6002,60.0,1,17.0341831,100,,separacion_extension
+abierto_b300_rho175_d430,6003,60.0,1,17.8055192,100,,separacion_extension
+abierto_b300_rho175_d430,6004,60.0,1,12.6389067,100,,separacion_extension
+abierto_b300_rho175_d430,6005,60.0,1,10.472587,100,,separacion_extension
+abierto_b300_rho175_d430,6006,60.0,1,15.8188192,100,,separacion_extension
+abierto_b300_rho175_d430,6007,60.0,1,13.5014377,100,,separacion_extension
+abierto_b300_rho175_d430,6008,60.0,1,14.1395683,100,,separacion_extension
+abierto_b300_rho175_d430,6009,60.0,1,11.921959,100,,separacion_extension
+abierto_b300_rho175_d430,6010,60.0,1,11.346028,100,,separacion_extension
+abierto_b300_rho175_d430,6011,60.0,1,12.8912871,100,,separacion_extension
+abierto_b300_rho175_d430,6012,60.0,1,13.5289534,100,,separacion_extension
+abierto_b300_rho175_d430,6013,60.0,1,17.9274476,100,,separacion_extension
+abierto_b300_rho175_d430,6014,60.0,1,12.4839883,100,,separacion_extension
+abierto_b300_rho175_d430,6015,60.0,1,17.0812603,100,,separacion_extension
+abierto_b300_rho175_d430,6016,60.0,1,12.5097527,100,,separacion_extension
+abierto_b300_rho175_d430,6017,60.0,1,10.8185891,100,,separacion_extension
+abierto_b300_rho175_d430,6018,60.0,1,11.3662511,100,,separacion_extension
+abierto_b300_rho175_d430,6019,60.0,1,15.3733453,100,,separacion_extension
+abierto_b300_rho175_d430,6020,60.0,1,17.7129239,100,,separacion_extension
+abierto_b300_rho175_d430,6021,60.0,1,12.2643125,100,,separacion_extension
+abierto_b300_rho175_d430,6022,60.0,1,13.9503559,100,,separacion_extension
+abierto_b300_rho175_d430,6023,60.0,1,13.6095041,100,,separacion_extension
+abierto_b320_rho175_d430,6000,60.0,1,14.3636865,100,,separacion_extension
+abierto_b320_rho175_d430,6001,60.0,1,11.8489851,100,,separacion_extension
+abierto_b320_rho175_d430,6002,60.0,1,14.9014552,100,,separacion_extension
+abierto_b320_rho175_d430,6003,60.0,1,13.2256502,100,,separacion_extension
+abierto_b320_rho175_d430,6004,60.0,1,13.5696526,100,,separacion_extension
+abierto_b320_rho175_d430,6005,60.0,1,12.5256172,100,,separacion_extension
+abierto_b320_rho175_d430,6006,60.0,1,13.1602668,100,,separacion_extension
+abierto_b320_rho175_d430,6007,60.0,1,14.443471,100,,separacion_extension
+abierto_b320_rho175_d430,6008,60.0,1,14.3207906,100,,separacion_extension
+abierto_b320_rho175_d430,6009,60.0,1,12.8555218,100,,separacion_extension
+abierto_b320_rho175_d430,6010,60.0,1,13.0108509,100,,separacion_extension
+abierto_b320_rho175_d430,6011,60.0,1,15.5681606,100,,separacion_extension
+abierto_b320_rho175_d430,6012,60.0,1,13.7085263,100,,separacion_extension
+abierto_b320_rho175_d430,6013,60.0,1,15.7241917,100,,separacion_extension
+abierto_b320_rho175_d430,6014,60.0,1,12.0181174,100,,separacion_extension
+abierto_b320_rho175_d430,6015,60.0,1,14.0215633,100,,separacion_extension
+abierto_b320_rho175_d430,6016,60.0,1,11.3745196,100,,separacion_extension
+abierto_b320_rho175_d430,6017,60.0,1,14.5979728,100,,separacion_extension
+abierto_b320_rho175_d430,6018,60.0,1,14.3189374,100,,separacion_extension
+abierto_b320_rho175_d430,6019,60.0,1,13.0112959,100,,separacion_extension
+abierto_b320_rho175_d430,6020,60.0,1,16.4755387,100,,separacion_extension
+abierto_b320_rho175_d430,6021,60.0,1,11.8702848,100,,separacion_extension
+abierto_b320_rho175_d430,6022,60.0,1,15.1673038,100,,separacion_extension
+abierto_b320_rho175_d430,6023,60.0,1,14.1714738,100,,separacion_extension
+abierto_b340_rho175_d430,6000,60.0,1,12.4057238,100,,separacion_extension
+abierto_b340_rho175_d430,6001,60.0,1,12.4858727,100,,separacion_extension
+abierto_b340_rho175_d430,6002,60.0,1,13.0730929,100,,separacion_extension
+abierto_b340_rho175_d430,6003,60.0,1,13.2155018,100,,separacion_extension
+abierto_b340_rho175_d430,6004,60.0,1,13.0056755,100,,separacion_extension
+abierto_b340_rho175_d430,6005,60.0,1,13.4730465,100,,separacion_extension
+abierto_b340_rho175_d430,6006,60.0,1,15.2307138,100,,separacion_extension
+abierto_b340_rho175_d430,6007,60.0,1,12.0879209,100,,separacion_extension
+abierto_b340_rho175_d430,6008,60.0,1,14.9568166,100,,separacion_extension
+abierto_b340_rho175_d430,6009,60.0,1,13.6043733,100,,separacion_extension
+abierto_b340_rho175_d430,6010,60.0,1,12.9708178,100,,separacion_extension
+abierto_b340_rho175_d430,6011,60.0,1,11.4776552,100,,separacion_extension
+abierto_b340_rho175_d430,6012,60.0,1,14.8054977,100,,separacion_extension
+abierto_b340_rho175_d430,6013,60.0,1,15.6654031,100,,separacion_extension
+abierto_b340_rho175_d430,6014,60.0,1,15.2655498,100,,separacion_extension
+abierto_b340_rho175_d430,6015,60.0,1,12.641999,100,,separacion_extension
+abierto_b340_rho175_d430,6016,60.0,1,12.4894561,100,,separacion_extension
+abierto_b340_rho175_d430,6017,60.0,1,16.3074396,100,,separacion_extension
+abierto_b340_rho175_d430,6018,60.0,1,14.1373259,100,,separacion_extension
+abierto_b340_rho175_d430,6019,60.0,1,14.0051924,100,,separacion_extension
+abierto_b340_rho175_d430,6020,60.0,1,14.5306522,100,,separacion_extension
+abierto_b340_rho175_d430,6021,60.0,1,15.8563571,100,,separacion_extension
+abierto_b340_rho175_d430,6022,60.0,1,13.3492206,100,,separacion_extension
+abierto_b340_rho175_d430,6023,60.0,1,12.8369194,100,,separacion_extension
+abierto_b220_rho175_d450,6000,60.0,0,,0,error: no se pudo ubicar la particula 77 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6001,60.0,0,,0,error: no se pudo ubicar la particula 80 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6002,60.0,0,,0,error: no se pudo ubicar la particula 77 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6003,60.0,0,,0,error: no se pudo ubicar la particula 71 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6004,60.0,0,,0,error: no se pudo ubicar la particula 75 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6005,60.0,0,,0,error: no se pudo ubicar la particula 75 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6006,60.0,0,,0,error: no se pudo ubicar la particula 75 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6007,60.0,0,,0,error: no se pudo ubicar la particula 77 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6008,60.0,0,,0,error: no se pudo ubicar la particula 78 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6009,60.0,0,,0,error: no se pudo ubicar la particula 74 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6010,60.0,0,,0,error: no se pudo ubicar la particula 74 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6011,60.0,0,,0,error: no se pudo ubicar la particula 76 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6012,60.0,0,,0,error: no se pudo ubicar la particula 75 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6013,60.0,0,,0,error: no se pudo ubicar la particula 75 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6014,60.0,0,,0,error: no se pudo ubicar la particula 76 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6015,60.0,0,,0,error: no se pudo ubicar la particula 76 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6016,60.0,0,,0,error: no se pudo ubicar la particula 77 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6017,60.0,0,,0,error: no se pudo ubicar la particula 80 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6018,60.0,0,,0,error: no se pudo ubicar la particula 74 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6019,60.0,0,,0,error: no se pudo ubicar la particula 78 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6020,60.0,0,,0,error: no se pudo ubicar la particula 73 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6021,60.0,0,,0,error: no se pudo ubicar la particula 80 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6022,60.0,0,,0,error: no se pudo ubicar la particula 73 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b220_rho175_d450,6023,60.0,0,,0,error: no se pudo ubicar la particula 76 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6000,60.0,0,,0,error: no se pudo ubicar la particula 84 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6001,60.0,0,,0,error: no se pudo ubicar la particula 89 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6002,60.0,0,,0,error: no se pudo ubicar la particula 86 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6003,60.0,0,,0,error: no se pudo ubicar la particula 86 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6004,60.0,0,,0,error: no se pudo ubicar la particula 85 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6005,60.0,0,,0,error: no se pudo ubicar la particula 83 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6006,60.0,0,,0,error: no se pudo ubicar la particula 86 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6007,60.0,0,,0,error: no se pudo ubicar la particula 89 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6008,60.0,0,,0,error: no se pudo ubicar la particula 82 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6009,60.0,0,,0,error: no se pudo ubicar la particula 87 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6010,60.0,0,,0,error: no se pudo ubicar la particula 84 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6011,60.0,0,,0,error: no se pudo ubicar la particula 86 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6012,60.0,0,,0,error: no se pudo ubicar la particula 88 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6013,60.0,0,,0,error: no se pudo ubicar la particula 88 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6014,60.0,0,,0,error: no se pudo ubicar la particula 86 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6015,60.0,0,,0,error: no se pudo ubicar la particula 86 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6016,60.0,0,,0,error: no se pudo ubicar la particula 89 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6017,60.0,0,,0,error: no se pudo ubicar la particula 85 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6018,60.0,0,,0,error: no se pudo ubicar la particula 91 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6019,60.0,0,,0,error: no se pudo ubicar la particula 85 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6020,60.0,0,,0,error: no se pudo ubicar la particula 87 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6021,60.0,0,,0,error: no se pudo ubicar la particula 86 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6022,60.0,0,,0,error: no se pudo ubicar la particula 88 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b240_rho175_d450,6023,60.0,0,,0,error: no se pudo ubicar la particula 86 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6000,60.0,1,16.2168893,100,,separacion_extension
+abierto_b260_rho175_d450,6001,60.0,0,,0,error: no se pudo ubicar la particula 98 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6002,60.0,0,,0,error: no se pudo ubicar la particula 99 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6003,60.0,0,,0,error: no se pudo ubicar la particula 96 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6004,60.0,1,17.5662718,100,,separacion_extension
+abierto_b260_rho175_d450,6005,60.0,0,,0,error: no se pudo ubicar la particula 98 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6006,60.0,0,,0,error: no se pudo ubicar la particula 96 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6007,60.0,0,,0,error: no se pudo ubicar la particula 96 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6008,60.0,1,14.5466739,100,,separacion_extension
+abierto_b260_rho175_d450,6009,60.0,0,,0,error: no se pudo ubicar la particula 95 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6010,60.0,0,,0,error: no se pudo ubicar la particula 95 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6011,60.0,0,,0,error: no se pudo ubicar la particula 98 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6012,60.0,0,,0,error: no se pudo ubicar la particula 97 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6013,60.0,0,,0,error: no se pudo ubicar la particula 99 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6014,60.0,0,,0,error: no se pudo ubicar la particula 95 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6015,60.0,1,18.9389743,100,,separacion_extension
+abierto_b260_rho175_d450,6016,60.0,1,19.5385005,100,,separacion_extension
+abierto_b260_rho175_d450,6017,60.0,0,,0,error: no se pudo ubicar la particula 99 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6018,60.0,0,,0,error: no se pudo ubicar la particula 99 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6019,60.0,1,21.6619392,99,,separacion_extension
+abierto_b260_rho175_d450,6020,60.0,0,,0,error: no se pudo ubicar la particula 99 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b260_rho175_d450,6021,60.0,1,23.1146076,100,,separacion_extension
+abierto_b260_rho175_d450,6022,60.0,1,18.9966233,100,,separacion_extension
+abierto_b260_rho175_d450,6023,60.0,0,,0,error: no se pudo ubicar la particula 99 de 100 tras 10000 intentos: la configuracion no permite generar las N particulas (restriccion ii del punto 1.2),separacion_extension
+abierto_b280_rho175_d450,6000,60.0,1,14.1220582,100,,separacion_extension
+abierto_b280_rho175_d450,6001,60.0,1,13.0986619,100,,separacion_extension
+abierto_b280_rho175_d450,6002,60.0,1,14.7856679,100,,separacion_extension
+abierto_b280_rho175_d450,6003,60.0,1,12.5845742,100,,separacion_extension
+abierto_b280_rho175_d450,6004,60.0,1,17.0056517,100,,separacion_extension
+abierto_b280_rho175_d450,6005,60.0,1,12.8316,100,,separacion_extension
+abierto_b280_rho175_d450,6006,60.0,1,14.8656869,100,,separacion_extension
+abierto_b280_rho175_d450,6007,60.0,1,16.8779988,100,,separacion_extension
+abierto_b280_rho175_d450,6008,60.0,1,11.3174514,100,,separacion_extension
+abierto_b280_rho175_d450,6009,60.0,1,14.6603735,100,,separacion_extension
+abierto_b280_rho175_d450,6010,60.0,1,14.5498177,100,,separacion_extension
+abierto_b280_rho175_d450,6011,60.0,1,15.0958674,100,,separacion_extension
+abierto_b280_rho175_d450,6012,60.0,1,13.3937733,100,,separacion_extension
+abierto_b280_rho175_d450,6013,60.0,1,14.3745339,100,,separacion_extension
+abierto_b280_rho175_d450,6014,60.0,1,12.8044406,100,,separacion_extension
+abierto_b280_rho175_d450,6015,60.0,1,16.2998986,100,,separacion_extension
+abierto_b280_rho175_d450,6016,60.0,1,18.5201685,100,,separacion_extension
+abierto_b280_rho175_d450,6017,60.0,1,15.2354688,100,,separacion_extension
+abierto_b280_rho175_d450,6018,60.0,1,15.4885427,100,,separacion_extension
+abierto_b280_rho175_d450,6019,60.0,1,13.9812088,100,,separacion_extension
+abierto_b280_rho175_d450,6020,60.0,1,14.7680627,100,,separacion_extension
+abierto_b280_rho175_d450,6021,60.0,1,16.4021341,100,,separacion_extension
+abierto_b280_rho175_d450,6022,60.0,1,12.7534852,100,,separacion_extension
+abierto_b280_rho175_d450,6023,60.0,1,16.3339339,100,,separacion_extension
+abierto_b300_rho175_d450,6000,60.0,1,15.6922658,100,,separacion_extension
+abierto_b300_rho175_d450,6001,60.0,1,13.8987825,100,,separacion_extension
+abierto_b300_rho175_d450,6002,60.0,1,12.1539511,100,,separacion_extension
+abierto_b300_rho175_d450,6003,60.0,1,14.6420424,100,,separacion_extension
+abierto_b300_rho175_d450,6004,60.0,1,12.4871514,100,,separacion_extension
+abierto_b300_rho175_d450,6005,60.0,1,13.0138396,100,,separacion_extension
+abierto_b300_rho175_d450,6006,60.0,1,12.0799004,100,,separacion_extension
+abierto_b300_rho175_d450,6007,60.0,1,10.6063232,100,,separacion_extension
+abierto_b300_rho175_d450,6008,60.0,1,14.5598088,100,,separacion_extension
+abierto_b300_rho175_d450,6009,60.0,1,18.2592713,100,,separacion_extension
+abierto_b300_rho175_d450,6010,60.0,1,13.2534205,100,,separacion_extension
+abierto_b300_rho175_d450,6011,60.0,1,10.2926985,100,,separacion_extension
+abierto_b300_rho175_d450,6012,60.0,1,14.4000378,100,,separacion_extension
+abierto_b300_rho175_d450,6013,60.0,1,11.7928343,100,,separacion_extension
+abierto_b300_rho175_d450,6014,60.0,1,11.0557034,100,,separacion_extension
+abierto_b300_rho175_d450,6015,60.0,1,15.3533727,100,,separacion_extension
+abierto_b300_rho175_d450,6016,60.0,1,13.6962473,100,,separacion_extension
+abierto_b300_rho175_d450,6017,60.0,1,14.3486937,100,,separacion_extension
+abierto_b300_rho175_d450,6018,60.0,1,13.1287304,100,,separacion_extension
+abierto_b300_rho175_d450,6019,60.0,1,12.2602909,100,,separacion_extension
+abierto_b300_rho175_d450,6020,60.0,1,14.9000496,100,,separacion_extension
+abierto_b300_rho175_d450,6021,60.0,1,11.2514541,100,,separacion_extension
+abierto_b300_rho175_d450,6022,60.0,1,13.1754209,100,,separacion_extension
+abierto_b300_rho175_d450,6023,60.0,1,11.9250289,100,,separacion_extension
+abierto_b320_rho175_d450,6000,60.0,1,13.8924874,100,,separacion_extension
+abierto_b320_rho175_d450,6001,60.0,1,14.3312889,100,,separacion_extension
+abierto_b320_rho175_d450,6002,60.0,1,12.463638,100,,separacion_extension
+abierto_b320_rho175_d450,6003,60.0,1,15.8138017,100,,separacion_extension
+abierto_b320_rho175_d450,6004,60.0,1,14.1481598,100,,separacion_extension
+abierto_b320_rho175_d450,6005,60.0,1,14.6883748,100,,separacion_extension
+abierto_b320_rho175_d450,6006,60.0,1,14.0124581,100,,separacion_extension
+abierto_b320_rho175_d450,6007,60.0,1,15.1503629,100,,separacion_extension
+abierto_b320_rho175_d450,6008,60.0,1,12.013889,100,,separacion_extension
+abierto_b320_rho175_d450,6009,60.0,1,14.1792015,100,,separacion_extension
+abierto_b320_rho175_d450,6010,60.0,1,14.4285219,100,,separacion_extension
+abierto_b320_rho175_d450,6011,60.0,1,14.2245031,100,,separacion_extension
+abierto_b320_rho175_d450,6012,60.0,1,12.4194549,100,,separacion_extension
+abierto_b320_rho175_d450,6013,60.0,1,13.4359274,100,,separacion_extension
+abierto_b320_rho175_d450,6014,60.0,1,13.6435353,100,,separacion_extension
+abierto_b320_rho175_d450,6015,60.0,1,13.761025,100,,separacion_extension
+abierto_b320_rho175_d450,6016,60.0,1,11.8137878,100,,separacion_extension
+abierto_b320_rho175_d450,6017,60.0,1,12.1257966,100,,separacion_extension
+abierto_b320_rho175_d450,6018,60.0,1,12.393044,100,,separacion_extension
+abierto_b320_rho175_d450,6019,60.0,1,11.7208695,100,,separacion_extension
+abierto_b320_rho175_d450,6020,60.0,1,14.4024142,100,,separacion_extension
+abierto_b320_rho175_d450,6021,60.0,1,13.2377792,100,,separacion_extension
+abierto_b320_rho175_d450,6022,60.0,1,14.6816809,100,,separacion_extension
+abierto_b320_rho175_d450,6023,60.0,1,19.6430276,100,,separacion_extension
+abierto_b340_rho175_d450,6000,60.0,1,15.0052238,100,,separacion_extension
+abierto_b340_rho175_d450,6001,60.0,1,12.4405045,100,,separacion_extension
+abierto_b340_rho175_d450,6002,60.0,1,13.8072948,100,,separacion_extension
+abierto_b340_rho175_d450,6003,60.0,1,11.4477022,100,,separacion_extension
+abierto_b340_rho175_d450,6004,60.0,1,13.4222997,100,,separacion_extension
+abierto_b340_rho175_d450,6005,60.0,1,13.1662617,100,,separacion_extension
+abierto_b340_rho175_d450,6006,60.0,1,13.4156764,100,,separacion_extension
+abierto_b340_rho175_d450,6007,60.0,1,14.4746233,100,,separacion_extension
+abierto_b340_rho175_d450,6008,60.0,1,15.2546166,100,,separacion_extension
+abierto_b340_rho175_d450,6009,60.0,1,15.8386854,100,,separacion_extension
+abierto_b340_rho175_d450,6010,60.0,1,14.7174137,100,,separacion_extension
+abierto_b340_rho175_d450,6011,60.0,1,16.0613326,100,,separacion_extension
+abierto_b340_rho175_d450,6012,60.0,1,15.5097176,100,,separacion_extension
+abierto_b340_rho175_d450,6013,60.0,1,15.3536666,100,,separacion_extension
+abierto_b340_rho175_d450,6014,60.0,1,14.0773658,100,,separacion_extension
+abierto_b340_rho175_d450,6015,60.0,1,11.5788374,100,,separacion_extension
+abierto_b340_rho175_d450,6016,60.0,1,11.2400776,100,,separacion_extension
+abierto_b340_rho175_d450,6017,60.0,1,15.3538129,100,,separacion_extension
+abierto_b340_rho175_d450,6018,60.0,1,12.8133658,100,,separacion_extension
+abierto_b340_rho175_d450,6019,60.0,1,15.231503,100,,separacion_extension
+abierto_b340_rho175_d450,6020,60.0,1,14.9151485,100,,separacion_extension
+abierto_b340_rho175_d450,6021,60.0,1,15.0408526,100,,separacion_extension
+abierto_b340_rho175_d450,6022,60.0,1,14.6017307,100,,separacion_extension
+abierto_b340_rho175_d450,6023,60.0,1,13.7806319,100,,separacion_extension

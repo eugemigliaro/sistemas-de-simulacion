@@ -1,0 +1,8 @@
+label,cuello,b_m,a_m,rho_m,obstaculos,rellenos,area_centros_m2,fraccion_atrapada,ruta
+cerrado_b265_rho175,cerrado,0.265,0.3937658726959461,0.0175,110,29,0.533647,0.0,experiments/raw/elipses/configs/cerrado_b265_rho175.txt
+cerrado_b270_rho175,cerrado,0.27,0.39714803600169046,0.0175,102,22,0.545122,0.0,experiments/raw/elipses/configs/cerrado_b270_rho175.txt
+cerrado_b235_rho175,cerrado,0.235,0.3742346356231609,0.0175,108,30,0.468645,0.0,experiments/raw/elipses/configs/cerrado_b235_rho175.txt
+cerrado_b265_rho350,cerrado,0.265,0.3937658726959461,0.035,55,31,0.536871,0.0,experiments/raw/elipses/configs/cerrado_b265_rho350.txt
+cerrado_b265_rho525,cerrado,0.265,0.3937658726959461,0.052500000000000005,24,19,0.586612,0.0,experiments/raw/elipses/configs/cerrado_b265_rho525.txt
+vacia,,,,,0,0,,0.0,
+actual,,,,,1,0,,0.0,experiments/raw/elipses/configs/actual.txt

@@ -1,0 +1,60 @@
+{
+  "label": "super_P277_B268_p472_s113_rho175",
+  "cuello": "superelipse",
+  "profundidad_m": 0.277,
+  "semiancho_m": 0.268,
+  "exponente": 4.72,
+  "retroceso_m": 0.113,
+  "rho_m": 0.0175,
+  "obstaculos": 87,
+  "area_centros_m2": 0.276819,
+  "config": "experiments/configs/SdS_TP3_2026Q2G07CS_Config.txt",
+  "generaciones_verificadas": 1000,
+  "t90_desempate": {
+    "semillas": [
+      11000,
+      11099
+    ],
+    "tmax_s": 100.0,
+    "mean_s": 13.612337182700001,
+    "std_s": 1.651919477126238,
+    "sem_s": 0.1651919477126238
+  },
+  "t90_referencias_desempate": {
+    "super_P257_B268_p472_s113_rho175": {
+      "mean_s": 13.897347236999998,
+      "sem_s": 0.16758122793098293
+    },
+    "abierto_b300_rho175_d390": {
+      "mean_s": 13.757193360999999,
+      "sem_s": 0.17525876602312274
+    },
+    "actual": {
+      "mean_s": 15.602776988999999,
+      "sem_s": 0.17121356443184538
+    }
+  },
+  "animaciones": {
+    "vacia": {
+      "semilla": 2006,
+      "t90_s": 22.4888409,
+      "trayectoria": "data/generated/anim_vacia.txt",
+      "video": "videos/anim-vacia.mp4",
+      "fotograma": "experiments/figures/elipses/anim-vacia.png"
+    },
+    "disco": {
+      "semilla": 2010,
+      "t90_s": 15.4127498,
+      "trayectoria": "data/generated/anim_disco.txt",
+      "video": "videos/anim-disco.mp4",
+      "fotograma": "experiments/figures/elipses/anim-disco.png"
+    },
+    "elegida": {
+      "semilla": 11091,
+      "t90_s": 13.5921589,
+      "trayectoria": "data/generated/anim_elegida.txt",
+      "video": "videos/anim-elegida.mp4",
+      "fotograma": "experiments/figures/elipses/anim-elegida.png"
+    }
+  }
+}
