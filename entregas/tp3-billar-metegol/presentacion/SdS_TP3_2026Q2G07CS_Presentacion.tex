@@ -11,11 +11,12 @@
 \usepackage{booktabs}
 \usepackage{xcolor}
 \usepackage{tikz}
-\usetikzlibrary{positioning}
+\usetikzlibrary{positioning,shapes.multipart,shapes.geometric,arrows.meta}
 
 \definecolor{itbablue}{RGB}{0,91,145}
 \definecolor{accent}{RGB}{211,92,32}
 \definecolor{softblue}{RGB}{232,243,249}
+\definecolor{usedred}{RGB}{199,62,54}
 \setbeamercolor{structure}{fg=itbablue}
 \setbeamercolor{alerted text}{fg=accent}
 \setbeamercolor{block title}{fg=white,bg=itbablue}
@@ -31,11 +32,22 @@
   \end{centering}
 }
 
-\newcommand{\slot}[3]{%
-  \fbox{\parbox[c][#2][c]{\dimexpr#1-2\fboxsep-2\fboxrule\relax}{\centering\footnotesize\color{gray}#3}}}
 \newcommand{\pend}[1]{{\color{accent}\textbf{[#1]}}}
 \newcommand{\parametros}[1]{{\small #1}}
-\newcommand{\videolink}[1]{{\tiny\color{accent}\texttt{#1}}}
+\newcommand{\videolink}[1]{{\small\color{accent}\url{#1}}}
+
+% Clase UML: nombre, atributos y operaciones.
+\tikzset{
+  uml/.style={draw=itbablue,fill=white,rectangle split,rectangle split parts=3,
+    rectangle split part fill={softblue,white,white},align=flush left,
+    font=\scriptsize,inner sep=2.5pt,text width=#1},
+  uml/.default=3.6cm,
+  umldato/.style={uml=#1,rectangle split parts=2},
+  umldato/.default=3.6cm,
+  compone/.style={{Diamond[fill=itbablue,length=6pt,width=5pt]}-{Stealth[length=4pt]},thick,itbablue},
+  usa/.style={-{Stealth[length=4pt]},dashed,thick,itbablue},
+}
+\newcommand{\umlname}[1]{\centering\textbf{#1}}
 
 \title[Billar-Metegol]{Simulación dirigida por eventos de un Billar-Metegol}
 \subtitle{Búsqueda de obstáculos para minimizar el tiempo al 90\,\% de goles}
@@ -57,88 +69,81 @@
 \end{frame}
 
 % 3
-\begin{frame}{Sistema real}
+\begin{frame}{Dinámica molecular dirigida por eventos}
   \begin{columns}[c,onlytextwidth]
-    \begin{column}{0.56\textwidth}
+    \begin{column}{0.45\textwidth}
       \centering
-      \begin{tikzpicture}[x=5.4cm,y=5.4cm]
-        \draw[very thick] (0,0) rectangle (1.2,0.68);
-        \draw[line width=3pt,itbablue] (0,0.24) -- (0,0.44);
-        \draw[line width=3pt,itbablue] (1.2,0.24) -- (1.2,0.44);
-        \fill[accent] (0.60,0.34) circle (0.075);
-        \fill[itbablue] (0.24,0.16) circle (0.023);
-        \fill[itbablue] (0.87,0.51) circle (0.023);
-        \fill[red!75!black] (1.04,0.27) circle (0.023);
-        \draw[->,thick] (0.24,0.16) -- (0.34,0.22);
-        \draw[->,thick] (0.87,0.51) -- (0.77,0.45);
-        \node[rotate=90,anchor=south] at (-0.04,0.34) {arco};
-        \node[rotate=90,anchor=north] at (1.24,0.34) {arco};
+      \begin{tikzpicture}[x=4.2cm,y=4.2cm,>=Stealth]
+        \draw[very thick] (0,0) rectangle (1,0.8);
+        \foreach \x/\y/\ang in {0.18/0.22/30, 0.72/0.62/200, 0.30/0.62/-40, 0.82/0.20/120, 0.52/0.40/75}{
+          \fill[itbablue] (\x,\y) circle (0.045);
+          \draw[->,thick] (\x,\y) -- ++(\ang:0.13);
+        }
+        \draw[dashed,gray] (0.18,0.22) -- (0.43,0.37);
+        \draw[dashed,gray] (0.52,0.40) -- (0.47,0.37);
+        \node[star,star points=8,fill=accent,inner sep=1.3pt] at (0.455,0.37) {};
+        \node[font=\scriptsize,accent,anchor=north] at (0.50,0.33) {evento};
       \end{tikzpicture}
     \end{column}
-    \begin{column}{0.40\textwidth}
+    \begin{column}{0.53\textwidth}
       \begin{itemize}
-        \item Partículas en movimiento rectilíneo entre colisiones.
-        \item Choques elásticos con paredes, partículas y obstáculos.
-        \item El primer contacto con un arco cambia su estado.
+        \item Partículas rígidas: interactúan solo al tocarse.
+        \item Entre choques, movimiento rectilíneo uniforme.
+        \item Choques instantáneos, con tiempo de vuelo mucho mayor que su duración y densidad media o baja.
+        \item El reloj salta de un choque al siguiente: el paso temporal es variable.
       \end{itemize}
-      \begin{block}{Objetivo}
-        Minimizar $\langle t_{90}\rangle$ mediante la configuración de obstáculos.
+      \begin{block}{Ejemplos}
+        Gases de esferas o discos rígidos y medios granulares diluidos.
       \end{block}
     \end{column}
   \end{columns}
 \end{frame}
 
 % 4
-\begin{frame}{Fundamentos}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.47\textwidth}
-      \begin{block}{Movimiento libre}
-        \[
-          \bm{x}_i(t+\tau)=\bm{x}_i(t)+\bm{v}_i(t)\,\tau
-        \]
-        Cada trayectoria se propaga hasta el próximo evento.
-      \end{block}
-    \end{column}
-    \begin{column}{0.49\textwidth}
-      \begin{block}{Choque elástico}
-        \[
-          \sum_i m_i\bm{v}_i^{\,-}=\sum_i m_i\bm{v}_i^{\,+},
-          \qquad E_c^{-}=E_c^{+}
-        \]
-        Las paredes y los obstáculos producen reflexión especular.
-      \end{block}
-    \end{column}
-  \end{columns}
+\begin{frame}{Tiempo de choque entre dos partículas}
+  Con $\bm{r}_i(t)=\bm{r}_i(0)+\bm{v}_i t$, el contacto ocurre cuando
+  $\lVert\bm{r}_j(t)-\bm{r}_i(t)\rVert=\sigma$, con $\sigma=R_i+R_j$:
+  \[
+    t_c=\begin{cases}
+      \infty & \text{si } \Delta\bm{v}\cdot\Delta\bm{r}\geq 0,\\[2pt]
+      \infty & \text{si } d<0,\\[2pt]
+      -\dfrac{\Delta\bm{v}\cdot\Delta\bm{r}+\sqrt{d}}{\Delta\bm{v}\cdot\Delta\bm{v}} & \text{en otro caso,}
+    \end{cases}
+    \qquad
+    d=(\Delta\bm{v}\cdot\Delta\bm{r})^2-(\Delta\bm{v}\cdot\Delta\bm{v})\,(\Delta\bm{r}\cdot\Delta\bm{r}-\sigma^2),
+  \]
+  \[
+    \Delta\bm{r}=\bm{r}_j-\bm{r}_i,\qquad \Delta\bm{v}=\bm{v}_j-\bm{v}_i.
+  \]
   \vfill
-  \centering\small El reloj avanza de colisión en colisión, con un paso temporal variable.
+  \begin{block}{Contra una pared vertical}
+    $t_c=(x_p-R-x(0))/v_x$ si $v_x>0$, y análogo para las demás paredes.
+  \end{block}
 \end{frame}
 
 % 5
-\begin{frame}{Fundamentos}
-  \begin{columns}[c,onlytextwidth]
-    \begin{column}{0.58\textwidth}
-      \begin{block}{Próximo evento}
-        Para cada candidato se resuelve analíticamente su tiempo de choque
-        $\tau_e\geq 0$ y se elige
+\begin{frame}{Choque elástico y próximo evento}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.55\textwidth}
+      \begin{block}{Velocidades después del choque}
         \[
-          e^*=\operatorname*{arg\,min}_e\{t+\tau_e\}.
+          J=\frac{2m_im_j\,(\Delta\bm{v}\cdot\Delta\bm{r})}{\sigma\,(m_i+m_j)},\qquad
+          \bm{J}=\frac{J\,\Delta\bm{r}}{\sigma},
         \]
-      \end{block}
-      \begin{block}{Estado discreto}
-        Una partícula fresca pasa a usada al tocar por primera vez un arco.
-        Luego continúa colisionando sin volver a sumar un gol.
+        \[
+          \bm{v}_i^{\,d}=\bm{v}_i^{\,a}+\frac{\bm{J}}{m_i},\qquad
+          \bm{v}_j^{\,d}=\bm{v}_j^{\,a}-\frac{\bm{J}}{m_j}.
+        \]
+        Un obstáculo fijo es el límite $m_j\to\infty$.
       \end{block}
     \end{column}
-    \begin{column}{0.38\textwidth}
-      \centering
-      \begin{tikzpicture}[node distance=1.0cm,>=latex]
-        \node[draw,rounded corners,fill=softblue,minimum width=2.8cm] (p) {predecir};
-        \node[draw,rounded corners,fill=softblue,below of=p,minimum width=2.8cm] (a) {avanzar};
-        \node[draw,rounded corners,fill=softblue,below of=a,minimum width=2.8cm] (r) {resolver};
-        \draw[->,thick] (p) -- (a);
-        \draw[->,thick] (a) -- (r);
-        \draw[->,thick] (r.east) -- ++(0.55,0) |- (p.east);
-      \end{tikzpicture}
+    \begin{column}{0.41\textwidth}
+      \begin{block}{Próximo evento}
+        \[
+          t^{*}=\min_{\text{pares y paredes}} t_c
+        \]
+        Todas las partículas avanzan hasta $t^{*}$ y solo cambian las velocidades de las que chocaron.
+      \end{block}
     \end{column}
   \end{columns}
 \end{frame}
@@ -173,39 +178,6 @@
 \end{frame}
 
 % 8
-\begin{frame}{Estructuras principales}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.48\textwidth}
-      \begin{block}{System}
-        \begin{itemize}
-          \item \texttt{Table}: $L$, $W$ y $d$.
-          \item \texttt{Particle}: $\bm{x}$, $\bm{v}$, estado y contador.
-          \item \texttt{Obstacle}: centro y radio.
-        \end{itemize}
-      \end{block}
-    \end{column}
-    \begin{column}{0.48\textwidth}
-      \begin{block}{Event}
-        \begin{itemize}
-          \item Instante absoluto y tipo de choque.
-          \item Participantes del evento.
-          \item Contadores al momento de agendar.
-        \end{itemize}
-      \end{block}
-    \end{column}
-  \end{columns}
-  \vfill
-  \centering
-  \begin{tikzpicture}[every node/.style={font=\small},>=latex]
-    \node[draw,fill=softblue,minimum width=2.4cm] (s) {System};
-    \node[draw,fill=softblue,right=1.7cm of s,minimum width=2.4cm] (q) {EventQueue};
-    \node[draw,fill=softblue,right=1.7cm of q,minimum width=2.4cm] (e) {Event};
-    \draw[->,thick] (s) -- node[above]{agenda} (q);
-    \draw[->,thick] (q) -- node[above]{extrae} (e);
-  \end{tikzpicture}
-\end{frame}
-
-% 9
 \begin{frame}{Algoritmo de simulación}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.67\textwidth}
@@ -235,6 +207,52 @@
   \end{columns}
 \end{frame}
 
+% 9
+\begin{frame}{Diagrama UML del motor}
+  \centering
+  \begin{tikzpicture}[font=\scriptsize]
+    % Datos del sistema
+    \node[umldato=3.8cm,anchor=north west] (system) at (0,0) {\umlname{System}
+      \nodepart{second} table: Table\\ time: double\\ particles: Particle[$N$]\\ obstacles: Obstacle[$K$]};
+    \node[umldato=3.8cm,anchor=north west] (particle) at (0,-2.3) {\umlname{Particle}
+      \nodepart{second} position, velocity: Vec2\\ radius, mass: double\\ state: fresca | usada\\ collision\_count: entero};
+    \node[umldato=1.85cm,anchor=north west] (obstacle) at (0,-4.55) {\umlname{Obstacle}
+      \nodepart{second} center\\ radius};
+    \node[umldato=1.85cm,anchor=north west] (table) at (1.95,-4.55) {\umlname{Table}
+      \nodepart{second} length, width\\ goal\_width};
+
+    % Motor
+    \node[uml=4.0cm,anchor=north west] (engine) at (5.1,0) {\umlname{simulation}
+      \nodepart{second} \textit{módulo}
+      \nodepart{third} simulate\_queue(): Report\\ apply\_event(Event): bool\\ advance(dt)};
+    \node[uml=4.0cm,anchor=north west] (queue) at (5.1,-2.2) {\umlname{EventQueue}
+      \nodepart{second} mínimo por tiempo primero
+      \nodepart{third} push(Event)\quad pop(): Event};
+    \node[umldato=4.0cm,anchor=north west] (event) at (5.1,-3.75) {\umlname{Event}
+      \nodepart{second} time: double\\ kind: pared | obstáculo | par\\ first, second: índices\\ contadores al agendar};
+
+    % Módulos de apoyo
+    \node[uml=4.0cm,anchor=north west] (generation) at (9.85,0) {\umlname{generation}
+      \nodepart{second} \textit{módulo}
+      \nodepart{third} generate\_system(): System};
+    \node[uml=4.0cm,anchor=north west] (collisions) at (9.85,-1.9) {\umlname{collisions}
+      \nodepart{second} \textit{módulo}
+      \nodepart{third} predict\_particle\_collision()\\ predict\_wall\_collision()\\ predict\_obstacle\_collision()\\ resolve\_*\_collision()};
+
+    % Composición
+    \draw[compone] (system.south) -- node[right] {$N$} (particle.north);
+    \draw[compone] (system.west) -- ++(-0.3,0) |- node[pos=0.75,above] {$K$} (obstacle.west);
+    \draw[compone] (system.east) -- ++(0.3,0) |- (table.east);
+    \draw[compone] (engine.south) -- node[right] {cola} (queue.north);
+    \draw[compone] (queue.south) -- node[right] {*} (event.north);
+    % Dependencias
+    \draw[usa] ([yshift=-0.35cm]engine.north west) -- node[above,font=\tiny] {modifica}
+      ([yshift=-0.35cm]engine.north west -| system.east);
+    \draw[usa] (engine.east) -- ++(0.35,0) |- node[pos=0.3,left] {usa} (collisions.west);
+    \draw[usa] (generation.north) -- ++(0,0.3) -| node[pos=0.25,above] {crea} (system.north);
+  \end{tikzpicture}
+\end{frame}
+
 % 10
 \section{Simulaciones}
 \begin{frame}
@@ -244,58 +262,65 @@
 % 11
 \begin{frame}{Sistema particular}
   \begin{columns}[c,onlytextwidth]
-    \begin{column}{0.55\textwidth}
+    \begin{column}{0.56\textwidth}
       \centering
       \begin{tikzpicture}[x=5.35cm,y=5.35cm]
         \draw[very thick] (0,0) rectangle (1.2,0.68);
         \draw[line width=4pt,itbablue] (0,0.24) -- (0,0.44);
         \draw[line width=4pt,itbablue] (1.2,0.24) -- (1.2,0.44);
-        \fill[accent] (0.62,0.34) circle (0.080);
+        \fill[accent] (0.60,0.36) circle (0.11);
+        \fill[accent] (0.35,0.12) circle (0.05);
+        \fill[accent] (0.88,0.55) circle (0.07);
         \draw[<->] (0,-0.07) -- node[below] {$L=1{,}20\ \mathrm{m}$} (1.2,-0.07);
         \draw[<->] (-0.07,0) -- node[rotate=90,above] {$W=0{,}68\ \mathrm{m}$} (-0.07,0.68);
-        \draw[<->] (0.62,0.34) -- node[above] {$R_k$} (0.70,0.34);
+        \draw[<->] (0.60,0.36) -- node[above] {$R_k$} (0.71,0.36);
         \draw[<->] (1.16,0.24) -- node[left] {$d$} (1.16,0.44);
-        \fill[itbablue] (0.25,0.18) circle (0.0175);
-        \draw[->,thick] (0.25,0.18) -- node[below] {$\bm{v}_i$} (0.38,0.23);
-        \draw[<->] (0.25,0.18) -- node[left] {$r$} (0.25,0.1975);
+        \fill[itbablue] (0.22,0.46) circle (0.0175);
+        \draw[->,thick] (0.22,0.46) -- node[above] {$\bm{v}_i$} (0.34,0.52);
+        \fill[usedred] (1.02,0.20) circle (0.0175);
+        \draw[->,thick] (1.02,0.20) -- (0.93,0.15);
       \end{tikzpicture}
     \end{column}
     \begin{column}{0.41\textwidth}
-      {\scriptsize
-      \begin{tabular}{@{}ll@{}}
-        \toprule
-        Partículas & $N=100$ \\
-        Radio & $r=1{,}75\,10^{-2}\ \mathrm{m}$ \\
-        Masa & $m=2{,}5\,10^{-2}\ \mathrm{kg}$ \\
-        Rapidez inicial & $v_0=1\ \mathrm{m\,s^{-1}}$ \\
-        Colisiones & elásticas \\
-        \bottomrule
-      \end{tabular}}
-      \vspace{0.5em}
-      \begin{block}{Configuración}
-        $K>0$ discos fijos, $R_k\geq r$, contenidos y sin solaparse.
+      \begin{itemize}
+        \item Paredes fijas; $K$ obstáculos circulares fijos de radios $R_k\geq r$.
+        \item Una partícula \textcolor{itbablue}{fresca} pasa a \textcolor{usedred}{usada} al tocar por primera vez un arco, con $|y-W/2|\leq d/2$: es un gol.
+        \item Las usadas siguen chocando; $N$ se mantiene constante.
+      \end{itemize}
+      \begin{block}{Objetivo}
+        Configuración de obstáculos que minimiza $\langle t_{90}\rangle$.
       \end{block}
     \end{column}
   \end{columns}
 \end{frame}
 
 % 12
-\begin{frame}{Protocolo experimental}
+\begin{frame}{Parámetros fijos y variables}
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.47\textwidth}
-      \begin{block}{Parámetros físicos}
-        $N$, $L$, $W$, $d$, $r$, $m$, $v_0$ y $(x_k,y_k,R_k)$.
-      \end{block}
-      \begin{block}{1.1 Rendimiento}
-        Mesa vacía, $t_f=30\ \mathrm{s}$, al menos 10 realizaciones por $N$.
+    \begin{column}{0.40\textwidth}
+      \begin{block}{Fijos}
+        {\small
+        \begin{tabular}{@{}ll@{}}
+          $L\times W$ & $1{,}20\times0{,}68\ \mathrm{m}$ \\
+          $d$ & $0{,}20\ \mathrm{m}$ \\
+          $r$ & $1{,}75\,10^{-2}\ \mathrm{m}$ \\
+          $m$ & $2{,}5\,10^{-2}\ \mathrm{kg}$ \\
+          $v_0$ & $1\ \mathrm{m\,s^{-1}}$ \\
+        \end{tabular}}
       \end{block}
     \end{column}
-    \begin{column}{0.49\textwidth}
-      \begin{block}{1.2 Configuraciones}
-        Mesa vacía y familias de obstáculos, con al menos 5 realizaciones por punto.
+    \begin{column}{0.56\textwidth}
+      \begin{block}{Variables}
+        {\small
+        \begin{tabular}{@{}lll@{}}
+          $N$ & $10$ a $737$ & mesa vacía \\
+          $R$ del disco central & $0{,}05$ a $0{,}34\ \mathrm{m}$ & $N=100$ \\
+          Forma de las salas & familias de discos & $N=100$ \\
+          Profundidad $P$ & $0{,}17$ a $0{,}40\ \mathrm{m}$ & $N=100$ \\
+        \end{tabular}}
       \end{block}
-      \begin{block}{Datos de ejecución}
-        $t_{\max}$, semilla, cadencia de guardado y cantidad de realizaciones no son parámetros físicos.
+      \begin{block}{Salida del motor}
+        $t$, $\bm{x}_i$, $\bm{v}_i$ y estado en cada gol y cada $n$ eventos.
       \end{block}
     \end{column}
   \end{columns}
@@ -304,25 +329,27 @@
 % 13
 \begin{frame}{Goles y tiempo característico}
   \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.47\textwidth}
+    \begin{column}{0.50\textwidth}
       \textbf{Fracción de partículas usadas}
       \[
-        F_u^{(s)}(t)=\frac{N_g^{(s)}(t)}{N}.
+        F_u^{(s)}(t)=\frac{N_g^{(s)}(t)}{N}
       \]
-      \textbf{Tiempo por realización}
+      \textbf{Tiempo por realización $s$}
       \[
-        t_{90}^{(s)}=\min\{t:F_u^{(s)}(t)\geq0{,}9\}.
+        t_{90}^{(s)}=\min\{t:F_u^{(s)}(t)\geq0{,}9\}
+      \]
+      \textbf{Promedio sobre $n_r$ realizaciones}
+      \[
+        \langle t_{90}\rangle=\frac{1}{n_r}\sum_{s=1}^{n_r}t_{90}^{(s)}
       \]
     \end{column}
-    \begin{column}{0.49\textwidth}
-      \begin{block}{Promedio entre realizaciones}
-        \[
-          \langle t_{90}\rangle=\frac{1}{n_r}\sum_{s=1}^{n_r}t_{90}^{(s)}
-        \]
-        \[
-          \sigma_{t_{90}}=\sqrt{\frac{1}{n_r-1}\sum_{s=1}^{n_r}
-          \left(t_{90}^{(s)}-\langle t_{90}\rangle\right)^2}.
-        \]
+    \begin{column}{0.46\textwidth}
+      \begin{block}{Repeticiones}
+        {\small
+        Disco central: 20 por radio.\\
+        Profundidad: 24 por valor.\\
+        Comparación final: 100.\\
+        $t_{\max}=60$ a $100\ \mathrm{s}$; barras: error estándar.}
       \end{block}
       \small Las corridas que no llegan al 90\,\% antes de $t_{\max}$ se informan, no se descartan.
     \end{column}
@@ -336,24 +363,22 @@
       \textbf{Desplazamiento cuadrático medio}
       \[
         \mathrm{DCM}^{(s)}(t)=\frac{1}{N}\sum_{i=1}^{N}
-        \left\lVert\bm{x}_i^{(s)}(t)-\bm{x}_i^{(s)}(0)\right\rVert^2.
+        \left\lVert\bm{x}_i^{(s)}(t)-\bm{x}_i^{(s)}(0)\right\rVert^2
       \]
       En la ventana difusiva:
       \[
-        \mathrm{DCM}(t)=4Dt.
+        \mathrm{DCM}(t)=4Dt
       \]
     \end{column}
     \begin{column}{0.45\textwidth}
       \begin{block}{Ajuste por realización}
         \[
-          E(c)=\sum_j\left[\mathrm{DCM}(t_j)-c\,t_j\right]^2
-        \]
-        \[
-          D=\frac{c_{\min}}{4}.
+          E(c)=\sum_j\left[\mathrm{DCM}(t_j)-c\,t_j\right]^2,\qquad
+          D=\frac{c_{\min}}{4}
         \]
       \end{block}
-      \begin{block}{Reporte}
-        Se calcula $D^{(s)}$ para cada semilla y luego $\langle D\rangle\pm\sigma_D$.
+      \begin{block}{Protocolo}
+        10 realizaciones de $8\ \mathrm{s}$ por configuración; ventana común $[0{,}3;1{,}5]\ \mathrm{s}$; se informa $\langle D\rangle\pm\sigma_D$.
       \end{block}
     \end{column}
   \end{columns}
@@ -366,51 +391,82 @@
 \end{frame}
 
 % 16
-\begin{frame}{Dinámica del sistema}
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.47\textwidth}
-      \centering
-      \includegraphics[width=\textwidth,height=3.7cm,keepaspectratio]{figuras/anim-vacia.png}\\[3pt]
-      \videolink{URL YouTube/Vimeo pendiente de publicación}
-    \end{column}
-    \begin{column}{0.47\textwidth}
-      \centering
-      \includegraphics[width=\textwidth,height=3.7cm,keepaspectratio]{figuras/anim-mejor.png}\\[3pt]
-      \videolink{URL YouTube/Vimeo pendiente de publicación}
-    \end{column}
-  \end{columns}
-  \vspace{0.4em}
-  \centering\parametros{$N=100$, $v_0=1\ \mathrm{m\,s^{-1}}$, $r=1{,}75\,10^{-2}\ \mathrm{m}$; semillas 2006 y 2010.}
+\begin{frame}{Tiempo de ejecución en función de $N$}
+  \centering
+  \includegraphics[width=\textwidth,height=5.3cm,keepaspectratio]{figuras/runtime-vs-N.pdf}
+  \vspace{0.2em}
+  \par\parametros{Mesa vacía; $t_f=30\ \mathrm{s}$; 10 realizaciones por $N$; corte: 10 min. Desde $N=450$, red triangular.\\
+  $N=675$: $567\pm11\ \mathrm{s}$; $N=700$: no termina.}
 \end{frame}
 
 % 17
-\begin{frame}{Tiempo de ejecución en función de $N$}
-  \centering
-  \includegraphics[width=\textwidth,height=5.25cm,keepaspectratio]{figuras/runtime-vs-N.pdf}
-  \vspace{0.2em}
-  \par\parametros{Mesa vacía; $t_f=30\ \mathrm{s}$; 10 realizaciones por $N$; motor con cola de prioridad.\\
-  En $50\leq N\leq400$, $t\propto N^{3{,}30}$; para $N=400$, $t=11{,}27\pm0{,}04\ \mathrm{s}$.}
+\begin{frame}{Mesa vacía: dinámica y $F_u(t)$}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.52\textwidth}
+      \centering
+      \includegraphics[width=\textwidth,height=6.1cm,keepaspectratio]{figuras/anim-goles-vacia.png}\\[2pt]
+      \videolink{https://youtu.be/D2RamY4L4Lk}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \begin{itemize}
+        \item Animación en tiempo real: 1 s de video equivale a 1 s simulado.
+        \item $F_u(t)$ crece en escalones, uno por gol.
+        \item $t_{90}$ se toma por realización, en el primer instante con $F_u\geq0{,}9$.
+      \end{itemize}
+      \vspace{0.5em}
+      \parametros{$N=100$; realización representativa (semilla 12018): $t_{90}=22{,}66\ \mathrm{s}$.}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 % 18
-\begin{frame}{Evolución de la fracción usada}
+\begin{frame}{Disco central: $F_u(t)$ según el radio}
   \centering
-  \includegraphics[width=\textwidth,height=5.25cm,keepaspectratio]{figuras/Fu-vs-tiempo.pdf}
-  \vspace{0.2em}
-  \par\parametros{$N=100$; mesa vacía: semilla 2006; configuración elegida: semilla 2010.\\
-  Se calcula $t_{90}$ por realización antes de promediar.}
+  \includegraphics[width=\textwidth,height=5.3cm,keepaspectratio]{figuras/fu-disco-mapa.pdf}
+  \vspace{0.1em}
+  \par\parametros{Disco en $(0{,}60;0{,}34)\ \mathrm{m}$; $N=100$; 20 realizaciones por radio; color: $F_u$ promedio.\\
+  $\langle t_{90}\rangle$ baja de $22{,}92\pm0{,}53\ \mathrm{s}$ (vacía) a $15{,}33\pm0{,}47\ \mathrm{s}$ con $R=0{,}34\ \mathrm{m}$.}
 \end{frame}
 
 % 19
-\begin{frame}{Exploración de configuraciones}
+\begin{frame}{Búsqueda de la configuración}
   \centering
-  \includegraphics[width=\textwidth,height=5.1cm,keepaspectratio]{figuras/t90-vs-configuracion.pdf}
+  \includegraphics[width=\textwidth,height=5.3cm,keepaspectratio]{figuras/busqueda-resumen.pdf}
   \vspace{0.1em}
-  \par\parametros{$N=100$; 15 realizaciones por punto; $t_{\max}=100\ \mathrm{s}$; variables: $x_k$ y $R_k$.\\
-  Elegida: $K=1$, $(x_k,y_k,R_k)=(0{,}60;0{,}34;0{,}34)\ \mathrm{m}$; $\langle t_{90}\rangle=15{,}54\pm1{,}55\ \mathrm{s}$.}
+  \par\parametros{Discos de radio $r$ que forman salas, con el exterior relleno; mejor de cada familia, reevaluada con semillas nuevas.\\
+  Separar las mitades casi no ayuda; lo que baja $t_{90}$ es quitar área lejos de los arcos.}
 \end{frame}
 
 % 20
+\begin{frame}{Configuración elegida: dinámica y $F_u(t)$}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.52\textwidth}
+      \centering
+      \includegraphics[width=\textwidth,height=6.1cm,keepaspectratio]{figuras/anim-goles-elegida.png}\\[2pt]
+      \videolink{https://youtu.be/vTp_REslNT8}
+    \end{column}
+    \begin{column}{0.44\textwidth}
+      \begin{itemize}
+        \item Una sala superelíptica de discos alrededor de cada arco, abierta a casi todo el ancho de la pared corta.
+        \item El centro de la mesa queda relleno.
+      \end{itemize}
+      \vspace{0.5em}
+      \parametros{$K=87$ discos; $|x'/A|^{p}+|y'/B|^{p}\leq1$ con $p=4{,}72$, $B=0{,}268\ \mathrm{m}$ y profundidad $0{,}277\ \mathrm{m}$.\\
+      Semilla 11091: $t_{90}=13{,}59\ \mathrm{s}$.}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% 21
+\begin{frame}{Profundidad de la sala}
+  \centering
+  \includegraphics[width=\textwidth,height=5.3cm,keepaspectratio]{figuras/t90-vs-profundidad.pdf}
+  \vspace{0.1em}
+  \par\parametros{Superelipse con $B$, $p$ y retroceso fijos; $N=100$; 24 realizaciones por punto; $t_{\max}=100\ \mathrm{s}$.\\
+  Óptimo plano entre $0{,}23$ y $0{,}30\ \mathrm{m}$. Elegida, con 100 realizaciones nuevas: $\langle t_{90}\rangle=13{,}61\pm0{,}17\ \mathrm{s}$.}
+\end{frame}
+
+% 22
 \begin{frame}{Coeficiente de difusión}
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.48\textwidth}
@@ -421,34 +477,36 @@
     \end{column}
   \end{columns}
   \vspace{0.15em}
-  \centering\parametros{Configuración elegida; 5 semillas; ventana $[0{,}3;1{,}5]$ s; $\langle D\rangle=(0{,}00752\pm0{,}00036)\ \mathrm{m^2\,s^{-1}}$.}
+  \centering\parametros{10 realizaciones; ventana $[0{,}3;1{,}5]$ s. Vacía: $\langle D\rangle=(0{,}0223\pm0{,}0019)\ \mathrm{m^2\,s^{-1}}$; elegida: $(0{,}0053\pm0{,}0006)\ \mathrm{m^2\,s^{-1}}$.}
 \end{frame}
 
-% 21
+% 23
 \begin{frame}{Difusión y tiempo al 90\,\%}
   \centering
-  \includegraphics[width=\textwidth,height=5.25cm,keepaspectratio]{figuras/D-vs-t90.pdf}
-  \vspace{0.2em}
-  \par\parametros{$N=100$; 15 realizaciones para $t_{90}$ y 5 para $D$; barras: error estándar.\\
-  En estas configuraciones, $D$ por sí solo no predijo $t_{90}$ ($r=0{,}13$).}
+  \includegraphics[width=\textwidth,height=5.3cm,keepaspectratio]{figuras/D-vs-t90.pdf}
+  \vspace{0.1em}
+  \par\parametros{195 configuraciones; $\langle D\rangle$ con 10 realizaciones y $\langle t_{90}\rangle$ con 15 a 100.\\
+  La correlación cambia de signo según la familia: $D$ no predice $t_{90}$.}
 \end{frame}
 
-% 22
+% 24
 \section{Conclusiones}
 \begin{frame}
   \sectionpage
 \end{frame}
 
-% 23
+% 25
 \begin{frame}{Conclusiones}
   \begin{itemize}
-    \item El tiempo de ejecución creció como $N^{3{,}30}$ en el rango $50\leq N\leq400$.
-    \item El obstáculo central de radio máximo redujo $\langle t_{90}\rangle$ un 31,5\,\% y también redujo su dispersión frente a la mesa vacía.
-    \item En el barrido completo, $D$ y $t_{90}$ mostraron una correlación débil ($r=0{,}13$).
+    \item El tiempo de ejecución crece con $N$ y se dispara al acercarse al empaquetamiento compacto: con $N=675$ tarda $9{,}5$ min y con $N=700$ ya no termina en 10 min.
+    \item Un disco central reduce $\langle t_{90}\rangle$ a medida que crece su radio: de $22{,}9$ a $15{,}3\ \mathrm{s}$.
+    \item Separar las mitades casi no ayuda; lo que reduce $t_{90}$ es quitar área lejos de los arcos sin angostar la entrada.
+    \item La superelipse elegida da $\langle t_{90}\rangle=13{,}61\pm0{,}17\ \mathrm{s}$: un 40\,\% menos que la mesa vacía y un 13\,\% menos que el mejor disco central.
+    \item $D$ y $t_{90}$ no tienen una relación única: la correlación cambia de signo entre familias.
   \end{itemize}
 \end{frame}
 
-% 24
+% 26
 \begin{frame}
   \centering
   \vfill

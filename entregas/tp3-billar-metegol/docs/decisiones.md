@@ -150,12 +150,37 @@ Siguiendo el criterio de [COR02] ("si el output del sistema no cambia al variar 
 - `D` se ajusta **por realización** y se reporta `<D> ± σ` sobre semillas independientes. La dispersión entre partículas dentro de una misma corrida no es una barra de error válida: las partículas interactúan y no son muestras independientes.
 - Las realizaciones que no alcanzan `Fu = 0.9` antes de `tmax` se reportan explícitamente, no se descartan [TP03, p. 3].
 
+### Búsqueda de salas con muchos discos (punto 1.2 ampliado)
+
+Código en `scripts/busqueda_elipses.py`, resultados en `experiments/results/elipses/`.
+
+- **Motivo**: el óptimo del barrido de un disco quedó en el borde del espacio explorado (`Rk = W/2`), lo que indica que esa familia estaba agotada.
+- **Los obstáculos son siempre círculos** [TP03, pp. 2-3]. Las formas no circulares se construyen con cadenas de discos de radio `r`, el mínimo que admite la restricción ii.
+- **Contorno a distancia `ρ + r`**: los discos se ubican sobre la curva paralela a la forma buscada, así la superficie que tocan los *centros* de las partículas es esa forma, independientemente de `ρ`. Entre discos consecutivos queda una holgura de `10⁻⁴ m`, mucho menor que `2r`: ninguna partícula pasa.
+- **Relleno del exterior**: detrás del contorno se agregan discos por máximo círculo vacío, hasta que ningún centro de partícula entre ahí. Sin relleno, las partículas generadas detrás del contorno quedan encerradas sin arco y nunca hacen gol.
+- **Chequeo de bolsillos**: un relleno por inundación sobre una grilla de 1 mm, desde los puntos de contacto con los arcos, verifica que toda el área accesible a los centros tenga camino a un arco. Todas las configuraciones evaluadas dieron fracción atrapada nula.
+- **Selección sin sesgo**: cada búsqueda tiene tres etapas con semillas disjuntas (barrido, refinamiento y final con 40 semillas nuevas y `tmax = 100 s`). Elegir y reportar con las mismas semillas sobreestimaba la mejora hasta 0,7 s.
+- **Hipótesis del espejo elíptico, descartada**: elipses con un foco en el centro de la mesa y otro en el arco dieron como mejor `<t90> ≈ 19,3 s`, peor que el disco único. Con la elipse fija, variar `ρ` entre `r` y `3r` —más `ρ` implica un espejo menos preciso— no cambió `<t90>`: el foco no actúa, porque las partículas chocan entre sí cada ~5 cm.
+- **Lo que sí importa**: sacar área lejos de los arcos y dejar ancha la entrada al arco. Una pared sola en `x = L/2` baja apenas 1,2 s respecto de la mesa vacía: separar las mitades casi no ayuda.
+- **Elipses separadas**: trasladar cada elipse hacia su arco (foco externo detrás de la pared, a la altura del arco) dio `≈ 13,7 s`.
+- **Superelipses** `|x'/A|^p + |y'/B|^p ≤ 1`, con cuatro parámetros, no mejoraron significativamente a la elipse separada: la forma está cerca del óptimo y el detalle no importa.
+- **Configuración adoptada**: superelipse de profundidad `0.277 m`, semiancho `0.268 m`, exponente `4.72` y centro `0.113 m` detrás de la pared, con 87 obstáculos. En un desempate con 100 semillas nuevas dio `<t90> = 13.61 ± 0.17 s`, frente a `13.76 ± 0.18 s` de la elipse separada y `15.60 ± 0.17 s` del disco único. Se eligió la superelipse por pedido del grupo, con una diferencia no significativa respecto de la elipse. Se verificó que 1000 semillas generan las `N = 100` partículas sin fallas.
+
+### Cambios pedidos por la cátedra para la presentación (2026-09-26)
+
+- **Tiempo de ejecución hasta la saturación.** La indicación fue subir `N` hasta que la corrida no termine, con un corte de 10 minutos. El muestreo al azar se traba cerca de 446 partículas, y ahí el sistema todavía es un líquido: el motor tarda ~30 s. Para superar ese límite se agregó al motor `--layout triangular`: sitios elegidos al azar de la red triangular más espaciada con `N` sitios libres, que llega a 737 (discos tocándose). Se usa solo por encima de 430 partículas y solo para el punto 1.1. En la competencia y en los demás puntos las posiciones siguen siendo uniformes al azar, como exige la consigna [TP03, p. 3].
+- **Medición aislada.** Las corridas son secuenciales, sin otros procesos pesados y con el procesador en modo rendimiento. El protocolo anterior dio 11 s para `N = 400` con la máquina liberada y 22 s en modo ahorro, así que los tiempos solo son comparables dentro de una misma corrida. Como control se usa el costo por evento: a igual `N` la cantidad de eventos es casi idéntica entre semillas. Toda corrida con un costo por evento más de un 10 % sobre la mediana de su `N` se repite en aislamiento. Así se rehicieron catorce corridas que coincidieron con compilaciones. Resultado: `N = 675` termina en `567 ± 11 s` y `N = 700` no termina en 10 minutos.
+- **DCM en función del tiempo.** La cátedra pidió graficar el DCM contra el tiempo y no contra el desfasaje. Se pasó a `DCM(t) = <|r(t) − r(0)|²>` con origen en `t = 0`, que además es la definición de la diapositiva de observables. Para compensar el ruido de usar un solo origen se subió a diez realizaciones por configuración. Se recalculó `D` para las 195 configuraciones.
+- **Animaciones con el observable.** La animación de la mesa vacía y la de la elegida van en tiempo real (1 s de video = 1 s simulado), con `Fu(t)` dibujándose debajo y `t90` marcado. Cada instante muestra el último estado que calculó el motor, sin interpolar. Se elige la realización cuyo `t90` queda más cerca de la media de su configuración.
+- **Reproducibilidad.** `run_search` reutilizaba trayectorias en disco generadas por una versión anterior del motor, y el barrido de un disco no se reproducía semilla por semilla. Se borraron y se recalcularon. Los scripts nuevos borran cada trayectoria después de extraer lo necesario, así que siempre recalculan con el motor vigente.
+
 ## Decisiones experimentales finales
 
-- Punto 1.1: `N` en `{10, 25, 50, 75, 100, 150, 200, 300, 400}`, diez semillas por punto, mesa vacía, motor de cola y `tf = 30 s`. En el rango `N >= 50` se midió `t ∝ N^3,30`; no se interpreta ese ajuste finito como complejidad asintótica.
-- Punto 1.2: un obstáculo sobre el eje longitudinal, con `yk = 0.34 m`, barrido de posición y radio, quince semillas por punto y `tmax = 100 s`. La mejor configuración medida fue `(xk, yk, Rk) = (0.60, 0.34, 0.34) m`, con `<t90> = 15.54 ± 1.55 s`, frente a `22.68 ± 2.98 s` para la mesa vacía.
-- Punto 1.3: cinco semillas por configuración, `tmax = 8 s`, `--save-every 20`, intervalos de DCM de `0.05 s`, desfasaje máximo de `3 s` y ventana común `[0.3, 1.5] s`. Para la elegida se obtuvo `<D> = 0.00752 ± 0.00036 m²/s`.
-- En el barrido completo la correlación de Pearson entre `<D>` y `<t90>` fue débil (`r = 0.13`). La conclusión se limita a la familia explorada.
+- Punto 1.1: mesa vacía, motor de cola, `tf = 30 s` y diez semillas por `N`. Posiciones al azar hasta `N = 430` y red triangular desde `N = 450`, con corte a los 10 minutos (ver la sección anterior). El protocolo anterior, hasta `N = 400`, daba `t ∝ N^3,30` para `N >= 50`.
+- Punto 1.2, primera etapa: un obstáculo sobre el eje longitudinal, con `yk = 0.34 m`, barrido de posición y radio, quince semillas por punto y `tmax = 100 s`. La mejor configuración medida fue `(xk, yk, Rk) = (0.60, 0.34, 0.34) m`, con `<t90> = 15.54 ± 1.55 s`, frente a `22.68 ± 2.98 s` para la mesa vacía.
+- Punto 1.2, configuración entregada: la superelipse de la sección anterior, en `experiments/configs/SdS_TP3_2026Q2G07CS_Config.txt`.
+- Punto 1.3: diez semillas por configuración, `tmax = 8 s`, `--save-every 20`, `DCM(t)` con origen en `t = 0` en intervalos de `0.05 s` hasta `3 s`, y ventana común `[0.3, 1.5] s`. Para la adoptada, `<D> = 0.0053 ± 0.0006 m²/s`; para la mesa vacía, `0.0223 ± 0.0019 m²/s`.
+- En las 195 configuraciones, la correlación de Pearson entre `<D>` y `<t90>` cambia de signo según la familia (de −0,72 a +0,47) y globalmente vale +0,38: `D` no predice `t90`.
 - No se agregó CIM al motor: para el alcance pedido, la cola de prioridad completa las corridas y el esfuerzo de optimización se concentró en evitar el recálculo global de eventos.
 
 ## Estimaciones de referencia

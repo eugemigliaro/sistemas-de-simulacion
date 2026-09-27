@@ -7,8 +7,10 @@ exige la consigna [TP03, p. 1].
 
 ## Estado
 
-En cierre. Entrega: 28 de septiembre de 2026, 13:00. Solo faltan publicar las
-dos animaciones y colocar sus URL explícitas en la presentación.
+Listo para entregar el 28 de septiembre de 2026, 13:00. Se adoptó una
+configuración nueva de 87 obstáculos (superelipse, ver Resultados) y la
+presentación se reestructuró según las indicaciones de la cátedra. El paquete
+de `entrega-final/` y el PPTX de la exposición están generados.
 
 Fases completadas:
 
@@ -19,7 +21,8 @@ Fases completadas:
 - [x] Fase 5 — motor con cola de prioridad
 - [x] Fase 6 — post-proceso (Fu, t90, DCM, D)
 - [x] Fase 7 — experimentos 1.1, 1.2 y 1.3
-- [ ] Fase 8 — animación y entregables (solo faltan publicar los videos y pegar sus URL)
+- [x] Fase 8b — búsqueda con muchos discos y adopción de la superelipse
+- [x] Fase 9 — animaciones de la configuración adoptada, presentación y paquete
 
 ## Separación de responsabilidades
 
@@ -123,7 +126,14 @@ cola los agenda una sola vez y, después de cada choque, reagenda únicamente lo
 de las partículas que participaron; los eventos que quedaron invalidados no se
 borran de la cola, se descartan al extraerlos comparando los contadores de
 choque guardados contra los actuales [B16, pp. 1, 4].
-**El ZIP de entrega incluye únicamente el motor final** [TP03, p. 1].
+**El ZIP de entrega incluye únicamente el motor final** [TP03, p. 1]. El
+ingenuo vive en `cpp/src/naive.cpp` y el Makefile activa `--engine` solo si
+ese archivo existe. `make package` lo deja afuera, quita los bloques
+condicionales, verifica que el ZIP no lo mencione y lo compila en limpio.
+
+`--layout triangular` ubica las partículas en sitios al azar de una red
+triangular, hasta el empaquetamiento compacto (737). Solo se usa en el punto
+1.1 para `N > 430`, porque el muestreo al azar se traba cerca de 446.
 
 Medido en release sobre la mesa vacía hasta `tf = 30` s:
 
@@ -241,13 +251,28 @@ sobra para una ventana de ajuste de décimas de segundo. Los criterios están en
 
 El protocolo, los resultados numéricos y su interpretación están documentados
 en [`experiments/RESULTADOS.md`](experiments/RESULTADOS.md). La configuración
-elegida tiene un obstáculo en `(0.60, 0.34)` de radio `0.34 m` y redujo
-`<t90>` un 31,5 % respecto de la mesa vacía en el barrido realizado.
+entregada es una sala superelíptica de discos alrededor de cada arco, con el
+centro de la mesa relleno: 87 obstáculos, `<t90> = 13,61 ± 0,17 s` en 100
+semillas nuevas. Mejora un 12,8 % al mejor disco único `(0.60, 0.34, 0.34)` y
+un 38 % a la mesa vacía.
+
+La búsqueda de formas con muchos discos está en `scripts/busqueda_elipses.py`:
 
 ```bash
-make assets   # figuras, fotogramas y MP4 locales
-make package  # PDF, Config.txt y ZIP del motor (< 100 KB)
+PY=python/.venv/bin/python
+$PY scripts/busqueda_elipses.py super-todo   # barrido, refinamiento y final
+$PY scripts/busqueda_elipses.py adoptar      # escribe Config.txt y verifica la restricción ii
+$PY scripts/busqueda_elipses.py difusion     # D de todas las configuraciones (1.3)
+$PY scripts/busqueda_elipses.py animaciones  # videos de vacía, disco único y adoptada
 ```
 
-Los MP4 no se incluyen en la entrega: deben publicarse en YouTube o Vimeo y
-sus enlaces explícitos deben incorporarse al PDF [TP03, p. 1].
+```bash
+make assets   # figuras de la presentación (no simula)
+make package  # PDF, Config.txt y ZIP del motor (< 100 KB)
+python/.venv/bin/python scripts/build_pptx.py   # PPTX de la exposición, con videos
+```
+
+Los MP4 no se incluyen en la entrega [TP03, p. 1]. Están publicados y sus
+enlaces figuran en el PDF: mesa vacía, <https://youtu.be/D2RamY4L4Lk>;
+configuración elegida, <https://youtu.be/vTp_REslNT8>. El PPTX de la exposición
+los lleva embebidos, como pide la guía de presentaciones [GPRES, p. 3].

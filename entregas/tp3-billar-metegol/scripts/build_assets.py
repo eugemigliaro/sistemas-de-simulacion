@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Construye figuras, fotogramas y videos desde los resultados del TP3."""
+"""Construye las figuras de la presentación del TP3 desde los resultados.
+
+No corre simulaciones: lee las tablas de ``experiments/results`` y los archivos
+de obstáculos. Los fotogramas de las animaciones los escribe
+``barridos_presentacion.py animaciones``.
+"""
 
 from __future__ import annotations
 
-import argparse
 import csv
 import json
 import math
@@ -16,23 +20,29 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
+from matplotlib.patches import Circle, Rectangle  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "experiments/results"
+ELIPSES = RESULTS / "elipses"
+PRESENTACION = RESULTS / "presentacion"
 FIGURES = ROOT / "presentacion/figuras"
-VIDEOS = ROOT / "videos"
-sys.path.insert(0, str(ROOT / "python/src"))
+CONFIGS = ROOT / "experiments/raw/elipses/configs"
+sys.path.insert(0, str(ROOT / "scripts"))
 
-from tp3analysis.animation import render_animation, render_snapshot  # noqa: E402
-from tp3analysis.goals import goal_curve, time_to_fraction  # noqa: E402
-from tp3analysis.trajectory import read_trajectory  # noqa: E402
+L, W, D = 1.20, 0.68, 0.20
 
-
-BLUE = "#005b91"
-ORANGE = "#d35c20"
-RED = "#c73e36"
-GREEN = "#2d7f5e"
+# Paleta categórica validada (orden fijo, familias distinguibles también con
+# daltonismo); cada familia lleva además su propia forma de marcador.
+BLUE = "#2a78d6"
+ORANGE = "#eb6834"
+AQUA = "#1baf7a"
+VIOLET = "#4a3aa7"
+INK = "#0b0b0b"
+MUTED = "#52514e"
+OBSTACLE = "#d35c20"
+GOAL = "#005b91"
 
 # Las figuras se proyectan durante la exposición: ejes y leyendas deben
 # conservarse legibles aun cuando se inserten en una diapositiva.
@@ -41,12 +51,20 @@ plt.rcParams.update({
     "axes.labelsize": 16,
     "xtick.labelsize": 13,
     "ytick.labelsize": 13,
-    "legend.fontsize": 14,
+    "legend.fontsize": 13,
 })
 
+ELEGIDA = "super_P277_B268_p472_s113_rho175"
+FAMILIAS = {
+    "disco_unico": ("disco único", BLUE, "o"),
+    "elipse_focos_fijos": ("elipses con focos fijos", ORANGE, "s"),
+    "elipse_separada": ("elipses separadas", AQUA, "^"),
+    "superelipse": ("superelipses", VIOLET, "D"),
+}
 
-def read_csv(name: str) -> list[dict[str, str]]:
-    with (RESULTS / name).open(newline="", encoding="utf-8") as file:
+
+def read_csv(path: Path) -> list[dict[str, str]]:
+    with path.open(newline="", encoding="utf-8") as file:
         return list(csv.DictReader(file))
 
 
@@ -56,199 +74,294 @@ def finish(fig, name: str) -> None:
     plt.close(fig)
 
 
-def runtime_figure(metadata: dict[str, object]) -> None:
-    grouped: dict[int, list[float]] = defaultdict(list)
-    for row in read_csv("runtime.csv"):
-        grouped[int(row["particle_count"])].append(float(row["runtime_seconds"]))
-    values = sorted(grouped)
-    means = np.array([np.mean(grouped[n]) for n in values])
-    stds = np.array([np.std(grouped[n], ddof=1) for n in values])
-    selected = np.array(values) >= 50
-    alpha, log_a = np.polyfit(np.log(np.array(values)[selected]), np.log(means[selected]), 1)
-    fitted = np.exp(log_a) * np.array(values, dtype=float) ** alpha
-
-    fig, axis = plt.subplots(figsize=(10.5, 4.2), constrained_layout=True)
-    axis.errorbar(values, means, yerr=stds, fmt="o", color=BLUE, capsize=4,
-                  label="media ± desvío estándar (10 semillas)")
-    axis.plot(values, fitted, "--", color=ORANGE, label=fr"ajuste $t\propto N^{{{alpha:.2f}}}$, $N\geq50$")
-    axis.set(xscale="log", yscale="log", xlabel="Cantidad de partículas, N",
-             ylabel="Tiempo de ejecución [s]")
-    axis.grid(True, which="both", alpha=0.25)
-    axis.legend(frameon=False)
-    finish(fig, "runtime-vs-N.pdf")
-    metadata["runtime_exponent"] = float(alpha)
-    metadata["runtime_n400_mean_seconds"] = float(means[-1])
-    metadata["runtime_n400_std_seconds"] = float(stds[-1])
+def obstacles(label: str) -> list[tuple[float, float, float]]:
+    """Obstáculos de una configuración; se regeneran si faltan."""
+    if label == "vacia":
+        return []
+    path = CONFIGS / f"{label}.txt"
+    if not path.exists():
+        import busqueda_elipses as be
+        diseno = be.diseno_desde(_row_for(label))
+        be.construir(diseno)
+    return [tuple(map(float, line.split())) for line in path.read_text().splitlines() if line]
 
 
-def goal_figure(selection: dict[str, object]) -> None:
-    fig, axis = plt.subplots(figsize=(10.5, 4.2), constrained_layout=True)
-    for role, color, label in (
-        ("vacia", BLUE, "mesa vacía"),
-        ("mejor", ORANGE, "configuración elegida"),
+def _row_for(label: str) -> dict[str, object]:
+    for name in ("plan_super_final.csv", "plan_final.csv", "plan_separacion_final_extendida.csv",
+                 "plan_barrido.csv"):
+        path = ELIPSES / name
+        if path.exists():
+            for row in read_csv(path):
+                if row["label"] == label:
+                    return row
+    raise KeyError(label)
+
+
+def draw_table(axis, discs: list[tuple[float, float, float]], lw: float = 1.2) -> None:
+    axis.add_patch(Rectangle((0, 0), L, W, fill=False, lw=lw, color=INK))
+    for x in (0, L):
+        axis.plot([x, x], [(W - D) / 2, (W + D) / 2], color=GOAL, lw=3 * lw,
+                  solid_capstyle="butt")
+    for x, y, r in discs:
+        axis.add_patch(Circle((x, y), r, facecolor=OBSTACLE, edgecolor="none"))
+    axis.set_xlim(-0.03, L + 0.03)
+    axis.set_ylim(-0.03, W + 0.03)
+    axis.set_aspect("equal")
+    axis.axis("off")
+
+
+def runtime_figure(values: dict[str, object]) -> None:
+    path = RESULTS / "runtime_saturacion.csv"
+    if not path.exists():
+        print("falta runtime_saturacion.csv: se omite la figura de tiempo de ejecución")
+        return
+    rows = read_csv(path)
+    finished: dict[tuple[int, str], list[float]] = defaultdict(list)
+    unfinished: dict[int, int] = defaultdict(int)
+    for row in rows:
+        n = int(row["particle_count"])
+        if row["finished"] == "1":
+            finished[(n, row["layout"])].append(float(row["runtime_seconds"]))
+        else:
+            unfinished[n] += 1
+
+    fig, axis = plt.subplots(figsize=(10.5, 4.4), constrained_layout=True)
+    for layout, color, marker, label in (
+        ("random", BLUE, "o", "posiciones al azar"),
+        ("triangular", ORANGE, "s", "sitios al azar de una red triangular"),
     ):
-        item = selection[role]
-        trajectory = read_trajectory(ROOT / item["search_trajectory"])
-        curve = goal_curve(trajectory)
-        result = time_to_fraction(trajectory)
-        axis.step(curve.times, curve.goals / curve.particle_count, where="post",
-                  color=color, lw=2.0, label=label)
-        assert result.t90 is not None
-        axis.axvline(result.t90, color=color, ls=":", alpha=0.8)
-        axis.text(result.t90 + 0.25, 0.12 if role == "vacia" else 0.04,
-                  fr"$t_{{90}}={result.t90:.2f}$ s", color=color)
-    axis.axhline(0.9, color="black", ls="--", lw=1.0, label=r"$F_u=0{,}9$")
-    axis.set(xlabel="Tiempo [s]", ylabel=r"Fracción usada, $F_u(t)$",
-             xlim=(0, 32), ylim=(0, 1.02))
+        keys = sorted(k for k in finished if k[1] == layout)
+        ns = [k[0] for k in keys]
+        means = [np.mean(finished[k]) for k in keys]
+        stds = [np.std(finished[k], ddof=1) if len(finished[k]) > 1 else 0.0 for k in keys]
+        axis.errorbar(ns, means, yerr=stds, fmt=marker, ms=7, color=color, capsize=4,
+                      label=f"{label}: media ± desvío")
+    if unfinished:
+        ns = sorted(unfinished)
+        axis.scatter(ns, [600.0] * len(ns), marker="x", s=90, color=INK, zorder=5,
+                     label="no terminó en 10 min")
+    axis.axhline(600.0, color=MUTED, ls="--", lw=1.2)
+    axis.text(15, 600.0 * 1.35, "corte: 10 min", color=MUTED, fontsize=13)
+    axis.axvline(446, color=MUTED, ls=":", lw=1.2)
+    axis.text(455, 1.2, "máximo al azar\n(446)", color=MUTED, fontsize=12, ha="left")
+    axis.set(yscale="log", xlabel="Cantidad de partículas, N",
+             ylabel="Tiempo de ejecución [s]", xlim=(0, 760), ylim=(1e-4, 5e3))
+    axis.grid(True, which="both", alpha=0.2)
+    axis.legend(frameon=True, facecolor="white", edgecolor="none", loc="lower right",
+                fontsize=12)
+    finish(fig, "runtime-vs-N.pdf")
+    all_finished = sorted({k[0] for k in finished})
+    values["runtime_max_n_finished"] = max(all_finished)
+    values["runtime_min_n_unfinished"] = min(unfinished) if unfinished else None
+
+
+def fu_map_figure(values: dict[str, object]) -> None:
+    summary = read_csv(PRESENTACION / "t90_summary_disco.csv")
+    curves = read_csv(PRESENTACION / "fu_disco.csv")
+    radii = [float(row["radius_m"]) for row in summary]
+    times = np.array(sorted({float(row["time_s"]) for row in curves}))
+    grid = np.zeros((len(radii), times.size))
+    index = {t: i for i, t in enumerate(times)}
+    rows = {r: i for i, r in enumerate(radii)}
+    for row in curves:
+        grid[rows[float(row["radius_m"])], index[float(row["time_s"])]] = float(row["mean_fu"])
+
+    tmax = 32.0
+    keep = times <= tmax
+    fig, axis = plt.subplots(figsize=(10.5, 4.6), constrained_layout=True)
+    edges_t = np.append(times[keep] - 0.05, times[keep][-1] + 0.05)
+    edges_r = np.arange(len(radii) + 1) - 0.5
+    mesh = axis.pcolormesh(edges_t, edges_r, grid[:, keep], cmap="Blues", vmin=0, vmax=1,
+                           shading="flat", edgecolors="none", antialiased=False,
+                           rasterized=True)
+    bar = fig.colorbar(mesh, ax=axis, pad=0.01)
+    bar.set_label(r"$\langle F_u(t)\rangle$")
+    means = [float(row["mean_t90_seconds"]) for row in summary]
+    sems = [float(row["sem_t90_seconds"]) for row in summary]
+    axis.errorbar(means, range(len(radii)), xerr=sems, fmt="o", ms=7, color=ORANGE,
+                  markeredgecolor="white", capsize=3, label=r"$\langle t_{90}\rangle$ ± EE")
+    axis.set_yticks(range(len(radii)),
+                    ["vacía" if r == 0 else f"{r:.2f}" for r in radii])
+    axis.set(xlabel="Tiempo, t [s]", ylabel="Radio del disco central, R [m]", xlim=(0, tmax))
+    axis.legend(frameon=True, loc="lower right", facecolor="white", edgecolor="none")
+    finish(fig, "fu-disco-mapa.pdf")
+    values["disco_t90"] = {f"{r:.2f}": (m, s) for r, m, s in zip(radii, means, sems)}
+    values["disco_repeticiones"] = int(summary[0]["realizaciones"])
+
+
+def search_figure(values: dict[str, object]) -> None:
+    final = {r["label"]: r for r in read_csv(ELIPSES / "t90_summary_final.csv")}
+    desempate = {r["label"]: r for r in read_csv(ELIPSES / "t90_summary_desempate.csv")}
+    pared = read_csv(ELIPSES / "t90_runs_pared.csv")
+    t_pared = np.array([float(r["t90_seconds"]) for r in pared])
+    entries = [
+        ("mesa vacía", "vacia", final["vacia"], None),
+        ("pared de discos\nen el centro", "cerrado_b400_rho175",
+         {"mean_t90_seconds": t_pared.mean(),
+          "sem_t90_seconds": t_pared.std(ddof=1) / math.sqrt(t_pared.size)}, None),
+        ("elipses con focos\nfijos (la mejor)", "cerrado_b235_rho175",
+         final["cerrado_b235_rho175"], None),
+        ("disco central\nR = 0,34 m", "actual", desempate["actual"], None),
+        ("elipses separadas", "abierto_b300_rho175_d390",
+         desempate["abierto_b300_rho175_d390"], None),
+        ("superelipse\n(elegida)", ELEGIDA, desempate[ELEGIDA], "elegida"),
+    ]
+    count = len(entries)
+    fig = plt.figure(figsize=(10.5, 5.4))
+    top, bottom = 0.97, 0.13
+    height = (top - bottom) / count
+    main = fig.add_axes((0.42, bottom, 0.55, top - bottom))
+    for i, (name, label, row, role) in enumerate(entries):
+        y = count - 1 - i
+        thumb = fig.add_axes((0.005, bottom + y * height + 0.1 * height, 0.17, 0.8 * height))
+        discs = [(0.60, 0.34, 0.34)] if label == "actual" else obstacles(label)
+        draw_table(thumb, discs, lw=0.8)
+        fig.text(0.185, bottom + (y + 0.5) * height, name, va="center", fontsize=12.5,
+                 color=INK)
+        mean, sem = float(row["mean_t90_seconds"]), float(row["sem_t90_seconds"])
+        color = VIOLET if role == "elegida" else BLUE
+        marker = "*" if role == "elegida" else "o"
+        main.errorbar([mean], [y], xerr=[sem], fmt=marker, ms=14 if role else 8,
+                      color=color, capsize=4)
+        main.text(mean + sem + 0.35, y, f"{mean:.2f} ± {sem:.2f} s".replace(".", ","),
+                  va="center", fontsize=12, color=MUTED)
+    main.set_ylim(-0.5, count - 0.5)
+    main.set_yticks([])
+    main.set_xlim(11.5, 26.5)
+    main.set_xlabel(r"$\langle t_{90}\rangle$ [s]")
+    main.grid(True, axis="x", alpha=0.25)
+    finish(fig, "busqueda-resumen.pdf")
+
+
+def depth_figure(values: dict[str, object]) -> None:
+    rows = read_csv(PRESENTACION / "t90_summary_profundidad.csv")
+    rows.sort(key=lambda r: float(r["profundidad_m"]))
+    depth = np.array([float(r["profundidad_m"]) for r in rows])
+    mean = np.array([float(r["mean_t90_seconds"]) for r in rows])
+    sem = np.array([float(r["sem_t90_seconds"]) for r in rows])
+    disco = read_csv(ELIPSES / "t90_summary_desempate.csv")
+    disco_mean = float(next(r for r in disco if r["label"] == "actual")["mean_t90_seconds"])
+
+    fig = plt.figure(figsize=(10.5, 5.2))
+    axis = fig.add_axes((0.09, 0.13, 0.88, 0.56))
+    axis.errorbar(depth, mean, yerr=sem, fmt="o", ms=8, color=VIOLET, capsize=4,
+                  label=r"$\langle t_{90}\rangle$ ± EE (24 realizaciones)")
+    chosen = np.argmin(abs(depth - 0.277))
+    axis.plot(depth[chosen], mean[chosen], "*", ms=18, color=VIOLET, markeredgecolor="white",
+              label="elegida")
+    axis.axhline(disco_mean, color=BLUE, ls="--", lw=1.4, label="disco central R = 0,34 m")
+    axis.set(xlabel="Profundidad de la sala, P [m]", ylabel=r"$\langle t_{90}\rangle$ [s]")
     axis.grid(True, alpha=0.25)
-    axis.legend(frameon=False, loc="upper left")
-    finish(fig, "Fu-vs-tiempo.pdf")
+    axis.legend(frameon=False, loc="upper center", ncol=3, fontsize=12)
+    axis.set_ylim(min(mean - sem) - 0.5, max(max(mean + sem), disco_mean) + 1.3)
+    xmin, xmax = axis.get_xlim()
+    plan = {r["label"]: r for r in read_csv(PRESENTACION / "plan_profundidad.csv")}
+    for target in (depth[0], 0.277, depth[-1]):
+        label = next(k for k, r in plan.items() if math.isclose(float(r["profundidad_m"]), target))
+        discs = [tuple(map(float, line.split()))
+                 for line in (ROOT / plan[label]["ruta"]).read_text().splitlines() if line]
+        center = 0.09 + 0.88 * (target - xmin) / (xmax - xmin)
+        thumb = fig.add_axes((center - 0.1, 0.72, 0.2, 0.26))
+        draw_table(thumb, discs, lw=0.8)
+        thumb.set_title(f"P = {target:.2f} m".replace(".", ","), fontsize=12, color=INK, pad=2)
+    finish(fig, "t90-vs-profundidad.pdf")
+    values["profundidad"] = {f"{d:.3f}": (m, s) for d, m, s in zip(depth, mean, sem)}
 
 
-def search_figure(selection: dict[str, object], metadata: dict[str, object]) -> None:
-    rows = read_csv("t90_summary.csv")
-    empty = next(row for row in rows if row["label"] == "vacia")
-    fig, axis = plt.subplots(figsize=(10.5, 4.2), constrained_layout=True)
-    colors = [BLUE, GREEN, ORANGE, RED]
-    for x, color in zip((0.30, 0.40, 0.50, 0.60), colors):
-        selected = sorted(
-            (row for row in rows if row["x_m"] and math.isclose(float(row["x_m"]), x)),
-            key=lambda row: float(row["radius_m"]),
-        )
-        axis.errorbar(
-            [float(row["radius_m"]) for row in selected],
-            [float(row["mean_t90_seconds"]) for row in selected],
-            yerr=[float(row["std_t90_seconds"]) for row in selected],
-            marker="o", ms=4, lw=1.2, capsize=2.5, color=color,
-            label=fr"$x_k={x:.2f}$ m",
-        )
-    empty_mean = float(empty["mean_t90_seconds"])
-    empty_std = float(empty["std_t90_seconds"])
-    axis.axhline(empty_mean, color="black", ls="--", lw=1.2, label="mesa vacía")
-    axis.fill_between([0.04, 0.35], empty_mean - empty_std, empty_mean + empty_std,
-                      color="black", alpha=0.07)
-    best = selection["best"]
-    axis.scatter([best["radius"]], [best["mean_t90_seconds"]], marker="*", s=180,
-                 color="#f2b134", edgecolor="black", zorder=5, label="configuración elegida")
-    axis.set(xlabel="Radio del obstáculo [m]", ylabel=r"$\langle t_{90}\rangle$ [s]",
-             xlim=(0.04, 0.35))
-    axis.grid(True, alpha=0.25)
-    axis.legend(frameon=False, ncol=3, loc="lower left",
-                bbox_to_anchor=(0, 1.01))
-    finish(fig, "t90-vs-configuracion.pdf")
-    improvement = 100 * (empty_mean - float(best["mean_t90_seconds"])) / empty_mean
-    metadata["empty_mean_t90_seconds"] = empty_mean
-    metadata["empty_std_t90_seconds"] = empty_std
-    metadata["best_improvement_percent"] = improvement
-
-
-def diffusion_figures(selection: dict[str, object], metadata: dict[str, object]) -> None:
-    label = selection["best"]["label"]
-    msd_rows = read_csv(f"msd_{label}.csv")
-    lags = np.array([float(row["lag_seconds"]) for row in msd_rows])
-    msd = np.array([float(row["msd_m2"]) for row in msd_rows])
-    spread = np.array([float(row["std_m2"]) for row in msd_rows])
-    summaries = {row["label"]: row for row in read_csv("diffusion_summary.csv")}
-    summary = summaries[label]
-    pooled_d = float(summary["pooled_D_m2_s"])
-    mean_d = float(summary["mean_D_m2_s"])
-    std_d = float(summary["std_D_m2_s"])
-    window = selection["diffusion_window_seconds"]
+def diffusion_figures(values: dict[str, object]) -> None:
+    import run_experiments as rx
+    window = rx.DIFFUSION_WINDOW
+    summary = {r["label"]: r for r in read_csv(ELIPSES / "difusion_todas.csv")}
 
     fig, axis = plt.subplots(figsize=(6.3, 5.0), constrained_layout=True)
-    axis.plot(lags, msd, color=BLUE, lw=2, label="DCM medio (5 semillas)")
-    axis.fill_between(lags, msd - spread, msd + spread, color=BLUE, alpha=0.15)
-    line_x = np.linspace(0, window[1], 100)
-    axis.plot(line_x, 4 * pooled_d * line_x, "--", color=ORANGE,
-              label=fr"ajuste $4Dt$, $D={pooled_d:.4f}$ m$^2$/s")
-    axis.axvspan(window[0], window[1], color=ORANGE, alpha=0.08,
-                 label=fr"ventana [{window[0]:.1f}, {window[1]:.1f}] s")
-    axis.set(xlabel="Desfasaje [s]", ylabel=r"DCM [m$^2$]", xlim=(0, 3.0))
+    for label, path, color, name in (
+        ("vacia", RESULTS / "msd_vacia.csv", BLUE, "mesa vacía"),
+        (ELEGIDA, ELIPSES / f"msd_{ELEGIDA}.csv", VIOLET, "elegida"),
+    ):
+        rows = read_csv(path)
+        t = np.array([float(r["lag_seconds"]) for r in rows])
+        msd = np.array([float(r["msd_m2"]) for r in rows])
+        spread = np.array([float(r["std_m2"]) for r in rows])
+        d = float(summary[label]["pooled_D_m2_s"])
+        axis.plot(t, msd, color=color, lw=2, label=f"{name}")
+        axis.fill_between(t, msd - spread, msd + spread, color=color, alpha=0.15, lw=0)
+        line = np.linspace(0, window[1], 50)
+        axis.plot(line, 4 * d * line, "--", color=INK, lw=1.2)
+        axis.text(window[1] + 0.05, 4 * d * window[1],
+                  f"D = {d:.4f}".replace(".", ",") + r" m$^2$/s", color=color, fontsize=12,
+                  va="center")
+    axis.axvspan(window[0], window[1], color=MUTED, alpha=0.08)
+    axis.set(xlabel="Tiempo, t [s]", ylabel=r"DCM(t) [m$^2$]", xlim=(0, 3.0), ylim=(0, None))
+    axis.text(np.mean(window), axis.get_ylim()[1] * 0.965, "ventana de ajuste",
+              ha="center", va="top", fontsize=11, color=MUTED)
     axis.grid(True, alpha=0.25)
-    axis.legend(frameon=False, loc="lower right")
+    axis.legend(frameon=False, loc="center right")
     finish(fig, "DCM-ajuste.pdf")
 
-    ec_rows = read_csv(f"ec_{label}.csv")
-    slopes = np.array([float(row["slope_m2_s"]) for row in ec_rows])
-    errors = np.array([float(row["squared_error"]) for row in ec_rows])
+    rows = read_csv(ELIPSES / f"ec_{ELEGIDA}.csv")
+    slopes = np.array([float(r["slope_m2_s"]) for r in rows])
+    errors = np.array([float(r["squared_error"]) for r in rows])
     minimum = int(np.argmin(errors))
     fig, axis = plt.subplots(figsize=(6.3, 5.0), constrained_layout=True)
-    axis.plot(slopes, errors, color=BLUE, lw=2)
-    axis.scatter([slopes[minimum]], [errors[minimum]], color=ORANGE, zorder=4)
+    axis.plot(slopes, errors, color=VIOLET, lw=2)
+    axis.scatter([slopes[minimum]], [errors[minimum]], color=ORANGE, zorder=4, s=60)
     axis.axvline(slopes[minimum], color=ORANGE, ls="--",
-                 label=fr"$c_{{min}}={slopes[minimum]:.4f}$ m$^2$/s")
-    axis.set(xlabel=r"Pendiente candidata, $c$ [m$^2$/s]",
-             ylabel=r"Error $E(c)$ [m$^4$]")
+                 label=fr"$c_{{min}}={slopes[minimum]:.4f}$ m$^2$/s".replace(".", "{,}"))
+    axis.set(xlabel=r"Pendiente candidata, $c$ [m$^2$/s]", ylabel=r"Error $E(c)$ [m$^4$]")
     axis.grid(True, alpha=0.25)
     axis.legend(frameon=False)
     finish(fig, "error-ajuste.pdf")
-    metadata["best_mean_D_m2_s"] = mean_d
-    metadata["best_std_D_m2_s"] = std_d
-    metadata["best_pooled_D_m2_s"] = pooled_d
+    elegida = summary[ELEGIDA]
+    values["elegida_D"] = (float(elegida["mean_D_m2_s"]), float(elegida["std_D_m2_s"]),
+                           float(elegida["pooled_D_m2_s"]))
+    values["vacia_D"] = (float(summary["vacia"]["mean_D_m2_s"]),
+                         float(summary["vacia"]["std_D_m2_s"]))
+    values["difusion_repeticiones"] = rx.DIFFUSION_REPETITIONS
 
 
-def correlation_figure(metadata: dict[str, object]) -> None:
-    t90 = {row["label"]: row for row in read_csv("t90_summary.csv")}
-    diffusion = {row["label"]: row for row in read_csv("diffusion_summary.csv")}
-    labels = sorted(set(t90) & set(diffusion))
-    x = np.array([float(diffusion[label]["mean_D_m2_s"]) for label in labels])
-    y = np.array([float(t90[label]["mean_t90_seconds"]) for label in labels])
-    xerr = np.array([float(diffusion[label]["sem_D_m2_s"]) for label in labels])
-    yerr = np.array([float(t90[label]["sem_t90_seconds"]) for label in labels])
-    correlation = float(np.corrcoef(x, y)[0, 1])
-
-    fig, axis = plt.subplots(figsize=(10.5, 4.2), constrained_layout=True)
-    for label in labels:
-        index = labels.index(label)
-        is_empty = label == "vacia"
-        is_best = label == "x60_r34"
-        color = ORANGE if is_best else ("black" if is_empty else BLUE)
-        marker = "*" if is_best else ("s" if is_empty else "o")
-        size = 10 if is_best else 5
-        axis.errorbar(x[index], y[index], xerr=xerr[index], yerr=yerr[index],
-                      fmt=marker, ms=size, color=color, capsize=2, alpha=0.9)
-    axis.scatter([], [], marker="s", color="black", label="mesa vacía")
-    axis.scatter([], [], marker="*", s=120, color=ORANGE, label="configuración elegida")
-    axis.scatter([], [], marker="o", color=BLUE, label="resto del barrido")
-    axis.text(0.98, 0.95, fr"Pearson $r={correlation:.2f}$", ha="right", va="top",
-              transform=axis.transAxes,
-              bbox={"facecolor": "white", "alpha": 0.85, "edgecolor": "none"})
-    axis.set(xlabel=r"$\langle D\rangle$ [m$^2$/s]",
-             ylabel=r"$\langle t_{90}\rangle$ [s]")
+def correlation_figure(values: dict[str, object]) -> None:
+    rows = read_csv(ELIPSES / "difusion_todas.csv")
+    fig, axis = plt.subplots(figsize=(10.5, 4.6), constrained_layout=True)
+    for family, (name, color, marker) in FAMILIAS.items():
+        selected = [r for r in rows if r["familia"] == family]
+        r_family = np.corrcoef([float(r["mean_D_m2_s"]) for r in selected],
+                               [float(r["mean_t90_seconds"]) for r in selected])[0, 1]
+        axis.scatter([float(r["mean_D_m2_s"]) for r in selected],
+                     [float(r["mean_t90_seconds"]) for r in selected],
+                     marker=marker, s=34, color=color, alpha=0.8, linewidths=0,
+                     label=f"{name} (n = {len(selected)}, r = {r_family:+.2f})".replace(".", ","))
+    for label, name, marker, color in (("vacia", "mesa vacía", "X", INK),
+                                       (ELEGIDA, "elegida", "*", VIOLET)):
+        row = next(r for r in rows if r["label"] == label)
+        axis.errorbar(float(row["mean_D_m2_s"]), float(row["mean_t90_seconds"]),
+                      xerr=float(row["std_D_m2_s"]), yerr=float(row["sem_t90_seconds"]),
+                      fmt=marker, ms=15, color=color, markeredgecolor="white", capsize=3,
+                      zorder=5)
+        axis.annotate(name, (float(row["mean_D_m2_s"]), float(row["mean_t90_seconds"])),
+                      xytext=(10, -14), textcoords="offset points", fontsize=12, color=INK)
+    d = np.array([float(r["mean_D_m2_s"]) for r in rows])
+    t = np.array([float(r["mean_t90_seconds"]) for r in rows])
+    correlation = float(np.corrcoef(d, t)[0, 1])
+    axis.text(0.99, 0.04, fr"todas: $r = {correlation:+.2f}$".replace(".", "{,}"),
+              transform=axis.transAxes, ha="right", fontsize=13, color=INK)
+    axis.set(xlabel=r"$\langle D\rangle$ [m$^2$/s]", ylabel=r"$\langle t_{90}\rangle$ [s]")
     axis.grid(True, alpha=0.25)
-    axis.legend(frameon=False)
+    axis.legend(frameon=False, loc="upper right", fontsize=11.5)
     finish(fig, "D-vs-t90.pdf")
-    metadata["diffusion_t90_pearson_r"] = correlation
-
-
-def visual_assets(selection: dict[str, object], videos: bool) -> None:
-    FIGURES.mkdir(parents=True, exist_ok=True)
-    VIDEOS.mkdir(parents=True, exist_ok=True)
-    for role in ("vacia", "mejor"):
-        trajectory = read_trajectory(ROOT / selection[role]["trajectory"])
-        event_frames = np.flatnonzero(np.array(trajectory.reasons) != "final")
-        target = float(selection[role]["t90_seconds"]) * 0.65
-        frame = int(event_frames[np.argmin(abs(trajectory.times[event_frames] - target))])
-        render_snapshot(trajectory, FIGURES / f"anim-{role}.png", frame)
-        if videos:
-            render_animation(trajectory, VIDEOS / f"anim-{role}.mp4", fps=30, duration=15)
+    values["pearson_todas"] = correlation
+    values["configuraciones_difusion"] = len(rows)
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--skip-videos", action="store_true")
-    arguments = parser.parse_args()
-    selection = json.loads((RESULTS / "selection.json").read_text(encoding="utf-8"))
-    metadata: dict[str, object] = {}
-    runtime_figure(metadata)
-    goal_figure(selection)
-    search_figure(selection, metadata)
-    diffusion_figures(selection, metadata)
-    correlation_figure(metadata)
-    visual_assets(selection, not arguments.skip_videos)
-    (RESULTS / "presentation_values.json").write_text(
-        json.dumps(metadata, ensure_ascii=False, indent=2) + "\n", encoding="utf-8"
-    )
+    values: dict[str, object] = {}
+    runtime_figure(values)
+    fu_map_figure(values)
+    search_figure(values)
+    depth_figure(values)
+    diffusion_figures(values)
+    correlation_figure(values)
+    (PRESENTACION / "valores_presentacion.json").write_text(
+        json.dumps(values, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     return 0
 
 
