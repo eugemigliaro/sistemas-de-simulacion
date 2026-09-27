@@ -7,6 +7,7 @@
 #include "tp3/generation.hpp"
 #include "tp3/geometry.hpp"
 #include "tp3/model.hpp"
+#include "tp3/naive.hpp"
 #include "test_support.hpp"
 
 namespace {

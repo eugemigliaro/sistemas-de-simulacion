@@ -73,6 +73,16 @@ struct System {
     bool operator==(const System&) const = default;
 };
 
+// Como se sortean las posiciones iniciales. `Random` es el muestreo uniforme
+// que pide la consigna [TP03, p. 3]. `Triangular` existe solo para el punto
+// 1.1: el muestreo al azar se traba cerca de ~446 particulas en la mesa vacia
+// (fraccion de area ~0.53), mucho antes del empaquetamiento compacto donde la
+// frecuencia de choques diverge y el motor deja de avanzar en el tiempo.
+enum class Layout : std::uint8_t {
+    Random = 0,
+    Triangular = 1,
+};
+
 struct InitializationConfig {
     std::size_t particle_count{};
     Table table{};
@@ -86,6 +96,8 @@ struct InitializationConfig {
     // fisico: acotar el muestreo por rechazo evita que una configuracion
     // demasiado densa cuelgue un barrido en silencio [TP03, p. 3].
     std::size_t max_placement_attempts{10000};
+
+    Layout layout{Layout::Random};
 };
 
 }  // namespace tp3

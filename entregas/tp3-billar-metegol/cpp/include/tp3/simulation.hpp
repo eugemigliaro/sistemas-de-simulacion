@@ -82,9 +82,8 @@ using FrameSink = std::function<
 void advance(System& system, double interval) noexcept;
 
 // Busca el primer choque recalculando todos los tiempos: N paredes, N*K
-// obstaculos y N*(N-1)/2 pares. Es O(N^2) por evento, lo que la vuelve la
-// referencia lenta del punto 1.1 y el oraculo contra el que se valida la
-// version con cola de prioridad.
+// obstaculos y N*(N-1)/2 pares. Es O(N^2); el motor con cola lo usa una sola
+// vez, para confirmar que no quedan choques cuando la cola se vacia.
 //
 // Ante un empate exacto gana el primero en el orden de recorrido, que es fijo,
 // de modo que la corrida es reproducible a partir de la semilla.
@@ -105,13 +104,5 @@ SimulationReport simulate_queue(
 // contadores y, si una particula fresca toco el arco, la pasa a usada.
 // Devuelve si hubo cambio de color.
 bool apply_event(System& system, const Event& event) noexcept;
-
-// Motor ingenuo: recalcula todos los tiempos en cada evento. Modifica `system`
-// in situ hasta `max_time` y emite los cuadros por `sink`, que puede ser vacio.
-SimulationReport simulate_naive(
-    System& system,
-    const SimulationConfig& config,
-    const FrameSink& sink
-);
 
 }  // namespace tp3

@@ -22,6 +22,12 @@ namespace tp3 {
 //
 // Los obstaculos se validan con `validate_obstacles`, de modo que la lista
 // vacia (mesa vacia) es aceptable.
+//
+// Con `Layout::Triangular` las posiciones son N sitios elegidos al azar de la
+// red triangular mas espaciada que todavia tiene N sitios libres dentro del
+// dominio. Llega hasta el empaquetamiento compacto (737 particulas en la mesa
+// vacia), que el muestreo por rechazo no alcanza nunca. Si ni la red con los
+// discos tocandose alcanza, lanza std::runtime_error.
 [[nodiscard]] System generate_system(
     const InitializationConfig& config,
     const std::vector<Obstacle>& obstacles

@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <cmath>
 #include <stdexcept>
 #include <vector>
@@ -142,6 +143,41 @@ void test_invalid_arguments_are_rejected() {
     );
 }
 
+tp3::InitializationConfig triangular(std::size_t count, std::uint64_t seed) {
+    tp3::InitializationConfig value = config(count, seed);
+    value.layout = tp3::Layout::Triangular;
+    return value;
+}
+
+void test_triangular_layout_reaches_close_packing() {
+    // El muestreo al azar se traba cerca de 446; la red llega a 737.
+    expect_well_formed(tp3::generate_system(triangular(600, 1), {}), 600);
+    expect_well_formed(tp3::generate_system(triangular(737, 1), {}), 737);
+    EXPECT_THROWS(std::runtime_error, tp3::generate_system(triangular(738, 1), {}));
+}
+
+void test_triangular_layout_uses_the_sparsest_lattice() {
+    // Con pocas particulas la red se abre: la distancia minima entre centros
+    // queda muy por encima del contacto.
+    const tp3::System system = tp3::generate_system(triangular(100, 2), {});
+    double closest = 1e9;
+    for (std::size_t i = 0; i < system.particles.size(); ++i) {
+        for (std::size_t j = 0; j < i; ++j) {
+            closest = std::min(closest, tp3::norm(
+                system.particles[i].position - system.particles[j].position));
+        }
+    }
+    EXPECT_TRUE(closest > 3.0 * tp3::default_particle_radius);
+}
+
+void test_triangular_layout_is_reproducible_and_avoids_obstacles() {
+    const std::vector<tp3::Obstacle> obstacles{obstacle(0, 0.60, 0.34, 0.20)};
+    const tp3::System first = tp3::generate_system(triangular(300, 7), obstacles);
+    const tp3::System second = tp3::generate_system(triangular(300, 7), obstacles);
+    EXPECT_TRUE(first == second);
+    expect_well_formed(first, 300);
+}
+
 }  // namespace
 
 int main() {
@@ -152,5 +188,8 @@ int main() {
     test_impossible_configuration_fails_loudly();
     test_large_obstacle_still_allows_the_tp_configuration();
     test_invalid_arguments_are_rejected();
+    test_triangular_layout_reaches_close_packing();
+    test_triangular_layout_uses_the_sparsest_lattice();
+    test_triangular_layout_is_reproducible_and_avoids_obstacles();
     return test::finish("test_generation");
 }

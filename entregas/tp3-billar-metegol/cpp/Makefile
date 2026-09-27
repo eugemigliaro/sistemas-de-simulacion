@@ -1,5 +1,10 @@
 CXX ?= g++
 CPPFLAGS := -Iinclude
+# El motor ingenuo (oraculo de los tests) solo se compila si esta su fuente:
+# el ZIP de entrega no la incluye [TP03, p. 1].
+ifneq ($(wildcard src/naive.cpp),)
+CPPFLAGS += -DTP3_WITH_NAIVE
+endif
 COMMON_FLAGS := -std=c++20 -Wall -Wextra -Wpedantic -Werror
 DEBUG_FLAGS := $(COMMON_FLAGS) -O0 -g3
 SANITIZE_FLAGS := $(DEBUG_FLAGS) -fsanitize=address,undefined -fno-omit-frame-pointer

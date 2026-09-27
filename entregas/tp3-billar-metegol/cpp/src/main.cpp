@@ -14,6 +14,9 @@
 #include "tp3/io.hpp"
 #include "tp3/simulation.hpp"
 #include "tp3/version.hpp"
+#ifdef TP3_WITH_NAIVE
+#include "tp3/naive.hpp"
+#endif
 
 namespace {
 
@@ -34,13 +37,17 @@ void print_usage(std::ostream& stream) {
            << "                        (si se omite, mesa vacia)\n"
            << "  --output <archivo>    destino (si se omite, salida estandar)\n"
            << "  --max-attempts <n>    tope de intentos por particula\n"
+           << "  --layout <nombre>     random o triangular (default random);\n"
+           << "                        triangular solo para el punto 1.1\n"
            << "\n"
            << "opciones de simulate:\n"
            << "  --tmax <real>         tiempo absoluto de corrida (obligatorio)\n"
            << "  --save-every <n>      cuadro periodico cada n eventos\n"
            << "                        (default 0: solo inicial, color y final)\n"
            << "  --max-events <n>      tope de eventos (default 0: sin tope)\n"
+#ifdef TP3_WITH_NAIVE
            << "  --engine <nombre>     naive o queue (default queue)\n"
+#endif
            << "\n"
            << "El motor solo genera el estado del sistema (tiempo, posiciones,\n"
            << "velocidades y color). Los observables se calculan en el\n"
@@ -78,6 +85,7 @@ struct Options {
     bool has_particle_count{false};
     std::uint64_t seed{};
     std::size_t max_attempts{10000};
+    tp3::Layout layout{tp3::Layout::Random};
     std::string config_path{};
     std::string output_path{};
 
@@ -132,6 +140,17 @@ struct Options {
                 );
             }
             options.max_attempts = *parsed;
+        } else if (flag == "--layout") {
+            if (value == "random") {
+                options.layout = tp3::Layout::Random;
+            } else if (value == "triangular") {
+                options.layout = tp3::Layout::Triangular;
+            } else {
+                throw std::invalid_argument(
+                    "--layout desconocido: " + std::string(value)
+                    + " (random o triangular)"
+                );
+            }
         } else if (flag == "--config") {
             options.config_path = std::string(value);
         } else if (flag == "--output") {
@@ -162,6 +181,7 @@ struct Options {
                 );
             }
             options.max_events = *parsed;
+#ifdef TP3_WITH_NAIVE
         } else if (flag == "--engine") {
             reject_unless_simulation(flag);
             if (value != "naive" && value != "queue") {
@@ -171,6 +191,7 @@ struct Options {
                 );
             }
             options.engine = std::string(value);
+#endif
         } else {
             throw std::invalid_argument("opcion desconocida: " + std::string(flag));
         }
@@ -212,6 +233,7 @@ struct Options {
             .initial_speed = tp3::default_initial_speed,
             .seed = options.seed,
             .max_placement_attempts = options.max_attempts,
+            .layout = options.layout,
         },
         obstacles
     );
@@ -302,9 +324,14 @@ int run_simulate(const std::vector<std::string_view>& arguments) {
     };
 
     const auto started = std::chrono::steady_clock::now();
+#ifdef TP3_WITH_NAIVE
     const tp3::SimulationReport report = (options.engine == "naive")
         ? tp3::simulate_naive(system, simulation_config, sink)
         : tp3::simulate_queue(system, simulation_config, sink);
+#else
+    const tp3::SimulationReport report =
+        tp3::simulate_queue(system, simulation_config, sink);
+#endif
     const auto finished = std::chrono::steady_clock::now();
     const double seconds =
         std::chrono::duration<double>(finished - started).count();
