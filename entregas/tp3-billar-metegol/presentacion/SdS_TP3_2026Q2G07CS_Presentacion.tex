@@ -398,8 +398,8 @@
   \centering
   \includegraphics[width=\textwidth,height=5.3cm,keepaspectratio]{figuras/runtime-vs-N.pdf}
   \vspace{0.2em}
-  \par\parametros{Mesa vacía; $t_f=30\ \mathrm{s}$; 10 realizaciones por $N$; corte: 10 min. Desde $N=450$, red triangular.\\
-  $N=675$: $567\pm11\ \mathrm{s}$; $N=700$: no termina.}
+  \par\parametros{Mesa vacía; $t_f=30\ \mathrm{s}$; 10 realizaciones por $N$; desde $N=450$, red triangular; corte: 10 min.\\
+  Derecha: los dos factores del tiempo total. $N=675$: $567\pm11\ \mathrm{s}$; $N=700$: no termina.}
 \end{frame}
 
 % 17
@@ -427,7 +427,7 @@
   \centering
   \includegraphics[width=\textwidth,height=5.3cm,keepaspectratio]{figuras/fu-disco-mapa.pdf}
   \vspace{0.1em}
-  \par\parametros{Disco en $(0{,}60;0{,}34)\ \mathrm{m}$; $N=100$; 20 realizaciones por radio; color: $F_u$ promedio.\\
+  \par\parametros{Disco en $(0{,}60;0{,}34)\ \mathrm{m}$; $N=100$; 20 realizaciones por radio; en naranja, $\langle F_u\rangle\geq0{,}9$.\\
   $\langle t_{90}\rangle$ baja de $22{,}92\pm0{,}53\ \mathrm{s}$ (vacía) a $15{,}33\pm0{,}47\ \mathrm{s}$ con $R=0{,}34\ \mathrm{m}$.}
 \end{frame}
 
@@ -441,6 +441,15 @@
 \end{frame}
 
 % 20
+\begin{frame}{Profundidad de la sala}
+  \centering
+  \includegraphics[width=\textwidth,height=5.3cm,keepaspectratio]{figuras/t90-vs-profundidad.pdf}
+  \vspace{0.1em}
+  \par\parametros{Superelipse con $B$, $p$ y retroceso fijos; $N=100$; 24 realizaciones por punto; $t_{\max}=100\ \mathrm{s}$.\\
+  Óptimo plano entre $0{,}23$ y $0{,}30\ \mathrm{m}$. Elegida, con 100 realizaciones nuevas: $\langle t_{90}\rangle=13{,}61\pm0{,}17\ \mathrm{s}$.}
+\end{frame}
+
+% 21
 \begin{frame}{Configuración elegida: dinámica y $F_u(t)$}
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.52\textwidth}
@@ -458,15 +467,6 @@
       Semilla 11091: $t_{90}=13{,}59\ \mathrm{s}$.}
     \end{column}
   \end{columns}
-\end{frame}
-
-% 21
-\begin{frame}{Profundidad de la sala}
-  \centering
-  \includegraphics[width=\textwidth,height=5.3cm,keepaspectratio]{figuras/t90-vs-profundidad.pdf}
-  \vspace{0.1em}
-  \par\parametros{Superelipse con $B$, $p$ y retroceso fijos; $N=100$; 24 realizaciones por punto; $t_{\max}=100\ \mathrm{s}$.\\
-  Óptimo plano entre $0{,}23$ y $0{,}30\ \mathrm{m}$. Elegida, con 100 realizaciones nuevas: $\langle t_{90}\rangle=13{,}61\pm0{,}17\ \mathrm{s}$.}
 \end{frame}
 
 % 22
@@ -500,12 +500,11 @@
 
 % 25
 \begin{frame}{Conclusiones}
-  \begin{itemize}
-    \item El tiempo de ejecución crece con $N$ y se dispara al acercarse al empaquetamiento compacto: con $N=675$ tarda $9{,}5$ min y con $N=700$ ya no termina en 10 min.
-    \item Un disco central reduce $\langle t_{90}\rangle$ a medida que crece su radio: de $22{,}9$ a $15{,}3\ \mathrm{s}$.
-    \item Separar las mitades casi no ayuda; lo que reduce $t_{90}$ es quitar área lejos de los arcos sin angostar la entrada.
-    \item La superelipse elegida da $\langle t_{90}\rangle=13{,}61\pm0{,}17\ \mathrm{s}$: un 40\,\% menos que la mesa vacía y un 13\,\% menos que el mejor disco central.
-    \item $D$ y $t_{90}$ no tienen una relación única: la correlación cambia de signo entre familias.
+  \begin{itemize}\setlength{\itemsep}{0.8em}
+    \item Cerca del empaquetamiento compacto los choques se multiplican y cada evento cuesta más: la simulación por eventos rinde solo a densidad media o baja.
+    \item Con movimiento difusivo, $t_{90}$ baja al quitar el área más lejana a los arcos: por eso funciona el disco central y no una pared que solo separa las mitades.
+    \item La superelipse lleva esa idea al límite: su profundidad óptima equilibra área lejana y densidad, con un 40\,\% menos de $\langle t_{90}\rangle$ que la mesa vacía.
+    \item $D$ no predice $t_{90}$: la correlación cambia de signo entre familias.
   \end{itemize}
 \end{frame}
 

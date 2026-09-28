@@ -21,6 +21,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 from matplotlib.patches import Circle, Rectangle  # noqa: E402
+from matplotlib.colors import BoundaryNorm, ListedColormap  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -116,39 +117,55 @@ def runtime_figure(values: dict[str, object]) -> None:
         print("falta runtime_saturacion.csv: se omite la figura de tiempo de ejecución")
         return
     rows = read_csv(path)
-    finished: dict[tuple[int, str], list[float]] = defaultdict(list)
+    finished: dict[tuple[int, str], list[dict[str, str]]] = defaultdict(list)
     unfinished: dict[int, int] = defaultdict(int)
     for row in rows:
         n = int(row["particle_count"])
         if row["finished"] == "1":
-            finished[(n, row["layout"])].append(float(row["runtime_seconds"]))
+            finished[(n, row["layout"])].append(row)
         else:
             unfinished[n] += 1
 
-    fig, axis = plt.subplots(figsize=(10.5, 4.4), constrained_layout=True)
-    for layout, color, marker, label in (
-        ("random", BLUE, "o", "posiciones al azar"),
-        ("triangular", ORANGE, "s", "sitios al azar de una red triangular"),
-    ):
+    # Tiempo total = eventos × costo por evento. Los paneles de la derecha
+    # separan los dos factores: la frecuencia de choques, que diverge cerca del
+    # empaquetamiento compacto, y el costo de cada evento, que crece con N.
+    fig = plt.figure(figsize=(11.5, 4.6), constrained_layout=True)
+    grid = fig.add_gridspec(2, 2, width_ratios=(1.55, 1.0))
+    total = fig.add_subplot(grid[:, 0])
+    rate = fig.add_subplot(grid[0, 1])
+    cost = fig.add_subplot(grid[1, 1], sharex=rate)
+    styles = (("random", BLUE, "o", "posiciones al azar"),
+              ("triangular", ORANGE, "s", "red triangular"))
+    for layout, color, marker, label in styles:
         keys = sorted(k for k in finished if k[1] == layout)
-        ns = [k[0] for k in keys]
-        means = [np.mean(finished[k]) for k in keys]
-        stds = [np.std(finished[k], ddof=1) if len(finished[k]) > 1 else 0.0 for k in keys]
-        axis.errorbar(ns, means, yerr=stds, fmt=marker, ms=7, color=color, capsize=4,
-                      label=f"{label}: media ± desvío")
+        ns = np.array([k[0] for k in keys])
+        runtime = [np.array([float(r["runtime_seconds"]) for r in finished[k]]) for k in keys]
+        events = [np.array([int(r["events"]) for r in finished[k]]) for k in keys]
+        total.errorbar(ns, [t.mean() for t in runtime], yerr=[t.std(ddof=1) for t in runtime],
+                       fmt=marker, ms=7, color=color, capsize=4, label=f"{label}: media ± desvío")
+        rate.plot(ns, [e.mean() / 30.0 / n for e, n in zip(events, ns)], marker, ms=6,
+                  color=color)
+        cost.plot(ns, [(t / e).mean() * 1e6 for t, e in zip(runtime, events)], marker, ms=6,
+                  color=color)
     if unfinished:
         ns = sorted(unfinished)
-        axis.scatter(ns, [600.0] * len(ns), marker="x", s=90, color=INK, zorder=5,
-                     label="no terminó en 10 min")
-    axis.axhline(600.0, color=MUTED, ls="--", lw=1.2)
-    axis.text(15, 600.0 * 1.35, "corte: 10 min", color=MUTED, fontsize=13)
-    axis.axvline(446, color=MUTED, ls=":", lw=1.2)
-    axis.text(455, 1.2, "máximo al azar\n(446)", color=MUTED, fontsize=12, ha="left")
-    axis.set(yscale="log", xlabel="Cantidad de partículas, N",
-             ylabel="Tiempo de ejecución [s]", xlim=(0, 760), ylim=(1e-4, 5e3))
-    axis.grid(True, which="both", alpha=0.2)
-    axis.legend(frameon=True, facecolor="white", edgecolor="none", loc="lower right",
-                fontsize=12)
+        total.scatter(ns, [600.0] * len(ns), marker="x", s=90, color=INK, zorder=5,
+                      label="no terminó en 10 min")
+    total.axhline(600.0, color=MUTED, ls="--", lw=1.2)
+    total.text(15, 600.0 * 1.35, "corte: 10 min", color=MUTED, fontsize=13)
+    for axis in (total, rate, cost):
+        axis.axvline(446, color=MUTED, ls=":", lw=1.2)
+        axis.grid(True, which="both", alpha=0.2)
+    total.text(455, 1.2, "máximo al azar\n(446)", color=MUTED, fontsize=12, ha="left")
+    total.set(yscale="log", xlabel="Cantidad de partículas, N",
+              ylabel="Tiempo de ejecución [s]", xlim=(0, 760), ylim=(1e-4, 5e3))
+    total.legend(frameon=True, facecolor="white", edgecolor="none", loc="lower right",
+                 fontsize=12)
+    rate.axvline(737, color=INK, ls="--", lw=1.2)
+    rate.text(728, 3.0, "compacto\n(737)", color=INK, fontsize=11, ha="right", va="bottom")
+    rate.set(yscale="log", ylabel="choques por\npartícula por s", xlim=(0, 760))
+    rate.tick_params(labelbottom=False)
+    cost.set(xlabel="Cantidad de partículas, N", ylabel="costo por\nevento [µs]", ylim=(0, None))
     finish(fig, "runtime-vs-N.pdf")
     all_finished = sorted({k[0] for k in finished})
     values["runtime_max_n_finished"] = max(all_finished)
@@ -171,19 +188,35 @@ def fu_map_figure(values: dict[str, object]) -> None:
     fig, axis = plt.subplots(figsize=(10.5, 4.6), constrained_layout=True)
     edges_t = np.append(times[keep] - 0.05, times[keep][-1] + 0.05)
     edges_r = np.arange(len(radii) + 1) - 0.5
-    mesh = axis.pcolormesh(edges_t, edges_r, grid[:, keep], cmap="Blues", vmin=0, vmax=1,
+    # Franjas de 0,1 en un solo tono, de claro a oscuro, para que el
+    # corrimiento con R se lea como bordes; la franja F_u >= 0,9 va en el color
+    # de acento porque su borde izquierdo es t90.
+    ramp = plt.get_cmap("Greys")
+    bands = [ramp(x) for x in np.linspace(0.12, 0.88, 9)] + [ORANGE]
+    colormap = ListedColormap(bands)
+    norm = BoundaryNorm(np.round(np.arange(0.0, 1.01, 0.1), 2), colormap.N)
+    mesh = axis.pcolormesh(edges_t, edges_r, grid[:, keep], cmap=colormap, norm=norm,
                            shading="flat", edgecolors="none", antialiased=False,
                            rasterized=True)
-    bar = fig.colorbar(mesh, ax=axis, pad=0.01)
+    bar = fig.colorbar(mesh, ax=axis, pad=0.01, ticks=np.round(np.arange(0, 1.01, 0.1), 1))
     bar.set_label(r"$\langle F_u(t)\rangle$")
+    bar.ax.set_yticklabels([f"{t:.1f}".replace(".", ",") for t in np.arange(0, 1.01, 0.1)])
     means = [float(row["mean_t90_seconds"]) for row in summary]
     sems = [float(row["sem_t90_seconds"]) for row in summary]
-    axis.errorbar(means, range(len(radii)), xerr=sems, fmt="o", ms=7, color=ORANGE,
-                  markeredgecolor="white", capsize=3, label=r"$\langle t_{90}\rangle$ ± EE")
+    # Azul con borde blanco: contrasta con los grises oscuros y con el naranja.
+    # Los puntos caen algo antes del borde naranja porque son dos medidas
+    # distintas: el promedio de los t90 de cada realización y el instante en
+    # que la curva promedio <Fu> llega a 0,9, que se atrasa porque Fu crece
+    # cada vez más lento al acercarse a 1.
+    axis.errorbar(means, range(len(radii)), xerr=sems, fmt="o", ms=9, color=BLUE,
+                  markeredgecolor="white", markeredgewidth=1.5, ecolor="white",
+                  elinewidth=1.8, capsize=4, capthick=1.8,
+                  label=r"$\langle t_{90}\rangle$ ± EE")
     axis.set_yticks(range(len(radii)),
                     ["vacía" if r == 0 else f"{r:.2f}" for r in radii])
     axis.set(xlabel="Tiempo, t [s]", ylabel="Radio del disco central, R [m]", xlim=(0, tmax))
-    axis.legend(frameon=True, loc="lower right", facecolor="white", edgecolor="none")
+    axis.legend(frameon=True, loc="lower right", facecolor="#222222", edgecolor="none",
+                labelcolor="white", framealpha=0.9)
     finish(fig, "fu-disco-mapa.pdf")
     values["disco_t90"] = {f"{r:.2f}": (m, s) for r, m, s in zip(radii, means, sems)}
     values["disco_repeticiones"] = int(summary[0]["realizaciones"])
