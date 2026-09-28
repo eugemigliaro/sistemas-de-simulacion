@@ -126,10 +126,14 @@ cola los agenda una sola vez y, después de cada choque, reagenda únicamente lo
 de las partículas que participaron; los eventos que quedaron invalidados no se
 borran de la cola, se descartan al extraerlos comparando los contadores de
 choque guardados contra los actuales [B16, pp. 1, 4].
-**El ZIP de entrega incluye únicamente el motor final** [TP03, p. 1]. El
-ingenuo vive en `cpp/src/naive.cpp` y el Makefile activa `--engine` solo si
-ese archivo existe. `make package` lo deja afuera, quita los bloques
-condicionales, verifica que el ZIP no lo mencione y lo compila en limpio.
+**El ZIP de entrega incluye el motor final** [TP03, p. 1] y, por pedido de la
+cátedra, **el código que genera las animaciones**, para verificar que no
+interpolan entre eventos: `python -m tp3analysis.animar` y los módulos que usa
+(`trajectory`, `goals`, `animation`). El resto del posprocesamiento queda
+afuera. El ingenuo vive en `cpp/src/naive.cpp` y el Makefile activa `--engine`
+solo si ese archivo existe. `make package` lo deja afuera, quita los bloques
+condicionales y verifica que el ZIP no lo mencione. Después prueba el ZIP en
+limpio: compila el motor, simula y anima esa salida solo con lo que trae.
 
 `--layout triangular` ubica las partículas en sitios al azar de una red
 triangular, hasta el empaquetamiento compacto (737). Solo se usa en el punto

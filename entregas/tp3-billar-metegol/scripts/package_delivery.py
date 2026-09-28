@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Arma los entregables locales respetando el contrato de TP03, p. 1."""
+"""Arma los entregables locales respetando el contrato de TP03, p. 1.
+
+El ZIP lleva el motor final y, por pedido de la cátedra, el código que genera
+las animaciones, para que se pueda verificar que no interpolan entre eventos.
+El resto del posprocesamiento (DCM, ajustes, estadística) queda afuera.
+"""
 
 from __future__ import annotations
 
@@ -22,6 +27,16 @@ DELIVERED_PRESENTATION = DELIVERY / f"{STEM}_Presentación.pdf"
 # El motor ingenuo queda en el repositorio como oráculo de los tests, pero el
 # ZIP incluye únicamente la versión final del motor [TP03, p. 1].
 NAIVE_FILES = {"cpp/src/naive.cpp", "cpp/include/tp3/naive.hpp"}
+# Animación: el punto de entrada y solo los módulos que usa.
+ANIMATION_FILES = [
+    "python/requirements.txt",
+    "python/src/tp3analysis/__init__.py",
+    "python/src/tp3analysis/trajectory.py",
+    "python/src/tp3analysis/goals.py",
+    "python/src/tp3analysis/animation.py",
+    "python/src/tp3analysis/animar.py",
+]
+PYTHON = ROOT / "python/.venv/bin/python"
 NAIVE_MAKE_BLOCK = """# El motor ingenuo (oraculo de los tests) solo se compila si esta su fuente:
 # el ZIP de entrega no la incluye [TP03, p. 1].
 ifneq ($(wildcard src/naive.cpp),)
@@ -55,15 +70,31 @@ def without_naive(relative: str, text: str) -> str:
 
 
 def check_standalone(archive_path: Path) -> None:
-    """El ZIP tiene que compilar solo, sin nada del repositorio."""
+    """El ZIP tiene que funcionar solo: compila el motor y anima su salida."""
     with tempfile.TemporaryDirectory() as directory:
         with zipfile.ZipFile(archive_path) as archive:
             archive.extractall(directory)
         subprocess.run(["make", "-C", f"{directory}/cpp", "release"], check=True,
                        capture_output=True, text=True)
-        version = subprocess.run([f"{directory}/cpp/build/release/tp3", "--version"],
-                                 check=True, capture_output=True, text=True)
+        engine = f"{directory}/cpp/build/release/tp3"
+        version = subprocess.run([engine, "--version"], check=True, capture_output=True,
+                                 text=True)
         print(f"el ZIP compila solo: {version.stdout.strip()}")
+
+        trajectory = f"{directory}/prueba.txt"
+        subprocess.run([engine, "simulate", "--n", "30", "--seed", "1", "--tmax", "2",
+                        "--save-every", "10", "--output", trajectory],
+                       check=True, capture_output=True, text=True)
+        subprocess.run([str(PYTHON), "-m", "tp3analysis.animar", trajectory,
+                        "--video", f"{directory}/prueba.mp4",
+                        "--fotograma", f"{directory}/prueba.png"],
+                       check=True, capture_output=True, text=True,
+                       cwd=directory, env={"PYTHONPATH": f"{directory}/python/src",
+                                           "MPLCONFIGDIR": f"{directory}/.mpl",
+                                           "PATH": "/usr/bin:/bin"})
+        if not (Path(directory) / "prueba.mp4").stat().st_size:
+            raise RuntimeError("la animación del ZIP no produjo video")
+        print("la animación del ZIP funciona sola sobre la salida del motor")
 
 
 def main() -> int:
@@ -83,12 +114,17 @@ def main() -> int:
             if relative in NAIVE_FILES:
                 continue
             archive.writestr(relative, without_naive(relative, source.read_text(encoding="utf-8")))
+        for relative in ANIMATION_FILES:
+            archive.write(ROOT / relative, relative)
 
     if CODE_ZIP.stat().st_size >= 100_000:
         raise RuntimeError(f"el ZIP supera 100 KB: {CODE_ZIP.stat().st_size} bytes")
     with zipfile.ZipFile(CODE_ZIP) as archive:
         names = archive.namelist()
-        if any("test" in name or "build" in name or "python" in name for name in names):
+        python = {name for name in names if name.startswith("python/")}
+        if python != set(ANIMATION_FILES):
+            raise RuntimeError(f"el ZIP tiene código Python ajeno a la animación: {sorted(python)}")
+        if any("test" in name or "build" in name for name in names):
             raise RuntimeError("el ZIP contiene archivos ajenos al motor final")
         if any("naive" in archive.read(name).decode("utf-8").lower() for name in names):
             raise RuntimeError("el ZIP todavía menciona el motor ingenuo")

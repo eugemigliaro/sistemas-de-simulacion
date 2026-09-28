@@ -126,6 +126,7 @@ Muchas gracias. Quedamos a disposición para preguntas.
 
 - **¿Por qué la red triangular en el punto 1.1?** Con posiciones al azar la mesa admite como máximo ~446 partículas, y ahí el sistema todavía es un líquido: el motor tarda ~30 s y no se satura. La red permite llegar al empaquetamiento compacto, donde la frecuencia de choques diverge. Solo se usa por encima de 430 partículas y solo en ese punto; en la competencia las posiciones son al azar.
 - **¿Por qué el motor ingenuo no está en el ZIP?** La consigna pide solo la versión final del motor. El ingenuo quedó en el repositorio como oráculo para validar la cola.
+- **¿Cómo sabemos que las animaciones no interpolan?** El ZIP trae el código que las generó (`python -m tp3analysis.animar`). Cada cuadro del video muestra el último estado que el motor escribió en un evento anterior o igual a ese instante; no se calculan posiciones intermedias.
 - **¿El foco de la elipse no ayuda nada?** No. Con la elipse fija, cambiamos el tamaño de los discos del contorno, y con eso la precisión del espejo, y `t90` no cambió (20,7, 19,9 y 20,4 s).
 - **¿Cómo evitaron que queden partículas encerradas?** Rellenamos el exterior de las salas con discos, hasta que no entra ningún centro de partícula, y verificamos con un relleno por inundación que toda el área accesible tenga camino a un arco.
 - **¿Por qué 100 realizaciones para la comparación final?** Elegir y medir con las mismas semillas sobreestima la mejora. La reevaluación con semillas nuevas corrigió ventajas aparentes de hasta 0,7 s.

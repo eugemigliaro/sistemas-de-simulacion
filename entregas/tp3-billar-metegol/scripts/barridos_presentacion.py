@@ -126,9 +126,9 @@ def etapa_profundidad() -> None:
 
 
 def _animacion(trabajo: tuple[str, str, int]) -> str:
-    import os
-    os.environ.setdefault("MPLBACKEND", "Agg")
-    from tp3analysis.animation import render_goal_animation, render_goal_snapshot
+    # El mismo punto de entrada que va en el ZIP de entrega: la cátedra pide
+    # poder verificar que las animaciones no interpolan entre eventos.
+    from tp3analysis.animar import animar
 
     etiqueta, ruta, semilla = trabajo
     salida = ROOT / "data/generated" / f"anim_goles_{etiqueta}.txt"
@@ -138,12 +138,8 @@ def _animacion(trabajo: tuple[str, str, int]) -> str:
     if ruta:
         comando += ["--config", str(ROOT / ruta)]
     subprocess.run(comando, check=True, capture_output=True, text=True)
-    trayectoria = read_trajectory(salida)
-    t90 = time_to_fraction(trayectoria).t90
-    fin = min(30.0, math.ceil(t90 + 4.0))
-    render_goal_snapshot(trayectoria, FIGURAS / f"anim-goles-{etiqueta}.png",
-                         min(t90 + 1.0, fin), fin)
-    render_goal_animation(trayectoria, VIDEOS / f"anim-goles-{etiqueta}.mp4", fin)
+    fin, t90 = animar(salida, VIDEOS / f"anim-goles-{etiqueta}.mp4",
+                      FIGURAS / f"anim-goles-{etiqueta}.png")
     return f"{etiqueta}: semilla {semilla}, t90 = {t90:.2f} s, video de {fin:.0f} s"
 
 
