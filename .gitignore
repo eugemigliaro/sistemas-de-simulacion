@@ -15,3 +15,6 @@ __pycache__/
 laboratorio/**/data/
 laboratorio/**/.venv/
 laboratorio/**/node_modules/
+
+# Bloqueos de LibreOffice mientras un documento está abierto
+.~lock.*#
