@@ -9,3 +9,4 @@ data/generated/*
 experiments/raw/*
 !experiments/raw/.gitkeep
 videos/*.mp4
+competencia/
