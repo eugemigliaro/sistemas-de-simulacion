@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "simulation_command": "cpp/build/release/tp4 billiard --n 60 --duration 1 --dt 0.00005 --save-every 200 --obstacles 1 --obstacle-x 0.2 --seed 7 --output experiments/raw/billiard-demo.csv",
+  "render_command": "python python/billiard_view.py experiments/raw/billiard-demo.csv --output experiments/figures/billiard-demo.gif --snapshot experiments/figures/billiard-demo.png",
+  "config": {
+    "schema_version": 1,
+    "n": 60,
+    "duration": 1,
+    "steps": 20000,
+    "dt": 5e-05,
+    "save_every": 200,
+    "radius": 0.51,
+    "particle_radius": 0.0175,
+    "mass": 0.025,
+    "stiffness": 10000,
+    "speed": 1,
+    "obstacles": true,
+    "obstacle_x": 0.2,
+    "seed": 7,
+    "generator": "mt19937_64: high 53 bits / 2^53",
+    "initialization": "area-uniform sequential rejection",
+    "method": "original Verlet; centered velocities",
+    "used_encoding": "0=blue/fresh; 1=red/used"
+  },
+  "sha256": {
+    "cpp/build/release/tp4": "34be7bbea10f9ead3d34e3c4815496a63c0e084264dfc185427ae63a5e49bc36",
+    "python/billiard_view.py": "c0a782db5daf43b54b724e7add348c107166dde1c1695d1c079ac1157ffd7531",
+    "experiments/raw/billiard-demo.csv": "2015e4822bf653a89f9883b46cbe47ea4bf7c490372df697fc7c47ec718f4bc2",
+    "experiments/raw/billiard-demo.csv.json": "88561e3332f34d54abf794737ec98d09e41fdc3c0371e4a731b4dbe455abc68d",
+    "experiments/figures/billiard-demo.gif": "3258de941b79d69e5c4056b2a3ea29a92e0ecca4405c38af723417effaef45ef",
+    "experiments/figures/billiard-demo.png": "ab120aa8d43db633a4b78b1fe9d2fe733ad28734138ef5591023d1b8c8eb9e2a"
+  }
+}

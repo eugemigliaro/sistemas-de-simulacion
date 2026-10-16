@@ -1,0 +1,15 @@
+{
+  "selected_dt": 5e-05,
+  "relative_tolerance": 0.001,
+  "status": "validated",
+  "validation": {
+    "dt": 5e-05,
+    "dense_error": 0.00010679812173919334,
+    "subsampled_error": 0.00010336430015556175,
+    "sampling_gap": 3.433821583631591e-06,
+    "validation_seed_error": 0.00020987641438663385,
+    "long_error": 0.0006022364239789413,
+    "passed": true
+  },
+  "limitations": "Dos condiciones iniciales N=300 sin obstaculos; no garantiza igual error para otras densidades."
+}
