@@ -1,0 +1,10 @@
+{
+  "binary": "cpp/build/release/tp3",
+  "engine": "queue",
+  "particle_counts": [10, 25, 50, 100, 200, 400],
+  "seeds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  "max_time": 30,
+  "raw_output": "experiments/results/performance-raw.csv",
+  "summary_output": "experiments/results/performance-summary.csv",
+  "manifest_output": "experiments/results/performance-manifest.json"
+}
