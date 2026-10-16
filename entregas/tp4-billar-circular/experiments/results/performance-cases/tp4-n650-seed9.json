@@ -1,0 +1,44 @@
+{
+  "fingerprint": "1643b418035d7adb87f4cb540ba8c23186f85f3703e578db5681d4a3ca04d56e",
+  "engine": "tp4",
+  "n": 650,
+  "seed": 9,
+  "command": [
+    "cpp/build/release/benchmark",
+    "tp4",
+    "650",
+    "9",
+    "30.0",
+    "600000",
+    "500",
+    "experiments/raw/performance/tp4-n650-seed9.csv"
+  ],
+  "runtime_seconds": 7.144341958,
+  "final_time": 30,
+  "acceptance": 0.08004307692307693,
+  "initial_msd": 0.00010879992177792684,
+  "sweeps": 500,
+  "available_sites": 715,
+  "conversion": {
+    "t90_s": null,
+    "t100_s": null,
+    "fu_final": 0.013846153846153847
+  },
+  "final_energy_relative_error": 0.000879670704525104,
+  "trajectory": "experiments/raw/performance/tp4-n650-seed9.csv",
+  "trajectory_sha256": "1db84e2863cdc5def4a77b843d258de6fb811d2f465a46a99f13cfd7c105a198",
+  "metadata": {
+    "n": 650,
+    "duration": 30.0,
+    "steps": 600000,
+    "save_every": 600000,
+    "dt": 5e-05,
+    "radius": 0.51,
+    "particle_radius": 0.0175,
+    "mass": 0.025,
+    "stiffness": 10000,
+    "obstacles": true,
+    "obstacle_x": 0.0175
+  },
+  "initialization": "hexagonal + Monte Carlo"
+}

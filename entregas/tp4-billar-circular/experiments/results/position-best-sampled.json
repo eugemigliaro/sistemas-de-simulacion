@@ -1,0 +1,16 @@
+[
+  {
+    "n": 100,
+    "position_m": 0.16,
+    "mean_s": 13.563857500000001,
+    "std_s": 0.9999526486679885,
+    "interpretation": "menor media en posiciones muestreadas completas; no optimo exacto ni diferencia estadistica demostrada"
+  },
+  {
+    "n": 20,
+    "position_m": 0.3975,
+    "mean_s": 9.1621625,
+    "std_s": 1.1146008473117741,
+    "interpretation": "menor media en posiciones muestreadas completas; no optimo exacto ni diferencia estadistica demostrada"
+  }
+]

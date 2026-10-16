@@ -1,0 +1,548 @@
+{
+  "fingerprint": "1643b418035d7adb87f4cb540ba8c23186f85f3703e578db5681d4a3ca04d56e",
+  "contract": {
+    "config": {
+      "tp4_counts": [
+        20,
+        100,
+        200,
+        400,
+        650
+      ],
+      "tp3_counts": [
+        10,
+        25,
+        50,
+        100,
+        200,
+        400
+      ],
+      "seeds": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "duration": 30.0,
+      "dt": 5e-05,
+      "dense_sweeps": 500,
+      "relative_energy_tolerance": 0.001
+    },
+    "source_sha256": {
+      "cpp/experiments/benchmark.cpp": "ac28396bcd2f9304b97bfad026d7e46900218e71ca5244fe76d45743d041850a",
+      "../tp3-billar-metegol/cpp/src/collisions.cpp": "232b0ce48d807cd69d1817adebc5884bab0d7b0c14baf128a332f237eebdc224",
+      "../tp3-billar-metegol/cpp/src/generation.cpp": "50837bcdda5bdda129ababf3328ea5378c563ad0945292e01bbc3a4b19b508e7",
+      "../tp3-billar-metegol/cpp/src/geometry.cpp": "4ad88318e547cdeeb1c5363696e95b683f45e1c535b0b563f0b6094c60b3ff35",
+      "../tp3-billar-metegol/cpp/src/io.cpp": "09e8c13d8cd738e1972adf9131954fc98ab3b19d0d5f0be57b9113b036323ee6",
+      "../tp3-billar-metegol/cpp/src/simulation.cpp": "a2cc6e107a812fd5affa0eb119a98040b2e672df35fe75f02cdd523bd057cf8a",
+      "cpp/include/tp4/billiard.hpp": "da0cd9d842dd6b9c20e37c25e8058f854c11443669b1b22a433349b869cbc11b",
+      "cpp/include/tp4/billiard_cli.hpp": "37e51f67b2d0a695dd7a6612ba9cfcc22741fe2d2e95fd111cf26f5a3d3a75c1",
+      "cpp/include/tp4/dense.hpp": "70a44eb571903208da3ac4d8f3f051eabb925675147e2d1b329a21bf60568c1f",
+      "cpp/include/tp4/oscillator.hpp": "4db9a0b749dfc44c197da66edb2150c7d43a5765c81fdba9f2b30a32c5247ce3",
+      "../tp3-billar-metegol/cpp/include/tp3/collisions.hpp": "3da4539c5a29eb4607db79fb5ab90a9074052a9896cd9524d12511ea126ac2b0",
+      "../tp3-billar-metegol/cpp/include/tp3/generation.hpp": "7635247c88ab9f0151b269137245a9e7657069ffdd5e52def1c1670900797383",
+      "../tp3-billar-metegol/cpp/include/tp3/geometry.hpp": "b312c7f13e6a894e43d6a248ac93306873d80c7e552705e2be06275e48dfea6b",
+      "../tp3-billar-metegol/cpp/include/tp3/io.hpp": "38a3067ca1075ee4d61f057d114f60cf10cab17fe5b14d9d14640171ab4385d1",
+      "../tp3-billar-metegol/cpp/include/tp3/model.hpp": "6ce5e7a3599fdb8f861d5ab6163f1b212480bdd014e82f815c49ad7a9102dff3",
+      "../tp3-billar-metegol/cpp/include/tp3/naive.hpp": "c0f87b5f46c14a9814eac6527d15aa0794bec84ce4043b594c4d848a6753a5c3",
+      "../tp3-billar-metegol/cpp/include/tp3/simulation.hpp": "3c97ce2bef54245567748ac00a117636d6092f6f7fb290821db1a57095808f55",
+      "../tp3-billar-metegol/cpp/include/tp3/version.hpp": "5d8d3046765734857066ab6ab3971a92c74cf447588177f15059c8f84b37996d",
+      "python/performance_study.py": "a0544143f1824927ecc129bc6bf7a8ae0933397731291819ed65239865efbc54",
+      "python/performance_analysis.py": "0a55a43a8c5d5446303c266c4302d49f4a72f9632adfec55ffc7e2bc882ee2bd",
+      "python/benchmark_build.py": "7ec1c8e0527e0248cf9d175eb7a3cc7cf3866d8537ed2952c29d5c421e634ff5",
+      "python/billiard_analysis.py": "a1578a4498f0de8cca627ebd92bae3489dbf20bd3e325644e3fb7e4d16707bfe"
+    },
+    "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "cpu": "Apple M5 Pro",
+    "machine": "arm64",
+    "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+    "timing": "steady_clock around simulation kernel; initialization and all file I/O excluded; sequential runs",
+    "tp4_output": "initial and final states; per-particle first_contact_step retains conversion history"
+  },
+  "binary_sha256": "9636a858b4a32c21b386d572437bded8d516e51264d11740dde16eb9ddfc5322",
+  "build_command": [
+    "c++",
+    "-std=c++20",
+    "-O3",
+    "-DNDEBUG",
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic",
+    "-Werror",
+    "-I/Users/negrito/fran/ITBA/sistemas-de-simulacion/entregas/tp4-billar-circular/cpp/include",
+    "-I/Users/negrito/fran/ITBA/sistemas-de-simulacion/entregas/tp3-billar-metegol/cpp/include",
+    "/Users/negrito/fran/ITBA/sistemas-de-simulacion/entregas/tp4-billar-circular/cpp/experiments/benchmark.cpp",
+    "/Users/negrito/fran/ITBA/sistemas-de-simulacion/entregas/tp3-billar-metegol/cpp/src/collisions.cpp",
+    "/Users/negrito/fran/ITBA/sistemas-de-simulacion/entregas/tp3-billar-metegol/cpp/src/generation.cpp",
+    "/Users/negrito/fran/ITBA/sistemas-de-simulacion/entregas/tp3-billar-metegol/cpp/src/geometry.cpp",
+    "/Users/negrito/fran/ITBA/sistemas-de-simulacion/entregas/tp3-billar-metegol/cpp/src/io.cpp",
+    "/Users/negrito/fran/ITBA/sistemas-de-simulacion/entregas/tp3-billar-metegol/cpp/src/simulation.cpp",
+    "-o",
+    "/Users/negrito/fran/ITBA/sistemas-de-simulacion/entregas/tp4-billar-circular/cpp/build/release/benchmark"
+  ],
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "numpy": "2.5.3",
+  "matplotlib": "3.11.2",
+  "cases": [
+    {
+      "path": "experiments/results/performance-cases/tp4-n20-seed1.json",
+      "sha256": "9b79e3660d8f581e0350a680bf8c4981c439535c436adac40947dc4240031fdf"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n20-seed2.json",
+      "sha256": "b64cef0185b6b8a5aaa53fbc2faa40596fa4cdf5df3365ba8bac24ce3e844d89"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n20-seed3.json",
+      "sha256": "80e07b1a391958bbf1534f7d18f8f025efd74383fcfb6d592db7760627be5232"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n20-seed4.json",
+      "sha256": "238e090545b1445e05cd2995db63b61edf9aa665c338a6224e82e3ce9b891e46"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n20-seed5.json",
+      "sha256": "322d82a112232daf37ee89b8948b8fdfa44595d2aeb07f51f5afa0617fead2d9"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n20-seed6.json",
+      "sha256": "84126e125626d964901b760eecd223354c6f62daa9bf08f5e93d91af1ea15f31"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n20-seed7.json",
+      "sha256": "0d077a4163cf3e0c93600ce757939fc62fc368293ae4303bb494a3c3934405b9"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n20-seed8.json",
+      "sha256": "9d1fc1d45cd01e868242d7bf18e8077df0cb38795188f401808dd72d381309f9"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n20-seed9.json",
+      "sha256": "15084b3e38016325c95d331112078180c4350ae034979924c91568bca55f6c08"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n20-seed10.json",
+      "sha256": "6b07312ff1d768957fb47ac5885f63dd6060e6c89573d630cf2ac7acec3b976e"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n100-seed1.json",
+      "sha256": "e37f3fa47d60551dcadabc249b7d9a821f9859cf3f8110eb94f5d044ad11f0d4"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n100-seed2.json",
+      "sha256": "48dcd1102c472c95e9d561456f42c38bcfa308b7c5f15f7cb5e8e0f4ab0a3d2a"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n100-seed3.json",
+      "sha256": "543d0ff18b4db247038803e87cf02b86178a28d6fe01f9c79367870a4da2efb5"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n100-seed4.json",
+      "sha256": "e515bdea1c6ef87aa53d5592c5a17fd9f147c7d6cf9c8201711daae92c943878"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n100-seed5.json",
+      "sha256": "f9c5d688615256eeb3b2416d1dbc2ce9878c01ee4573487ef0613ca3abb70dc8"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n100-seed6.json",
+      "sha256": "a5f4ffd4a2eb213d97a0360a2881fe7c4c945a3966dcddcdd27fc5eddc3c8bf1"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n100-seed7.json",
+      "sha256": "7f780782523f1d8dbcad5b46e4762684a21179e013a7a4437ec962175ef8fd9b"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n100-seed8.json",
+      "sha256": "f6b00e12a12ec33bbb2c827843ba120259e647f35e425323cb74e26f57827668"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n100-seed9.json",
+      "sha256": "1c2c47a2869f7b700a48fc433e69ba5fe44f89b9d69588bb7b6e7ef6c55f6811"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n100-seed10.json",
+      "sha256": "9f4d79a450a2fa064602a3959cad4ee75b204bcea83932c445854e6db8f8c0ba"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n200-seed1.json",
+      "sha256": "741a9f7bf6754fd37935dfdf49cb6820ad86f207f1343a0dcee2b1f492cd92a6"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n200-seed2.json",
+      "sha256": "5b64da72a40c73ba5b9a4871e67b54660ee757827b7536c31d388b21764072fa"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n200-seed3.json",
+      "sha256": "a04f45d2115699a8acd0898d3faa558cdf2444e7e3b05e6757968be7055caf4d"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n200-seed4.json",
+      "sha256": "3629d4ab0035b299c41951e7d06eabb9e029988b988dfb1b7f45cc31b2dcc713"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n200-seed5.json",
+      "sha256": "e72d41a92650f488eff8d51c69ca46911e2fbb0c4ef4ad144a0c7aef5f0ae9b7"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n200-seed6.json",
+      "sha256": "2c3e376f4dbe637a832ffdd8f1e47ec3242336095a5b1e3fdd187859ef394cea"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n200-seed7.json",
+      "sha256": "ae14f4f4fcdc04c35fd15bb01b8a3362e48fc35101d267e09b6385cc0061b177"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n200-seed8.json",
+      "sha256": "bb783949cb99c234b9976027c7e4ab62839eb856a6b3d494b9749ba8bb28ec33"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n200-seed9.json",
+      "sha256": "0f9f6476cd6090bb1b733f9010e9c59b654ec78a7fc54f300dd194603a0be68f"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n200-seed10.json",
+      "sha256": "d8c8ed379c1f32a24556357cae8e624a4827d635c6a90a8802f05030f933097f"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n400-seed1.json",
+      "sha256": "f65dd2683ed0b9454a998fad950ce4f47d51b43f419a7223a8539e878d2490dc"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n400-seed2.json",
+      "sha256": "db3a611842b4bdd4586cc89f879e69bf3c8b4001312208e1a905e549d05b56f4"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n400-seed3.json",
+      "sha256": "a707b8c7562aa59efb90da106fabc36d238b4981cb34ece1d099db13638a6baf"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n400-seed4.json",
+      "sha256": "c56f67c917dbd912cb0edbf0578349ed9d67e32e5029af996765ffda557d2c35"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n400-seed5.json",
+      "sha256": "bee6dbbeeb818e5348d9741c64119b1b6ff2c8b636b005d9f6e21ab7babfcc7b"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n400-seed6.json",
+      "sha256": "118f0d6bfa97535ef25589b9baf76ab9092204a8dd2adeba42012be1b8caffef"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n400-seed7.json",
+      "sha256": "477f0bdd18e3408d909ef70d5701c8d532165a87f5cfbc29881e3d8b60fad238"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n400-seed8.json",
+      "sha256": "ac476355bf2238bb92e06583a3c001ffa999d260e22f6b78c4f867425e7c62de"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n400-seed9.json",
+      "sha256": "91819ec62a09a089b2cae13cfa406d324670f80c6a8e06dba84d71455c111dc2"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n400-seed10.json",
+      "sha256": "c50f249513e54acd8f101289a69f47cde9f15773f80da1f608a38b9ff2be6af8"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n650-seed1.json",
+      "sha256": "5707b280ce26788051d6f7fd3ebae3b8b71be5fa345d44aacc155a2d4cad344f"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n650-seed2.json",
+      "sha256": "286e63e05fecf95844dd0db1102e14d63edbee33a1cfb4a5172342515a8a713e"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n650-seed3.json",
+      "sha256": "75f0a56612f73bbc3bd8c88aeee4f60059d7fccac84fe88c47dd1a8a2dfc8b05"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n650-seed4.json",
+      "sha256": "838ab048bbcd610840bcb85510ad7f45f708a477fffd8f882903850268d4144f"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n650-seed5.json",
+      "sha256": "e5498ba49283755185f9246d3eeeae212b524cf79724110d2c17b7ef5ba34a11"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n650-seed6.json",
+      "sha256": "9fa5ba03060063bbaa3d3217627e9a72daeabadf8c3d0a8a98f1043f63f43763"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n650-seed7.json",
+      "sha256": "f060f9a5316573a50d7ae750501016e4d5605986462e82e5a69c20326acc8266"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n650-seed8.json",
+      "sha256": "6eb520bba88129eecc104919da43c14d85e9f47a89e767778ada91f000a20d42"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n650-seed9.json",
+      "sha256": "930c530d8713ee219549ad2543a781ed13729f58a905ac8e9b84a1831ca03be7"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp4-n650-seed10.json",
+      "sha256": "b6821eb52ff0602f20ebe3c44484aafcd223ccbbc6d8f1aae1ac90bcd7df7151"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n10-seed1.json",
+      "sha256": "11e61488a1b965b94eeb50261bdb9c0f37bf8730ab2d26df93907a4c5a1c9a77"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n10-seed2.json",
+      "sha256": "3c6f373f7ac61666128c94e20ab6fd36c1525ae2c05b0edfff37a0cf4bd70a20"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n10-seed3.json",
+      "sha256": "618ef107a5511f7e24e07f880666260a5c8e13b91d1c1a86653f2b8eac774610"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n10-seed4.json",
+      "sha256": "1b78f64e6528220d850ef7bb834efd2506fb151bb2811184344c5b9bd2cac2cd"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n10-seed5.json",
+      "sha256": "c02a557116c45fb19bf1de7d1871edbfb0799e20dff861567c14cdf302226cff"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n10-seed6.json",
+      "sha256": "650c4cc5e7b9cd6b181b166ea919cfc01015a05555418ee37b6c0bc2e168cf9a"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n10-seed7.json",
+      "sha256": "8558ba88b94c3d59a51597315963cc4cfe7e5258eed50bdc6106655f7315172d"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n10-seed8.json",
+      "sha256": "5be51dbae8c7b571c20a9dfef45526e51124e28d4608472c8d090c46d6f4787f"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n10-seed9.json",
+      "sha256": "d62ca2c7a89d57b17073d8238d1d1146aa99b15af17bd28a80c40fdab766c767"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n10-seed10.json",
+      "sha256": "af5e1317fcbaa5b17db0b7a8de4ee260955b09e44a5c6eac9b7582d3fc471ba4"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n25-seed1.json",
+      "sha256": "4226ec6d24543a6431b3bd9e6f4dbc4923f026c1bf28401002a54776c6d4bd5d"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n25-seed2.json",
+      "sha256": "203609779e67912ab5d36897f27ff6c2d3c13eaea39bd048a0c5cf6039911cd8"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n25-seed3.json",
+      "sha256": "fa757983b23c55fc513a6211c19128508bddc264d1bc1e0f45828548207f98bd"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n25-seed4.json",
+      "sha256": "74677b0347c8bdf41faaffe109ba690e4f08cf25a6d2af637414bd8526048cfa"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n25-seed5.json",
+      "sha256": "a2845948984a6fdb9b55c2789383af93a1176766dcf27ff6abbbdd225a2b41ee"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n25-seed6.json",
+      "sha256": "2ef45d108e9465814cce072156f1729111d7f9212dfcfb62c8bd95b1558d00c3"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n25-seed7.json",
+      "sha256": "4d1ef1dbf2356c3e4486aefe02dc315f423500560e5058baa33c714003856a9d"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n25-seed8.json",
+      "sha256": "9d14ef75d61cfbad918449fb67fa723d4dba6f3a7041ed692e93a698f0cbcdcb"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n25-seed9.json",
+      "sha256": "58e473c7d2c87596cb65875b67d1944e6123ca39ab730ccc9d832124c6666a6f"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n25-seed10.json",
+      "sha256": "14df8622e4ccbb6aa6290a4956616253678bb7fb4061f0c86e38fc737b1394a2"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n50-seed1.json",
+      "sha256": "6acb5347b5e45981b8bd356f01b4d89104ed1468790f4686c6931a84a300efdf"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n50-seed2.json",
+      "sha256": "8a2fd786ecb532ac531cad7acb31215adb7f948955cd0ee6e4eb2944395979d3"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n50-seed3.json",
+      "sha256": "9b017de0c879d51a3d122469a9f94741e586b762f47265f85ff25a8307667b88"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n50-seed4.json",
+      "sha256": "e8145a5b0ac84c54e1bf749f74d751bf01c5f816a83755891cf22f9be2d620d5"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n50-seed5.json",
+      "sha256": "4b0613f1bddbf36079f09f02f9f56465f4b85679912e4344b7a84bfba1a406c4"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n50-seed6.json",
+      "sha256": "ab01c66947f0f00c8cc488032a8a858b0a25140ccb8b4d5b30d872481568f11f"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n50-seed7.json",
+      "sha256": "ec16aacaf6a7410ef45506ef9b5a5f886c781816a9c1efc3aa9fa5ff228968af"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n50-seed8.json",
+      "sha256": "3cdf6b45bb9eb1c88cdb79418f8af1a91ae2e6da0c48f68ec7291e812a4a68a9"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n50-seed9.json",
+      "sha256": "e19fa2ed930d83540860b8be2e01124d17f1a55eda864ba719b4c505de1c4c58"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n50-seed10.json",
+      "sha256": "3a8bd4173ccf07001074f2d8669a6e795928b8add93ff257e821fe520e550144"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n100-seed1.json",
+      "sha256": "c959342326648a14b80cb6fe2026d315c656f7164a7e7b667005acf074651b96"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n100-seed2.json",
+      "sha256": "61712f6ec69975043a4b3d03079e9f9c1aebe0425d6cd7e3f9d82e1f25368a26"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n100-seed3.json",
+      "sha256": "2d75f31cfd317b62fd9c36b24c7595d1b8bdb6b87163492f5e90fa19d1f54539"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n100-seed4.json",
+      "sha256": "7d6b4928a43bcdea86a754733bcee3cea97a646caab980f2716e002ffee41d81"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n100-seed5.json",
+      "sha256": "f3a4a3f217001285b981a2b2b3e3481af2f550ee6113d0199a8bb0d25c5e63b7"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n100-seed6.json",
+      "sha256": "f8290fe25661f273a9bfc00e334e1fc987657ecaf57fd2105b102addab0cf476"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n100-seed7.json",
+      "sha256": "e9a3ed1118f287734009caeeb6ae1d00bb31464a0f9156d5beb55b6936a3e916"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n100-seed8.json",
+      "sha256": "743075d05505cb5557e70b4299f71e3e58809da854a0973c818ebdd97922575e"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n100-seed9.json",
+      "sha256": "6c9ee3bc4bbf9b3202a299cd09968fa3b22a4dbe8e3ff7f4b16fcdb8b82a380a"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n100-seed10.json",
+      "sha256": "0d0d5c855bdd1b4e6b6ed5767a2f380f15b0082a220cf89d72bdffa74249c143"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n200-seed1.json",
+      "sha256": "5c2722eda74b2a8eb19a444d9624bf7188629acd11e835c79ca1da2c5a575442"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n200-seed2.json",
+      "sha256": "6614aa82323b88ff422286a60bd2260315b850aa463b5e2ca1fa745ee99cf235"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n200-seed3.json",
+      "sha256": "395802645c9988ce4354de410dc9b33b6eb24c887757a0a13d664af1be96bbc1"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n200-seed4.json",
+      "sha256": "4a798f7169c96f1bb2dc809054d09c0daacee2108f2891cecf991920255a31bb"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n200-seed5.json",
+      "sha256": "fe5dae5a60f4027610986520bca8a35616dd281c3543e5ba4fbbb29dfd7b0817"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n200-seed6.json",
+      "sha256": "2cfba1cc1f1fb6bc3c1fa1eaf762211416802533ebb00b42b53f1a5c3cde94e6"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n200-seed7.json",
+      "sha256": "e69e6cbd9141454c90330185c3db6b3a4c9b1ba74a89b897c726cf28e5a7305a"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n200-seed8.json",
+      "sha256": "655b9995886e8b0350e9378d37fb9b9e2f1dd96e6ce4a51913c04cb28d460539"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n200-seed9.json",
+      "sha256": "2af031c9de06a6563481d385eb36f1ddc1fa866055e91572663d66d569a06fe6"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n200-seed10.json",
+      "sha256": "bddd2bd47ec1dc59b7206453f9740ac3529494d686ab94aacb0a5454465e49c6"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n400-seed1.json",
+      "sha256": "abe87b5d7d4b8727a87783799239992ccd29d3fa290ee973971446b642366f18"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n400-seed2.json",
+      "sha256": "631a8aff58a3beca92137b715dc42820c301a94a873278a6aa38976d0f4f3678"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n400-seed3.json",
+      "sha256": "d07b1166467b0f698039682a14046f677fad4170374331122533cb0ae1d68336"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n400-seed4.json",
+      "sha256": "0793412af81afbe50f408a0d7dd1570a323b604466b414df1680a4d5a47ae909"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n400-seed5.json",
+      "sha256": "7aa5e6276f09fbbd79560822ef393f358fdb532be61d957344d5534140711369"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n400-seed6.json",
+      "sha256": "d650635a2466045b2cd6cd4959496e18e6cca50d2573d1c787399308b57f7751"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n400-seed7.json",
+      "sha256": "691a62364d6f3ab3d662988abb4c863b05977c44bf9d5be7e7726df68022766a"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n400-seed8.json",
+      "sha256": "10dd5e0eac46c16163b6771b4adcc929f99f9a63fc4c827378c86b9f4cafe7cb"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n400-seed9.json",
+      "sha256": "470d7f6e97e946b75c1276539186c6bc4e61342f4681980d32823d8db39521d3"
+    },
+    {
+      "path": "experiments/results/performance-cases/tp3-n400-seed10.json",
+      "sha256": "6950a27534861307cbfa9a6df2d1a082f31da5dc344807129c1e36547fb13b6d"
+    }
+  ],
+  "artifacts": {
+    "experiments/results/performance-summary.csv": "f82adfc90e9518837520d7e47e056f23bbe391c12fcb074830890685997eb914",
+    "experiments/results/density-summary.csv": "8a4d8ac9f5012e581cb5be3f8f36596e26de251cbe14bd4378e8f0c908ef74fc",
+    "experiments/results/density-raw.csv": "766c0344b8b3a2f5291d55000e7663f5bf98e51bbc3a6dc6712b47fc93e58528",
+    "experiments/figures/runtime-comparison.png": "0bc04a5893f267fe43065ffc7191e1815b3be6414de2301ba69e5900362911d1",
+    "experiments/figures/conversion-vs-density.png": "28aa7e97a0001f3f68b042128d867b0413f0049bfd9a6f685543cc055f4c7eba"
+  },
+  "density_plot_revision": {
+    "source": "python/performance_plot.py",
+    "source_sha256": "be257aad5455060016a895a210f68c5a02af9d4a0dca593d67171c81c4eed9ee",
+    "data_sha256": "8a4d8ac9f5012e581cb5be3f8f36596e26de251cbe14bd4378e8f0c908ef74fc",
+    "command": "python python/performance_plot.py",
+    "reason": "mostrar cotas coincidentes sin ocultarlas; omitir leyendas de medias no observadas"
+  }
+}

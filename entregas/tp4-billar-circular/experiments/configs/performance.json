@@ -1,0 +1,9 @@
+{
+  "tp4_counts": [20, 100, 200, 400, 650],
+  "tp3_counts": [10, 25, 50, 100, 200, 400],
+  "seeds": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  "duration": 30.0,
+  "dt": 0.00005,
+  "dense_sweeps": 500,
+  "relative_energy_tolerance": 0.001
+}

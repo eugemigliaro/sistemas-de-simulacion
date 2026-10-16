@@ -1,0 +1,20 @@
+{
+  "fingerprint": "1643b418035d7adb87f4cb540ba8c23186f85f3703e578db5681d4a3ca04d56e",
+  "engine": "tp3",
+  "n": 400,
+  "seed": 4,
+  "command": [
+    "cpp/build/release/benchmark",
+    "tp3",
+    "400",
+    "4",
+    "30.0",
+    "600000",
+    "500",
+    "experiments/raw/performance/tp3-n400-seed4.csv"
+  ],
+  "runtime_seconds": 8.42948125,
+  "final_time": 30,
+  "events": 810662,
+  "initialization": "original TP3 random rejection"
+}
