@@ -3,12 +3,12 @@
 Borrador de 29 láminas para revisión del grupo. Conserva el formato 16:9, Beamer Warsaw, miniframes, colores y numeración del TP3. Incluye todos los estudios realizados, cinco animaciones físicas y declaración de asistencia de IA. El guion propone 13 minutos; aún requiere ensayo real.
 
 - `SdS_TP4_2026Q2G07CS_Presentación.pdf`: nombre solicitado para la entrega; fotogramas estáticos y cinco enlaces públicos pendientes.
-- `SdS_TP4_2026Q2G07CS_Presentacion.pptx`: versión para exponer, con cinco MP4 incrustados y notas del orador.
+- `SdS_TP4_2026Q2G07CS_Presentacion.pptx`: versión para exponer, con cinco MP4 incrustados y guion del orador separado.
 - `SdS_TP4_2026Q2G07CS_Presentacion.tex`: fuente editable de texto, fórmulas y disposición.
 - `GUION.md`: notas, fuentes y reparto orientativo A/B/C, sin asignar decisiones a los integrantes.
 - `revision-guia.md`: correspondencia con la guía y las devoluciones anteriores.
 
-El PPTX sigue el mecanismo del TP3: cada lámina es una imagen y los videos son objetos de medios. Para cambiar texto se edita el TeX y se regenera; los textos y gráficos no son objetos editables dentro de PowerPoint. No se verificó reproducción en PowerPoint. Probarla en el equipo de exposición antes de usarlo.
+El PPTX sigue el mecanismo del TP3: cada lámina es una imagen y los videos son objetos de medios. Para cambiar texto se edita el TeX y se regenera; los textos y gráficos no son objetos editables dentro de PowerPoint. La variante sin notas incrustadas abrió correctamente en Keynote y el estudiante confirmó su funcionamiento. El master de notas previo impedía la importación; por eso el guion se conserva aparte. No se verificó reproducción en PowerPoint. Probarla en el equipo de exposición antes de usarlo.
 
 ## Completar antes de entregar
 
@@ -26,8 +26,8 @@ Desde `entregas/tp4-billar-circular`, con NumPy, Matplotlib, Pillow, Tectonic y 
 ../tp3-billar-metegol/python/.venv/bin/python python/build_presentation.py
 ```
 
-El segundo comando actualiza los enlaces, compila el PDF, copia su nombre oficial, renderiza las láminas y reconstruye el PPTX y las notas. No vuelve a ejecutar los estudios. Usa los masters del PPTX anterior sin modificarlo. El runtime Artifact Tool no estaba disponible en este entorno; se utilizó Beamer y ensamblado OOXML local.
+El segundo comando actualiza los enlaces, compila el PDF, copia su nombre oficial, renderiza las láminas y reconstruye el PPTX y conserva el guion aparte. No vuelve a ejecutar los estudios. Usa los masters del PPTX anterior sin modificarlo. El runtime Artifact Tool no estaba disponible en este entorno; se utilizó Beamer y ensamblado OOXML local.
 
-Las citas de fuentes se conservan en las notas del orador y el guion; no se muestran sobre las diapositivas.
+Las citas de fuentes se conservan en `notas.json` y `GUION.md`; no se muestran sobre las diapositivas.
 
 Las animaciones ya están generadas. `python/presentation_media.py` permite regenerarlas desde trayectorias de demostración; `--position-only` reutiliza las tres trayectorias verificadas de posición. Si cambian los GIF, reconvertir a MP4 antes de reconstruir el PPTX. En macOS se utilizó `gif_to_mp4.swift` con AVFoundation. Los clips `*-live.mp4` son los que se incrustan. `.build/` contiene derivados de revisión, manifiestos y hashes, no archivos para entregar.

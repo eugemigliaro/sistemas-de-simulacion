@@ -86,7 +86,6 @@ def main():
     if len(pages)!=29:raise ValueError('Cantidad de laminas inesperada')
     timings=[(int(n),int(t)) for n,t in re.findall(r'^% (\d+) -- (\d+) s',(OUT/(STEM+'.tex')).read_text(),re.M)]
     if sum(t for _,t in timings)!=780:raise ValueError('El ensayo no suma 13 minutos')
-    notes=json.loads((OUT/'notas.json').read_text())
 
     with zipfile.ZipFile(REFERENCE) as original:
         sample=ET.fromstring(original.read('ppt/slides/slide1.xml'))
@@ -95,10 +94,7 @@ def main():
         presentation=ET.fromstring(original.read('ppt/presentation.xml'))
         ids=presentation.find(f'{{{P}}}sldIdLst');ids.clear()
         rels=[('rId1','slideMaster','slideMasters/slideMaster1.xml'),('rId2','presProps','presProps.xml'),
-              ('rId3','viewProps','viewProps.xml'),('rId4','theme','theme/theme1.xml'),('rId5','tableStyles','tableStyles.xml'),
-              ('rId6','notesMaster','notesMasters/notesMaster1.xml')]
-        notes_ids=ET.Element(f'{{{P}}}notesMasterIdLst');ET.SubElement(notes_ids,f'{{{P}}}notesMasterId', {f'{{{R}}}id':'rId6'})
-        presentation.insert(1,notes_ids)
+              ('rId3','viewProps','viewProps.xml'),('rId4','theme','theme/theme1.xml'),('rId5','tableStyles','tableStyles.xml')]
         contents=ET.fromstring(original.read('[Content_Types].xml'))
         for element in list(contents):
             part=element.get('PartName','')
@@ -107,7 +103,6 @@ def main():
         for ext,kind in [('png','image/png'),('mp4','video/mp4')]:
             if not any(x.get('Extension')==ext for x in contents):ET.SubElement(contents,f'{{{CT}}}Default',Extension=ext,ContentType=kind)
         mime='application/vnd.openxmlformats-officedocument.presentationml.'
-        override('ppt/notesMasters/notesMaster1.xml',mime+'notesMaster+xml')
         target=OUT/(STEM+'.pptx')
         with zipfile.ZipFile(target,'w',zipfile.ZIP_DEFLATED) as z:
             for name in original.namelist():
@@ -120,8 +115,7 @@ def main():
                 slide=copy.deepcopy(sample);sp=slide.find(f'{{{P}}}cSld/{{{P}}}spTree')
                 pic=sp.find(f'{{{P}}}pic');pic.find(f'{{{P}}}nvPicPr/{{{P}}}cNvPr').set('descr',f'TP4 diapositiva {number}; fuente editable Beamer')
                 relations=[('rId1','slideLayout','../slideLayouts/slideLayout7.xml'),
-                           ('rId2','image',f'../media/slide{number}.png'),
-                           ('rId6','notesSlide',f'../notesSlides/notesSlide{number}.xml')]
+                           ('rId2','image',f'../media/slide{number}.png')]
                 z.writestr(f'ppt/media/slide{number}.png',page.read_bytes())
                 if i in boxes:
                     name,(x0,y0,x1,y1)=boxes[i];video=OUT/'videos'/(name+'-live.mp4')
@@ -139,31 +133,15 @@ def main():
                 z.writestr(f'ppt/slides/slide{number}.xml',xml(slide))
                 z.writestr(f'ppt/slides/_rels/slide{number}.xml.rels',relationships(relations))
                 override(f'ppt/slides/slide{number}.xml',mime+'slide+xml')
-                note=ET.Element(f'{{{P}}}notes');cs=ET.SubElement(note,f'{{{P}}}cSld');tree=ET.SubElement(cs,f'{{{P}}}spTree')
-                for e in list(sp)[:2]:tree.append(copy.deepcopy(e))
-                shape=ET.SubElement(tree,f'{{{P}}}sp');nv=ET.SubElement(shape,f'{{{P}}}nvSpPr')
-                ET.SubElement(nv,f'{{{P}}}cNvPr',id='2',name='Notas del orador');ET.SubElement(nv,f'{{{P}}}cNvSpPr')
-                ph=ET.SubElement(nv,f'{{{P}}}nvPr');ET.SubElement(ph,f'{{{P}}}ph',type='body',idx='1');ET.SubElement(shape,f'{{{P}}}spPr')
-                body=ET.SubElement(shape,f'{{{P}}}txBody');ET.SubElement(body,f'{{{A}}}bodyPr');ET.SubElement(body,f'{{{A}}}lstStyle')
-                entry=notes[str(number)];text=f"Tiempo orientativo: {dict(timings)[number]} s.\n{entry['nota']}\nFuentes: {entry['fuentes']}"
-                for line in text.splitlines():
-                    paragraph=ET.SubElement(body,f'{{{A}}}p');run=ET.SubElement(paragraph,f'{{{A}}}r');ET.SubElement(run,f'{{{A}}}t').text=line
-                z.writestr(f'ppt/notesSlides/notesSlide{number}.xml',xml(note))
-                z.writestr(f'ppt/notesSlides/_rels/notesSlide{number}.xml.rels',relationships([
-                    ('rId1','notesMaster','../notesMasters/notesMaster1.xml'),('rId2','slide',f'../slides/slide{number}.xml')]))
-                override(f'ppt/notesSlides/notesSlide{number}.xml',mime+'notesSlide+xml')
-            master=ET.Element(f'{{{P}}}notesMaster');cs=ET.SubElement(master,f'{{{P}}}cSld');tree=ET.SubElement(cs,f'{{{P}}}spTree')
-            for e in list(sample.find(f'{{{P}}}cSld/{{{P}}}spTree'))[:2]:tree.append(copy.deepcopy(e))
-            ET.SubElement(master,f'{{{P}}}clrMap',accent1='accent1',accent2='accent2',accent3='accent3',accent4='accent4',accent5='accent5',accent6='accent6',bg1='lt1',bg2='lt2',folHlink='folHlink',hlink='hlink',tx1='dk1',tx2='dk2')
-            ET.SubElement(master,f'{{{P}}}notesStyle');z.writestr('ppt/notesMasters/notesMaster1.xml',xml(master))
-            z.writestr('ppt/notesMasters/_rels/notesMaster1.xml.rels',relationships([('rId1','theme','../theme/theme1.xml')]))
             z.writestr('ppt/presentation.xml',xml(presentation));z.writestr('ppt/_rels/presentation.xml.rels',relationships(rels))
             z.writestr('[Content_Types].xml',xml(contents))
             z.writestr('_rels/.rels',relationships([('rId1','officeDocument','ppt/presentation.xml'),
                 ('rId2','http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties','docProps/core.xml'),
                 ('rId3','extended-properties','docProps/app.xml')]))
             z.writestr('docProps/core.xml','''<?xml version="1.0" encoding="UTF-8"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title>TP4 - Dinámica molecular por paso temporal</dc:title><dc:creator>Grupo 07 - Comisión S</dc:creator><dc:description>Borrador para revisión; asistencia de IA declarada en la última diapositiva.</dc:description></cp:coreProperties>''')
-            z.writestr('docProps/app.xml',f'''<?xml version="1.0"?><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>LaTeX Beamer y ensamblado OOXML</Application><PresentationFormat>On-screen Show (16:9)</PresentationFormat><Slides>{len(pages)}</Slides><Notes>{len(pages)}</Notes></Properties>''')
+            z.writestr('docProps/app.xml',f'''<?xml version="1.0"?><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>LaTeX Beamer y ensamblado OOXML</Application><PresentationFormat>On-screen Show (16:9)</PresentationFormat><Slides>{len(pages)}</Slides><Notes>0</Notes></Properties>''')
+    # Keynote rechaza el master de notas anterior. El guion y las fuentes se
+    # conservan en GUION.md y notas.json, fuera del paquete para exposición.
     # Resolver todos los vínculos internos del paquete y comprobar los videos.
     with zipfile.ZipFile(target) as z:
         names=set(z.namelist())
@@ -176,6 +154,7 @@ def main():
                     resolved=posixpath.normpath(posixpath.join(base,rel.get('Target')))
                     if resolved not in names:raise ValueError('Vinculo interno roto: '+resolved)
         assert len([n for n in names if n.endswith('.mp4')])==5
+        assert not any(n.startswith(('ppt/notesSlides/','ppt/notesMasters/')) for n in names)
     report=dict(slides=len(pages),seconds=sum(t for _,t in timings),video_slides={str(i+1):name for i,(name,_) in boxes.items()},
         pending_public_links=[name for name,url in links.items() if not url],
         reference_sha256=hashlib.sha256(REFERENCE.read_bytes()).hexdigest(),

@@ -19,4 +19,4 @@ Registro local de preparación; no es una lámina ni una sección de bibliograf�
 | Tiempo y participación equilibrada [TP04, p. 4] [GPRES, p. 3] | Guion orientativo 13:00, partes de 4:12 / 4:30 / 4:18. **Pendiente:** acordar integrantes y ensayar. |
 | Revisión grupal y uso de IA [GPRES, p. 3] [TP04, p. 4] | Borrador identificado como tal y declaración fiel de asistencia, incluida la preparación de diapositivas. **Pendiente:** elaboración final y corrección de todos los estudiantes. |
 
-Se conservaron originales, datos experimentales y presentaciones anteriores. Las fuentes específicas de cada lámina están en `notas.json`, `GUION.md` y las notas del PPTX; no se agregó sección de bibliografía al mazo [GPRES, p. 1].
+Se conservaron originales, datos experimentales y presentaciones anteriores. Las fuentes específicas de cada lámina están en `notas.json` y `GUION.md`; no se agregó sección de bibliografía al mazo [GPRES, p. 1].
