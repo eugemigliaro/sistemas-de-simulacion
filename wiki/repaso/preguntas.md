@@ -91,3 +91,36 @@
 63. ¿Por qué el inicio del estacionario es un resultado y no un parámetro?
 64. ¿Qué falta en una diapositiva que define $v_a(t)$ y $S(t)$ pero no dice cómo se obtienen los puntos y las barras de error de las curvas?
 65. ¿Por qué un cociente entre umbrales de ruido de dos modelos puede confundir más que aclarar?
+
+## Paso temporal, TP4 y devolución del TP3
+
+66. ¿Cuándo conviene integrar fuerzas con paso fijo en lugar de predecir choques instantáneos?
+67. ¿Qué instante corresponde a la velocidad centrada de Verlet y cómo evitar desfasar la energía cinética de la potencial?
+68. ¿Cómo se inicializa un método que requiere posiciones o aceleraciones anteriores?
+69. ¿Por qué el amortiguamiento exige revisar las evaluaciones de aceleración en Velocity Verlet y Beeman?
+70. ¿Qué pasos define exactamente la diapositiva 23 para Euler predictor-corrector?
+71. ¿Qué diferencia hay entre error de un paso, error global y ECM temporal?
+72. ¿Por qué debe elegirse el paso del billar con energía total, incluidos los resortes de pared?
+73. ¿Cómo se construye y actualiza la partícula imagen en una pared circular?
+74. ¿Por qué cambiar el color es un cambio de estado y calcular la fracción usada es post-proceso?
+75. ¿Qué requisitos de duración, repeticiones y rango de N tiene el estudio de rendimiento?
+76. ¿Cómo informarías una realización que no alcanza el 90 % o el 100 % antes del corte?
+77. ¿Qué conjunto se promedia en un histograma de rapidez a tiempo fijo y cuál en un tiempo medio de conversión?
+78. ¿Qué se ajusta en Maxwell–Boltzmann 2D y con qué referencia energética se compara?
+79. ¿Por qué un mapa de calor es apropiado para (x0, N) y no la primera opción para Fu(t)?
+80. ¿Qué excepción hace el TP4 a la secuencia animación, evolución temporal y observable escalar?
+81. ¿Qué contenido queda fuera del ZIP y qué declaración sobre IA exige la consigna?
+
+82. ¿Por qué calcular el cruce de 0,9 en la curva Fu promediada no equivale a promediar los t90 de cada realización?
+83. ¿Qué distingue el mínimo observado en once posiciones de un óptimo exacto, y qué representan sus barras de desvío estándar?
+84. ¿Por qué el paso validado durante 30 s debe volver a comprobarse antes de un estudio de 100 s?
+85. ¿Qué permite discutir la comparación N=100/N=20 sobre colisiones y qué no puede afirmarse sin medir su frecuencia?
+86. ¿Por qué integrar el modelo de Maxwell–Boltzmann dentro de cada bin evita confundir una densidad media con un valor puntual?
+87. ¿Por qué la energía cinética estacionaria puede ser menor que la inicial aunque se conserve la energía total?
+88. ¿Qué diferencia hay entre ajustar el histograma medio, promediar ajustes individuales y estimar una incertidumbre formal del ajuste?
+89. ¿Por qué una ventana compatible con estacionariedad no determina necesariamente el primer instante de relajación?
+90. ¿Por qué la densidad que minimiza el t90 medio puede diferir de la que minimiza t100, y qué permiten afirmar los mínimos muestrales?
+91. ¿Qué diferencia hay entre la media completa de un tiempo, una cota por censura y la media restringida de min(T,tau)?
+92. ¿Por qué no se deben concatenar trayectorias calculadas con distintos pasos, aunque partan del mismo estado?
+93. ¿Cómo puede una partícula desplazarse apreciablemente sin alcanzar con frecuencia obstáculos próximos al centro?
+94. ¿Por qué el mapa de cinco realizaciones por celda no tiene necesariamente el mismo promedio que un estudio de diez realizaciones en esa configuración?

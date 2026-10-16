@@ -46,6 +46,20 @@ La cátedra devolvió la entrega del TP2 con nota 6 y señaló tres ejes a corre
 
 **Informe.** No van resultados en la introducción; cada figura debe corresponder al observable de la sección donde aparece; no duplicar la misma información en una tabla y un gráfico; toda figura debe analizarse, y cuando dos figuras son análogas hay que explicitar sus diferencias. Se valoraron positivamente la introducción completa, las figuras con análisis y conclusiones que no agregan información nueva [COR02].
 
+## Lecciones de la devolución del TP3
+
+La devolución aportada del TP3 (G7, nota 6,5) identifica mejoras aplicables a los siguientes trabajos [COR03]:
+
+- **Fundamentos:** presentar teoría general; la configuración particular del sistema pertenece a su descripción, no a fundamentos (D3–D5).
+- **Promedios:** especificar si se promedian partículas de una realización, una partícula entre realizaciones o ambas cosas. La fórmula abstracta de esperanza no reemplaza esta definición (D14).
+- **Secuencia de cada estudio:** primero situación y variable a estudiar con una animación, después evolución temporal estática y finalmente entrada frente al observable escalar (D18, D20–D21). Respetar excepciones explícitas de la nueva consigna: el oscilador del TP4 lleva solo una figura de ECM, en una diapositiva [TP04, p. 2].
+- **Figuras:** no animar gráficos de evolución temporal; no usar mapas de calor para una evolución temporal que admite una representación simple. Reservarlos para un observable escalar frente a dos parámetros independientes (D17–D18).
+- **Densidad visual:** reducir cantidad de gráficos y texto; evitar párrafos redactados. Las figuras accesorias de D16 no se pedían; la devolución sugiere combinarlas con doble eje si se incluyen, una indicación específica de ese caso (D16, D20–D21).
+- **Configuración y reproducibilidad:** expresar claramente la parametrización. Una semilla aislada no es información reproducible sin identificar el generador; conservar generador y semillas en el registro técnico y no usar el número de semilla como parámetro físico en las diapositivas (D21).
+- **Ajustes y precisión:** no tapar curvas con valores ajustados; ubicarlos fuera de la figura y revisar cifras significativas. Justificar cuantitativamente cualquier afirmación de crecimiento exponencial (D22).
+
+La devolución también valora el estudio de rendimiento hasta $N=700$; los artefactos locales disponibles deben revisarse antes de usarlos como evidencia de ese rango [COR03]. Estas reglas complementan, sin sustituir, la consigna del TP4 y las guías [TP04, p. 1].
+
 ## Exposición oral
 
 La guía externa recomienda adaptar el nivel a la audiencia, reservar tiempo suficiente para la introducción, respetar estrictamente la duración y limitar ecuaciones y elementos visuales a los que sostienen las ideas principales [B02, p. 1] [B02, p. 2]. También recomienda ensayar en voz alta, mantener contacto visual y repetir o reformular las preguntas para toda la sala [B02, p. 3] [B02, p. 4].

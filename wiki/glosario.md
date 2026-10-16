@@ -2,6 +2,15 @@
 
 Definiciones breves. Los temas enlazados desarrollan las relaciones entre conceptos.
 
+- **Simulación dirigida por paso temporal:** integración de las ecuaciones de movimiento con incrementos fijos de tiempo y fuerzas actuando durante los contactos [T04, p. 2].
+- **Verlet original:** recurrencia que obtiene la posición siguiente desde las dos anteriores y la fuerza actual; su velocidad centrada corresponde al instante intermedio [T04, p. 13] [B19, p. 38].
+- **Velocity Verlet:** variante que entrega posición y velocidad en el mismo instante [T04, p. 17].
+- **Predictor-corrector:** método con etapas de predicción del estado, evaluación de fuerzas y corrección [T04, p. 22].
+- **Superposición de contacto $\xi$:** suma de radios menos distancia entre centros; activa el resorte normal cuando es positiva [T04, p. 42] [TP04, p. 2].
+- **Partícula imagen de la pared:** construcción virtual fija sobre la normal radial, recalculada cada paso, que permite aplicar la ley de contacto a la pared circular [TP04, p. 3].
+- **ECM del TP4:** promedio temporal de diferencias de posición al cuadrado entre trayectoria numérica y solución analítica, para un paso de integración dado [TP04, p. 1].
+- **Distribución de rapidez Maxwell–Boltzmann 2D:** densidad $f(v)=mv/(k_BT)\exp[-mv^2/(2k_BT)]$ para el módulo de velocidad; se ajusta con $k_BT$ como único parámetro libre [TP04, p. 4].
+
 - **Animación:** representación visual de una secuencia; puede derivar de una simulación, pero no es equivalente a ella [T00, p. 64].
 - **Autómata celular:** arreglo regular de celdas con estados discretos, actualización sincrónica y una regla local uniforme [T02, p. 3].
 - **Barra de error:** representación de la dispersión o incertidumbre asociada a un valor agregado; su significado debe declararse [T00, p. 69].
