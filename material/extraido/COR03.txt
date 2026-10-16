@@ -1,0 +1,61 @@
+FUENTE: COR03
+ORIGINAL: material/catedra/practica/correciones_tp3.txt
+SIN PAGINAS; Dn refiere a diapositiva del TP3.
+
+G7
+
+Nota:6.5
+
+
+
+
+
+D3: Incorrecta! Esa info es parte del sistema particular. Aca va la teoria general sin importar ninguna configuracion particular que se pueda simular con ella. 
+
+D4 y D5 OK para esta seccion de fundamentos.
+
+
+
+D14: mas que poner la formula abstracta, se trata de especificar qué es lo que se promedia. En este caso no se sabe si son varias particulas iguales de 1 realizacion o si es una particula simulada en varias realizaciones... (esta informacion es mas importante que la formula general conocida) aca y en todos los siguientes TP cuando se esten calculando promedios y haya varias realizaciones presente.
+
+
+
+D16: Bien el estudio hasta N maximo 700. Pero Muchos plots e info. evitar redactar. Los dos plots de la derecha no se pedian, en todo caso ponerlos en una misma figura con doble eje y. 
+
+
+
+D17 No animar el plot de evolucion temporal en ningun caso. No habia que animar mesa vacia.
+
+
+
+D18 No hacer hitmap para evolucion temporal, eso tiene una representacion mucho mas simple.
+
+Los heat map se hacen en general para cuando se varian dos parametros independientes y se grafica un observable escalar, no para evoluciones temporales.
+
+
+
+Ademas, la estructura para cada estudio es : animacion - evol temp - input vs observable escalar. Aca en la D18 van directo a mostrar un resultado que no se explica que situacion se está estudiando.
+
+
+
+D20 y D21, idem anterior. Estas diapo deberian ir al revés. Primero la imagen de la D21 donde se indique cual es la variable a estudiar , en este caso profundidad de la sala. con una animacion. Luego la evolucion temporal (SIN animar). Y luego el plot de abajo de la D20.
+
+Ambas: No redactar y OJO con las cifras significativas. ... consultar.
+
+D21; No redactar. No se entiende la parametrizacion informada. No reportar un numero de semilla eso es interno de Uds y no es dato para usar por otros ya que no se esta especificando el generador de números random.
+
+
+
+
+
+D22: No reportar D sobre las figuras (ademas estan tapadas por las curvas) Reportar D afuera de las mismas y sin redactar. OK metodo Teorica 0. OJO cifras significativas...
+
+
+
+No decir “aumenta de forma bastante exponencial” sin justificarlo de forma cuantitativa.
+
+
+
+Bien por obtener segundo puesto en el concurso. Esto no influye en la nota.
+
+

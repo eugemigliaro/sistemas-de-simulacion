@@ -23,7 +23,7 @@ procesadas=0
 while IFS=$'\t' read -r id tipo titulo ruta paginas ciclo estado archivo_original; do
   [[ "$id" == "id" || -z "$id" ]] && continue
   origen="$repo_dir/$ruta"
-  [[ "${origen,,}" == *.pdf ]] || continue
+  [[ "$origen" == *.[pP][dD][fF] ]] || continue
   [[ -f "$origen" ]] || {
     echo "No existe la fuente catalogada $id: $ruta" >&2
     exit 1

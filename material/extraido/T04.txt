@@ -1,0 +1,1431 @@
+FUENTE: T04
+TITULO: Simulaciones dirigidas por el paso temporal
+ORIGINAL: material/catedra/teoria/Teorica_4.pdf
+PAGINAS: 47
+
+===== PAGINA 1 =====
+
+    Simulación de Sistemas
+
+
+             Clase Teórica 4:
+Simulaciones dirigidas por el paso temporal
+
+
+
+                     1
+
+===== PAGINA 2 =====
+
+Dinámica Molecular
+Definición: Simulación Dirigida por el Paso Temporal
+
+
+
+
+         - N partículas interactúan mediante fuerzas que en general dependen de
+         la distancia entre partículas.
+
+         - Integración numérica de las ecuaciones de movimiento. El tiempo
+         avanza en cantidades discretas Δt (el paso temporal !).
+
+         - Las interacciones pueden ser de largo o corto alcance. En cualquier
+         caso los “choques” no son instantáneos sino que tienen una duración de
+         varios pasos temporales.
+
+
+
+
+                                             2
+
+===== PAGINA 3 =====
+
+Dinámica Molecular
+Definición: Simulación Dirigida por el Paso Temporal
+
+
+  Cuando es útil el enfoque de simulación “dirigida por paso temporal”?
+
+            - Partículas en contacto la mayor parte del tiempo:
+
+                - O bien interacciones largo alcance.
+
+                - O bien de corto alcance pero con alta densidad.
+
+            - Tiempo de vuelo (entre choques) << duración del choque.
+
+
+
+
+                                             3
+
+===== PAGINA 4 =====
+
+Dinámica Molecular
+Interacciones de a pares
+
+
+
+
+                                           Partícula j
+
+                         Partícula i
+
+                 Fik
+                                                    Partícula k
+Fi = Fik + Fij
+                   Fij
+
+
+
+
+                                       4
+
+===== PAGINA 5 =====
+
+Dinámica Molecular
+
+
+
+
+                 Desarrollo de Taylor
+
+
+
+
+                            5
+
+===== PAGINA 6 =====
+
+Dinámica Molecular
+    Desarrollo de Taylor
+
+
+
+
+             ~
+             =
+
+
+
+
+                           =
+
+
+
+
+                               6
+
+===== PAGINA 7 =====
+
+Dinámica Molecular
+       Desarrollo de Taylor
+
+
+
+                           Función                         5                        Función
+       20
+                  Orden Taylor                                             Orden Taylor
+                           1                                                        1
+       15                                                  4                        2
+                           2
+                           4                                                        8
+   Y   10                                              Y   3
+
+        5                                                  2
+
+        0
+                                                           1
+            0.0     0.2    0.4       0.6   0.8   1.0           0.0   0.2    0.4       0.6     0.8   1.0
+                                 X                                                X
+
+
+
+
+                                                       7
+
+===== PAGINA 8 =====
+
+Dinámica Molecular
+
+
+
+
+                     Algoritmos Euler
+
+
+
+
+                            8
+
+===== PAGINA 9 =====
+
+  I will focus on Verlet-like algorithms (in contrast to Gear predictor-corrector algorithms).
+  A discretization of the equations of motion can be obtained by Taylor expansion:
+                                                 t2               t3 ...
+Dinámica Molecular
+            ri (t + t) = ri (t) + t vi (t) +
+                                                2mi
+                                                     f i (t) +
+                                                                 3!
+                                                                      r i (t) + O( t4 )       (16)
+
+                                     t            t2                t3 ...
+            v i (t
+Algoritmo de Euler + t) = v i (t) +    f i (t) +      v̈ i (t) +       v  i (t) + O( t 4
+                                                                                         ).   (17)
+                                    mi           2                3!
+
+  2.0.1 Euler algorithm
+    El másthe
+  Perhaps  simple
+              most ysimple
+                      menosintegration
+                             preciso scheme based on equations (16) and (17) is realized
+  by the Euler algorithm. The trajectory is calculated according to
+                                                         t2
+                     ri (t + t) = ri (t) + t vi (t) +       f i (t) + O( t3 )
+                                                        2mi
+                                                                                     (18)
+                                            t
+                     vi (t + t) = vi (t) +    f i (t) + O( t2 )
+                                           mi
+  The Euler algorithm is neither time-reversible nor phase-space preserving and hence
+  rather unfavorable. Nevertheless, the Euler scheme can be used to integrate other equa-
+  tions of motion, e.g. the Boltzmann equation.
+
+  2.0.2 Verlet algorithm
+  If we solve the second order system (5) based on the current positions ri (t) and forces
+  f i (t) and the previous positions ri (t t), we get the Verlet algorithm. The derivation
+  is straightforward:
+                                                      92
+                                                      t             t3 ...
+
+===== PAGINA 10 =====
+
+                                                t2              t3 ...
+             ri (t + t) = ri (t) + t vi (t) +       f i (t) +       r i (t) + O( t4 )           (16)
+                                               2mi             3!
+                                    t            t2               t3 ...
+Dinámica Molecular
+             vi (t + t) = vi (t) +
+                                   mi
+                                      f i (t) +
+                                                2
+                                                     v̈i (t) +
+                                                                3!
+                                                                     v i (t) + O( t4 ).         (17)
+
+  2.0.1 Euler
+Algoritmo     algorithm
+          de Euler Modificado
+ Perhaps the most simple integration scheme based on equations (16) and (17) is realized
+ by the Euler algorithm. The trajectory is calculated according to
+    Se usa la velocidad actualizada en vez de la del tpaso       2       anterior.
+                    ri (t + t) = ri (t) + t vi (t) +               f i (t) + O( t3 )
+                                                             2mi
+                                                                                                 (18)
+                                                 t
+                    vi (t + t) = vi (t) +          f i (t) + O( t2 )
+                                              mi
+ The Euler algorithm     is Δt)
+                     ri(t+   neither
+                                = ri(t)time-reversible
+                                        + Δt vi(t+ Δt) +nor Δt2 fphase-space     preserving and hence
+                                                                 i(t) / 2mi
+ rather unfavorable. Nevertheless, the Euler scheme can be used to integrate other equa-
+ tions of motion, e.g. the Boltzmann equation.
+
+ 2.0.2 Verlet algorithm
+ If we solve the second order system (5) based on the current positions ri (t) and forces
+ f i (t) and the previous positions ri (t t), we get the Verlet algorithm. The derivation
+ is straightforward:
+                                                   t2             t3 ...
+              ri (t    t) = ri (t)     t vi (t) +     f i (t)         r i (t) + O( t4 ).        (19)
+                                                  2mi            3!
+                                                   10
+
+===== PAGINA 11 =====
+
+Dinámica Molecular
+
+
+
+
+                 Algoritmos Tipo Verlet
+
+
+
+
+                           11
+
+===== PAGINA 12 =====
+
+                                       d
+                                          ⇢( ; t) = 0.                                   (14)
+                                       dt
+ Application of the chain rule yields Liouville’s equation
+
+Dinámica Molecular                @
+                                  @t
+                                     ⇢( ; t) + iL⇢( ; t) = 0.                            (15)
+
+ Liouville’s equation is the basis for deriving symplectic integrators.
+Algoritmo de Verlet
+
+ 2 Simple integration schemes
+    Sefocus
+ I will puede
+            ondiscretizar
+                Verlet-like las ecuaciones
+                            algorithms      de movimiento
+                                       (in contrast          por su desarrollo de
+                                                    to Gear predictor-corrector    Taylor:
+                                                                                algorithms).
+ A discretization of the equations of motion can be obtained by Taylor expansion:
+                                               t2              t3 ...
+            ri (t + t) = ri (t) + t vi (t) +       f i (t) +       r i (t) + O( t4 )     (16)
+                                              2mi             3!
+                                   t            t2               t3 ...
+            vi (t + t) = vi (t) +    f i (t) +      v̈i (t) +       v i (t) + O( t4 ).   (17)
+                                  mi           2               3!
+
+ 2.0.1 Euler algorithm
+ Perhaps the most simple integration scheme based on equations (16) and (17) is realized
+ by the Euler algorithm. The trajectory is calculated according to
+                                                       t2
+                   ri (t + t) = ri (t) + t vi (t) +       f i (t) + O( t3 )
+                                                      2mi
+                                                                                (18)
+                                          t
+                  vi (t + t) = vi (t) +     f i (t) + O( t2 )
+                                        mi
+                                                12
+ The Euler algorithm is neither time-reversible nor phase-space preserving and hence
+
+===== PAGINA 13 =====
+
+     by the2.0.1
+            EulerEuler
+                  algorithm.   The trajectory is calculated according to
+                       algorithm
+          As a consequence, the phase-space density along a trajectory        2          is conserved
+         Perhaps the most    simple   integration      scheme     based      t equations (16)3and (17) is realized
+                                                                            on
+                        ri (t + t) = ri (t) + d t vi (t) +                      f i (t) + O( t )
+         by the Euler algorithm. The trajectory⇢(is ; t) =              0.2miaccording to
+                                                               calculated                                   (14)
+                                                       dt                                                       (18)
+                                                           t                    2 2
+
+Dinámica Molecular
+          Application ofvthe  chain   rule yields    Liouville’s     equation t
+                         i (t +     t) =t)v=i (t)
+                              ri (t +              + + tf iv(t)
+                                               ri (t)              (t)++O( tf i (t)  ) + O( t3 )
+                                                        mi       i
+                                                                           2mi
+                                              @
+                                                 ⇢(    ; t) +  iL⇢(     ; t) =   0.                           (18)
+                                                                                                            (15)
+   The Euler algorithm isv (t    neither
+                                    +   t)
+                                           time-reversible
+                                           =  @t
+                                               v   (t)  +
+                                                             t        nor phase-space preserving and hence
+                                                                f i (t) + O( t2 )
+                               i                 i
+ Algoritmo de Verletequation
+   rather Liouville’s
+          unfavorable.   Nevertheless,
+                                is the basisthefor Euler    mischeme
+                                                     deriving    symplecticcan integrators.
+                                                                                  be used to integrate other equa-
+     tions of
+           Themotion,
+               Euler e.g.  the is
+                      algorithmBoltzmann
+                                  neither equation.
+                                         time-reversible nor phase-space preserving and hence
+           rather unfavorable. Nevertheless, the Euler scheme can be used to integrate other equa-
+            2 Simple integration schemes
+     2.0.2 tions
+            Verletof motion,  e.g. the Boltzmann equation.
+                      algorithm
+       Considero el desarrollo de Taylor para Δt y -Δt :
+            I will focus on Verlet-like algorithms (in contrast to Gear predictor-corrector algorithms).
+     If we solve   the  second
+            A discretization
+           2.0.2    Verlet    of order   systemof(5)
+                                 the equations
+                           algorithm                  basedcanonbethe
+                                                   motion             current
+                                                                   obtained by positions
+                                                                                Taylor     ri (t) and forces
+                                                                                       expansion:
+     f i (t) and the previous positions ri (t                t), wet2get the Verlet3
+                                                                                     ...
+                                                                                          algorithm. The derivation
+              If we solve rthe(t second
+                                 +      =order
+                                          r  (t) system
+                                                 +     v   (5)+based fon(t)the
+                                                           (t)               + current
+                                                                                 t
+                                                                                      r     positions
+                                                                                          (t) +        4ri (t) and forces
+                                                                                                        )          (16)
+     is straightforward:    i        t)    i
+              f (t) and the previous positions r (t
+                                                     t   i
+                                                                t),2m
+                                                                    we
+                                                                         i
+                                                                      i get the 3!
+                                                                                        i       O(   t
+                                                                                Verlet algorithm. The derivation
+               i                                         i
+           is straightforward:
+                    +
+                                                                          2t2                       3
+                        v   (t +        =   v   (t) +
+                                                          t
+                                                             f   (t) +
+                                                                        t       v̈   (t) +
+                                                                                                  t   ... (t) + O( t4 ).4
+                                                                                                      ...
+                                                                                                      v                    (17)(19)
+Sumando MAM       ri (t   i    t) =   r
+                                     t) i (t) i       t v i (t)i  +      2it2 f i (t)
+                                                                                   i                   r
+                                                                                                3!t3 ...
+                                                                                                         ii (t) + O( t ).
+y despejando
+                                                        mi           2m                         3!
+                        ri (t        t) = ri (t)          t vi (t) +             f i (t)                r i (t) + O( t4 ).   (19)
+     The updating
+            2.0.1 Eulerequation
+                          algorithm   for the positions is              2m                       3!
+                                                                       obtained by adding (16) and (19), and for
+                                                                             i
+     the velocities   by subtracting
+           The updating       equation for    them,      respectively:
+                                                  the positions       is obtained by adding (16) and (19), and for
+            Perhaps the most simple integration scheme based on equations (16) and (17) is realized
+           the velocities by subtracting them, respectively:                               2
+            by the Euler algorithm. The trajectory is calculated taccording                                to
+                         ri (t + t) = 2ri (t) ri (t                        t) +            t 2f i (t)  +    O(   t 4
+                                                                                                                     ),
+                                 ri (t + t) = 2ri (t) ri (t                   t) + m    t i f i (t) + O( 3 t ),
+                                                                                         2                        4
+                                                                                                                               (20)
+                                    ri (t + t) = ri (t) + t vi (t) + mfi i (t) + O( t )
+                                                 ri (t + t) ri (t                    2m
+                                                                                      t) i                                   (20)
+                                  vi (t) =           ri (t + t) t ri (t                t)+ O( t 3).       3                (18)
+                                   vi (tv+i (t)t)== vi (t) +     2 t f i (t) + O( +t2O(          )      t ).
+                                                                   m2 t
+                                                                   i
+              The Euler algorithm is neither time-reversible nor phase-space preserving and hence
+              rather unfavorable. Nevertheless, the Euler13
+                                                          scheme can be used to integrate other equa-
+                                                        33
+              tions of motion, e.g. the Boltzmann equation.
+
+===== PAGINA 14 =====
+
+Dinámica Molecular
+Algoritmo de Verlet
+
+
+
+           - Notar que usando el algoritmo de Verlet no es necesario
+           computar las velocidades para obtener las trayectorias.
+
+           - Sin embargo las velocidades son necesarias si se quiere
+           calcular, por ejemplo, la energía cinética del sistema.
+
+           - Para el primer paso es necesario estimar las posiciones y
+           velocidades anteriores lo cual puede hacerse con Euler
+           evaluado en -Δt.
+
+
+
+
+                                            14
+
+===== PAGINA 15 =====
+
+            2.0.1 Euler ri (t
+                           algorithm+ t) = ri (t) + t vi (t) +                        f i (t) + O( t )
+             As a consequence, the phase-space density along a2mi                trajectory is conserved                    (18)
+            Perhaps the most simple integration scheme           t       based   on   equations    (16)   and (17) is realized
+                             v      +        =   v
+            by the Euler algorithm. The trajectory
+                               i (t       t)       i (t)  +  d
+                                                                ⇢(isf ;
+                                                                      i (t)
+                                                                     calculated
+                                                                        t) = + O(
+                                                                              0.       t 2
+                                                                                           )
+                                                                                     according     to                   (14)
+                                                              mi
+                                                             dt
+                                                                                     2
+
+Dinámica Molecular
+             Application   of the   chain
+    The Euler algorithm isri (tneither      rule yields    Liouville’s
+                                                  time-reversible                  t
+                                                                            equation
+                                          + t) =      ri (t) + t vi (t)nor   + phase-space
+                                                                                       f i (t) + O( preserving
+                                                                                                      t3 )          and hence
+    rather unfavorable. Nevertheless, @             the Euler scheme 2m          cani be used to integrate other (18)      equa-
+                                                        ⇢( ; t) +tiL⇢( ; t) = 0.                                        (15)
+    tions of motion, e.g. the           Boltzmann
+                                    vi (t +   t) =@t      equation.f i (t) + O( t2 )
+                                                      vi (t) +
+ AlgoritmoLiouville’s
+              de Verletequation is the basis for deriving        mi symplectic integrators.
+
+    2.0.2 TheVerletEuler algorithm is neither time-reversible nor phase-space preserving and hence
+                       algorithm
+            rather unfavorable. Nevertheless, the Euler scheme can be used to integrate other equa-
+             2 Simple integration schemes
+    If we tions
+            solveofthemotion,
+                         second  e.g.order
+                                        the system
+                                            Boltzmann     (5)equation.
+                                                               based on the current positions ri (t) and forces
+      Considero el desarrollo de Taylor para Δt y -Δt :
+    f i (t) I
+           andwillthe  previous
+                    focus on        positions r
+                             Verlet-like           i (t (int),
+                                            algorithms               we get
+                                                                contrast     to the
+                                                                                 GearVerlet      algorithm. The
+                                                                                        predictor-corrector          derivation
+                                                                                                               algorithms).
+             A discretization
+            2.0.2                of the equations of motion can be obtained by Taylor expansion:
+                     Verlet algorithm
+    is straightforward:
+                                                                                   2                     3
+           If we solve rthe     second     order       system        (5)   based t2    on    the           3... positions 4ri (t) and forces
+                                                                                                     current
+                                                                                                       t
+                            (t  +    t)  =  r    (t)  +      t  v   (t)  +      t     f   (t) +          t   r...
+                                                                                                               i (t) + O( t ) 4              (16)
+                    r
+           f i (t) and(t  i
+                                t) =    r  (t) i
+                     i he previousi positions ri i(t     t   v   (t)
+                                                                  i
+                                                                        +  t),2mwe i if i
+                                                                                          (t)
+                                                                                       get the 3!              r    (t) +   O(      t
+                                                                                                     Verlet ialgorithm. The derivation ).        (19)
+                                                                            2mi 2                      3!3
+           is straightforward:
+Restando
+                         v i (t +        =
+          updating equation for the positions
+     TheMAM            _              t)     v   i (t) +
+                                                           mi
+                                                               t
+                                                                  f i (t)  +
+                                                                          is
+                                                                                  t
+                                                                               obtained
+                                                                                 2t2
+                                                                                       v̈ i (t)  +by
+                                                                                                         t ...
+                                                                                                              v
+                                                                                                         adding
+                                                                                                       3!t3 ...
+                                                                                                                 i (t) + O(
+                                                                                                                       (16)     t
+                                                                                                                               and
+                                                                                                                                  4
+                                                                                                                                    ). (19), (17)
+                                                                                                                                             and for
+     the velocities byri (t
+y despejando              subtracting t) = ri (t)them, t vi (t)
+                                                             respectively: +            f i (t)                r i (t) + O( t4 ).              (19)
+            2.0.1 Euler algorithm                                              2m    i                  3!
+                                                                                                 t 2
+           The updating   r    equation
+                               (t +      t)  =for2r  the(t)positions
+                                                                   r    (t   is obtained
+                                                                                    t)  +           by
+                                                                                                     f    adding
+                                                                                                         (t)   +    O( (16)
+                                                                                                                          t 4 and (19), and for
+                                                                                                                             ), (17) is realized
+            Perhaps the most simple integration scheme based on
+                             i                         i              i                           equations
+                                                                                                       i            (16) and
+           the velocities by subtracting them, respectively: mi                                                                                  (20)
+            by the Euler algorithm. The trajectory is calculated according to
+                                                    ri (t + t) ri (t                         t) t2
+                                   v    (t)  =
+                                  ri (t + t) = 2ri (t) 2ri (tt
+                                      i                                               t) +     t 2+ O( t3 ).
+                                                                                                      f i (t) + O( 3 t4 ),
+                                     ri (t + t) = ri (t) + t vi (t) + mfi i (t) + O( t )
+                                                                                            2mi                                                (20)
+                                                         ri (t + t) t ri (t                   t)                                             (18)
+                                          v   (t)    =
+                                    vi (t + t) = vi (t) + 2 tf i (t) + O( t )
+                                            i                                                      +  2O( t ).
+                                                                                                                  3
+
+                                                                         m  i
+                                                          3
+                The Euler algorithm is neither time-reversible  nor phase-space preserving and hence
+                rather unfavorable. Nevertheless, the Euler15
+                                                            scheme can be used to integrate other equa-
+                                                            3
+                tions of motion, e.g. the Boltzmann equation.
+
+===== PAGINA 16 =====
+
+TheThevelocities
+        velocitiesare
+                   areactually
+                       actually not
+                                 not needed   to compute
+                                      needed to  computethe thetrajectories,
+                                                                 trajectories,butbuttheythey
+                                                                                           are are  useful
+                                                                                                useful
+ orfor
+     calculating
+       calculatingobservables
+                    observables like
+                                 like the  kinetic energy.
+                                      the kinetic   energy. However,
+                                                             However,ininthethe    Verlet
+                                                                                Verlet      scheme
+                                                                                         scheme    the the
+velocities    v(t)are
+   velocitiesv(t)  areonly
+                       onlyavailable
+                            available once r(t   + t)t)has
+                                             r(t +       hasbeen
+                                                             beencalculated,
+                                                                    calculated, i.e.i.e.
+                                                                                      oneone
+                                                                                           timetime
+                                                                                                 stepstep
+   later.Moreover,
+ ater.     Moreover,thetheupdating
+                           updating of of positions
+                                          positions according
+                                                      accordingtoto(20)
+                                                                      (20)gives
+                                                                            givesriserise
+                                                                                       to to
+                                                                                           numerical
+                                                                                              numerical
+  Dinámica Molecular
+   imprecisionbecause
+ mprecision      becauseaasmall
+                           small term
+                                  term of
+                                        of order
+                                           order tt2 isisadded
+                                                     2
+                                                          addedtotoa adi↵erence
+                                                                        di↵erence of O(1)-terms.
+                                                                                      of O(1)-terms.
+   Variaciones
+  2.0.3        del Algoritmo
+         Leap-frog algorithm de Verlet: “Leap-Frog”
+2.0.3 Leap-frog algorithm
+ToTo  obtain both the positions and velocities from readily available quantities, the leap-frog
+    obtain both the positions and velocities from readily available quantities, the leap-frog
+   scheme can be applied. The updating equations are:
+scheme can be applied. The updating equations are:
+                                       t              t       t
+                               vi (t + t ) = vi (t      t) +    tf i (t),
+                              vi (t + 2 ) = vi (t    2 ) +mi f i (t),
+                                                                                                 (21)
+                                       2              2       mi t
+                                ri (t + t) = ri (t) + t vi (t +       ).t
+                                                                                                     (21)
+                               ri (t + t) = ri (t) + t vi (t +2 ).
+                                                                        2
+  The velocities are updated at half time steps and ‘leap’ ahead the positions. The current
+The velocities
+         La canare
+  velocities     be updated
+             velocidad actualat
+                    obtained    half time
+                              puede
+                             from         steps and
+                                      calcularse como:‘leap’ ahead the positions. The current
+velocities can be obtained from
+                                            vi (t   2 ) + vi (   t + 2t )
+                                                     t
+                                 vi (t) =                                   .                    (22)
+                                            vi (t      2 vi (
+                                                    2 )+          t + 2t )
+                                                     t
+                                vi (t) =                                        .                    (22)
+                                                  2 scheme. However, the velocities are
+  Numerical imprecision is minimized in the leap-frog
+  still not accessible
+Numerical   imprecisionin an ad-hoc manner.
+                          is minimized in the leap-frog scheme. However, the velocities are
+still not accessible in an ad-hoc manner.
+   2.0.4 Velocity-Verlet algorithm
+  An algorithm
+2.0.4          that yields
+      Velocity-Verlet      the positions, velocities and forces at the same time is given
+                      algorithm
+                                                         16
+   by the Velocity-Verlet scheme. The positions and velocities are updated according to
+
+===== PAGINA 17 =====
+
+velocities can be obtained from
+                                         vi (t   2 ) + vi (   t + 2t )
+                                                  t
+                              vi (t) =                                   .                  (22)
+                                                      2
+
+Dinámica Molecular
+Numerical imprecision is minimized in the leap-frog scheme. However, the velocities are
+still not accessible in an ad-hoc manner.
+Variaciones del Algoritmo de Verlet: “Velocity-Verlet”
+2.0.4 Velocity-Verlet algorithm
+An algorithm that yields the positions, velocities and forces at the same time is given
+byProvee  posiciones yscheme.
+   the Velocity-Verlet velocidades  en el mismo
+                              The positions  and paso    temporal
+                                                   velocities are updated according to
+                                                          t2
+                   ri (t +   t) = ri (t) + t vi (t) +          f i (t) + O( t3 ),
+                                                        mi
+                                                                                            (23)
+                                            t
+                  vi (t +    t) = v(t) +      (f i (t) + f i (t + t)) + O( t23 ).
+                                          2mi
+ The Velocity-Verlet scheme is algebraically equivalent to the original Verlet algorithm.
+ Equations (20) can be derived from (23) by elimination of the velocities in the position
+ update.
+Paso        Despite
+     intermedio 1) v(t +its
+                         Δt/2) = v(t) +the
+                            simplicity  a(t)(Δt/2)
+                                            Velocity-Verlet algorithm is very stable and has be-
+ come the perhaps most widely Paso     used  Molecular Dynamics algorithm. The Velocity-Verlet
+                                          intermedio 2) v(t + Δt) = v(t + Δt/2) + a(t + Δt)(Δt/2)
+ scheme is a symplectic integrator, i.e. it preserves the volume in phase-space.
+    Esta variante es muy estable y preserva los volúmenes en el espacio de fases
+3   Splitting
+    (es un      methods
+           “sympletic integrator”).
+
+3.1 The Trotter expansion
+                                            17
+We can formally integrate the equation of motion for an observable to obtain
+
+===== PAGINA 18 =====
+
+Dinámica Molecular
+Algoritmos Tipo Verlet
+
+             Esquema de intregración de las 3 variantes presentadas
+
+
+
+    Verlet Original
+
+
+
+       “Leap-frog”
+
+
+
+
+  “Velocity-Verlet”
+
+
+
+
+                                            18
+
+===== PAGINA 19 =====
+
+Dinámica Molecular
+Algoritmos Tipo Verlet
+
+
+
+       Algoritmo de Beeman
+
+
+                                            2           1
+              r(t +   t) = r(t) + v(t)( t) + a(t) t2      a(t       t) t2
+                                            3           6
+
+
+                                    1              5            1
+              v(t +      t) = v(t) + a(t +   t) t + a(t) t        a(t   t) t
+                                    3              6            6
+
+
+
+
+                                               19
+
+===== PAGINA 20 =====
+
+Dinámica Molecular
+Algoritmos Tipo Verlet
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              Algoritmo de Beeman para fuerzas que dependen de la velocidad
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             (variante predictor-corrector)
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            2                1
+   <latexit sha1_base64="M7lAEVk5FeouC0f2aOJe0cJjDFw=">AAACgXicbVHbSsNAEN3EW623qo++LFahpTQktagogqAPvqlgVWhq2Ww3unRzYXdSKCH/4Xf55s+Im160XgYWzpw5w+yc8WLBFdj2u2HOzS8sLhWWiyura+sbpc2texUlkrIWjUQkHz2imOAhawEHwR5jyUjgCfbg9S/y+sOAScWj8A6GMesE5DnkPqcENNUtvboBgRfPT2VWgZp7yQQQDNWzWbpam2aDPJuKaq4vCU0bWXqQTQVkVvDUqI8lTpYe/pDUvwZ9a2vXla+kWbW6pbJt2aPAf4EzAWU0iZtu6c3tRTQJWAhUEKXajh1DJyUSOBUsK7qJYjGhffLM2hqGJGCqk44czPC+ZnrYj6R+IeARO9uRkkCpYeBpZb6G+l3Lyf9q7QT8407KwzgBFtLxID8RGCKcnwP3uGQUxFADQiXXf8X0hWjTQB+tqE1wfq/8F9w3LOfQcm6b5fOTiR0FtIN2UQU56Aidoyt0g1qIog9jz6gbljlnVk3bbIylpjHp2UY/wjz9BIjVwO8=</latexit>
+
+
+
+
+   r(t +                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                t) = r(t) + v(t) t + a(t) t2           a(t     t) t2 + O( t4 ).
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            3                6
+
+   Velocidades a tiempo t = t +                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                t se calculan a partir de las posiciones
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              3              1
+   <latexit sha1_base64="WC0W0PzBNTBYWxWg7OuPzgxYkGY=">AAACfXicbVFNSxxBEO2ZGGPWqGs8emlchJ2sLjMaNAiCoIfcVHBV2NksPT012tjzQXeNsDTzL/LLcstf8WJ69iPoakHD471XVV1VUSGFRt//67gfFj4uflr63Fj+srK61lz/eq3zUnHo8Vzm6jZiGqTIoIcCJdwWClgaSbiJHk5r/eYRlBZ5doWjAgYpu8tEIjhDSw2bv8OU4X2UmMeqjZ3wDCQyit7QjHmVmrYtFwuOEHtVdfzS7XXCRDFu9iuzV80EVguzMrsTQzBv2P3fZwY65+0Z/LXvDZstv+uPg74FwRS0yDQuhs0/YZzzMoUMuWRa9wO/wIFhCgWXUDXCUkPB+AO7g76FGUtBD8x4exXdtkxMk1zZlyEdsy8zDEu1HqWRddYz6HmtJt/T+iUmPwZGZEWJkPFJo6SUFHNan4LGQgFHObKAcSXsXym/Z3ZjaA/WsEsI5kd+C673usFBN7j83jo5mq5jiWySLdImATkkJ+QnuSA9wsmTQx3P+eY8u9vujtudWF1nmrNBXoV7+A+DeMGu</latexit>
+
+
+
+
+   v(t +                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                t)(predicted) = v(t) + a(t) t          a(t      t) t + O( t3 )
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              2              2
+
+   Aceleraciones a tiempo t = t +                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               t se calculan a partir de las velocidades predichas y posiciones
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              1                5               1
+   <latexit sha1_base64="MSLGMGKHazkeGHeNYQWFiCgqhWQ=">AAACrHicbVFdSyMxFM2Mu6vb/bC6j/sStix0EMuM3wgLgj74pgtWu3RmSya9U4OZD5I7Qgnz6/wHvvlvzNSpWPVC4HDOyU3uuXEhhUbff3DcpQ8fPy2vfG59+frt+2p7bf1S56Xi0Oe5zNUgZhqkyKCPAiUMCgUsjSVcxTfHtX51C0qLPLvAaQFRyiaZSARnaKlR+y5MGV7HibmturgRnoBERtEbmRmvUtPluVLAEcZeVf156fY2wkQxboLKbFdzgS20oXNEG+9uZfYWvN6zY/O526Jj871uZ905/r/tjdodv+fPir4FQQM6pKnzUfs+HOe8TCFDLpnWw8AvMDJMoeASqlZYaigYv2ETGFqYsRR0ZGZhV/S3ZcY0yZU9GdIZ+/KGYanW0zS2znoK/Vqryfe0YYnJQWREVpQIGX96KCklxZzWm6NjUe9BTi1gXAn7V8qvmc0M7X5bNoTg9chvweVWL9jrBX93OkeHTRwr5Cf5RbokIPvkiJySc9In3PGcM2fg/HN77oU7dKMnq+s0d36QhXKTR8mQ0Xk=</latexit>
+
+
+
+
+   v(t +                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                t)(corrected) = v(t) + a(t +     t) t + a(t) t           a(t      t) t + O( t3 )
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              3                6               6
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               20
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         𝛥
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     𝛥
+
+===== PAGINA 21 =====
+
+Dinámica Molecular
+
+
+
+
+            Algoritmos Tipo Predictor-Corrector
+
+
+
+
+                               21
+
+===== PAGINA 22 =====
+
+Dinámica Molecular
+Algoritmos Tipo Predictor-Corrector
+
+    Estos métodos tienen 3 pasos: Predicción, evaluación y corrección. En
+    particular si se tienen la posición ri(t) y la velocidad vi(t) los pasos son:
+
+
+    1- Predecir la posición ri(t+Δt) y velocidad vi(t+Δt) en el paso siguiente.
+
+    2- Evaluar las Fuerzas fi(t+Δt) usando las predicciones hechas en 1.
+
+    3- Corregir las predicciones usando una combinación de los valores previos y
+    los predichos.
+
+
+            Veamos un ejemplo...
+
+
+
+
+                                               22
+
+===== PAGINA 23 =====
+
+Dinámica Molecular
+Algoritmo Euler Predictor-Corrector
+
+
+
+   1)Predecir :
+                  vip(t+Δt) = vi(t) + ai(t)Δt
+                  rip(t+Δt) = ri(t) + vi(t)Δt
+
+
+   2)Evaluar :
+                  fi(rip, vip)   ai(t+Δt)
+
+
+   3)Corregir :
+                  vi(t+Δt) = vi(t) + ai(t+Δt)Δt
+                  ri(t+Δt) = ri(t) + vi(t+Δt)Δt
+
+
+
+
+                                                  23
+
+===== PAGINA 24 =====
+
+Dinámica Molecular
+
+
+
+
+             Algoritmo Gear Predictor-Corrector
+
+
+
+
+                              24
+
+===== PAGINA 25 =====
+
+Dinámica Molecular
+Algoritmo Gear Predictor-Corrector
+                                                                   notación:
+  1) Predecir:
+
+                                                ( t)2           ( t)3          ( t)4          ( t)5
+       rp (t+     t) = r(t)+r1 (t)( t)+r2 (t)           +r3 (t)        +r4 (t)        +r5 (t)
+                                                   2!             3!             4!             5!
+                                                     ( t)2           ( t)3           ( t)4
+       rp1 (t +    t) = r1 (t) + r2 (t)( t) + r3 (t)        + r4 (t)        + r5 (t)
+                                                       2!              3!              4!
+                                                          2               3
+                                                     ( t)            ( t)
+       rp2 (t +    t) = r2 (t) + r3 (t)( t) + r4 (t)        + r5 (t)
+                                                       2!              3!
+                                                          2
+                                                     ( t)
+       rp3 (t +    t) = r3 (t) + r4 (t)( t) + r5 (t)
+                                                       2!
+       rp4 (t +    t) = r4 (t) + r5 (t)( t)
+       rp5 (t +    t) = r5 (t)
+
+
+
+
+                                                     25
+
+===== PAGINA 26 =====
+
+Dinámica Molecular
+Algoritmo Gear Predictor-Corrector
+
+
+   2) Evaluar:
+
+       Evalúo la Fuerza(t+Δt) con las variables predichas y obtengo la
+       aceleración a(t+Δt), luego defino:
+
+                      Δa = Δr2 = a(t+Δt) - ap(t+Δt) = r2(t+Δt) - r2p(t+Δt)
+
+
+
+
+                                              26
+
+===== PAGINA 27 =====
+
+Dinámica Molecular
+Algoritmo Gear Predictor-Corrector
+                                                             notación:
+     3) Obtengo las variables corregidas: rqc
+
+                     rc = rp + α0 ΔR2
+
+                     r1c = r1p + α1 ΔR2 / (Δt)
+                          ....
+               q             q
+         (  t)         (  t)
+     rcq         = rpq         + ↵q R2
+           q!            q!
+                                                  O despejando:
+
+                                                       c    p                 q!
+                                                      rq = rq + ↵q       R2
+                                                                            ( t)q
+
+
+
+                                                 27
+
+===== PAGINA 28 =====
+
+Dinámica Molecular
+Algoritmo Gear Predictor-Corrector
+
+
+   Los αq son los coeficientes del predictor Gear. Para el caso r2 = f (r),
+   i.e.: las fuerzas solo dependen de las posiciones.
+
+
+
+
+                  Orden        α0    α1    α2        α3    α4       α5
+                    2
+                    3
+                    4
+                    5
+
+
+
+
+                                                28
+
+===== PAGINA 29 =====
+
+Dinámica Molecular
+Algoritmo Gear Predictor-Corrector
+
+
+   Los αq son los coeficientes del predictor Gear. Para el caso r2 = f (r, r1),
+   i.e.: las fuerzas dependen de las posiciones y las velocidades.
+
+
+
+
+                  Orden        α0     α1    α2        α3    α4       α5
+                    2
+                    3
+                    4         19/90
+                    5          3/16
+
+
+
+
+                                                 29
+
+===== PAGINA 30 =====
+
+Dinámica Molecular
+Algoritmo Gear Predictor-Corrector
+
+
+   El primer paso de integración.
+
+         Las derivadas de la posición de orden mayores a 2 se obtienen derivando la
+         expresión de la Fuerza. Por ejemplo en el caso de 1 partícula con fuerza
+         elástica F = m r2 = -k (r-r0) serán (S.E.U.O.):
+
+         r2 = -k/m (r-r0)
+         r3 = -k/m r1 ;
+         r4 = -k/m r2 = (k/m) 2 (r-r0);
+         r5 = -k/m r3 = (k/m) 2 r1
+
+      En los casos de fuerzas más complejas, se puede inicializar las derivadas
+      superiores en cero.
+
+
+
+                                            30
+
+===== PAGINA 31 =====
+
+Dinámica Molecular
+
+
+
+              Paso temporal de integración
+
+
+
+
+                              31
+
+===== PAGINA 32 =====
+
+Dinámica Molecular
+Elección del paso temporal
+
+
+
+
+                             Demasiado corto. Simulación innecesariamente lenta.
+
+
+
+                             Demasiado largo. Errores por las aproximaciones.
+                             Explosiones!
+
+
+                             Justo. Errores aceptables y máxima velocidad.
+
+
+
+
+                                       32
+
+===== PAGINA 33 =====
+
+Dinámica Molecular
+Elección del paso temporal
+
+                              Diferenciar entre:
+
+       Paso Δt de la simulación                       Paso Δt2 para guardar el
+                                                      estado del sistema
+
+                                                          Δt2 = k Δt,      con k ε ℕ
+
+
+                                       Ejemplo:
+                                               t = Σ Δt        (El tiempo total)
+
+
+                                         if    (t / Δt2) = round (t / Δt2)
+                                                   guardo estado sistema.
+                                         end
+
+
+
+                                              33
+
+===== PAGINA 34 =====
+
+Dinámica Molecular
+
+
+
+
+                Verificación del Error
+
+
+
+
+                            34
+
+===== PAGINA 35 =====
+
+Dinámica Molecular
+ Verificación del Error
+
+                 - Caso simple. Comparar con la solución analítica.
+
+                 - Caso realista. Si el sistema es conservativo:
+                 Conservación de la Energía para todo el sistema:
+
+                             Ecinética + Epotencial = Cte.
+
+                 - Sistemas no conservativos: Repetir simulaciones con
+                 dt cada vez menores hasta que los resultados
+                 cambien menos que un dado error.
+
+
+
+
+                                            35
+
+===== PAGINA 36 =====
+
+Dinámica Molecular
+
+
+
+
+                Casos de Estudio
+
+
+
+
+                          36
+
+===== PAGINA 37 =====
+
+    Dinámica Molecular
+                                  Sólo una partícula. Comparar con la solución analítica.
+     Casos de Estudio
+
+            1) Oscilador Amortiguado                                   Parámetros
+                                                                   m = 70 kg; k = 104 N/m;
+                                                                       = 100 kg/s; tf = 5 s
+
+       f = ma = mr2 =             kr       r1
+                                                                   Condiciones Iniciales
+                                                                          r (t=0) = 1 m;
+                                                                    v (t=0) = - A /(2m) m/s;
+     Solución
+                                                   2
+                               k                            0.5
+      r =A exp( (    )t) cos((                          )         t)
+                  2m           m                  4m2
+
+
+                                             37
+            𝛾
+𝛾
+
+===== PAGINA 38 =====
+
+         Dinámica Molecular
+               Casos de Estudio
+                                      1) Oscilador Amortiguado
+
+
+
+
+Posición (m)
+
+
+
+
+                         tiempo (s)                              tiempo (s)
+
+
+                                                      38
+
+===== PAGINA 39 =====
+
+      Dinámica Molecular
+Slides
+
+
+         Casos de Estudio
+p.1   Introduction to the Lennard-Jones Potential
+                      2) Gaspotential
+         The Lennard-Jones     de Lennard-Jones
+                                        (also referred to as the
+         L-J potential or 12-6 potential) is a simple physical model that
+         approximates the interaction between a pair of neutral atoms or
+         molecules.       El potencial LJ 12-6
+         The most common
+                   2     expressions
+                                   3 for 2
+                                         the L-J potential are: 3
+                       !12      !6             !12          !6
+          VLJ = 4✏ 4               5 = ✏ 4 rm        2
+                                                         rm 5
+                                                                  , (1)
+                     r        r              r            r
+
+         where r is the distance between the particles.
+           Donde:
+         Here,  ✏ is the depth (i.e. the minimum) of the potential well,
+         reached
+           ε   es lat r = rm , and isdel
+                      profundidad        thepozo.
+                                              distance at which the
+         inter-particle potential is
+           r es la distancia                It can be shown that rm = 21/6 .
+                                      zero.partículas.
+                                   entre
+         σ es la distancia a la cual el potencial se hace cero
+A NumFys Example                                                  www.numfys.net
+
+             es la distancia
+         rmLennard-Jones
+Example 1.1:             Potential a la cual se encuentra el mínimo (rm = 21/6 σ).
+
+
+                                                                39
+
+===== PAGINA 40 =====
+
+Dinámica Molecular
+Slides
+
+
+
+      Casos de Estudio
+p.6   Deriving the Force from the Potential
+               2) Gas de Lennard-Jones
+                                                    Laby
+         Let us calculate the force from the potential Fuerza LJ the
+                                                         taking  12-6
+         derivative of the potential:
+
+                   F (r ) =     V 0 (r )                                         (2)
+                                 "                    !13              !7 #
+                                           12    rm            12 rm
+                          =     ✏                           +                    (3)
+                                           rm     r            rm r
+                                    "           !13            !7 #
+                              12✏          rm               rm
+                          =                                                      (4)
+                              rm            r                r
+
+         Note that F (rm ) = 0. Hence, r = rm is an equilibrium point.
+         Now, we Taylor-expand the force about this equilibrium point.
+
+                                                      40
+A NumFys Example                                                              www.numfys.net
+
+===== PAGINA 41 =====
+
+Dinámica Molecular
+ Casos de Estudio
+
+           3) Sistema Gravitatorio
+
+
+       Fuerza de Gravedad                                           Energía Potencial
+
+               mi mj                                            pot
+                                                               Eij     =
+                                                                                    mi mj
+                                                                                   G rij
+    Fij    = G   2   eij
+                rij
+
+  Donde:
+  m es la masa de cada partícula
+  rij es la distancia entre las partícula i y la j.                          3
+  G es la constante universal de gravitación                              m
+                                                      G = 6, 693 · 10 11
+                                                                         kg · s2
+
+
+
+                                                41
+
+===== PAGINA 42 =====
+
+Dinámica Molecular
+ Casos de Estudio
+
+
+   4) Restitución Normal
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     n
+      FN =                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 kn ⇠ ê
+      <latexit sha1_base64="NCTPoCn3ZagymWgQl/Z06Z2PpLM=">AAACI3icbVDLSgMxFM34rPVVdekmWAQXWmZEVAShKIgrqWAf0KlDJs20oZnMkGTEEuZf3PgrblwoxY0L/8V0WkFbDwQO55xL7j1+zKhUtv1pzczOzS8s5pbyyyura+uFjc2ajBKBSRVHLBINH0nCKCdVRRUjjVgQFPqM1P3e5dCvPxAhacTvVD8mrRB1OA0oRspIXuHMDZHq+oG+Sj2dcRHqmzSF5/Cg53HoPlLo7kO3i5T+iZI0vdc89QpFu2RngNPEGZMiGKPiFQZuO8JJSLjCDEnZdOxYtTQSimJG0rybSBIj3EMd0jSUo5DIls5uTOGuUdowiIR5XMFM/T2hUShlP/RNcrimnPSG4n9eM1HBaUtTHieKcDz6KEgYVBEcFgbbVBCsWN8QhAU1u0LcRQJhZWrNmxKcyZOnSe2w5ByXnNujYvliXEcObIMdsAcccALK4BpUQBVg8ARewBt4t56tV2tgfYyiM9Z4Zgv8gfX1DdywpQo=</latexit>
+
+
+
+
+enx= (xj - xi)/|rj - ri|
+eny= (yj - yi)/|rj - ri|
+
+    ξij = Ri + Rj - |rj - ri|
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      1
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         <latexit sha1_base64="ZpgWxnWHUTQglXzU+GXeSkgtTCk=">AAACCHicbVDLSsNAFJ34rPUVdenCwSK4KkkRdSMURXBZwT6gScNkOmmHTiZhZiKWkO7c+CtuXCji1k9w5984bbPQ1gMXDufcy733+DGjUlnWt7GwuLS8slpYK65vbG5tmzu7DRklApM6jlgkWj6ShFFO6ooqRlqxICj0GWn6g6ux37wnQtKI36lhTNwQ9TgNKEZKS555cN1J40hl8AI6gUA4tbO0ko0GHh85D7RT8cySVbYmgPPEzkkJ5Kh55pfTjXASEq4wQ1K2bStWboqEopiRrOgkksQID1CPtDXlKCTSTSePZPBIK10YREIXV3Ci/p5IUSjlMPR1Z4hUX856Y/E/r52o4NxNKY8TRTieLgoSBlUEx6nALhUEKzbUBGFB9a0Q95HOQ+nsijoEe/bledKolO3Tsn17Uqpe5nEUwD44BMfABmegCm5ADdQBBo/gGbyCN+PJeDHejY9p64KRz+yBPzA+fwBxuZme</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               pot
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         E                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           = kn ⇠ 2
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      2
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              42
+
+===== PAGINA 43 =====
+
+Dinámica Molecular
+
+
+
+                Suma de Fuerzas
+
+
+
+
+                          43
+
+===== PAGINA 44 =====
+
+Dinámica Molecular
+
+                               Suma de Fuerzas
+
+
+
+                                                 Partícula j
+
+                         Partícula i
+
+                 Fik
+                                                          Partícula k
+Fi = Fik + Fij
+                   Fij
+
+
+
+
+                                            44
+
+===== PAGINA 45 =====
+
+Dinámica Molecular
+                             Suma de Fuerzas
+
+ Antes de sumar Fuerzas, para cada partícula, conviene proyectar las Fzas.
+ normal y tangencial (generadas por cada una de las demás partículas en
+ contacto) en las componentes cartesianas (x,y)
+
+
+         Fx = FN enx                                Donde:
+
+                                            enx= (xj - xi)/|rj - ri|
+         Fy = FN eny
+                                            eny= (yj - yi)/|rj - ri|
+
+                        Además, las componentes tangenciales:
+
+                                      etx= - eny
+                                      ety= enx
+
+                                              45
+
+===== PAGINA 46 =====
+
+Dinámica Molecular
+                                Suma de Fuerzas
+
+                        Finalmente la fuerza sobre cada partícula i debido la
+                          interacción con las demás partículas ( j ) resulta:
+
+
+
+                                                             X                    X
+                                                  FiTxot =       FN ij enx ij +          FT ij ( eny ij )
+                                                             j                     j
+                  X             X
+FTi ot = mi g +       FN ij +       FT ij
+                  j             j
+                                                                    X                    X
+                                                  FiTyot = mi g +       FN ij eny ij +        FT ij enx ij
+                                                                    j                     j
+
+
+
+
+                                                  46
+
+===== PAGINA 47 =====
+
+FIN
+
+
+
+
+ 47
+

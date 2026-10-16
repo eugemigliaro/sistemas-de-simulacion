@@ -28,3 +28,9 @@ T03	teoria	Simulaciones dirigidas por eventos	material/catedra/teoria/Teorica_3.
 TP03	trabajo-practico	Trabajo Práctico 3: Simulación dirigida por eventos — Billar-Metegol	material/catedra/practica/TP3_Enunciado.pdf	3	2026	vigente	TP3_Enunciado.pdf
 B16	bibliografia	Molecular Dynamics Simulation of Hard Spheres — COS 226	material/externo/bibliografia-3/Molecular_Dynamics_Simulation_of_Hard_Spheres.pdf	5	2026	vigente	Molecular Dynamics Simulation of Hard Spheres.pdf
 COR02	devolucion	Devolución de la cátedra a la entrega del TP2 (Grupo 7, nota 6)	material/catedra/practica/Correcciones_TP2.md		2026	vigente	correcciones-tp2-cátedra.md
+TP04	trabajo-practico	Trabajo Práctico 4: Dinámica Molecular Regida por el Paso Temporal	material/catedra/practica/TP4_Enunciado_2026Q2.pdf	4	2026	vigente	TP4_Enunciado_2026Q2.pdf
+T04	teoria	Simulaciones dirigidas por el paso temporal	material/catedra/teoria/Teorica_4.pdf	47	2026	vigente	Teorica_4.pdf
+COR03	devolucion	Devolución de la cátedra al TP3 (G7, nota 6.5), texto aportado por el estudiante	material/catedra/practica/correciones_tp3.txt		2026	vigente	correciones_tp3.txt
+B17	bibliografia	The Numerical Integration of Ordinary Differential Equations — C. W. Gear	material/externo/bibliografia-4/GearPaper_1.pdf	11	2026	vigente	GearPaper_1.pdf
+B18	bibliografia	A Gear-like Predictor-Corrector Method for Brownian Dynamics Simulation — Hou y Mišković	material/externo/bibliografia-4/A Gear-like Predictor-Corrector Method for Brownian Dynamics Simulation.pdf	27	2026	vigente	A Gear-like Predictor-Corrector Method for Brownian Dynamics Simulation.pdf
+B19	bibliografia	Computer Simulation Methods in Theoretical Physics, segunda edición — Dieter W. Heermann	material/externo/bibliografia-4/Computer simulation methods -  Heermann.djvu	155	2026	vigente	Computer simulation methods -  Heermann.djvu

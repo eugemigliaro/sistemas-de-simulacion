@@ -1,0 +1,578 @@
+FUENTE: B17
+TITULO: The Numerical Integration of Ordinary Differential Equations — C. W. Gear
+ORIGINAL: material/externo/bibliografia-4/GearPaper_1.pdf
+PAGINAS: 11
+
+===== PAGINA 1 =====
+
+                  The Numerical Integration   of Ordinary
+                         Differential Equationst
+                                                                   By C. W. Gear
+         Abstract. Multistep methods for initial value problems are expressed in a matrix
+    form. The application of such methods to higher-order equations is studied with the
+    result that new techniques for both first- and higher-order equations are found. The
+    direct approach to higher-order equations is believed to offer speed and accuracy
+    advantages; some numerical evidence is presented. The new technique applied to
+    first-order equations is a slight extension of the conventional multistep method and
+    avoids the Dahlquist [2] stability theorem, that is, these new fc-step methods are of
+    order 2fc and yet convergent. The matrix formalism introduced provides an easy
+    mechanism for examining the equivalence of methods as introduced by Descloux
+    [3]. It is pointed out that the new first-order method on k- steps, Adams' method on
+    (2fc — l)-steps and Nordsieck's [7] method with 2fc components are equivalent to
+    each other. In fact, all methods discussed can be placed in equivalence classes so
+    that theorems need only be proved for one member of each class. The choice be-
+    tween the members of a class can be made on the basis of round-off errors and
+    amount of computation only. Arguments are given in favor of the extension of
+    Nordsieck's method for general use because of its speed and applicability to higher
+    order problems directly. The theorems ensuring convergence and giving the asymp-
+    totic form of the error are stated. The proofs can be found in a cited report.
+
+        1. Introduction. This paper is concerned with the integration of initial value
+    problems for a system of ordinary differential equations of the form
+
+    (1.1)         2//P,) = /•(*,           2/1, • • • , 2/i(î,I_1>, 2/2, ■• • , y»(P'-1}),                   i=l,2,---,s,
+    where yik) = dky/dx . The motivation for the work was to try and integrate such
+    equations directly rather than as a larger system of first-order equations. The study
+    led to a matrix representation for multistep methods that is an extension of a similar
+    representation due to Descloux [3]. This representation provides a unified approach
+    to equations of all orders ; it is sufficient and easier to study it in detail for first-order
+    equations. The usual theorems of stability and convergence, etc. are stated for gen-
+    eral higher-order systems in Section 5. The proofs can be found in Gear [5].
+
+        2. Multistep Methods. The equation y' = f(x, y) is frequently integrated nu-
+    merically by a predictor-corrector algorithm of the following form :
+        Let xn = x0 + nh where A is the step size, and let yn and y„ be approximations to
+    the values of y(xn) and dy(xn)/dx obtained in some manner. The values of y and y
+    at Xn+i are found by the sequence of steps : predictor formula
+                                                               k
+     (2.1)                                     2/L+i= J2 (<xj*yn-i+i+ ßj*hy'n-j+l),
+                                                             1=1
+        Received February               21, 1966. Revised July 22, 1966.
+          f This work was supported under the auspices of the United States Atomic Energy Com-
+     mission at Argonne National Laboratory   and under A.E.G. 1469 at the University of Illinois.
+                                                                              146
+
+
+License or copyright restrictions may apply to redistribution; see http://www.ams.org/journal-terms-of-use
+
+===== PAGINA 2 =====
+
+                   NUMERICAL INTEGRATION                           OF ORDINARY DIFFERENTIAL                                      EQUATIONS         147
+
+
+    corrector formula
+                   (1)           (0)
+                 y n+l    =    y n+l
+
+    (2.2)
+                                           "t 0*-=^                    y»-i+i4- ß-^                            hy'n-m)              hf (Xn+1, 2/n+l!>
+                                           _;-i \          Po                                          Po                    /
+    further        correction          iteration
+                                  (m+l)            (m)          n n /•/                     (m—1) \           , /•/              (m) \i
+                                2/ n+l      = y n+l -          ßo[hf(xn+i             , 2/„+l          ) -    A/(xn+i , 2/n+l)],
+     (2.3)                                                                                                                  m = 1, ••• , M - 1,
+    and
+                                                                     (M)         '                jy              (jf—1)\
+                                                     2/n+l =      2/n+l,        2/n+l       = /(Zn+1          , i/n+1       )•
+
+    M is an integer that may be fixed or picked according to the changes in corrector
+    iterations. Note that substitution of yn°+i from (2.1) into (2.2) yields the usual
+    form of the corrector formula :
+                            i-
+                              yi+i = 2 («jí/n-y+i + ßjhy'n^+i) + ß0hf(x„+i, yn°li).
+                                             3=1
+
+        In order to represent this algorithm more compactly,                                                            we make the following
+    definitions: Let the column vector y„ be the transpose of
+
+     (2.4)                         \y„ , 2/„_i, • • • , 2/n-i+i, hyn', A2/L1, • ■• , hy'n-k+i].
+    Let the column vector yn(m}be the transpose                                              of
+
+     (2.5)               [ynm), 2/n-i, • • • , 2/n-*+i, hf(x» , ynm~v), At/1_i , ■• • , Aî/1-t+i]
+    for m = 1, 2, • ■• , M, and
+     (2.6)                        [2/n10', yn-i,         ■ ■■ , 2/n-i+i,             dn , hy'n-i,            ■ ■■ , hy'n-k+i]
+
+    for m = 0, where
+                                          dn = i (5-f^                          2/n-,+ £j=£                       A2/U-)
+                                                   y-i \          Po                                    Po                   /
+    and can be thought of as a "predicted"                                      value of At/»'.
+           Let the 2k X 2A matrix ß be
+
+                                                    «1                  ■ai I pT
+
+
+                                                    \0                               i             o
+                                                    o "'••! 0 !
+                                                    71-                    7k        1 ôi
+
+
+                                                             o                                          o
+                                                                                         o                  ■1 o
+
+License or copyright restrictions may apply to redistribution; see http://www.ams.org/journal-terms-of-use
+
+===== PAGINA 3 =====
+
+     148                                                              C. W. GEAR
+
+
+     where y¡ = (a*                   — a,)//3o and 5, = (ß* — ßi)/ßo- Let the column vector 1 be the
+     transpose of
+
+                                                   [-0o,O, ••• ,0, -1, 0, •■• ,0].
+     The predictor formula (2.1) and the definition of yl+i by (2.6) give
+     (2.7)                                                           yl+i = Byn.
+     The corrector formula (2.2) and the definition of yl„+i by (2.5) give
+     (2.8)                                                ySS-i= yïïi 4- lF(y(:ii),
+     where
+
+                                                í\V„+l)         =    Vk,n+1 -        A/(X„+l       , l>o,n+l),
+
+     and vo,n+iand vk,n+iare the zeroth and fcth components of the vector v„+i respectively.
+        Further corrector iterations (2.3) and the definition of yl+'i by (2.5) give
+     (2.9)                                                ySS" = ySi + \F(y^+\)
+     and
+                                                                                     (A/)
+                                                                     y»+i     =    y„+i.
+
+         Components of the matrix B and the vector 1 are chosen so as to get desirable
+     accuracy and stability properties. The most common choices make the method exact
+     for a class of polynomials so that the error term can be expressed as a high power of
+     the presumably small quantity A. In order to continue the discussion the following
+     terms are defined:
+         Polynomial Degree. A method has polynomial degree q if it is exact for all problems
+     whose solutions are polynomials of degree q or less.
+         Degree. A method has degree q if the error after one step starting from exact
+     values is 0(A9+1).
+          Order. A method has order q if the error over a fixed finite interval of integration
+     starting from exact values is 0(hq ).
+          q is what is commonly called the order of the predictor; that is, the degree of
+     polynomial for which the predictor is exact, while q is the order of the corrector
+     provided that q + M is at least q . (The order of the error introduced by the pre-
+     dictor can be increased by one for each corrector iteration up to the order of the
+     corrector. )
+          The well-known Dahlquist [2] stability theorem states that a /c-step method
+     cannot have order greater than k -\- 2, and even then only for weakly stable methods.
+     Strong stability restricts the order to k -\- 1. (Instability means that the error grows
+     unboundedly as A —*0 over a fixed interval of integration. ) Dahlquist has also shown
+     that the coefficients can be chosen so as to achieve polynomial degree 2k — 1 and
+     degree 2k. Assuming that a high order is desirable, it is unfortunate           that such
+     methods are necessarily unstable. Recently, effort has been made to overcome this
+     problem by Gragg and Stetter [6], Butcher [1] and Gear [4]. However, these tech-
+     niques involve one or more extra evaluations of f(x, y) at points other than x„ and
+     they only appear to be applicable for a finite number of values of k.
+
+
+License or copyright restrictions may apply to redistribution; see http://www.ams.org/journal-terms-of-use
+
+===== PAGINA 4 =====
+
+                   NUMERICAL INTEGRATION OF ORDINARY DIFFERENTIAL                                                    EQUATIONS   149
+
+
+        One necessary condition for convergence is stability. Let us examine this problem
+    in the matrix formulation. If a method is to converge for all problems it must cer-
+    tainly converge for problems whose solutions are polynomials of degree q for which
+    the method is exact. Suppose that an error has been generated by round-off in such
+    a problem. Further, consider a problem in which df/dy = 0. Let y„r be the correct
+    value of y(xn) and define
+
+    (2.10)                                             £n = y„-ync,                         yiTi = Bfn,
+    (2.11)                                       y£ï1)c = ySÍ + lF(yím+\c),
+
+    and
+                                                            _ (">) _           (m)            (m)e
+                                                            en       =    yn         — y„
+
+           Subtract (2.10) from (2.7) and (2.11) from (2.9) to get
+                                      (0)          D                 (m+l)            (m)     |   1/-iEi/a_\   (m)
+                                    En+1     =    ¿>En ,           tn+1        =     tn+1    +    K Ot /Óy )t„+l     ,
+
+    where dF/dy is the row vector whose elements are the partial derivatives of F with
+    respect to y. In this case, dF/dy is the vector ekT — [0, • • • 0, 1, 0, ■• ■ , 0], a 1 in
+    position k. Since e„+i = e„+i, t„+i — (7 4- le* ) Btn = Sz„ . Thus a necessary
+    condition for stability is that the eigenvalues of S are inside \z\ :2 1 or on | z \ = 1
+    and simple. Thus Dahlquist's theorem is a restriction on the degree such that S is
+     stable.
+        Conventional multistep methods restrict the choice of 1 to the form above which
+    has one degree of freedom. It is reasonable to ask what happens if an arbitrary form
+    of 1 is allowed. The answer is given in the theorems stated in Section 5, namely,
+    that stable convergent methods of order 2k can be found for any value of M. In
+    fact, 1 can be chosen to make the nonprincipal roots of S take on any set of stable
+    values. (One root must be 1 if the method is of polynomial degree ^0, this is the
+    principal root.) Therefore there exist modified fc-step methods of order 2k which
+    require only one function evaluation. An example of a 3-step method is given below.
+    2- and 4-step methods are given in Gear [5]. It is written in a conventional predictor-
+    corrector form. The superscripts Ci and C2 refer to additional corrections of the
+    function values due to nonzero terms in 1 where there are zeroes in the conventional
+    method.
+
+                   2/n+l = —182/n+ 9i/n-l + 10.i/n-24" 9A2/»'4" 18hy'n-l + 3A2/1-2,
+                 hyn+i = -572/n + 2±ycnLi+ 33ycnL2
+                                                 + 2±hyn' + 57hyLi + IOA2/L2,
+                       F = hy'n+i -               hf(Xn+i , y n+i),
+                   y n+i = y n+i - ( 95/288 )F,
+                     ycnl = 2/n + (3/160)7',
+                   ylU = 2/nfi - (11/1440)F,
+                 hy'n+i = hy'n+\ -                F.
+
+         This method is a stable, sixth-order 3-step method. It is a modification of the con-
+     ventional multistep method by the addition of corrections to all saved function
+     values at each step. It will be referred to as an "M-method"       (modified multistep
+
+
+License or copyright restrictions may apply to redistribution; see http://www.ams.org/journal-terms-of-use
+
+===== PAGINA 5 =====
+
+      150                                                             C. W. GEAR
+
+
+     method). In matrix form, this method is written as
+                                                              -18        9 10 9 18 3
+                                                               1         0 0 0 0 0
+                                          v(0)      -—
+                                                               0          10   0 0 0
+                                          yre+i               -57        24 33 24 57 10                      y»
+
+                                                               0         0 0 10      0
+                                                               0         0 0 0 10.
+     and
+                                                                                     -95/288 '
+                                                                                      +3/160
+                                                                                   -11/1440
+                                                   y»+i          yn+i 4-              -1
+                                                                                           0
+                                                                                           0
+     The matrix S = (7 4- le*r)5 is of order 6 and has 5 eigenvalues equal to zero
+     (referred to as nonprincipal eigenvalues) and one eigenvalue equal to one (referred
+     to as the principal eigenvalue).
+         Because of the additional nonzero terms in 1, the definition of y„ by (2.4) is no
+     longer adequate. It can be re-expressed verbally by saying that yn is the vector of
+     function values and derivatives given by (2.4) as evaluated at xn . yn is precisely
+      defined by (2.7) and (2.9).
+
+         3. Equivalent Methods. The modified multistep method presented in the last
+     section can be shown to converge, but there are legitimate questions concerning its
+     accuracy and stability for nonzero hdf/dy. These will be answered in this section by
+     showing that the method is equivalent to the (2k — 1) step Adams' predictor-correc-
+     tor method.
+         It is convenient to view the algorithm in the following manner: The vector
+     y„ consists of the saved information that represents the total knowledge of the func-
+     tion at xn . Using this information, the function is extrapolated to the point xn+i
+     by a method that can be chosen to be exact for any desired set of functions, for ex-
+     ample polynomials of degree 2k — 1. This extrapolation is specified by y„+i = Byn .
+     This process alone cannot be stable because no account is taken of the differential
+     equation. Therefore, it must be stabilized by use of the differential equation F = hy
+      — A/(x, y). If the extrapolation     is exact, then F(yn\i)  = 0 so that any multiple
+     of F may be added to y„+i without changing it. F(yn+i) is the amount by which the
+     extrapolated value fails to satisfy the differential equation locally. Hopefully, 1 can
+     be chosen to both make the process stable and increase the degree of the method.
+         In this view, y is a representation    in some coordinate system of a member of the
+     class of functions used in extrapolation, typically the class of polynomials of degree
+     2k — 1. The class can equally well be represented with respect to another coordinate
+     set by a linear transformation. Let Q be any nonsingular 2fc X 2k matrix and define
+
+                                                                         a = Qy.
+
+License or copyright restrictions may apply to redistribution; see http://www.ams.org/journal-terms-of-use
+
+===== PAGINA 6 =====
+
+                   NUMERICAL INTEGRATION OF ORDINARY DIFFERENTIAL                                              EQUATIONS        151
+
+    Then the method given by (2.7) and (2.9) can be transformed                                                into
+     (3.1)                                                 ai°+i = Aan                     and
+                                                        an+i        = an+i             +    Jttr(aB+i),
+     (3-2)
+                                                          an+l      — a„+i         ,
+
+    where A = QBQ~\ k = Ql and 0(a) = F{Q~l a).
+        Eqs. (3.1) and (3.2) give a method equivalent to (2.7) and (2.9) in the sense
+    that equivalent methods give equivalent results from equivalent starting conditions
+    in the absence of round-off errors. Thus the class of methods equivalent to any A-step
+    method is given by the class of nonsingular transformations of 2k space. In par-
+    ticular, instead of the vector y„ asa representation of a degree (2k — 1) polynomial,
+    the vectors
+                                         2nT =       {y'n , hy„',        hy'n-i,           ■ ■ • , hy'n-n+t]
+
+    and
+                 a„r = {yn, hyn', h2yn"/2\, h3yn'"/3l, ■■■, h^Y^                                               / (2k -   1)!}
+    can be used. When the appropriate transformation is made, methods equivalent to the
+    A-step modified multistep method are obtained. If the particular modified multistep
+    used has zero nonprincipal eigenvalues and degree 2fc, then the transformed methods
+    have the same properties. In this case, the representation by the vector z must lead
+    to Adams' method where the (2k — l)th order predictor and 2Ath order corrector is
+    used, while the method using the vector a as a representation must be Nordsieck's
+    method, since these are the unique methods with the given properties.
+        The common property of each of these methods is that they save 2A items of
+    information, whereas the modified method is a A-step procedure and Adams'
+    method is a (2A — l)-step procedure.lt is therefore convenient to classify methods not
+    by the number of steps but by the number of values saved. Thus there are A-value
+    methods for any k > 0 with any set of nonprincipal eigenvalues and for even k
+    there are equivalent fc/2-step methods.
+
+        4. Higher-Order Equations and the Choice of Method. The question of which
+    method to use for a given problem can now be broken into two questions. Firstly,
+    which class of equivalent methods are most desirable. This choice determines the
+    truncation error of the procedure so can only be answered when a specific problem
+    is being discussed. Secondly, which member of a class is the best representative.
+    This choice affects the round-off error and the amount of computation. Before
+    answering the latter question we will look at the general initial value problem given
+    in the Eqs. (1.1) since it will be claimed that the Nordsieck or JV-method becomes
+    particularly advantageous in the case of higher-order equations.
+         For each dependent variable 2/.-choose the representation     a,,„ = {yiin ,hyiin , • ■■,
+    hki'lyik,i.~l)/(ki-i) !}T, where T is the transpose operator. Extrapolate each dependent
+    variable by suitable A, X A»matrices Ai to get
+
+     (4.1)                                                        â-i'.n+l   — -^-i3-i|7i        •
+
+
+
+
+License or copyright restrictions may apply to redistribution; see http://www.ams.org/journal-terms-of-use
+
+===== PAGINA 7 =====
+
+     152                                                             C. W. GEAR
+
+
+    Write the differential                   equations          as
+                                                                                                     (p.-i)
+                              F,-(ay) = APi{2/.(P,>-fi(x,yi                                                   )}/Pi ! = 0.
+    If the extrapolation is correct, then the Fi(a,-,„+i) are zero so that arbitrary                                         multiples
+    of F, can be added to the predicted values of a,>+i. Thus the                                                            corrector
+    iteration is
+     (4.2)                                          a¿™+i = a,"+i 4- lii\-(a,>+i).
+     It can be shown that At and U can be picked on the basis of the order pi of the dif-
+     ferential equation for the ith variable only so as to get stable convergent methods.
+          It should also be noted that a given dependent variable need not be corrected at
+     every step. For example, the jth variable might be corrected every Sj steps. This
+     would be equivalent to using a step size Sj times as large for that variable, in that the
+     function F¡ need only be evaluated \/S¡ times as often.
+          Each dependent variable may be separately transformed by nonsingular matrices
+     to get equivalent methods. One advantage of the iV-form is the immediate availa-
+     bility of higher-order derivatives for evaluating F i. In a multistep formulation, the
+     derivatives must be obtained by a numerical differentiation formula, a process which
+     can contribute to round-off errors.
+          Of the highest-order formulae, three types of methods might be considered as the
+     most useful: Adams, Nordsieck, and the new modified multistep method. A fourth
+     "extreme" that might be considered is to save A — 1 function values and one deriva-
+     tive, but it is almost uniformly worse than Adams' method from the point of view
+     of both computation and round-off, so it will not be discussed.
+          Computationally,    except for large values of A, the Nordsieck type method is
+     superior. This is because the multiplications involved in forming Aa can be avoided.
+     In the Adams and M -methods, the matrix contains 2 nontrivial rows, whereas at
+     first sight A contains A(A 4- l)/2 nonzero elements. However, they form the Pascal
+     triangle:
+                                                                  1 1                         1
+                                                                    1                        A- 1
+
+                                                     A =                0
+
+                                                                                             A- 1
+                                                                                              1
+
+     Because of the properties of the triangular numbers the predictor step can be handled
+     without multiplication by:
+                                              "for i: = 0 step 1 until A — 2do
+                                               for;: = A — 1 step — 1 until i + 1 do
+                                                    a\j - 1]: = a\j - 1] 4- a[j};",
+     where a[j] is component j of the vector a.
+         Restricting consideration to methods with zero nonprincipal eigenvalues since
+     these are the most likely choices, Table 1 can be constructed. Unless A is large, the
+
+License or copyright restrictions may apply to redistribution; see http://www.ams.org/journal-terms-of-use
+
+===== PAGINA 8 =====
+
+                  NUMERICAL INTEGRATION OF ORDINARY DIFFERENTIAL EQUATIONS                                                 153
+
+
+    Nordsieck method is superior. It also has computational advantages in step size
+    changing.
+        If round-off error is significant, then it generally requires less effort to carry
+    additional precision in the Nordsieck method than in any other method. In other
+    multistep methods, each saved value may have to be carried in multiple precision.
+    In Nordsieck, higher-order derivatives are scaled by powers of A and may be ex-
+    pected to decrease in significance, so that they can be saved with correspondingly
+    less precision.
+        The M-method's only advantage is in starting. If function evaluation is simple, it
+    requires less work to generate A/2 initial points.
+        For general use, this writer recommends the Nordsieck type method, particularly
+    since in the proposed implementation, the only change required for different order
+    equations is in the vector 1. (An interesting question concerns the existence of vec-
+    tors 1 which give rise to stable methods for several different order equations. )
+
+                                                                                                             Additions
+
+              Nordsieck                                                                               A(A4- l)/2 4- 2M -
+              Adams                                                                                   2A-f- 2M - 3
+              M-Method                                                                                5A/2 4- 2M - 3
+                                                                      Table        1
+                    Number of operations for k-value methods with M corrector iterations
+         5. Stability and Error. This section states the relevant theorems concerning
+    methods in the Nordsieck formulation. By equivalence, these theorems are also
+    valid for all other formulations. One valuable feature of this formulation is the rela-
+    tive simplicity of the proofs of the theorems. These proofs can be found in Gear [5].
+         Theorem 1. A k-value method of polynomial degree A — 1 exists. (This follows
+    directly from the Pascal triangle matrix A.)
+         Theorem 2. For the Pascal triangle matrix A, a vector 1 exists such that the k — p
+    nonprincipal eigenvalues of S = (I + lep ) A take on any desired set of values in
+    | z | < 1, that is S is stable. ep is the vector with a 1 in position p, so that S takes the
+    form:
+
+
+
+
+                                                                                        k —p
+
+License or copyright restrictions may apply to redistribution; see http://www.ams.org/journal-terms-of-use
+
+===== PAGINA 9 =====
+
+     154                                                              c. w. gear
+
+    The p X p principal minor contains the p principal roots equal to 1 for a pth order
+    equation.
+        The choice of eigenvalues of S takes care of A — p degrees of freedom in 1, in
+    fact it determines exactly the last A — p components. The first p can be used to
+    improve the degree of the method.
+        Theorem 3. If the truncation error is suitably defined, the first p components of 1
+    can be chosen to make the degree of the method k -\- p — q — 1 where q is the largest
+    integer such that ôfi/dy^" ^ 0. The integration of pth order equations introduces a
+    factor of h~p in the total truncation error with the result that:
+        Theorem 4. If the matrices S, corresponding to the ith variable (i = 1, • ■• , s) are
+    stable and if the degree of the method for the ith equation is di then the method converges
+    with order t = min,_i,...,s (di — pi -\- 1) provided that t ^ 1.
+         Finally, for almost all values of 1,, a truncation error T,(x) can be defined in
+    terms of the derivatives of the solutions such that the asymptotic form of the error
+    is h'e,(x) where
+
+                                           ^W-Ê'f^e/"«
+                                                  ;=i k=o 02// '
+                                                                                                       = Ti(x).
+         6. Numerical Test. The two main contentions of this paper are that the Nord-
+     sieck formulation is superior in general and that it is better to treat higher-order
+     equations directly. The former question rests solely on programming considerations
+     and is treated in Section 4. The latter question may depend on the equation being
+     integrated. One lengthy computational test has been made. The differential equation
+     for the Bessel function Jn(x) was integrated for x = 6(A)6138 where A took the
+     values Yt, | and | in separate runs. In the first case, it was treated as one second-
+     order equation :
+
+                                                    h2 ,, , h2 y' A2A                              256\
+                                           F =
+                                                    2y +2x+2{1-!cT)y                                          = 0
+
+      or
+
+                                                                         + 2-{l-^)ao                         = °
+
+      and in the second case it was treated as the pair of first-order equations :
+
+                          Fi = hy - hz and                          Ft = hz'+ j-+                   h(l      - ^\   y = 0,
+
+      or
+
+               Ft = (hi — ha2 o = 0                        and        F2 = at i + —- 4- A ( 1-                          ) oi.o = 0.
+                                                                                   X      V                         z2 )
+
+      Similar starting procedures were employed in both cases (all higher derivatives were
+      initially set to 0, then 8 steps of A/16, and 4 steps each of A/8, A/4 and A/2 were used
+      before a final doubling of the step size to A).
+
+
+License or copyright restrictions may apply to redistribution; see http://www.ams.org/journal-terms-of-use
+
+===== PAGINA 10 =====
+
+                    NUMERICAL INTEGRATION OF ORDINARY DIFFERENTIAL                                                    EQUATIONS           155
+
+
+        The error, computed as the average of the absolute errors at 6132, 6134, 6136,
+    and 6138, is shown on a log-log graph in Fig. 1 for 5-, 6-, and 7-value methods with
+    zero nonprincipal eigenvalues. These are expected to have order 5, 6 and 7 when
+    p = 1 and 4, 5, and 6 when p = 2. The 5-value p = 1 method does not show this
+    behavior and the A = -^ point on the 7-value p = 1 method does not agree with the
+    other two points. The integration was performed on a CDC 3600 in floating-point
+    (about 10-digit precision) so rounding error should be insignificant except possibly
+    in the latter case. The former inconsistency may be due to an unlucky choice of error
+    measurement since it alternates in sign over the integration interval.
+        The conclusion that can be drawn from the graph is that there is a strong indica-
+    tion that the same-order method for p — 2 is more accurate than for p = 1. This is a
+    proper comparison since a 6-value method for p = 2 requires that a fifth derivative
+    of 2/ be saved, as does a 5-value method for p = 1. Further, the amount of work in
+    a (A 4- 1)-value method for p = 2 is less than that in a A-value method for p = 1
+    with two equations, so, in this example at least, additional accuracy was available
+    for less work.
+
+           4K r                                                                                              5- VALUE
+
+
+            IK h
+
+          .25K r-
+
+
+           64 H
+
+
+            16 \-
+
+
+     cc
+     o
+     ce
+     ce                                                                                                        p =2   2nd ORDERMETHOD
+                                                                                                               p= 1   PAIR OF 1st ORDER
+                                                                                                                      EQUATIONS
+            .25
+                                                                         ERROR= AVERAGEABSOLUTEERROR AT 6132,6134,6136 86138
+
+          .064
+
+
+
+                                                                                               1/4
+                 INTEGRATIONOF Y"+ y'/X +( 1-256/X2) Y=0                                               X=6(h)6l38
+
+        7. Conclusion. There is numerical evidence to suggest that the proposed direct
+    approach to higher order equations is superior to treating a larger first-order system.
+    It has also been argued that the Nordsieck formulation is usually the best for any
+    order method, although in very high-order methods for first-order             equations,
+    Adams may be superior. The new modified multistep methods may have an appli-
+
+
+License or copyright restrictions may apply to redistribution; see http://www.ams.org/journal-terms-of-use
+
+===== PAGINA 11 =====
+
+     156                                                              C. W. GEAR
+
+
+     cation where start up time is a consideration, although these mainly serve to lay
+     to rest the problem of getting around the Dahlquist stability result.
+     Department           of Computer          Science
+     University of Illinois
+     Urbana, Illinois
+           1. J. C. Butcher,             "A modified multistep               method for the numerical                 integration   of ordinary
+     differential equations,"              J. Assoc. Comput. Mach., v. 12, 1965, pp. 124-135.
+           2. G. Dahlquist,               "Convergence            and stability          in the numerical             integration   of ordinary
+     differential equations," Math. Scand., v. 4, 1956,pp. 33-50. MR 18, 338.
+          3. J. Descloux,  "Note on a paper by A. Nordsieck,"    Report * 131, Department                                                  of Com-
+     puter Science, University  of Illinois, Urbana, 111., 1963.
+          4. C. W. Gear, "Hybrid methods for ordinary differential     equations," SIAM                                                   Series   B,
+     v. 2, 1965, pp. 69-86.
+         5. C. W. Gear, "The numerical integration   of ordinary differential equations                                               of various
+     orders," Report #ANL-7126, Argonne National Laboratory,      Argonne, 111., 1966.
+         6. W. B. Gragg & H. J. Stetter,  "Generalized   multistep predictor-corrector                                               methods,"
+     J. Assoc. Comput. Mach. v. 11, 1964, pp. 188-209. MR 28 «4680.
+           7. A. Nordsieck,               "On numerical             integration        of ordinary           differential   equations,"       Math.
+     Comp., v. 16, 1962, pp. 22-49. MR 24 *B2552.
+
+
+
+
+License or copyright restrictions may apply to redistribution; see http://www.ams.org/journal-terms-of-use
+
