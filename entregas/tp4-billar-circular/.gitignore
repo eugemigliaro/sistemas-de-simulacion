@@ -1,0 +1,5 @@
+cpp/build/
+python/.venv/
+python/.matplotlib/
+python/.cache/
+experiments/raw/
