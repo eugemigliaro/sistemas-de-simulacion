@@ -1,0 +1,14 @@
+{
+  "fingerprint": "76327b89b285f6e56b8148e768a9644c69ccb052b310f5c18b52136a5e9e792d",
+  "artifacts": {
+    "experiments/results/density-followup-contract.json": "803715601d8aa7c3bf38fabf3b2654aab4c5fee6e25e4b477810a8015055abbf",
+    "experiments/results/density-final-cases.json": "e2cacd1d855fee36cae61f6e6a21e8d96a8fdc0bcf9285572eff37c4f270964c",
+    "experiments/results/density-final-summary.csv": "825eb39931a3326d79c9af9039735653e506511a5c58b96b57e120daf74be288",
+    "experiments/results/density-followup-cases/follow-n400-seed7.json": "60abf608c47712602133625d1b0963c8761f425dbe20235cba0e6f9b35ef68be",
+    "experiments/results/density-followup-cases/follow-n400-seed5.json": "8e72f81bdf3a600ca9d28019f8718a205b22a7e49fcda8b1a22f362352480165",
+    "experiments/results/density-followup-cases/follow-n400-seed10.json": "7898cf14855e6a4f873df5dcac7329eccc6e7368c358e391d835c54fb42a3a6e",
+    "experiments/results/follow-n400-seed5-energy.csv": "a4048159be36d0f9a9563ab7922f8d29409b83b06f1e55f3e56ed2bbc7e59dfa",
+    "experiments/results/follow-n400-seed7-energy.csv": "c20d3c14e8fc4ef3ec0a48193408aee8e5d23230f45304ebf3215541cddde18f",
+    "experiments/results/follow-n400-seed10-energy.csv": "9f57576815cc9c95c672098eed8cf73c9ad5ebb019e19289d801df8a33e4e20a"
+  }
+}

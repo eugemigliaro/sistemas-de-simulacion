@@ -1,0 +1,14 @@
+{
+  "density_counts": [20,100,200,400,650],
+  "density_seeds": [1,2,3,4,5,6,7,8,9,10],
+  "density_extension_duration": 300.0,
+  "heatmap_counts": [20,50,100,200],
+  "heatmap_seeds": [1,2,3,4,5],
+  "positions_m": [0.0175,0.065,0.1125,0.16,0.2075,0.255,0.3025,0.35,0.3975,0.445,0.4925],
+  "heatmap_duration": 100.0,
+  "start_dt": 0.0000125,
+  "save_interval": 1.0,
+  "relative_energy_tolerance": 0.001,
+  "max_refinements": 2,
+  "workers": 4
+}

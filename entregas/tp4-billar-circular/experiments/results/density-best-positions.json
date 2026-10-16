@@ -1,0 +1,34 @@
+[
+  {
+    "n": 20,
+    "position_m": 0.3975,
+    "mean_s": 9.1621625,
+    "std_s": 1.1146008473117741,
+    "certified_on_grid": true,
+    "meaning": "minimo de medias muestrales en grilla; no optimo poblacional exacto"
+  },
+  {
+    "n": 50,
+    "position_m": 0.3025,
+    "mean_s": 11.4845575,
+    "std_s": 2.397437865813732,
+    "certified_on_grid": true,
+    "meaning": "minimo de medias muestrales en grilla; no optimo poblacional exacto"
+  },
+  {
+    "n": 100,
+    "position_m": 0.16,
+    "mean_s": 13.563857500000001,
+    "std_s": 0.9999526486679885,
+    "certified_on_grid": true,
+    "meaning": "minimo de medias muestrales en grilla; no optimo poblacional exacto"
+  },
+  {
+    "n": 200,
+    "position_m": 0.2075,
+    "mean_s": 20.6824375,
+    "std_s": 1.220436713748659,
+    "certified_on_grid": true,
+    "meaning": "minimo de medias muestrales en grilla; no optimo poblacional exacto"
+  }
+]

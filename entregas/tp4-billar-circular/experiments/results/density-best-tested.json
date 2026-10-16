@@ -1,0 +1,22 @@
+[
+  {
+    "observable": "t90",
+    "n": 50,
+    "density_m2": 61.189905071855186,
+    "mean_s": 20.357551250000007,
+    "std_s": 3.488867688903572,
+    "smallest_sample_mean_on_tested_grid": true,
+    "at_boundary": false,
+    "meaning": "comparacion muestral en N estudiados; sin prueba de optimo global o significancia"
+  },
+  {
+    "observable": "t100",
+    "n": 20,
+    "density_m2": 24.475962028742074,
+    "mean_s": 41.31860375,
+    "std_s": 14.326670731049294,
+    "smallest_sample_mean_on_tested_grid": true,
+    "at_boundary": true,
+    "meaning": "comparacion muestral en N estudiados; sin prueba de optimo global o significancia"
+  }
+]
