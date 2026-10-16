@@ -27,7 +27,6 @@
 \renewcommand{\medskip}{\par\originalmedskip}
 \newcommand{\fu}{F_{\mathrm u}}
 \newcommand{\hnum}{1{,}25\times10^{-5}\,\mathrm s}
-\newcommand{\fuente}[1]{{\scriptsize\color{gray}#1}}
 \newcommand{\figura}[2]{\begin{columns}[c,onlytextwidth]\begin{column}{.72\textwidth}\includegraphics[width=\linewidth]{#1}\end{column}\begin{column}{.26\textwidth}\small #2\end{column}\end{columns}}
 \newcommand{\video}[3]{\begin{columns}[c,onlytextwidth]\begin{column}{.74\textwidth}\centering\includegraphics[width=\linewidth,height=4.35cm,keepaspectratio]{anim-#1.png}\par\medskip\csname enlace#1\endcsname\end{column}\begin{column}{.24\textwidth}\small #2\par\medskip #3\end{column}\end{columns}}
 \title[TP4: paso temporal]{Dinámica molecular regida por el paso temporal}
@@ -67,7 +66,7 @@
 \item $\widehat{\mathbf e}_{ij}$ apunta de $i$ a $j$.
 \item Sin fricción ni disipación.
 \end{itemize}
-\fuente{[T04, p. 42]}
+
 \end{column}\end{columns}
 \end{frame}
 
@@ -96,7 +95,7 @@
 \end{itemize}
 \[\mathbf r_{\rm img}=(R+r)\frac{\mathbf r_i}{\|\mathbf r_i\|}\]
 Imagen de pared actualizada cada paso.
-\fuente{[T04, pp. 13--14] [TP04, pp. 2--3]}
+
 \end{column}\end{columns}
 \end{frame}
 
@@ -135,7 +134,7 @@ $v_0$ & $1$ m/s
 \item \textcolor{itbablue}{Fresca}\,$\longrightarrow$\,\textcolor{usedred}{usada} al tocar un obstáculo.
 \item Conversión irreversible; $N$ constante.
 \end{itemize}
-\fuente{[TP04, pp. 2--3]}
+
 \end{column}\end{columns}
 \end{frame}
 % 8 -- 50 s
@@ -158,7 +157,7 @@ $v_0$ & $1$ m/s
 \item Si falta un cruce: censura y cota.
 \end{itemize}
 \end{column}\end{columns}
-\medskip\fuente{[TP04, pp. 3--4] [T00, p. 69] [COR03]}
+
 \end{frame}
 % 9 -- 25 s
 \begin{frame}{Configuración de los estudios}
@@ -292,7 +291,7 @@ Ventana elegida:\\$[10,60)$ s.\\Criterio local.
 \begin{column}{.30\textwidth}\small
 $\theta=k_BT$ minimiza $E(\theta)$.\\
 $g_b$: modelo medio por bin.\\
-Sin pesos [T00, pp. 79--80].
+Sin pesos.
 \par\smallskip
 $500$ cuadros/corrida.\\Media de $10$ densidades.\\Barras: desvío.
 \par\smallskip
@@ -376,6 +375,6 @@ Identificación disponible en la sesión.
 \textbf{Intervención}\\\medskip
 Código C++ y Python, pruebas, ejecución de corridas, gráficos, organización del material y borrador de diapositivas.
 \end{column}\end{columns}
-\medskip\fuente{[TP04, p. 4]}
+
 \end{frame}
 \end{document}
