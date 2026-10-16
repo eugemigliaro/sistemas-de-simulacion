@@ -1,0 +1,11 @@
+.build/
+*.log
+*.aux
+*.nav
+*.snm
+*.out
+*.xdv
+*.toc
+# Intermedios regenerables: se versionan los MP4 y el PDF con nombre oficial.
+videos/*.gif
+SdS_TP4_2026Q2G07CS_Presentacion.pdf
