@@ -1,0 +1,52 @@
+{
+  "fingerprint": "fcfb105e832d803750a0eefe8e4f0cad5c947457b3db92dadde65041bb421f05",
+  "config": {
+    "n": 100,
+    "seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "duration": 60.0,
+    "dt": 1.25e-05,
+    "save_interval": 0.1,
+    "window_s": 10.0,
+    "bin_width": 0.1,
+    "snapshot_times": [
+      0,
+      0.1,
+      0.5,
+      1,
+      5,
+      15,
+      30,
+      60
+    ],
+    "stationarity_tv_limit": 0.05,
+    "stationarity_theta_relative_limit": 0.02,
+    "minimum_window_comparisons": 3,
+    "relative_energy_tolerance": 0.001
+  },
+  "binary_sha256": "34be7bbea10f9ead3d34e3c4815496a63c0e084264dfc185427ae63a5e49bc36",
+  "source_sha256": {
+    "cpp/src/main.cpp": "2270002e973aa1cc76640cbdfc407379c1b92d91832d3d3f87001776394e132c",
+    "cpp/include/tp4/billiard.hpp": "da0cd9d842dd6b9c20e37c25e8058f854c11443669b1b22a433349b869cbc11b",
+    "cpp/include/tp4/billiard_cli.hpp": "37e51f67b2d0a695dd7a6612ba9cfcc22741fe2d2e95fd111cf26f5a3d3a75c1",
+    "cpp/include/tp4/dense.hpp": "70a44eb571903208da3ac4d8f3f051eabb925675147e2d1b329a21bf60568c1f",
+    "cpp/include/tp4/oscillator.hpp": "4db9a0b749dfc44c197da66edb2150c7d43a5765c81fdba9f2b30a32c5247ce3",
+    "python/speed_study.py": "432159e0bbbca7b54e1a722404c31d83e0e128d5fb3b2de466a36703144ffae6",
+    "python/speed_analysis.py": "719c9b6df199d03f04f82f595c40229c4db4d46f1701cd42e3dff214ba158a01",
+    "python/billiard_analysis.py": "a1578a4498f0de8cca627ebd92bae3489dbf20bd3e325644e3fb7e4d16707bfe"
+  },
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "numpy": "2.5.3",
+  "matplotlib": "3.11.2",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O"
+}
