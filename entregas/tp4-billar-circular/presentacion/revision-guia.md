@@ -1,3 +1,9 @@
+# Actualización del 19/10/2026
+
+UML D5 y flujo D6 en láminas separadas, con nombres grandes y bucle temporal explícito. Antigua D9 ahora D10: únicamente parámetros fijos y variables con sus rangos. Se retiró el video energético de la antigua D12 por devolución del estudiante y se preservan las cuatro animaciones restantes. D13 expresa la variación de energía en porcentaje; D14 define el máximo absoluto muestreado también en porcentaje. El mazo conserva 29 páginas y el guion fue actualizado.
+
+La tabla siguiente documenta el **borrador previo**, con su numeración anterior; no es una verificación actual integral. Los problemas de cobertura y demás recomendaciones en `auditoria-tp2-tp3-tp4.md` continúan identificados como pendientes cuando no están incluidos en este cambio.
+
 # Revisión frente a la guía y devoluciones
 
 Registro local de preparación; no es una lámina ni una sección de bibliografía de la presentación. No sustituye la revisión de todos los integrantes ni el ensayo.

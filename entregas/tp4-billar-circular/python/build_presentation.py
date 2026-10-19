@@ -15,6 +15,7 @@ import xml.etree.ElementTree as ET
 import zipfile
 from pathlib import Path
 from datetime import datetime,timezone
+from presentation_diagrams import DIAGRAMS, add_native, write_tex
 import numpy as np
 from PIL import Image
 
@@ -29,7 +30,7 @@ CT='http://schemas.openxmlformats.org/package/2006/content-types'
 ET.register_namespace('p',P);ET.register_namespace('a',A);ET.register_namespace('r',R)
 ET.register_namespace('',CT)
 WIDTH,HEIGHT=12192000,6858000
-CLIPS={'energia':(255,0,255),'rendimiento':(0,255,255),'posicion':(255,255,0),
+CLIPS={'rendimiento':(0,255,255),'posicion':(255,255,0),
        'rapidez':(0,255,0),'densidad':(255,0,0)}
 
 
@@ -51,6 +52,7 @@ def render(pdf,folder):
 
 def main():
     BUILD.mkdir(exist_ok=True)
+    write_tex(OUT/'diagramas.tex')
     links=json.loads((OUT/'enlaces.json').read_text())
     definitions=[]
     for name in CLIPS:
@@ -62,12 +64,23 @@ def main():
     (OUT/'enlaces.tex').write_text('\n'.join(definitions)+'\n')
     subprocess.run(['/opt/homebrew/bin/tectonic','--only-cached','--keep-logs',STEM+'.tex'],cwd=OUT,check=True,capture_output=True,text=True)
     pages=render(OUT/(STEM+'.pdf'),BUILD/'paginas')
+    # El PDF conserva los diagramas vectoriales de TeX. En PPTX se agregan como
+    # objetos nativos sobre la misma lámina con el cuerpo del diagrama vacío.
+    native_folder=BUILD/'native-background';native_folder.mkdir(exist_ok=True)
+    wrapper=BUILD/'native-background.tex'
+    wrapper.write_text(r'\def\NativeDiagramBackground{1}\input{'+STEM+r'.tex}'+'\n')
+    for path in [OUT/(STEM+'.tex'),OUT/'enlaces.tex',OUT/'diagramas.tex',OUT/'figuras']:
+        alias=BUILD/path.name
+        if not alias.exists():alias.symlink_to(path)
+    subprocess.run(['/opt/homebrew/bin/tectonic','--only-cached','--outdir',str(native_folder),str(wrapper)],cwd=OUT,check=True,capture_output=True,text=True)
+    subprocess.run(['pdftoppm','-f','5','-l','6','-png','-scale-to-x','1920','-scale-to-y','1080',str(native_folder/'native-background.pdf'),str(native_folder/'slide')],check=True)
     official_pdf=OUT/'SdS_TP4_2026Q2G07CS_Presentación.pdf'
     shutil.copy2(OUT/(STEM+'.pdf'),official_pdf)
 
     # Encontrar las cajas de videos con el mismo procedimiento visual del TP3.
     mask=BUILD/'mascara';(mask/'figuras').mkdir(parents=True,exist_ok=True)
     shutil.copy2(OUT/(STEM+'.tex'),mask/(STEM+'.tex'));shutil.copy2(OUT/'enlaces.tex',mask/'enlaces.tex')
+    shutil.copy2(OUT/'diagramas.tex',mask/'diagramas.tex')
     for path in (OUT/'figuras').iterdir():
         dest=mask/'figuras'/path.name
         matching=next((n for n in CLIPS if path.name==f'anim-{n}.png'),None)
@@ -82,7 +95,7 @@ def main():
             hit=np.all(np.abs(arr-np.array(color))<3,axis=2)
             if hit.sum()>10000:
                 y,x=np.nonzero(hit);boxes[i]=(name,(x.min()/1920,y.min()/1080,(x.max()+1)/1920,(y.max()+1)/1080))
-    if {n for n,_ in boxes.values()}!=set(CLIPS):raise ValueError('No se encontraron los cinco fotogramas')
+    if {n for n,_ in boxes.values()}!=set(CLIPS):raise ValueError('No se encontraron los cuatro fotogramas')
     if len(pages)!=29:raise ValueError('Cantidad de laminas inesperada')
     timings=[(int(n),int(t)) for n,t in re.findall(r'^% (\d+) -- (\d+) s',(OUT/(STEM+'.tex')).read_text(),re.M)]
     if sum(t for _,t in timings)!=780:raise ValueError('El ensayo no suma 13 minutos')
@@ -116,7 +129,9 @@ def main():
                 pic=sp.find(f'{{{P}}}pic');pic.find(f'{{{P}}}nvPicPr/{{{P}}}cNvPr').set('descr',f'TP4 diapositiva {number}; fuente editable Beamer')
                 relations=[('rId1','slideLayout','../slideLayouts/slideLayout7.xml'),
                            ('rId2','image',f'../media/slide{number}.png')]
-                z.writestr(f'ppt/media/slide{number}.png',page.read_bytes())
+                image_page=native_folder/page.name if number in DIAGRAMS else page
+                z.writestr(f'ppt/media/slide{number}.png',image_page.read_bytes())
+                if number in DIAGRAMS:add_native(slide,number)
                 if i in boxes:
                     name,(x0,y0,x1,y1)=boxes[i];video=OUT/'videos'/(name+'-live.mp4')
                     if not video.exists() or video.stat().st_size<1000:raise ValueError('Falta video '+name)
@@ -153,10 +168,15 @@ def main():
                     if rel.get('TargetMode')=='External':continue
                     resolved=posixpath.normpath(posixpath.join(base,rel.get('Target')))
                     if resolved not in names:raise ValueError('Vinculo interno roto: '+resolved)
-        assert len([n for n in names if n.endswith('.mp4')])==5
+        assert len([n for n in names if n.endswith('.mp4')])==4
+        for number in DIAGRAMS:
+            diagram=ET.fromstring(z.read(f'ppt/slides/slide{number}.xml'))
+            assert diagram.findall(f'.//{{{P}}}sp'), 'Falta diagrama editable'
+            assert diagram.findall(f'.//{{{P}}}cxnSp'), 'Faltan conectores editables'
         assert not any(n.startswith(('ppt/notesSlides/','ppt/notesMasters/')) for n in names)
     report=dict(slides=len(pages),seconds=sum(t for _,t in timings),video_slides={str(i+1):name for i,(name,_) in boxes.items()},
-        pending_public_links=[name for name,url in links.items() if not url],
+        pending_public_links=[name for name in CLIPS if not links.get(name)],
+        editable_diagram_slides=list(DIAGRAMS),
         reference_sha256=hashlib.sha256(REFERENCE.read_bytes()).hexdigest(),
         outputs={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in [target,official_pdf]},
         runtime_fallback='Artifact Tool no disponible; Beamer y masters OOXML del PPTX previo; fuente editable TeX')

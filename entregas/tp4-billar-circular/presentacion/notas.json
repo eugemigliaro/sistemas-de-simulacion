@@ -1,31 +1,118 @@
 {
-  "1": {"nota":"Presentar el objetivo: comparar integración, validar el paso y estudiar cómo la geometría y la densidad afectan la conversión del billar. Los autores y comisión se tomaron del TP3 y deben confirmarse antes de entregar.","fuentes":"TP04, pp. 1–4; portada del TP3"},
-  "2": {"nota":"Transición breve a los fundamentos generales. No introducir todavía el radio del billar, su N ni sus obstáculos.","fuentes":"GPRES, p. 2; COR03, D3"},
-  "3": {"nota":"En cuerpos idealizados con contacto elástico, el modelo representa la deformación mediante una superposición. Newton relaciona fuerza y aceleración. La fuerza normal es repulsiva y se anula fuera del contacto; e_ij apunta de i a j, por eso el signo negativo. No hay rozamiento ni disipación. A diferencia de discos rígidos ideales, el contacto dura un intervalo finito.","fuentes":"T04, p. 42; TP04, p. 2"},
-  "4": {"nota":"Transición a cómo se integra el modelo. Esta sección describe el motor, sin introducir formatos de archivo o implementación del postproceso.","fuentes":"GPRES, p. 2; COR02"},
-  "5": {"nota":"La grilla de ancho 2r reduce candidatos y cada fuerza de pares se evalúa una vez. Verlet original requiere posición anterior y fuerza actual. Se inicializa la posición anterior con Taylor de segundo orden. La velocidad centrada corresponde al mismo instante que la posición. La imagen radial de la pared se recalcula cada paso. El motor conserva el primer contacto como estado histórico y guarda trayectorias; energía, histogramas y tiempos agregados se obtienen después.","fuentes":"cpp/include/tp4/billiard.hpp; T04, pp. 13–14; TP04, pp. 2–3; COR02"},
-  "6": {"nota":"Transición del modelo general a la configuración particular del billar.","fuentes":"GPRES, p. 2"},
-  "7": {"nota":"Señalar R, r, la posición simétrica x0 y las velocidades en el esquema. Los dos obstáculos son fijos y del mismo radio que las partículas. La dirección inicial es uniforme y todas las velocidades tienen módulo unitario. El color cambia solo al primer contacto con un obstáculo; una usada sigue moviéndose e interactuando. Por tanto, la conversión no modifica N ni la densidad.","fuentes":"TP04, pp. 2–3"},
-  "8": {"nota":"Fu promedia el indicador de usada entre las N partículas de UNA realización. Primero obtenemos t90 y t100 en cada corrida y recién entonces promediamos los tiempos entre realizaciones. Las barras son desvíos estándar muestrales, no errores estándar. El cruce de la curva Fu media no equivale al promedio de los cruces. Un tiempo no alcanzado queda censurado y no se elimina ni se reemplaza por un dato ficticio.","fuentes":"TP04, pp. 3–4; T00, p. 69; COR03, D14; python/performance_analysis.py"},
-  "9": {"nota":"Distinguir parámetros físicos de controles numéricos y duración de observación. El benchmark dura 30 s y mantiene su paso validado. Los estudios largos usan un paso menor. Para N=650, el rechazo secuencial se sustituyó por red hexagonal y 500 barridos Monte Carlo: queda orden residual, así que no atribuimos toda diferencia solamente a N. La lista de semillas y el generador están en los manifiestos técnicos.","fuentes":"experiments/configs/; experiments/rendimiento-y-densidad.md; COR02; COR03"},
-  "10": {"nota":"Transición a resultados. Para cada estudio se ofrece contexto físico, evolución estática y resultado escalar; la comparación del oscilador es la excepción exigida.","fuentes":"GPRES, p. 2; TP04, p. 2"},
-  "11": {"nota":"Única lámina del oscilador: ECM de posición contra solución analítica, promedio entre todos los pasos temporales de una trayectoria. Beeman obtuvo el menor ECM en los siete pasos ensayados. Verlet original y Velocity Verlet prácticamente coinciden con las adaptaciones usadas para el amortiguamiento. Euler predictor-corrector converge con errores mayores en este rango. No añadir otra lámina del sistema 1.","fuentes":"experiments/results/oscillator-summary.csv; experiments/README.md; TP04, pp. 1–2; T04, p. 37"},
-  "12": {"nota":"Reproducir la animación dentro del PPTX. Mostrar N=300 sin obstáculos para situar el estudio energético. Las partículas se solapan levemente durante contactos. El tiempo visible es físico y la reproducción es cuatro veces más lenta. No confundirlo con tiempo de ejecución.","fuentes":"presentacion/.build/media-manifest.json; TP04, p. 3"},
-  "13": {"nota":"La cinética sola no se conserva durante un contacto: parte se almacena en resortes. Sumamos potencial de pares y pared, una vez por contacto. El escalar es el máximo error relativo sobre cuadros guardados. Reducir h mejora el balance; el máximo muestreado no garantiza el máximo continuo. Se hicieron controles de cadencia para evitar ocultar picos.","fuentes":"experiments/results/energy-summary.csv; experiments/billar-energia.md; T04, p. 42"},
-  "14": {"nota":"El umbral del 0,1 % es una decisión local, no de la consigna. Aunque h=10^-4 s pasa el ensayo corto, falla a 30 s con 0,241 %. h=5×10^-5 s da 0,0602 % y se usa en el benchmark. Los pilotos de 100 s motivaron refinar los análisis largos a 1,25×10^-5 s. En las 154 nuevas corridas de densidad y mapa el máximo muestreado fue 0,0267 %. No extrapolar la validación a un horizonte no comprobado.","fuentes":"experiments/results/billiard-step-selection.json; position-step-validation.json; density-verification.json"},
-  "15": {"nota":"Mostrar la misma geometría con N bajo y alto. El ejemplo denso parte de la condición inicial del benchmark. Es contexto del aumento de trabajo por paso, no un cronometraje de la animación.","fuentes":"presentacion/.build/media-manifest.json; experiments/rendimiento-y-densidad.md"},
-  "16": {"nota":"Cada punto es el tiempo medio de diez corridas de 30 s y la barra su desvío. Ambos motores se recompilaron con C++20 y -O3 en la misma Apple M5 Pro. El reloj excluye generación y escritura. En el rango común eventos es más rápido para N=100 y 200, y paso temporal para N=400. El cruce queda entre 200 y 400, sin fijar su N exacto. No inferir una ley exponencial ni un exponente asintótico a partir de estos puntos.","fuentes":"experiments/results/performance-summary.csv; performance-manifest.json; COR03, D16 y D22"},
-  "17": {"nota":"Reproducir el video de tres posiciones. Se mueve x0 simétricamente, manteniendo N=100. La fila muestra obstáculos juntos, posición intermedia y junto a la pared. Frescas azules, usadas rojas, obstáculos negros. Se muestran cinco segundos de una realización por posición, no un promedio.","fuentes":"experiments/results/position-animation-manifest.json; TP04, p. 3"},
-  "18": {"nota":"Las curvas temporales son estáticas. A cada tiempo se promedian cinco fracciones Fu, con desvío entre corridas. La línea del 90 % ilustra el umbral, pero los t90 se extraen de cada historia individual. Las posiciones intermedias completan la conversión más rápido que los extremos en estos ejemplos.","fuentes":"experiments/results/position-fu.csv; COR03, D17–D21"},
-  "19": {"nota":"Se recorrieron once posiciones en ambos N, cinco realizaciones por punto y 100 s. Todas alcanzaron t90. El mínimo observado es x0=0,16 m para N=100 y x0=0,3975 m para N=20. Las líneas solo guían la lectura. Los vecinos tienen dispersión y la grilla no localiza un óptimo continuo exacto. La comparación es compatible con un papel de la mezcla entre trayectorias, pero no se midió la frecuencia de choques.","fuentes":"experiments/results/position-summary.csv; experiments/posicion-obstaculos.md; TP04, p. 3"},
-  "20": {"nota":"Volver a N=100 sin obstáculos. Todas las partículas comienzan con rapidez unitaria; los contactos redistribuyen energía cinética entre ellas. La animación muestra partículas, no un gráfico temporal animado.","fuentes":"presentacion/.build/media-manifest.json; TP04, pp. 3–4"},
-  "21": {"nota":"Cada histograma instantáneo normaliza 100 velocidades de una corrida por N y ancho de bin; luego se promedian diez densidades. En t=0 hay una delta en v=1, representada por una línea vertical sin altura probabilística finita. Los bins cubren todas las colas. El ensayo de 30 s no satisfizo el criterio local; se amplió a 60 s y ventanas de 10 s. En [10,60) las distancias de variación total entre ventanas son menores que 0,011 y los cambios del ajuste menores que 0,85 %. Esta ventana compatible con estabilidad no determina el primer instante físico de relajación.","fuentes":"experiments/results/speed-snapshots.csv; speed-windows.csv; experiments/rapidez.md; COR02"},
-  "22": {"nota":"La forma teórica es Maxwell–Boltzmann 2D. Solo theta=kBT es libre. g_b es la integral del modelo en cada bin dividida por su ancho. Se minimiza la suma sin pesos de errores cuadrados mediante grilla logarítmica y sección áurea. El histograma estacionario usa 500 cuadros por corrida y diez corridas; los cuadros no son realizaciones independientes. Las barras son desvíos entre diez densidades. El ajuste a la media da 0,0123986 J, 0,81 % menor que 0,0125 J inicial. La cinética es 0,0123234 J y el potencial 0,0001765 J por partícula. El potencial explica la reducción cinética; no explica por sí solo la diferencia entre mínimos cuadrados y segundo momento. No se realizó una prueba formal de bondad de ajuste ni se informa temperatura en kelvin.","fuentes":"TP04, p. 4; T00, pp. 79–80; experiments/results/speed-summary.json; speed-stationary.csv"},
-  "23": {"nota":"Comparar N=50 y 650 con obstáculos juntos. La configuración física es la misma salvo N y la familia de inicialización del caso denso, ya aclarada. No describir N=650 como inmóvil: sus partículas se desplazan, aunque la conversión sea lenta.","fuentes":"presentacion/.build/media-manifest.json; experiments/densidad-y-mapa.md"},
-  "24": {"nota":"Los primeros 300 s muestran que N=20 y 200 avanzan hacia conversión completa mientras N=650 llega en promedio a solo 4,32 %. Los tiempos siguen censurados para las diez realizaciones N=650. Las curvas son medias de Fu, con bandas de desvío. El benchmark original de 30 s se conserva; este seguimiento usa h refinado y no se concatena con él.","fuentes":"experiments/results/density-final-fu.csv; density-complete-cases.json; TP04, p. 4"},
-  "25": {"nota":"Cada círculo es una media completa de diez tiempos y cada triángulo una cota inferior, sin barras inventadas para tiempos desconocidos. El eje vertical es logarítmico. Se extendieron tres casos N=400 a 600 s para observar sus últimos contactos; su t100 medio es 267±61 s. N=50 se añadió de forma exploratoria tras el indicio del mapa y se completaron diez realizaciones. El menor t90 medio de la grilla es 20,4±3,5 s para N=50. El menor t100 medio es 41±14 s para N=20, muy próximo a 42,5±8,1 s para N=50. No se demuestra una diferencia poblacional ni una densidad óptima global única.","fuentes":"experiments/results/density-complete-summary.csv; density-best-tested.json; density-followup-contract.json; density-extra-contract.json"},
-  "26": {"nota":"El mapa representa t90 medio frente a DOS parámetros independientes, x0 y N, por eso aquí sí corresponde un mapa de calor. Hay 44 celdas, cinco realizaciones por celda y todas alcanzaron t90 antes de 100 s. Los recuadros marcan los mínimos muestrales. Las posiciones elegidas no siguen una ley monótona con N. No confundir cinco realizaciones por celda con las diez del estudio de densidad, ni un mínimo de grilla con un óptimo continuo o estadísticamente significativo.","fuentes":"TP04, p. 4; experiments/results/density-heatmap-summary.csv; density-best-positions.json; COR03, D18"},
-  "27": {"nota":"Transición breve. La conclusión solo recoge resultados que ya se mostraron, sin introducir explicaciones causales no probadas.","fuentes":"GPRES, p. 3"},
-  "28": {"nota":"Recapitular el cruce de costos entre N=200 y 400, el cambio de posición de menor media con N, el valor térmico ajustado y la diferencia entre minimizar t90 y t100. La censura N=650 es un límite cuantificado del resultado, no una media estimada. No presentar la frecuencia de choques como una causa exclusiva medida. No añadir otros resultados del oscilador: su única diapositiva ya se mostró.","fuentes":"Figuras de las diapositivas 16, 19, 22, 25 y 26; GPRES, p. 3; TP04, p. 2"},
-  "29": {"nota":"Declarar de forma fiel la asistencia usada, incluyendo este borrador de presentación. La consigna permite asistencia de programación y exige participación de los estudiantes en la elaboración final. El grupo debe revisar las explicaciones, modificar y validar el borrador, completar enlaces públicos y ensayar. No afirmar que una revisión del grupo o una aprobación de cátedra ya ocurrió.","fuentes":"TP04, p. 4; registro de uso de IA en README.md"}
+  "1": {
+    "nota": "Presentar el objetivo: comparar integración, validar el paso y estudiar cómo la geometría y la densidad afectan la conversión del billar. Los autores y comisión se tomaron del TP3 y deben confirmarse antes de entregar.",
+    "fuentes": "TP04, pp. 1–4; portada del TP3"
+  },
+  "2": {
+    "nota": "Transición breve a los fundamentos generales. No introducir todavía el radio del billar, su N ni sus obstáculos.",
+    "fuentes": "GPRES, p. 2; COR03, D3"
+  },
+  "3": {
+    "nota": "En cuerpos idealizados con contacto elástico, el modelo representa la deformación mediante una superposición. Newton relaciona fuerza y aceleración. La fuerza normal es repulsiva y se anula fuera del contacto; e_ij apunta de i a j, por eso el signo negativo. No hay rozamiento ni disipación. A diferencia de discos rígidos ideales, el contacto dura un intervalo finito.",
+    "fuentes": "T04, p. 42; TP04, p. 2"
+  },
+  "4": {
+    "nota": "Transición a cómo se integra el modelo. Esta sección describe el motor, sin introducir formatos de archivo o implementación del postproceso.",
+    "fuentes": "GPRES, p. 2; COR02"
+  },
+  "5": {
+    "nota": "UML de las relaciones principales del motor. Los bloques con generate(), simulate() y forces() representan funciones libres, no clases inventadas. Config contiene la configuración usada por simulate; generate crea el estado inicial de Particle; simulate actualiza las partículas mediante Verlet, llama a forces y usa su ForceResult. forces devuelve fuerzas y marcas de contacto. Particle y ForceResult contienen valores Vec. Las flechas discontinuas indican dependencias y los rombos composición. Se muestran nombres y traducciones como títulos, sin atributos ni métodos dentro de las estructuras. Se omite el namespace tp4::billiard porque organiza el código pero no explica una responsabilidad del motor. Es una vista simplificada: no se muestran todas las dependencias ni los helpers de validación. Para N=650 se usa una condición inicial hexagonal aleatorizada que conserva orden residual.",
+    "fuentes": "cpp/include/tp4/billiard.hpp; cpp/include/tp4/dense.hpp; COR02, D8; revisión del estudiante 2026-10-19"
+  },
+  "6": {
+    "nota": "La grilla de ancho 2r reduce candidatos y cada fuerza de pares se evalúa una vez. Verlet original requiere posición anterior y fuerza actual. Se inicializa la posición anterior con Taylor de segundo orden. La velocidad centrada corresponde al mismo instante que la posición. La imagen radial de la pared se recalcula cada paso. El motor conserva el primer contacto como estado histórico y guarda trayectorias; energía, histogramas y tiempos agregados se obtienen después.",
+    "fuentes": "cpp/include/tp4/billiard.hpp; T04, pp. 13–14; TP04, pp. 2–3; COR02"
+  },
+  "7": {
+    "nota": "Transición del modelo general a la configuración particular del billar.",
+    "fuentes": "GPRES, p. 2"
+  },
+  "8": {
+    "nota": "Presentar la geometría y las reglas antes de sus valores: señalar R, r, x0 y la velocidad en el esquema. Los obstáculos son fijos, simétricos y del mismo radio r que las partículas. El estado inicial tiene N partículas sin solapamientos, rapidez común v0 y direcciones uniformes en [0,2π). Al primer contacto con un obstáculo, una partícula pasa de fresca a usada para siempre; sigue moviéndose e interactuando, por lo que N y la densidad se conservan. Los valores numéricos y rangos se concentran en D10, sin repetir aquí la tabla de constantes. D9 define cómo medir la conversión presentada en esta lámina.",
+    "fuentes": "TP04, pp. 2–3"
+  },
+  "9": {
+    "nota": "Fu promedia el indicador de usada entre las N partículas de UNA realización. Primero obtenemos t90 y t100 en cada corrida y recién entonces promediamos los tiempos entre realizaciones. Las barras son desvíos estándar muestrales, no errores estándar. El cruce de la curva Fu media no equivale al promedio de los cruces. Un tiempo no alcanzado queda censurado y no se elimina ni se reemplaza por un dato ficticio.",
+    "fuentes": "TP04, pp. 3–4; T00, p. 69; COR03, D14; python/performance_analysis.py"
+  },
+  "10": {
+    "nota": "Los símbolos geométricos y el estado inicial ya se presentaron en D8; esta es la única tabla general de sus valores numéricos. Esta lámina contiene únicamente parámetros fijos y variables. N enumera todos los valores del billar usados en los distintos estudios; no todos pertenecen a todos los barridos. Rendimiento: N=20,100,200,400,650; densidad agrega N=50 como complemento. Posición: N=20 y 100, once posiciones separadas por 0,0475 m, desde r=0,0175 m hasta R-r=0,4925 m; mapa: N=20,50,100,200. Energía N=300, sin obstáculos: seis pasos entre 2,5×10^-5 y 10^-3 s. El mínimo global de h=1,25×10^-5 s corresponde a análisis extendidos; no implica un barrido continuo ni todas las combinaciones. Repeticiones y horizontes acompañan a cada resultado, no se clasifican como parámetros físicos.",
+    "fuentes": "TP04, pp. 2–4; experiments/configs/; experiments/billar-energia.md; COR02; COR03; corrección del estudiante 2026-10-19"
+  },
+  "11": {
+    "nota": "Transición a resultados. Para cada estudio se ofrece contexto físico, evolución estática y resultado escalar; la comparación del oscilador es la excepción exigida.",
+    "fuentes": "GPRES, p. 2; TP04, p. 2"
+  },
+  "12": {
+    "nota": "Única lámina del oscilador: ECM de posición contra solución analítica, promedio entre todos los pasos temporales de una trayectoria. Beeman obtuvo el menor ECM en los siete pasos ensayados. Verlet original y Velocity Verlet prácticamente coinciden con las adaptaciones usadas para el amortiguamiento. Euler predictor-corrector converge con errores mayores en este rango. No añadir otra lámina del sistema 1. La antigua D11 ahora es D12 tras agregar el UML.",
+    "fuentes": "experiments/results/oscillator-summary.csv; experiments/README.md; TP04, pp. 1–2; T04, p. 37"
+  },
+  "13": {
+    "nota": "Una misma condición inicial N=300 se compara entre pasos, sin promediar realizaciones. Se muestra la variación porcentual con signo, 100[E(t)-E(0)]/E(0), con E(0)=3,75 J. La energía total es cinética más potencial de contactos: pares y pared, cada contacto una sola vez. La cinética sola no se conserva durante los choques. El máximo absoluto muestreado de estas curvas es el escalar de la lámina siguiente, también en porcentaje. La animación energética se retiró siguiendo la corrección del estudiante: TP04, p. 3 exige estas figuras y GPRES, p. 2 recomienda el contexto animado general.",
+    "fuentes": "experiments/results/energy-summary.csv; experiments/billar-energia.md; T04, p. 42"
+  },
+  "14": {
+    "nota": "El umbral del 0,1 % es una decisión local, no de la consigna. Aunque h=10^-4 s pasa el ensayo corto, falla a 30 s con 0,241 %. h=5×10^-5 s da 0,0602 % y se usa en el benchmark. Los pilotos de 100 s motivaron refinar los análisis largos a 1,25×10^-5 s. En las 154 nuevas corridas de densidad y mapa el máximo muestreado fue 0,0267 %. No extrapolar la validación a un horizonte no comprobado.",
+    "fuentes": "experiments/results/billiard-step-selection.json; position-step-validation.json; density-verification.json"
+  },
+  "15": {
+    "nota": "Mostrar la misma geometría con N bajo y alto. El ejemplo denso parte de la condición inicial del benchmark. Es contexto del aumento de trabajo por paso, no un cronometraje de la animación.",
+    "fuentes": "presentacion/.build/media-manifest.json; experiments/rendimiento-y-densidad.md"
+  },
+  "16": {
+    "nota": "Cada punto es el tiempo medio de diez corridas de 30 s y la barra su desvío. Ambos motores se recompilaron con C++20 y -O3 en la misma Apple M5 Pro. El reloj excluye generación y escritura. En el rango común eventos es más rápido para N=100 y 200, y paso temporal para N=400. El cruce queda entre 200 y 400, sin fijar su N exacto. No inferir una ley exponencial ni un exponente asintótico a partir de estos puntos. Para N=100→200→400, el tiempo TP4 aumenta por factores 2,42 y 2,62, frente a 9,93 y 17,38 para TP3. Es una comparación descriptiva en este intervalo, no una ley asintótica.",
+    "fuentes": "experiments/results/performance-summary.csv; performance-manifest.json; COR03, D16 y D22"
+  },
+  "17": {
+    "nota": "Reproducir el video de tres posiciones. Se mueve x0 simétricamente, manteniendo N=100. La fila muestra obstáculos juntos, posición intermedia y junto a la pared. Frescas azules, usadas rojas, obstáculos negros. Se muestran cinco segundos de una realización por posición, no un promedio.",
+    "fuentes": "experiments/results/position-animation-manifest.json; TP04, p. 3"
+  },
+  "18": {
+    "nota": "Las curvas temporales son estáticas. A cada tiempo se promedian cinco fracciones Fu, con desvío entre corridas. La línea del 90 % ilustra el umbral, pero los t90 se extraen de cada historia individual. Las posiciones intermedias completan la conversión más rápido que los extremos en estos ejemplos.",
+    "fuentes": "experiments/results/position-fu.csv; COR03, D17–D21"
+  },
+  "19": {
+    "nota": "Se recorrieron once posiciones en ambos N, cinco realizaciones por punto y 100 s. Todas alcanzaron t90. El mínimo observado es x0=0,16 m para N=100 y x0=0,3975 m para N=20. Las líneas solo guían la lectura. Los vecinos tienen dispersión y la grilla no localiza un óptimo continuo exacto. La comparación es compatible con un papel de la mezcla entre trayectorias, pero no se midió la frecuencia de choques.",
+    "fuentes": "experiments/results/position-summary.csv; experiments/posicion-obstaculos.md; TP04, p. 3"
+  },
+  "20": {
+    "nota": "Volver a N=100 sin obstáculos. Todas las partículas comienzan con rapidez unitaria; los contactos redistribuyen energía cinética entre ellas. La animación muestra partículas, no un gráfico temporal animado.",
+    "fuentes": "presentacion/.build/media-manifest.json; TP04, pp. 3–4"
+  },
+  "21": {
+    "nota": "Cada histograma instantáneo normaliza 100 velocidades de una corrida por N y ancho de bin; luego se promedian diez densidades. En t=0 hay una delta en v=1, representada por una línea vertical sin altura probabilística finita. Los bins cubren todas las colas. El ensayo de 30 s no satisfizo el criterio local; se amplió a 60 s y ventanas de 10 s. En [10,60) las distancias de variación total entre ventanas son menores que 0,011 y los cambios del ajuste menores que 0,85 %. Esta ventana compatible con estabilidad no determina el primer instante físico de relajación.",
+    "fuentes": "experiments/results/speed-snapshots.csv; speed-windows.csv; experiments/rapidez.md; COR02"
+  },
+  "22": {
+    "nota": "La forma teórica es Maxwell–Boltzmann 2D. Solo theta=kBT es libre. g_b es la integral del modelo en cada bin dividida por su ancho. Se minimiza la suma sin pesos de errores cuadrados mediante grilla logarítmica y sección áurea. El histograma estacionario usa 500 cuadros por corrida y diez corridas; los cuadros no son realizaciones independientes. Las barras son desvíos entre diez densidades. El ajuste a la media da 0,0123986 J, 0,81 % menor que 0,0125 J inicial. La cinética es 0,0123234 J y el potencial 0,0001765 J por partícula. El potencial explica la reducción cinética; no explica por sí solo la diferencia entre mínimos cuadrados y segundo momento. No se realizó una prueba formal de bondad de ajuste ni se informa temperatura en kelvin.",
+    "fuentes": "TP04, p. 4; T00, pp. 79–80; experiments/results/speed-summary.json; speed-stationary.csv"
+  },
+  "23": {
+    "nota": "Comparar N=50 y 650 con obstáculos juntos. La configuración física es la misma salvo N y la familia de inicialización del caso denso, ya aclarada. No describir N=650 como inmóvil: sus partículas se desplazan, aunque la conversión sea lenta.",
+    "fuentes": "presentacion/.build/media-manifest.json; experiments/densidad-y-mapa.md"
+  },
+  "24": {
+    "nota": "Los primeros 300 s muestran que N=20 y 200 avanzan hacia conversión completa mientras N=650 llega en promedio a solo 4,32 %. Los tiempos siguen censurados para las diez realizaciones N=650. Las curvas son medias de Fu, con bandas de desvío. El benchmark original de 30 s se conserva; este seguimiento usa h refinado y no se concatena con él.",
+    "fuentes": "experiments/results/density-final-fu.csv; density-complete-cases.json; TP04, p. 4"
+  },
+  "25": {
+    "nota": "Cada círculo es una media completa de diez tiempos y cada triángulo una cota inferior, sin barras inventadas para tiempos desconocidos. El eje vertical es logarítmico. Se extendieron tres casos N=400 a 600 s para observar sus últimos contactos; su t100 medio es 267±61 s. N=50 se añadió de forma exploratoria tras el indicio del mapa y se completaron diez realizaciones. El menor t90 medio de la grilla es 20,4±3,5 s para N=50. El menor t100 medio es 41±14 s para N=20, muy próximo a 42,5±8,1 s para N=50. No se demuestra una diferencia poblacional ni una densidad óptima global única.",
+    "fuentes": "experiments/results/density-complete-summary.csv; density-best-tested.json; density-followup-contract.json; density-extra-contract.json"
+  },
+  "26": {
+    "nota": "El mapa representa t90 medio frente a DOS parámetros independientes, x0 y N, por eso aquí sí corresponde un mapa de calor. Hay 44 celdas, cinco realizaciones por celda y todas alcanzaron t90 antes de 100 s. Los recuadros marcan los mínimos muestrales. Las posiciones elegidas no siguen una ley monótona con N. No confundir cinco realizaciones por celda con las diez del estudio de densidad, ni un mínimo de grilla con un óptimo continuo o estadísticamente significativo.",
+    "fuentes": "TP04, p. 4; experiments/results/density-heatmap-summary.csv; density-best-positions.json; COR03, D18"
+  },
+  "27": {
+    "nota": "Transición breve. La conclusión solo recoge resultados que ya se mostraron, sin introducir explicaciones causales no probadas.",
+    "fuentes": "GPRES, p. 3"
+  },
+  "28": {
+    "nota": "Recapitular el cruce de costos entre N=200 y 400, el cambio de posición de menor media con N, el valor térmico ajustado y la diferencia entre minimizar t90 y t100. La censura N=650 es un límite cuantificado del resultado, no una media estimada. No presentar la frecuencia de choques como una causa exclusiva medida. No añadir otros resultados del oscilador: su única diapositiva ya se mostró.",
+    "fuentes": "Figuras de las diapositivas 16, 19, 22, 25 y 26; GPRES, p. 3; TP04, p. 2"
+  },
+  "29": {
+    "nota": "Declarar de forma fiel la asistencia usada, incluyendo este borrador de presentación. La consigna permite asistencia de programación y exige participación de los estudiantes en la elaboración final. El grupo debe revisar las explicaciones, modificar y validar el borrador, completar enlaces públicos y ensayar. No afirmar que una revisión del grupo o una aprobación de cátedra ya ocurrió.",
+    "fuentes": "TP04, p. 4; registro de uso de IA en README.md"
+  }
 }

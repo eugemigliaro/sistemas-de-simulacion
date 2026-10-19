@@ -55,8 +55,9 @@ def main():
     fig,ax=setup()
     for value,label in [('0.0005',r'$5\times10^{-4}$'),('0.0001',r'$10^{-4}$'),('5e-05',r'$5\times10^{-5}$')]:
         a=load('energy-dt-'+value+'.csv')
-        ax.plot(a['time_s'],a['total_J'],label=label+' s',linewidth=1.2)
-    ax.set(xlabel='Tiempo (s)',ylabel='Energía total (J)');ax.legend();save(fig,'energia-tiempo')
+        initial = a['total_J'][0]
+        ax.plot(a['time_s'],100*(a['total_J']/initial-1),label=label+' s',linewidth=1.2)
+    ax.set(xlabel='Tiempo (s)',ylabel='Variación de energía (%)');ax.legend();save(fig,'energia-tiempo')
     fig,ax=setup();a=load('energy-summary.csv');valid=np.isfinite(a['max_relative_error'])
     ax.loglog(a['dt_s'][valid],100*a['max_relative_error'][valid],'o-',label='Ensayo de 2 s')
     ax.axhline(.1,color='gray',ls='--',label='Criterio local: 0,1 %')

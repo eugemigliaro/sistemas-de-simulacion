@@ -1,0 +1,68 @@
+% Generado por presentation_diagrams.py. Coordenadas compartidas con PPTX.
+\expandafter\newcommand\csname diagram5\endcsname{%
+\begin{tikzpicture}[remember picture,overlay,x=\paperwidth/1280,y=-\paperheight/720,>=Stealth]
+\begin{scope}[shift={(current page.north west)}]
+\draw[itbablue,thick,fill=softblue] (480,150) rectangle (800,220);
+\node[font=\fontsize{8.536}{10.243}\selectfont,align=center,text=itbablue] at (640.0,185.0) {Configuración\\Config};
+\draw[itbablue,thick,fill=softblue] (70,315) rectangle (350,385);
+\node[font=\fontsize{8.536}{10.243}\selectfont,align=center,text=itbablue] at (210.0,350.0) {Inicialización\\generate()};
+\draw[itbablue,thick,fill=softblue] (480,315) rectangle (800,385);
+\node[font=\fontsize{8.536}{10.243}\selectfont,align=center,text=itbablue] at (640.0,350.0) {Integración con Verlet\\simulate()};
+\draw[itbablue,thick,fill=softblue] (930,315) rectangle (1210,385);
+\node[font=\fontsize{8.536}{10.243}\selectfont,align=center,text=itbablue] at (1070.0,350.0) {Fuerzas de contacto\\forces()};
+\draw[itbablue,thick,fill=softblue] (250,490) rectangle (550,560);
+\node[font=\fontsize{8.536}{10.243}\selectfont,align=center,text=itbablue] at (400.0,525.0) {Partícula\\Particle};
+\draw[itbablue,thick,fill=softblue] (730,490) rectangle (1030,560);
+\node[font=\fontsize{8.536}{10.243}\selectfont,align=center,text=itbablue] at (880.0,525.0) {Resultado de fuerzas\\ForceResult};
+\draw[itbablue,thick,fill=softblue] (490,615) rectangle (790,680);
+\node[font=\fontsize{8.536}{10.243}\selectfont,align=center,text=itbablue] at (640.0,647.5) {Vector 2D\\Vec};
+\node[font=\fontsize{7.469}{8.963}\selectfont,align=center,text=itbablue] at (230.0,200.0) {Flecha discontinua: dependencia\\Rombo: composición};
+\node[font=\fontsize{7.825}{9.389}\selectfont,align=center,text=itbablue] at (690.0,266.0) {usa};
+\node[font=\fontsize{7.825}{9.389}\selectfont,align=center,text=itbablue] at (865.0,323.0) {llama};
+\node[font=\fontsize{7.825}{9.389}\selectfont,align=center,text=itbablue] at (155.0,448.0) {crea};
+\node[font=\fontsize{7.825}{9.389}\selectfont,align=center,text=itbablue] at (460.0,422.0) {actualiza};
+\node[font=\fontsize{7.825}{9.389}\selectfont,align=center,text=itbablue] at (800.0,422.0) {usa};
+\node[font=\fontsize{7.825}{9.389}\selectfont,align=center,text=itbablue] at (1155.0,448.0) {devuelve};
+\node[font=\fontsize{7.825}{9.389}\selectfont,align=center,text=itbablue] at (332.0,590.0) {contiene};
+\node[font=\fontsize{7.825}{9.389}\selectfont,align=center,text=itbablue] at (950.0,590.0) {contiene};
+\draw[itbablue,thick,->,dashed] (640,315) -- (640,220);
+\draw[itbablue,thick,->,dashed] (800,350) -- (930,350);
+\draw[itbablue,thick,->,dashed] (210,385) -- (210,525) -- (250,525);
+\draw[itbablue,thick,->,dashed] (560,385) -- (560,445) -- (400,445) -- (400,490);
+\draw[itbablue,thick,->,dashed] (720,385) -- (720,445) -- (880,445) -- (880,490);
+\draw[itbablue,thick,->,dashed] (1070,385) -- (1070,525) -- (1030,525);
+\draw[itbablue,thick,] (400,560) -- (400,647) -- (490,647);
+\fill[itbablue] (400,560) -- (406,570) -- (400,580) -- (394,570) -- cycle;
+\draw[itbablue,thick,] (880,560) -- (880,647) -- (790,647);
+\fill[itbablue] (880,560) -- (886,570) -- (880,580) -- (874,570) -- cycle;
+\end{scope}\end{tikzpicture}}
+\expandafter\newcommand\csname diagram6\endcsname{%
+\begin{tikzpicture}[remember picture,overlay,x=\paperwidth/1280,y=-\paperheight/720,>=Stealth]
+\begin{scope}[shift={(current page.north west)}]
+\draw[itbablue,thick,fill=softblue] (90,155) rectangle (655,221);
+\node[font=\fontsize{8.536}{10.243}\selectfont,align=center,text=itbablue] at (372.5,188.0) {Inicializar sin solapamientos\\$\mathbf r_0$, $\mathbf v_0$ y $\mathbf r_{-1}$};
+\draw[itbablue,thick,fill=softblue] (90,253) rectangle (655,319);
+\node[font=\fontsize{8.536}{10.243}\selectfont,align=center,text=itbablue] at (372.5,286.0) {Fuerzas por contactos\\Registrar la primera conversión};
+\draw[itbablue,thick,fill=softblue] (90,351) rectangle (655,409);
+\node[font=\fontsize{8.536}{10.243}\selectfont,align=center,text=itbablue] at (372.5,380.0) {Verlet: posición y velocidad};
+\draw[itbablue,thick,fill=softblue] (90,441) rectangle (655,499);
+\node[font=\fontsize{8.536}{10.243}\selectfont,align=center,text=itbablue] at (372.5,470.0) {Guardar estado cada n pasos};
+\draw[itbablue,thick,fill=softblue] (373.0,539) -- (498,589.0) -- (373.0,639) -- (248,589.0) -- cycle;
+\node[font=\fontsize{8.180}{9.816}\selectfont,align=center,text=itbablue] at (373.0,589.0) {$t=t_f$?};
+\draw[itbablue,thick,fill=softblue,rounded corners=5pt] (880,560) rectangle (1120,618);
+\node[font=\fontsize{8.891}{10.670}\selectfont,align=center,text=itbablue] at (1000.0,589.0) {Fin};
+\draw[itbablue,thick,fill=softblue] (65,560) rectangle (230,618);
+\node[font=\fontsize{7.825}{9.389}\selectfont,align=center,text=itbablue] at (147.5,589.0) {Avanzar\\un paso};
+\node[font=\fontsize{7.825}{9.389}\selectfont,align=center,text=itbablue] at (225.0,537.5) {No};
+\node[font=\fontsize{8.180}{9.816}\selectfont,align=center,text=itbablue] at (720.0,569.0) {Sí};
+\node[font=\fontsize{8.536}{10.243}\selectfont,align=center,text=itbablue] at (985.0,225.0) {Grilla de celdas de ancho $2r$\\Imagen de pared en cada paso};
+\node[font=\fontsize{8.891}{10.670}\selectfont,align=center,text=itbablue] at (985.0,355.0) {$\mathbf r_{n+1}=2\mathbf r_n-\mathbf r_{n-1}+h^2\mathbf F_n/m$};
+\node[font=\fontsize{8.891}{10.670}\selectfont,align=center,text=itbablue] at (985.0,425.0) {$\mathbf v_n=(\mathbf r_{n+1}-\mathbf r_{n-1})/(2h)$};
+\draw[itbablue,thick,->] (373,221) -- (373,253);
+\draw[itbablue,thick,->] (373,319) -- (373,351);
+\draw[itbablue,thick,->] (373,409) -- (373,441);
+\draw[itbablue,thick,->] (373,499) -- (373,539);
+\draw[itbablue,thick,->] (498,589) -- (880,589);
+\draw[itbablue,thick,->] (248,589) -- (230,589);
+\draw[itbablue,thick,->] (65,589) -- (40,589) -- (40,286) -- (90,286);
+\end{scope}\end{tikzpicture}}

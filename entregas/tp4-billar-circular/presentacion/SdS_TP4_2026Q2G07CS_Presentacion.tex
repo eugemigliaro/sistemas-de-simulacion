@@ -23,6 +23,7 @@
 \setbeamertemplate{section page}{\vfill\centering{\usebeamercolor[fg]{structure}\usebeamerfont{title}\insertsectionhead\par}\vfill}
 \graphicspath{{figuras/}}
 \input{enlaces.tex}
+\input{diagramas.tex}
 \let\originalmedskip\medskip
 \renewcommand{\medskip}{\par\originalmedskip}
 \newcommand{\fu}{F_{\mathrm u}}
@@ -73,36 +74,19 @@
 % 4 -- 3 s
 \section{Implementación}
 \begin{frame}\sectionpage\end{frame}
-% 5 -- 45 s
-\begin{frame}{Motor de paso fijo y Verlet original}
-\begin{columns}[c,onlytextwidth]
-\begin{column}{.43\textwidth}
-\centering
-\begin{tikzpicture}[node distance=.35cm,>=Stealth,every node/.style={font=\small}]
-\node[draw,itbablue,fill=softblue,minimum width=5cm,minimum height=.6cm] (a) {Inicialización sin solapamientos};
-\node[draw,below=of a,minimum width=5cm,minimum height=.6cm] (b) {Fuerzas: pares, pared y obstáculos};
-\node[draw,below=of b,minimum width=5cm,minimum height=.6cm] (c) {Verlet y conversión irreversible};
-\node[draw,below=of c,minimum width=5cm,minimum height=.6cm] (d) {Guardar el estado del sistema};
-\draw[->] (a)--(b);\draw[->] (b)--(c);\draw[->] (c)--(d);
-\end{tikzpicture}
-\end{column}
-\begin{column}{.54\textwidth}
-\[\mathbf r_{n+1}=2\mathbf r_n-\mathbf r_{n-1}+\frac{h^2}{m}\mathbf F_n\]
-\[\mathbf v_n=\frac{\mathbf r_{n+1}-\mathbf r_{n-1}}{2h}\]
-\begin{itemize}
-\item Grilla de celdas de ancho $2r$ para buscar contactos.
-\item Velocidades sincronizadas con posiciones.
-\end{itemize}
-\[\mathbf r_{\rm img}=(R+r)\frac{\mathbf r_i}{\|\mathbf r_i\|}\]
-Imagen de pared actualizada cada paso.
-
-\end{column}\end{columns}
+% 5 -- 20 s
+\begin{frame}{UML del motor de simulación}
+\ifdefined\NativeDiagramBackground\else\csname diagram5\endcsname\fi
+\end{frame}
+% 6 -- 40 s
+\begin{frame}{Flujo del motor y Verlet original}
+\ifdefined\NativeDiagramBackground\else\csname diagram6\endcsname\fi
 \end{frame}
 
-% 6 -- 3 s
+% 7 -- 3 s
 \section{Simulaciones}
 \begin{frame}\sectionpage\end{frame}
-% 7 -- 45 s
+% 8 -- 45 s
 \begin{frame}{Billar circular y conversión por primer contacto}
 \begin{columns}[c,onlytextwidth]
 \begin{column}{.48\textwidth}
@@ -113,31 +97,30 @@ Imagen de pared actualizada cada paso.
 \draw[<->] (0,-.37)--(.65,-.37) node[midway,below] {$x_0$};
 \draw[->] (0,0)--(135:2) node[midway,above right] {$R$};
 \fill[itbablue] (-1,-.8) circle(.06863);
-\draw[->] (-1,-.8)--(-.5,-.55) node[right] {$\mathbf v_i$};
+\draw[->] (-1,-.8)--(-1.4,-1.25) node[left] {$\mathbf v_i$};
 \fill[usedred] (.7,1.05) circle(.06863);
 \draw[->] (1.45,1.0)--(.7686,1.05) node[pos=0,above] {$r$};
-\node[below] at (0,-2.12) {Obstáculos en $(\pm x_0,0)$};
+\node[below] at (0,-2.12) {Obstáculos fijos en $(\pm x_0,0)$};
 \end{tikzpicture}
 \end{column}
 \begin{column}{.49\textwidth}
-\begin{tabular}{ll}
-$R$ & $5{,}10\times10^{-1}$ m\\
-$r$ & $1{,}75\times10^{-2}$ m\\
-$m$ & $2{,}50\times10^{-2}$ kg\\
-$k$ & $10^4$ N/m\\
-$v_0$ & $1$ m/s
-\end{tabular}
-\medskip
+\textbf{Estado inicial}
 \begin{itemize}
-\item Posiciones iniciales sin solapamientos.
-\item Direcciones iniciales uniformes.
-\item \textcolor{itbablue}{Fresca}\,$\longrightarrow$\,\textcolor{usedred}{usada} al tocar un obstáculo.
-\item Conversión irreversible; $N$ constante.
+\item $N$ partículas sin solapamientos.
+\item Rapidez común $v_0$.
+\item Direcciones uniformes en $[0,2\pi)$.
+\end{itemize}
+\medskip
+\textbf{Conversión irreversible}
+\begin{itemize}
+\item \textcolor{itbablue}{Fresca}\,$\longrightarrow$\,\textcolor{usedred}{usada} al primer contacto con un obstáculo.
+\item Las usadas siguen interactuando.
+\item $N$ y densidad constantes.
 \end{itemize}
 
 \end{column}\end{columns}
 \end{frame}
-% 8 -- 50 s
+% 9 -- 50 s
 \begin{frame}{Tiempos por realización y promedios entre corridas}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{.49\textwidth}
@@ -159,62 +142,85 @@ $v_0$ & $1$ m/s
 \end{column}\end{columns}
 
 \end{frame}
-% 9 -- 25 s
-\begin{frame}{Configuración de los estudios}
-\centering\small
-\begin{tabular}{llll}
-\toprule
-Estudio & Cantidad de partículas & Seguimiento & Realizaciones\\\midrule
-Energía & $300$, sin obstáculos & $2$ s; control $30$ s & $2$ iniciales\\
-Rendimiento & $20,100,200,400,650$ & $30$ s & $10$ por $N$\\
-Posición $x_0$ & $20,100$ & $100$ s & $5$ por punto\\
-Rapidez & $100$, sin obstáculos & $60$ s & $10$\\
-Densidad & $20,50,100,200,400,650$ & hasta $300/600$ s & $10$ por $N$\\
-Mapa $(x_0,N)$ & $20,50,100,200$ & $100$ s & $5$ por celda\\\bottomrule
-\end{tabular}
+% 10 -- 25 s
+\begin{frame}{Parámetros fijos y variables}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.40\textwidth}
+\textbf{Fijos del billar}
 \medskip
-\begin{block}{Controles numéricos y de inicialización}
-\small
-$h=5\times10^{-5}$ s en rendimiento; $h=\hnum$ en análisis extendidos.\\
-$N\leq400$: rechazo secuencial. $N=650$: red hexagonal y aleatorización Monte Carlo; orden residual inicial.
-\end{block}
+\renewcommand{\arraystretch}{1.45}
+\begin{tabular}{ll}
+$R$ & $5{,}10\times10^{-1}$ m\\
+$r$ & $1{,}75\times10^{-2}$ m\\
+$m$ & $2{,}50\times10^{-2}$ kg\\
+$k$ & $10^4$ N/m\\
+$v_0$ & $1$ m/s
+\end{tabular}
+\end{column}
+\begin{column}{.58\textwidth}
+\textbf{Variables y rangos ensayados}
+\medskip
+$N\in\{20,50,100,200,300,400,650\}$
+\par\smallskip
+$x_0\in[1{,}75;49{,}25]\times10^{-2}$ m\\
+$11$ posiciones, $\Delta x_0=4{,}75\times10^{-2}$ m
+\medskip
+Obstáculos: presentes o ausentes
+\medskip
+\textbf{Paso de integración (numérico)}\\
+$h\in[1{,}25\times10^{-5};10^{-3}]$ s
+\par\smallskip
+Rendimiento: $5\times10^{-5}$ s\\
+Análisis extendidos: $\hnum$
+\end{column}
+\end{columns}
 \end{frame}
 
-% 10 -- 3 s
+% 11 -- 3 s
 \section{Resultados}
 \begin{frame}\sectionpage\end{frame}
-% 11 -- 30 s. Única diapositiva del sistema 1, exclusivamente la figura.
+% 12 -- 30 s. Única diapositiva del sistema 1, exclusivamente la figura.
 \begin{frame}{Oscilador: error cuadrático medio de los cuatro métodos}
 \centering\includegraphics[width=.96\textwidth,height=5.4cm,keepaspectratio]{oscilador-ecm.pdf}
 \end{frame}
-% 12 -- 15 s
-\begin{frame}{Conservación de energía sin obstáculos}
-\video{energia}{$N=300$\\Sin obstáculos\\$v_0=1$ m/s\\$h=5\times10^{-5}$ s}{Reproducción $4$ veces más lenta.\\Una realización.}
-\end{frame}
 % 13 -- 35 s
-\begin{frame}{Energía total durante los contactos}
-\figura{energia-tiempo.pdf}{
-$N=300$\\Sin obstáculos\\Seguimiento: $2$ s
-\par\smallskip
-\[E=\sum_i\tfrac m2v_i^2+\sum_c\tfrac k2\xi_c^2\]
-Pares y pared; cada contacto una vez.
-\par\smallskip
-\[\varepsilon_E=\max_{t_j}\left|\frac{E(t_j)}{E(0)}-1\right|\]
-Máximo muestreado.
-}
+\begin{frame}{Variación porcentual de la energía total}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{.66\textwidth}
+\includegraphics[width=\linewidth]{energia-tiempo.pdf}
+\end{column}
+\begin{column}{.32\textwidth}\small
+$N=300$, sin obstáculos\\
+Seguimiento: $2$ s\\
+Una condición inicial
+\medskip
+\[\begin{aligned}
+E&=\sum_i\tfrac m2v_i^2\\
+ &\quad+\sum_c\tfrac k2\xi_c^2
+\end{aligned}\]
+Pares y pared, una sola vez.
+\medskip
+\[\delta_E(t)=100\,\frac{E(t)-E(0)}{E(0)}\]
+Referencia: $E(0)=3{,}75$ J.
+\end{column}
+\end{columns}
 \end{frame}
 % 14 -- 35 s
 \begin{frame}{Elección y validación del paso temporal}
 \figura{energia-paso.pdf}{
-Umbral local: $0{,}1\,\%$.
+$\varepsilon_E=\max_{t_j}|\delta_E(t_j)|$\\
+Máximo muestreado (\%).
+\medskip
+Criterio local: $0{,}1\,\%$.
 \medskip
 \textbf{Control de $30$ s}\\
-$h=10^{-4}$ s:\\$0{,}241\,\%$\\
-$h=5\times10^{-5}$ s:\\$0{,}0602\,\%$
+$h=10^{-4}$ s\\$\varepsilon_E=0{,}241\,\%$\\
+$h=5\times10^{-5}$ s\\$\varepsilon_E=0{,}0602\,\%$
 \medskip
 \textbf{Estudios largos}\\
 $h=\hnum$\\
-Hasta $600$ s:\\máximo muestreado $0{,}0267\,\%$.
+Hasta $600$ s\\
+$\varepsilon_E\leq0{,}0267\,\%$
 }
 \end{frame}
 % 15 -- 15 s
@@ -230,7 +236,7 @@ Apple M5 Pro\\C++20, \texttt{-O3}\\Ambos motores en la misma máquina.
 \medskip
 Se excluyen generación y escritura.
 \medskip
-Cruce observado entre $N=200$ y $400$.
+Para $N=100,200,400$:\\TP4: $\times2{,}42$ y $\times2{,}62$\\TP3: $\times9{,}93$ y $\times17{,}38$.
 }
 \end{frame}
 % 17 -- 15 s

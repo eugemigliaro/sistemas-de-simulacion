@@ -1,8 +1,8 @@
 # Guion orientativo para ensayo
 
-Borrador para revisar y reformular entre los integrantes. Total previsto: **13 minutos**; los tiempos son objetivos de ensayo, no una duración medida.
+Borrador para revisar entre los integrantes. Total previsto: **13 minutos**; son objetivos de ensayo, no una duración medida.
 
-Reparto propuesto, pendiente de acordar nombres: A, láminas 1–11 (4:12); B, 12–21 (4:30); C, 22–29 (4:18). Todos deben poder explicar toda la presentación [GPRES, p. 3].
+Reparto orientativo: A, láminas 1–12 (4:27); B, 13–21 (4:15); C, 22–29 (4:18). Acordar el reparto y ensayar entre los integrantes [GPRES, p. 3].
 
 ## Lámina 1 · 10 s · 0:00–0:10
 
@@ -28,57 +28,57 @@ Transición a cómo se integra el modelo. Esta sección describe el motor, sin i
 
 Fuentes: GPRES, p. 2; COR02.
 
-## Lámina 5 · 45 s · 0:51–1:36
+## Lámina 5 · 20 s · 0:51–1:11
+
+UML de las relaciones principales del motor. Los bloques con generate(), simulate() y forces() representan funciones libres, no clases inventadas. Config contiene la configuración usada por simulate; generate crea el estado inicial de Particle; simulate actualiza las partículas mediante Verlet, llama a forces y usa su ForceResult. forces devuelve fuerzas y marcas de contacto. Particle y ForceResult contienen valores Vec. Las flechas discontinuas indican dependencias y los rombos composición. Se muestran nombres y traducciones como títulos, sin atributos ni métodos dentro de las estructuras. Se omite el namespace tp4::billiard porque organiza el código pero no explica una responsabilidad del motor. Es una vista simplificada: no se muestran todas las dependencias ni los helpers de validación. Para N=650 se usa una condición inicial hexagonal aleatorizada que conserva orden residual.
+
+Fuentes: cpp/include/tp4/billiard.hpp; cpp/include/tp4/dense.hpp; COR02, D8; revisión del estudiante 2026-10-19.
+
+## Lámina 6 · 40 s · 1:11–1:51
 
 La grilla de ancho 2r reduce candidatos y cada fuerza de pares se evalúa una vez. Verlet original requiere posición anterior y fuerza actual. Se inicializa la posición anterior con Taylor de segundo orden. La velocidad centrada corresponde al mismo instante que la posición. La imagen radial de la pared se recalcula cada paso. El motor conserva el primer contacto como estado histórico y guarda trayectorias; energía, histogramas y tiempos agregados se obtienen después.
 
 Fuentes: cpp/include/tp4/billiard.hpp; T04, pp. 13–14; TP04, pp. 2–3; COR02.
 
-## Lámina 6 · 3 s · 1:36–1:39
+## Lámina 7 · 3 s · 1:51–1:54
 
 Transición del modelo general a la configuración particular del billar.
 
 Fuentes: GPRES, p. 2.
 
-## Lámina 7 · 45 s · 1:39–2:24
+## Lámina 8 · 45 s · 1:54–2:39
 
-Señalar R, r, la posición simétrica x0 y las velocidades en el esquema. Los dos obstáculos son fijos y del mismo radio que las partículas. La dirección inicial es uniforme y todas las velocidades tienen módulo unitario. El color cambia solo al primer contacto con un obstáculo; una usada sigue moviéndose e interactuando. Por tanto, la conversión no modifica N ni la densidad.
+Presentar la geometría y las reglas antes de sus valores: señalar R, r, x0 y la velocidad en el esquema. Los obstáculos son fijos, simétricos y del mismo radio r que las partículas. El estado inicial tiene N partículas sin solapamientos, rapidez común v0 y direcciones uniformes en [0,2π). Al primer contacto con un obstáculo, una partícula pasa de fresca a usada para siempre; sigue moviéndose e interactuando, por lo que N y la densidad se conservan. Los valores numéricos y rangos se concentran en D10, sin repetir aquí la tabla de constantes. D9 define cómo medir la conversión presentada en esta lámina.
 
 Fuentes: TP04, pp. 2–3.
 
-## Lámina 8 · 50 s · 2:24–3:14
+## Lámina 9 · 50 s · 2:39–3:29
 
 Fu promedia el indicador de usada entre las N partículas de UNA realización. Primero obtenemos t90 y t100 en cada corrida y recién entonces promediamos los tiempos entre realizaciones. Las barras son desvíos estándar muestrales, no errores estándar. El cruce de la curva Fu media no equivale al promedio de los cruces. Un tiempo no alcanzado queda censurado y no se elimina ni se reemplaza por un dato ficticio.
 
 Fuentes: TP04, pp. 3–4; T00, p. 69; COR03, D14; python/performance_analysis.py.
 
-## Lámina 9 · 25 s · 3:14–3:39
+## Lámina 10 · 25 s · 3:29–3:54
 
-Distinguir parámetros físicos de controles numéricos y duración de observación. El benchmark dura 30 s y mantiene su paso validado. Los estudios largos usan un paso menor. Para N=650, el rechazo secuencial se sustituyó por red hexagonal y 500 barridos Monte Carlo: queda orden residual, así que no atribuimos toda diferencia solamente a N. La lista de semillas y el generador están en los manifiestos técnicos.
+Los símbolos geométricos y el estado inicial ya se presentaron en D8; esta es la única tabla general de sus valores numéricos. Esta lámina contiene únicamente parámetros fijos y variables. N enumera todos los valores del billar usados en los distintos estudios; no todos pertenecen a todos los barridos. Rendimiento: N=20,100,200,400,650; densidad agrega N=50 como complemento. Posición: N=20 y 100, once posiciones separadas por 0,0475 m, desde r=0,0175 m hasta R-r=0,4925 m; mapa: N=20,50,100,200. Energía N=300, sin obstáculos: seis pasos entre 2,5×10^-5 y 10^-3 s. El mínimo global de h=1,25×10^-5 s corresponde a análisis extendidos; no implica un barrido continuo ni todas las combinaciones. Repeticiones y horizontes acompañan a cada resultado, no se clasifican como parámetros físicos.
 
-Fuentes: experiments/configs/; experiments/rendimiento-y-densidad.md; COR02; COR03.
+Fuentes: TP04, pp. 2–4; experiments/configs/; experiments/billar-energia.md; COR02; COR03; corrección del estudiante 2026-10-19.
 
-## Lámina 10 · 3 s · 3:39–3:42
+## Lámina 11 · 3 s · 3:54–3:57
 
 Transición a resultados. Para cada estudio se ofrece contexto físico, evolución estática y resultado escalar; la comparación del oscilador es la excepción exigida.
 
 Fuentes: GPRES, p. 2; TP04, p. 2.
 
-## Lámina 11 · 30 s · 3:42–4:12
+## Lámina 12 · 30 s · 3:57–4:27
 
-Única lámina del oscilador: ECM de posición contra solución analítica, promedio entre todos los pasos temporales de una trayectoria. Beeman obtuvo el menor ECM en los siete pasos ensayados. Verlet original y Velocity Verlet prácticamente coinciden con las adaptaciones usadas para el amortiguamiento. Euler predictor-corrector converge con errores mayores en este rango. No añadir otra lámina del sistema 1.
+Única lámina del oscilador: ECM de posición contra solución analítica, promedio entre todos los pasos temporales de una trayectoria. Beeman obtuvo el menor ECM en los siete pasos ensayados. Verlet original y Velocity Verlet prácticamente coinciden con las adaptaciones usadas para el amortiguamiento. Euler predictor-corrector converge con errores mayores en este rango. No añadir otra lámina del sistema 1. La antigua D11 ahora es D12 tras agregar el UML.
 
 Fuentes: experiments/results/oscillator-summary.csv; experiments/README.md; TP04, pp. 1–2; T04, p. 37.
 
-## Lámina 12 · 15 s · 4:12–4:27
-
-Reproducir la animación dentro del PPTX. Mostrar N=300 sin obstáculos para situar el estudio energético. Las partículas se solapan levemente durante contactos. El tiempo visible es físico y la reproducción es cuatro veces más lenta. No confundirlo con tiempo de ejecución.
-
-Fuentes: presentacion/.build/media-manifest.json; TP04, p. 3.
-
 ## Lámina 13 · 35 s · 4:27–5:02
 
-La cinética sola no se conserva durante un contacto: parte se almacena en resortes. Sumamos potencial de pares y pared, una vez por contacto. El escalar es el máximo error relativo sobre cuadros guardados. Reducir h mejora el balance; el máximo muestreado no garantiza el máximo continuo. Se hicieron controles de cadencia para evitar ocultar picos.
+Una misma condición inicial N=300 se compara entre pasos, sin promediar realizaciones. Se muestra la variación porcentual con signo, 100[E(t)-E(0)]/E(0), con E(0)=3,75 J. La energía total es cinética más potencial de contactos: pares y pared, cada contacto una sola vez. La cinética sola no se conserva durante los choques. El máximo absoluto muestreado de estas curvas es el escalar de la lámina siguiente, también en porcentaje. La animación energética se retiró siguiendo la corrección del estudiante: TP04, p. 3 exige estas figuras y GPRES, p. 2 recomienda el contexto animado general.
 
 Fuentes: experiments/results/energy-summary.csv; experiments/billar-energia.md; T04, p. 42.
 
@@ -96,7 +96,7 @@ Fuentes: presentacion/.build/media-manifest.json; experiments/rendimiento-y-dens
 
 ## Lámina 16 · 40 s · 5:52–6:32
 
-Cada punto es el tiempo medio de diez corridas de 30 s y la barra su desvío. Ambos motores se recompilaron con C++20 y -O3 en la misma Apple M5 Pro. El reloj excluye generación y escritura. En el rango común eventos es más rápido para N=100 y 200, y paso temporal para N=400. El cruce queda entre 200 y 400, sin fijar su N exacto. No inferir una ley exponencial ni un exponente asintótico a partir de estos puntos.
+Cada punto es el tiempo medio de diez corridas de 30 s y la barra su desvío. Ambos motores se recompilaron con C++20 y -O3 en la misma Apple M5 Pro. El reloj excluye generación y escritura. En el rango común eventos es más rápido para N=100 y 200, y paso temporal para N=400. El cruce queda entre 200 y 400, sin fijar su N exacto. No inferir una ley exponencial ni un exponente asintótico a partir de estos puntos. Para N=100→200→400, el tiempo TP4 aumenta por factores 2,42 y 2,62, frente a 9,93 y 17,38 para TP3. Es una comparación descriptiva en este intervalo, no una ley asintótica.
 
 Fuentes: experiments/results/performance-summary.csv; performance-manifest.json; COR03, D16 y D22.
 
