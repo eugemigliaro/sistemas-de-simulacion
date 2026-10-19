@@ -42,14 +42,22 @@ def main():
     OUT.mkdir(parents=True,exist_ok=True)
     plt.rcParams.update({'font.size':18,'axes.labelsize':20,'legend.fontsize':16,
                          'axes.prop_cycle':plt.cycler(color=COLORS),'axes.spines.top':False,'axes.spines.right':False})
-    fig,ax=setup(9,4.5)
+    fig,(ax,rel)=plt.subplots(1,2,figsize=(12,4.6),layout='constrained',width_ratios=[1.25,1])
     rows=table('oscillator-summary.csv')
-    for method,label,marker in [('beeman','Beeman','o'),('verlet','Verlet original','s'),
-                                ('velocity-verlet','Velocity Verlet','x'),('euler-pc','Euler predictor-corrector','^')]:
+    def ecm(method):
         g=sorted([r for r in rows if r['method']==method],key=lambda r:float(r['dt_s']))
-        ax.loglog([float(r['dt_s']) for r in g],[float(r['ecm_m2']) for r in g],marker=marker,label=label,
-                  linewidth=1.8,markersize=6,alpha=.85)
-    ax.set(xlabel='Paso de integración (s)',ylabel='Error cuadrático medio (m²)');ax.legend(loc='upper left')
+        return np.array([float(r['dt_s']) for r in g]),np.array([float(r['ecm_m2']) for r in g])
+    methods=[('beeman','Beeman','o'),('verlet','Verlet original','s'),
+             ('velocity-verlet','Velocity Verlet','x'),('euler-pc','Euler PC','^')]
+    for (method,label,marker),color in zip(methods,COLORS):
+        dt,e=ecm(method)
+        ax.loglog(dt,e,marker=marker,label=label,linewidth=1.8,markersize=6,alpha=.85,color=color)
+    ax.set(xlabel='Paso de integración (s)',ylabel='ECM (m²)');ax.legend(loc='upper left',fontsize=14);ax.grid(alpha=.2)
+    # Cociente respecto de Verlet: en log-log las tres rectas de orden 2 se superponen.
+    dt,ref=ecm('verlet')
+    for (method,label,marker),color in list(zip(methods,COLORS))[:3]:
+        rel.semilogx(dt,ecm(method)[1]/ref,marker=marker,label=label,linewidth=1.8,markersize=6,color=color)
+    rel.set(xlabel='Paso de integración (s)',ylabel='ECM / ECM de Verlet',ylim=(.8,1.05));rel.grid(alpha=.2)
     save(fig,'oscilador-ecm')
 
     fig,ax=setup()
@@ -91,7 +99,7 @@ def main():
         edges=[float(r['v_left_m_s']) for r in g]+[float(g[-1]['v_right_m_s'])]
         ax.stairs([float(r['density_mean']) for r in g],edges,label=f't={t:g} s',linewidth=1.7)
     ax.axvline(1,color='gray',ls=':',label='t=0: rapidez unitaria')
-    ax.set(xlabel='Rapidez (m/s)',ylabel='Densidad de probabilidad (s/m)',xlim=(0,4));ax.legend();save(fig,'rapidez-evolucion')
+    ax.set(xlabel='Rapidez (m/s)',ylabel='Densidad de\nprobabilidad (s/m)',xlim=(0,4));ax.legend();save(fig,'rapidez-evolucion')
     fig,ax=setup(7,3.3);a=load('speed-stationary.csv');p=RESULTS/'speed-summary.json';SOURCES.add(p);s=json.loads(p.read_text())
     v=(a['v_left_m_s']+a['v_right_m_s'])/2
     ax.errorbar(v,a['density_mean'],yerr=a['density_std'],fmt='o',markersize=4,capsize=2,label='Media ± desvío')
@@ -112,6 +120,10 @@ def main():
         g=[r for r in rows if not r[key+'_mean_s']]
         ax.scatter([float(r['density_m2']) for r in g],[float(r[key+'_mean_lower_bound_s']) for r in g],
                    marker='^',s=90,facecolors='none',edgecolors=COLORS[1])
+        for r in g:
+            ax.annotate(f"N={r['n']}\n> {float(r[key+'_mean_lower_bound_s']):.0f} s",
+                        (float(r['density_m2']),float(r[key+'_mean_lower_bound_s'])),xytext=(8,-16),
+                        textcoords='offset points',ha='right',va='top',fontsize=13,color=COLORS[1])
         ax.set(xlabel='Densidad (m⁻²)',ylabel=label,yscale='log');ax.grid(alpha=.2)
     save(fig,'densidad-tiempos')
 

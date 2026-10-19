@@ -54,13 +54,13 @@ Fuentes: TP04, pp. 2–3.
 
 ## Lámina 9 · 50 s · 2:39–3:29
 
-Fu promedia el indicador de usada entre las N partículas de UNA realización. Primero obtenemos t90 y t100 en cada corrida y recién entonces promediamos los tiempos entre realizaciones. Las barras son desvíos estándar muestrales, no errores estándar. El cruce de la curva Fu media no equivale al promedio de los cruces. Un tiempo no alcanzado queda censurado y no se elimina ni se reemplaza por un dato ficticio.
+Fu promedia el indicador de usada entre las N partículas de UNA realización. Primero obtenemos t90 y t100 en cada corrida y recién entonces promediamos los tiempos entre realizaciones. Las barras son desvíos estándar muestrales, no errores estándar. El cruce de la curva Fu media no equivale al promedio de los cruces. Si una corrida no llega a p, su tiempo no se inventa: se explica en D25, único caso (N=650).
 
 Fuentes: TP04, pp. 3–4; T00, p. 69; COR03, D14; python/performance_analysis.py.
 
 ## Lámina 10 · 25 s · 3:29–3:54
 
-Los símbolos geométricos y el estado inicial ya se presentaron en D8; esta es la única tabla general de sus valores numéricos. Esta lámina contiene únicamente parámetros fijos y variables. N ∈ [20,650] expresa el rango global de cantidades de partículas; se ensayaron valores discretos, no todos los enteros ni todas las combinaciones. Rendimiento: N=20,100,200,400,650; densidad agrega N=50 como complemento. Posición: N=20 y 100, once posiciones separadas por 0,0475 m, desde r=0,0175 m hasta R-r=0,4925 m; mapa: N=20,50,100,200. Energía N=300, sin obstáculos: seis pasos entre 2,5×10^-5 y 10^-3 s. El mínimo global de h=1,25×10^-5 s corresponde a análisis extendidos; no implica un barrido continuo ni todas las combinaciones. Repeticiones y horizontes acompañan a cada resultado, no se clasifican como parámetros físicos.
+Los símbolos geométricos y el estado inicial ya se presentaron en D8; esta es la única tabla general de sus valores numéricos. Esta lámina contiene únicamente parámetros fijos y variables. N ∈ [20,650] expresa el rango global de cantidades de partículas; se ensayaron valores discretos, no todos los enteros ni todas las combinaciones. Rendimiento: N=20,100,200,400,650; densidad agrega N=50 como complemento. Posición: N=20 y 100, once posiciones separadas por 0,0475 m, desde r=0,0175 m hasta R-r=0,4925 m; mapa: N=20,50,100,200. Energía N=300, sin obstáculos: seis pasos entre 2,5×10^-5 y 10^-3 s. La lámina muestra solo h=1,25×10^-5 s, validado en D14 y usado en los estudios largos; el estudio de rendimiento usó 5×10^-5 s y eso figura en D16. Repeticiones y horizontes acompañan a cada resultado, no se clasifican como parámetros físicos.
 
 Fuentes: TP04, pp. 2–4; experiments/configs/; experiments/billar-energia.md; COR02; COR03; corrección del estudiante 2026-10-19.
 
@@ -72,7 +72,7 @@ Fuentes: GPRES, p. 2; TP04, p. 2.
 
 ## Lámina 12 · 30 s · 3:57–4:27
 
-Única lámina del oscilador: ECM de posición contra solución analítica, promedio entre todos los pasos temporales de una trayectoria. Beeman obtuvo el menor ECM en los siete pasos ensayados. Verlet original y Velocity Verlet prácticamente coinciden con las adaptaciones usadas para el amortiguamiento. Euler predictor-corrector converge con errores mayores en este rango. No añadir otra lámina del sistema 1. La antigua D11 ahora es D12 tras agregar el UML.
+Única lámina del oscilador: ECM de posición contra solución analítica, promedio entre todos los pasos temporales de una trayectoria. Izquierda: las tres rectas de Beeman, Verlet y Velocity Verlet tienen la misma pendiente (orden 2) y en escala logarítmica se superponen; Euler predictor-corrector queda órdenes de magnitud arriba. Derecha: cociente contra Verlet original. Beeman queda constante en ≈0,87, es decir ≈13 % menos de error en los siete pasos; Velocity Verlet coincide con Verlet (cociente 1). Beeman es el mejor, por un factor constante, no por un orden mayor. No añadir otra lámina del sistema 1. La antigua D11 ahora es D12 tras agregar el UML.
 
 Fuentes: experiments/results/oscillator-summary.csv; experiments/README.md; TP04, pp. 1–2; T04, p. 37.
 
@@ -126,13 +126,13 @@ Fuentes: presentacion/.build/media-manifest.json; TP04, pp. 3–4.
 
 ## Lámina 21 · 35 s · 8:07–8:42
 
-Cada histograma instantáneo normaliza 100 velocidades de una corrida por N y ancho de bin; luego se promedian diez densidades. En t=0 hay una delta en v=1, representada por una línea vertical sin altura probabilística finita. Los bins cubren todas las colas. El ensayo de 30 s no satisfizo el criterio local; se amplió a 60 s y ventanas de 10 s. En [10,60) las distancias de variación total entre ventanas son menores que 0,011 y los cambios del ajuste menores que 0,85 %. Esta ventana compatible con estabilidad no determina el primer instante físico de relajación.
+Cada histograma instantáneo normaliza 100 velocidades de una corrida por N y ancho de bin; luego se promedian diez densidades. En t=0 hay una delta en v=1, representada por una línea vertical sin altura probabilística finita. Los bins cubren todas las colas. El ensayo de 30 s no satisfizo el criterio local; se amplió a 60 s y ventanas de 10 s.
 
 Fuentes: experiments/results/speed-snapshots.csv; speed-windows.csv; experiments/rapidez.md; COR02.
 
 ## Lámina 22 · 50 s · 8:42–9:32
 
-La forma teórica es Maxwell–Boltzmann 2D. Solo theta=kBT es libre. g_b es la integral del modelo en cada bin dividida por su ancho. Se minimiza la suma sin pesos de errores cuadrados mediante grilla logarítmica y sección áurea. El histograma estacionario usa 500 cuadros por corrida y diez corridas; los cuadros no son realizaciones independientes. Las barras son desvíos entre diez densidades. El ajuste a la media da 0,0123986 J, 0,81 % menor que 0,0125 J inicial. La cinética es 0,0123234 J y el potencial 0,0001765 J por partícula. El potencial explica la reducción cinética; no explica por sí solo la diferencia entre mínimos cuadrados y segundo momento. No se realizó una prueba formal de bondad de ajuste ni se informa temperatura en kelvin.
+La forma teórica es Maxwell–Boltzmann 2D. Solo theta=kBT es libre. g_b es la integral del modelo en cada bin dividida por su ancho. Se minimiza la suma sin pesos de errores cuadrados mediante grilla logarítmica y sección áurea. El histograma estacionario usa 500 cuadros por corrida, tomados entre 10 y 60 s, y diez corridas. Los primeros 10 s se descartan porque la distribución todavía está cambiando; desde ahí, entre ventanas de 10 s, la distancia de variación total es menor que 0,011 y el θ ajustado cambia menos de 0,85 %; los cuadros no son realizaciones independientes. Las barras son desvíos entre diez densidades. El ajuste a la media da 0,0123986 J, 0,81 % menor que 0,0125 J inicial. La cinética es 0,0123234 J y el potencial 0,0001765 J por partícula. El potencial explica la reducción cinética; no explica por sí solo la diferencia entre mínimos cuadrados y segundo momento. No se realizó una prueba formal de bondad de ajuste ni se informa temperatura en kelvin.
 
 Fuentes: TP04, p. 4; T00, pp. 79–80; experiments/results/speed-summary.json; speed-stationary.csv.
 
@@ -150,7 +150,7 @@ Fuentes: experiments/results/density-final-fu.csv; density-complete-cases.json; 
 
 ## Lámina 25 · 45 s · 10:12–10:57
 
-Cada círculo es una media completa de diez tiempos y cada triángulo una cota inferior, sin barras inventadas para tiempos desconocidos. El eje vertical es logarítmico. Se extendieron tres casos N=400 a 600 s para observar sus últimos contactos; su t100 medio es 267±61 s. N=50 se añadió de forma exploratoria tras el indicio del mapa y se completaron diez realizaciones. El menor t90 medio de la grilla es 20,4±3,5 s para N=50. El menor t100 medio es 41±14 s para N=20, muy próximo a 42,5±8,1 s para N=50. No se demuestra una diferencia poblacional ni una densidad óptima global única.
+Cada círculo es una media completa de diez tiempos. El triángulo es N=650: ninguna de las diez corridas llegó al 90 % en 300 s (terminaron con Fu≈4 %), así que solo sabemos que el tiempo es mayor que 300 s; por eso no tiene barra. El eje vertical es logarítmico. Se extendieron tres casos N=400 a 600 s para observar sus últimos contactos; su t100 medio es 267±61 s. N=50 se añadió de forma exploratoria tras el indicio del mapa y se completaron diez realizaciones. El menor t90 medio de la grilla es 20,4±3,5 s para N=50. El menor t100 medio es 41±14 s para N=20, muy próximo a 42,5±8,1 s para N=50. No se demuestra una diferencia poblacional ni una densidad óptima global única.
 
 Fuentes: experiments/results/density-complete-summary.csv; density-best-tested.json; density-followup-contract.json; density-extra-contract.json.
 

@@ -136,8 +136,6 @@
 \[s_{t_p}=\sqrt{\frac{\sum_s(t_p^{(s)}-\overline t_p)^2}{n_r-1}}\]
 \begin{itemize}
 \item Barras: desvío estándar entre corridas.
-\item Cruces con resolución $h$.
-\item Si falta un cruce: censura y cota.
 \end{itemize}
 \end{column}\end{columns}
 
@@ -167,11 +165,8 @@ $11$ posiciones, $\Delta x_0=4{,}75\times10^{-2}$ m
 \medskip
 Obstáculos: presentes o ausentes
 \medskip
-\textbf{Paso de integración (numérico)}\\
-$h\in[1{,}25\times10^{-5};10^{-3}]$ s
-\par\smallskip
-Rendimiento: $5\times10^{-5}$ s\\
-Análisis extendidos: $\hnum$
+\textbf{Paso de integración}\\
+$h=\hnum$ (validado en D14)
 \end{column}
 \end{columns}
 \end{frame}
@@ -230,7 +225,7 @@ $\varepsilon_E\leq0{,}0267\,\%$
 % 16 -- 40 s
 \begin{frame}{Tiempo de ejecución frente a cantidad de partículas}
 \figura{rendimiento.pdf}{
-$t_f=30$ s\\$x_0=r$\\$10$ corridas por $N$\\Media $\pm$ desvío
+$t_f=30$ s, $x_0=r$\\$h=5\times10^{-5}$ s\\$10$ corridas por $N$\\Media $\pm$ desvío
 \medskip
 Apple M5 Pro\\C++20, \texttt{-O3}\\Ambos motores en la misma máquina.
 \medskip
@@ -280,10 +275,6 @@ Resolución espacial:\\$4{,}75\times10^{-2}$ m.
 $10$ realizaciones\\$N=100$\\Bins comunes:\\$\Delta v=0{,}1$ m/s
 \medskip
 Por instante:\\$100$ partículas/corrida.\\Media de $10$ densidades.
-\medskip
-Ventanas de $10$ s:\\distancia total $<0{,}011$;\\cambio del ajuste $<0{,}85\,\%$.
-\medskip
-Ventana elegida:\\$[10,60)$ s.\\Criterio local.
 }
 \end{frame}
 % 22 -- 50 s
@@ -299,7 +290,7 @@ $\theta=k_BT$ minimiza $E(\theta)$.\\
 $g_b$: modelo medio por bin.\\
 Sin pesos.
 \par\smallskip
-$500$ cuadros/corrida.\\Media de $10$ densidades.\\Barras: desvío.
+$500$ cuadros/corrida,\\entre $10$ y $60$ s.\\Media de $10$ densidades.\\Barras: desvío.
 \par\smallskip
 \textbf{Comparación energética}\\
 Ajuste: $1{,}240\times10^{-2}$ J\\
@@ -328,9 +319,9 @@ Ambos tiempos siguen censurados en las $10$ realizaciones de ese grupo.
 % 25 -- 45 s
 \begin{frame}{Densidad y tiempos de conversión}
 \figura{densidad-tiempos.pdf}{
-$\rho=N/(\pi R^2)$\\$x_0=r$\\$10$ corridas por $N$
+$\rho=N/(\pi R^2)$, $x_0=r$\\$10$ corridas por $N$
 \medskip
-Círculos: media $\pm$ desvío.\\Triángulos: cota inferior.
+Círculos: media $\pm$ desvío.\\Triángulo: sin cruce en $300$ s (cota inferior).
 \medskip
 \textbf{Menores medias}\\
 $t_{90}$: $N=50$\\$20{,}4\pm3{,}5$ s
