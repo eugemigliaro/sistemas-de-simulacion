@@ -76,7 +76,8 @@ class BilliardTests(unittest.TestCase):
         cases = [["--n", "0"], ["--dt", "0"], ["--dt", ".003"], ["--save-every", "0"],
                  ["--steps", "11", "--save-every", "2"], ["--n", "-2"], ["--radius", "nan"],
                  ["--mass", "0"], ["--obstacles", "yes"], ["--obstacles", "1", "--obstacle-x", "0"],
-                 ["--steps", "10", "--dt", ".1"], ["--unknown", "1"]]
+                 ["--steps", "10", "--dt", ".1"], ["--unknown", "1"], ["--obstacle-x", ".1"],
+                 ["--initialization", "hex"], ["--sweeps", "10"]]
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / "invalid.csv"
             for case in cases:
@@ -90,6 +91,24 @@ class BilliardTests(unittest.TestCase):
                                      "--output", str(path)], capture_output=True)
             self.assertNotEqual(result.returncode, 0)
             self.assertFalse(path.exists())
+
+    def test_default_step_and_dense_initialization(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "default.csv"
+            subprocess.run([str(BINARY), "billiard", "--n", "20", "--duration", ".01", "--output", str(path)], check=True)
+            c = json.loads(Path(str(path) + ".json").read_text())
+            self.assertEqual((c["steps"], c["save_every"]), (800, 800))
+            self.assertAlmostEqual(c["dt"], .0000125, delta=1e-18)
+            path = Path(tmp) / "dense.csv"
+            subprocess.run([str(BINARY), "billiard", "--n", "650", "--duration", ".0025", "--initialization", "dense",
+                            "--sweeps", "5", "--obstacles", "1", "--save-every", "200", "--output", str(path)], check=True)
+            c = json.loads(Path(str(path) + ".json").read_text())
+            self.assertIn("hexagonal", c["initialization"])
+            initial = next(frames(path, c))[2]
+            p = initial[:, 3:5]
+            distances = np.sqrt(np.sum((p[:, None] - p[None, :])**2, axis=2)) + np.eye(650)
+            self.assertGreaterEqual(np.min(distances), .035)
+            np.testing.assert_allclose(np.linalg.norm(initial[:, 5:7], axis=1), 1, atol=1e-14)
 
     def test_incomplete_and_reversed_state_rejected(self):
         c = dict(CONFIG, n=1, steps=2, save_every=1, dt=.1)

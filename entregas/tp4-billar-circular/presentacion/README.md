@@ -1,8 +1,8 @@
 # Presentación TP4
 
-Borrador de 29 láminas para revisión del grupo. Conserva el formato 16:9, Beamer Warsaw, miniframes, colores y numeración del TP3. Incluye todos los estudios realizados, cuatro animaciones físicas y declaración de asistencia de IA. El guion propone 13 minutos; aún requiere ensayo real.
+Presentación de 29 láminas. Conserva el formato 16:9, Beamer Warsaw, miniframes, colores y numeración del TP3. Incluye todos los estudios realizados, cuatro animaciones físicas y declaración de asistencia de IA. El guion suma 12:15, con 45 s de margen; aún requiere ensayo real.
 
-- `SdS_TP4_2026Q2G07CS_Presentación.pdf`: nombre solicitado para la entrega; fotogramas estáticos y cuatro enlaces públicos pendientes.
+- `../entrega-final/SdS_TP4_2026Q2G07CS_Presentación.pdf`: PDF de entrega con el nombre solicitado; fotogramas estáticos y cuatro enlaces públicos pendientes. Es la única copia: la salida intermedia de tectonic queda en `.build/`.
 - `SdS_TP4_2026Q2G07CS_Presentacion.pptx`: versión para exponer, con cuatro MP4 incrustados y guion del orador separado.
 - `SdS_TP4_2026Q2G07CS_Presentacion.tex`: fuente editable de texto, fórmulas y disposición.
 - `GUION.md`: notas, fuentes y reparto orientativo A/B/C, sin asignar decisiones a los integrantes.
@@ -12,10 +12,11 @@ El PPTX sigue el mecanismo del TP3: cada lámina es una imagen y los videos son 
 
 ## Completar antes de entregar
 
-1. Revisar entre todos los integrantes contenido, nombres, comisión y declaración de IA. La consigna reserva a los estudiantes la elaboración final y no permite producción independiente de presentaciones por agentes [TP04, p. 4]. La revisión del grupo todavía no se da por realizada.
-2. Publicar las cuatro animaciones en YouTube/Vimeo por decisión del grupo e incorporar sus URL reales en `enlaces.json`. No se publicó ningún archivo ni se inventaron enlaces. Regenerar para que aparezcan explícitamente debajo de los fotogramas [GPRES, pp. 2–3].
-3. Ensayar, acordar quién presenta cada parte y comprobar los videos en el software y equipo de exposición. Quitar la indicación de borrador de la portada solamente al finalizar la revisión.
-4. Entregar el PDF, sin adjuntar archivos sueltos de animaciones [GPRES, p. 3]. El PPTX es el soporte de exposición. El ZIP del motor es otro componente de la entrega [TP04, p. 4].
+1. Revisar entre todos los integrantes contenido, nombres, comisión y declaración de IA [TP04, p. 4].
+2. Publicar las cuatro animaciones en YouTube/Vimeo e incorporar sus URL reales en `enlaces.json` (claves `rendimiento`, `posicion`, `rapidez` y `densidad`). Regenerar para que aparezcan explícitamente debajo de los fotogramas [GPRES, pp. 2–3].
+3. Correr el protocolo v2 de rendimiento en la Apple M5 Pro del benchmark original (ver el README del TP4) para agregar el TP3 hasta N=650 a la diapositiva 16.
+4. Ensayar, acordar quién presenta cada parte y comprobar los videos en el software y equipo de exposición.
+5. Después de la última regeneración, `make package` desde `entregas/tp4-billar-circular` agrega el ZIP del motor a `entrega-final/`, junto al PDF. Entregar esos dos archivos, sin animaciones sueltas [GPRES, p. 3] [TP04, p. 1]. El PPTX es el soporte de exposición.
 
 ## Regenerar
 
@@ -26,11 +27,27 @@ Desde `entregas/tp4-billar-circular`, con NumPy, Matplotlib, Pillow, Tectonic y 
 ../tp3-billar-metegol/python/.venv/bin/python python/build_presentation.py
 ```
 
-El segundo comando regenera los diagramas, actualiza los enlaces, compila el PDF, copia su nombre oficial, renderiza las láminas y reconstruye el PPTX y conserva el guion aparte. No vuelve a ejecutar los estudios. Usa los masters del PPTX anterior sin modificarlo. El runtime Artifact Tool no estaba disponible en este entorno; se utilizó Beamer y ensamblado OOXML local.
+El segundo comando regenera los diagramas, actualiza los enlaces, compila el PDF y lo escribe con el nombre oficial en `entrega-final/`, renderiza las láminas y reconstruye el PPTX y conserva el guion aparte. No vuelve a ejecutar los estudios. Usa los masters del PPTX anterior sin modificarlo. Busca `tectonic` en el PATH, en Homebrew (macOS) o en `/usr/lib/chatgpt/resources/tectonic/tectonic` (Linux); compila con `--only-cached`, así que la primera vez en una máquina puede hacer falta una compilación sin esa opción para bajar las fuentes. El texto de la diapositiva 16 sale de `rendimiento.tex`, que genera `presentation_assets.py` a partir de `performance-summary.csv`. El runtime Artifact Tool no estaba disponible en este entorno; se utilizó Beamer y ensamblado OOXML local.
 
 Las citas de fuentes se conservan en `notas.json` y `GUION.md`; no se muestran sobre las diapositivas.
 
 Las animaciones ya están generadas. `python/presentation_media.py` permite regenerarlas desde trayectorias de demostración; `--position-only` reutiliza las tres trayectorias verificadas de posición. Si cambian los GIF, reconvertir a MP4 antes de reconstruir el PPTX. En macOS se utilizó `gif_to_mp4.swift` con AVFoundation. Los clips `*-live.mp4` son los que se incrustan. `.build/` contiene derivados de revisión, manifiestos y hashes, no archivos para entregar.
+
+## Correcciones del 20/10/2026
+
+- Portada sin la indicación de borrador.
+- D8: rótulos de r y de la velocidad dentro del círculo.
+- D10: tabla con N, x0, paso, corridas y tiempo simulado de cada estudio, como pide GPRES p. 2; se quitó la referencia interna a otra diapositiva.
+- D12: una sola figura de ECM frente al paso, con la leyenda fuera de los datos y una franja inferior con el ECM relativo a Verlet original; más grande y legible.
+- D16: texto de escalado generado desde los datos; protocolo v2 preparado para agregar el TP3 hasta N=650.
+- D21: bins centrados en múltiplos de 0,1 m/s; la delta inicial ya no se reparte entre dos bins.
+- D22: ajuste y error del ajuste S(k_BT) lado a lado, como en el TP3; comparación con m⟨v²⟩/2 y mv0²/2.
+- D24 y D25: explicación de la extensión a 300 s y del triángulo de N=650 sin jerga.
+- D26: rótulo de la barra de color completo.
+- D25: rótulos del eje logarítmico fijados; al regenerar en otra máquina habían desaparecido.
+- D28: las conclusiones responden las preguntas de la consigna; el guion las desarrolla.
+- D29: Codex con GPT-6.1 Sol y Claude Code con Claude Opus 5.5.
+- Guion: 12:15 en total, con margen, y notas nuevas de D10, D12, D16, D19, D21, D22, D24, D25, D28 y D29.
 
 ## Correcciones del 19/10/2026
 

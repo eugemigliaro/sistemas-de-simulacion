@@ -53,13 +53,17 @@ def main():
                     timing="steady_clock around simulation kernel; initialization and all file I/O excluded; sequential runs",
                     tp4_output="initial and final states; per-particle first_contact_step retains conversion history")
     fingerprint = hashlib.sha256(json.dumps(contract, sort_keys=True).encode()).hexdigest()
-    raw = ROOT / "experiments/raw/performance"
+    # Cada version del protocolo guarda sus checkpoints aparte: la v2 agrega TP3 hasta N=650
+    # y mide el motor final; la v1 queda intacta para no mezclar mediciones.
+    version = config.get("protocol_version", 1)
+    suffix = "" if version == 1 else f"-v{version}"
+    raw = ROOT / f"experiments/raw/performance{suffix}"
     results = ROOT / "experiments/results"
     figures = ROOT / "experiments/figures"
     for folder in [raw, results, figures]: folder.mkdir(parents=True, exist_ok=True)
-    checkpoint = results / "performance-cases"
+    checkpoint = results / f"performance-cases{suffix}"
     checkpoint.mkdir(exist_ok=True)
-    contract_path = results / "performance-contract.json"
+    contract_path = results / f"performance-contract{suffix}.json"
     if contract_path.exists() and json.loads(contract_path.read_text())["fingerprint"] != fingerprint:
         raise ValueError("El protocolo o las fuentes cambiaron: conservar checkpoints y usar otro directorio de resultados")
     contract_path.write_text(json.dumps(dict(fingerprint=fingerprint, **contract), indent=2) + "\n")

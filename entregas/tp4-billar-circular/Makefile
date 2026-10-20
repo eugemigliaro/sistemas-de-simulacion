@@ -8,12 +8,10 @@ export MPLCONFIGDIR := $(CURDIR)/python/.matplotlib
 export XDG_CACHE_HOME := $(CURDIR)/python/.cache
 export CXX
 
-.PHONY: release test sanitize oscillator-study energy-study python-env
-release: cpp/build/release/tp4
-
-cpp/build/release/tp4: cpp/src/main.cpp $(HEADERS)
-	mkdir -p $(@D)
-	$(CXX) $(FLAGS) -O3 -DNDEBUG $< -o $@
+.PHONY: release test sanitize oscillator-study energy-study python-env package
+# El motor se compila con cpp/Makefile, el mismo que viaja en el ZIP de entrega.
+release:
+	$(MAKE) -C cpp release
 
 cpp/build/test/%: cpp/tests/%.cpp $(HEADERS)
 	mkdir -p $(@D)
@@ -36,6 +34,9 @@ oscillator-study: release
 
 energy-study: release
 	$(PYTHON) python/energy_study.py
+
+package: release
+	$(PYTHON) python/package_delivery.py
 
 python-env:
 	python3 -m venv python/.venv

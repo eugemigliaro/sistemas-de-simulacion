@@ -21,7 +21,8 @@ struct Vec {
 };
 struct Particle { Vec position, velocity; long long first_contact_step = -1; };
 struct Config {
-    std::size_t n = 300, steps = 20000, save_every = 5;
+    // Por defecto h=1,25e-5 s (paso validado por energia hasta 600 s) y un estado cada 0,01 s.
+    std::size_t n = 300, steps = 160000, save_every = 800;
     std::uint64_t seed = 1;
     double duration = 2, radius = .51, particle_radius = .0175, mass = .025;
     double stiffness = 10000, speed = 1, obstacle_x = .0175;
@@ -76,12 +77,18 @@ inline std::vector<Particle> generate(const Config& c) {
     return particles;
 }
 struct ForceResult { std::vector<Vec> force; std::vector<bool> obstacle_contact; };
-inline ForceResult forces(const std::vector<Particle>& particles, const Config& c) {
+// Listas de celdas reutilizadas entre pasos para no reservar memoria en cada uno.
+struct CellList { std::vector<int> head, next; };
+inline void forces(const std::vector<Particle>& particles, const Config& c, ForceResult& result, CellList& grid) {
     const std::size_t n = particles.size();
-    ForceResult result{std::vector<Vec>(n), std::vector<bool>(n, false)};
+    result.force.assign(n, Vec{});
+    result.obstacle_contact.assign(n, false);
     const double width = 2 * c.particle_radius;
     const int cells = static_cast<int>(std::ceil(2 * c.radius / width));
-    std::vector<int> head(static_cast<std::size_t>(cells) * cells, -1), next(n, -1);
+    grid.head.assign(static_cast<std::size_t>(cells) * cells, -1);
+    grid.next.assign(n, -1);
+    auto& head = grid.head;
+    auto& next = grid.next;
     auto index = [&](double coordinate) {
         return std::clamp(static_cast<int>(std::floor((coordinate + c.radius) / width)), 0, cells - 1);
     };
@@ -123,6 +130,11 @@ inline ForceResult forces(const std::vector<Particle>& particles, const Config& 
                 result.obstacle_contact[i] = true;
             }
     }
+}
+inline ForceResult forces(const std::vector<Particle>& particles, const Config& c) {
+    ForceResult result;
+    CellList grid;
+    forces(particles, c, result, grid);
     return result;
 }
 inline void validate_initial(const std::vector<Particle>& particles, const Config& c) {
@@ -140,13 +152,15 @@ inline void validate_initial(const std::vector<Particle>& particles, const Confi
 using FrameSink = std::function<void(std::size_t, double, const std::vector<Particle>&)>;
 inline void simulate(const Config& c, std::vector<Particle> particles, const FrameSink& emit) {
     validate_initial(particles, c);
-    auto current_forces = forces(particles, c);
+    ForceResult current_forces;
+    CellList grid;
+    forces(particles, c, current_forces, grid);
     std::vector<Vec> previous(c.n), future(c.n);
     const double h = c.dt();
     for (std::size_t i = 0; i < c.n; ++i)
         previous[i] = particles[i].position - particles[i].velocity * h + current_forces.force[i] * (h * h / (2 * c.mass));
     for (std::size_t step = 0; step <= c.steps; ++step) {
-        if (step != 0) current_forces = forces(particles, c);
+        if (step != 0) forces(particles, c, current_forces, grid);
         for (std::size_t i = 0; i < c.n; ++i) {
             if (current_forces.obstacle_contact[i] && particles[i].first_contact_step < 0)
                 particles[i].first_contact_step = static_cast<long long>(step);

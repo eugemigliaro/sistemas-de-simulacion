@@ -2,12 +2,12 @@
   "fingerprint": "fcfb105e832d803750a0eefe8e4f0cad5c947457b3db92dadde65041bb421f05",
   "artifacts": {
     "experiments/results/speed-contract.json": "2589253c27092a3e41cd0c60f3beaa26e3bf8abb7016a348a1a99a8efc432cf0",
-    "experiments/results/speed-summary.json": "06c58e006d258e1b8e945279ea6346cbc5a1867313f1d29e2a1fb7c6ac89358e",
-    "experiments/results/speed-windows.csv": "3ee7d9478b6d4ce4e57d8120d89561343bd71139ca412da1b86195d5e16a15e2",
-    "experiments/results/speed-fit-per-run.csv": "5d829505f2e22717010c73a2b9592209582d697b1fb487ed9a4e1bbbaa32dc02",
-    "experiments/results/speed-stationary.csv": "a82b9d078abe42085d99c68cc717a64cfb984b20ba8d0e9b23c80543914cb510",
-    "experiments/results/speed-snapshots.csv": "118d3abb32dd60ea10349fe3bedd19ccec0834c89cb64dfb8d21b95bf6037795",
-    "experiments/results/speed-objective.csv": "3ab053f7a4888dd2937ea08751dddd3fa6ff91ef45e53b8a313b246de48e3b65",
+    "experiments/results/speed-summary.json": "bda60ec255ce2a81c1bd706dc4156c4b8262cfdc6cb2d300f43b17199cadb3f8",
+    "experiments/results/speed-windows.csv": "41b779562744ee5e8e94493f0b90f7c678204d72344f06ea7d96da87f9e5506d",
+    "experiments/results/speed-fit-per-run.csv": "9d63aa160aa80c0eccc0900b7653ea95138be86f683530983a6b77371d3e3599",
+    "experiments/results/speed-stationary.csv": "09da10a38389097007790b29dd97b603cea78d4cbc9ec7f0b624b75a1bc4790a",
+    "experiments/results/speed-snapshots.csv": "7b0610520700768ec7dc16a20e1dd2a0777ca476aa8ade60c7ff8b3ee12b768f",
+    "experiments/results/speed-objective.csv": "1dabb6db4ec44fbe64392e7165c422ff4b6d8fb75b916a4f7c91e6c35ccf6157",
     "experiments/results/speed-cases/seed-01.json": "337210335d31842fbbcef31f8f30a30bcca43d8bb07b9e7423fa1c48949616a3",
     "experiments/results/speed-cases/seed-01.npz": "cc00870baa2d650b88a3e617c7ae076cbb29e4acd006e731913286b5ec67d4da",
     "experiments/results/speed-cases/seed-02.json": "deffd28e0a2d8251091c6521a90c33a6df440ec02ced626cd6c833a151cc26ac",
@@ -28,7 +28,7 @@
     "experiments/results/speed-cases/seed-09.npz": "092dba829d10420e464f6796552574f51986711918144456fa94b3790fd5b841",
     "experiments/results/speed-cases/seed-10.json": "2621ede0d1d94a5fcaf0c7fd1bde58c4370b56555c8a6c2e3b02a571e588fdea",
     "experiments/results/speed-cases/seed-10.npz": "19a033ba19d8e64e4d378c22e28f6b16d823cd99fb334206763990ed5e1f33cf",
-    "experiments/figures/speed-fit.png": "108fab0382e067a63c0adbc017a6972534d298a09479052d73d1aa8476ae770f",
-    "experiments/figures/speed-evolution.png": "d6791d3b7d7e3a0e1c0ca0dc8fe41cfdb2dc594676b2b97f9e6efe96c5d30380"
+    "experiments/figures/speed-fit.png": "631f5873894ffac1b28e6bed4a7aab68aa07763b9e3e11287a180cf779f26dbc",
+    "experiments/figures/speed-evolution.png": "d95f9cfb8a1b629695007620c01c34294d8d43f8cec062a208f1ef4fe3614c1d"
   }
 }

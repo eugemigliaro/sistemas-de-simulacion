@@ -12,10 +12,12 @@ int main(int argc, char** argv) {
         if (argc == 2 && std::string_view(argv[1]) == "--help") {
             std::cout << "tp4 oscillator --method beeman|verlet|velocity-verlet|euler-pc --output FILE\n"
                          "  [--steps 1000 --duration 5 --mass 70 --stiffness 10000 --damping 100 --x0 1 --v0 -0.7142857142857143]\n"
-                         "tp4 billiard --output FILE [--n 300 --duration 2 --dt 0.0001 --save-every 5]\n"
-                         "  [--seed 1 --obstacles 0|1 --obstacle-x 0.0175 --initial FILE]\n"
+                         "tp4 billiard --output FILE [--n 300 --duration 2 --dt 0.0000125 --save-every 800]\n"
+                         "  [--seed 1 --obstacles 0|1 --obstacle-x 0.0175]\n"
+                         "  [--initialization random|dense --sweeps 500 | --initial FILE]\n"
                          "  [--radius 0.51 --particle-radius 0.0175 --mass 0.025 --stiffness 10000 --speed 1]\n"
-                         "  --steps puede reemplazar --dt; save-every debe dividir steps.\n";
+                         "  --steps puede reemplazar --dt; save-every debe dividir steps.\n"
+                         "  dense: red hexagonal + Monte Carlo, para N donde el rechazo no ubica las particulas.\n";
             return 0;
         }
         if (argc >= 2 && std::string_view(argv[1]) == "billiard") return tp4::billiard::cli(argc, argv);

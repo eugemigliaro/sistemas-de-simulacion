@@ -6,6 +6,5 @@
 *.out
 *.xdv
 *.toc
-# Intermedios regenerables: se versionan los MP4 y el PDF con nombre oficial.
+# Intermedios regenerables: se versionan los MP4. El PDF oficial está en ../entrega-final/.
 videos/*.gif
-SdS_TP4_2026Q2G07CS_Presentacion.pdf

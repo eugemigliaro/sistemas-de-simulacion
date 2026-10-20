@@ -14,6 +14,7 @@ from billiard_analysis import frames, Energy, maximum_relative_error
 from speed_analysis import histogram, mb_bins, fit_theta, stationary_suffix
 
 ROOT=Path(__file__).resolve().parents[1]
+SIMULATION_KEYS=["n","seeds","duration","dt","save_interval"]
 os.environ.setdefault("MPLBACKEND","Agg")
 os.environ.setdefault("MPLCONFIGDIR",str(ROOT/"python/.matplotlib"))
 os.environ.setdefault("XDG_CACHE_HOME",str(ROOT/"python/.cache"))
@@ -39,21 +40,30 @@ def save_csv(path,rows):
 
 
 def main():
+    # --reanalyze recalcula histogramas y ajuste desde las muestras guardadas (p. ej. con
+    # otros bins), sin recompilar ni simular: las corridas deben coincidir con la configuracion.
+    reanalyze="--reanalyze" in sys.argv[1:]
     c=json.loads((ROOT/"experiments/configs/speed.json").read_text())
     binary=ROOT/"cpp/build/release/tp4"
-    sources=[ROOT/"cpp/src/main.cpp",*sorted((ROOT/"cpp/include").rglob("*.hpp")),
-             Path(__file__),ROOT/"python/speed_analysis.py",ROOT/"python/billiard_analysis.py"]
-    contract=dict(config=c,binary_sha256=digest(binary),
-        source_sha256={str(p.relative_to(ROOT)):digest(p) for p in sources},
-        python=sys.version,numpy=np.__version__,matplotlib=matplotlib.__version__,platform=platform.platform())
-    fingerprint=hashlib.sha256(json.dumps(contract,sort_keys=True).encode()).hexdigest()
     results,raw,figures=[ROOT/("experiments/"+s) for s in ["results","raw/speed","figures"]]
     cases_dir=results/"speed-cases"
     for p in [results,raw,figures,cases_dir]: p.mkdir(parents=True,exist_ok=True)
     contract_path=results/"speed-contract.json"
-    if contract_path.exists() and json.loads(contract_path.read_text())["fingerprint"]!=fingerprint:
-        raise ValueError("Fuentes/configuracion cambiaron; no mezclar checkpoints")
-    save_json(contract_path,dict(fingerprint=fingerprint,**contract))
+    if reanalyze:
+        stored=json.loads(contract_path.read_text())
+        if any(stored["config"][k]!=c[k] for k in SIMULATION_KEYS):
+            raise ValueError("La configuracion de simulacion no coincide con las corridas guardadas")
+        fingerprint=stored["fingerprint"]
+    else:
+        sources=[ROOT/"cpp/src/main.cpp",*sorted((ROOT/"cpp/include").rglob("*.hpp")),
+                 Path(__file__),ROOT/"python/speed_analysis.py",ROOT/"python/billiard_analysis.py"]
+        contract=dict(config=c,binary_sha256=digest(binary),
+            source_sha256={str(p.relative_to(ROOT)):digest(p) for p in sources},
+            python=sys.version,numpy=np.__version__,matplotlib=matplotlib.__version__,platform=platform.platform())
+        fingerprint=hashlib.sha256(json.dumps(contract,sort_keys=True).encode()).hexdigest()
+        if contract_path.exists() and json.loads(contract_path.read_text())["fingerprint"]!=fingerprint:
+            raise ValueError("Fuentes/configuracion cambiaron; no mezclar checkpoints")
+        save_json(contract_path,dict(fingerprint=fingerprint,**contract))
     cases=[]; all_speeds=[]; all_energy=[]
     for seed in c["seeds"]:
         name=f"seed-{seed:02d}"
@@ -64,6 +74,8 @@ def main():
             if case["fingerprint"]!=fingerprint or digest(samples)!=case["samples_sha256"]:
                 raise ValueError("Checkpoint incompatible/corrupto")
             print(name+" recuperado",flush=True)
+        elif reanalyze:
+            raise ValueError(name+": falta la corrida; --reanalyze no simula")
         else:
             path=raw/(name+".csv")
             command=[str(binary),"billiard","--n",str(c["n"]),"--seed",str(seed),
@@ -99,7 +111,10 @@ def main():
     mass=cases[0]["metadata"]["mass"]
     reference=mass*cases[0]["metadata"]["speed"]**2/2
     width=c["bin_width"]
-    edges=np.arange(int(np.ceil(speeds.max()/width))+2)*width
+    # Con bin_offset=width/2, v0=1 m/s cae en el centro de un bin: el redondeo de las
+    # velocidades de particulas aun sin chocar no reparte la delta inicial entre dos bins.
+    first=c.get("bin_offset",0) or width
+    edges=np.round(np.r_[0,first+np.arange(int(np.ceil((speeds.max()-first)/width))+2)*width],12)
     centers=(edges[:-1]+edges[1:])/2
     windows=[]; window_hist=[]; window_theta=[]
     for start in np.arange(0,c["duration"],c["window_s"]):
@@ -159,6 +174,8 @@ def main():
         potential_per_particle_mean_J=float(np.mean([r["potential_per_particle_J"] for r in per_run])),
         relative_difference_from_initial=theta/reference-1,
         maximum_sampled_relative_energy_error=max(r["maximum_sampled_relative_energy_error"] for r in cases),
+        bin_offset_m_s=first if first<width else 0,
+        analysis="reanalisis de las muestras guardadas" if reanalyze else "simulacion y analisis",
         stationarity_policy=f"primer sufijo de ventanas de {c['window_s']:g} s, excluyendo la inicial, con al menos tres comparaciones: TV<=0.05 y cambio theta<=2%; diagnostico descriptivo",
         error_bars="desvio estandar entre diez realizaciones; no SEM ni incertidumbre del ajuste a la media")
     save_json(results/"speed-summary.json",summary)

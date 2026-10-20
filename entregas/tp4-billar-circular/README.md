@@ -1,6 +1,8 @@
 # TP4 — preparación de la resolución
 
-Presentación: [borrador PDF/PPTX, fuente editable y guion](presentacion/README.md). Incluye los resultados de todos los puntos, con enlaces públicos de las animaciones y revisión/ensayo del grupo pendientes.
+Presentación: [PDF/PPTX, fuente editable y guion](presentacion/README.md). Incluye los resultados de todos los puntos; faltan los enlaces públicos de las animaciones y el ensayo del grupo.
+
+Entrega: `make package` arma `entrega-final/SdS_TP4_2026Q2G07CS_Codigo.zip` (solo el motor: `cpp/Makefile`, `cpp/src/main.cpp` y `cpp/include/tp4/*.hpp`) y comprueba que pese menos de 100 KB y que compile y corra desde una carpeta vacía. El PDF oficial lo escribe `python/build_presentation.py` en esa misma carpeta; es la única copia [TP04, p. 1].
 
 Estado: **sistema 1 implementado y verificado** (puntos 1.1–1.2), **motor del billar circular implementado**, estudios de energía 2.1.a, rendimiento 2.1.b, posición 2.2, rapidez 2.3, densidad 2.4.a y mapa 2.4.b ejecutados y verificados. En N=650 los tiempos de conversión siguen censurados a 300 s y se informan como cotas. Este archivo es una guía de trabajo local; no es el informe ni la presentación de la entrega.
 
@@ -46,7 +48,7 @@ make energy-study
 
 El entorno Python se selecciona igual que para el oscilador. Para regenerar con el entorno usado en esta sesión: `make energy-study PYTHON=../tp3-billar-metegol/python/.venv/bin/python`.
 
-Opciones: `--n`, `--duration`, `--dt` (o `--steps`, excluyentes), `--save-every`, `--seed`, `--obstacles 0|1`, `--obstacle-x`, `--radius`, `--particle-radius`, `--mass`, `--stiffness`, `--speed` y `--output`. La duración debe ser múltiplo de dt y la cantidad de pasos múltiplo de la cadencia de salida. Por defecto no hay obstáculos; con obstáculos, la posición predeterminada es x0=r.
+Opciones: `--n`, `--duration`, `--dt` (o `--steps`, excluyentes), `--save-every`, `--seed`, `--obstacles 0|1`, `--obstacle-x`, `--initialization random|dense`, `--sweeps`, `--initial`, `--radius`, `--particle-radius`, `--mass`, `--stiffness`, `--speed` y `--output`. La duración debe ser múltiplo de dt y la cantidad de pasos múltiplo de la cadencia de salida. Sin `--dt` ni `--steps` el paso es el validado, h=0,0000125 s, y la cadencia predeterminada es un estado cada 800 pasos (0,01 s). Por defecto no hay obstáculos; con obstáculos, la posición predeterminada es x0=r. `--obstacle-x` sin `--obstacles 1` es un error.
 
 El motor usa Verlet original y una grilla de ancho 2r reconstruida en cada paso para buscar contactos. Calcula las fuerzas y el cambio irreversible de estado, sin calcular energía, Fu ni tiempos medios. La pared se implementa mediante su fuerza radial equivalente a la partícula imagen de la consigna [TP04, p. 2] [TP04, p. 3].
 
@@ -69,7 +71,7 @@ La demostración local usa N=60, x0=0,2 m, duración 1 s, dt=0,00005 s, semilla 
 
 La configuración está en `experiments/configs/energy.json`; se ensayan seis pasos con N=300 sin obstáculos. Python calcula energía cinética y potencial de todos los contactos desde estados guardados, contando cada par una sola vez. El criterio local es máximo muestreado de error relativo ≤0,1 %, con comprobación de la cadencia de salida, otra semilla y una corrida prolongada de 30 s. No es un umbral impuesto por la cátedra.
 
-**Paso seleccionado: dt=0,00005 s**. El máximo muestreado fue 0,06022 % en 30 s; el candidato dt=0,0001 s alcanzó 0,2414 % y se descartó. La selección corresponde a N=300 sin obstáculos: se revisará su validez para los siguientes estudios. Usar `--dt 0.00005` explícitamente; si se omiten dt y steps, el motor deriva el paso de los valores predeterminados `duration=2` y `steps=20000`, que corresponden al barrido exploratorio, no a esta selección.
+**Paso seleccionado: dt=0,00005 s**. El máximo muestreado fue 0,06022 % en 30 s; el candidato dt=0,0001 s alcanzó 0,2414 % y se descartó. La selección corresponde a N=300 sin obstáculos y 30 s; los estudios de 100 s o más usan 0,0000125 s, que es el paso predeterminado del motor desde 2026-10-20.
 
 - [Energía frente al tiempo](experiments/figures/billiard-energy-time.png).
 - [Error energético frente al paso](experiments/figures/billiard-energy-error.png).
@@ -81,13 +83,18 @@ El estudio conserva trayectorias comprimidas regenerables en `experiments/raw/en
 
 El generador aprobado parte de una red hexagonal con orientación y traslación aleatorias, elige sitios y realiza movimientos Monte Carlo sin solapamientos. No reduce N ni cambia radios. Conserva orden residual: no se considera una muestra uniforme del conjunto de configuraciones. Las decisiones y el alcance se detallan en [el diseño del estudio](diseno-rendimiento.md).
 
-Para generar un CSV válido para N=650 y utilizarlo en el motor:
+El motor lo usa directamente con `--initialization dense` (500 barridos por defecto, `--sweeps` para cambiarlos):
+
+```bash
+./cpp/build/release/tp4 billiard --n 650 --duration 30 --dt 0.00005 --save-every 1000 \
+  --obstacles 1 --initialization dense --seed 1 --output /tmp/tp4-650.csv
+```
+
+Con la misma semilla produce el mismo estado inicial que el harness de benchmark; se verificó byte a byte. El harness también puede guardarlo como CSV para `--initial`:
 
 ```bash
 python/.venv/bin/python python/benchmark_build.py
 ./cpp/build/release/benchmark generate 650 1 30 600000 500 /tmp/tp4-dense650.csv
-./cpp/build/release/tp4 billiard --n 650 --duration 30 --dt 0.00005 \
-  --save-every 1000 --obstacles 1 --initial /tmp/tp4-dense650.csv --output /tmp/tp4-650.csv
 ```
 
 El orden de argumentos del harness es `tp4|tp3|generate N seed tf steps sweeps output`. Los 500 barridos corresponden a la inicialización, no al tiempo físico. El modo `generate` guarda posiciones y velocidades; informa aceptación y desplazamiento respecto de la red. Los modos de benchmark excluyen inicialización y escritura de su cronómetro.
@@ -108,6 +115,18 @@ El ejecutor guarda cada caso terminado y verifica huella de fuentes/configuraci�
 Se conservan los estados inicial y final, con el paso del primer contacto por partícula, para reutilizar las salidas en 2.4.a. Si un tiempo no se alcanza en 30 s, queda como censurado: no se publica una media ordinaria del grupo descartando esas realizaciones. El resumen distingue cantidad de censuras, media condicional de los observados y cota inferior de la media completa. Las barras de los grupos completos son desvíos estándar muestrales entre diez realizaciones [COR03].
 
 Se completaron **110 corridas**: 50 TP4 y 60 TP3. En N=400, el tiempo medio fue 3,90 ± 0,05 s para TP4 y 8,49 ± 0,06 s para TP3 (desvíos entre diez realizaciones); en N=100 y 200 fue más rápido el motor por eventos. El caso N=650 del TP4 dio 7,145 ± 0,025 s. Ver [comparación de rendimiento](experiments/figures/runtime-comparison.png).
+
+**Protocolo v2, pendiente de ejecutar.** La consigna pide incluir los resultados del punto 1.1 del TP3, que llegó hasta N=675 (`../tp3-billar-metegol/experiments/results/runtime_saturacion.csv`), pero la v1 compara el TP3 solo hasta N=400. `experiments/configs/performance.json` agrega TP3 con N={450,500,550,600,650}, con la red triangular que usó el TP3 por encima de 430, y mide el motor final. Los checkpoints van a `experiments/results/performance-cases-v2/`, sin tocar los de la v1. Tiene que correr en la misma Apple M5 Pro del benchmark original; en otra computadora la comparación no es válida:
+
+```bash
+make release
+python/.venv/bin/python python/performance_study.py
+python/.venv/bin/python python/presentation_assets.py
+python/.venv/bin/python python/build_presentation.py
+make package
+```
+
+Estimación a partir de los tiempos del TP3: alrededor de una hora y cuarto, casi toda en el TP3 con N≥550. El texto de la diapositiva 16 se genera desde `performance-summary.csv`, así que se actualiza solo. Hasta entonces el resumen y la D16 muestran la v1.
 
 Para densidad, t90 se observó en las diez realizaciones de N=20: 21,1 ± 4,2 s. Hay censura en otros grupos y en t100; el horizonte de 30 s no permite estimar sus medias completas. Ver [figura con cotas inferiores](experiments/figures/conversion-vs-density.png) y [registro técnico con resultados y limitaciones](experiments/rendimiento-y-densidad.md).
 
@@ -153,7 +172,7 @@ La tecnología configurada es C++20 para simulación y Python 3 para visualizaci
 6. **Rapidez (2.3):** N=100 sin obstáculos, varias realizaciones, histogramas en tiempos representativos y ajuste de un único parámetro a Maxwell–Boltzmann 2D siguiendo T00 [TP04, p. 3] [TP04, p. 4].
 7. **Revisión del estudiante:** discutir resultados, preparar exposición, revisar cifras significativas y composición del ZIP, y completar declaración de uso de IA. La consigna reserva a los estudiantes la elaboración de presentación y reporte [TP04, p. 4].
 
-Para el oscilador, Beeman obtuvo el menor ECM en los siete pasos ensayados con las variantes y arranques acordados. El paso del billar se eligió con su estudio de energía y se refinó para los 100 s del punto 2.2. Se identificaron las posiciones con menor media muestral para ambos N. El punto 2.3 está implementado y ejecutado: diez realizaciones sin obstáculos, ventana compatible con estacionariedad [10,60) s y ajuste térmico de 0,0123986 J, frente a la referencia inicial 0,0125 J. Ver [registro de rapidez](experiments/rapidez.md), [evolución](experiments/figures/speed-evolution.png) y [ajuste](experiments/figures/speed-fit.png). El cierre de 2.4 preserva el benchmark de 30 s, agrega seguimiento hasta 300/600 s y N=50 exploratorio, y completa el mapa de cuatro N y once posiciones. Las medias de N=650 no son identificables a 300 s; se reportan censura y cotas, sin extrapolar. No se determinó un óptimo global de densidad.
+Para el oscilador, Beeman obtuvo el menor ECM en los siete pasos ensayados con las variantes y arranques acordados. El paso del billar se eligió con su estudio de energía y se refinó para los 100 s del punto 2.2. Se identificaron las posiciones con menor media muestral para ambos N. El punto 2.3 está implementado y ejecutado: diez realizaciones sin obstáculos, ventana compatible con estacionariedad [10,60) s y ajuste térmico de 0,012403 J, frente a la referencia inicial 0,0125 J (bins centrados en múltiplos de 0,1 m/s desde 2026-10-20). Ver [registro de rapidez](experiments/rapidez.md), [evolución](experiments/figures/speed-evolution.png) y [ajuste](experiments/figures/speed-fit.png). El cierre de 2.4 preserva el benchmark de 30 s, agrega seguimiento hasta 300/600 s y N=50 exploratorio, y completa el mapa de cuatro N y once posiciones. Las medias de N=650 no son identificables a 300 s; se reportan censura y cotas, sin extrapolar. No se determinó un óptimo global de densidad.
 
 Para reproducir 2.3, ejecutar `python/.venv/bin/python python/speed_study.py` después de `make release`, con NumPy y Matplotlib. Configuración: `experiments/configs/speed.json`. El ejecutor recupera checkpoints y rechaza fuentes/configuraciones incompatibles. Se conserva además el ensayo exploratorio de 30 s que motivó ampliar el estudio; ver [diseño](diseno-rapidez.md).
 
@@ -198,7 +217,7 @@ Aplicar desde el principio: teoría general separada del sistema; situación y v
 
 ## Uso de IA durante esta preparación
 
-Fecha: 2026-10-15. Agente: Codex, basado en GPT-6 según la identificación disponible en la sesión. Intervención: clasificación de fuentes, extracción local, síntesis con citas, identificación de conflictos y preparación del orden de resolución. No se generaron resultados experimentales ni presentación o informe entregable. Ampliar este registro con las intervenciones posteriores; la declaración final deberá reflejar el uso real [TP04, p. 4].
+Fecha: 2026-10-15. Agente: Codex con GPT-6.1 Sol. Intervención: clasificación de fuentes, extracción local, síntesis con citas, identificación de conflictos y preparación del orden de resolución. No se generaron resultados experimentales ni presentación o informe entregable. Ampliar este registro con las intervenciones posteriores; la declaración final deberá reflejar el uso real [TP04, p. 4].
 
 Actualización de la misma sesión: con diseño aprobado, el agente implementó el motor del oscilador y su post-proceso, escribió y ejecutó pruebas, ejecutó 28 corridas y generó datos y una figura de análisis. El estudiante eligió el despeje algebraico para el amortiguamiento. No se elaboró presentación ni informe entregable; los resultados deberán ser revisados y explicados por los estudiantes.
 
@@ -212,4 +231,6 @@ Continuación del punto 2.3: el agente implementó y probó histogramas de rapid
 
 Cierre de 2.4.a–b: el agente implementó y probó análisis de censura, cotas, tiempos restringidos y mínimos sobre grillas; ejecutó 154 corridas nuevas, incluyendo seguimiento selectivo y N=50 exploratorio; generó el mapa, curvas y datos con auditoría independiente. Se actualizaron los resultados locales y sus límites. No se elaboró la presentación entregable.
 
-2026-10-16, preparación de la presentación por pedido explícito del estudiante: Codex (GPT-6, identificación disponible de la sesión) analizó la guía, las correcciones TP2/TP3 y el formato anterior; produjo un borrador Beamer/PDF y un PPTX con animaciones, figuras derivadas de los resultados, notas y guion de 13 minutos. Esta intervención también debe declararse. No se afirma revisión o autoría final de los estudiantes: falta su participación en la elaboración y validación final conforme a [TP04, p. 4]. No se publicaron animaciones; cinco URL quedan pendientes.
+2026-10-16, preparación de la presentación por pedido explícito del estudiante: Codex (GPT-6.1 Sol) analizó la guía, las correcciones TP2/TP3 y el formato anterior; produjo un borrador Beamer/PDF y un PPTX con animaciones, figuras derivadas de los resultados, notas y guion de 13 minutos. Esta intervención también debe declararse. No se afirma revisión o autoría final de los estudiantes: falta su participación en la elaboración y validación final conforme a [TP04, p. 4]. No se publicaron animaciones; cinco URL quedan pendientes.
+
+2026-10-19 y 2026-10-20, Claude Code con Claude Opus 5.5, por pedido de los estudiantes: aclaraciones de diapositivas según la revisión del grupo; revisión del código y de la presentación; buffers reutilizables en `forces()` (salida idéntica byte a byte), generador denso y paso validado en el CLI, ZIP de entrega, protocolo v2 de rendimiento con el TP3 hasta N=650 (pendiente de ejecutar en la computadora del benchmark), bins de rapidez centrados en v0, curva del error del ajuste y correcciones de diapositivas y guion indicadas por el grupo.

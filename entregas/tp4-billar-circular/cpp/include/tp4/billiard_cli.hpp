@@ -1,5 +1,5 @@
 #pragma once
-#include "tp4/billiard.hpp"
+#include "tp4/dense.hpp"
 #include <charconv>
 #include <fstream>
 #include <iomanip>
@@ -43,7 +43,8 @@ inline std::vector<Particle> read_initial(const std::string& filename) {
 }
 inline int cli(int argc, char** argv) {
     Config c;
-    std::string output, initial;
+    std::string output, initial, initialization = "random";
+    std::size_t sweeps = 500;
     double requested_dt = 0;
     std::map<std::string, bool> seen;
     std::map<std::string, double*> numbers{{"--duration", &c.duration}, {"--radius", &c.radius},
@@ -60,15 +61,20 @@ inline int cli(int argc, char** argv) {
         else if (key == "--steps") c.steps = integer(value);
         else if (key == "--save-every") c.save_every = integer(value);
         else if (key == "--seed") c.seed = integer(value);
-        else if (key == "--obstacles") {
+        else if (key == "--sweeps") sweeps = integer(value);
+        else if (key == "--initialization") {
+            if (value != "random" && value != "dense") throw std::invalid_argument("--initialization debe ser random o dense");
+            initialization = value;
+        } else if (key == "--obstacles") {
             if (value != "0" && value != "1") throw std::invalid_argument("--obstacles debe ser 0 o 1");
             c.obstacles = value == "1";
         } else if (numbers.contains(key)) *numbers.at(key) = real(value);
         else throw std::invalid_argument("opcion desconocida: " + key);
     }
-    if (seen["--dt"]) {
-        if (seen["--steps"] || requested_dt <= 0) throw std::invalid_argument("usar --dt positivo o --steps");
-        const double count = c.duration / requested_dt;
+    if (seen["--dt"] && (seen["--steps"] || requested_dt <= 0)) throw std::invalid_argument("usar --dt positivo o --steps");
+    if (!seen["--steps"]) {
+        // Sin --dt ni --steps se usa el paso validado, no duration/steps por defecto.
+        const double count = c.duration / (seen["--dt"] ? requested_dt : Config{}.dt());
         if (!std::isfinite(count) || count < 1 || count >= static_cast<double>(std::numeric_limits<long long>::max()) ||
             std::abs(count - std::round(count)) > 1e-9 * std::max(1.0, std::abs(count)))
             throw std::invalid_argument("duracion debe ser un multiplo entero de dt");
@@ -76,7 +82,19 @@ inline int cli(int argc, char** argv) {
     }
     c.validate();
     if (output.empty()) throw std::invalid_argument("falta --output");
-    auto particles = initial.empty() ? generate(c) : read_initial(initial);
+    if (seen["--obstacle-x"] && !c.obstacles) throw std::invalid_argument("--obstacle-x requiere --obstacles 1");
+    if (initialization == "dense" && !initial.empty()) throw std::invalid_argument("--initial excluye --initialization dense");
+    if (seen["--sweeps"] && initialization != "dense") throw std::invalid_argument("--sweeps requiere --initialization dense");
+    std::string description = "area-uniform sequential rejection";
+    std::vector<Particle> particles;
+    if (!initial.empty()) {
+        particles = read_initial(initial);
+        description = "input CSV";
+    } else if (initialization == "dense") {
+        // Para densidades donde el rechazo secuencial no ubica N (p. ej. N=650).
+        particles = generate_dense(c, sweeps).particles;
+        description = "hexagonal lattice + " + std::to_string(sweeps) + " Monte Carlo sweeps";
+    } else particles = generate(c);
     validate_initial(particles, c);
     std::ofstream out(output);
     out.exceptions(std::ios::badbit | std::ios::failbit);
@@ -100,7 +118,7 @@ inline int cli(int argc, char** argv) {
         << ",\n  \"speed\": " << c.speed << ",\n  \"obstacles\": " << (c.obstacles ? "true" : "false")
         << ",\n  \"obstacle_x\": " << c.obstacle_x << ",\n  \"seed\": " << c.seed
         << ",\n  \"generator\": \"mt19937_64: high 53 bits / 2^53\",\n"
-           "  \"initialization\": \"" << (initial.empty() ? "area-uniform sequential rejection" : "input CSV")
+           "  \"initialization\": \"" << description
         << "\",\n  \"method\": \"original Verlet; centered velocities\",\n"
            "  \"used_encoding\": \"0=blue/fresh; 1=red/used\"\n}\n";
     metadata.close();

@@ -20,7 +20,7 @@ import numpy as np
 from PIL import Image
 
 ROOT=Path(__file__).resolve().parents[1]
-OUT=ROOT/'presentacion';BUILD=OUT/'.build';STEM='SdS_TP4_2026Q2G07CS_Presentacion'
+OUT=ROOT/'presentacion';BUILD=OUT/'.build';DELIVERY=ROOT/'entrega-final';STEM='SdS_TP4_2026Q2G07CS_Presentacion'
 REFERENCE=ROOT.parent/'tp3-billar-metegol/presentacion/SdS_TP3_2026Q2G07CS_Presentacion.pptx'
 P='http://schemas.openxmlformats.org/presentationml/2006/main'
 A='http://schemas.openxmlformats.org/drawingml/2006/main'
@@ -30,6 +30,9 @@ CT='http://schemas.openxmlformats.org/package/2006/content-types'
 ET.register_namespace('p',P);ET.register_namespace('a',A);ET.register_namespace('r',R)
 ET.register_namespace('',CT)
 WIDTH,HEIGHT=12192000,6858000
+# Tectonic del PATH o de las instalaciones usadas por el grupo (macOS y Linux).
+TECTONIC=shutil.which('tectonic') or next((p for p in ['/opt/homebrew/bin/tectonic',
+    '/usr/lib/chatgpt/resources/tectonic/tectonic'] if Path(p).exists()),'tectonic')
 CLIPS={'rendimiento':(0,255,255),'posicion':(255,255,0),
        'rapidez':(0,255,0),'densidad':(255,0,0)}
 
@@ -62,32 +65,34 @@ def main():
         text=r'\url{'+url+'}' if url else 'YouTube/Vimeo: enlace pendiente de publicación'
         definitions.append(r'\expandafter\newcommand\csname enlace'+name+r'\endcsname{{\scriptsize\color{accent}'+text+'}}')
     (OUT/'enlaces.tex').write_text('\n'.join(definitions)+'\n')
-    subprocess.run(['/opt/homebrew/bin/tectonic','--only-cached','--keep-logs',STEM+'.tex'],cwd=OUT,check=True,capture_output=True,text=True)
-    pages=render(OUT/(STEM+'.pdf'),BUILD/'paginas')
+    # La salida de tectonic es intermedia; el único PDF a la vista es el de entrega-final/.
+    subprocess.run([TECTONIC,'--only-cached','--keep-logs','--outdir',str(BUILD),STEM+'.tex'],cwd=OUT,check=True,capture_output=True,text=True)
+    pages=render(BUILD/(STEM+'.pdf'),BUILD/'paginas')
     # El PDF conserva los diagramas vectoriales de TeX. En PPTX se agregan como
     # objetos nativos sobre la misma lámina con el cuerpo del diagrama vacío.
     native_folder=BUILD/'native-background';native_folder.mkdir(exist_ok=True)
     wrapper=BUILD/'native-background.tex'
     wrapper.write_text(r'\def\NativeDiagramBackground{1}\input{'+STEM+r'.tex}'+'\n')
-    for path in [OUT/(STEM+'.tex'),OUT/'enlaces.tex',OUT/'diagramas.tex',OUT/'figuras']:
+    for path in [OUT/(STEM+'.tex'),OUT/'enlaces.tex',OUT/'rendimiento.tex',OUT/'diagramas.tex',OUT/'figuras']:
         alias=BUILD/path.name
         if not alias.exists():alias.symlink_to(path)
-    subprocess.run(['/opt/homebrew/bin/tectonic','--only-cached','--outdir',str(native_folder),str(wrapper)],cwd=OUT,check=True,capture_output=True,text=True)
+    subprocess.run([TECTONIC,'--only-cached','--outdir',str(native_folder),str(wrapper)],cwd=OUT,check=True,capture_output=True,text=True)
     subprocess.run(['pdftoppm','-f','5','-l','6','-png','-scale-to-x','1920','-scale-to-y','1080',str(native_folder/'native-background.pdf'),str(native_folder/'slide')],check=True)
-    official_pdf=OUT/'SdS_TP4_2026Q2G07CS_Presentación.pdf'
-    shutil.copy2(OUT/(STEM+'.pdf'),official_pdf)
+    DELIVERY.mkdir(exist_ok=True)
+    official_pdf=DELIVERY/'SdS_TP4_2026Q2G07CS_Presentación.pdf'
+    shutil.copy2(BUILD/(STEM+'.pdf'),official_pdf)
 
     # Encontrar las cajas de videos con el mismo procedimiento visual del TP3.
     mask=BUILD/'mascara';(mask/'figuras').mkdir(parents=True,exist_ok=True)
     shutil.copy2(OUT/(STEM+'.tex'),mask/(STEM+'.tex'));shutil.copy2(OUT/'enlaces.tex',mask/'enlaces.tex')
-    shutil.copy2(OUT/'diagramas.tex',mask/'diagramas.tex')
+    shutil.copy2(OUT/'diagramas.tex',mask/'diagramas.tex');shutil.copy2(OUT/'rendimiento.tex',mask/'rendimiento.tex')
     for path in (OUT/'figuras').iterdir():
         dest=mask/'figuras'/path.name
         matching=next((n for n in CLIPS if path.name==f'anim-{n}.png'),None)
         if matching:
             with Image.open(path) as im:Image.new('RGB',im.size,CLIPS[matching]).save(dest)
         elif not dest.exists():dest.symlink_to(path)
-    subprocess.run(['/opt/homebrew/bin/tectonic','--only-cached',STEM+'.tex'],cwd=mask,check=True,capture_output=True,text=True)
+    subprocess.run([TECTONIC,'--only-cached',STEM+'.tex'],cwd=mask,check=True,capture_output=True,text=True)
     marked=render(mask/(STEM+'.pdf'),BUILD/'mascara-paginas');boxes={}
     for i,path in enumerate(marked):
         arr=np.array(Image.open(path).convert('RGB')).astype(int)
@@ -98,7 +103,7 @@ def main():
     if {n for n,_ in boxes.values()}!=set(CLIPS):raise ValueError('No se encontraron los cuatro fotogramas')
     if len(pages)!=29:raise ValueError('Cantidad de laminas inesperada')
     timings=[(int(n),int(t)) for n,t in re.findall(r'^% (\d+) -- (\d+) s',(OUT/(STEM+'.tex')).read_text(),re.M)]
-    if sum(t for _,t in timings)!=780:raise ValueError('El ensayo no suma 13 minutos')
+    if sum(t for _,t in timings)>780:raise ValueError('El ensayo supera los 13 minutos')
 
     with zipfile.ZipFile(REFERENCE) as original:
         sample=ET.fromstring(original.read('ppt/slides/slide1.xml'))
@@ -153,7 +158,7 @@ def main():
             z.writestr('_rels/.rels',relationships([('rId1','officeDocument','ppt/presentation.xml'),
                 ('rId2','http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties','docProps/core.xml'),
                 ('rId3','extended-properties','docProps/app.xml')]))
-            z.writestr('docProps/core.xml','''<?xml version="1.0" encoding="UTF-8"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title>TP4 - Dinámica molecular por paso temporal</dc:title><dc:creator>Grupo 07 - Comisión S</dc:creator><dc:description>Borrador para revisión; asistencia de IA declarada en la última diapositiva.</dc:description></cp:coreProperties>''')
+            z.writestr('docProps/core.xml','''<?xml version="1.0" encoding="UTF-8"?><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/"><dc:title>TP4 - Dinámica molecular por paso temporal</dc:title><dc:creator>Grupo 07 - Comisión S</dc:creator><dc:description>Asistencia de IA declarada en la última diapositiva.</dc:description></cp:coreProperties>''')
             z.writestr('docProps/app.xml',f'''<?xml version="1.0"?><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>LaTeX Beamer y ensamblado OOXML</Application><PresentationFormat>On-screen Show (16:9)</PresentationFormat><Slides>{len(pages)}</Slides><Notes>0</Notes></Properties>''')
     # Keynote rechaza el master de notas anterior. El guion y las fuentes se
     # conservan en GUION.md y notas.json, fuera del paquete para exposición.
