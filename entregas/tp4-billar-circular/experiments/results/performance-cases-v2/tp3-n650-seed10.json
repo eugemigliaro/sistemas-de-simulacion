@@ -1,0 +1,20 @@
+{
+  "fingerprint": "b30d60a63a2717f6f5915ef12ade142ae8e0ae952fd4d72ddd1c6c3261c8abd3",
+  "engine": "tp3",
+  "n": 650,
+  "seed": 10,
+  "command": [
+    "cpp/build/release/benchmark",
+    "tp3",
+    "650",
+    "10",
+    "30.0",
+    "600000",
+    "500",
+    "experiments/raw/performance-v2/tp3-n650-seed10.csv"
+  ],
+  "runtime_seconds": 261.102403334,
+  "final_time": 30,
+  "events": 6715411,
+  "initialization": "original TP3 triangular"
+}

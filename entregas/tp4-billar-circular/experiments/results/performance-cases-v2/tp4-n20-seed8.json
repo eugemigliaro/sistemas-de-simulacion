@@ -1,0 +1,44 @@
+{
+  "fingerprint": "b30d60a63a2717f6f5915ef12ade142ae8e0ae952fd4d72ddd1c6c3261c8abd3",
+  "engine": "tp4",
+  "n": 20,
+  "seed": 8,
+  "command": [
+    "cpp/build/release/benchmark",
+    "tp4",
+    "20",
+    "8",
+    "30.0",
+    "600000",
+    "500",
+    "experiments/raw/performance-v2/tp4-n20-seed8.csv"
+  ],
+  "runtime_seconds": 0.120599334,
+  "final_time": 30,
+  "acceptance": 0,
+  "initial_msd": 0,
+  "sweeps": 0,
+  "available_sites": 0,
+  "conversion": {
+    "t90_s": 24.8964,
+    "t100_s": 27.33755,
+    "fu_final": 1.0
+  },
+  "final_energy_relative_error": 0.0002841832072750794,
+  "trajectory": "experiments/raw/performance-v2/tp4-n20-seed8.csv",
+  "trajectory_sha256": "5bd5b91c7703b2e34090c0fa0b7ac8196746a5f0c9107ce390567f8b9e556635",
+  "metadata": {
+    "n": 20,
+    "duration": 30.0,
+    "steps": 600000,
+    "save_every": 600000,
+    "dt": 5e-05,
+    "radius": 0.51,
+    "particle_radius": 0.0175,
+    "mass": 0.025,
+    "stiffness": 10000,
+    "obstacles": true,
+    "obstacle_x": 0.0175
+  },
+  "initialization": "sequential area-uniform rejection"
+}
