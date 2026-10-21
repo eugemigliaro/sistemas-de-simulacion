@@ -108,15 +108,15 @@ python/.venv/bin/python python/performance_plot.py
 
 Si el sandbox no deja identificar la CPU, proporcionar el modelo previamente verificado. Esta sesión usó `TP4_CPU_DESCRIPTION='Apple M5 Pro'` y el intérprete `../tp3-billar-metegol/python/.venv/bin/python`. No reutilizar esa descripción en otra computadora sin comprobarla.
 
-La configuración está en `experiments/configs/performance.json`: TP4 con N={20,100,200,400,650}, TP3 con su rango histórico N={10,25,50,100,200,400}, diez semillas por N, tf=30 s. Los motores se enlazan en un harness C++20 con las mismas opciones release y se ejecutan secuencialmente en la misma computadora. La medición incluye la llamada al simulador y excluye generación y escritura para ambos; por eso se recalcula el TP3 y no se mezclan sus tiempos históricos de otro protocolo. No se modifican el código ni los resultados del TP3.
+La configuración está en `experiments/configs/performance.json`: TP4 con N={20,100,200,400,650}, TP3 con N={10,25,50,100,200,400,450,500,550,600,650}, diez semillas por N, tf=30 s. Los motores se enlazan en un harness C++20 con las mismas opciones release y se ejecutan secuencialmente en la misma computadora. La medición incluye la llamada al simulador y excluye generación y escritura para ambos; por eso se recalcula el TP3 y no se mezclan sus tiempos históricos de otro protocolo. No se modifican el código ni los resultados del TP3.
 
 El ejecutor guarda cada caso terminado y verifica huella de fuentes/configuración/hardware y hashes antes de reutilizarlo. Repetir el comando tras una interrupción continúa con los casos faltantes; un cambio de protocolo provoca un error en lugar de mezclar mediciones.
 
 Se conservan los estados inicial y final, con el paso del primer contacto por partícula, para reutilizar las salidas en 2.4.a. Si un tiempo no se alcanza en 30 s, queda como censurado: no se publica una media ordinaria del grupo descartando esas realizaciones. El resumen distingue cantidad de censuras, media condicional de los observados y cota inferior de la media completa. Las barras de los grupos completos son desvíos estándar muestrales entre diez realizaciones [COR03].
 
-Se completaron **110 corridas**: 50 TP4 y 60 TP3. En N=400, el tiempo medio fue 3,90 ± 0,05 s para TP4 y 8,49 ± 0,06 s para TP3 (desvíos entre diez realizaciones); en N=100 y 200 fue más rápido el motor por eventos. El caso N=650 del TP4 dio 7,145 ± 0,025 s. Ver [comparación de rendimiento](experiments/figures/runtime-comparison.png).
+Se completaron **160 corridas** (protocolo v2): 50 TP4 y 110 TP3. En N=400, el tiempo medio fue 4,13 ± 0,12 s para TP4 y 9,71 ± 0,95 s para TP3 (desvíos entre diez realizaciones); en N=100 y 200 fue más rápido el motor por eventos. En N=650, 7,84 ± 0,35 s para TP4 y 272,8 ± 8,2 s para TP3: ×35. Ver [comparación de rendimiento](experiments/figures/runtime-comparison.png).
 
-**Protocolo v2, pendiente de ejecutar.** La consigna pide incluir los resultados del punto 1.1 del TP3, que llegó hasta N=675 (`../tp3-billar-metegol/experiments/results/runtime_saturacion.csv`), pero la v1 compara el TP3 solo hasta N=400. `experiments/configs/performance.json` agrega TP3 con N={450,500,550,600,650}, con la red triangular que usó el TP3 por encima de 430, y mide el motor final. Los checkpoints van a `experiments/results/performance-cases-v2/`, sin tocar los de la v1. Tiene que correr en la misma Apple M5 Pro del benchmark original; en otra computadora la comparación no es válida:
+**Protocolo v2.** La consigna pide incluir los resultados del punto 1.1 del TP3, que llegó hasta N=675 (`../tp3-billar-metegol/experiments/results/runtime_saturacion.csv`); la v1 (110 corridas, en `experiments/results/performance-cases/`) comparaba el TP3 solo hasta N=400. La v2 agregó el TP3 con N={450,500,550,600,650}, con la red triangular que usó el TP3 por encima de 430, y midió el motor final. Se ejecutó el 2026-10-21 en la misma Apple M5 Pro; los checkpoints están en `experiments/results/performance-cases-v2/`. Las 50 trayectorias del TP4 coinciden byte a byte con las de la v1, así que 2.4.a no cambia. En los N comunes, los tiempos de la v2 son entre 1 % y 14 % mayores que los de la v1 (TP4 con N=20, 16 % menor) y algunos desvíos son mayores; no cambia el cruce ni los factores de escala. Para repetirla, en esa misma computadora:
 
 ```bash
 make release
@@ -126,7 +126,7 @@ python/.venv/bin/python python/build_presentation.py
 make package
 ```
 
-Estimación a partir de los tiempos del TP3: alrededor de una hora y cuarto, casi toda en el TP3 con N≥550. El texto de la diapositiva 16 se genera desde `performance-summary.csv`, así que se actualiza solo. Hasta entonces el resumen y la D16 muestran la v1.
+Tarda alrededor de una hora y cuarto, casi toda en el TP3 con N≥550. El texto de la diapositiva 16 se genera desde `performance-summary.csv`.
 
 Para densidad, t90 se observó en las diez realizaciones de N=20: 21,1 ± 4,2 s. Hay censura en otros grupos y en t100; el horizonte de 30 s no permite estimar sus medias completas. Ver [figura con cotas inferiores](experiments/figures/conversion-vs-density.png) y [registro técnico con resultados y limitaciones](experiments/rendimiento-y-densidad.md).
 

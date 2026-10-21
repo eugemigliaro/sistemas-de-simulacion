@@ -20,6 +20,8 @@ Se verificaron N exacto, paredes/obstáculos/pares sin superposiciones, velocida
 
 ## Rendimiento
 
+**Actualización 2026-10-21 (protocolo v2).** Se repitió la medición en la misma Apple M5 Pro con el motor final y el TP3 extendido a N={450,500,550,600,650}: 160 corridas. Resultados en `results/performance-summary.csv` y checkpoints en `results/performance-cases-v2/`. Las trayectorias del TP4 coinciden byte a byte con las de esta v1, así que la sección de densidad sigue valiendo. Valores v2: N=400, 4,13 ± 0,12 s (TP4) y 9,71 ± 0,95 s (TP3); N=650, 7,84 ± 0,35 s (TP4) y 272,8 ± 8,2 s (TP3), ×35. La tabla siguiente es la v1.
+
 Media ± desvío estándar muestral (ddof=1), calculados entre diez realizaciones por N, en segundos:
 
 | N | TP4: paso temporal | TP3: eventos |

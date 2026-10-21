@@ -14,9 +14,8 @@ El PPTX sigue el mecanismo del TP3: cada lámina es una imagen y los videos son 
 
 1. Revisar entre todos los integrantes contenido, nombres, comisión y declaración de IA [TP04, p. 4].
 2. Publicar las cuatro animaciones en YouTube/Vimeo e incorporar sus URL reales en `enlaces.json` (claves `rendimiento`, `posicion`, `rapidez` y `densidad`). Regenerar para que aparezcan explícitamente debajo de los fotogramas [GPRES, pp. 2–3].
-3. Correr el protocolo v2 de rendimiento en la Apple M5 Pro del benchmark original (ver el README del TP4) para agregar el TP3 hasta N=650 a la diapositiva 16.
-4. Ensayar, acordar quién presenta cada parte y comprobar los videos en el software y equipo de exposición.
-5. Después de la última regeneración, `make package` desde `entregas/tp4-billar-circular` agrega el ZIP del motor a `entrega-final/`, junto al PDF. Entregar esos dos archivos, sin animaciones sueltas [GPRES, p. 3] [TP04, p. 1]. El PPTX es el soporte de exposición.
+3. Ensayar, acordar quién presenta cada parte y comprobar los videos en el software y equipo de exposición.
+4. Después de la última regeneración, `make package` desde `entregas/tp4-billar-circular` agrega el ZIP del motor a `entrega-final/`, junto al PDF. Entregar esos dos archivos, sin animaciones sueltas [GPRES, p. 3] [TP04, p. 1]. El PPTX es el soporte de exposición.
 
 ## Regenerar
 
@@ -39,7 +38,7 @@ Las animaciones ya están generadas. `python/presentation_media.py` permite rege
 - D8: rótulos de r y de la velocidad dentro del círculo.
 - D10: tabla con N, x0, paso, corridas y tiempo simulado de cada estudio, como pide GPRES p. 2; se quitó la referencia interna a otra diapositiva.
 - D12: una sola figura de ECM frente al paso, con la leyenda fuera de los datos y una franja inferior con el ECM relativo a Verlet original; más grande y legible.
-- D16: texto de escalado generado desde los datos; protocolo v2 preparado para agregar el TP3 hasta N=650.
+- D16: texto de escalado generado desde los datos; el protocolo v2, ejecutado el 21/10 en la Apple M5 Pro, agrega el TP3 hasta N=650.
 - D21: bins centrados en múltiplos de 0,1 m/s; la delta inicial ya no se reparte entre dos bins.
 - D22: ajuste y error del ajuste S(k_BT) lado a lado, como en el TP3; comparación con m⟨v²⟩/2 y mv0²/2.
 - D24 y D25: explicación de la extensión a 300 s y del triángulo de N=650 sin jerga.

@@ -232,11 +232,9 @@ $\varepsilon_E\leq0{,}0267\,\%$
 % 16 -- 40 s
 \begin{frame}{Tiempo de ejecución frente a cantidad de partículas}
 \figura{rendimiento.pdf}{
-$t_f=30$ s, $x_0=r$\\$h=5\times10^{-5}$ s\\$10$ corridas por $N$\\Media $\pm$ desvío
+$t_f=30$ s, $x_0=r$\\$h=5\times10^{-5}$ s\\Media $\pm$ desvío de $10$ corridas por $N$
 \medskip
-\rendimientoCPU\\C++20, \texttt{-O3}\\Ambos motores en la misma máquina.
-\medskip
-Se excluyen generación y escritura.
+Ambos motores en la misma \rendimientoCPU, C++20, \texttt{-O3}; sin generación ni escritura.
 \medskip
 \rendimientoTexto
 }
@@ -353,7 +351,7 @@ Recuadro rojo: mínimo muestral; no óptimo continuo.
 \begin{itemize}\setlength\itemsep{.22cm}
 \item Beeman da el menor ECM, $\approx13\,\%$ menos que Verlet con el mismo orden. Verlet original y Velocity Verlet coinciden; Euler predictor-corrector es de primer orden.
 \item $h=5\times10^{-5}$ s conserva la energía dentro del $0{,}1\,\%$ en $30$ s; para $100$--$600$ s se usó $h=1{,}25\times10^{-5}$ s.
-\item Al duplicar $N$, paso temporal tarda $\approx\times2{,}5$ y eventos $\times10$--$17$: eventos es más rápido hasta $N=200$ y paso temporal desde $N=400$.
+\item Al duplicar $N$, paso temporal tarda $\approx\times2{,}5$ y eventos $\times10$--$19$: eventos es más rápido hasta $N=200$ y paso temporal desde $N=400$; con $N=650$, eventos tarda $\times35$.
 \item Existe una posición de menor $\langle t_{90}\rangle$ y depende de la frecuencia de choques: $0{,}16$ m con $N=100$ y $0{,}40$ m con $N=20$.
 \item La rapidez relaja a Maxwell--Boltzmann con $k_BT=1{,}240\times10^{-2}$ J, próximo a $m\langle v^2\rangle/2$; el resto de $mv_0^2/2$ es energía de contacto.
 \item La densidad óptima es baja: $\langle t_{90}\rangle$ es mínimo entre $N=20$ y $100$ y crece desde $N=200$; con $N=650$ la conversión casi se detiene.
