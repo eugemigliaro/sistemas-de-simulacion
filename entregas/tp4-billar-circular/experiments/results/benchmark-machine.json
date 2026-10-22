@@ -1,0 +1,6 @@
+{
+  "cpu": "11th Gen Intel(R) Core(TM) i7-1165G7 @ 2.80GHz",
+  "system": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+  "dt_s": 2e-05,
+  "tf_s": 30.0
+}

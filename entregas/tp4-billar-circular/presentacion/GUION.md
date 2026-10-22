@@ -1,179 +1,131 @@
-# Guion orientativo para ensayo
+# Guion oral del TP4
 
-Total previsto: **12:15**, con 45 s de margen sobre los 13 minutos; son objetivos de ensayo, no una duración medida.
+Duración objetivo: **12:30**, con 0:30 de margen sobre los 13 minutos de la consigna [TP04, p. 1]. Las tres animaciones corren embebidas en el PPTX mientras se habla. El reparto está balanceado. Igual, cada integrante tiene que poder presentar cualquier parte y responder sobre todo el trabajo, y nadie agrega nada a lo que acaba de decir otro [GPRES, p. 3].
 
-Reparto orientativo: A, láminas 1–12 (4:22); B, 13–21 (4:00); C, 22–29 (3:53). Acordar el reparto y ensayar entre los integrantes [GPRES, p. 3].
+| Parte | Integrante | Diapositivas | Tiempo |
+|---|---|---|---|
+| Modelo, implementación y simulaciones | Eugenio | 1 a 10 | 4:19 |
+| Observables, sistema 1, paso temporal, rendimiento y densidad | Francisco | 11 a 19 | 4:18 |
+| Posición, rapidez y conclusiones | Franco | 20 a 29 | 3:53 |
 
-## Lámina 1 · 10 s · 0:00–0:10
+## Eugenio — diapositivas 1 a 10 — 4:19
 
-Presentar el objetivo: comparar integradores, validar el paso temporal y estudiar cómo la geometría y la densidad afectan la conversión del billar.
+### 1. Portada — 0:20
 
-Fuentes: TP04, pp. 1–4
+Buenas tardes. Somos Eugenio Migliaro, Francisco Costa y Franco Branda, del grupo 07. En este trabajo integramos las ecuaciones de movimiento con un paso temporal fijo: primero en un oscilador amortiguado, para comparar esquemas de integración contra la solución exacta, y después en un billar circular donde las partículas chocan a través de resortes.
 
-## Lámina 2 · 3 s · 0:10–0:13
+### 2. Introducción — 0:03
 
-Transición breve a los fundamentos generales. No introducir todavía el radio del billar, su N ni sus obstáculos.
+Empecemos por el modelo.
 
-Fuentes: GPRES, p. 2; COR03, D3.
+### 3. Partículas con contactos elásticos — 0:45
 
-## Lámina 3 · 35 s · 0:13–0:48
+El sistema real son discos rígidos que, al chocar, se deforman un poco, como los granos de un medio granular. A diferencia del TP3, el choque no es instantáneo: mientras dos discos se superponen, aparece una fuerza de resorte. La fuerza sobre cada partícula es la suma, sobre los cuerpos en contacto, de menos k por la superposición xi por el versor hacia el otro cuerpo. Xi es la suma de los radios menos la distancia entre centros; si es negativa, no hay contacto. El otro cuerpo puede ser una partícula o un obstáculo fijo. Sin fricción ni disipación, la energía total se conserva: la cinética más un medio de k xi cuadrado por cada contacto. Esa conservación la usamos para elegir el paso.
 
-En cuerpos idealizados con contacto elástico, el modelo representa la deformación mediante una superposición. Newton relaciona fuerza y aceleración. La fuerza normal es repulsiva y se anula fuera del contacto; e_ij apunta de i a j, por eso el signo negativo. No hay rozamiento ni disipación. A diferencia de discos rígidos ideales, el contacto dura un intervalo finito.
+### 4. Implementación — 0:03
 
-Fuentes: T04, p. 42; TP04, p. 2.
+Veamos cómo lo implementamos.
 
-## Lámina 4 · 3 s · 0:48–0:51
+### 5. Integración con paso temporal fijo — 0:40
 
-Transición a cómo se integra el modelo. Esta sección describe el motor, sin introducir formatos de archivo o implementación del postproceso.
+En el billar usamos Verlet original, como pide la consigna. La posición siguiente sale de las dos posiciones anteriores y de la fuerza actual. La velocidad no se integra: es la diferencia centrada entre la posición siguiente y la anterior. Para arrancar necesitamos la posición en menos delta t, que estimamos con un paso de Euler hacia atrás. Así hay una sola evaluación de fuerzas por paso. La velocidad en t recién se conoce cuando calculamos la posición en t más delta t, así que escribimos el estado en ese momento, con posición y velocidad sincronizadas. Guardamos un cuadro cada n pasos, o sea cada delta t dos.
 
-Fuentes: GPRES, p. 2; COR02.
+### 6. Algoritmo del motor — 0:35
 
-## Lámina 5 · 20 s · 0:51–1:11
+Este es el algoritmo. Generamos N partículas azules, sin superponerse y con rapidez v cero. En cada paso ubicamos las partículas en celdas de lado mayor o igual a 2r. Así cada una se compara solo con su celda y las ocho vecinas, y el costo crece en forma proporcional a N. Sumamos los resortes con las vecinas, con la pared y con los obstáculos. Si una partícula fresca se superpone con un obstáculo, pasa a roja. Avanzamos con Verlet y, cuando corresponde, escribimos el tiempo, las posiciones, las velocidades y los colores.
 
-UML de las relaciones principales del motor. Los bloques con generate(), simulate() y forces() representan funciones libres, no clases inventadas. Config contiene la configuración usada por simulate; generate crea el estado inicial de Particle; simulate actualiza las partículas mediante Verlet, llama a forces y usa su ForceResult. forces devuelve fuerzas y marcas de contacto. Particle y ForceResult contienen valores Vec. Las flechas discontinuas indican dependencias y los rombos composición. Se muestran nombres y traducciones como títulos, sin atributos ni métodos dentro de las estructuras. Se omite el namespace tp4::billiard porque organiza el código pero no explica una responsabilidad del motor. Es una vista simplificada: no se muestran todas las dependencias ni los helpers de validación. Para N=650 se usa una condición inicial hexagonal aleatorizada que conserva orden residual.
+### 7. Arquitectura del motor — 0:30
 
-Fuentes: cpp/include/tp4/billiard.hpp; cpp/include/tp4/dense.hpp; COR02, D8; revisión del estudiante 2026-10-19.
+El motor está en C++. Main lee la línea de comandos y llama a la generación, a la simulación o al oscilador. Simulation hace Verlet y le pide las fuerzas a ForceField, que maneja las celdas; los dos usan los datos del billar. El módulo io escribe el estado en un archivo de texto. El motor no calcula observables: la energía, la fracción de usadas y las distribuciones se calculan después, en Python, leyendo esos archivos.
 
-## Lámina 6 · 35 s · 1:11–1:46
+### 8. Simulaciones — 0:03
 
-La grilla de ancho 2r reduce candidatos y cada fuerza de pares se evalúa una vez. Verlet original requiere posición anterior y fuerza actual. Se inicializa la posición anterior con Taylor de segundo orden. La velocidad centrada corresponde al mismo instante que la posición. La imagen radial de la pared se recalcula cada paso. El motor conserva el primer contacto como estado histórico y guarda trayectorias; energía, histogramas y tiempos agregados se obtienen después.
+Pasemos al sistema que simulamos.
 
-Fuentes: cpp/include/tp4/billiard.hpp; T04, pp. 13–14; TP04, pp. 2–3; COR02.
+### 9. Sistema 2: billar circular con dos obstáculos — 0:40
 
-## Lámina 7 · 3 s · 1:46–1:49
+El billar es un círculo de 51 centímetros de radio, con dos obstáculos fijos del tamaño de una partícula en más y menos x cero; el esquema está a escala. Las partículas tienen 1,75 centímetros de radio y 25 gramos, y k vale diez a la cuatro newton por metro. Arrancan azules, a un metro por segundo en una dirección al azar. La primera vez que una toca un obstáculo pasa a roja, y sigue moviéndose e interactuando. Para la pared usamos una partícula imagen: un disco fijo sobre la normal, del otro lado de la pared, que recalculamos en cada paso. Así la fuerza de la pared es radial.
 
-Transición del modelo general a la configuración particular del billar.
+### 10. Estudios realizados — 0:40
 
-Fuentes: GPRES, p. 2.
+Hicimos seis estudios. Para elegir el paso, 300 partículas sin obstáculos durante 300 segundos. Para el tiempo de ejecución, N de 20 a 650 con los obstáculos en contacto, durante 30 segundos; esas mismas corridas, continuadas hasta 300 segundos, forman el estudio de densidad. La posición de los obstáculos toma once valores entre r y R menos r, con 100 y 20 partículas, y con 50 y 200 completamos un mapa. Por último, la rapidez, con 100 partículas sin obstáculos. Con más de 430 partículas el sorteo no logra ubicarlas, así que partimos de una red triangular desordenada. Francisco sigue con los observables.
 
-## Lámina 8 · 40 s · 1:49–2:29
+## Francisco — diapositivas 11 a 19 — 4:18
 
-Presentar la geometría y las reglas antes de sus valores: señalar R, r, x0 y la velocidad en el esquema. Los obstáculos son fijos, simétricos y del mismo radio r que las partículas. El estado inicial tiene N partículas sin solapamientos, rapidez común v0 y direcciones uniformes en [0,2π). Al primer contacto con un obstáculo, una partícula pasa de fresca a usada para siempre; sigue moviéndose e interactuando, por lo que N y la densidad se conservan. Los valores numéricos y rangos se concentran en D10, sin repetir aquí la tabla de constantes. D9 define cómo medir la conversión presentada en esta lámina.
+### 11. Observables — 0:45
 
-Fuentes: TP04, pp. 2–3.
+Todos los observables se calculan sobre los estados guardados. Para la energía sumamos la cinética y cada resorte una sola vez, y tomamos delta E: la máxima variación relativa respecto de la energía inicial. F u es la fracción de partículas usadas. En cada realización, t noventa es el primer cuadro con F u mayor o igual a 0,9, y t cien, el primero con F u igual a uno. Después promediamos entre realizaciones, con el desvío estándar como barra de error. Si alguna realización no llega, no damos un promedio: informamos cuántas no llegaron y F u al final. La rapidez se mide con un histograma normalizado, con bins de 0,1 metros por segundo, y el tiempo de ejecución, solo sobre la integración.
 
-## Lámina 9 · 45 s · 2:29–3:14
+### 12. Resultados — 0:03
 
-Fu promedia el indicador de usada entre las N partículas de UNA realización. Primero obtenemos t90 y t100 en cada corrida y recién entonces promediamos los tiempos entre realizaciones. Las barras son desvíos estándar muestrales, no errores estándar. El cruce de la curva Fu media no equivale al promedio de los cruces. Si una corrida no llega a p, su tiempo no se inventa: se explica en D25, único caso (N=650).
+Vamos a los resultados.
 
-Fuentes: TP04, pp. 3–4; T00, p. 69; COR03, D14; python/performance_analysis.py.
+### 13. Sistema 1: error de los esquemas de integración — 0:40
 
-## Lámina 10 · 30 s · 3:14–3:44
+Primero, el oscilador amortiguado con los parámetros de la teórica: el error cuadrático medio respecto de la solución analítica en función del paso, en escala doble logarítmica. Euler predictor-corrector tiene pendiente 2, o sea que es de primer orden. Los otros tres tienen pendiente 4, de segundo orden, y están entre cuatro y diez órdenes de magnitud más abajo. El mejor es Beeman: su error es un 13 % menor que el de Verlet en todo el rango. Verlet y Velocity Verlet coinciden porque, si se eliminan las velocidades, dan la misma recurrencia. Con pasos muy chicos, Verlet original deja de mejorar por el error de redondeo.
 
-Izquierda, los cinco parámetros fijos del billar. Derecha, un renglón por estudio con lo que varía, el paso de integración, la cantidad de corridas y el tiempo simulado: la guía pide repeticiones y tiempos en esta sección. N ∈ [20,650] es el rango; los valores ensayados son discretos: rendimiento 20, 100, 200, 400 y 650; densidad agrega 50; mapa 20, 50, 100 y 200. Energía: seis pasos entre 2,5×10^-5 y 10^-3 s con una sola condición inicial durante 2 s, más el control de 30 s que se ve en D14. Rendimiento usa 5×10^-5 s, el paso elegido en 2.1.a para 30 s; los estudios de 60 a 600 s usan 1,25×10^-5 s. En densidad, tres corridas de N=400 se extendieron a 600 s para cerrar t100. Repeticiones y horizontes no son parámetros físicos: describen cómo se midió.
+### 14. Paso temporal: evolución de la energía — 0:25
 
-Fuentes: TP04, pp. 2–4; GPRES, p. 2; experiments/configs/; COR02; COR03
+Ahora el billar. Para elegir el paso simulamos 300 partículas sin obstáculos y miramos la variación relativa de la energía, en escala logarítmica. Cuanto más grande es el paso, más se aleja la energía de su valor inicial, y el error crece con el tiempo. Con cinco por diez a la menos cuatro segundos la energía diverge: una partícula termina atravesando la pared.
 
-## Lámina 11 · 3 s · 3:44–3:47
+### 15. Paso temporal: elección de delta t — 0:30
 
-Transición a resultados. Para cada estudio se ofrece contexto físico, evolución estática y resultado escalar; la comparación del oscilador es la excepción exigida.
+Resumimos cada curva con delta E, el máximo en 300 segundos, promediado en cinco realizaciones. Baja más o menos con el cuadrado del paso. Pedimos que no supere uno por mil en el horizonte más largo del trabajo. Eso da delta t igual a dos por diez a la menos cinco segundos, con delta E de 2,6 por diez a la menos cuatro. Es el paso que usamos en todos los estudios que siguen.
 
-Fuentes: GPRES, p. 2; TP04, p. 2.
+### 16. Cantidad de partículas — 0:20
 
-## Lámina 12 · 35 s · 3:47–4:22
+La animación muestra dos densidades extremas con los obstáculos en contacto: 20 partículas a la izquierda y 650 a la derecha. Con 20, en pocos segundos casi todas pasaron por el centro. Con 650, las partículas quedan casi en una red y solo se convierten las que rodean a los obstáculos.
 
-Única lámina del oscilador, como pide la consigna: una sola figura de ECM de posición contra la solución analítica, promediado sobre todos los pasos de una trayectoria de 5 s. Arriba, en log-log: Beeman, Verlet original y Velocity Verlet caen sobre la misma recta de pendiente 4, o sea error de orden 2 en h. Euler predictor-corrector tiene pendiente 2, es de orden 1, y queda entre 4 y 9 órdenes de magnitud arriba: es el de la teórica (T04 p. 23), que corrige con la aceleración predicha sin promediar pendientes. Abajo, el mismo ECM dividido por el de Verlet original. Beeman queda constante en ≈0,87: ≈13 % menos error en todos los pasos. Es el mejor, por un factor constante y no por un orden mayor. Velocity Verlet da 1 porque, con el amortiguamiento despejado, genera exactamente la misma sucesión de posiciones que Verlet original: es el mismo esquema escrito de otra forma. La mínima separación en h=5×10^-5 s es redondeo acumulado en 10^5 pasos (2,9×10^-10 m, frente a un error de 4,9×10^-8 m).
+### 17. Tiempo de ejecución en función de N — 0:35
 
-Fuentes: experiments/results/oscillator-summary.csv; experiments/README.md; TP04, pp. 1–2; T04, pp. 13, 17, 20, 23 y 37
+Este es el tiempo para simular 30 segundos, en escala logarítmica, con los dos motores en la misma computadora. Con paso temporal, el costo es proporcional a N: al duplicar las partículas se duplica el tiempo, porque con las celdas cada una tiene siempre pocas vecinas. En el TP3, dirigido por eventos, se multiplica por 10 a 20: hay más choques y cada uno cuesta más. Con pocas partículas el TP3 es mucho más rápido, pero desde 450 gana el TP4, y con 650 el TP3 tarda diez veces más.
 
-## Lámina 13 · 30 s · 4:22–4:52
+### 18. Densidad: fracción de partículas usadas — 0:25
 
-Una misma condición inicial N=300 se compara entre pasos, sin promediar realizaciones. Se muestra la variación porcentual con signo, 100[E(t)-E(0)]/E(0), con E(0)=3,75 J. La energía total es cinética más potencial de contactos: pares y pared, cada contacto una sola vez. La cinética sola no se conserva durante los choques. El máximo absoluto muestreado de estas curvas es el escalar de la lámina siguiente, también en porcentaje. La animación energética se retiró siguiendo la corrección del estudiante: TP04, p. 3 exige estas figuras y GPRES, p. 2 recomienda el contexto animado general.
+Con esas mismas corridas, continuadas hasta 300 segundos, miramos F u para seis valores de N. Cuantas más partículas, más lenta es la conversión. Hasta 500, casi todas se usan antes del final. Con 600 se llega al 70 %, y con 650, apenas al 5 %: como en la animación, las partículas quedan casi en una red, se mezclan muy despacio y solo se usan las que rodean a los obstáculos.
 
-Fuentes: experiments/results/energy-summary.csv; experiments/billar-energia.md; T04, p. 42.
+### 19. Densidad: tiempos de conversión — 0:35
 
-## Lámina 14 · 35 s · 4:52–5:27
+Acá están t noventa y t cien medios en función de la densidad, en escala logarítmica. Los dos crecen en todo el rango, así que no hay una densidad óptima; con 20 y 50 partículas la diferencia queda dentro del desvío. Con más partículas cada una avanza menos entre choques y tarda más en llegar al centro. Desde 400 partículas alguna realización no llega a usarlas todas, y desde 550 alguna no llega al 90 %; ahí informamos F u al final. Franco sigue con la posición.
 
-El umbral del 0,1 % es una decisión local, no de la consigna. Aunque h=10^-4 s pasa el ensayo corto, falla a 30 s con 0,241 %. h=5×10^-5 s da 0,0602 % y se usa en el benchmark. Los pilotos de 100 s motivaron refinar los análisis largos a 1,25×10^-5 s. En las 154 nuevas corridas de densidad y mapa el máximo muestreado fue 0,0267 %. No extrapolar la validación a un horizonte no comprobado.
+## Franco — diapositivas 20 a 29 — 3:53
 
-Fuentes: experiments/results/billiard-step-selection.json; position-step-validation.json; density-verification.json.
+### 20. Posición de los obstáculos — 0:15
 
-## Lámina 15 · 15 s · 5:27–5:42
+Ahora movemos los obstáculos con 100 partículas. A la izquierda están en contacto en el centro; en el medio, a la mitad del radio; y a la derecha, tocando la pared. En el medio la conversión es claramente más rápida.
 
-Mostrar la misma geometría con N bajo y alto. El ejemplo denso parte de la condición inicial del benchmark. Es contexto del aumento de trabajo por paso, no un cronometraje de la animación.
+### 21. Posición: fracción de partículas usadas — 0:25
 
-Fuentes: presentacion/.build/media-manifest.json; experiments/rendimiento-y-densidad.md.
+Estas son las curvas de F u para esas tres posiciones, promediadas en diez realizaciones, con el desvío como banda. Con los obstáculos a la mitad del radio, F u llega a 0,9 cerca de los 15 segundos; en el centro, cerca de los 23; y contra la pared, cerca de los 32. En todas las realizaciones se usan todas las partículas antes de los 100 segundos.
 
-## Lámina 16 · 40 s · 5:42–6:22
+### 22. Posición: tiempo al 90 % — 0:35
 
-Cada punto es el tiempo medio de diez corridas de 30 s y la barra su desvío. Ambos motores se compilaron con C++20 y -O3 en la misma computadora; el reloj excluye generación y escritura. Eventos es más rápido para N=100 y 200, y paso temporal desde N=400: el cruce queda entre 200 y 400, sin fijar su N exacto. Al duplicar N de 100 a 200 y a 400, el TP4 tarda ×2,4 y ×2,7: casi lineal, porque la grilla de celdas mantiene acotado el trabajo por partícula. El TP3 tarda ×10 y ×19, porque la cantidad de eventos crece mucho más rápido que N (de 2,5×10^4 a 8,1×10^5 eventos entre N=100 y 400). Con N=650 el TP3 tarda 273 s y el TP4 7,8 s: ×35. Ahí el TP3 procesa 6,7×10^6 eventos; de N=600 a 650 sus eventos crecen ×1,7 y su tiempo ×2,1. Es una comparación descriptiva en este intervalo, no una ley asintótica. Si preguntan por el paso: aquí se usa 5×10^-5 s, que cumple el criterio en 30 s; con 1,25×10^-5 s el TP4 haría cuatro veces más pasos.
+Este es t noventa medio en función de la posición, con 100 y con 20 partículas. Con 100 hay un mínimo amplio: entre 0,16 y 0,30 metros el promedio queda a menos de un desvío del menor, de unos 15 segundos. En los extremos es mucho más lento: 23 segundos con los obstáculos en contacto y 32 contra la pared. Con 20 partículas, que chocan mucho menos entre sí, los extremos siguen siendo los peores, pero entre 0,11 y 0,40 metros las diferencias quedan dentro del desvío: el mínimo es una meseta.
 
-Fuentes: experiments/results/performance-summary.csv; performance-manifest.json; ../tp3-billar-metegol/experiments/results/performance-summary.csv; COR03, D16 y D22
+### 23. Posición y densidad — 0:30
 
-## Lámina 17 · 15 s · 6:22–6:37
+Juntamos posición y densidad en un mapa: el color es t noventa medio y el círculo marca la mejor posición para cada N. Con 50, 100 y 200 partículas el mínimo está entre 0,16 y 0,26 metros, cerca de la mitad del radio. Con 20 aparece más afuera, pero ahí vimos que el mínimo es poco marcado. Para cualquier posición, el tiempo crece con N: el mejor t noventa pasa de unos 11 segundos con 20 partículas a 20 segundos con 200.
 
-Reproducir el video de tres posiciones. Se mueve x0 simétricamente, manteniendo N=100. La fila muestra obstáculos juntos, posición intermedia y junto a la pared. Frescas azules, usadas rojas, obstáculos negros. Se muestran cinco segundos de una realización por posición, no un promedio.
+### 24. Distribución de rapideces — 0:15
 
-Fuentes: experiments/results/position-animation-manifest.json; TP04, p. 3.
+Para la distribución de rapideces sacamos los obstáculos y dejamos 100 partículas. Todas arrancan con la misma rapidez, por eso tienen el mismo color. En menos de un segundo de choques aparecen partículas casi quietas y otras al doble de v cero.
 
-## Lámina 18 · 25 s · 6:37–7:02
+### 25. Rapidez: evolución de f(v) — 0:25
 
-Las curvas temporales son estáticas. A cada tiempo se promedian cinco fracciones Fu, con desvío entre corridas. La línea del 90 % ilustra el umbral, pero los t90 se extraen de cada historia individual. Las posiciones intermedias completan la conversión más rápido que los extremos en estos ejemplos.
+El histograma lo armamos con las 100 partículas de 30 realizaciones. A 0,1 segundos todavía queda un pico en v cero; a 0,2 segundos ese pico bajó a la mitad, y desde 0,5 segundos ya no se distingue de la distribución estacionaria. Tomamos como estacionario el tramo desde 1 segundo, a partir del cual el k B T ajustado en ventanas de un segundo ya no cambia más que sus fluctuaciones.
 
-Fuentes: experiments/results/position-fu.csv; COR03, D17–D21.
+### 26. Rapidez: ajuste de Maxwell–Boltzmann — 0:40
 
-## Lámina 19 · 35 s · 7:02–7:37
+A la izquierda, el histograma estacionario promediado entre realizaciones, con la Maxwell–Boltzmann en dos dimensiones ajustada. Usamos el método de la Teórica 0: a la derecha está el error del ajuste en función de k B T, el único parámetro libre, y su mínimo da el mejor ajuste: 1,242 por diez a la menos dos joules. La energía cinética media vale 1,232: difieren en un 0,8 %, del orden del desvío entre realizaciones. Las dos son algo menores que m v cero al cuadrado sobre dos, porque en promedio un 1,4 % de la energía está en los resortes de los contactos.
 
-Se recorrieron once posiciones en ambos N, cinco realizaciones por punto y 100 s. Todas alcanzaron t90. El mínimo observado es x0=0,16 m para N=100 y x0=0,3975 m para N=20. Las líneas solo guían la lectura. Los vecinos tienen dispersión y la grilla no localiza un óptimo continuo exacto. Para la pregunta de la consigna: con N=20 hay muchos menos choques entre partículas que con N=100, y el mínimo se corre de 0,16 m a 0,40 m; la posición de menor t90 depende de la frecuencia de choques. Por qué se corre hacia la pared no se midió por separado.
+### 27. Conclusiones — 0:03
 
-Fuentes: experiments/results/position-summary.csv; experiments/posicion-obstaculos.md; TP04, p. 3.
+Para cerrar, las conclusiones.
 
-## Lámina 20 · 15 s · 7:37–7:52
+### 28. Conclusiones — 0:35
 
-Volver a N=100 sin obstáculos. Todas las partículas comienzan con rapidez unitaria; los contactos redistribuyen energía cinética entre ellas. La animación muestra partículas, no un gráfico temporal animado.
+En el oscilador, Beeman tiene el menor error, con el mismo orden que Verlet. En el billar, Verlet con un paso de dos por diez a la menos cinco segundos mantiene el error en la energía debajo de uno por mil en 300 segundos, y su costo crece en forma lineal con N: con muchas partículas le gana al TP3. La conversión es más rápida cuanto menor es la densidad, y la mejor posición de los obstáculos está entre un tercio y la mitad del radio. Por último, en alrededor de un segundo las rapideces llegan a una Maxwell–Boltzmann.
 
-Fuentes: presentacion/.build/media-manifest.json; TP04, pp. 3–4.
+### 29. Declaración de uso de IA — 0:10
 
-## Lámina 21 · 30 s · 7:52–8:22
-
-Cada histograma instantáneo normaliza las 100 rapideces de una corrida por N y por ancho de bin; luego se promedian diez densidades. Los bins están centrados en múltiplos de 0,1 m/s, así v0=1 m/s cae en el centro de [0,95;1,05): en t=0,1 s la barra alta son las partículas que todavía no chocaron, alrededor del 35 %. En t=0 hay una delta en v=1, marcada con la línea punteada. Desde t≈0,5 s la forma ya es parecida a la estacionaria. El ensayo de 30 s no satisfizo el criterio local de estabilidad; se amplió a 60 s y a ventanas de 10 s.
-
-Fuentes: experiments/results/speed-snapshots.csv; speed-windows.csv; experiments/rapidez.md; COR02
-
-## Lámina 22 · 45 s · 8:22–9:07
-
-Izquierda: el histograma estacionario, con 10 corridas y 500 cuadros por corrida entre 10 y 60 s, y Maxwell–Boltzmann 2D con el kBT ajustado. Las barras son el desvío entre las diez densidades. Derecha: el método de la Teórica 0, el error del ajuste S en función del único parámetro kBT; su mínimo es el mejor ajuste. g_b es la integral del modelo en cada bin dividida por su ancho, sin pesos. Resultado: kBT=1,240×10^-2 J. Comparación que pide la consigna: en 2D la equipartición da una energía cinética media kBT por partícula, así que kBT se compara con m⟨v²⟩/2 medida en la ventana, 1,232×10^-2 J: difieren 0,65 %. Contra mv0²/2=1,250×10^-2 J la cinética es 1,4 % menor: esa energía está guardada en los resortes de contacto, 1,76×10^-4 J por partícula, y cinética más potencial vuelve a 1,250×10^-2 J. Los primeros 10 s se descartan porque la distribución todavía cambia; desde ahí, entre ventanas de 10 s, la distancia de variación total es menor que 0,011 y kBT cambia menos de 0,85 %. No se hizo una prueba formal de bondad de ajuste.
-
-Fuentes: TP04, p. 4; T00, pp. 79–80; experiments/results/speed-summary.json; speed-stationary.csv; speed-objective.csv; speed-windows.csv
-
-## Lámina 23 · 15 s · 9:07–9:22
-
-Comparar N=50 y 650 con obstáculos juntos. La configuración física es la misma salvo N y la familia de inicialización del caso denso, ya aclarada. No describir N=650 como inmóvil: sus partículas se desplazan, aunque la conversión sea lenta.
-
-Fuentes: presentacion/.build/media-manifest.json; experiments/densidad-y-mapa.md.
-
-## Lámina 24 · 25 s · 9:22–9:47
-
-Las corridas de 30 s del estudio de rendimiento no alcanzan t90 con N ≥ 200, y t100 casi nunca; por eso se simuló hasta 300 s con h=1,25×10^-5 s. N=20 y 200 llegan a conversión completa; N=650 llega en promedio a solo 4,32 % a los 300 s, y ninguna de sus diez corridas alcanza el 90 %. Las curvas son medias de Fu con bandas de desvío. El benchmark de 30 s se conserva aparte; este seguimiento no se concatena con él.
-
-Fuentes: experiments/results/density-final-fu.csv; density-summary.csv; density-complete-cases.json; TP04, p. 4
-
-## Lámina 25 · 40 s · 9:47–10:27
-
-Cada círculo es la media de diez tiempos con su desvío. El triángulo es N=650: ninguna de las diez corridas llegó al 90 % en 300 s (terminan con Fu≈4 %), así que solo sabemos que su tiempo es mayor que 300 s; por eso no tiene barra. El eje vertical es logarítmico. Tres corridas de N=400 se extendieron a 600 s para observar sus últimos contactos; su t100 medio es 267±61 s. N=50 se agregó tras el indicio del mapa. Respuesta a la consigna: no hay un óptimo marcado. t90 es mínimo y casi igual entre N=20 y 100 (20 a 25 s, dentro de un desvío) y crece rápido desde N=200; t100 se comporta igual. A alta densidad las partículas casi no se desplazan: con N=650 ocupan el 77 % del área, N(r/R)², y en la animación de D23 solo convierten las vecinas a los obstáculos. A baja densidad hay pocos choques que cambien las trayectorias, y t100 queda limitado por las últimas partículas en pasar cerca del centro; es una interpretación compatible con los datos, no un resultado medido por separado.
-
-Fuentes: experiments/results/density-complete-summary.csv; density-best-tested.json; density-followup-contract.json; density-extra-contract.json
-
-## Lámina 26 · 30 s · 10:27–10:57
-
-El mapa representa t90 medio frente a DOS parámetros independientes, x0 y N, por eso aquí sí corresponde un mapa de calor. Hay 44 celdas, cinco realizaciones por celda y todas alcanzaron t90 antes de 100 s. Los recuadros marcan los mínimos muestrales. Las posiciones elegidas no siguen una ley monótona con N. No confundir cinco realizaciones por celda con las diez del estudio de densidad, ni un mínimo de grilla con un óptimo continuo o estadísticamente significativo.
-
-Fuentes: TP04, p. 4; experiments/results/density-heatmap-summary.csv; density-best-positions.json; COR03, D18.
-
-## Lámina 27 · 3 s · 10:57–11:00
-
-Transición breve. La conclusión solo recoge resultados que ya se mostraron, sin introducir explicaciones causales no probadas.
-
-Fuentes: GPRES, p. 3.
-
-## Lámina 28 · 55 s · 11:00–11:55
-
-Recorrer las respuestas a la consigna con lo ya mostrado. Integradores (D12): Beeman es el mejor por un factor constante, ≈13 %; los tres de orden 2 se separan del Euler predictor-corrector, de orden 1. Paso (D13–D14): 5×10^-5 s alcanza para 30 s; para 100–600 s se usó 1,25×10^-5 s. Costo (D16): paso temporal crece casi linealmente y eventos mucho más rápido, por eso hay un cruce entre N=200 y 400; con N=650, eventos tarda ×35 más. Posición (D19): sí existe una posición de menor ⟨t90⟩ en la grilla, y los extremos son los más lentos; con N=100 está en 0,16 m y con N=20, con muchos menos choques, se corre a 0,40 m. La respuesta depende de la frecuencia de choques. Rapidez (D22): kBT ajustado coincide con m⟨v²⟩/2 y la diferencia con mv0²/2 es energía de contacto. Densidad (D25): la densidad óptima es baja; desde N=200 la conversión se frena y con N=650 casi se detiene. No presentar causas no medidas como conclusiones.
-
-Fuentes: Figuras de las diapositivas 12, 14, 16, 19, 22 y 25; GPRES, p. 3; TP04, pp. 1–4
-
-## Lámina 29 · 20 s · 11:55–12:15
-
-Declarar las herramientas: Codex con GPT-6.1 Sol y Claude Code con Claude Opus 5.5. Se usaron para programar el motor y el post-proceso, escribir pruebas, ejecutar corridas y generar gráficos, y para un borrador de diapositivas que el grupo revisó y corrigió.
-
-Fuentes: TP04, p. 4; registro de uso de IA en README.md
+Para el código, las pruebas, las corridas y los gráficos usamos Codex con GPT-6.1 Sol y Claude Code con Claude Opus 5.5. Muchas gracias.

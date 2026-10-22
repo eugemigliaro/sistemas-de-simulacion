@@ -1,2 +1,5 @@
 numpy
 matplotlib
+imageio-ffmpeg
+pillow
+python-pptx

@@ -17,7 +17,7 @@ v_n=\frac{r_{n+1}-r_{n-1}}{2h}.$$
 
 La recurrencia calcula posiciones sin usar velocidades cuando la fuerza depende solo de posiciones. La velocidad centrada pertenece a $t_n$, aunque se obtiene después de calcular $r_{n+1}$; por eso hay que guardar $r_n$ y $v_n$ juntos, particularmente al calcular energía [T04, p. 13] [T04, p. 14] [B19, p. 38].
 
-Se necesita inicialización. La teórica propone estimar el estado previo con Euler en $-h$; Heermann muestra el arranque hacia adelante $r_1=r_0+hv_0+h^2a_0/2$ [T04, p. 14] [B19, p. 39]. **Decisión pendiente de implementación:** declarar el arranque elegido y verificar cuánto afecta el ECM del oscilador.
+Se necesita inicialización. La teórica propone estimar el estado previo con Euler en $-h$; Heermann muestra el arranque hacia adelante $r_1=r_0+hv_0+h^2a_0/2$ [T04, p. 14] [B19, p. 39]. **Decisión del TP4:** el estado previo se estima con Euler hacia atrás, $r_{-1}=r_0-hv_0+h^2a_0/2$ y $v_{-1}=v_0-ha_0$, en el oscilador y en el billar; los cuatro métodos conservan su orden con ese arranque (ver el [registro de decisiones](../../entregas/tp4-billar-circular/docs/decisiones.md)).
 
 ## Velocity Verlet
 

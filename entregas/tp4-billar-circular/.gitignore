@@ -1,5 +1,6 @@
 cpp/build/
 python/.venv/
-python/.matplotlib/
-python/.cache/
+__pycache__/
 experiments/raw/
+experiments/logs/
+presentacion/.build/

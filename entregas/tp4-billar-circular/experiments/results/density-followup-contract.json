@@ -1,9 +1,0 @@
-{
-  "fingerprint": "76327b89b285f6e56b8148e768a9644c69ccb052b310f5c18b52136a5e9e792d",
-  "source_sha256": "4003f92798b06f55897fe7bb19109a89222ccf1c179cebaca765707473941748",
-  "script_sha256": "3cd90d78fd13056f5f9324bc8284f1dedd2b05230f66af0a3fc62d4178cf8950",
-  "simulation_contract_sha256": "e6f19f6b760f24be81be91719a49dcdffeb8f3c9f45a7fe8e356e37ca510060a",
-  "binary_sha256": "34be7bbea10f9ead3d34e3c4815496a63c0e084264dfc185427ae63a5e49bc36",
-  "duration": 600.0,
-  "max_n": 400
-}

@@ -1,5 +1,4 @@
-% Fuente editable de la presentación del TP4.
-% Formato heredado del TP3; se corrigen las observaciones COR02 y COR03.
+% Presentación oral del TP4. Mismo formato Beamer que el TP3.
 \documentclass[aspectratio=169,11pt]{beamer}
 \usetheme{Warsaw}
 \useoutertheme{miniframes}
@@ -9,11 +8,13 @@
 \usepackage[spanish,es-noquoting]{babel}
 \AtBeginDocument{\let\%\originalpercent}
 \usepackage{amsmath,amssymb,graphicx,booktabs,xcolor,tikz}
-\usetikzlibrary{positioning,arrows.meta}
+\usetikzlibrary{positioning,arrows.meta,shapes.multipart}
+
 \definecolor{itbablue}{RGB}{0,91,145}
 \definecolor{accent}{RGB}{211,92,32}
 \definecolor{softblue}{RGB}{232,243,249}
-\definecolor{usedred}{RGB}{199,62,54}
+\definecolor{fresh}{HTML}{1F5FBF}
+\definecolor{used}{HTML}{D0392F}
 \setbeamercolor{structure}{fg=itbablue}
 \setbeamercolor{alerted text}{fg=accent}
 \setbeamercolor{block title}{fg=white,bg=itbablue}
@@ -22,342 +23,403 @@
 \setbeamerfont{title}{size=\LARGE}
 \setbeamertemplate{section page}{\vfill\centering{\usebeamercolor[fg]{structure}\usebeamerfont{title}\insertsectionhead\par}\vfill}
 \graphicspath{{figuras/}}
+
+\input{valores.tex}
 \input{enlaces.tex}
-\input{rendimiento.tex}
-\input{diagramas.tex}
-\let\originalmedskip\medskip
-\renewcommand{\medskip}{\par\originalmedskip}
+
+\newcommand{\vect}[1]{\mathbf{#1}}
 \newcommand{\fu}{F_{\mathrm u}}
-\newcommand{\hnum}{1{,}25\times10^{-5}\,\mathrm s}
-\newcommand{\figura}[2]{\begin{columns}[c,onlytextwidth]\begin{column}{.72\textwidth}\includegraphics[width=\linewidth]{#1}\end{column}\begin{column}{.26\textwidth}\small #2\end{column}\end{columns}}
-\newcommand{\video}[3]{\begin{columns}[c,onlytextwidth]\begin{column}{.74\textwidth}\centering\includegraphics[width=\linewidth,height=4.35cm,keepaspectratio]{anim-#1.png}\par\medskip\csname enlace#1\endcsname\end{column}\begin{column}{.24\textwidth}\small #2\par\medskip #3\end{column}\end{columns}}
+\newcommand{\dt}{\Delta t}
+% Figura a la izquierda y condiciones del resultado al costado [GPRES, p. 1].
+\newcommand{\figura}[3][.70]{%
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{#1\textwidth}\centering\includegraphics[width=\linewidth,height=6.6cm,keepaspectratio]{#2}\end{column}
+    \begin{column}{\dimexpr.98\textwidth-#1\textwidth\relax}\small #3\end{column}
+  \end{columns}}
+% Fotograma y enlace en el PDF; en el PPTX se reemplaza por el video [GPRES, p. 3].
+\newcommand{\animacion}[3]{%
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{.73\textwidth}\centering
+      \includegraphics[width=\linewidth,height=5.6cm,keepaspectratio]{anim-#1.png}\par\smallskip
+      {\small\color{accent}\csname enlace#1\endcsname}
+    \end{column}
+    \begin{column}{.25\textwidth}\small #2\par\medskip #3\end{column}
+  \end{columns}}
+
+\tikzset{
+  uml/.style={draw=itbablue,fill=white,rectangle split,rectangle split parts=3,
+    rectangle split part fill={softblue,white,white},align=left,font=\scriptsize,inner sep=2.5pt,text width=#1},
+  uml/.default=3.3cm,
+  flecha/.style={-{Stealth[length=5pt]},thick,itbablue},
+  usa/.style={-{Stealth[length=5pt]},thick,dashed,itbablue},
+}
+
 \title[TP4: paso temporal]{Dinámica molecular regida por el paso temporal}
-\subtitle{Billar circular con contactos elásticos}
+\subtitle{Oscilador amortiguado y billar circular}
 \author[Grupo 07]{Grupo 07 - Comisión S\\Eugenio Migliaro, Francisco Costa y Franco Branda}
 \institute{72.25 Simulación de Sistemas - ITBA}
-\date{Octubre de 2026}
+\date{23 de octubre de 2026}
+
 \begin{document}
 
-% 1 -- 10 s
 \begin{frame}\titlepage\end{frame}
-% 2 -- 3 s
+
 \section{Introducción}
 \begin{frame}\sectionpage\end{frame}
-% 3 -- 35 s
-\begin{frame}{Dinámica molecular con contactos elásticos}
+
+\begin{frame}{Partículas con contactos elásticos}
 \begin{columns}[c,onlytextwidth]
-\begin{column}{.43\textwidth}
-\centering
-\begin{tikzpicture}[scale=1.1,>=Stealth]
-\draw[thick,itbablue,fill=softblue] (0,0) circle(.65);
-\draw[thick,itbablue,fill=softblue] (1.15,0) circle(.65);
-\draw[<->,accent,thick] (-.1,-.9)--(1.25,-.9);
-\node[below] at (.575,-.9) {contacto de duración finita};
-\draw[->,very thick] (0,0)--(-.7,0) node[left] {$\mathbf F_{ij}$};
-\draw[->,very thick] (1.15,0)--(1.85,0) node[right] {$-\mathbf F_{ij}$};
-\node at (0,.95) {$i$};\node at (1.15,.95) {$j$};
+\begin{column}{.40\textwidth}\centering
+\begin{tikzpicture}[scale=1.15,>=Stealth]
+  \fill[fresh!25] (0,0) circle (1);
+  \fill[fresh!25] (1.75,0) circle (1);
+  \draw[thick,fresh] (0,0) circle (1);
+  \draw[thick,fresh] (1.75,0) circle (1);
+  \fill (0,0) circle (1.4pt) node[below=2pt] {$i$};
+  \fill (1.75,0) circle (1.4pt) node[below=2pt] {$j$};
+  \draw[gray,thin] (.75,0) -- (.75,1.3);
+  \draw[gray,thin] (1,0) -- (1,1.3);
+  \draw[accent,very thick,|-|] (.75,1.3) -- (1,1.3) node[midway,above] {$\xi_{ij}$};
+  \draw[->,very thick] (0,0) -- (-1.4,0) node[left] {$\vect F_{ij}$};
+  \draw[->,thick,itbablue] (-.1,.45) -- (.55,.45) node[midway,above] {$\hat{\vect e}_{ij}$};
 \end{tikzpicture}
 \end{column}
-\begin{column}{.54\textwidth}
-\textbf{Segunda ley de Newton}
-\[m_i\ddot{\mathbf r}_i=\sum_j\mathbf F_{ij}\]
-\textbf{Modelo normal elástico}
-\[\xi_{ij}=r_i+r_j-\|\mathbf r_j-\mathbf r_i\|\]
-\[\mathbf F_{ij}=-k\xi_{ij}\widehat{\mathbf e}_{ij}\quad(\xi_{ij}>0)\]
-\begin{itemize}
-\item $\widehat{\mathbf e}_{ij}$ apunta de $i$ a $j$.
-\item Sin fricción ni disipación.
-\end{itemize}
+\begin{column}{.58\textwidth}
+\textbf{Sistema real:} discos rígidos que se deforman levemente al chocar, como un medio granular.
+\medskip
 
-\end{column}\end{columns}
+\textbf{Ecuación de movimiento}
+\[m\,\ddot{\vect r}_i=\vect F_i=\sum_{j:\ \xi_{ij}>0}-k\,\xi_{ij}\,\hat{\vect e}_{ij}\]
+\[\xi_{ij}=r_i+r_j-|\vect r_j-\vect r_i|,\qquad \hat{\vect e}_{ij}=\frac{\vect r_j-\vect r_i}{|\vect r_j-\vect r_i|}\]
+$j$: otra partícula o un cuerpo fijo de masa infinita.
+\medskip
+
+\textbf{Energía} (sin fricción ni disipación, se conserva)
+\[E=\sum_i\tfrac12 m\,|\vect v_i|^2+\sum_{\text{contactos}}\tfrac12 k\,\xi^2\]
+\end{column}
+\end{columns}
 \end{frame}
 
-% 4 -- 3 s
 \section{Implementación}
 \begin{frame}\sectionpage\end{frame}
-% 5 -- 20 s
-\begin{frame}{UML del motor de simulación}
-\ifdefined\NativeDiagramBackground\else\csname diagram5\endcsname\fi
-\end{frame}
-% 6 -- 35 s
-\begin{frame}{Flujo del motor y Verlet original}
-\ifdefined\NativeDiagramBackground\else\csname diagram6\endcsname\fi
+
+\begin{frame}{Integración con paso temporal fijo: Verlet original}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{.55\textwidth}
+\[\vect r(t+\dt)=2\vect r(t)-\vect r(t-\dt)+\frac{\dt^2}{m}\vect F(t)\]
+\[\vect v(t)=\frac{\vect r(t+\dt)-\vect r(t-\dt)}{2\dt}\]
+\textbf{Arranque} (Euler hacia atrás):
+\[\vect r(-\dt)=\vect r(0)-\dt\,\vect v(0)+\frac{\dt^2}{2m}\vect F(0)\]
+\end{column}
+\begin{column}{.43\textwidth}
+\begin{itemize}\setlength\itemsep{.25cm}
+\item Una evaluación de fuerzas por paso.
+\item $\vect v(t)$ recién se conoce al calcular $\vect r(t+\dt)$: el estado en $t$ se escribe en ese momento.
+\item Se guarda cada $n$ pasos: $\dt_2=n\,\dt$.
+\item El motor solo escribe estado; los observables se calculan aparte.
+\end{itemize}
+\end{column}
+\end{columns}
 \end{frame}
 
-% 7 -- 3 s
+\begin{frame}{Algoritmo del motor}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{.62\textwidth}
+\begin{block}{Billar}
+\small
+\begin{tabbing}
+xx\=xx\=\kill
+Generar $N$ partículas azules sin superposición, $|\vect v|=v_0$\\
+Calcular $\vect F(0)$ y $\vect r(-\dt)$\\
+\textbf{para} $n=0,1,\dots,t_f/\dt$:\\
+\> Ubicar las partículas en celdas de lado $\geq 2r$\\
+\> $\vect F\leftarrow$ resortes con partículas vecinas,\\
+\> \> pared (imagen) y obstáculos\\
+\> Si toca un obstáculo: azul $\to$ roja\\
+\> $\vect r(t+\dt)$ y $\vect v(t)$ con Verlet\\
+\> \textbf{si} $n$ es múltiplo de $\dt_2/\dt$: escribir $t$, $\vect r$, $\vect v$ y color
+\end{tabbing}
+\end{block}
+\end{column}
+\begin{column}{.36\textwidth}
+\begin{itemize}\setlength\itemsep{.25cm}
+\item Con celdas, cada partícula se compara solo con su celda y las 8 vecinas: costo proporcional a $N$.
+\item Cada par se recorre una vez: $\vect F_{ji}=-\vect F_{ij}$.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Arquitectura del motor (C++)}
+\centering
+\begin{tikzpicture}[node distance=.7cm and 1.1cm]
+  \node[uml=3.0cm] (main) {\textbf{main}\nodepart{second}línea de comandos\nodepart{third}oscillator()\\billiard()};
+  \node[uml=3.3cm,right=of main] (gen) {\textbf{generation}\nodepart{second}$N$, semilla, disposición\nodepart{third}generate(): partículas};
+  \node[uml=3.3cm,right=of gen] (model) {\textbf{Billiard, Particle}\nodepart{second}$R$, $r$, $m$, $k$, $v_0$, $x_0$\\$\vect r$, $\vect v$, color\nodepart{third}validate()};
+  \node[uml=3.3cm,below=of gen] (sim) {\textbf{simulation}\nodepart{second}$\dt$, pasos, $n$\nodepart{third}simulate(): Verlet};
+  \node[uml=3.3cm,below=of model] (forces) {\textbf{ForceField}\nodepart{second}celdas\nodepart{third}compute(): pares,\\pared y obstáculos};
+  \node[uml=3.0cm,below=of main] (osc) {\textbf{oscillator}\nodepart{second}$m$, $k$, $\gamma$\nodepart{third}integrate(): 4 esquemas};
+  \node[uml=3.3cm,below=of sim] (io) {\textbf{io}\nodepart{second}archivo de texto\nodepart{third}write\_frame()};
+  \draw[flecha] (main) -- (gen);
+  \draw[flecha] (main) -- (sim);
+  \draw[flecha] (main) -- (osc);
+  \draw[flecha] (sim) -- (forces);
+  \draw[flecha] (sim) -- node[right,font=\scriptsize] {estado cada $n$ pasos} (io);
+  \draw[usa] (gen) -- (model);
+  \draw[usa] (forces) -- (model);
+\end{tikzpicture}
+\par\smallskip\small Flecha llena: llama a. Punteada: usa los datos de.
+\end{frame}
+
 \section{Simulaciones}
 \begin{frame}\sectionpage\end{frame}
-% 8 -- 40 s
-\begin{frame}{Billar circular y conversión por primer contacto}
+
+\begin{frame}{Sistema 2: billar circular con dos obstáculos}
 \begin{columns}[c,onlytextwidth]
-\begin{column}{.48\textwidth}
-\centering
-\begin{tikzpicture}[scale=1.05,>=Stealth]
-\draw[thick] (0,0) circle(2.0);
-\fill[black] (-.65,0) circle(.06863);\fill[black] (.65,0) circle(.06863);
-\draw[<->] (0,-.37)--(.65,-.37) node[midway,below] {$x_0$};
-\draw[->] (0,0)--(135:2) node[midway,above right] {$R$};
-\fill[itbablue] (-1,-.8) circle(.06863);
-\draw[->] (-1,-.8)--(-1.35,-.5) node[left] {$\mathbf v_i$};
-\fill[usedred] (.7,1.05) circle(.06863);
-\draw[->] (1.3,1.05)--(.7686,1.05) node[pos=0,right] {$r$};
-\node[below] at (0,-2.12) {Obstáculos fijos en $(\pm x_0,0)$};
+\begin{column}{.40\textwidth}\centering
+\begin{tikzpicture}[scale=2.9,>=Stealth]
+  \draw[very thick] (0,0) circle (1);
+  \fill (-.30,0) circle (.0343);
+  \fill (.30,0) circle (.0343);
+  \foreach \x/\y in {.55/.42,-.62/.31,.18/-.71,-.25/.66,.71/-.33,-.48/-.52,.05/.38}{\fill[fresh] (\x,\y) circle (.0343);}
+  \foreach \x/\y in {.36/.12,-.15/-.22,.42/-.62}{\fill[used] (\x,\y) circle (.0343);}
+  \draw[<->,thick] (0,0) -- (135:1) node[midway,above right] {$R$};
+  \draw[<->,thick,accent] (0,-.12) -- (.30,-.12) node[midway,below] {$x_0$};
+  \draw[dashed,gray] (0,-.17) -- (0,.05);
+  \node[font=\scriptsize] at (0,-1.13) {a escala};
 \end{tikzpicture}
 \end{column}
-\begin{column}{.49\textwidth}
-\textbf{Estado inicial}
-\begin{itemize}
-\item $N$ partículas sin solapamientos.
-\item Rapidez común $v_0$.
-\item Direcciones uniformes en $[0,2\pi)$.
-\end{itemize}
-\medskip
-\textbf{Conversión irreversible}
-\begin{itemize}
-\item \textcolor{itbablue}{Fresca}\,$\longrightarrow$\,\textcolor{usedred}{usada} al primer contacto con un obstáculo.
-\item Las usadas siguen interactuando.
-\item $N$ y densidad constantes.
-\end{itemize}
-
-\end{column}\end{columns}
-\end{frame}
-% 9 -- 45 s
-\begin{frame}{Tiempos por realización y promedios entre corridas}
-\begin{columns}[T,onlytextwidth]
-\begin{column}{.49\textwidth}
-\textbf{En cada realización $s$}
-\[\fu^{(s)}(t)=\frac1N\sum_{i=1}^N\mathbf1_{\{i\text{ usada en }t\}}\]
-\[t_p^{(s)}=\inf\{t:\fu^{(s)}(t)\geq p\}\]
-\[p=0{,}9\quad\text{o}\quad p=1\]
-\textbf{Primero un tiempo por corrida.}
+\begin{column}{.28\textwidth}\centering
+\begin{tikzpicture}[>=Stealth]
+  \draw[thick,dashed,gray] (0,.75) circle (.75);
+  \fill[fresh!25] (0,-.5) circle (.75);
+  \draw[thick,fresh] (0,-.5) circle (.75);
+  \draw[very thick] (-1.5,.04) .. controls (0,-.02) .. (1.5,.04);
+  \node[font=\scriptsize,above] at (-1.15,.04) {pared};
+  \fill (0,-.5) circle (1.3pt) node[below=2pt] {$\vect r_i$};
+  \fill[gray] (0,.75) circle (1.3pt) node[above=2pt,font=\scriptsize] {imagen};
+  \draw[accent,very thick,|-|] (.95,0) -- (.95,.25) node[right] {$\xi$};
+  \draw[->,thick] (-1.1,-.75) -- (-1.1,-.15) node[left] {$\hat{\vect n}$};
+\end{tikzpicture}
+\par\scriptsize Imagen fija en $(R+r)\,\hat{\vect n}$,\\recalculada en cada $\dt$
 \end{column}
-\begin{column}{.48\textwidth}
-\textbf{Entre $n_r$ realizaciones}
-\[\overline t_p=\frac1{n_r}\sum_{s=1}^{n_r}t_p^{(s)}\]
-\[s_{t_p}=\sqrt{\frac{\sum_s(t_p^{(s)}-\overline t_p)^2}{n_r-1}}\]
-\begin{itemize}
-\item Barras: desvío estándar entre corridas.
-\end{itemize}
-\end{column}\end{columns}
+\begin{column}{.30\textwidth}\small
+$R=0{,}51$ m\\
+$r=1{,}75\times10^{-2}$ m\\
+$m=2{,}5\times10^{-2}$ kg\\
+$k=10^{4}$ N/m\\
+$v_0=1$ m/s, dirección uniforme en $[0,2\pi)$
+\medskip
 
-\end{frame}
-% 10 -- 30 s
-\begin{frame}{Parámetros fijos y estudios realizados}
-\begin{columns}[T,onlytextwidth]
-\begin{column}{.22\textwidth}
-\textbf{Fijos}
+Obstáculos fijos de radio $r$ en $(\pm x_0,0)$.
 \medskip
-{\small\renewcommand{\arraystretch}{1.45}
-\begin{tabular}{@{}ll@{}}
-$R$ & $5{,}10\times10^{-1}$ m\\
-$r$ & $1{,}75\times10^{-2}$ m\\
-$m$ & $2{,}50\times10^{-2}$ kg\\
-$k$ & $10^4$ N/m\\
-$v_0$ & $1$ m/s
-\end{tabular}}
-\end{column}
-\begin{column}{.76\textwidth}
-\textbf{Variables, repeticiones y tiempos}
-\medskip
-{\footnotesize\renewcommand{\arraystretch}{1.25}\setlength{\tabcolsep}{3pt}
-\begin{tabular}{@{}llllrr@{}}
-\toprule
-Estudio & $N$ & $x_0$ & $h$ (s) & Corridas & $t_f$ (s)\\
-\midrule
-Energía & $300$ & sin obstáculos & $[2{,}5\times10^{-5};10^{-3}]$ & $1$ por $h$ & $2$\\
-Rendimiento & $[20,650]$ & $r$ & $5\times10^{-5}$ & $10$ & $30$\\
-Posición & $20$ y $100$ & $[r,R-r]$ & $1{,}25\times10^{-5}$ & $5$ & $100$\\
-Rapidez & $100$ & sin obstáculos & $1{,}25\times10^{-5}$ & $10$ & $60$\\
-Densidad & $[20,650]$ & $r$ & $1{,}25\times10^{-5}$ & $10$ & $300$\\
-Mapa & $[20,200]$ & $[r,R-r]$ & $1{,}25\times10^{-5}$ & $5$ & $100$\\
-\bottomrule
-\end{tabular}}
-\par\medskip
-$x_0$: $11$ posiciones, $\Delta x_0=4{,}75\times10^{-2}$ m.
+
+{\color{fresh}\textbf{Fresca}} $\to$ {\color{used}\textbf{usada}} al tocar por primera vez un obstáculo.
 \end{column}
 \end{columns}
 \end{frame}
 
-% 11 -- 3 s
+\begin{frame}{Estudios realizados}
+\centering\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+Estudio & $N$ & $x_0$ & $t_f$ (s) & Realizaciones & $\dt_2$ (s)\\
+\midrule
+Paso temporal & 300 & sin obstáculos & 300 & 5 por $\dt$ & $10^{-1}$\\
+Tiempo de ejecución & 20 a 650 & $r$ & 30 & 10 por $N$ & --\\
+Densidad & 20 a 650 & $r$ & 300 & 10 por $N$ & $10^{-1}$\\
+Posición & 20 y 100 & $r$ a $R-r$ & 100 & 10 por $x_0$ & $5\times10^{-2}$\\
+Mapa & 20, 50, 100 y 200 & $r$ a $R-r$ & 100 & 10 por punto & $5\times10^{-2}$\\
+Rapidez & 100 & sin obstáculos & 60 & \rapidezRealizaciones & $5\times10^{-2}$\\
+\bottomrule
+\end{tabular}
+\par\smallskip
+\raggedright\small
+\begin{itemize}\setlength\itemsep{.05cm}
+\item $N$: 20, 50, 100, 200, 300, 400, 450, 500, 550, 600 y 650. $x_0$: 11 valores equiespaciados entre $r$ y $R-r$.
+\item Billar: $\dt=\pasoElegido$ s, salvo en el estudio del paso temporal.
+\item Densidad: mismas condiciones iniciales y $\dt$ que el tiempo de ejecución, continuadas hasta 300 s.
+\item $N>430$: el rechazo no ubica las partículas; se eligen sitios al azar de una red triangular y se desordenan con Monte Carlo.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Observables}
+\small
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.49\textwidth}
+\textbf{Energía} (cada cuadro, contando cada resorte una vez)
+\[\delta E=\max_{t\le t_f}\frac{|E(t)-E(0)|}{E(0)}\]
+\textbf{Conversión} (por realización)
+\[\fu(t)=\frac{N_u(t)}{N}\]
+$t_{90}$, $t_{100}$: primer cuadro con $\fu\geq0{,}9$ y $\fu=1$.
+\end{column}
+\begin{column}{.49\textwidth}
+\textbf{Promedios entre las $M$ realizaciones}
+\[\langle t_{90}\rangle=\frac1M\sum_{k=1}^{M}t_{90}^{(k)}\]
+\[\sigma^2=\frac{1}{M-1}\sum_{k=1}^{M}\big(t_{90}^{(k)}-\langle t_{90}\rangle\big)^2\]
+Si alguna realización no llega, se informa cuántas y $\fu(t_f)$.
+\medskip
+
+\textbf{Rapidez}: $f(v)$ = fracción de partículas con $|\vect v|$ en el bin / ancho del bin ($0{,}1$ m/s).
+\medskip
+
+\textbf{Tiempo de ejecución}: reloj de la integración, sin generación ni escritura.
+\end{column}
+\end{columns}
+\end{frame}
+
 \section{Resultados}
 \begin{frame}\sectionpage\end{frame}
-% 12 -- 35 s. Única diapositiva del sistema 1, exclusivamente la figura.
-\begin{frame}{Oscilador: error cuadrático medio de los cuatro métodos}
-\centering\includegraphics[width=\textwidth,height=6.3cm,keepaspectratio]{oscilador-ecm.pdf}
-\end{frame}
-% 13 -- 30 s
-\begin{frame}{Variación porcentual de la energía total}
-\begin{columns}[c,onlytextwidth]
-\begin{column}{.66\textwidth}
-\includegraphics[width=\linewidth]{energia-tiempo.pdf}
-\end{column}
-\begin{column}{.32\textwidth}\small
-$N=300$, sin obstáculos\\
-Seguimiento: $2$ s\\
-Una condición inicial
+
+\begin{frame}{Sistema 1: error de los esquemas de integración}
+\figura[.74]{oscilador-ecm.pdf}{
+$m=70$ kg\\$k=10^4$ N/m\\$\gamma=100$ kg/s\\$r(0)=1$ m\\$v(0)=-\gamma/2m$\\$t_f=5$ s
 \medskip
-\[\begin{aligned}
-E&=\sum_i\tfrac m2v_i^2\\
- &\quad+\sum_c\tfrac k2\xi_c^2
-\end{aligned}\]
-Pares y pared, una sola vez.
-\medskip
-\[\delta_E(t)=100\,\frac{E(t)-E(0)}{E(0)}\]
-Referencia: $E(0)=3{,}75$ J.
-\end{column}
-\end{columns}
-\end{frame}
-% 14 -- 35 s
-\begin{frame}{Elección y validación del paso temporal}
-\figura{energia-paso.pdf}{
-$\varepsilon_E=\max_{t_j}|\delta_E(t_j)|$\\
-Máximo muestreado (\%).
-\medskip
-Criterio local: $0{,}1\,\%$.
-\medskip
-\textbf{Control de $30$ s}\\
-$h=10^{-4}$ s\\$\varepsilon_E=0{,}241\,\%$\\
-$h=5\times10^{-5}$ s\\$\varepsilon_E=0{,}0602\,\%$
-\medskip
-\textbf{Estudios largos}\\
-$h=\hnum$\\
-Hasta $600$ s\\
-$\varepsilon_E\leq0{,}0267\,\%$
+
+$\displaystyle\mathrm{ECM}=\frac1M\sum_{n=1}^{M}\big[r_n-r(t_n)\big]^2$\\[2pt]
+{\footnotesize $M=t_f/\dt$ pasos}
 }
 \end{frame}
-% 15 -- 15 s
-\begin{frame}{Cantidad de partículas y costo de simulación}
-\video{rendimiento}{$x_0=r$\\$N=20$ y $650$\\Mismo modelo físico}{Reproducción $4$ veces más lenta.\\Una realización por $N$.}
+
+\begin{frame}{Paso temporal: evolución de la energía}
+\figura{energia-tiempo.pdf}{
+$N=300$, sin obstáculos\\Una realización por $\dt$
+\medskip
+
+$\dfrac{|E(t)-E(0)|}{E(0)}$
+\medskip
+
+Con $\dt=5\times10^{-4}$ s una partícula atraviesa la pared antes de 300 s.
+}
 \end{frame}
-% 16 -- 40 s
-\begin{frame}{Tiempo de ejecución frente a cantidad de partículas}
-\figura{rendimiento.pdf}{
-$t_f=30$ s, $x_0=r$\\$h=5\times10^{-5}$ s\\Media $\pm$ desvío de $10$ corridas por $N$
+
+\begin{frame}{Paso temporal: elección de $\dt$}
+\figura[.62]{energia-paso.pdf}{
+$N=300$, sin obstáculos\\$t_f=300$ s\\Media $\pm$ desvío de 5 realizaciones
 \medskip
-Ambos motores en la misma \rendimientoCPU, C++20, \texttt{-O3}; sin generación ni escritura.
+
+Criterio: $\delta E<10^{-3}$ en el horizonte más largo.
 \medskip
+
+\textbf{Elegido:} $\dt=\pasoElegido$ s\\$\delta E=\deltaEElegido$
+}
+\end{frame}
+
+\begin{frame}{Cantidad de partículas}
+\animacion{densidad}{$x_0=r$\\$\dt=\pasoElegido$ s}{Reproducción al doble de la velocidad real.}
+\end{frame}
+
+\begin{frame}{Tiempo de ejecución en función de $N$}
+\figura[.64]{rendimiento.pdf}{
+$t_f=30$ s, $x_0=r$\\Media $\pm$ desvío de 10 realizaciones (barras menores que los símbolos)\\TP3: mesa vacía, punto 1.1
+\medskip
+
+Ambos en \cpu, C++20 \texttt{-O3}
+\medskip
+
 \rendimientoTexto
 }
 \end{frame}
-% 17 -- 15 s
-\begin{frame}{Posición simétrica de los obstáculos}
-\video{posicion}{$N=100$\\$x_0=r$\\$x_0=0{,}255$ m\\$x_0=R-r$}{Cinco segundos simulados.\\Una realización por posición.}
-\end{frame}
-% 18 -- 25 s
-\begin{frame}{Fracción usada para posiciones representativas}
-\figura{posicion-fu.pdf}{
-$N=100$\\$t_{\max}=100$ s\\$h=\hnum$
-\medskip
-Cada curva: media de $5$ fracciones por corrida.
-\medskip
-Bandas: desvío entre $5$ realizaciones.
-\medskip
-$t_{90}$ se obtiene por corrida, antes de promediar.
-}
-\end{frame}
-% 19 -- 35 s
-\begin{frame}{Tiempo al 90 por ciento frente a posición}
-\figura{posicion-t90.pdf}{
-$11$ posiciones\\$5$ corridas por punto\\Media $\pm$ desvío
-\medskip
-\textbf{Mínimos muestreados}\\
-$N=100$: $x_0=0{,}1600$ m\\
-$13{,}6\pm1{,}0$ s
-\medskip
-$N=20$: $x_0=0{,}3975$ m\\
-$9{,}2\pm1{,}1$ s
-\medskip
-Resolución espacial:\\$4{,}75\times10^{-2}$ m.
-}
-\end{frame}
-% 20 -- 15 s
-\begin{frame}{Redistribución de rapidez sin obstáculos}
-\video{rapidez}{$N=100$\\Sin obstáculos\\$v_i(0)=1$ m/s\\$h=\hnum$}{Reproducción $4$ veces más lenta.\\Una realización.}
-\end{frame}
-% 21 -- 30 s
-\begin{frame}{Evolución de la distribución de rapidez}
-\figura{rapidez-evolucion.pdf}{
-$10$ realizaciones\\$N=100$\\Bins comunes:\\$\Delta v=0{,}1$ m/s
-\medskip
-Por instante:\\$100$ partículas/corrida.\\Media de $10$ densidades.
-}
-\end{frame}
-% 22 -- 45 s
-\begin{frame}{Ajuste de Maxwell--Boltzmann con un parámetro}
-\begin{columns}[T,onlytextwidth]
-\begin{column}{.49\textwidth}\centering\includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{rapidez-ajuste.pdf}\end{column}
-\begin{column}{.49\textwidth}\centering\includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{rapidez-error.pdf}\end{column}
-\end{columns}
-\smallskip
-{\centering\small
-$f(v)=\dfrac{mv}{k_BT}\,e^{-mv^2/(2k_BT)}$;\enspace $k_BT$ minimiza $S=\sum_b[\bar f_b-g_b]^2$, con $g_b$ la media de $f$ en el bin $b$.\par
-$10$ corridas, $500$ cuadros por corrida en $[10,60)$ s; barras: desvío.\par
-$k_BT=1{,}240\times10^{-2}$ J\qquad $m\langle v^2\rangle/2=1{,}232\times10^{-2}$ J\qquad $mv_0^2/2=1{,}250\times10^{-2}$ J\par}
-\end{frame}
-% 23 -- 15 s
-\begin{frame}{Conversión a distintas densidades}
-\video{densidad}{$x_0=r$\\$N=50$ y $650$\\$h=\hnum$}{Reproducción $4$ veces más lenta.\\Una realización por $N$.}
-\end{frame}
-% 24 -- 25 s
-\begin{frame}{Evolución de la conversión al aumentar la densidad}
+
+\begin{frame}{Densidad: fracción de partículas usadas}
 \figura{densidad-fu.pdf}{
-$x_0=r$\\$10$ corridas por $N$\\Bandas: desvío
+$x_0=r$, $t_f=300$ s\\Media $\pm$ desvío de 10 realizaciones (banda)
 \medskip
-En $30$ s no se llega a $t_{90}$ con $N\geq200$: se extendió a $300$ s.
-\medskip
-$N=650$:\\$\overline{\fu}(300\,\mathrm s)=4{,}32\,\%$.
-\medskip
-Ambos tiempos siguen censurados en las $10$ realizaciones de ese grupo.
-}
-\end{frame}
-% 25 -- 40 s
-\begin{frame}{Densidad y tiempos de conversión}
-\figura{densidad-tiempos.pdf}{
-$\rho=N/(\pi R^2)$, $x_0=r$\\$10$ corridas por $N$
-\medskip
-Círculos: media $\pm$ desvío.\\Triángulo ($N=650$): ninguna corrida llega en $300$ s.
-\medskip
-\textbf{Menores medias}\\
-$t_{90}$: $N=50$\\$20{,}4\pm3{,}5$ s
-\medskip
-$t_{100}$: $N=20$\\$41\pm14$ s
-\medskip
-Mínimos de la grilla; sin prueba de significancia.
-}
-\end{frame}
-% 26 -- 30 s
-\begin{frame}{Mapa de posición y cantidad de partículas}
-\figura{mapa-posiciones.pdf}{
-$11$ posiciones\\$4$ valores de $N$\\$5$ corridas por celda\\Corte: $100$ s
-\medskip
-Todos los $t_{90}$ observados.
-\medskip
-\textbf{Menor media por fila}\\
-$N=20$: $0{,}3975$ m\\
-$N=50$: $0{,}3025$ m\\
-$N=100$: $0{,}1600$ m\\
-$N=200$: $0{,}2075$ m
-\medskip
-Recuadro rojo: mínimo muestral; no óptimo continuo.
+
+Línea: $\fu=0{,}9$
 }
 \end{frame}
 
-% 27 -- 3 s
+\begin{frame}{Densidad: tiempos de conversión}
+\figura[.64]{densidad-tiempos.pdf}{
+$x_0=r$, $t_f=300$ s\\Media $\pm$ desvío de 10 realizaciones\\$\rho=N/\pi R^2$
+\medskip
+
+\densidadTexto
+}
+\end{frame}
+
+\begin{frame}{Posición de los obstáculos}
+\animacion{posicion}{$N=100$\\$\dt=\pasoElegido$ s}{Reproducción al doble de la velocidad real.}
+\end{frame}
+
+\begin{frame}{Posición: fracción de partículas usadas}
+\figura{posicion-fu.pdf}{
+$N=100$, $t_f=100$ s\\Media $\pm$ desvío de 10 realizaciones (banda)
+\medskip
+
+Línea: $\fu=0{,}9$
+}
+\end{frame}
+
+\begin{frame}{Posición: tiempo al 90\,\%}
+\figura[.64]{posicion-t90.pdf}{
+$t_f=100$ s\\Media $\pm$ desvío de 10 realizaciones
+\medskip
+
+\posicionTexto
+}
+\end{frame}
+
+\begin{frame}{Posición y densidad}
+\figura[.68]{mapa-t90.pdf}{
+$t_f=100$ s\\Media de 10 realizaciones
+\medskip
+
+\mapaTexto
+}
+\end{frame}
+
+\begin{frame}{Distribución de rapideces}
+\animacion{rapidez}{$N=100$, sin obstáculos\\Todas con $|\vect v|=v_0$ en $t=0$}{Reproducción a 0,4 veces la velocidad real.}
+\end{frame}
+
+\begin{frame}{Rapidez: evolución de $f(v)$}
+\figura{rapidez-evolucion.pdf}{
+$N=100$, sin obstáculos\\\rapidezRealizaciones{} realizaciones
+\medskip
+
+$t=0$: $|\vect v|=v_0$
+\medskip
+
+Estacionario: $t\geq\tEstacionario$ s
+}
+\end{frame}
+
+\begin{frame}{Rapidez: ajuste de Maxwell--Boltzmann}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{.49\textwidth}\centering
+\includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{rapidez-ajuste.pdf}\par
+\small $f(v)=\dfrac{m v}{k_BT}\,e^{-m v^2/2k_BT}$\\
+Estacionario ($t\geq\tEstacionario$ s), \rapidezRealizaciones{} realizaciones
+\end{column}
+\begin{column}{.49\textwidth}\centering
+\includegraphics[width=\linewidth,height=4.5cm,keepaspectratio]{rapidez-error.pdf}\par
+\small $E(k_BT)=\sum_i\big[f_i-f(v_i)\big]^2$\\
+$v_i$: centro del bin $i$
+\end{column}
+\end{columns}
+\medskip
+\centering\small
+$k_BT=\kbtAjuste$ J\\[2pt] $m\langle v^2\rangle/2=\cineticaMedia$ J\qquad $m v_0^2/2=1{,}250\times10^{-2}$ J
+\end{frame}
+
 \section{Conclusiones}
 \begin{frame}\sectionpage\end{frame}
-% 28 -- 55 s
+
 \begin{frame}{Conclusiones}
 \small
-\begin{itemize}\setlength\itemsep{.22cm}
-\item Beeman da el menor ECM, $\approx13\,\%$ menos que Verlet con el mismo orden. Verlet original y Velocity Verlet coinciden; Euler predictor-corrector es de primer orden.
-\item $h=5\times10^{-5}$ s conserva la energía dentro del $0{,}1\,\%$ en $30$ s; para $100$--$600$ s se usó $h=1{,}25\times10^{-5}$ s.
-\item Al duplicar $N$, paso temporal tarda $\approx\times2{,}5$ y eventos $\times10$--$19$: eventos es más rápido hasta $N=200$ y paso temporal desde $N=400$; con $N=650$, eventos tarda $\times35$.
-\item Existe una posición de menor $\langle t_{90}\rangle$ y depende de la frecuencia de choques: $0{,}16$ m con $N=100$ y $0{,}40$ m con $N=20$.
-\item La rapidez relaja a Maxwell--Boltzmann con $k_BT=1{,}240\times10^{-2}$ J, próximo a $m\langle v^2\rangle/2$; el resto de $mv_0^2/2$ es energía de contacto.
-\item La densidad óptima es baja: $\langle t_{90}\rangle$ es mínimo entre $N=20$ y $100$ y crece desde $N=200$; con $N=650$ la conversión casi se detiene.
+\begin{itemize}\setlength\itemsep{.15cm}
+\item \textbf{Integradores:} Beeman da el menor error, $\approx13\,\%$ menos que Verlet, con el mismo orden 2; Euler predictor-corrector es de orden 1.
+\item \textbf{Paso:} $\delta E$ crece con $\dt$ y con el tiempo; $\dt=\pasoElegido$ s mantiene $\delta E<10^{-3}$ en 300 s.
+\item \textbf{Costo:} el del TP4 crece en forma lineal con $N$ y el del TP3, mucho más rápido: el TP3 gana hasta $N=400$, pero con $N=650$ tarda 10 veces más.
+\item \textbf{Densidad:} con $x_0=r$, $\langle t_{90}\rangle$ y $\langle t_{100}\rangle$ crecen con $N$: no hay una densidad óptima. Con $N=650$ las partículas quedan casi en una red y en 300 s solo se usa el 5\,\%.
+\item \textbf{Posición:} los extremos son los peores. Con $N$ de 50 a 200 el óptimo está en $x_0\approx0{,}16$--$0{,}26$ m; con $N=20$, el mínimo es una meseta entre 0,11 y 0,40 m.
+\item \textbf{Rapidez:} en $\approx1$ s se llega a Maxwell--Boltzmann. $k_BT$ y $m\langle v^2\rangle/2$ difieren en un 0,8\,\%, del orden del desvío entre realizaciones; la diferencia con $m v_0^2/2$ es la energía de los contactos.
 \end{itemize}
 \end{frame}
-% 29 -- 20 s. Diapositiva extra solicitada en TP04 p. 4.
+
 \begin{frame}{Declaración de uso de IA}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{.46\textwidth}
@@ -368,7 +430,8 @@ Claude Code con Claude Opus 5.5.
 \begin{column}{.49\textwidth}
 \textbf{Intervención}\\\medskip
 Código C++ y Python, pruebas, ejecución de corridas y gráficos.
-\end{column}\end{columns}
-
+\end{column}
+\end{columns}
 \end{frame}
+
 \end{document}

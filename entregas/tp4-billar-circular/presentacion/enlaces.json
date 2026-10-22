@@ -1,7 +1,5 @@
 {
-  "energia": null,
-  "rendimiento": null,
+  "densidad": null,
   "posicion": null,
-  "rapidez": null,
-  "densidad": null
+  "rapidez": null
 }
