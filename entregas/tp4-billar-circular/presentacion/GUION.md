@@ -22,17 +22,30 @@ Empecemos por el modelo.
 
 El sistema real son discos rígidos que, al chocar, se deforman un poco, como los granos de un medio granular. A diferencia del TP3, el choque no es instantáneo: mientras dos discos se superponen, aparece una fuerza de resorte. La fuerza sobre cada partícula es la suma, sobre los cuerpos en contacto, de menos k por la superposición xi por el versor hacia el otro cuerpo. Xi es la suma de los radios menos la distancia entre centros; si es negativa, no hay contacto. El otro cuerpo puede ser una partícula o un obstáculo fijo. Sin fricción ni disipación, la energía total se conserva: la cinética más un medio de k xi cuadrado por cada contacto. Esa conservación la usamos para elegir el paso.
 
+// me gusta mas asi:
+
+Modelamos los choques mediante contactos elásticos de duración finita. La pequeña deformación de los cuerpos se representa permitiendo una superposición entre los discos.
+
+Xi mide esa superposición: es la suma de los radios menos la distancia entre centros. Si es positiva, aparece una fuerza de resorte proporcional a xi. El versor apunta hacia el otro cuerpo y el signo negativo hace que la fuerza sea repulsiva, como se ve en el dibujo.
+
+Sumando todos los contactos obtenemos la fuerza total y, por la segunda ley de Newton, la aceleración de cada partícula.
+
+Durante el choque se intercambian energía cinética y potencial elástica. Como no hay fricción ni disipación, la energía total se conserva, y usamos esa conservación para evaluar el paso temporal.”
+
 ### 4. Implementación — 0:03
 
 Veamos cómo lo implementamos.
 
 ### 5. Integración con paso temporal fijo — 0:40
+//no lo tengo 100% CLARO
 
 En el billar usamos Verlet original, como pide la consigna. La posición siguiente sale de las dos posiciones anteriores y de la fuerza actual. La velocidad no se integra: es la diferencia centrada entre la posición siguiente y la anterior. Para arrancar necesitamos la posición en menos delta t, que estimamos con un paso de Euler hacia atrás. Así hay una sola evaluación de fuerzas por paso. La velocidad en t recién se conoce cuando calculamos la posición en t más delta t, así que escribimos el estado en ese momento, con posición y velocidad sincronizadas. Guardamos un cuadro cada n pasos, o sea cada delta t dos.
 
 ### 6. Algoritmo del motor — 0:35
 
 Este es el algoritmo. Generamos N partículas azules, sin superponerse y con rapidez v cero. En cada paso ubicamos las partículas en celdas de lado mayor o igual a 2r. Así cada una se compara solo con su celda y las ocho vecinas, y el costo crece en forma proporcional a N. Sumamos los resortes con las vecinas, con la pared y con los obstáculos. Si una partícula fresca se superpone con un obstáculo, pasa a roja. Avanzamos con Verlet y, cuando corresponde, escribimos el tiempo, las posiciones, las velocidades y los colores.
+imp:
+“Calculamos todos los pasos temporales, pero escribimos solo uno cada cierta cantidad de pasos para reducir el volumen de datos.”
 
 ### 7. Arquitectura del motor — 0:30
 
