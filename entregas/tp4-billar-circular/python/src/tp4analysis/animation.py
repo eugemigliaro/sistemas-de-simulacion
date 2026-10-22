@@ -13,13 +13,14 @@ from matplotlib.colors import Normalize, to_rgb  # noqa: E402
 
 import numpy as np  # noqa: E402
 
+from .conversion import crossing_time, used_fraction  # noqa: E402
 from .files import Trajectory  # noqa: E402
 
 FRESH = "#1f5fbf"
 USED = "#d0392f"
 
 
-def _panel(axis, trajectory: Trajectory, title: str, speed_norm: Normalize | None):
+def _panel(axis, trajectory: Trajectory, title: str, speed_norm: Normalize | None, title_pad: float):
     h = trajectory.header
     radius, r = h["radius"], h["particle_radius"]
     axis.set_xlim(-radius * 1.03, radius * 1.03)
@@ -38,8 +39,23 @@ def _panel(axis, trajectory: Trajectory, title: str, speed_norm: Normalize | Non
         disks.set_cmap("viridis")
         disks.set_norm(speed_norm)
     axis.add_collection(disks)
-    axis.set_title(title, fontsize=22)
+    axis.set_title(title, fontsize=22, pad=title_pad)
     return disks
+
+
+def _comma(value: float, decimals: int) -> str:
+    return f"{value:.{decimals}f}".replace(".", ",")
+
+
+def _status(text, trajectory: Trajectory, fraction: np.ndarray, t90: float | None, frame: int) -> None:
+    """Fu del cuadro y, desde que la realización llega a 0,9, su t90."""
+    line = rf"$F_{{\mathrm{{u}}}}$ = {_comma(fraction[frame], 2)}"
+    reached = t90 is not None and trajectory.times[frame] >= t90 - 1e-9
+    if reached:
+        line += rf"   $t_{{90}}$ = {_comma(t90, 1)} s"
+    text.set_text(line)
+    text.set_color(USED if reached else "black")
+    text.set_fontweight("bold" if reached else "normal")
 
 
 def _paint(disks: EllipseCollection, trajectory: Trajectory, frame: int, by_speed: bool) -> None:
@@ -57,20 +73,30 @@ def animate(
     frames: np.ndarray,
     fps: int = 30,
     by_speed: bool = False,
+    conversion: bool = False,
     poster: Path | None = None,
     poster_frame: int = 0,
 ) -> None:
     """Escribe un MP4 con un panel por trayectoria, recorriendo los cuadros
-    indicados (los mismos índices en todas). Opcionalmente guarda un PNG
+    indicados (los mismos índices en todas). Con conversion, cada panel muestra
+    su Fu y, cuando llega a 0,9, su t90. Opcionalmente guarda un PNG
     representativo para el PDF."""
     panels = len(trajectories)
     extra = 2.0 if by_speed else 0.0
     width_inches = 5.4 * panels + extra
     figure, axes = plt.subplots(1, panels, figsize=(width_inches, 6.0), dpi=100, squeeze=False)
     norm = Normalize(0.0, 2.5) if by_speed else None
-    disks = [_panel(axis, t, title, norm) for axis, t, title in zip(axes[0], trajectories, titles)]
+    disks = [_panel(axis, t, title, norm, 34 if conversion else 6)
+             for axis, t, title in zip(axes[0], trajectories, titles)]
     panel_right = 1.0 - extra / width_inches
-    figure.subplots_adjust(left=0.02, right=panel_right - 0.01, top=0.88, bottom=0.1, wspace=0.05)
+    figure.subplots_adjust(left=0.02, right=panel_right - 0.01, top=0.82 if conversion else 0.88, bottom=0.1,
+                           wspace=0.05)
+    statuses = []
+    if conversion:
+        for axis, trajectory in zip(axes[0], trajectories):
+            fraction = used_fraction(trajectory)
+            text = axis.text(0.5, 1.01, "", transform=axis.transAxes, ha="center", va="bottom", fontsize=18)
+            statuses.append((text, trajectory, fraction, crossing_time(trajectory.times, fraction, 0.9)))
     if by_speed:
         bar_axis = figure.add_axes((panel_right + 0.02, 0.15, 0.04, 0.7))
         bar = figure.colorbar(disks[-1], cax=bar_axis)
@@ -87,6 +113,8 @@ def animate(
         for index in frames:
             for panel, trajectory in zip(disks, trajectories):
                 _paint(panel, trajectory, index, by_speed)
+            for text, trajectory, fraction, t90 in statuses:
+                _status(text, trajectory, fraction, t90, index)
             clock.set_text(f"t = {trajectories[0].times[index]:.1f} s".replace(".", ","))
             figure.canvas.draw()
             image = np.asarray(figure.canvas.buffer_rgba())[:, :, :3]

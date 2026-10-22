@@ -85,10 +85,22 @@ def oscillator() -> None:
         "velocity-verlet": ("Velocity Verlet", AQUA, dict(marker="x", markeredgewidth=2.5, markersize=10)),
         "euler-pc": ("Euler predictor-corrector", YELLOW, dict(marker="^")),
     }
+    inset = axis.inset_axes((0.68, 0.05, 0.3, 0.4))
     for key, (label, color, style) in styles.items():
         data = sorted((float(r["dt_s"]), float(r["ecm_m2"])) for r in rows if r["integrator"] == key)
         axis.plot(*zip(*data), color=color, label=label, linewidth=1.5, **style)
+        if key != "euler-pc":
+            inset.plot(*zip(*data), color=color, linewidth=1.5, **style)
     log_axis(axis)
+    inset.set_xscale("log")
+    inset.set_yscale("log")
+    inset.set_xlim(9e-5, 1.1e-4)
+    inset.set_ylim(2.5e-14, 5.6e-14)
+    inset.tick_params(which="both", bottom=False, left=False, labelbottom=False, labelleft=False)
+    inset.grid(False)
+    for spine in inset.spines.values():
+        spine.set_visible(True)
+    axis.indicate_inset_zoom(inset, edgecolor=MUTED)
     axis.set_xlabel("Paso temporal (s)")
     axis.set_ylabel("Error cuadrático medio (m²)")
     axis.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=2, fontsize=17, columnspacing=1.0,
@@ -112,7 +124,7 @@ def energy() -> None:
     axis.set_ylim(1e-10, 2)
     axis.set_xlim(0, 300)
     axis.set_xlabel("Tiempo (s)")
-    axis.set_ylabel("Variación relativa de la energía")
+    axis.set_ylabel("Variación relativa\nde la energía total")
     axis.legend(title="Paso temporal", loc="lower right", ncol=3, fontsize=14, title_fontsize=15,
                 columnspacing=0.8, handlelength=1.2)
     save(figure, "energia-tiempo")
@@ -126,7 +138,7 @@ def energy() -> None:
     axis.axhline(1e-3, color=MUTED, linestyle="--", linewidth=1.5)
     log_axis(axis)
     axis.set_xlabel("Paso temporal (s)")
-    axis.set_ylabel("Máxima variación relativa\nde la energía")
+    axis.set_ylabel("Máxima variación relativa\nde la energía total")
     save(figure, "energia-paso")
 
 
@@ -137,12 +149,22 @@ def benchmark() -> None:
         data = sorted((int(r["n"]), float(r["seconds_mean"]), float(r["seconds_std"]))
                       for r in rows if r["engine"] == engine)
         n, mean, std = map(np.array, zip(*data))
-        axis.errorbar(n, mean, yerr=std, color=color, marker=marker, capsize=4, linewidth=1.5, label=label)
+        axis.errorbar(n, mean, yerr=std, color=color, marker=marker, markersize=5, capsize=3, linewidth=1.5,
+                      label=label)
     log_axis(axis, "y")
     axis.set_xlabel("Cantidad de partículas")
     axis.set_ylabel("Tiempo de ejecución (s)")
     axis.legend(loc="lower right")
     save(figure, "rendimiento")
+
+
+def fraction_axis(axis, tf: float) -> None:
+    axis.axhline(0.9, color=MUTED, linestyle="--", linewidth=1.5)
+    axis.yaxis.set_major_locator(FixedLocator([0, 0.2, 0.4, 0.6, 0.8, 0.9, 1]))
+    axis.set_xlim(0, tf)
+    axis.set_ylim(0, 1.02)
+    axis.set_xlabel("Tiempo (s)")
+    axis.set_ylabel("Fracción de partículas usadas")
 
 
 def mean_curves(npz, mask) -> tuple[np.ndarray, np.ndarray]:
@@ -160,11 +182,7 @@ def position() -> None:
         mean, std = mean_curves(fu, (fu["n"] == 100) & (fu["x0"] == x0))
         axis.plot(times, mean, color=color, label=name)
         axis.fill_between(times, mean - std, mean + std, color=color, alpha=0.18, linewidth=0)
-    axis.axhline(0.9, color=MUTED, linestyle="--", linewidth=1.5)
-    axis.set_xlim(0, times[-1])
-    axis.set_ylim(0, 1.02)
-    axis.set_xlabel("Tiempo (s)")
-    axis.set_ylabel("Fracción de partículas usadas")
+    fraction_axis(axis, times[-1])
     axis.legend(title="Posición $x_0$", loc="lower right", title_fontsize=18)
     save(figure, "posicion-fu")
 
@@ -177,7 +195,7 @@ def position() -> None:
         x, mean, std = map(np.array, zip(*complete))
         axis.errorbar(x, mean, yerr=std, color=color, marker=marker, capsize=4, linewidth=1.5, label=f"N = {n}")
     axis.set_xlabel("Posición de los obstáculos $x_0$ (m)")
-    axis.set_ylabel("Tiempo al 90 % (s)")
+    axis.set_ylabel(r"$\langle t_{90}\rangle$ (s)")
     axis.set_ylim(bottom=0)
     axis.legend(loc="upper center")
     save(figure, "posicion-t90")
@@ -190,12 +208,12 @@ def speed_figures() -> None:
     figure, axis = plt.subplots(figsize=(7.2, 5.0))
     for index, t in enumerate(times):
         data = [(float(r["v_m_s"]), float(r["density_s_m"])) for r in evolution if float(r["t_s"]) == t]
-        axis.plot(*zip(*data), color=BLUES(index / max(1, len(times) - 1)), marker="o", markersize=6,
-                  linewidth=1.4, label=f"{comma(t)} s")
+        axis.step(*zip(*data), where="mid", color=BLUES(index / max(1, len(times) - 1)), linewidth=1.6,
+                  label=f"{comma(t)} s")
     stationary = read_csv(RESULTS / "speed-stationary.csv")
     v = np.array([float(r["v_m_s"]) for r in stationary])
     density = np.array([float(r["density_mean_s_m"]) for r in stationary])
-    axis.plot(v, density, color=ORANGE, marker="s", markersize=6, linewidth=1.4, label="estacionario")
+    axis.step(v, density, where="mid", color=ORANGE, linewidth=2.2, label="estacionario")
     axis.set_xlim(0, 3.0)
     axis.set_ylim(bottom=0)
     axis.set_xlabel("Rapidez (m/s)")
@@ -220,13 +238,11 @@ def speed_figures() -> None:
     error = read_csv(RESULTS / "speed-fit-error.csv")
     k = np.array([float(r["kbt_j"]) for r in error])
     e = np.array([float(r["error"]) for r in error])
-    window = (k > 0.4 * kbt) & (k < 1.8 * kbt)
+    window = (k > 0.6 * kbt) & (k < 1.4 * kbt)
     figure, axis = plt.subplots(figsize=(6.4, 4.8))
     axis.plot(k[window] * 100, e[window], color=BLUE)
     axis.plot([kbt * 100], [np.interp(kbt, k, e)], color=ORANGE, marker="o", markersize=11, linestyle="none")
-    axis.set_yscale("log")
-    axis.yaxis.set_major_formatter(FuncFormatter(power_of_ten))
-    axis.yaxis.set_minor_formatter(NullFormatter())
+    axis.set_ylim(bottom=0)
     axis.set_xlabel("$k_BT$ ($10^{-2}$ J)")
     axis.set_ylabel("Error del ajuste (s²/m²)")
     save(figure, "rapidez-error")
@@ -235,37 +251,50 @@ def speed_figures() -> None:
 def density() -> None:
     fu = np.load(RESULTS / "density-fu.npz")
     counts = sorted(set(fu["n"].tolist()))
-    shown = [n for n in counts if n in (20, 200, 400, 500, 600, 650)]
+    shown = [n for n in counts if n in (20, 200, 400, 550, 600, 650)]
     figure, axis = plt.subplots(figsize=(7.6, 5.0))
     for index, n in enumerate(shown):
         mean, std = mean_curves(fu, fu["n"] == n)
         color = BLUES(index / max(1, len(shown) - 1))
         axis.plot(fu["times"], mean, color=color, label=f"{n}")
         axis.fill_between(fu["times"], mean - std, mean + std, color=color, alpha=0.15, linewidth=0)
-    axis.axhline(0.9, color=MUTED, linestyle="--", linewidth=1.5)
-    axis.set_xlim(0, fu["times"][-1])
-    axis.set_ylim(0, 1.02)
-    axis.set_xlabel("Tiempo (s)")
-    axis.set_ylabel("Fracción de partículas usadas")
+    fraction_axis(axis, fu["times"][-1])
     axis.legend(title="N", loc="upper left", bbox_to_anchor=(1.01, 1.0), title_fontsize=18)
     save(figure, "densidad-fu")
 
-    rows = read_csv(RESULTS / "density-summary.csv")
-    figure, axis = plt.subplots(figsize=(7.0, 5.0))
-    for key, label, color, marker in (("t90", "$t_{90}$", BLUE, "o"), ("t100", "$t_{100}$", ORANGE, "s")):
-        data = [(int(r["n"]) / AREA, number(r, f"{key}_mean_s"), number(r, f"{key}_std_s")) for r in rows]
-        complete = [(x, m, s) for x, m, s in data if m is not None]
-        if complete:
-            x, mean, std = map(np.array, zip(*complete))
-            axis.errorbar(x, mean, yerr=std, color=color, marker=marker, capsize=4, linewidth=1.5, label=label)
+    rows = sorted(read_csv(RESULTS / "density-summary.csv"), key=lambda r: int(r["n"]))
+    tf = fu["times"][-1]
+    figure, axis = plt.subplots(figsize=(7.0, 5.4))
+    for key, label, color, marker in (("t90", r"$\langle t_{90}\rangle$", BLUE, "o"),
+                                      ("t100", r"$\langle t_{100}\rangle$", ORANGE, "s")):
+        complete = [(int(r["n"]) / AREA, float(r[f"{key}_mean_s"]), float(r[f"{key}_std_s"]))
+                    for r in rows if int(r[f"{key}_missing"]) == 0]
+        x, mean, std = map(np.array, zip(*complete))
+        axis.errorbar(x, mean, yerr=std, color=color, marker=marker, capsize=4, linewidth=1.5, label=label)
+        # Sin media: alguna realización no llega antes de tf. Si no llega a 0,9 tampoco llega a 1,
+        # así que para t100 solo se marcan los N donde todavía hay t90.
+        censored = [int(r["n"]) / AREA for r in rows if int(r[f"{key}_missing"]) > 0
+                    and (key == "t90" or int(r["t90_missing"]) == 0)]
+        axis.plot(censored, [tf] * len(censored), color=color, marker=marker, markerfacecolor="white",
+                  markeredgewidth=2, linestyle="none")
+    axis.axhline(tf, color=MUTED, linestyle="--", linewidth=1.5)
+    axis.plot([], [], color=MUTED, marker="o", markerfacecolor="white", markeredgewidth=2, linestyle="none",
+              label="no llegan todas")
     axis.set_yscale("log")
-    axis.yaxis.set_major_locator(FixedLocator([10, 20, 50, 100, 200]))
+    axis.yaxis.set_major_locator(FixedLocator([10, 20, 50, 100, 200, 300]))
     axis.yaxis.set_major_formatter(FuncFormatter(lambda value, _: comma(value)))
     axis.yaxis.set_minor_formatter(NullFormatter())
-    axis.set_ylim(10, 250)
+    axis.set_ylim(10, 400)
+    axis.set_xlim(0, 850)
     axis.set_xlabel("Densidad (partículas/m²)")
-    axis.set_ylabel("Tiempo medio (s)")
-    axis.legend(loc="upper left")
+    axis.set_ylabel("Tiempo (s)")
+    top = axis.secondary_xaxis("top", functions=(lambda rho: rho * AREA, lambda n: n / AREA))
+    top.set_xticks([100, 200, 300, 400, 500, 600])
+    top.set_xlabel("Cantidad de partículas", fontsize=18)
+    top.tick_params(labelsize=16)
+    handles, labels = axis.get_legend_handles_labels()
+    order = sorted(range(len(labels)), key=lambda i: labels[i] == "no llegan todas")
+    axis.legend([handles[i] for i in order], [labels[i] for i in order], loc="lower right", fontsize=16)
     save(figure, "densidad-tiempos")
 
 
@@ -292,7 +321,7 @@ def heatmap() -> None:
     axis.set_xlabel("Posición de los obstáculos $x_0$ (m)")
     axis.set_ylabel("Cantidad de partículas")
     bar = figure.colorbar(image, ax=axis, pad=0.02)
-    bar.set_label("Tiempo medio al 90 % (s)")
+    bar.set_label(r"$\langle t_{90}\rangle$ (s)")
     save(figure, "mapa-t90")
 
 
@@ -318,10 +347,6 @@ def tex_measure(value: float, error: float, exponent: int | None = None) -> str:
     shown, uncertainty = stats.significant(value / 10**exponent, error / 10**exponent)
     body = tex_number(shown) + r"\pm" + tex_number(uncertainty)
     return f"({body})" + rf"\times10^{{{exponent}}}" if exponent else body
-
-
-def factor(value: float) -> str:
-    return tex_number(f"{value:.2g}" if value < 10 else f"{value:.0f}")
 
 
 def cpu_name(text: str) -> str:
@@ -350,32 +375,39 @@ def map_text(rows: list[dict]) -> str:
     for n in sorted({int(r["n"]) for r in rows}):
         best = min((r for r in rows if int(r["n"]) == n), key=lambda r: float(r["t90_mean_s"]))
         lines.append(rf"$N={n}$: ${tex_measure(float(best['t90_mean_s']), float(best['t90_std_s']))}$ s")
-    lines.append("Todas las realizaciones llegan a $F_{\\mathrm u}=0{,}9$" if missing == 0
-                 else f"{missing} realizaciones no llegan a $F_{{\\mathrm u}}=0{{,}}9$")
+    if missing:
+        lines.append(f"{missing} realizaciones no llegan a $F_{{\\mathrm u}}=0{{,}}9$")
     return r"\\".join(lines)
 
 
-def density_text(rows: list[dict]) -> str:
-    """Desde qué N alguna realización no llega y Fu al final de las que no llegan al 90 %."""
-    rows = sorted(rows, key=lambda r: int(r["n"]))
-    first = {key: next((r for r in rows if int(r[f"{key}_missing"]) > 0), None) for key in ("t100", "t90")}
-    lines = [r"\textbf{No llegan todas antes de $t_f$}"]
-    for key in ("t100", "t90"):
-        row = first[key]
-        if row is not None:
-            lines.append(rf"$t_{{{key[1:]}}}$: desde $N={row['n']}$ ({row[f'{key}_missing']} de {row['realizations']})")
-    censored = [r for r in rows if int(r["t90_missing"]) > 0]
-    if censored:
-        lines.append(r"\textbf{$\fu(t_f)$ sin $t_{90}$}")
-        for r in censored:
-            lines.append(rf"$N={r['n']}$: ${tex_measure(float(r['fu_final_mean']), float(r['fu_final_std']), 0)}$")
-    return r"\\".join(lines)
+def density_text(runs: list[dict]) -> str:
+    """Para cada umbral, los N en los que alguna realización no llega antes de tf:
+    cuántas no llegan y su Fu(tf) (media y desvío entre esas realizaciones) [TP04, p. 3]."""
+    blocks = []
+    for key, level in (("t100", "1"), ("t90", "0{,}9")):
+        rows = []
+        for n in sorted({int(r["n"]) for r in runs}):
+            group = [r for r in runs if int(r["n"]) == n]
+            # Si no llega a 0,9 tampoco llega a 1: esos N se informan solo con el umbral 0,9.
+            if key == "t100" and any(number(r, "t90_s") is None for r in group):
+                continue
+            final = [float(r["fu_final"]) for r in group if number(r, f"{key}_s") is None]
+            if not final:
+                continue
+            mean, std = stats.mean_and_std(final)
+            value = tex_measure(mean, std, 0) if len(final) > 1 else tex_number(f"{mean:.3f}")
+            rows.append(rf"{n} & {len(final)}/{len(group)} & ${value}$\\")
+        if rows:
+            blocks.append(rf"\multicolumn{{3}}{{@{{}}l}}{{\textbf{{No llegan a $\fu={level}$}}}}\\" + "".join(rows))
+    header = r"$N$ & no llegan & su $\fu(t_f)$\\"
+    return (r"{\footnotesize\setlength{\tabcolsep}{3pt}\begin{tabular}{@{}rcc@{}}" + header
+            + r"[2pt]".join(blocks) + r"\end{tabular}}")
 
 
 def values() -> None:
     """Macros con los números de la presentación, calculadas desde los resultados."""
     macros = {"pasoElegido": tex_power(DT), "rapidezRealizaciones": "?", "tEstacionario": "?",
-              "deltaEElegido": "?", "cpu": "?", "rendimientoTexto": "", "kbtAjuste": "?", "cineticaMedia": "?",
+              "deltaEElegido": "?", "cpu": "?", "desvioRendimiento": "?", "kbtAjuste": "?",
               "posicionTexto": "", "mapaTexto": "", "densidadTexto": ""}
     if (RESULTS / "energy-summary.csv").exists():
         row = next(r for r in read_csv(RESULTS / "energy-summary.csv") if np.isclose(float(r["dt_s"]), DT))
@@ -385,26 +417,15 @@ def values() -> None:
         macros["rapidezRealizaciones"] = str(s["realizations"])
         macros["tEstacionario"] = tex_number(f"{s['stationary_start_s']:g}")
         macros["kbtAjuste"] = tex_measure(s["kbt_j"], s["kbt_per_realization_std_j"], -2)
-        macros["cineticaMedia"] = tex_measure(s["mean_kinetic_energy_j"], s["mean_kinetic_energy_std_j"], -2)
     if (RESULTS / "benchmark-summary.csv").exists():
         machine = json.loads((RESULTS / "benchmark-machine.json").read_text())
         macros["cpu"] = cpu_name(machine["cpu"])
-        mean = {(r["engine"], int(r["n"])): float(r["seconds_mean"]) for r in read_csv(RESULTS / "benchmark-summary.csv")}
-        counts = sorted({n for _, n in mean})
-        lines = [r"\textbf{Al duplicar $N$} ($100\to200\to400$)"]
-        for engine, label in (("tp4", "TP4"), ("tp3", "TP3")):
-            first = factor(mean[(engine, 200)] / mean[(engine, 100)])
-            second = factor(mean[(engine, 400)] / mean[(engine, 200)])
-            lines.append(rf"{label}: $\times{first}$ y $\times{second}$")
-        faster = [n for n in counts if mean[("tp3", n)] < mean[("tp4", n)]]
-        if faster:
-            lines.append(rf"TP3 más rápido hasta $N={max(faster)}$")
-        lines.append(rf"$N={counts[-1]}$: TP3 tarda $\times{factor(mean[('tp3', counts[-1])] / mean[('tp4', counts[-1])])}$")
-        macros["rendimientoTexto"] = r"\\".join(lines)
+        spread = max(float(r["seconds_std"]) / float(r["seconds_mean"]) for r in read_csv(RESULTS / "benchmark-summary.csv"))
+        macros["desvioRendimiento"] = tex_number(f"{100 * spread:.1f}")
     if (RESULTS / "position-summary.csv").exists():
         macros["posicionTexto"] = position_text(read_csv(RESULTS / "position-summary.csv"))
-    if (RESULTS / "density-summary.csv").exists():
-        macros["densidadTexto"] = density_text(read_csv(RESULTS / "density-summary.csv"))
+    if (RESULTS / "density-runs.csv").exists():
+        macros["densidadTexto"] = density_text(read_csv(RESULTS / "density-runs.csv"))
     if (RESULTS / "map-summary.csv").exists():
         macros["mapaTexto"] = map_text(read_csv(RESULTS / "position-summary.csv") + read_csv(RESULTS / "map-summary.csv"))
     lines = [rf"\newcommand{{\{name}}}{{{value}}}" for name, value in macros.items()]

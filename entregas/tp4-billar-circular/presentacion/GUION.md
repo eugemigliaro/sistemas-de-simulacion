@@ -1,12 +1,12 @@
 # Guion oral del TP4
 
-Duración objetivo: **12:30**, con 0:30 de margen sobre los 13 minutos de la consigna [TP04, p. 1]. Las tres animaciones corren embebidas en el PPTX mientras se habla. El reparto está balanceado. Igual, cada integrante tiene que poder presentar cualquier parte y responder sobre todo el trabajo, y nadie agrega nada a lo que acaba de decir otro [GPRES, p. 3].
+Duración objetivo: **12:40**, con 0:20 de margen sobre los 13 minutos de la consigna [TP04, p. 1]. Las tres animaciones corren embebidas en el PPTX mientras se habla. El reparto está balanceado. Igual, cada integrante tiene que poder presentar cualquier parte y responder sobre todo el trabajo, y nadie agrega nada a lo que acaba de decir otro [GPRES, p. 3].
 
 | Parte | Integrante | Diapositivas | Tiempo |
 |---|---|---|---|
 | Modelo, implementación y simulaciones | Eugenio | 1 a 10 | 4:19 |
 | Observables, sistema 1, paso temporal, rendimiento y densidad | Francisco | 11 a 19 | 4:18 |
-| Posición, rapidez y conclusiones | Franco | 20 a 29 | 3:53 |
+| Posición, rapidez y conclusiones | Franco | 20 a 29 | 4:03 |
 
 ## Eugenio — diapositivas 1 a 10 — 4:19
 
@@ -48,83 +48,83 @@ El billar es un círculo de 51 centímetros de radio, con dos obstáculos fijos 
 
 ### 10. Estudios realizados — 0:40
 
-Hicimos seis estudios. Para elegir el paso, 300 partículas sin obstáculos durante 300 segundos. Para el tiempo de ejecución, N de 20 a 650 con los obstáculos en contacto, durante 30 segundos; esas mismas corridas, continuadas hasta 300 segundos, forman el estudio de densidad. La posición de los obstáculos toma once valores entre r y R menos r, con 100 y 20 partículas, y con 50 y 200 completamos un mapa. Por último, la rapidez, con 100 partículas sin obstáculos. Con más de 430 partículas el sorteo no logra ubicarlas, así que partimos de una red triangular desordenada. Francisco sigue con los observables.
+Hicimos seis estudios. Para elegir el paso, 300 partículas sin obstáculos durante 300 segundos. Para el tiempo de ejecución, once valores de N entre 20 y 650 con los obstáculos en contacto, durante 30 segundos; el estudio de densidad son esas mismas corridas, continuadas hasta 300 segundos. La posición de los obstáculos toma once valores entre r y R menos r, con 100 y 20 partículas, y con 50 y 200 completamos un mapa. Por último, la rapidez, con 100 partículas sin obstáculos. Con más de 430 partículas partimos de una red triangular desordenada, porque el sorteo no logra ubicarlas. Francisco sigue con los observables.
 
 ## Francisco — diapositivas 11 a 19 — 4:18
 
 ### 11. Observables — 0:45
 
-Todos los observables se calculan sobre los estados guardados. Para la energía sumamos la cinética y cada resorte una sola vez, y tomamos delta E: la máxima variación relativa respecto de la energía inicial. F u es la fracción de partículas usadas. En cada realización, t noventa es el primer cuadro con F u mayor o igual a 0,9, y t cien, el primero con F u igual a uno. Después promediamos entre realizaciones, con el desvío estándar como barra de error. Si alguna realización no llega, no damos un promedio: informamos cuántas no llegaron y F u al final. La rapidez se mide con un histograma normalizado, con bins de 0,1 metros por segundo, y el tiempo de ejecución, solo sobre la integración.
+Todos los observables se calculan sobre los estados guardados. Para la energía sumamos la cinética y la de cada resorte, y tomamos delta E: la máxima variación relativa respecto de la energía inicial. F u es la fracción de partículas usadas. En cada realización, t noventa es el primer cuadro con F u mayor o igual a 0,9, y t cien, el primero con F u igual a uno. Después promediamos entre realizaciones, con el desvío estándar como barra de error. Si alguna realización no llega, no damos un promedio: informamos cuántas no llegaron y su F u al final. La rapidez se mide con un histograma normalizado, con bins de 0,1 metros por segundo.
 
 ### 12. Resultados — 0:03
 
 Vamos a los resultados.
 
-### 13. Sistema 1: error de los esquemas de integración — 0:40
+### 13. Sistema 1: error de los esquemas de integración — 0:30
 
-Primero, el oscilador amortiguado con los parámetros de la teórica: el error cuadrático medio respecto de la solución analítica en función del paso, en escala doble logarítmica. Euler predictor-corrector tiene pendiente 2, o sea que es de primer orden. Los otros tres tienen pendiente 4, de segundo orden, y están entre cuatro y diez órdenes de magnitud más abajo. El mejor es Beeman: su error es un 13 % menor que el de Verlet en todo el rango. Verlet y Velocity Verlet coinciden porque, si se eliminan las velocidades, dan la misma recurrencia. Con pasos muy chicos, Verlet original deja de mejorar por el error de redondeo.
+Primero, el oscilador amortiguado con los parámetros de la teórica: el error cuadrático medio respecto de la solución analítica en función del paso, en escala doble logarítmica. Euler predictor-corrector tiene pendiente 2, o sea que es de primer orden. Los otros tres tienen pendiente 4, de segundo orden, y están entre cuatro y diez órdenes de magnitud más abajo. En el recuadro se ve que Beeman queda por debajo: su error es un 13 % menor que el de Verlet en todo el rango.
 
 ### 14. Paso temporal: evolución de la energía — 0:25
 
-Ahora el billar. Para elegir el paso simulamos 300 partículas sin obstáculos y miramos la variación relativa de la energía, en escala logarítmica. Cuanto más grande es el paso, más se aleja la energía de su valor inicial, y el error crece con el tiempo. Con cinco por diez a la menos cuatro segundos la energía diverge: una partícula termina atravesando la pared.
+Ahora el billar. Para elegir el paso simulamos 300 partículas sin obstáculos y miramos la variación relativa de la energía total, la cinética más la de los resortes. Debería conservarse, así que lo que vemos es el error de integración: crece con el paso y con el tiempo. Con cinco por diez a la menos cuatro segundos la energía diverge: una partícula termina atravesando la pared.
 
-### 15. Paso temporal: elección de delta t — 0:30
+### 15. Paso temporal: elección de delta t — 0:35
 
-Resumimos cada curva con delta E, el máximo en 300 segundos, promediado en cinco realizaciones. Baja más o menos con el cuadrado del paso. Pedimos que no supere uno por mil en el horizonte más largo del trabajo. Eso da delta t igual a dos por diez a la menos cinco segundos, con delta E de 2,6 por diez a la menos cuatro. Es el paso que usamos en todos los estudios que siguen.
+Resumimos cada curva con delta E, el máximo en 300 segundos, promediado en cinco realizaciones. Con un paso más chico la energía se conserva mejor, pero el costo crece como uno sobre delta t. Pedimos que la energía total no varíe más de un 0,1 % en 300 segundos, la corrida más larga: así ese error queda muy por debajo de la dispersión de k B T entre realizaciones, del 0,6 %. El paso elegido es dos por diez a la menos cinco segundos, con delta E de 2,6 por diez a la menos cuatro.
 
-### 16. Cantidad de partículas — 0:20
+### 16. Tiempo de ejecución en función de N — 0:35
 
-La animación muestra dos densidades extremas con los obstáculos en contacto: 20 partículas a la izquierda y 650 a la derecha. Con 20, en pocos segundos casi todas pasaron por el centro. Con 650, las partículas quedan casi en una red y solo se convierten las que rodean a los obstáculos.
+Con ese paso medimos el tiempo para simular 30 segundos, con los dos motores en la misma computadora. Con paso temporal, el costo es proporcional a N: al duplicar las partículas se duplica el tiempo, porque con las celdas cada una tiene siempre pocas vecinas. En el TP3, dirigido por eventos, se multiplica por 10 a 20: hay más choques y cada uno cuesta más. Con pocas partículas el TP3 es mucho más rápido, pero desde 450 gana el TP4, y con 650 el TP3 tarda diez veces más.
 
-### 17. Tiempo de ejecución en función de N — 0:35
+### 17. Cantidad de partículas — 0:25
 
-Este es el tiempo para simular 30 segundos, en escala logarítmica, con los dos motores en la misma computadora. Con paso temporal, el costo es proporcional a N: al duplicar las partículas se duplica el tiempo, porque con las celdas cada una tiene siempre pocas vecinas. En el TP3, dirigido por eventos, se multiplica por 10 a 20: hay más choques y cada uno cuesta más. Con pocas partículas el TP3 es mucho más rápido, pero desde 450 gana el TP4, y con 650 el TP3 tarda diez veces más.
+Ahora, el efecto de la densidad, con dos casos extremos: 20 partículas a la izquierda y 650 a la derecha. Arriba se ve F u y, cuando llega a 0,9, el t noventa. Con 20 se llega al 90 % en unos 15 segundos. Con 650, las partículas quedan casi en una red y solo se convierten las que rodean a los obstáculos: a los 30 segundos se usó apenas el 2 %.
 
-### 18. Densidad: fracción de partículas usadas — 0:25
+### 18. Densidad: fracción de partículas usadas — 0:20
 
-Con esas mismas corridas, continuadas hasta 300 segundos, miramos F u para seis valores de N. Cuantas más partículas, más lenta es la conversión. Hasta 500, casi todas se usan antes del final. Con 600 se llega al 70 %, y con 650, apenas al 5 %: como en la animación, las partículas quedan casi en una red, se mezclan muy despacio y solo se usan las que rodean a los obstáculos.
+Con las corridas completas, de 300 segundos, miramos F u para seis valores de N, promediado en diez realizaciones. Cuantas más partículas, más lenta es la conversión: con 550, en promedio se llega justo al 90 % al final; con 600, al 70 %, y con 650, apenas al 5 %.
 
-### 19. Densidad: tiempos de conversión — 0:35
+### 19. Densidad: tiempos de conversión — 0:40
 
-Acá están t noventa y t cien medios en función de la densidad, en escala logarítmica. Los dos crecen en todo el rango, así que no hay una densidad óptima; con 20 y 50 partículas la diferencia queda dentro del desvío. Con más partículas cada una avanza menos entre choques y tarda más en llegar al centro. Desde 400 partículas alguna realización no llega a usarlas todas, y desde 550 alguna no llega al 90 %; ahí informamos F u al final. Franco sigue con la posición.
+Acá están t noventa y t cien medios en función de la densidad. Los dos crecen en todo el rango, así que no hay una densidad óptima: con más partículas, cada una avanza menos entre choques y tarda más en llegar al centro. Los marcadores vacíos son los N en los que alguna realización no llegó en 300 segundos; ahí no damos un promedio, porque de esas solo sabemos que tardan más. En la tabla están cuántas no llegaron y su F u final: a las de t cien les faltan una o dos partículas. Franco sigue con la posición.
 
-## Franco — diapositivas 20 a 29 — 3:53
+## Franco — diapositivas 20 a 29 — 4:03
 
-### 20. Posición de los obstáculos — 0:15
+### 20. Posición de los obstáculos — 0:20
 
-Ahora movemos los obstáculos con 100 partículas. A la izquierda están en contacto en el centro; en el medio, a la mitad del radio; y a la derecha, tocando la pared. En el medio la conversión es claramente más rápida.
+Ahora movemos los obstáculos, con 100 partículas: en contacto en el centro, a la mitad del radio y contra la pared. Primero llega al 90 % el del medio, a los 13 segundos; después el del centro, a los 23, y por último el de la pared, a los 33.
 
 ### 21. Posición: fracción de partículas usadas — 0:25
 
-Estas son las curvas de F u para esas tres posiciones, promediadas en diez realizaciones, con el desvío como banda. Con los obstáculos a la mitad del radio, F u llega a 0,9 cerca de los 15 segundos; en el centro, cerca de los 23; y contra la pared, cerca de los 32. En todas las realizaciones se usan todas las partículas antes de los 100 segundos.
+Estas son las curvas de F u para esas tres posiciones, promediadas en diez realizaciones; la zona sombreada es el desvío. Con los obstáculos a la mitad del radio, F u llega a 0,9 cerca de los 15 segundos; en el centro, cerca de los 23; y contra la pared, cerca de los 32. En todas las realizaciones se usan todas las partículas antes de los 100 segundos.
 
 ### 22. Posición: tiempo al 90 % — 0:35
 
-Este es t noventa medio en función de la posición, con 100 y con 20 partículas. Con 100 hay un mínimo amplio: entre 0,16 y 0,30 metros el promedio queda a menos de un desvío del menor, de unos 15 segundos. En los extremos es mucho más lento: 23 segundos con los obstáculos en contacto y 32 contra la pared. Con 20 partículas, que chocan mucho menos entre sí, los extremos siguen siendo los peores, pero entre 0,11 y 0,40 metros las diferencias quedan dentro del desvío: el mínimo es una meseta.
+Este es t noventa medio en función de la posición, con 100 y con 20 partículas. Con 100 hay un mínimo amplio: entre 0,16 y 0,30 metros el promedio queda a menos de un desvío del menor, de unos 15 segundos; en los extremos es mucho más lento. La consigna pregunta si esto depende de la frecuencia de choques: con 20 partículas, que chocan mucho menos, los extremos siguen siendo los peores, pero entre 0,11 y 0,40 metros las diferencias quedan dentro del desvío y el mínimo deja de estar definido.
 
 ### 23. Posición y densidad — 0:30
 
 Juntamos posición y densidad en un mapa: el color es t noventa medio y el círculo marca la mejor posición para cada N. Con 50, 100 y 200 partículas el mínimo está entre 0,16 y 0,26 metros, cerca de la mitad del radio. Con 20 aparece más afuera, pero ahí vimos que el mínimo es poco marcado. Para cualquier posición, el tiempo crece con N: el mejor t noventa pasa de unos 11 segundos con 20 partículas a 20 segundos con 200.
 
-### 24. Distribución de rapideces — 0:15
+### 24. Distribución de rapideces — 0:20
 
-Para la distribución de rapideces sacamos los obstáculos y dejamos 100 partículas. Todas arrancan con la misma rapidez, por eso tienen el mismo color. En menos de un segundo de choques aparecen partículas casi quietas y otras al doble de v cero.
+Para la distribución de rapideces sacamos los obstáculos y dejamos 100 partículas. Todas arrancan con la misma rapidez, por eso tienen el mismo color. El video va en cámara lenta, porque todo pasa en el primer segundo: enseguida aparecen partículas casi quietas y otras al doble de v cero.
 
-### 25. Rapidez: evolución de f(v) — 0:25
+### 25. Rapidez: evolución de f(v) — 0:30
 
-El histograma lo armamos con las 100 partículas de 30 realizaciones. A 0,1 segundos todavía queda un pico en v cero; a 0,2 segundos ese pico bajó a la mitad, y desde 0,5 segundos ya no se distingue de la distribución estacionaria. Tomamos como estacionario el tramo desde 1 segundo, a partir del cual el k B T ajustado en ventanas de un segundo ya no cambia más que sus fluctuaciones.
+El histograma lo armamos con las 100 partículas de 30 realizaciones. A 0,1 segundos todavía queda un pico en v cero; a 0,2 segundos ese pico bajó a la mitad, y desde 0,5 segundos ya no se distingue de la distribución estacionaria. Para fijar desde cuándo es estacionaria, ajustamos k B T en ventanas de un segundo: desde 1 segundo, todos los valores quedan dentro de las fluctuaciones del de la segunda mitad de la corrida.
 
-### 26. Rapidez: ajuste de Maxwell–Boltzmann — 0:40
+### 26. Rapidez: ajuste de Maxwell–Boltzmann — 0:30
 
-A la izquierda, el histograma estacionario promediado entre realizaciones, con la Maxwell–Boltzmann en dos dimensiones ajustada. Usamos el método de la Teórica 0: a la derecha está el error del ajuste en función de k B T, el único parámetro libre, y su mínimo da el mejor ajuste: 1,242 por diez a la menos dos joules. La energía cinética media vale 1,232: difieren en un 0,8 %, del orden del desvío entre realizaciones. Las dos son algo menores que m v cero al cuadrado sobre dos, porque en promedio un 1,4 % de la energía está en los resortes de los contactos.
+A la izquierda, el histograma estacionario promediado entre realizaciones, con la Maxwell–Boltzmann en dos dimensiones ajustada. Usamos el método de la Teórica 0: a la derecha está el error del ajuste en función de k B T, el único parámetro libre, y su mínimo da el mejor ajuste: 1,242 por diez a la menos dos joules. Lo esperado es m v cero al cuadrado sobre dos, 1,250: difieren en un 0,7 %, del orden del desvío entre realizaciones.
 
 ### 27. Conclusiones — 0:03
 
 Para cerrar, las conclusiones.
 
-### 28. Conclusiones — 0:35
+### 28. Conclusiones — 0:40
 
-En el oscilador, Beeman tiene el menor error, con el mismo orden que Verlet. En el billar, Verlet con un paso de dos por diez a la menos cinco segundos mantiene el error en la energía debajo de uno por mil en 300 segundos, y su costo crece en forma lineal con N: con muchas partículas le gana al TP3. La conversión es más rápida cuanto menor es la densidad, y la mejor posición de los obstáculos está entre un tercio y la mitad del radio. Por último, en alrededor de un segundo las rapideces llegan a una Maxwell–Boltzmann.
+En el oscilador, Beeman tiene el menor error. En el billar, con un paso de dos por diez a la menos cinco segundos la energía total varía menos del 0,1 % en 300 segundos, y el costo crece en forma lineal con N: con muchas partículas le gana al TP3. La conversión es más rápida cuanto menor es la densidad, y la mejor posición de los obstáculos está entre un tercio y la mitad del radio. Por último, en un segundo las rapideces llegan a una Maxwell–Boltzmann, con k B T muy cerca de m v cero al cuadrado sobre dos.
 
 ### 29. Declaración de uso de IA — 0:10
 

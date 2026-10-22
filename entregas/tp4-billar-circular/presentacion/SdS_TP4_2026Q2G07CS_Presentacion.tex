@@ -221,36 +221,29 @@ Obstáculos fijos de radio $r$ en $(\pm x_0,0)$.
 
 \begin{frame}{Estudios realizados}
 \centering\small
-\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.35}
+\setlength{\tabcolsep}{5pt}
 \begin{tabular}{@{}lccccc@{}}
 \toprule
-Estudio & $N$ & $x_0$ & $t_f$ (s) & Realizaciones & $\dt_2$ (s)\\
+Estudio & $N$ & $x_0$ & $\dt$ (s) & $t_f$ (s) & Realizaciones\\
 \midrule
-Paso temporal & 300 & sin obstáculos & 300 & 5 por $\dt$ & $10^{-1}$\\
-Tiempo de ejecución & 20 a 650 & $r$ & 30 & 10 por $N$ & --\\
-Densidad & 20 a 650 & $r$ & 300 & 10 por $N$ & $10^{-1}$\\
-Posición & 20 y 100 & $r$ a $R-r$ & 100 & 10 por $x_0$ & $5\times10^{-2}$\\
-Mapa & 20, 50, 100 y 200 & $r$ a $R-r$ & 100 & 10 por punto & $5\times10^{-2}$\\
-Rapidez & 100 & sin obstáculos & 60 & \rapidezRealizaciones & $5\times10^{-2}$\\
+Paso temporal & 300 & sin obstáculos & $10^{-5}$ a $5\times10^{-4}$ & 300 & 5 por $\dt$\\
+Tiempo de ejecución & 20 a 650 (11) & $r$ & $\pasoElegido$ & 30 & 10 por $N$\\
+Densidad & 20 a 650 (11) & $r$ & $\pasoElegido$ & 300 & 10 por $N$\\
+Posición & 20 y 100 & $r$ a $R-r$ (11) & $\pasoElegido$ & 100 & 10 por $x_0$\\
+Mapa & 20, 50, 100 y 200 & $r$ a $R-r$ (11) & $\pasoElegido$ & 100 & 10 por punto\\
+Rapidez & 100 & sin obstáculos & $\pasoElegido$ & 60 & \rapidezRealizaciones\\
 \bottomrule
 \end{tabular}
-\par\smallskip
-\raggedright\small
-\begin{itemize}\setlength\itemsep{.05cm}
-\item $N$: 20, 50, 100, 200, 300, 400, 450, 500, 550, 600 y 650. $x_0$: 11 valores equiespaciados entre $r$ y $R-r$.
-\item Billar: $\dt=\pasoElegido$ s, salvo en el estudio del paso temporal.
-\item Densidad: mismas condiciones iniciales y $\dt$ que el tiempo de ejecución, continuadas hasta 300 s.
-\item $N>430$: el rechazo no ubica las partículas; se eligen sitios al azar de una red triangular y se desordenan con Monte Carlo.
-\end{itemize}
 \end{frame}
 
 \begin{frame}{Observables}
 \small
 \begin{columns}[T,onlytextwidth]
 \begin{column}{.49\textwidth}
-\textbf{Energía} (cada cuadro, contando cada resorte una vez)
+\textbf{Energía}
 \[\delta E=\max_{t\le t_f}\frac{|E(t)-E(0)|}{E(0)}\]
-\textbf{Conversión} (por realización)
+\textbf{Conversión}
 \[\fu(t)=\frac{N_u(t)}{N}\]
 $t_{90}$, $t_{100}$: primer cuadro con $\fu\geq0{,}9$ y $\fu=1$.
 \end{column}
@@ -262,9 +255,6 @@ Si alguna realización no llega, se informa cuántas y $\fu(t_f)$.
 \medskip
 
 \textbf{Rapidez}: $f(v)$ = fracción de partículas con $|\vect v|$ en el bin / ancho del bin ($0{,}1$ m/s).
-\medskip
-
-\textbf{Tiempo de ejecución}: reloj de la integración, sin generación ni escritura.
 \end{column}
 \end{columns}
 \end{frame}
@@ -287,7 +277,8 @@ $\displaystyle\mathrm{ECM}=\frac1M\sum_{n=1}^{M}\big[r_n-r(t_n)\big]^2$\\[2pt]
 $N=300$, sin obstáculos\\Una realización por $\dt$
 \medskip
 
-$\dfrac{|E(t)-E(0)|}{E(0)}$
+$\dfrac{|E(t)-E(0)|}{E(0)}$\\[2pt]
+$E$: energía total (cinética y de los resortes)
 \medskip
 
 Con $\dt=5\times10^{-4}$ s una partícula atraviesa la pared antes de 300 s.
@@ -299,57 +290,51 @@ Con $\dt=5\times10^{-4}$ s una partícula atraviesa la pared antes de 300 s.
 $N=300$, sin obstáculos\\$t_f=300$ s\\Media $\pm$ desvío de 5 realizaciones
 \medskip
 
-Criterio: $\delta E<10^{-3}$ en el horizonte más largo.
+Criterio: $\delta E<10^{-3}$ (0,1\,\%) en 300 s, la corrida más larga.
 \medskip
 
 \textbf{Elegido:} $\dt=\pasoElegido$ s\\$\delta E=\deltaEElegido$
 }
 \end{frame}
 
-\begin{frame}{Cantidad de partículas}
-\animacion{densidad}{$x_0=r$\\$\dt=\pasoElegido$ s}{Reproducción al doble de la velocidad real.}
-\end{frame}
-
 \begin{frame}{Tiempo de ejecución en función de $N$}
 \figura[.64]{rendimiento.pdf}{
-$t_f=30$ s, $x_0=r$\\Media $\pm$ desvío de 10 realizaciones (barras menores que los símbolos)\\TP3: mesa vacía, punto 1.1
+$t_f=30$ s, $x_0=r$\\Media de 10 realizaciones; desvío $\leq\desvioRendimiento\,\%$ de la media\\TP3: mesa vacía, punto 1.1
 \medskip
 
 Ambos en \cpu, C++20 \texttt{-O3}
-\medskip
-
-\rendimientoTexto
 }
+\end{frame}
+
+\begin{frame}{Cantidad de partículas}
+\animacion{densidad}{$x_0=r$\\$\dt=\pasoElegido$ s\\Arriba: $\fu$ y $t_{90}$ de cada realización}{Reproducción al doble de la velocidad real.}
 \end{frame}
 
 \begin{frame}{Densidad: fracción de partículas usadas}
 \figura{densidad-fu.pdf}{
-$x_0=r$, $t_f=300$ s\\Media $\pm$ desvío de 10 realizaciones (banda)
-\medskip
-
-Línea: $\fu=0{,}9$
+$x_0=r$, $t_f=300$ s\\Media $\pm$ desvío de 10 realizaciones
 }
 \end{frame}
 
 \begin{frame}{Densidad: tiempos de conversión}
 \figura[.64]{densidad-tiempos.pdf}{
-$x_0=r$, $t_f=300$ s\\Media $\pm$ desvío de 10 realizaciones\\$\rho=N/\pi R^2$
+$x_0=r$, $t_f=300$ s, $\rho=N/\pi R^2$\\Media $\pm$ desvío de 10 realizaciones
 \medskip
+
+\textbf{Vacíos}: alguna no llega antes de $t_f$; no hay media.
+\smallskip
 
 \densidadTexto
 }
 \end{frame}
 
 \begin{frame}{Posición de los obstáculos}
-\animacion{posicion}{$N=100$\\$\dt=\pasoElegido$ s}{Reproducción al doble de la velocidad real.}
+\animacion{posicion}{$N=100$\\$\dt=\pasoElegido$ s\\Arriba: $\fu$ y $t_{90}$ de cada realización}{Reproducción al doble de la velocidad real.}
 \end{frame}
 
 \begin{frame}{Posición: fracción de partículas usadas}
 \figura{posicion-fu.pdf}{
-$N=100$, $t_f=100$ s\\Media $\pm$ desvío de 10 realizaciones (banda)
-\medskip
-
-Línea: $\fu=0{,}9$
+$N=100$, $t_f=100$ s\\Media $\pm$ desvío de 10 realizaciones
 }
 \end{frame}
 
@@ -372,15 +357,12 @@ $t_f=100$ s\\Media de 10 realizaciones
 \end{frame}
 
 \begin{frame}{Distribución de rapideces}
-\animacion{rapidez}{$N=100$, sin obstáculos\\Todas con $|\vect v|=v_0$ en $t=0$}{Reproducción a 0,4 veces la velocidad real.}
+\animacion{rapidez}{$N=100$, sin obstáculos}{Cámara lenta: 1 s simulado dura 2,5 s.}
 \end{frame}
 
 \begin{frame}{Rapidez: evolución de $f(v)$}
 \figura{rapidez-evolucion.pdf}{
 $N=100$, sin obstáculos\\\rapidezRealizaciones{} realizaciones
-\medskip
-
-$t=0$: $|\vect v|=v_0$
 \medskip
 
 Estacionario: $t\geq\tEstacionario$ s
@@ -402,7 +384,7 @@ $v_i$: centro del bin $i$
 \end{columns}
 \medskip
 \centering\small
-$k_BT=\kbtAjuste$ J\\[2pt] $m\langle v^2\rangle/2=\cineticaMedia$ J\qquad $m v_0^2/2=1{,}250\times10^{-2}$ J
+$k_BT=\kbtAjuste$ J\qquad $m v_0^2/2=1{,}250\times10^{-2}$ J
 \end{frame}
 
 \section{Conclusiones}
@@ -416,7 +398,7 @@ $k_BT=\kbtAjuste$ J\\[2pt] $m\langle v^2\rangle/2=\cineticaMedia$ J\qquad $m v_0
 \item \textbf{Costo:} el del TP4 crece en forma lineal con $N$ y el del TP3, mucho más rápido: el TP3 gana hasta $N=400$, pero con $N=650$ tarda 10 veces más.
 \item \textbf{Densidad:} con $x_0=r$, $\langle t_{90}\rangle$ y $\langle t_{100}\rangle$ crecen con $N$: no hay una densidad óptima. Con $N=650$ las partículas quedan casi en una red y en 300 s solo se usa el 5\,\%.
 \item \textbf{Posición:} los extremos son los peores. Con $N$ de 50 a 200 el óptimo está en $x_0\approx0{,}16$--$0{,}26$ m; con $N=20$, el mínimo es una meseta entre 0,11 y 0,40 m.
-\item \textbf{Rapidez:} en $\approx1$ s se llega a Maxwell--Boltzmann. $k_BT$ y $m\langle v^2\rangle/2$ difieren en un 0,8\,\%, del orden del desvío entre realizaciones; la diferencia con $m v_0^2/2$ es la energía de los contactos.
+\item \textbf{Rapidez:} en $\approx1$ s se llega a Maxwell--Boltzmann. El $k_BT$ ajustado difiere de $m v_0^2/2$ en un 0,7\,\%, del orden del desvío entre realizaciones.
 \end{itemize}
 \end{frame}
 

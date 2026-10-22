@@ -12,7 +12,7 @@ MIDDLE = round(PARTICLE_RADIUS + 5 * (RADIUS - 2 * PARTICLE_RADIUS) / 10, 6)
 # Nombre -> (corridas (N, x0), tf, intervalo de salida, cuadros por segundo, color por rapidez, cuadro del póster).
 VIDEO_SPECS = {
     "densidad": ([(20, PARTICLE_RADIUS), (650, PARTICLE_RADIUS)], 30.0, 0.04, 50, False, 0.5),
-    "posicion": ([(100, PARTICLE_RADIUS), (100, MIDDLE), (100, RADIUS - PARTICLE_RADIUS)], 30.0, 0.04, 50, False, 0.4),
+    "posicion": ([(100, PARTICLE_RADIUS), (100, MIDDLE), (100, RADIUS - PARTICLE_RADIUS)], 40.0, 0.04, 50, False, 0.625),
     "rapidez": ([(100, None)], 4.0, 0.01, 40, True, 0.25),
 }
 POSITION_NAMES = {PARTICLE_RADIUS: "r", MIDDLE: "R/2", RADIUS - PARTICLE_RADIUS: "R − r"}
@@ -34,7 +34,7 @@ def main() -> None:
                         for n, x0 in runs]
         frames = np.arange(len(trajectories[0].times))
         animate(trajectories, [title(n, x0, name) for n, x0 in runs], VIDEOS / f"{name}.mp4", frames, fps=fps,
-                by_speed=by_speed, poster=FIGURES / f"anim-{name}.png", poster_frame=int(poster_at * (len(frames) - 1)))
+                by_speed=by_speed, conversion=not by_speed, poster=FIGURES / f"anim-{name}.png", poster_frame=int(poster_at * (len(frames) - 1)))
         speedup = interval * fps
         print(f"video {name}: {len(frames) / fps:.0f} s, {speedup:g} veces la velocidad real")
 
