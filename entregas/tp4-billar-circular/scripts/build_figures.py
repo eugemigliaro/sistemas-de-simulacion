@@ -251,7 +251,7 @@ def speed_figures() -> None:
 def density() -> None:
     fu = np.load(RESULTS / "density-fu.npz")
     counts = sorted(set(fu["n"].tolist()))
-    shown = [n for n in counts if n in (20, 200, 400, 550, 600, 650)]
+    shown = [n for n in counts if n in (5, 20, 100, 200, 300)]
     figure, axis = plt.subplots(figsize=(7.6, 5.0))
     for index, n in enumerate(shown):
         mean, std = mean_curves(fu, fu["n"] == n)
@@ -263,38 +263,34 @@ def density() -> None:
     save(figure, "densidad-fu")
 
     rows = sorted(read_csv(RESULTS / "density-summary.csv"), key=lambda r: int(r["n"]))
-    tf = fu["times"][-1]
+    # El estudio solo incluye N en los que las diez realizaciones llegan a Fu = 1.
+    if any(int(r["t90_missing"]) or int(r["t100_missing"]) for r in rows):
+        raise SystemExit("densidad: hay realizaciones que no llegan a Fu = 1 antes de tf")
     figure, axis = plt.subplots(figsize=(7.0, 5.4))
     for key, label, color, marker in (("t90", r"$\langle t_{90}\rangle$", BLUE, "o"),
                                       ("t100", r"$\langle t_{100}\rangle$", ORANGE, "s")):
-        complete = [(int(r["n"]) / AREA, float(r[f"{key}_mean_s"]), float(r[f"{key}_std_s"]))
-                    for r in rows if int(r[f"{key}_missing"]) == 0]
-        x, mean, std = map(np.array, zip(*complete))
+        x = np.array([int(r["n"]) / AREA for r in rows])
+        mean = np.array([float(r[f"{key}_mean_s"]) for r in rows])
+        std = np.array([float(r[f"{key}_std_s"]) for r in rows])
         axis.errorbar(x, mean, yerr=std, color=color, marker=marker, capsize=4, linewidth=1.5, label=label)
-        # Sin media: alguna realización no llega antes de tf. Si no llega a 0,9 tampoco llega a 1,
-        # así que para t100 solo se marcan los N donde todavía hay t90.
-        censored = [int(r["n"]) / AREA for r in rows if int(r[f"{key}_missing"]) > 0
-                    and (key == "t90" or int(r["t90_missing"]) == 0)]
-        axis.plot(censored, [tf] * len(censored), color=color, marker=marker, markerfacecolor="white",
-                  markeredgewidth=2, linestyle="none")
-    axis.axhline(tf, color=MUTED, linestyle="--", linewidth=1.5)
-    axis.plot([], [], color=MUTED, marker="o", markerfacecolor="white", markeredgewidth=2, linestyle="none",
-              label="no llegan todas")
+    axis.set_xscale("log")
     axis.set_yscale("log")
+    axis.xaxis.set_major_locator(FixedLocator([5, 10, 20, 50, 100, 200]))
     axis.yaxis.set_major_locator(FixedLocator([10, 20, 50, 100, 200, 300]))
-    axis.yaxis.set_major_formatter(FuncFormatter(lambda value, _: comma(value)))
-    axis.yaxis.set_minor_formatter(NullFormatter())
+    for scale in (axis.xaxis, axis.yaxis):
+        scale.set_major_formatter(FuncFormatter(lambda value, _: comma(value)))
+        scale.set_minor_formatter(NullFormatter())
+    axis.set_xlim(5, 450)
     axis.set_ylim(10, 400)
-    axis.set_xlim(0, 850)
     axis.set_xlabel("Densidad (partículas/m²)")
     axis.set_ylabel("Tiempo (s)")
     top = axis.secondary_xaxis("top", functions=(lambda rho: rho * AREA, lambda n: n / AREA))
-    top.set_xticks([100, 200, 300, 400, 500, 600])
+    top.set_xticks([5, 10, 20, 50, 100, 200, 300])
+    top.xaxis.set_major_formatter(FuncFormatter(lambda value, _: f"{value:g}"))
+    top.xaxis.set_minor_formatter(NullFormatter())
     top.set_xlabel("Cantidad de partículas", fontsize=18)
     top.tick_params(labelsize=16)
-    handles, labels = axis.get_legend_handles_labels()
-    order = sorted(range(len(labels)), key=lambda i: labels[i] == "no llegan todas")
-    axis.legend([handles[i] for i in order], [labels[i] for i in order], loc="lower right", fontsize=16)
+    axis.legend(loc="upper center", fontsize=16)
     save(figure, "densidad-tiempos")
 
 
@@ -380,28 +376,13 @@ def map_text(rows: list[dict]) -> str:
     return r"\\".join(lines)
 
 
-def density_text(runs: list[dict]) -> str:
-    """Para cada umbral, los N en los que alguna realización no llega antes de tf:
-    cuántas no llegan y su Fu(tf) (media y desvío entre esas realizaciones) [TP04, p. 3]."""
-    blocks = []
-    for key, level in (("t100", "1"), ("t90", "0{,}9")):
-        rows = []
-        for n in sorted({int(r["n"]) for r in runs}):
-            group = [r for r in runs if int(r["n"]) == n]
-            # Si no llega a 0,9 tampoco llega a 1: esos N se informan solo con el umbral 0,9.
-            if key == "t100" and any(number(r, "t90_s") is None for r in group):
-                continue
-            final = [float(r["fu_final"]) for r in group if number(r, f"{key}_s") is None]
-            if not final:
-                continue
-            mean, std = stats.mean_and_std(final)
-            value = tex_measure(mean, std, 0) if len(final) > 1 else tex_number(f"{mean:.3f}")
-            rows.append(rf"{n} & {len(final)}/{len(group)} & ${value}$\\")
-        if rows:
-            blocks.append(rf"\multicolumn{{3}}{{@{{}}l}}{{\textbf{{No llegan a $\fu={level}$}}}}\\" + "".join(rows))
-    header = r"$N$ & no llegan & su $\fu(t_f)$\\"
-    return (r"{\footnotesize\setlength{\tabcolsep}{3pt}\begin{tabular}{@{}rcc@{}}" + header
-            + r"[2pt]".join(blocks) + r"\end{tabular}}")
+def density_text(rows: list[dict]) -> str:
+    """Mínimo de <t90> y N cuya media está a menos de un desvío de él, como en position_text."""
+    group = sorted((int(r["n"]), float(r["t90_mean_s"]), float(r["t90_std_s"])) for r in rows)
+    n_best, mean_best, std_best = min(group, key=lambda g: g[1])
+    close = [n for n, mean, _ in group if mean - mean_best <= std_best]
+    return (rf"$N={n_best}$: ${tex_measure(mean_best, std_best)}$ s\\"
+            rf"a menos de $1\sigma$: $N={min(close)}$ a ${max(close)}$")
 
 
 def values() -> None:
@@ -424,8 +405,8 @@ def values() -> None:
         macros["desvioRendimiento"] = tex_number(f"{100 * spread:.1f}")
     if (RESULTS / "position-summary.csv").exists():
         macros["posicionTexto"] = position_text(read_csv(RESULTS / "position-summary.csv"))
-    if (RESULTS / "density-runs.csv").exists():
-        macros["densidadTexto"] = density_text(read_csv(RESULTS / "density-runs.csv"))
+    if (RESULTS / "density-summary.csv").exists():
+        macros["densidadTexto"] = density_text(read_csv(RESULTS / "density-summary.csv"))
     if (RESULTS / "map-summary.csv").exists():
         macros["mapaTexto"] = map_text(read_csv(RESULTS / "position-summary.csv") + read_csv(RESULTS / "map-summary.csv"))
     lines = [rf"\newcommand{{\{name}}}{{{value}}}" for name, value in macros.items()]

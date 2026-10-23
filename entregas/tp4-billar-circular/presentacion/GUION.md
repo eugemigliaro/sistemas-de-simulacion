@@ -4,11 +4,11 @@ Duración objetivo: **12:40**, con 0:20 de margen sobre los 13 minutos de la con
 
 | Parte | Integrante | Diapositivas | Tiempo |
 |---|---|---|---|
-| Modelo, implementación y simulaciones | Eugenio | 1 a 10 | 4:19 |
-| Observables, sistema 1, paso temporal, rendimiento y densidad | Francisco | 11 a 19 | 4:18 |
+| Modelo, implementación y simulaciones | Eugenio | 1 a 10 | 4:29 |
+| Observables, sistema 1, paso temporal, rendimiento y densidad | Francisco | 11 a 19 | 4:08 |
 | Posición, rapidez y conclusiones | Franco | 20 a 29 | 4:03 |
 
-## Eugenio — diapositivas 1 a 10 — 4:19
+## Eugenio — diapositivas 1 a 10 — 4:29
 
 ### 1. Portada — 0:20
 
@@ -59,11 +59,11 @@ Pasemos al sistema que simulamos.
 
 El billar es un círculo de 51 centímetros de radio, con dos obstáculos fijos del tamaño de una partícula en más y menos x cero; el esquema está a escala. Las partículas tienen 1,75 centímetros de radio y 25 gramos, y k vale diez a la cuatro newton por metro. Arrancan azules, a un metro por segundo en una dirección al azar. La primera vez que una toca un obstáculo pasa a roja, y sigue moviéndose e interactuando. Para la pared usamos una partícula imagen: un disco fijo sobre la normal, del otro lado de la pared, que recalculamos en cada paso. Así la fuerza de la pared es radial.
 
-### 10. Estudios realizados — 0:40
+### 10. Estudios realizados — 0:50
 
-Hicimos seis estudios. Para elegir el paso, 300 partículas sin obstáculos durante 300 segundos. Para el tiempo de ejecución, once valores de N entre 20 y 650 con los obstáculos en contacto, durante 30 segundos; el estudio de densidad son esas mismas corridas, continuadas hasta 300 segundos. La posición de los obstáculos toma once valores entre r y R menos r, con 100 y 20 partículas, y con 50 y 200 completamos un mapa. Por último, la rapidez, con 100 partículas sin obstáculos. Con más de 430 partículas partimos de una red triangular desordenada, porque el sorteo no logra ubicarlas. Francisco sigue con los observables.
+Hicimos seis estudios. Para elegir el paso, 300 partículas sin obstáculos durante 300 segundos. Para el tiempo de ejecución, once valores de N entre 20 y 650 con los obstáculos en contacto, durante 30 segundos. Para la densidad continuamos hasta 300 segundos las de 20 a 300 partículas y agregamos 5, 10, 15 y 30: nos quedamos con los N en los que todas las realizaciones convierten todas las partículas. La posición de los obstáculos toma once valores entre r y R menos r, con 100 y 20 partículas, y con 50 y 200 completamos un mapa. Por último, la rapidez, con 100 partículas sin obstáculos. Con más de 430 partículas partimos de una red triangular desordenada, porque el sorteo no logra ubicarlas. Francisco sigue con los observables.
 
-## Francisco — diapositivas 11 a 19 — 4:18
+## Francisco — diapositivas 11 a 19 — 4:08
 
 ### 11. Observables — 0:45
 
@@ -93,13 +93,13 @@ Con ese paso medimos el tiempo para simular 30 segundos, con los dos motores en 
 
 Ahora, el efecto de la densidad, con dos casos extremos: 20 partículas a la izquierda y 650 a la derecha. Arriba se ve F u y, cuando llega a 0,9, el t noventa. Con 20 se llega al 90 % en unos 15 segundos. Con 650, las partículas quedan casi en una red y solo se convierten las que rodean a los obstáculos: a los 30 segundos se usó apenas el 2 %.
 
-### 18. Densidad: fracción de partículas usadas — 0:20
+### 18. Densidad: fracción de partículas usadas — 0:15
 
-Con las corridas completas, de 300 segundos, miramos F u para seis valores de N, promediado en diez realizaciones. Cuantas más partículas, más lenta es la conversión: con 550, en promedio se llega justo al 90 % al final; con 600, al 70 %, y con 650, apenas al 5 %.
+Con las corridas completas, de 300 segundos, miramos F u para cinco valores de N. Con 5 partículas la conversión es lenta y a saltos; con 20 es la más rápida, y desde ahí se hace más lenta a medida que crece N.
 
-### 19. Densidad: tiempos de conversión — 0:40
+### 19. Densidad: tiempos de conversión — 0:35
 
-Acá están t noventa y t cien medios en función de la densidad. Los dos crecen en todo el rango, así que no hay una densidad óptima: con más partículas, cada una avanza menos entre choques y tarda más en llegar al centro. Los marcadores vacíos son los N en los que alguna realización no llegó en 300 segundos; ahí no damos un promedio, porque de esas solo sabemos que tardan más. En la tabla están cuántas no llegaron y su F u final: a las de t cien les faltan una o dos partículas. Franco sigue con la posición.
+Acá están t noventa y t cien medios en función de la densidad. Hay una densidad óptima: t noventa es mínimo con 20 partículas, unos 17 segundos, y hasta 50 queda a menos de un desvío. Con menos partículas faltan choques: la pared conserva el momento angular, y sin choques solo un 13 % llega a los obstáculos; las demás necesitan que otra las desvíe. Con más, se estorban: cada una avanza menos entre choques. Solo mostramos los N en los que todas las realizaciones convierten todas las partículas en 300 segundos. Franco sigue con la posición.
 
 ## Franco — diapositivas 20 a 29 — 4:03
 
@@ -137,7 +137,7 @@ Para cerrar, las conclusiones.
 
 ### 28. Conclusiones — 0:40
 
-En el oscilador, Beeman tiene el menor error. En el billar, con un paso de dos por diez a la menos cinco segundos la energía total varía menos del 0,1 % en 300 segundos, y el costo crece en forma lineal con N: con muchas partículas le gana al TP3. La conversión es más rápida cuanto menor es la densidad, y la mejor posición de los obstáculos está entre un tercio y la mitad del radio. Por último, en un segundo las rapideces llegan a una Maxwell–Boltzmann, con k B T muy cerca de m v cero al cuadrado sobre dos.
+En el oscilador, Beeman tiene el menor error. En el billar, con un paso de dos por diez a la menos cinco segundos la energía total varía menos del 0,1 % en 300 segundos, y el costo crece en forma lineal con N: con muchas partículas le gana al TP3. La conversión es más rápida con densidades intermedias, de 20 a 50 partículas: con menos faltan choques y con más se estorban. La mejor posición de los obstáculos está entre un tercio y la mitad del radio. Por último, en un segundo las rapideces llegan a una Maxwell–Boltzmann, con k B T muy cerca de m v cero al cuadrado sobre dos.
 
 ### 29. Declaración de uso de IA — 0:10
 

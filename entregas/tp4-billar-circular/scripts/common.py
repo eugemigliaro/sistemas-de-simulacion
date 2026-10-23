@@ -29,6 +29,9 @@ DENSEST_RANDOM_LAYOUT = 430
 # Paso elegido con el estudio de energía (2.1.a); ver experiments/results/energy-summary.csv.
 DT = 2e-5
 COUNTS = [20, 50, 100, 200, 300, 400, 450, 500, 550, 600, 650]
+# Densidad (2.4.a): las N de 2.1.b en las que las diez realizaciones llegan a
+# Fu = 1 antes de 300 s, más N bajos para ubicar el mínimo de <t90>.
+DENSITY_COUNTS = [5, 10, 15, 20, 30, 50, 100, 200, 300]
 POSITIONS = [round(PARTICLE_RADIUS + i * (RADIUS - 2 * PARTICLE_RADIUS) / 10, 6) for i in range(11)]
 WORKERS = int(os.environ.get("TP4_WORKERS", max(1, (os.cpu_count() or 2) // 2)))
 

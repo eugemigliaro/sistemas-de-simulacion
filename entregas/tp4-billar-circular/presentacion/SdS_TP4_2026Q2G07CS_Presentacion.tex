@@ -249,7 +249,7 @@ Obstáculos fijos de radio $r$ en $(\pm x_0,0)$.}
 \midrule
 Paso temporal & 300 & sin obstáculos & $10^{-5}$ a $5\times10^{-4}$ & 300 & 5 por $\dt$\\
 Tiempo de ejecución & 20 a 650 (11) & $r$ & $\pasoElegido$ & 30 & 10 por $N$\\
-Densidad & 20 a 650 (11) & $r$ & $\pasoElegido$ & 300 & 10 por $N$\\
+Densidad & 5 a 300 (9) & $r$ & $\pasoElegido$ & 300 & 10 por $N$\\
 Posición & 20 y 100 & $r$ a $R-r$ (11) & $\pasoElegido$ & 100 & 10 por $x_0$\\
 Mapa & 20, 50, 100 y 200 & $r$ a $R-r$ (11) & $\pasoElegido$ & 100 & 10 por punto\\
 Rapidez & 100 & sin obstáculos & $\pasoElegido$ & 60 & \rapidezRealizaciones\\
@@ -379,9 +379,7 @@ Si alguna realización no llega, se informa cuántas y $\fu(t_f)$.}
   \includegraphics[width=\linewidth,height=5.3cm,keepaspectratio]{densidad-tiempos.pdf}
 \end{column}
 \begin{column}{.36\textwidth}
-\ficha[accent]{Símbolos vacíos}{%
-  Alguna realización no llega antes de $t_f$; no hay media.}
-\ficha{Realizaciones que no llegan}{\densidadTexto}
+\ficha[accent]{Menor $\langle t_{90}\rangle$}{\densidadTexto}
 \end{column}
 \end{columns}
 \end{frame}
@@ -481,7 +479,7 @@ Si alguna realización no llega, se informa cuántas y $\fu(t_f)$.}
 \ficha{Costo}{El del TP4 crece en forma lineal con $N$ y el del TP3, mucho más rápido. El TP3 gana hasta $N=400$, pero con $N=650$ tarda 10 veces más.}
 \end{column}
 \begin{column}{.48\textwidth}
-\ficha{Densidad}{Con $x_0=r$, $\langle t_{90}\rangle$ y $\langle t_{100}\rangle$ crecen con $N$: no hay una densidad óptima. Con $N=650$ las partículas quedan casi en una red y en 300 s solo se usa el 5\,\%.}
+\ficha{Densidad}{Hay una densidad óptima: con $x_0=r$, $\langle t_{90}\rangle\approx20$ s es mínimo entre $N=20$ y 50. Con menos partículas faltan choques; con más, se estorban.}
 \ficha{Posición}{Los extremos son los peores. Con $N$ de 50 a 200 el óptimo está en $x_0\approx0{,}16$--$0{,}26$ m. Con $N=20$, el mínimo es una meseta entre 0,11 y 0,40 m.}
 \ficha{Rapidez}{En $\approx1$ s se llega a Maxwell--Boltzmann. El $k_BT$ ajustado difiere de $m v_0^2/2$ en un 0,7\,\%, del orden del desvío entre realizaciones.}
 \end{column}

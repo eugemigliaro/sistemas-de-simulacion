@@ -11,16 +11,16 @@ import sys
 
 import numpy as np
 
-from common import COUNTS, PARTICLE_RADIUS, POSITIONS, RAW, RESULTS, SEEDS, billiard, parallel, require_engine, \
+from common import DENSITY_COUNTS, PARTICLE_RADIUS, POSITIONS, RAW, RESULTS, SEEDS, billiard, parallel, require_engine, \
     write_csv
 from tp4analysis import conversion, files, stats
 
 # Estudio -> (casos (N, x0), tf, intervalo de salida).
 STUDIES = {
     "position": ([(n, x0) for n in (100, 20) for x0 in POSITIONS], 100.0, 0.05),
-    # Las mismas corridas de 2.1.b (N, x0 = r, semillas y dt), continuadas
-    # hasta 300 s para que las densidades altas lleguen a Fu = 0,9.
-    "density": ([(n, PARTICLE_RADIUS) for n in COUNTS], 300.0, 0.1),
+    # Para las N de 2.1.b son las mismas corridas (x0 = r, semillas y dt),
+    # continuadas hasta 300 s para que todas lleguen a Fu = 1.
+    "density": ([(n, PARTICLE_RADIUS) for n in DENSITY_COUNTS], 300.0, 0.1),
     # 2.4.b: completa las densidades de 2.2 con N = 50 y N = 200.
     "map": ([(n, x0) for n in (50, 200) for x0 in POSITIONS], 100.0, 0.05),
 }
