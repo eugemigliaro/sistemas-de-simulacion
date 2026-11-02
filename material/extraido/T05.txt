@@ -1,0 +1,1213 @@
+FUENTE: T05
+TITULO: Medios granulares
+ORIGINAL: material/catedra/teoria/Teorica_5.pdf
+PAGINAS: 31
+
+===== PAGINA 1 =====
+
+Simulación de Sistemas
+
+      Clase Teórica 5:
+     Medios Granulares
+
+
+
+             1
+
+===== PAGINA 2 =====
+
+Medios Granulares
+Definición
+
+
+- Sistema constituido por muchas partículas macroscópicas (granos, pellets, arena,
+polvo, etc).
+
+
+- Interacciones a través de fuerzas de contacto normales (deformación viscoelástica) y
+tangenciales (rozamiento).
+
+
+- Interacciones altamente disipativas, el sistema llegue al reposo si no recibe energía del
+exterior (gravitatoria, vibración del contenedor, etc) o propias (autopropulsión).
+
+
+- Las características muy particulares. Comportamiento distinto al de sólidos, líquidos y
+gases (¿nuevo estado de la materia?). Ejemplo la presión NO depende de la altura de la
+columna.
+
+
+                                             2
+
+===== PAGINA 3 =====
+
+                                                                        zona estancas
+                            flujo en masa                                  flujo restringido
+                                a)                               b)                         c)
+
+Medios Granulares              Figura I.1: Tipos de flujos gravitatorios en silos (Schulze, 1998).
+
+                 Los tipos de flujo que se encuentran durante el vaciado dependerán de la
+          geometría del silo y de las propiedades mecánicas de las paredes y del material ensilado.
+Ejemplo flujo  granular
+          Los diferentes      gravitatorio
+                          autores                en Silos
+                                   coinciden en distinguir cinco zonas distintas dentro del flujo
+          esquematizado en la figura I.2.
+
+
+
+
+                                                                               zona de flujo
+                                                                               en masa ó
+                                                                               flujo pistón
+
+
+
+
+                                                                                zona de
+                                                                                transición
+
+                                                                              zona de
+                                                                              convergencia
+
+
+
+                                        zona de                             zona de
+                                        caída libre                         estancamiento
+
+
+                                     Figura I.2: Zonas dentro de un flujos gravitatorio en silos
+
+                      Estas cinco zonas son:
+               -La zona de flujo en masa situada en la parte superior3 del silo donde las partículas
+               descienden en bloque. Los esfuerzos de corte se encuentran cerca de las paredes y a la
+
+===== PAGINA 4 =====
+
+                                   σ rr = Kσ zz                                      (I.4)
+
+  donde K es conocida como la constante de Janssen. Substituyendo las ecs. (I.3) y (I.4)
+Medios Granulares
+  en la ec. (I.2), se obtiene que
+
+Propiedades              dσ zz 4 µ p K                                               (I.5)
+                              +        σ zz = g ρm
+                           dz     D
+    Ley de Janssen (1895): La presión dentro del medio granular crece
+    asintóticamente
+          Teniendo encon   la profundidad.
+                       cuenta  que a z=0 la tensión es nula (superficie libre), la solución
+  para esta ecuación diferencial ordinaria de primer orden es        profundidad
+                                                                (z=0 es la superficie)
+                               gρm D           4 µ p Kz                           (I.6)
+                        σ P(z)
+                          zz =   α    1 − exp  −        
+                               4µ p K             D 
+
+         Lo cual evidencia que la componente del tensor σzz tiende a un valor asintótico a
+                                                        Diámetro del contenedor
+                    coeficiente de fricción 8
+                         con la pared
+
+
+
+
+                                                  4
+
+===== PAGINA 5 =====
+
+                                           dN ( t )                                       (I.14)
+                                      Q=
+                                                 dt
+
+Medios   Granulares
+     A diferencia de lo que ocurre en el caso de los líquidos, en sistemas granulares el
+   caudal es independiente de la altura de la columna. Esto ocurre cuando la presión en la
+   boca del silo ha alcanzado su valor asintótico, según se explicó en I.1.2. Otra posible
+Propiedades
+   causa puede ser que las paredes inclinadas de la zona cónica del silo soporten el peso
+   delLey
+       material a través de
+           de Beverloo       arcos dinámicos
+                          (1961):   Caudal (Q) queconstante
+                                                    transmitendelasun
+                                                                    presiones
+                                                                      silo quea se
+                                                                                 dichas  paredes,
+                                                                                     obtiene
+   manteniendo   la presión
+      por análisis          en el orificio de salida constante.
+                     dimensional.
+           La ec. (I.14) define el caudal en la zona donde Q es constante.
+           Se ha verificado experimentalmente (Beverloo et al.,      1961), quepara
+                                                                  Exponente      el caudal
+                                                                                     silo 3Den un
+   silo 3-D es proporcional a                                         (para 2D es 1.5)
+                                             2.5
+                          Q ≈ n p g ( d − cr )
+                                                                   2.5
+                                                      = B ( d − cr )                      (I.15)
+
+
+    donde np es el nro. partículas por unidad de volumen, d radio
+                                                             el diámetro
+                                                                    mediodel   orificio de salida
+                                                                            partículas
+    del silo, r el radio medio de las partículas y c un factor adimensional que permite
+    considerar que una fracción del orificio de salida no es utilizada, corrigiendo al diámetro
+    real del mismo por uno efectivo (d-cr).Diámetro
+                                                En elapertura
+                                                       caso 2-D deelsalida
+                                                                       exponente 2.5 debe ser
+    Nro. de partículas
+    reemplazado         por
+                  por 1.5. Cabe notar que la funcionalidad de la expresión de Beverloo surge
+      unidad de volumen
+    simplemente   de consideraciones dimensionales del sistema.
+
+
+    I. 1. 5 Simulaciones DEM
+
+           La dinámica de un medio granular está dominada por el tipo de colisiones y por
+                                                    5
+    el tiempo que las partículas están en contacto. Si la densidad de partículas es baja, los
+
+===== PAGINA 6 =====
+
+Medios Granulares
+
+
+
+
+           Simulaciones de Medios Granulares
+
+
+
+
+                               6
+
+===== PAGINA 7 =====
+
+Medios Granulares
+Simulaciones
+
+
+
+          - Sistemas densos: tchoque >> tvuelo
+
+
+          - Método de Elemento Discreto: Dinámica molecular para granulares.
+
+
+          - Uno de los modelos pioneros: Cundall y Strack (1979).
+
+
+
+
+                                           7
+
+===== PAGINA 8 =====
+
+                                                                                                 j= vecinas en contacto
+
+
+
+                                                        donde m es la masa, &r& el vector aceleración, F la fuerza y los subíndices i y j indican la
+                                                        identidad de las partículas. El término de la fuerza puede depender de las posiciones y
+                                                        velocidades de cada partícula del sistema. Su forma particular se describirá en los
+                                                        parágrafos siguientes, sin embargo adelantamos que esta fuerza actúa solamente sobre
+
+Medios Granulares
+                                                        vecinos en contacto. Además de la ec. (I.16), en el caso general, la formulación
+                                                        considera también la ecuación del torque, como se verá en I.1.5.2.
+                                                               Las partículas son consideradas blandas, deformándose durante la interacción
+                                                        con otras partículas o las paredes del contenedor. La forma de considerar esta
+                                                        deformación, para discos bidimensionales, es evaluar el solapamiento entre partículas en
+Simulaciones                                            contacto definido como
+
+                                                                                         ξ ij (t ) = Ri + R j − rij (t )                             (I.17)
+       Notación:                                                   Definición variables geométricas
+                                                        donde Ri y Rj son los radios de cada partícula y rij la distancia entre sus centros, como se
+                                                        muestra en la figura I.5.
+                                                  ^
+  g         Fuerza de Gravedad que apunta en (-y)
+                                                                                                                                        rij
+   . drr                                                                                                                     R
+  ṙ =               velocidad
+       dt
+
+ .. d2 rr                                                                       Ri
+ r̈ =                aceleración
+      dt2
+                                                                                                               ξ ij
+       .c        .   .       velocidad relativa entre                                                                              Rj
+      rṙrel = (ri - rj)     partículas.                    y
+                                                                           ri
+
+                                                                                 rj
+ξij = Ri + Rj - |rj - ri|    Superposición
+
+                                                                Figura I.5: Definiciones de variables geométricas entre dos partículas en contacto
+
+
+
+                                                               La evolución del sistema de N partículas resultará de integrar numéricamente el
+                                                        sistema de ecuaciones expresado en (I.16). Para hacer esto existen diversos métodos
+                                                        como2 por ejemplo diferencias finitas, el algoritmo de Verlet o el corrector predictor de
+
+===== PAGINA 9 =====
+
+                                                                                           j= vecinas en contacto
+
+
+
+                                                  donde m es la masa, &r& el vector aceleración, F la fuerza y los subíndices i y j indican la
+                                                  identidad de las partículas. El término de la fuerza puede depender de las posiciones y
+                                                  velocidades de cada partícula del sistema. Su forma particular se describirá en los
+                                                  parágrafos siguientes, sin embargo adelantamos que esta fuerza actúa solamente sobre
+
+Medios Granulares
+                                                  vecinos en contacto. Además de la ec. (I.16), en el caso general, la formulación
+                                                  considera también la ecuación del torque, como se verá en I.1.5.2.
+                                                         Las partículas son consideradas blandas, deformándose durante la interacción
+                                                  con otras partículas o las paredes del contenedor. La forma de considerar esta
+                                                     Definición variables geométricas
+                                                  deformación, para discos bidimensionales, es evaluar el solapamiento entre partículas en
+Simulaciones                                      contacto definido como
+
+                                                                                   ξ ij (t ) = Ri + R j − rij (t )                             (I.17)
+        Notación:                                 donde Ri y Rj son los radios de cada partícula y rij la distancia entre sus centros, como se
+                                                  muestra en la figura I.5.
+
+                                                                                                                                    rij
+                                                                                                                           R
+
+
+
+
+                                                                          Ri
+
+                                                                                                                     ξij
+                                                                                                         ξ ij
+       .           .   velocidad relativa entre                                                                                Rj
+       r      = (ri)   partícula pared.               y
+                                                                     ri
+
+                                                                           rj
+ξij = Ri - |rip|       Superposición
+
+                                                          Figura I.5: Definiciones de variables geométricas entre dos partículas en contacto
+
+
+
+                                                         La evolución del sistema de N partículas resultará de integrar numéricamente el
+                                                  sistema de ecuaciones expresado en (I.16). Para hacer esto existen diversos métodos
+                                                  como9 por ejemplo diferencias finitas, el algoritmo de Verlet o el corrector predictor de
+
+===== PAGINA 10 =====
+
+a movido lo suficiente como para salirse de su celda, se vuelve a testear por nuevos
+                                              Las expresiones para las fuerzas normal y tangencial, sin tener
+bles vecinos y por nueva ubicación enamortiguamiento,
+                                          una nueva celda.
+                                                        son
+                                                               De esta forma, la detección
+contactos en cada paso temporal se realiza entre menos partículas. Además, los
+bles nuevos vecinos están limitados a las celdas vecinas, Fde              modo ˆn que no se
+    Medios Granulares
+ulan las distancias entre todas las partículas cada vez.
+                                                                      N = −k nξ
+
+
+
+
+                                                                − µ FN sgn r& c ˆt                                   ( )
+   Simulaciones
+   Ahora se presenta la formulación del problema FT = minincluyendo,
+                                                                           ademásrel
+                                                                                       de las
+          El método  consiste en integrar numéricamente las ecuaciones
+                                                                   − kT ξ T ˆtde movimiento
+ciones y velocidades  de traslación,  las rotaciones y velocidades
+                                                                 
+                                                                      angulares
+              El método consiste en integrar numéricamente las ecuaciones de          demovimiento
+                                                                                         cada
+         Se integran numéricamente las ecuaciones de movimiento acopladas,
+    para un sistema de N partículas discretizando    al tiempo    en pasos  fijos
+ cula.   para un sistema  de N partículas discretizando      al tiempo  en   pasos∆t,
+                                                                                    fijos ∆t,
+                                                 & c
+    A la ec.(I.16) se la debe acompañardondecon rsu es    la velocidad relativa de las superficies de las partículas en
+                                                       equivalente     para los torques (I.25)
+                                                                       rel
+
+                                                               contacto, la cual tiene en cuenta las velocidades de            (I.16)los centros de
+         Traslaciones                         mi&&              ∑ ∑
+                                                ri = && velocidadesFijangulares.        +    F                i =1,...,N del punto de(I.16)
+                                                                                                g ξT es el desplazamiento
+                                                    mj=i rNivecinas
+                                                               = en contacto                Fij                       i =1,...,N(I.16) contacto en
+                                                               tangencial        durante el tiempo que dura el contacto y se lo define como
+                                                &&i = ∑ Fij
+                                              mi r                  j = vecinas en contacto
+
+                                                         j =1
+     donde m es la masa, &r& el vector aceleración, F la fuerza y los subíndices                                 & ci y j indican la
+          donde  m  es la  masa,    &r& el vector aceleración, F la fuerza yT los∑subíndices        ξ  =     ∆ t r    (t )     i  y  j indican   la
+     identidad de las partículas. El término de la fuerza puede dependert de las posiciones y                    rel
+
+
+          identidad                                 N término de la fuerza puede depender de las (I.25)
+     velocidades   dedecada
+                          las partícula
+                              partículas.del       El
+                                         && = M La ec. (I.33), a diferencia de la ec. (I.23), muestra una interacción
+                                                        sistema.          Su     forma     particular     se   describirá        en posiciones
+                                                                                                                                       los         y
+          velocidades
+         Rotaciones
+     parágrafos          de   cada    Ipartícula
+                 siguientes, sin embargo
+                                         θ
+                                        i i            ∑    delij sistema.
+                                                        adelantamos              que Suesta
+                                                                                          forma
+                                                                                              fuerzaparticular
+                                                                                                       actúa         se describirá
+                                                                                                                 solamente
+                                                    j =1 dirección tangencial al contacto. Esta interacción es válida mientras la m
+                                                                                                                                   sobre   en los
+          parágrafos   siguientes,      sin
+     vecinos en contacto. Además de enlacontactoembargo
+                                         j = vecinas
+                                                               ec. adelantamos
+                                                                      (I.16),       en    quecaso
+                                                                                         el     estageneral,
+                                                                                                      fuerza actúa la        solamente sobre
+                                                                                                                          formulación
+                                                           misma no supere a la fuerza de rozamiento coulombiano. Si alcanzara ese
+          vecinos   en   contacto.       Además
+     considera también la ecuación del torque,             dedeallícomo          donde
+                                                                    lavaleec.lasefuerza
+                                                                                  (I.16),enIen
+                                                                                   verá de    es  el momento
+                                                                                                  el
+                                                                                              I.1.5.2.casopermitiendo
+                                                                                            rozamiento,       general, de inercia       y
+                                                                                                                            unladeslizamiento
+                                                                                                                                    formulación fricciona
+de Ii es considera
+              momento
+          el Las     también    inercia,
+                           de son
+                  partículas     la ecuación      θ&& idel
+                                       consideradas        es torque,
+                                                                 la           como
+                                                                       aceleración
+                                                                  blandas,
+                                                                      La   expresión esseel
+                                                                                 Mdeformándose
+                                                                                           verá
+                                                                                         paratorque
+                                                                                              ngular
+                                                                                              el  en I.1.5.2.
+                                                                                                 torquedefinido
+                                                                                                         y
+                                                                                                       durante
+                                                                                                         (M)  M        como:
+                                                                                                                   ij laes
+                                                                                                               resulta       el torque
+                                                                                                                           interacción
+      sobre
+cadocon      la partícula
+          otras   Las partículas
+                 partículas  io    lasson
+                               debido       a la
+                                           paredesconsideradas
+                                                      j. del contenedor.    blandas, La          forma de durante
+                                                                                            deformándose          considerar     la interacción
+                                                                                                                                      esta
+          con otras
+     deformación,      partículas
+                    para  discos o las
+                                   bidimensionales,    paredesesdel               contenedor.
+                                                                          evaluar el                 LaM forma
+                                                                                          solapamiento          × F de
+                                                                                                           = Rentre           considerar
+                                                                                                                        partículas      en esta
+          deformación,
+ .2.1contacto
+      Ciclo   definido
+             de  Cálculo   para discos bidimensionales, es evaluar el solapamiento entre partículas en
+                        como                               donde R es el vector que va desde el centro de la partícula al punto de
+          contacto definido como                           figura I.5) y F la fuerza total (F=FN+FT ).
+                                         ξ ij (t ) = Ri + R j − rij (t )                                                           (I.17)se
+    El esquema de discretización,                 en este caso,                es  como      sigue:   Para     cada       partícula
+                                                     ξ ij (t ) = Ri Tanto            (t ) total como el torque sufren un amortiguamient
+                                                                       + R j10−larij fuerza                                                 (I.17)
+ ideran las aceleraciones (traslacionalregulado
+                                         y angular)     constantes
+                                                por el parámetro      en el aintervalo [-∆t/2,
+                                                                 adimensional
+
+===== PAGINA 11 =====
+
+Medios Granulares
+Simulaciones
+                                                Definición variables geométricas
+
+Durante la Colisión “Partícula - Partícula”
+
+                                  Partícula j
+                                                 êt versor tangencial al contacto
+                             êt                  ên versor normal al contacto
+                                    ên
+               Partícula i
+                                                 ên=(enx , eny )
+                                                 êt=(-eny ,enx )
+                                                                                     Donde:
+
+                                                                               enx= (xj - xi)/|rj - ri|
+                                                                               eny= (yj - yi)/|rj - ri|
+
+                                                11
+
+===== PAGINA 12 =====
+
+Medios Granulares
+Simulaciones
+                                                            Definición variables geométricas
+
+Durante la Colisión “Partícula - Pared”
+                                                           Versores Constantes para cada Pared !
+
+                                         Pared j
+                                                              êt versor tangencial la pared
+                                  êt                          ên versor normal la pared
+                                              ên
+                 Partícula i
+                                          α
+                                                              ên=(enx , eny )
+                                                              êt=(-eny ,enx )
+       α es el ángulo entre el versor normal y el eje x.
+
+
+
+
+                                                             12
+
+===== PAGINA 13 =====
+
+Medios Granulares
+Simulaciones
+
+
+
+
+                Fuerzas de Contacto
+
+
+
+
+                          13
+
+===== PAGINA 14 =====
+
+                       Existen varias posibles formas de elegir la interacción entre partículas. En este
+                código se usó una interacción elástica amortiguada para la componente normal de la
+                fuerza (FN) y una de rozamiento coulombiano para la componente tangencial de la
+                misma (FT ), definidas para ξ > 0 (cuando hay solapamiento entre partículas) de la
+                siguiente manera
+
+
+Medios Granulares                             FN =  −k nξ − γξ&  nˆ                               (I.22)
+
+
+                                           FT = − µ FN sgn ( r&rel ) ˆt                               (I.23)
+Simulaciones
+                       .
+                donde r rel es la velocidad relativa entre los centros de masa de las partículas, k n y γ son
+                                    Fuerzas
+                las constantes elástica             de Contacto
+                                         y de amortiguamiento,              (Esquemas)
+                                                                 µ es el coeficiente de rozamiento, n̂ es el
+                versor en la dirección normal y t̂ de la tangencial. Estas interacciones están
+                esquematizadas en las figuras I.6 (a) y (b).
+
+                                                            Ejemplos en la dirección tangencial (êt)
+
+
+                                                                                    kt
+Ejemplo en la                                                 µ                               µ
+                             kn        γ
+dirección normal (ên)                                                                γ
+
+
+
+
+                                      Figura I.6: Modelos de interacciones entre partículas
+
+
+                        Si bien, en general, se consideran otras expresiones para la fuerza tangencial,
+                agregando interacciones elásticas (Wolf, 1996; PFC2D) o considerando distinciones
+                entre rozamiento estático y dinámico (Herrmann, 1993), hay varias razones para elegir
+                la expresión dada en las ecs. (I.22) y (I.23):  14
+
+===== PAGINA 15 =====
+
+   . En las simulaciones hay       valoresquede
+                                              detectar   cuales
+                                                 las fuerzas      son las
+                                                              y torques enpartículas
+                                                                             (t+∆t/2) eque        se de las leyes de inte
+                                                                                             obtienen
+ s conocida  θ t+ ∆t
+                   como
+                     =   t    & t +∆t / 2
+                           "detección
+                        θ +θ              ∆t de contactos". En el presente código
+                                   partículas.                                               (I.31)
+                                                                                                  la         FN = −k nξ ˆn
+   ctos se realiza calculando las distancias ξ ij entre todas todos los pares
+  yel luego
+        ciclosedeligencálculo      I.1.5.2.2
+                                   es elque
+                            los pares          Interacciones
+                                              siguiente:       Partícula
+                                                  tienen ξ ijDados     los–SiPartícula
+                                                               positivo.      valores
+                                                                                ξ < 0 no    de haylas
+    Medios Granulares
+nante     (t-∆t/2)
+    este caso,    lasy las   posiciones,
+                       fuerzas de               fuerzas
+                                        interacción    sony  torques
+                                                            nulas.     en   el  instante     (t),
+                                             Las expresiones para las fuerzas normal y tangencial, se
+                                                                                                              − µ FN sgn ( r&
+                                                                                                     FT = min 
+                                                                                                               
+                                                                                                                − kTsin
+                                                                                                                      ξ T ˆttener
+yrias    posibles
+     (I.29)   para
+      Simulaciones
+                     formas
+                       obtener       elegir
+                               deamortiguamiento,
+                                    las       la interacción
+                                           velocidades     en
+                                                          son    entre
+                                                                el      partículas.
+                                                                    instante     (t+∆t/2).En este
+                                                                                                Los
+ a yinteracción       elástica   amortiguada  Fuerzasparade
+       torques en (t+∆t/2) se obtienen de las leyes dedondela  componente
+                                                             Contacto            normal
+                                                                           interacción       de   la
+                                                                                              entre relativa de las super
+                                                                                  & es la velocidad
+                                                                                   c
+ a de rozamiento coulombiano para la componenteF tangencial                   =  − k  ξ   ˆ
+                                                                                          n  de la                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              rel
+
+
+                                           hay (ên
+                                                                           N
+                                                                        contacto,    n la cual tiene en cuenta las veloci
+   idas   para ξen> la0dirección
+       Opciones            (cuandonormal         solapamiento
+                                                      )            entre en
+                                                              Opciones     partículas)
+                                                                               la dirección  detangencial
+                                                                                                  la        (êt)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            velocidades angulares. ξT es el desplazamiento
+es Partícula – Partícula                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    tangencial durante .el tiempo que dura el contacto
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 .c ˆ
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             sgn(ṙ&rel
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              − µµ |FNN | sgn                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             ( )
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               <latexit sha1_base64="C9T/crU1FJ4EeYoOoPy9a5ccdRc=">AAACSHicbZBNS8NAEIY39avWr6pHL4tF0IMlEVGPBUE8SQVbhaaEzXbbLm42YXcilDT5d148evM3ePGgiDc3bUFtHVh4eeYdZvb1I8E12PaLVZibX1hcKi6XVlbX1jfKm1tNHcaKsgYNRajufKKZ4JI1gINgd5FiJPAFu/Xvz/P+7QNTmofyBgYRawekJ3mXUwIGeWXvELtBjLOh64eigy+85CodZoYR6Ksg0T2Z4n23E0IyNqjUSxQTaYarOHP7xPCxFUOaHZjBHOEf5pUrdtUeFZ4VzkRU0KTqXvnZbKNxwCRQQbRuOXYE7YQo4FSwtOTGmkWE3pMeaxkpScB0OxkFkeI9Qzq4GyrzJOAR/T2RkEDrQeAbZ36hnu7l8L9eK4buWTvhMoqBSTpe1I0FhhDnqeIOV4yCGBhBqOLmVkz7RBEKJvuSCcGZ/vKsaB5VnZOqc31cqdUmcRTRDtpF+8hBp6iGLlEdNRBFj+gVvaMP68l6sz6tr7G1YE1mttGfKhS+AT9Ts0E=</latexit>
+
+
+
+
+                                    .                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   .t t̂ ) t̂
+    N.1)                     &           T.1) FT = min               (I.22)                 .c
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    rel
+
+          F   =  − k
+nes para lasN fuerzas  ξ − γξ  
+                          normal ˆ
+                                 n y tangencial, sin tener    en   cuenta  el
+                     n                                          ˆ
+                                                       − kT ξ T t ,      donde ξ T = ∑ ∆t r& (t )                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   rel
+
+n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 t
+
+
+
+            FT = − µ FN         donde   & c
+                                                       velocidad relativa deLalas
+                               sgn ( r& ) rel ˆt es la T.2)
+                                        r                                                . a diferencia
+                                                                                ec.superficies
+                                                                                    (I.33),
+                                                                                      (I.23)    de las de la ec. (I.23)
+                                                                                                        partículas  en
+                                                               <latexit sha1_base64="YowQ33Tf/N9mvORtJ+Abh1qFnf0=">AAACXXicbZHPaxQxFMczo9V2rXWrBw9eHi5CPbjMSKlehIognqRCty3sLEMm+3Y3NJMZkjfSJc38kd704r9iZnfxR+uDwJfP9z1e8k1RK2kpSb5H8Z27W/fub+/0Huw+3HvU3398ZqvGCByJSlXmouAWldQ4IkkKL2qDvCwUnheXHzr//CsaKyt9SssaJyWfazmTglNAeZ+yolJT+Ji7jPCK3Kn38A5eQVY20F7/Nj/76zYwTgtTOjvXHg6yaUVu3WB87gwq38IQ2mzBA1+3Avn2ZRjsEPxheX+QDJNVwW2RbsSAbeok738L20RToiahuLXjNKlp4rghKRT6XtZYrLm45HMcB6l5iXbiVul4eBHIFGaVCUcTrOjfE46X1i7LInR2N7Q3vQ7+zxs3NHs7cVLXDaEW60WzRgFV0EUNU2lQkFoGwYWR4a4gFtxwQeFDeiGE9OaTb4uz18P0aJh+ORwcv9/Esc2esefsgKXsDTtmn9gJGzHBfkQs2ol60c94K96N99atcbSZecL+qfjpLyuotb4=</latexit>
+
+
+
+
+    N.2)                                rel               µ |FNtangencial
+                                                  FT = dirección | sgn(ṙrel
+                                                                          al  . t̂ ) t̂ Esta interacció
+                                                                             contacto.
+                             ˆn
+                 FN = −k nξ contacto,                                 (I.32) de los centros de
+                                      la cual tiene en cuenta las velocidades
+                       {                                 misma no supere a la fuerza de rozamiento coulo
+                         velocidades angulares. ξT es eldedesplazamiento
+                                                            allí vale la fuerzadel  punto de contacto
+                                                                                de rozamiento,            en
+                                                                                                permitiendo
+                   FN
+                         tangencial durante el tiempo que dura elLa. contacto
+                                                                         ^  ^
+                                                                     expresión ypara
+                                                                                 se lo  define(M)
+                                                                                     el torque comoresulta
+locidad relativa entre los  centros de masa    de  las partículas,   k   y γ
+                                           T.3) FT = - kT ξ [rreln. t] (I.33)
+                                                                            t son
+              − µ FN sgn µr&reles elt coeficiente de rozamiento, n̂ es el
+                                    ˆ   ( )
+                                c
+              
+tica y de amortiguamiento,                                                                   M =R ×F
+   F   = min                                              & c                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              {
+ección normal y t̂ ˆ de la tangencial. Estas ξ T =
+     T
+                  kT yξ T(b).
+              −(a)       t
+                                                   ∑    ∆t r (t ) están
+                                             interacciones
+                                              dondeF t R es el vector que va desde el centro de
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      rel
+
+ las figuras I.6                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            T
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            figura I.5) y F la fuerza total (F=FN+FT ).
+                               La ec. (I.33), a diferencia de la ec. (I.23), muestra una interacción
+ocidad relativa de las dirección
+                        superficies   de lasalpartículas
+                                 tangencial                 enTanto
+                                                contacto. Esta
+                                                15               el punto    de
+                                                                      la fuerza
+                                                                interacción  es total
+                                                                                válidacomo el torque
+                                                                                        mientras la ms
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            regulado por el parámetro adimensional a
+
+===== PAGINA 16 =====
+
+Medios Granulares
+Simulaciones
+                               Suma de Fuerzas
+
+
+
+                                                 Partícula j
+
+                         Partícula i
+
+                 Fik
+                                                          Partícula k
+Fi = Fik + Fij
+                   Fij
+
+
+
+
+                                            16
+
+===== PAGINA 17 =====
+
+Medios Granulares
+Simulaciones
+                             Suma de Fuerzas
+
+
+    Antes de sumar Fuerzas, para cada partícula, conviene proyectar las Fzas.
+    normal y tangencial (generadas por cada una de las demás partículas en
+    contacto) en las componentes cartesianas (x,y)
+
+
+                    Fx = FN enx + FT (- eny)
+
+                    Fy = FN eny + FT ( enx)
+                                                                 Dado que:
+                                                                 ên=(enx , eny )
+                                                                 êt=(-eny ,enx )
+
+
+
+                                          17
+
+===== PAGINA 18 =====
+
+Medios Granulares
+Simulaciones
+                                    Suma de Fuerzas
+
+        Finalmente la fuerza sobre cada partícula i debido al contacto con las demás
+                        partículas, paredes u obstáculos ( j ) resulta:
+
+                                                             X                    X
+                                                  FiTxot =       FN ij enx ij +         FT ij ( eny ij )
+                                                             j                    j
+                  X             X
+FTi ot = mi g +       FN ij +       FT ij
+                  j             j
+                                                                   X                    X
+                                                 FiTyot = mi g +       FN ij eny ij +        FT ij enx ij
+                                                                   j                     j
+
+
+
+
+                                                 18
+
+===== PAGINA 19 =====
+
+   partículas se hace un desarrollo de Taylor de orden dos para las posiciones en el instante
+   t +∆t, en función de la las variables dinámicas en el paso anterior t
+
+                                                             1                         (I.18)
+Medios Granulares     ri ( t + ∆t ) = ri (t ) + ri ( t ) ∆t + r&&i ( t ) ∆t 2
+                                                &
+                                                             2
+Simulaciones                  r&i ( t + ∆t ) = r&i (t ) + &&
+                                                          ri ( t ) ∆t                  (I.19)
+
+                 Criterio para elegir el paso temporal
+                                               1 N                                     (I.20)
+                                   r&&i ( t ) = ∑ Fij ( t )
+                                               mi j =1
+                - Dependerá del método de integración, pero como
+   donde r y r& son  los vectores posición y velocidad, respectivamente.
+                 referencia puede tomarse:
+          Para la elección del paso temporal se utilizó el criterio propuesto por Thompson
+   y Grest (1991).
+
+                                                                                       (I.21)
+                                       ∆t ≈ 0.1 m
+                                                        kn
+
+   donde k n es la constante de restitución elástica normal (ver Interacciones partícula –
+   partícula).
+          El paso temporal debe ser mucho menor que el tiempo que permanecen en
+   contacto dos partículas (tiempo de choque). Si el paso temporal fuera muy alto, el
+   método numérico generaría fuerzas enormes y el sistema explotaría.
+          Para simular interacciones entre 19partículas más rígidas (de mayor constante
+
+===== PAGINA 20 =====
+
+Medios Granulares
+Simulaciones
+
+                             Diferenciar entre:
+
+      Paso Δt de la simulación                       Paso Δt2 para guardar el
+                                                     estado del sistema
+
+                                                         Δt2 = k Δt,      con k ε ℕ
+
+
+                                      Ejemplo:
+                                              t = Σ Δt        (El tiempo total)
+
+
+                                        if    (t / Δt2) = round (t / Δt2)
+                                                  guardo estado sistema.
+                                        end
+
+
+
+                                             20
+
+===== PAGINA 21 =====
+
+Medios Granulares
+Simulaciones
+
+                              Diferenciar entre:
+
+      Paso Δt de la simulación                     Paso Δt2 para guardar el
+                                                   estado del sistema
+
+    Con la máxima precisión (Δt):
+    Guardar una lista con los
+    tiempos de salida de cada
+    partícula:
+                   t1
+                   t2
+                   t3
+                   t4
+                  .....
+
+
+
+
+                                            21
+
+===== PAGINA 22 =====
+
+Medios Granulares
+
+
+
+          Partículas de Formas Arbitrarias:
+
+                 “Esferopolígonos”
+
+
+
+
+                          22
+
+===== PAGINA 23 =====
+
+Medios Granulares
+ “Esferopolígonos”
+
+
+
+
+           F. Alonso-Marroquín
+           “Spheropolygons: A new method to simulate conservative and dissipative interactions
+           between 2D complex-shaped rigid bodies”,
+           EPL, 83 (2008) 14001.
+
+
+
+
+                                               23
+
+===== PAGINA 24 =====
+
+    Medios Granulares
+            “Esferopolígonos”
+
+                                        Suma de Minkowski:
+                                        Dados dos conjuntos de puntos P y Q en un espacio Euclídeo,
+                                        su suma de Minkowski está dada por P+Q={ x+y | x ε P, y ε Q}.
+                                        Lo cual es equivalente a arrastrar un conjunto alrededor del
+                                        perfil del otro.
+ Marroquı́n
+
+
+  separately. Both approaches are also extremely                     (a)                           (b)
+    extend to 3D, because the calculation of
+p between two polyhedra is computationally
+nsive. This is the main reason why most of
+           Ejemplo:
+ ercial codes            un disco
+                for particulate   systems are still           Polygon
+ imulationsalrededor      deorun
+              with spheres,         polígono
+                                clumps  of spheres
+           de 62 caras.
+  g complex-shaped    objects [9].
+                                                                             Sphere                                Otra forma de
+  tter I present a solution to this problem in 2D,
+  oncept of spheropolygons. They are generated                                                                     representarlo seria con 726
+Minkowski sum of a polygon with a disk, which                                                                      discos.
+ more than the object resulting from sweeping
+ nd a polygon. This simple concept can be used        Fig. 1: (a) Minkowski cow obtained by sweeping a disk around
+ e very complex shapes, including non-convex          a polygon of 62 edges. The disk has radius 10 cm and the length
+ hout the need to decompose them into spherical       of the polygon is 3 m. (b) The cow as represented by a clump
+   parts. The interaction between spheropoly-         of disks using 726 disks.
+odeled by considering all possible vertex-edge
+ s. The result is a simple and elegant model,         sum approach is that it removes the unwanted roughness
+ erent interaction laws can be implemented
+wardly. I anticipate that this model will be the
+                                                                                       24 method.
+                                                      of the surface in the clump-of-disks
+                                                         The point-inside-spheropolygon test combined with a
+
+===== PAGINA 25 =====
+
+ ite stiffness is     between the polygons. Let us take two spheropolygons SPi
+ s are not truly      and SPj with their respective polygons Pi and Pj and the
+ s method [10].       radii of the disks ri and rj . Each polygon is defined by the
+  customizable,
+   Medios Granulares  set of vertices {Vi } and edges {Ei }. The overlapping length
+                      between each pair of vertex-edge (V, E) is defined as
+points P and                         δ(V, E) = "ri + rj − d(V, E)$,                             (1)
+   sum “Esferopolígonos”
+       is given
+                  where   d(X,   E)   =%  Y! −X   ! % is the Euclidean distance from
+  operation is
+                                                                          !
+g of one set the vertex V to the segment E. Here X is the position of
+                    Lavertex
+                  the  FuerzaVdeand       ! is its
+                                    interacción
+                                         Y        entre  dos partículas
+                                                     closest      point on      considera
+                                                                            i j the edge losE. The
+  changing the      solapamientos     entre  Vértices (V  i) de un polígono y Lados del
+m of a polygon    ramp   function     "x$  returns      x  if x > 0 and zero otherwise.
+                    otro (Ej) y viceversa ( Vj y Ei ):
+ heropolygons.      The force F!ij acting on particle i by the particle j is
+e the sphero- defined by
+   the sphero-                                !                        !
+                          F!ij = −F!ji =            F! (Vi , Ej ) +           F! (Vj , Ei ),    (2)
+eropolyhedron
+                                              Vi Ej                    Vj Ei
+in simulations
+                  where F! (V, E) represents the force between the vertex
+Minkowski cow V and the edge E. If the vertex-edge overlapping length
+m is compared is zero, we take F! (V, E) = 0. Different vertex-edge forces
+rt (b) of fig. 1. can be included in the model: linear dashpots, non-linear
+ent a complex Hertzian laws, Lennard-Jones forces, dissipative viscous
+ ower than the forces, sliding friction, etc.
+ lumpy object.      The torque on particle i given by j is
+ inner disks of                       !                      25
+                            τij =             ! i , Ej ) −
+                                            (R(V                !ri ) × F! (Vi , Ej )
+
+===== PAGINA 26 =====
+
+aws of inertia. This numerical integration, whose details are
+eral explained elsewhere [14], does not represent much compu-
+      tational effort, because the mass properties are calculated
+
+   Medios Granulares
+      only once and they are assumed to be constant throughout
+ero- the simulation.
+ody     Interaction force.        To solve the interaction between
+and spheropolygons,
+      “Esferopolígonos”we consider all vertex-edge distances
+ s is between the polygons. Let us take two spheropolygons SPi
+ruly and SPj with their respective polygons Pi and Pj and the
+10]. radii of the disks ri and rj . Each polygon is defined by the
+ble, set of Para
+            vertices {Vi }eland
+                 calcular        edges {Ese
+                             solapamiento i }.usan
+                                               Thelosoverlapping  length
+                                                      esferopolígonos:
+      between each pair of vertex-edge (V, E) is defined as
+and                       δ(V, E) = "ri + rj − d(V, E)$,                     (1)
+ven
+        where d(X, E) =% Y    ! −X  ! % is the Euclidean distance from
+   is           Donde ri y rj son los radios de los discos  y d(V,E) es la distancia
+        the vertex  V toentre
+                          the elsegment                !
+  set           euclídea          vértice V E.y elHere X isE:the position of
+                                                  segmento
+        the vertex V and Y   ! is its closest point on the edge E. The
+ the            La función < x > es x si x > 0 y cero en otro caso.
+gon     ramp function "x$ returns x if x > 0 and zero otherwise.
+ons.      The force F!ij acting on particle i by the particle j is
+ero-    defined by
+ero-                            !                     !
+               F!ij = −F!ji =         F! (Vi , Ej ) +     F! (Vj , Ei ),      (2)
+ ron
+                                 Vi Ej                Vj Ei
+ ons
+    where F! (V, E) represents the force between the vertex
+                                            26
+cow V and the edge E. If the vertex-edge overlapping length
+
+===== PAGINA 27 =====
+
+                calculate contact forces between neighbor particles;
+                apply contact forces to the particles;
+ a of the
+                apply gravity forces to the particles;
+with this
+                correct positions and its derivatives using forces and
+   Medios Granulares
+or along
+                torques.
+
+y of the need to be calculated during the time integration, which
+ method “Esferopolígonos”
+            is, along with the neighborhood identification, one of the
+es, each main reasons of the efficiency of the code.
+  contact
+ me very       Benchmark tests. – Simulations will be perform
+                       Fuerza de contacto con fricción:
+ mber of    using  Minkowski        cows interacting via repulsive, frictional
+ions, we forces
+ likely to                       F! (V, E) = kn δn N ! + kt δt T! ,               (6)
+  eighbor
+h are in where N     ! = (Y  ! − X)/
+                                   ! "Y    ! −X ! " is the normal unit vector.
+                  Donde N y T son los versores
+                                            !    normal y tangencial al contacto.
+d as the    The   tangential       vector   T  is   taken perpendicular to !n.
+ en them δn isy δthe t es eloverlapping
+                             desplazamientolength
+                                             elástico calculado
+                                                      defined como   en la(1). The
+                                                                 in eq.
+                  diapositiva 15:
+nce [14]. elastic displacement
+                             .           δt accounts frictional forces, and it
+ t list is mustδtsatisfy
+                     = δ [ rrelthe
+                                . T ]sliding condition |Ft | < µFn , where µ
+s whose is the coefficient of friction [16]. The parameters of the
+ d when simulations are the normal stiffness k = 107 N/m, the
+particles tangential stiffness kt = 0.1kn , friction coefficient µ = 0.5
+]. A link gravity g = 10 m/s2 , density σ = 1 kg/m2 , time step
+ n of the ∆t = 10−5 s and the Verlet distance3 α = 1 m.
+
+===== PAGINA 28 =====
+
+      the vertex V to the segment E. Here X       ! is the position of
+et
+      the vertex V and Y  ! is its closest point on the edge E. The
+he
+on    ramp function "x$ returns x if x > 0 and zero otherwise.
+ s.     The force F!ij acting on particle i by the particle j is
+      defined by
+      Medios Granulares
+o-
+o-                           !                    !
+             F!ij = −F!ji =       F! (Vi , Ej ) +   F! (Vj , Ei ), (2)
+on
+                              Vi Ej                  Vj Ei
+ns
+      where   ! (V, E) represents the force between the vertex
+              F
+          “Esferopolígonos”
+ w    V and the edge E. If the vertex-edge overlapping length
+ed    is zero, we take F! (V, E) = 0. Different vertex-edge forces
+ 1.   can be included in theDado   que estas
+                                model:   linearpartículas
+                                                  dashpots, no son     esféricas es necesario
+                                                                non-linear
+ex                          considerar rotaciones.
+      Hertzian laws, Lennard-Jones                         El torque
+                                          forces, dissipative         que la partícula j hace sobre la i
+                                                                  viscous
+he                          es: etc.
+      forces, sliding friction,
+ t.      The torque on particle i given by j is
+of                     !
+                τij =        ! i , Ej ) − !ri ) × F! (Vi , Ej )
+                            (R(V
+he
+ry                    Vi Ej
+                          !
+of                    +            ! j , Ei ) − !ri ) × F! (Vj , Ei ),
+                                  (R(V                                   (3)
+ki                        Vj Ei
+
+
+4001-p2
+                     Donde ri es el centro de masa de la partícula i y R es el punto
+                     donde se aplica la fuerza (el punto medio del solapamiento).
+
+
+
+
+                                                                         28
+
+===== PAGINA 29 =====
+
+                                                          ! is the
+       where !ri is the center of mass of particle i, and R                Algorithm 1
+       point of application of the force, which is taken as the            scheme.
+Medios Granulares
+       middle point of the overlap region between the vertex and            Input: state
+       the edge:                                                            Output: sta
+ “Esferopolígonos”              !        " ! !                              predict posit
+               !         !       1         X −Y                             using a Tayl
+               R(V, E) = X + ri + δ(V, E)        ,                  (4)
+                                 2         ! −X
+                                          "Y  !"                            update verti
+             Finalmente se integran las ecuaciones de movimiento:           if neighbor u
+          The evolution of !ri and the orientation ϕi of the particle           calculate
+       is governed by the equations of motion:                                  update n
+                          #                          #                          update c
+                 mi!r¨i =   F!ij − mi g ŷ, Ii ϕ̈i =   τij .        (5)     end
+                           j                          j                     calculate con
+                                                                            apply contac
+        Here mi and Ii are the mass and moment of inertia of the
+   dondeparticle.
+         Ii es el momento de inercia de laall
+                                          partícula i                       apply gravit
+                    The sum     is over       particles interacting with this
+                                                                            correct posit
+        particle; g is the gravity; and ŷ is the unit vector along
+                                                                            torques.
+        the vertical direction.
+            Efficient calculation of forces.           The efficiency of the need to be cal
+        dynamics simulation is mainly determined by the method is, along with
+        of contact detection. In a system        29
+                                                       of N particles, each main reasons o
+
+===== PAGINA 30 =====
+
+                                       F. Alonso-Marroquı́n
+
+
+Medios Granulares                                                                                    as in avalanches (snow, d
+                                                                                                     astrophysics as the dyna
+                                                                                                     of planets or the icy part
+                                                                                                     This work is the first ste
+ “Esferopolígonos”                                                                                   of conservative and dissipa
+                                                                                                     plenty of potential applicat
+
+
+
+
+                                                                                                       This work is supported
+                                                                                                     Council (project number D
+ Comparación de simulaciones de un
+ silo 2D con círculos y con vacas de                                                                 REFERENCES
+ Minkowski.                                                                                           [1] Carlson H. and Mcca
+                                                                                                          (2000) 213.
+                                                                                                      [2] Pelzl G., Diele S. an
+                                                                                                          11 (1999) 707.
+                                                                                                      [3] Alonso-Marroquin F
+                                                                                                          Vardoulakis I., Phys.
+                                                                                                      [4] Mirtich B., ACM Tran
+                                                                                                      [5] Ruspini D. and Khatib
+                                                                                                      [6] Baraff D., Algorithmic
+                                                                                                      [7] Hasegawa S. and Sat
+                                                                                                          23 (2004) 529.
+                                                                                                      [8] Poeschel T. and
+                                                                                                          Granular Dynamics (Sp
+                                                                                                      [9] Lu M. and McDowell
+                                                                                                          69.
+                                                                                                     [10] Moreau J., Unilateral
+                                                                                                          freedom dynamics, in In
+                                                                                                          cal Sciences, Courses a
+                                       Fig. 6: Simulations of granular flow using disks (left) and        Vienna) 1988.
+                                       Minkowski cows (right). Two different apertures are chosen:   [11] Pournin L., Weber
+                                       20 m (top) and 30 m (bottom). The snapshots are taken eight        J.-A., Ramaioli M. a
+                                       seconds after discharge.                                           Matter, 7 (2005) 119.
+                                           30                                                        [12] Pournin L. and Lieblin
+
+===== PAGINA 31 =====
+
+Medios Granulares
+
+
+
+
+                    FIN
+
+
+
+
+                    31
+

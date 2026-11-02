@@ -7,7 +7,7 @@ $\Delta t$ fijo. En una simulación dirigida por eventos el reloj avanza hasta e
 próximo suceso que modifica el estado, por ejemplo una colisión [T03, p. 2]. Este
 enfoque resulta adecuado cuando los choques pueden tratarse como instantáneos,
 el tiempo de vuelo es mucho mayor que la duración del contacto y la densidad es
-media o baja [T03, p. 5].
+media o baja [T03, p. 5]. El Problema 2 del [quinto práctico](elusion-evacuacion-y-tp5.md#problema-2-evacuación-con-esquema-híbrido) combina este esquema con el paso temporal en una misma evacuación.
 
 Para discos rígidos sin fuerzas externas, cada partícula se mueve en línea recta
 y con velocidad constante entre colisiones. El ciclo básico es:

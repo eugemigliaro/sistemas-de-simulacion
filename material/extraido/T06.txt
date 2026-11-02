@@ -1,0 +1,1566 @@
+FUENTE: T06
+TITULO: Simulación de multitudes 1: dinámica peatonal
+ORIGINAL: material/catedra/teoria/Teorica_6.pdf
+PAGINAS: 58
+
+===== PAGINA 1 =====
+
+Simulación de Sistemas
+
+           Clase Teórica 6:
+      Simulación de Multitudes 1
+
+
+
+                  1
+  
+
+
+===== PAGINA 2 =====
+
+Dinámica Peatonal
+
+                             Regímenes
+
+
+
+    - Condiciones Normales                - Condiciones
+        o Cooperativas.               Competitivas o de Stress.
+
+
+
+
+                                  2
+
+===== PAGINA 3 =====
+
+Dinámica Peatonal
+
+
+
+                   - Condiciones
+               Competitivas o de Stress.
+
+
+
+
+                             3
+
+===== PAGINA 4 =====
+
+Dinámica Peatonal                   - Condiciones
+                                Competitivas o de Stress.
+
+
+ Evacuación de un recinto
+
+
+
+    Simulaciones
+    Microscópicas
+
+
+(cuando se propuso: sin
+validación experimental)
+
+
+
+
+                            4
+
+===== PAGINA 5 =====
+
+     the variation of such a curve when one considers different amounts of pedestrians
+     who have already left the room. It can be seen that the general shape is conserved.
+        Further information can be gained if we look at the discharge curve, i.e., the
+     number of particles that have left the room as a function of time. In this curve
+     horizontal lines denote the time difference between two successive particles which
+
+Dinámica Peatonal
+     leave the room. These time differences will be referred as ‘‘delays’’ (see Section 4.1).
+     In Fig. 2 we show this curve for a single realization at three different values of vd ;
+     namely 0:8; 2:0 and 6:0 m=s: It can be easily recognized that at larger values of vd the
+     occurrence of abnormally large delays becomes more probable particularly in the
+     early stages of the evolution of theEl  SFMThis
+                                          system.    predice    cualitativamente
+                                                        effect can be further exploredel   efecto
+                                                                                        if we
+     look at the distribution of delays when 10–160 people were evacuated. This is
+                                                                                 “Faster is Slower” (FIS)
+
+                                                   160
+
+                                                   140
+
+
+
+
+                        Mean Evacuation Time (s)
+                                                   120
+
+                                                   100
+                                                                                                     200 p
+                                                                                                     180 p
+                                                   80
+                                                                                                     160 p
+
+
+                                                   60
+
+                                                   40
+
+                                                   20
+                                                        0   1   2   3      4     5      6    7   8           9
+                                                                    Desired Velocity (m/s)
+
+     Fig. 1. Mean evacuation time as function of the vd for all the 200 people and for the first 180 and 160
+     persons.
+
+
+
+                                                                                 5
+
+===== PAGINA 6 =====
+
+Dinámica Peatonal
+
+                        - Condiciones
+                    Competitivas o de Stress.
+
+
+
+
+                      Experimentos para
+                      investigar sistemas
+                           similares
+
+
+
+
+                               6
+
+===== PAGINA 7 =====
+
+Dinámica Peatonal                     - Condiciones
+                                  Competitivas o de Stress.
+                                                              Sistemas Similares
+
+
+
+
+    MATERIAL GRANULAR
+
+
+  Silo 2D sobre plano inclinado
+
+
+
+
+                                        7
+
+===== PAGINA 8 =====
+
+FIS en Flujos Granulares
+
+
+
+
+          FIG. 3. (Color online) Experimental quasi-2D hopper on a vibrated incline. Upper le
+      and front view on the right). Upper right: Survival functions of the time lapses τ between
+      different angles of inclination θ . Arrows
+                                             8   indicate the curve trends when increasing the com
+
+===== PAGINA 9 =====
+
+Dinámica Peatonal        - Condiciones
+                     Competitivas o de Stress.
+                                                 Sistemas Similares
+
+
+
+
+                OVEJAS apuradas !!
+
+
+
+
+                           9
+
+===== PAGINA 10 =====
+
+10
+
+===== PAGINA 11 =====
+
+FIS en Ovejas   PHYSICAL REVIEW E 92, 062817 (2015
+
+
+
+
+                        11
+
+===== PAGINA 12 =====
+
+Dinámica Peatonal                     - Condiciones
+                                  Competitivas o de Stress.
+  Experimentos para
+  investigar sistemas
+       similares
+
+
+
+
+                        HUMANOS !
+
+
+
+
+                             12
+
+===== PAGINA 13 =====
+
+13
+
+===== PAGINA 14 =====
+
+ Dinámica Peatonal
+
+
+
+
+rimental results of the egress of 95 ± 3 pedestrians through a 69-cm-w
+ e room during the evacuation drill14for a low (left) and high (middle)
+
+===== PAGINA 15 =====
+
+Dinámica Peatonal
+
+                             Regímenes
+
+
+
+    - Condiciones Normales                 - Condiciones
+        o Cooperativas.                Competitivas o de Stress.
+
+
+
+
+                                  15
+
+===== PAGINA 16 =====
+
+Dinámica Peatonal
+
+
+
+                - Condiciones Normales
+                    o Cooperativas.
+
+
+
+
+                            16
+
+===== PAGINA 17 =====
+
+Dinámica Peatonal            - Condiciones Normales
+                                 o Cooperativas.
+
+  Experimentos para
+  investigar sistemas
+
+
+
+  Mecanismos de
+   Navegación
+
+
+
+
+                        17
+
+===== PAGINA 18 =====
+
+Dinámica Peatonal                                                                                             - Condiciones Normales
+                                                                                                                  o Cooperativas.
+
+                1    A                               B                  1
+                                                                                                                               C                      2
+
+
+
+Acel. (m/s )                                     Acel. (m/s )                                                                  Acel. (m/s )
+2                                                2                                                                             2
+                                                                        0
+                0
+                                                                                                                                                      0
+                                                                    −1
+               −1
+                                                                    −2
+               −2                                                                                                                                −2
+                 0   0.5           1   1.5   2                           0            0.5                1       1.5       2                       0                   0.5        1           1.5            2
+
+                3                                                       3                                                                             3
+
+                2                                                       2                                                                             2
+
+ t (1/s)                                                                                                                        t (1/s)
+                1                                t (1/s)                1                                                                             1
+
+                0                                                                                                                                     0
+                                                                        0
+                0    0.5           1   1.5   2                           0            0.5                1       1.5       2                          0                0.5         1          1.5            2
+                           t (s)                                                                 t (s)                                                                           t (s)
+
+
+
+
+                                                            A                1
+                                                                                                                                              B            1
+                                                                                                                                                          0.8
+
+                                                                         0.5                                                                              0.6
+                                                                                                                                                          0.4
+                                                                                                                                                          0.2
+                                                                y (m)        0                                                                y (m)
+                                                                                                                                                                                                        L
+                                                                                                                                                           0
+                                                                                                                                                      −0.2
+                                                                        −0.5                                                                          −0.4
+                                                                                                                                                                                         A
+                                                                                                                                                      −0.6
+                                                                                                                                                      −0.8
+                                                                         −1
+                                                                                 −2         −1             0      1    2                                        −0.5         0          0.5         1       1.5
+                                                                                                         x (m)                                                                        x (m)
+
+
+
+
+                                                                                                         18
+
+===== PAGINA 19 =====
+
+Dinámica Peatonal                                          - Condiciones Normales
+                                                               o Cooperativas.
+
+
+                                      Any evasive maneuver
+                           0.6        Steering
+                                      Stopping
+                           0.5        Correlation steering&stopping
+
+                           0.4
+
+
+             Probability
+                           0.3
+
+                           0.2
+
+                           0.1
+
+                            0
+
+                                 1I          2II     III
+                                                      3        IV
+                                                                4     V
+                                                                      5     VI
+                                                                            6
+                                                   Experiment ID
+
+         B
+
+
+                                                     19
+
+===== PAGINA 20 =====
+
+Dinámica Peatonal
+                  Principales Observables
+                   en Dinámica Peatonal
+
+          Diagrama Fundamental : Densidad versus velocidad
+
+
+
+         Caudal Específico = Peatones / ( tiempo * ancho puerta)
+
+
+
+
+                                   20
+
+===== PAGINA 21 =====
+
+Dinámica Peatonal
+
+     Observable 1
+
+
+
+
+ Diagrama Fundamental
+
+
+
+
+                        21
+
+===== PAGINA 22 =====
+
+Dinámica Peatonal
+
+    Observable 2
+
+  Caudal Específico
+
+
+              - Regulaciones adoptan un caudal específico 1.33 p/m/s
+              - Datos Experimentales: 1.25 a 2.0 p/m/s
+              - Para condiciones normales se asume caudal de salida
+              proporcional al ancho de salida.
+
+
+
+
+                                        22
+
+===== PAGINA 23 =====
+
+Dinámica Peatonal                                        Caudal Específico
+
+  CAUDAL ESPECÍFICO
+                                                                           FUENTE
+      (pers./m/s)
+
+                      Department of The Environment and The Welsh Of ce, The Building Regulations-Approved Document B -Section
+         1,33
+                      B1,1992. HMSO, London, 1991, pp. 9 – 40.
+
+                      J. Fruin, Pedestrian Planning and Design. The Metropolitan Association of Urban Designers and Environmental
+         1,37
+                      Planners, New York, 1971.
+
+         1,82         The Green Guide "Guide to Safety at Sports Grounds". HSMO, London, 1991.
+
+
+      1.48 – 1.92     B. D. Hankin and R. A. Wrigth, Passenger ow in subways, Operational Res. Quart. 9 (1958) 81-8.
+
+
+      1.25 – 1.4      D. Rasbash, G. Ramachandran, B. Kandola, J. Watts and M. Law, Evaluation of Fire Safety, Wiley (2004).
+
+                      S. P. Hoogendoorn and W. Daamen, Pedestrian Behavior at Bottlenecks, Transportation Science. Vol. 39, No 2 pp
+         1,77
+                      147-155 (2005).
+
+                      IMO Correspondence Group, "Interim guidelines for evacuation analyses for new and existing passenger ships"
+         1,33
+                      Technical Report MSC/Circ.1033 International Maritime Organization (IMO) (2002).
+
+                      T. Kretz, A. Grünebohm and M. Schreckenberg, Experimental study of pedestrian ow through a bottleneck, Journal
+         1,9
+                      of Statistical Mechanics: Theory and Experiment, (2006) P10014
+
+                      A. Seyfried, T. Rupprecht, O. Passon, B. Steffen, W. Klingsch and M. Boltes, New insights into pedestrian ow through
+         1,97
+                      bottlenecks, arXiv: physics/ 0702004v2 [physics. soc- ph] 3 Dec 2007
+
+
+
+
+                                                                 23
+                                                                                         fl
+                                                                  fl
+                                   fi
+                           fl
+
+===== PAGINA 24 =====
+
+Dinámica Peatonal
+
+
+
+
+           Modelos Microscópicos
+
+
+
+
+                     24
+
+===== PAGINA 25 =====
+
+Dinámica Peatonal
+Modelos Microscópicos
+
+
+
+       - Continuos / Basados en Fuerzas
+                   * Partículas Newtonianas.
+                   * Posición y Velocidad en el Continuo.
+
+
+          - Discretos / Basados en Reglas:
+                   * Espacio Discretizado en una Grilla.
+                   * Transición de estados basadas en Reglas.
+                   * Autómatas Celulares.
+
+
+
+
+                                          25
+
+===== PAGINA 26 =====
+
+Dinámica Peatonal
+Modelos Microscópicos
+
+
+
+
+         - Social Force Model (Basado en Fuerzas).
+
+
+         - Bionics-Inspired CA Model (Autómata Celular)
+
+
+         - Contractil Particle Model (Híbrido)
+
+
+
+
+                                            26
+
+===== PAGINA 27 =====
+
+Modelos Microscópicos
+
+
+
+
+            Social Force Model
+
+
+
+
+                             27
+
+===== PAGINA 28 =====
+
+Modelos Microscópicos
+                          (Helbing, Dirk, Illés Farkas, and Tamas Vicsek. "Simulating dynamical features of escape panic."
+   Social Force Model     Nature 407, no. 6803 (2000): 487-490)
+
+
+
+
+- Ecuación de Newton para cada Peatón “ i ”:
+
+
+
+
+                - Sistema de N ecuaciones diferenciales acopladas.
+                - Métodos de Dinámica Molecular.
+
+
+
+
+                                                           28
+
+===== PAGINA 29 =====
+
+Modelos Microscópicos
+ Social Force Model
+
+
+         Fuerza de Contacto (Granular)
+
+
+
+
+                                              rij
+
+
+                                              R
+
+
+
+                                         29
+
+===== PAGINA 30 =====
+
+Modelos Microscópicos
+ Social Force Model
+
+                                      Fsij
+                 Fuerza Social
+
+
+
+
+                                             εij
+
+
+
+
+                                 30
+
+===== PAGINA 31 =====
+
+Modelos Microscópicos
+ Social Force Model
+
+
+         Fuerza de autopropulsión                      (Desired Target)
+         (driving force)
+                                                              X
+                      target
+                                         etarget
+                                                   v
+
+
+
+
+                                    31
+
+===== PAGINA 32 =====
+
+Modelos Microscópicos
+ Social Force Model
+                         Fenómenos que el SFM reproduce cualitativamente
+
+        Formación de Carriles
+                                                    Oscilación en Cuellos
+                                                          de Botella
+
+
+
+
+         Ineficiencia
+        Ampliaciones
+
+
+
+
+                                       32
+
+===== PAGINA 33 =====
+
+ 𝜏
+II; 67 :=I F6=<;@ :;K                                                                                 ;G7D ;4 JH:7>>9@ 6L 5@8678@6=< ;E:7A 86;@;:K;: " F67 & ;A?D4
+   5 C ! @ > /#, ! ,!$ D8?4                                                                        %
+                                                                                              "!! !" $!# "! ) ! "! (" +" & "!$ # "! ) ! "! (" +& & % !*"# "! ) ! "! ("$KM; !' ! "! #
+@ C ! > EX Y,C $ +#. ! "
+<7:;86? A7<?@HDK I= @;@7<                                           #."
+                                                                                                                              "                                              !
+
+
+HAA79F?G?F6? E6?H:7G ;:7                            = 0,5 s         D<7; D<9=8 8=6 =F @67?:8@;F;K ;D8 I? =:;P @? O,N+ 6=?8<69I ;D8 ;:;D4
+T>96 ;D8 ;P?>?6?> =8                                                           5, 86;>9E:7 ;D8 =8 A79Q; ;@?4:;D8= @? F67 JO "! ( " "!)N :;D8=
+   F67 J@@;68@9T=: F67                                              -!) I? J@? 87D8 R HA@9=E=A767 F;87;:8 @? @AA74 ;D8 D8?4 6=?8<7:;86? ;D#
+B 5@6=?87?:7G :;8;>7:7K                                             S?F6;K:;K 6=?8<;:?F ;D8 @;8=6;F -!$ J- AA74 =8 ;<678@?F ;D8 @67;>
+:=I F;<67A7T HA8<7M; HT                                             E6?F6=K@;::=< ;D8 J8? =8 A7?86;E678 6=?8<;:?F ;D8 -!! F67 J8? =8 :7A9<
+H8?:7A9E;::? I= 869=>7                                                                                 RHT 6;G?E @? AA74 ;D8 D8?4 ;<:=I 6=?8<7:;86?
+                                                                                                                                                                                                                  Ancho Puerta : 1,2 m
+
+F=:86? @74 H8?:7A9E;::?
+                                                                                                      A=2000 N ; B =0,08m ;                                                                                                                                                                                 Nro. de Peatones: 200
+
+                                                                                    $   #    ) !   ( " + & &  %  * " #    ) !    ( " $K M ;   '
+                                                                                                                              Parámetros del Modelo:
+
+? ;D8 6? !(. @:;8;>7?F                                                           -!       -!     !              !      -!      !            !    ! -! #
+                                                                    #U"
+                                                                                                                                                                                                                                                                                Habitación de 20 m x 20 m
+
+;FA9=D@ I= 6=?89T?:8@?F
+                                                                                      "                                                        !
+                                                                                                                                                                                                                                                                                                                                                                                              Social Force Model
+                                                                                                           -!!# -!!! ! ""# -! ) ! ! (" +" !
+ ;G=T7 ;D8 6= F;@73
+ 6;DK 8678:=K>? A7:;G;@                                             F67 F;8<;KM;69 ;:7 @<?67K ;K7<@; 87D8 8<7I ;D8 =8 E6?4= HAT7T=:1
+8;>7:7K ;AT76=@7;: =8                                               FA9=< ;4 J@86;>?:;KM; ;I?ASA7;: @;F9A<M; D<?D4 J@86;G; @9=:;E67F
+                                                               kn =1,2 105 N/m ; kt =2,4 105 kg/m/s                                                                                                                                      Diámetro de peatones : 0,50 - 0,58 m
+
+  :;F?4 :=I F;<69=6=:K                                              S78?8679Q A;F=> :9= 8@;8 =8 @<?67K ;K7<@; 6= 787F ;AT78?9@ F6V 8=6
+ =<6? =8 6=?8?@67:# OCN                                             J;G7D ;W 5@A;F=> ;AT7?A;: :=I @AA7< 787F I= H8?<:7<@ @?D# 5HA;G?8
+>==: 7 >=:I 4=[89=                                                  I= @@7> 7 D8?4 R@4=AA=I @7 @:;8;>7:7K ;D8 F;V?<;K@ J;:=I;:;D8
+                                                                                                                                                                                                                                                                                                                                            Evacuación de un recinto
+
+! ,!$ @;?8?<=A;G F;:?@;F                                            H8?<=A;G F;:?@;F ;D# 567I :;<<=@ ;E7:;G7 67 86;@;:K;: ;4 JEX ,/ ! .
+ @? 87D8 JC"@ > Y5C ;G=T7                                           F;G:;@T= ;D8 89T J+COC"@ > ,C =8 K9N C"@ > Y 67D8 ;:=> D<7;: 67< ,!$
+                                                                    C!
+;X?ASD<:7 I= 6=?@@;<<9@                                                @ > Z#, ! ,!$ =8 F6=K@;::=< >==: 7 E6?G7;A :=I @;?8?<=A;G ;;:I
+                                                                                                                                                           Variando la Velocidad Deseada: entre 0,8 y 6 m/s
+
+
+
+                                                                    C!
+F;K E6?G7;A I= @;D<69T                                                 @ > Y#C # ,!$ F67 JA7>:=6 :;F69 C ! @ > C ! ,!$ JF;M7A;: :;F69
+< @? 6=6;>=6;DK @?D#                                                S7:;A;<<7 ;D8 :=I ;87>?8@; ;AT76=@7;: " 5UC@6=?8?F6=< @9=G:;6 :;F69
+                                                                                                                                                                                                                                                                                                                                                                                                                                        Modelos Microscópicos
+
+ F67 J;G=T7 F;6=?86;>                                               67< ;4 > /,#, ! !* F67 ! U,C $ . ! !' D8?W 5@ Y#, ! !# @? ;>?8 6=?8
+     33
+
+         57            b                                                                                                                                                                                                                                                                                                            a
+
+         07
+
+         56
+
+         06
+                  )s( T semit gnivaeL
+         55
+                                                                                                                                                                                                                                                                                                                                                                       “Faster is Slower”
+
+         05
+     0
+D
+
+                                                    d                                                                                                                                                                                                                                                                                   c
+                                            4.1                                                                                                                                                                                                                                                                     004
+                                                                                                                                                                                                                                                                                                                                                                                            El SFM predice cualitativamente el efecto
+
+
+                                            2.1                                                                                                                                                                                                                                                                     053
+                                                                                                                                                                                                                                                                                                                    003
+                                            0.1
+                                                                                                      )s( elpoep 002 rof emit gnivaeL                                                                                                                                                                               052
+                                            8.0
+                                                                                                                                                                                                                                                                                                                    002
+deP
+                                            6.0
+ivid                                                                                                                                                                                                                                                                                                                051
+                                            4.0                                                                                                                                                                                                                                                                     001
+                                            2.0                                                                                                                                                                                                                                                                     05
+                                                                                                                              elpoep derujni fo rebmuN
+                                                0                                                                                                                                                                                                                                                                   0
+     3        2                         1   0                 01                             9                    8                 7                  6   5                                                  4                    3                          2                        1                    0
+
+===== PAGINA 34 =====
+
+         the variation of such a curve when one considers different amounts of pedestrians
+         who have already left the room. It can be seen that the general shape is conserved.
+            Further information can be gained if we look at the discharge curve, i.e., the
+         number of particles that have left the room as a function of time. In this curve
+         horizontal lines denote the time difference between two successive particles which
+
+Modelos Microscópicos
+         leave the room. These time differences will be referred as ‘‘delays’’ (see Section 4.1).
+         In Fig. 2 we show this curve for a single realization at three different values of vd ;
+         namely 0:8; 2:0 and 6:0 m=s: It can be easily recognized that at larger values of vd the
+         occurrence of abnormally large delays becomes more probable particularly in the
+ Social Force    Model
+         early stages of the evolution of theEl  SFMThis
+                                              system.    predice    cualitativamente
+                                                            effect can be further exploredel   efecto
+                                                                                            if we
+         look at the distribution of delays when 10–160 people were evacuated. This is
+                                                                                            “Faster is Slower”
+
+                                                         160
+
+                                                         140
+
+
+
+
+                              Mean Evacuation Time (s)
+                                                         120
+
+                                                         100
+                                                                                                           200 p
+                                                                                                           180 p
+                                                         80
+                                                                                                           160 p
+
+
+                                                         60
+
+                                                         40
+
+                                                         20
+                                                              0   1   2   3      4     5      6    7   8           9
+                                                                          Desired Velocity (m/s)
+
+           Fig. 1. Mean evacuation time as function of the vd for all the 200 people and for the first 180 and 160
+           persons.
+
+
+
+                                                                                      34
+
+===== PAGINA 35 =====
+
+Modelos Microscópicos
+
+
+
+
+             “Bionics-Inspired” Autómata Celular
+
+
+
+
+                              35
+
+===== PAGINA 36 =====
+
+Modelos Microscópicos
+“Bionics-Inspired” Autómata Celular
+                                             262                A. Kirchner, A. Schadschneider / Physica A 312 (2002) 260 – 276
+
+
+
+
+ - El espacio está discretizado en celdas.
+
+
+ - Cada celda puede estar vacía u ocupada                     Fig. 1. Allowed motions and the corresponding transition probabilities.
+ por una única partícula.                                         Movimientos permitidos y las
+                                                                  probabilidades correspondientes.
+ - En cada paso de tiempo, cada partícula
+ puede moverse a una celda desocupada
+ con una cierta probabilidad.
+
+                                                                                             Kirchner & Schadschneider (2002)
+
+
+
+
+                                             Fig. 2. Static !oor "eld S: (a) for a lattice of size X × Y = 33 × 33 with one exit of width "ve
+                                             (b) lattice of size X × Y = 30 × 60 and four exits.
+                                               36
+
+===== PAGINA 37 =====
+
+Modelos Microscópicos
+“Bionics-Inspired” Autómata Celular
+
+
+
+                 Las probabilidades de transición están dadas por la
+                 interacción con dos campos (floor fields):
+
+
+                 - Campo estático (S)
+
+
+                 - Campo Dinámico (D)
+
+
+
+
+                                           37
+
+===== PAGINA 38 =====
+
+                                                                             Fig. 1. Allowed motions and the corresponding transition probabili
+
+
+Modelos Microscópicos
+“Bionics-Inspired” Autómata Celular
+
+
+           Campo estático (S)
+
+
+
+
+                                                            Fig. 2. Static !oor "eld S: (a) for a lattice of size X × Y = 33 × 33 with one ex
+                                                            (b) lattice of size X × Y = 30 × 60 and four exits.
+
+
+   - Considera solo la geometría y, por lo tanto, está fijo durante la simulación.
+                                                     such a way that a particle movement is more likely in direction of h
+   - Aumenta en el sentido de la menor distancia     willabelade"ned
+                                                                puerta   desde
+                                                                     in the        cada
+                                                                            following      sitio. where also the basic u
+                                                                                      subsections
+      (ver apéndice Kirchner & Schadschneider, 2002) model are summarised.
+
+
+                                                            2.1. The static !oor "eld S
+
+                                                              The static !oor "eld S does not evolve with time and is not change
+                                                           of the pedestrians. Such a "eld can be used to specify regions of spac
+                                                           attractive, e.g. an emergency exit or shop windows. In case of the ev
+                                                           considered here, the static !oor "eld describes the shortest distance
+                                                        38 lying at the middle of the top wall of the room. Fig. 2 shows graphi
+
+===== PAGINA 39 =====
+
+Modelos Microscópicos
+“Bionics-Inspired” Autómata Celular                      A. Kirchner, A. Schadschneider / Physica A 312 (2002) 260 – 276              263
+
+
+
+
+   Campo dinámico (D)
+
+
+
+
+                                       Fig. 3. Dynamic !oor "eld D: (a) beginning evacuation process; (b) middle stages; (c) "nal stage of
+  - Se modifica por la presencia de partículas.
+                                       evacuation.
+
+
+
+
+                              2.2.dejado
+  - Representa un rastro virtual   The dynamic
+                                           por!oor "eld D
+                                               partículas que pasaron antes.
+                                The dynamic !oor "eld D is a virtual trace left by the pedestrians and has its
+                             own dynamics through di#usion and decay. It is used to model an attractive interaction
+  - El campo dinámico tiene su   propia
+                             between        dinámica
+                                       the particles. Fig. 3de  difusión
+                                                             shows          y decaimiento.
+                                                                   three-dimensional plots of D for three stages during
+                             evacuation process. At t = 0 for all sites (i; j) of the lattice the dynamic "eld is zero,
+                             i.e., Dij = 0. Whenever a particle jumps from site (i; j) to one of the neighbouring
+                             cells, D of the starting place is increased by one: Dij → Dij + 1.
+                                Therefore D has only non-negative integer values and can be compared to a bosonic
+                             "eld, 2 i.e., the bosons dropped by the pedestrians during their movement create the
+                             virtual trace. Thus the "eld value Dij corresponds to Dij bosons. The dynamic !oor "eld
+                             is time dependent, it 39 has di#usion and decay controlled by two parameters ! ∈ [0; 1]
+
+===== PAGINA 40 =====
+
+Modelos Microscópicos
+“Bionics-Inspired” Autómata Celular                    A. Kirchner, A. Schadschneider / Physica A 312 (2002) 260 – 276              263
+
+
+
+
+     Campo dinámico (D)
+   Difusión y Decaimiento
+
+
+
+                                     Fig. 3. Dynamic !oor "eld D: (a) beginning evacuation process; (b) middle stages; (c) "nal stage of
+                                     evacuation.
+  - A t = 0 el campo es cero: Dij = 0.
+  - Si una partícula pasa del sitio (i,j) a uno vecino, Dij → Dij + 1.
+                              2.2. The dynamic !oor "eld D
+  - En cada paso, el campo dinámico D decae con una probabilidad δ ϵ [0,1] y difunde
+                                The dynamic !oor "eld D is a virtual trace left by the pedestrians and has its
+  con probabilidad α ϵ [0,1] hacia una dethrough
+                              own dynamics  sus di#usion
+                                                  celdasandvecinas.
+                                                             decay. It isDused
+                                                                            =D    ( t, δ,anα).
+                                                                               to model     attractive interaction
+                                     between the particles. Fig. 3 shows three-dimensional plots of D for three stages during
+                                     evacuation process. At t = 0 for all sites (i; j) of the lattice the dynamic "eld is zero,
+                                     i.e., Dij = 0. Whenever a particle jumps from site (i; j) to one of the neighbouring
+                                     cells, D of the starting place is increased by one: Dij → Dij + 1.
+                                        Therefore D has only non-negative integer values and can be compared to a bosonic
+                                     "eld, 2 i.e., the bosons dropped by the pedestrians during their movement create the
+                                     virtual trace. Thus the "eld value Dij corresponds to Dij bosons. The dynamic !oor "eld
+                                     is time dependent, it 40has di#usion and decay controlled by two parameters ! ∈ [0; 1]
+
+===== PAGINA 41 =====
+
+   Modelos Microscópicos
+     “Bionics-Inspired”
+            264         Autómata Celular A. Schadschneider / Physica A 312 (2002) 260 – 276
+                             A. Kirchner,
+
+Kirchner, A. Schadschneider / PhysicaReglas
+                                         A 312 de   actualización
+                                                (2002)   260 – 276 del autómata
+ Kirchner, A. Schadschneider / Physica A 312 (2002) 260 – 276
+              (2) For each pedestrian, the transition probabilities pij for a move to an uno
+       (1) El campo    dinámicocell
+                    neighbour       D es(i;modificado
+                                              j)  (see      de acuerdo
+                                                          Fig.   1)  are                 de decaimiento
+                                                                            a las reglas by
+                                                                           determined        the local   y
+                                                                                                       dynamics and
+strian,
+estrian,  the  transition    probabilities       p     for  a  move
+          the transition probabilities pij for a move to an unoccupied
+                                                   ij                   to   an unoccupied
+       difusión.
+ (i; j)  (see  Fig. !oor
+                     1)  are"elds.     The
+                               determined     values
+                                                by   the of   the
+                                                          local     "elds
+                                                                   dynamics
+  (i; j) (see Fig. 1) are determined by the local dynamics and the two
+                                                                              D  and
+                                                                                and   S
+                                                                                    the  are
+                                                                                         two  weighted  with two  se
+he     (2) Para
+     values   of
+               A.   parameters
+                  cada
+                   the  partícula
+                        "elds
+                  Kirchner, A.   D  klaS
+                                     and   [0;
+                                         probabilidad
+                                         ∈ S
+                               Schadschneider /  ∞[
+                                                are
+                                                Physicaand
+                                                        A  dekpD
+                                                      weighted
+                                                          312    ij∈
+                                                               (2002)[0;
+                                                                   para
+                                                                     with
+                                                                      260moverse
+                                                                         ∞[.
+                                                                          – two
+                                                                            276 Thisa yields
+                                                                                      una celda desocupada
+                                                                                  sensitivity
+ he values of the "elds D and S are weighted with two sensitivity
+∈∈[0; (i,j) es:        [0;∞[.
+            and kkDD∈∈[0;      This
+                           ∞[.This    yields
+   [0;∞[
+       ∞[ and                      yields
+  For each pedestrian, p             ij =
+                                   the     N exp (kD
+                                        transition         Dij ) expij(kS
+                                                       probabilities    forSija )(1 −tonijan)!ij
+                                                                                 move             ;
+                                                                                              unoccupied
+       Dijij ) exp
+   (kDDD
+pp(k
+  neighbour    exp   (k
+                cell(k             )(1−Fig.
+                            Sijij)(1
+                      (i;SSSj)    (see  −nijn)!
+                                              ij )!
+                                              1) ij ;ij ;
+                                                   are determined by the local dynamics (1)   and the(1)
+                                                                                                       two
+  !oordonde
+        "elds. Thewith      values of the "elds D and S are weighted with two sensitivity
+  parameters kS ∈ [0; ∞[ and kD ∈ [0; ∞[. This               Son yields
+                                                                  parámetros de sensibilidad que actúan como peso de los campos
+                               occupation number : nij = 0; 1 ;
+nnumber
+  number
+     p ij = :N n ijij =
+               nexp   =(k0;D1ij1;) ;exp (kS Sij )(1 − nij )!
+                         D0;                                  ij ;
+                                                            Ocupación         !                         (1)
+                                                                                 0 for forbidden cells; e:g: walls ;
+                                     obstacle        number        :e:g:
+                                                                      !ije:g:
+                                                                           =
+                         !!
+ with                       00 for    for forbidden
+                                      Celdas forbidden   cells;
+                                                prohibidas.  cells;
+                                                             Ej,:        wallswalls
+                                                                  paredes.     ;     ;
+enumber
+  number :: !!ijij ==                                                            1 else     ;
+                                                                                    Obstáculos
+      occupation number     11 :else  else
+                                      nij =; ;0; 1 ;
+                                      Celdas    permitidas
+                                              !                                  −1 −1
+                                                                                                                                     −1
+                                                 0 for forbidden cells; $      e:g: walls ;
+                        
+          obstacle number           : !ij =
+                                          normalisation
+                                                 1    else ;       :  N   =         exp   (k   D    ) exp (k   S    )(1 − n    )!
+                          $
+malisation : N =  exp (kD Dij ) exp (kS Sij )(1 − nij )!ij                             :   D   ij          S   ij         ij    ij
+                            $
+ alisation : N =                  exp (kD Dij ) exp (kS Sij )(141− nij )!ij            :
+                                                                                                                                  
+                         (i; j)                                         (i; j)         −1
+
+===== PAGINA 42 =====
+
+          neighbour cell (i; j) (see Fig. 1) are determined by the local dynamics and the two
+          !oor "elds. The values of the "elds D and S are weighted with two sensitivity
+          parameters kS ∈ [0; ∞[ and kD ∈ [0; ∞[. This yields
+              pij = N exp (kD Dij ) exp (kS Sij )(1 − nij )!ij ;                                    (1)
+Modelos
+    with
+         Microscópicos
+             occupation
+“Bionics-Inspired”       number : n
+                   Autómata        ij = 0; 1 ;
+                              Celular
+                                        !
+                                           0 for forbidden cells; e:g: walls ;
+               obstacle number : ! ij = de actualización del autómata
+                               Reglas
+                                           1 else ;
+  donde (continuación)                                                                 −1
+                                         $
+                  normalisation : N = 
+                Normalización                  exp (kD Dij ) exp (kS Sij )(1 − nij )!ij  :
+                                               (i; j)
+
+  (3)(3)
+      CadaEach   pedestrian
+              partícula   eligechooses    a target
+                                  una celda     a lacell
+                                                      cualbased   on the
+                                                            intentar      transition
+                                                                       moverse        probabilities
+                                                                                  de acuerdo         pij
+                                                                                                 a las
+          determined(pinij).the previous step.
+  probabilidades
+     (4) The con!icts arising by any two or more pedestrians attempting to move to the
+  (4) Si hay
+          sameconflicto    (dos
+                 target cell   arepartículas
+                                    resolved byeligieron     la misma
+                                                   a probabilistic      celda),
+                                                                    method. 3    se pedestrians
+                                                                               The   resuelve which
+  probabilísticamente.
+          are allowed to move La partícula     elegido
+                                     execute their   step.ejecuta el movimiento.
+  (5)(5)
+      Se D   is increasedDby
+           incrementa            all moving
+                              según            particles. de las partículas.
+                                       los movimientos
+        The above rules have to be applied to all pedestrians at the same time, i.e., we use
+     parallel update.
+  Estas   reglas
+        Note  that se
+                    weaplican
+                        do not ause  todas
+                                         herelas
+                                               thepartículas
+                                                    so-called en   el mismo
+                                                                matrix        paso temporal,
+                                                                        of preference            es it
+                                                                                        [6] because
+  decir  se ejecutan
+     encodes            en forma
+               a direction             sincronizada.
+                              of preferred     motion of the pedestrians, which they usually not
+     have at the beginning of an evacuation process. In the following all information about
+     the desired direction of motion is obtained from the !oor "elds.
+        In Ref. [6] it has been shown that simple,         42 local update rules for the pedestrians
+
+===== PAGINA 43 =====
+
+                   decay constant " = 0:3: (a) # = 0:1 and !xed kD ; and (b) # = 0:3 and !xed kS .
+                   Fig. 5. Averaged evacuation times for a large room (Fig. 4) with an initial particle density of ! = 0:3 and
+
+
+
+
+Modelos Microscópicos
+“Bionics-Inspired” Autómata Celular
+
+
+
+      Típico proceso de evacuación de un recinto
+                   of evacuation with only a few particles left.
+                   Fig. 4. Typical stages of the dynamics: (a) beginning evacuation (t = 0); (b) middle stages; (c) end stage
+
+
+
+
+                   266                 A. Kirchner, A. Schadschneider / Physica A 312 (2002) 260 – 276
+
+
+
+
+                                                                            43
+
+===== PAGINA 44 =====
+
+Modelos Microscópicos
+
+
+
+
+            Contractile Particle Model
+
+
+
+
+                               44
+
+===== PAGINA 45 =====
+
+Modelos Microscópicos
+Contractile Particle Model
+                             - Partículas con radio variable (r) :
+                                 Espacio personal para desplazarse
+  rmax                           Máxima compresión corporal
+                r
+
+                             - Velocidad deseada es función del radio (r):
+                        Vd
+         rmin
+                                   |vd| = f (r) tq
+                                                     {   vd (rmin) = 0
+                                                          vd (rmax) = vd max
+
+
+
+
+                                                                         Baglietto, & Parisi (2011)
+
+
+
+
+                                      45
+
+===== PAGINA 46 =====
+
+Modelos Microscópicos
+Contractile Particle Model
+
+                                                               ve
+                             rmax
+       Sin contacto:                       r
+                                                                    r = rmin
+                                    rmin       vd
+     Avanzan con la vd
+     correspondiente:
+
+                                                     vd
+                                                                           r
+                                                    r = rmax
+
+
+
+
+                               46
+
+===== PAGINA 47 =====
+
+Modelos Microscópicos
+Contractile Particle Model
+
+                                  rmax
+     Cuando entran en                           r
+        contacto:
+                                         rmin
+  en ese paso temporal ...
+
+
+
+                                                    r = rmax
+
+
+
+
+                             47
+
+===== PAGINA 48 =====
+
+Modelos Microscópicos
+Contractile Particle Model
+                                                      ve
+                 rmax
+     Cuando entran en          r
+        contacto:                                          r = rmin
+                        rmin          vd
+
+
+        sólo durante un paso dt ...
+                                            vd
+- Aparece velocidad de escape (ve).
+- El radio colapsa al mínimo.                                     r = rmin
+                                           r = rmax
+                                                                      ve
+
+
+
+
+                                                 48
+
+===== PAGINA 49 =====
+
+Modelos Microscópicos
+Contractile Particle Model             Evolución Temporal
+
+
+      Si la partícula NO está en contacto:
+
+                  x ( t + dt ) = x ( t ) + vd dt
+
+                  | vd | = vd = vd max [(r-rmin)/(rmax-rmin)]β
+
+                  r ( t + dt ) = r (t) + rmax / (τ/Δt)   (si r < rmax)
+
+
+
+
+                                             49
+
+===== PAGINA 50 =====
+
+Modelos Microscópicos
+Contractile Particle Model
+                                       (Desired Target)
+
+                                              X
+
+                             vd          vd = vd etarget
+                                         etarget = (xtarget - x) / | (xtarget - x) |
+
+
+
+
+                                  50
+
+===== PAGINA 51 =====
+
+Modelos Microscópicos
+Contractile Particle Model             Evolución Temporal
+
+
+       Si la partícula SI está en contacto:
+
+
+
+                       x ( t + dt ) = x ( t ) + ve dt
+
+                       r = rmin
+
+                       | ve | = ve = vd max
+
+
+
+
+                                              51
+
+===== PAGINA 52 =====
+
+Modelos Microscópicos
+ Contractile Particle Model
+
+
+
+  Evacuación de un recinto
+
+
+
+El modelo reproduce los datos
+  experimentales de Caudal
+         específico
+
+
+
+
+                                52
+
+===== PAGINA 53 =====
+
+   Modelos Microscópicos
+NUOUS-SPACE AUTOMATON MODEL FOR . . .                                                   PHYSICAL REVIEW E 83, 056117 (2011)
+     Contractile Particle Model
+eration 1 over all particles                                         5
+d contacts and calculate ve .
+nd iteration 1                                                       4
+eration 2 overPista
+                all particles
+                        de Carrera                                   3
+ ust radii following “the rule for the variation of the
+[see text below Eq. (7)].                                            2
+nd iteration 2
+erationVariando       el Nro. de partículas,
+        3 over all particles                                         1
+                                                                                                          2m
+               se estudian
+ ompute the direction    and sensedistintas
+                                    of the vd considering
+                                                            y (m)
+                                                                     0
+t positionsdensidades
+            and target locations.
+                                y se mide la
+ ompute the magnitude of vd depending on the radius                 −1
+           velocidad promedio para
+ing Eq. (1).
+nd iteration 3construir el diagrama                                 −2
+
+                     fundamental.
+eration 4 over all particles                                        −3
+                           ! i
+                              vd if r i > rmin                      −4                                             4m
+       v(t) = vd + ve = i
+                              ve if r i = rmin
+                                                                    −5
+      x(t) = x(t − !t) + v(t)!t                                          −5   −4   −3   −2   −1     0     1    2    3   4    5
+                                                                                                  x (m)
+nd iteration 4
+nd iteration over time                                         FIG. 2. (Color online) Simulated circular racetrack utilized to
+  must note that the variable radius is, in principle, a    measure the fundamental diagram of pedestrian traffic. The arrows
+ty of the model not directly related to any physical        indicate the direction and sense of the desired velocities (eitarget ).
+  The variable radius is an effective radius considering
+l properties of the real system:                            of the model are rmin , rmax , and β, which can be tuned in order
+                                                                     53 empirical data.
+                                                            to reproduce
+Pedestrians are not circles, they have a shoulder width
+
+===== PAGINA 54 =====
+
+Modelos Microscópicos
+Contractile Particle Model
+
+                                              1.6
+                                                                                      Helbing et al. (2007)
+                                                                                      Mori & Tsukaguchi (1987)
+
+  Diagrama Fundamental
+                                                                                      Predtetschenski & Milinski (1978)
+                                              1.4
+                                                                                      Contractile Particle Model
+
+
+                                              1.2
+
+       Parámetros:
+    vd max = 1.55 m/s
+                                               1
+
+
+
+
+                             Velocity (m/s)
+     rmin    = 0.15 m
+                                              0.8
+
+
+
+     rmax    = 0.32 m                         0.6
+
+
+
+                                              0.4
+
+
+
+                                              0.2
+
+
+
+                                               0
+                                                    0    1   2   3   4     5     6        7         8         9           10
+                                                                                 2
+                                                                     Density (1/m )
+
+
+
+
+                                                        54
+
+===== PAGINA 55 =====
+
+Modelos Microscópicos
+Contractile Particle Model
+
+                                              1.6
+                                                                                      Helbing et al. (2007)
+                                                                                      Mori & Tsukaguchi (1987)
+
+  Diagrama Fundamental                        1.4
+                                                                                      Predtetschenski & Milinski (1978)
+                                                                                      Contractile Particle Model
+
+
+                                              1.2
+       Parámetros:
+    vd max = 0.95 m/s                          1
+
+
+
+
+                             Velocity (m/s)
+     rmin = 0.10 m                            0.8
+
+
+     rmax = 0.37 m                            0.6
+
+
+
+                                              0.4
+
+
+
+                                              0.2
+
+
+
+                                               0
+                                                    0    1   2   3   4     5     6        7         8         9           10
+                                                                                 2
+                                                                     Density (1/m )
+
+
+
+
+                                                        55
+
+===== PAGINA 56 =====
+
+Modelos Microscópicos
+Contractile Particle Model
+
+
+                             Bondades del CPM
+
+
+   - Reproduce valores experimentales de Caudal Específico y Diagrama
+   Fundamental.
+
+
+   - Aumenta ~ 50X la velocidad de cómputo respecto del SFM
+
+
+
+
+                                        56
+
+===== PAGINA 57 =====
+
+Modelos Microscópicos
+- Social Force Model
+- Contractile Particle Model
+
+
+                               Desired Target   - Unico
+                                     X          - Una Lista
+                                                - Dinámico:
+                                                Función de posiciones y
+              vd                                velocidades de vecinos y
+                                                obstáculos.
+
+
+
+
+                                          57
+
+===== PAGINA 58 =====
+
+FIN
+
+
+
+
+      58
+

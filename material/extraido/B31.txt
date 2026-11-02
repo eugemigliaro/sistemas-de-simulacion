@@ -1,0 +1,942 @@
+FUENTE: B31
+TITULO: Simulating Pedestrian Avoidance: The Human-Zombie Game — Oriana, Patterson y Parisi
+ORIGINAL: material/externo/bibliografia-6-7/CPM_Z.pdf
+PAGINAS: 9
+
+===== PAGINA 1 =====
+
+                                               PHYSICAL REVIEW E 00, 004600 (2024)
+
+
+
+ 1                               Simulating pedestrian avoidance: The human-zombie game
+                                                                                    *
+ 2                                                               Juan P. Oriana
+ 3                       Instituto Tecnológico de Buenos Aires (ITBA), Lavardén 315, 1437 C. A. de Buenos Aires, Argentina
+
+                                                                          †                          ‡
+ 4                                               German A. Patterson          and Daniel R. Parisi
+ 5                 Instituto Tecnológico de Buenos Aires (ITBA), CONICET, Lavardén 315, 1437 C. A. de Buenos Aires, Argentina
+
+ 7                                   (Received 24 December 2023; accepted 7 August 2024; published xxxxxxxxxx)
+
+ 8                    This study introduces a simulated active matter system, applying the pedestrian collision avoidance paradigm,
+ 9                 which involves dynamically adjusting the desired velocity. We present a human-zombie game set within a
+10                 closed geometry, combining predator-prey behavior with a one-way contagion process that transforms prey into
+11                 predators. The system demonstrates varied responses in our implemented model: with agents having the same
+12                 maximum speeds, a single zombie always captures a human, whereas two zombies never capture a single human
+13                 agent. As the number of human agents increases, observables such as the final fraction of zombie agents and
+14                 total conversion times exhibit significant changes in the system’s behavior at intermediate density values. Most
+15                 notably, there is evidence of a first-order phase transition when analyzing the mean population speed as an order
+16                 parameter.
+
+17                 DOI: 10.1103/PhysRevE.00.004600
+
+
+
+18                         I. INTRODUCTION                                     during the San Fermín Festival. In this scenario, bulls run on      46
+
+                                                                               the streets alongside human runners who attempt not to be           47
+19       A fundamental aspect in pedestrian dynamics modeling
+                                                                               caught by the bulls [12]. The running of the bulls concludes        48
+20   [1,2] is describing how pedestrians navigate and avoid col-
+                                                                               at the bullring. Runners enter the bullring while the bulls are     49
+21   lisions in various environments. Initially, force-based models
+                                                                               led away from it. Then, a harmless vaquilla (young cow) is          50
+22   like the Social Force Model [3,4] and the Predictive Collision
+                                                                               released, initiating its pursuit of the people, and interesting     51
+23   Avoidance Model [5] simulated collision avoidance maneu-
+                                                                               swarm-like patterns emerge within the crowd in the circular         52
+24   vers by applying elusive forces directly on the agents.
+                                                                               arena [13,14].                                                      53
+25       An alternative framework, as proposed by Wang et al. [6]
+                                                                                   In light of these real-world pedestrian pursuit scenarios, we   54
+26   and expanded in [7–9], involves dynamically adjusting the
+                                                                               propose a pedestrian-dynamics simulation game as a test bed         55
+27   agents’ desired velocity for navigation and avoidance. This
+                                                                               for the previously mentioned collision avoidance framework,         56
+28   method closely resembles natural walking behavior, wherein
+                                                                               which involves dynamically adjusting the desired velocity of        57
+29   individuals adapt their speed and direction according to their
+                                                                               the modeled agent [6–9,15].                                         58
+30   surroundings, especially in scenarios where physical contact
+                                                                                   Our game represents a fictional system that imitates a          59
+31   is absent. Moreover, this approach can be implemented in any
+                                                                               predator-prey scenario. It involves agents resembling zombies       60
+32   microscopic agent model that has a specified target velocity,
+                                                                               (Z) attacking humans (H), drawing inspiration from prevalent        61
+33   irrespective of whether the movement is defined by forces or
+                                                                               depictions in popular culture such as movies, TV series, and        62
+34   rules.
+                                                                               novels [16–21].                                                     63
+35       Pedestrians typically avoid each other while walking under
+                                                                                   Other fictional systems involving zombies have previously       64
+36   normal conditions; however, there are also more atypical yet
+                                                                               been explored as an analogy for understanding the trans-            65
+37   interesting scenarios in which humans escape by running from
+                                                                               mission of infectious diseases [22–24]. These studies often         66
+38   a pursuing agent. An example is the globally recognized chil-
+                                                                               consider macroscopic population variables governed by dif-          67
+39   dren’s game “Tag,” in which “it” chases others, attempting to
+                                                                               ferential equations to model their dynamics. On the other           68
+40   tag them. Upon tagging, the roles change, with the “it” status
+                                                                               hand, adopting a microscopic approach, Libál et al. [25]            69
+41   passing to the tagged player. The game has many variants,
+                                                                               investigate an SCZR (Susceptible-Cleric-Zombie-Recovered)           70
+42   some of which have evolved into sports, such as World Chase
+                                                                               model by employing a population of self-propelled particles         71
+43   Tag [10] and Ultimate Kho Kho [11] in India.
+                                                                               performing random motion.                                           72
+44       A more perilous scenario is the running of the bulls, with
+                                                                                   In our proposed zombie-human system, particles exhibit          73
+45   the most famous event taking place in Pamplona (Spain)
+                                                                               movement directions determined by a specific heuristic. Zom-        74
+
+                                                                               bie agents possess a desired velocity pointing toward the           75
+
+                                                                               nearest human agent, while human agents aim to avoid zom-           76
+      *
+        Contact author: joriana@itba.edu.ar                                    bies and collisions with walls and other humans. Additionally,      77
+      †
+        Contact author: gpatters@itba.edu.ar                                   our system is simplistic in terms of infection, following           78
+      ‡
+        Contact author: dparisi@itba.edu.ar                                    a SI (Susceptible-Infected) model. The agents have only             79
+
+
+
+     2470-0045/2024/00(0)/004600(9)                                   004600-1                                  ©2024 American Physical Society
+
+===== PAGINA 2 =====
+
+      ORIANA, PATTERSON, AND PARISI                                                                    PHYSICAL REVIEW E 00, 004600 (2024)
+
+      two states, and the only possible transition is unidirectional:        (a)                                   (b)
+                                                                                                                          ve
+ 80
+
+ 81   H → Z.
+ 82      Beyond offering a distinctive and imaginative framework              rmax                                                        r(t-dt)
+ 83   for the pedestrian navigation paradigm mentioned earlier,                                 r(t)
+ 84   our proposed setting intriguingly amalgamates two concepts                                                                rmin
+ 85   within a unified system: (1) predator-prey dynamics and (2)                                         vi
+ 86   infectious disease contagion. This scenario stands out for its                     rmin                                           rmin
+ 87   distinctive aspect: the contagion not only affects the prey but
+ 88   also transforms it into a predator.
+ 89      Finally, it is worth mentioning that although parts of                                                             r(t-dt)
+      the proposed system are derived from real-world scenarios
+                                                                                                                                                ve
+ 90
+
+ 91   (such as running away from pursuers and collision avoidance
+ 92   mechanisms), other components (like the zombie contagion)
+                                                                                FIG. 1. Schematic representation of the operational Contractile
+ 93   are artificial. Therefore, the simulations should be understood
+                                                                             Particle Model [35]. (a) A single free particle traveling with its
+ 94   as a mathematical game, in the sense of the game of life
+                                                                             current radius, bounded between rmin and rmax , at its corresponding
+ 95   [26,27] or the minority game [28]. Additionally, we can frame          speed [Eq. (2)]. (b) When the radii of two particles come into contact,
+ 96   the current study of simulated pedestrians within the broader          they both collapse to rmin and escape velocities are generated for one
+ 97   context of active matter systems displaying complex behav-             time step to separate the particles.
+ 98   iors, such as phase transitions [29–34].
+
+ 99                       II. GAME DEFINITION                                   The magnitude of the velocity (vi ) is given as a function of          134
+
+                                                                             the radius ri , as                                                        135
+
+100      The proposed human-zombie game includes the following                                                               
+      components and rules:                                                                                        ri − rmin β
+                                                                                              |vi | = vi = vi                   ,
+101                                                                                                         max
+                                                                                                                                          (2)
+102      (G1) A circular enclosure without doors.                                                                 rmax − rmin
+103      (G2) Two types of agents: Humans (H) and Zombies (Z).
+104   Zombies will attempt to capture humans, while humans will              where β is a constant. This unique property of having a vari-             136
+
+105   try to escape.                                                         able radius within the range from rmin to rmax gives the name             137
+
+106      (G3) The initial condition consists of one zombie agent at          to the CPM. The agent’s maximum velocity v max is the free                138
+
+107   the center of the enclosure and Nh human agents randomly               velocity.                                                                 139
+
+108   distributed, beyond a minimum distance from the zombie.                   In the case particle i is not in contact with any other particle       140
+
+109      (G4) A pedestrian dynamics operational model.                       or obstacle [see Fig. 1(a)], the radius increases according to            141
+
+110      (G5) A heuristic for zombies to pursue humans, and a                Eq. (3) until the maximum radius is reached (ri = rmax ):                 142
+
+111   heuristic for humans to avoid zombies, other humans, and                                                                   
+                                                                                                                             rmax
+112   obstacles.                                                                        ri (t + t ) = min rmax , ri (t ) +         ,        (3)
+113      (G6) An irreversible transformation process from human                                                             τ /t
+114   to zombie. Once a zombie touches a human agent, both will              where τ is a characteristic time constant giving the duration it          143
+115   remain stationary at this position for a certain period of time.       takes for a particle to reach its maximum speed after starting            144
+116      In the following subsections, models G4 and G5 are de-              from rest.                                                                145
+117   scribed, and parameter values are specified in Sec. III.                   On the other hand, when particle radii overlap, the state             146
+
+                                                                             of the involved particles is updated as follows: They contract            147
+
+118                         A. Operational model                             their radii to the minimum value, rmin , and for only one time            148
+
+
+119      Both types of agents share the operational model, which             step, their velocities assume the values ve in a direction deter-         149
+
+
+120   encompasses the basic mechanisms of motion through space               mined by the center of the two particles, each moving away                150
+
+
+121   and reactions upon contact and at high densities. We selected          from the other. The magnitude of this escape-from-contact                 151
+
+
+122   the rule-based Contractile Particle Model (CPM), demon-                velocity corresponds to the maximum velocity, ve = v max . An             152
+
+
+123   strated to reproduce experimental values for specific flows            illustration of this process can be seen in Fig. 1(b).                    153
+
+
+124   through doors and the fundamental diagram in unidirectional                In our specific scenario, the interaction between humans              154
+
+
+125   flow [35].                                                             and zombies results in the immobilization of both agents for              155
+
+
+126      The CPM is a first-order model in which the position of             a period tc , representing the contagion process. Upon comple-            156
+
+
+127   particle i (xi ) is updated following                                  tion, the human agent transforms into a zombie and emerges                157
+
+                                                                             with a radius of r = rmin .                                               158
+
+                        xi (t + t ) = xi (t ) + vi t,               (1)        Additionally, to counteract artifacts arising from sym-               159
+
+                                                                             metric configurations, we add a small angular noise to the                160
+128   where vi is the velocity and t is the simulation time step.
+                                                                             direction of the desired velocity following the model of self-            161
+         The direction and sense of the velocity are given by the
+                                                                             propelled particles proposed by Vicsek et al. [30]. Let θi
+129
+                                                                                                                                                       162
+                         x0 −x
+130   unit vector ei0 = |xi0 −xii | , where xi0 is a target point fixed in   represent the angle formed by vi with respect to the positive x           163
+                          i
+131   space that must be chosen manually depending on the desired            semiaxis, and let θit denote the angle of the desired direction           164
+
+132   configuration to be simulated, in the same way as many other           vector of agent i, thus, θi = θit + θ , with θ defined as a             165
+
+133   operational models such as the Social Force Model [4].                 uniform random value within the range of [−μ/2, μ/2].                     166
+
+
+
+                                                                       004600-2
+
+===== PAGINA 3 =====
+
+      SIMULATING PEDESTRIAN AVOIDANCE: THE …                                                             PHYSICAL REVIEW E 00, 004600 (2024)
+
+
+
+
+         FIG. 2. Selection of the dynamic target xti for a human agent ai
+      depends on the positions of the wall, another human a j , and a zombie
+      agent ak . Also depicted the dynamic target xtk for a zombie agent ak ,       FIG. 3. Illustration of the simulation domain and the initial con-
+      solely dependent on human agent ai .                                      figuration featuring one zombie agent at the center (green, light gray)
+                                                                                and Nh = 5 human agents (blue, dark gray).
+167                    B. Pursuit and evasion heuristics
+168       A navigation layer can be implemented on top of the CPM                                       III. SIMULATIONS                                  197
+
+      by dynamically adjusting the direction of the velocity while
+                                                                                   The agents move within a circular arena with a radius Ra =
+169
+                                                                                                                                                          198
+170   agent i is not in contact with others. To achieve this, we
+                                                                                11 m, as shown in Fig. 3. The simulations begin with only                 199
+171   replace the fixed target denoted by xi0 in Sec. II A by a target
+                                                                                one zombie agent positioned at the center of the domain, and
+      that evolves with time xti , and thus the velocity reads vi = vi eti ,
+                                                                                                                                                          200
+
+                                                                                Nh (t = 0) ≡ Nh human agents randomly distributed, ensuring
+172
+                                                                                                                                                          201
+                                         xt −x
+173   where the unit vector is eti = |xti −xii | . The heuristic for defining   that their distance from both the center and the wall exceeds             202
+                                          i
+174   xti varies depending on the agent type.                                   1 m (1 m ⩽ |xi | ⩽ Ra − 1 m), as illustrated by the dotted                203
+
+175       If agent k is a zombie, its target is the position of the             circles in Fig. 3.                                                        204
+
+176   nearest human agent h, defined by xtk = xh , as illustrated for              Considering the model described in Secs. II A and II B,                205
+
+177   the (green) k particle in Fig. 2. This approach ensures that each         the parameters that do not depend on the types of agents are              206
+
+178   zombie will continuously pursue the nearest human agent over              t = 0.05 s; rmin = 0.15 m; rmax = 0.35 m; β = 0.9; τ =                   207
+
+179   time. Zombie agents will not attempt to avoid collisions, but             0.5 s; μ = 0.052 rad (3°); and tc = 3 s. The parameters that              208
+
+180   will instead move directly towards the nearest human.                     differ depending on the type of agent are Ah = 4; Bh = 1 m;               209
+
+181       In the case where agent i is a human, xti is obtained                 Nhe = 1; Az = 8; Bz = 4 m; Nze = 2; Aw = 8; and Bw = 1 m.                 210
+
+182   from the sum of the collision vectors nci j , which can be seen           Note that the intensity and range of a human agent avoiding               211
+
+183   schematically in Fig. 2. Each nci j quantifies the extent to which        a zombie are greater than those for avoiding another human                212
+
+184   human i should adjust its direction to move away from agent               agent.                                                                    213
+
+185    j. Therefore, this desired target is defined by                             Additionally, the free speed is different depending on the             214
+
+                                                                              type of agent:                                                            215
+
+                        xti =      nciz +         ncih + nciw ,           (4)                        max
+                                                                                                      v     if agent i is a zombie,
+                              z∈Z i       h∈H i
+                                                                                            vi = zmax
+                                                                                              max
+                                                                                                                                           (6)
+                                                                                                      vh    if agent i is a human.
+186   where the variables z and h iterate over zombie and human
+187   agents, respectively, Z i represents the set of the Nze nearest           The specific values used in the simulations are vhmax =                   216
+188   zombies to agent i, and H i denotes the set of the Nhe nearest            4.0 m/s and vzmax ∈ [3.8, 4.2] m/s, in steps of 0.1 m/s.                  217
+189   humans to agent i.                                                           The initial number of humans (Nh ) will vary between 10                218
+
+190      The vectors nci j are computed as                                      and 100, in steps of five, and is considered the control param-           219
+
+                                                  di j                          eter. It is important to note that the total number of agents is          220
+
+                                nci j = ei j Ae− B ,                     (5)    N = Nh + 1 (Nh humans plus one zombie), and this number                   221
+
+                                                                                remains constant in each simulation as human agents turn into             222
+
+      where di j is the distance between agents, ei j = |xxi −x
+                                                                i   j
+191
+                                                             −x j |
+                                                                    is the      zombies. Overall, considering the five values of the maximum              223
+
+192   direction from agent j to agent i, and A and B are constants              zombie speed, there are a total of 95 system configurations               224
+
+193   denoting the intensity and a characteristic length, respectively.         to explore. The statistical analysis of each was conducted on             225
+
+194   The last term, nciw , accounts for the interaction of agent i with        2500 realizations of random initial conditions. Each realiza-             226
+
+195   walls. The point xw is defined as the nearest point on the                tion continued until either all agents had become zombies or              227
+
+196   boundary to agent i.                                                      the simulated time reached tmax = 2000 s. We define the final             228
+
+
+
+                                                                          004600-3
+
+===== PAGINA 4 =====
+
+      ORIANA, PATTERSON, AND PARISI                                                                               PHYSICAL REVIEW E 00, 004600 (2024)
+
+229   simulation time as T , and the number of simulation steps as          (a)                                             (c)
+230   S. Hence, S = t T
+                         . In the case that T = tmax , then S = 40 000.
+231      We will now define the observables under investigation.
+232   First, the fraction of zombies at any given time t in a real-
+233   ization k is given by
+                                      Nzk (t )   Nzk (t )
+                         φzk (t ) =            =                     (7)
+                                      Nhk + 1      N
+234   and we compute φz (t ), which represents the average of φzk
+                                                                            (b)                                            (d)
+235   across the realizations. We focus our study on the endpoint of                              8                                               8
+
+
+
+                                                                                  Dist. Z-H (m)                                  Dist. Zs-H (m)
+236   the average final zombie fraction (hereafter referred to simply
+237   as the final zombie fraction), denoted as φzfinal , which is
+                                                                                                  4                                               4
+238   defined when φz (t ) reaches a stationary value.
+239       The second observable we calculate is the time required
+240   to achieve total conversion, denoted as the “total conversion                               0                                               0
+                                                                                                   0    10        20                               0   500        1000
+241   time,” Tc , and we average it across all realizations as the
+                                                                                                       Time (s)                                        Time (s)
+242   “average total conversion time,” Tc . Any realization that did
+243   not achieve total conversion within tmax was excluded from                FIG. 4. Dynamics with two and three agents. (a) Trajectories of
+244   this particular analysis. If fewer than 10% of realizations           a zombie agent pursuing one human agent. (b) Evolution of the
+245   achieve total conversion, that specific configuration will not        distance between these two agents. (c) Trajectories of two zombie
+246   be considered for analysis.                                           agents (after the first conversion in the Nh = 2 case) pursuing one
+247       The last observable we define is the mean velocity, used as       human agent. (d) Evolution of the distance between the center of
+248   a type of order parameter. This is based on the understanding         mass of the two zombies and the human agent.
+249   that zombie-human interactions typically occur at zero veloc-
+250   ity, consequently reducing the mean velocity of the agents.
+                                                                            pursues the prey with a smaller turning radius, resulting in                                 276
+251   This reduction is even more significant than the usual de-
+                                                                            a higher angular velocity. Consequently, the zombie always                                   277
+252   crease caused by density in pedestrian dynamics and the CPM
+                                                                            catches up with its prey. See the Supplemental Material [14]                                 278
+253   model [35].
+                                                                            for a video showing this dynamics.                                                           279
+254       Considering a specific realization k at time t, the system’s
+                                                                                This outcome indicates that in our simulations, when the                                 280
+255   velocity, accounting for both agent types, is expressed as
+                                                                            speed of zombies is similar to that of humans, the initial zom-                              281
+256   follows:
+                                                                            bie will inevitably succeed in converting at least one human.                                282
+
+                                      1  k
+                                           N
+                                                                            This claim is strengthened by the fact that human agents must                                283
+                           v k (t ) =      |v (t )|,                 (8)    evade not just walls, but also other agents, which, on top of
+                                      N i=1 i                                                                                                                            284
+
+                                                                            that, can reduce their speed.                                                                285
+
+257   where vi is the vector velocity of particle i. Then we compute            An important consideration is the potential for a human                                  286
+
+258   the average across the realizations as                                to escape if a model incorporating inertia and the capability                                287
+
+                                                                            for zig-zag evasive maneuvers is employed. Under these con-                                  288
+
+                                        1  k
+                                               K
+                                                                            ditions, the aforementioned conclusion regarding an isolated                                 289
+                          v̄ = v̄(t ) =       v (t ),                (9)
+                                        K k=1                               human escaping from a zombie would no longer hold.                                           290
+
+                                                                                Let us now examine the immediately more intricate case                                   291
+
+259   with K = 2500, the number of realizations per configuration.          (Nh = 2), showcasing behavior markedly distinct from the                                     292
+
+260   Lastly, in the case of stationary states, the time average of         Nh = 1 scenario. Under this condition, the zombie chases                                     293
+
+261   mean population velocity is computed as v̄t .                       the nearest human until it catches it, which will definitely                                 294
+
+                                                                            happen, as demonstrated above. After converting the human                                    295
+
+262                             IV. RESULTS                                 into a zombie, the system’s state changes to Nz (t ) = 2 and                                 296
+
+                                                                            Nh (t ) = 1. Given these conditions, with both zombies having                                297
+263             A. Dynamics involving two and three agents                  only one remaining human target, they both move towards                                      298
+
+264       The behaviors of the system when Nh = 1 and Nh = 2                that individual. With the two zombies being in close proximity                               299
+
+265   are interesting and notably different from one another. In the        following the conversion, they collide while moving towards                                  300
+
+266   simplest scenario, the system consists of a single human agent        the same target (as defined in Sec. II B, the heuristic for                                  301
+
+267   (Nh = 1) in addition to the initial zombie [Nz (t = 0) = 1]           zombie agents does not result in avoidance between them).                                    302
+
+268   within the simulation domain. We will show that, under con-           Such trajectories can be observed in Fig. 4(c). This collision                               303
+
+269   ditions of equal maximum speed (vzmax = vhmax = v max ), the          decelerates the zombies, granting the human an opportunity                                   304
+
+270   zombie will always catch the human agent.                             to run away from both of them at maximum speed. As they                                      305
+
+271       In the long-term pursuit between a human agent and a zom-         resume their approach towards the target, after a few time                                   306
+
+272   bie, the human’s trajectory becomes circular, running parallel        steps, they collide once more, again diminishing their speed                                 307
+
+273   to the enclosure’s wall. This behavior is illustrated in Fig. 4(a),   and allowing the human to distance themselves again. This                                    308
+
+274   showing the trajectories of both agents. Figure 4(b) depicts          pattern repeats indefinitely, ensuring that two zombies, both                                309
+
+275   the distance between this agents over time. The zombie agent          with maximum desired speeds equal to that of the human, can                                  310
+
+
+
+                                                                      004600-4
+
+===== PAGINA 5 =====
+
+      SIMULATING PEDESTRIAN AVOIDANCE: THE …                                                                                    PHYSICAL REVIEW E 00, 004600 (2024)
+
+311   never catch it, within the context of this operational model.                    (a)                                      (b)                    (c)
+312   The evolution of the distance between the center of mass of
+313   the two zombie agents and the human, fluctuating in the range
+314   of 4–6 m, is plotted in Fig. 4(d), and an animation of this
+315   dynamics can be viewed in the Supplemental Material [14].
+316      Summing up, under the given conditions, when Nh = 1 the
+317   conversion will always be complete, i.e., φz = 1. In contrast,
+318   this will never occur when Nh = 2, resulting in a stable zom-
+                                                                                    (d)                                         (e)                    (f)
+319   bie fraction of φz = 2/3.
+320      It is worth mentioning that this peculiar behavior of the
+321   system is due, at least in part, to two model idealizations. First,
+322   the heuristic for zombie agents compels them to move towards
+323   humans regardless of obstacles, in line with zombie behavior
+324   depicted in movies; they do not avoid contact with anything.
+325   Their mutual collisions result in the CPM model slowing
+326   down the agents’ speeds when their radii come into contact.                 (g)                                           (h)                    (i)
+327   This rule of the CPM effectively reproduces the pedestrian
+328   fundamental diagram under unidirectional normal flow condi-
+329   tions [35], and it is somewhat reasonable to assume that two
+330   runners at a short distance would interfere with each other’s
+331   movements [12]. Second, and perhaps more importantly, the
+332   zombie agents have exactly the same speed and start pursuing
+333   from a very similar location where the conversion took place.              FIG. 5. Temporal evolution of three exemplary configurations.
+334   Introducing a dispersion in the zombies’ speed could change            Panels (a), (d), and (g) show the initial conditions with a single
+335   the observed behavior.                                                 zombie agent (green, light gray) at the center, for Nh = 20, 50, and
+                                                                             100, respectively. Panels (b), (e), and (h) display snapshots after
+                                                                             the first conversion, for the same values of Nh . Panels (c), (f), and
+336            B. Dynamics involving more than three agents
+                                                                             (i) depict the system when half of the initial humans have been
+337       Having previously analyzed the fundamental cases of one            converted (φz = 0.5), for the same three values of Nh .
+338   and two humans, we now turn our attention to more densely
+339   populated initial conditions.
+340       To illustrate the system’s dynamics, we present several            is the divergent pursuit type. As Nh increases, a transition is                                    369
+
+341   representative snapshots in Fig. 5 for different initial values        observed, reaching a balance after Nh ⩾ 45. In this region                                         370
+
+342   of Nh , taken at specific moments corresponding to distinct            of elevated densities, both types of initial pursuits exhibit                                      371
+
+343   zombie fractions.                                                      comparable probabilities of achieving total conversion due                                         372
+
+344       It is crucial to highlight that after the first conversion (when   to the decelerating effect caused by the increased density of                                      373
+
+345   reaching Nz = 2), the two zombies may either target the same           human agents.                                                                                      374
+
+346   human agent or different ones, depending on the positions
+347   of other human agents. In the former scenario, a loop could
+348   arise where the remaining humans can escape from the two                                                    1
+      zombies that continuously collide with each other (similar                                                                                                   final
+349                                                                                                                                             Simulations with         =1
+                                                                                                                                                                   z
+      to the Nh = 2 scenario discussed in the previous Sec. IV A).
+
+
+
+
+                                                                             Fraction of divergent simulations
+350
+                                                                                                                 0.9                            All simulations
+351   This scenario is termed “convergent pursuit,” and a video
+352   example is available in the Supplemental Material [14]. In the
+353   latter scenario, where the two zombies split to pursue different                                           0.8
+354   human agents, they will succeed, mirroring the Nh = 1 situa-
+355   tion described in Sec. IV A. This is referred to as “divergent                                             0.7
+356   pursuit,” and a video is available in the Supplemental Material
+357   [14]. Additionally, snapshots of both types of pursuit can be
+                                                                                                                 0.6
+358   seen in Fig. 5(b) for “divergent” and Figs. 5(e) and 5(h) for
+359   “convergent.”
+360       After establishing these definitions, simulations are cate-                                            0.5
+361   gorized based on the following criteria: if, after the initial
+362   conversion, both zombies remain within a distance of less than                                             0.4
+363   2 m for 3 sec, the scenario is classified as convergent pursuit.                                                 0   20         40         60           80          100
+364   Otherwise, it falls under divergent pursuit.                                                                                         Nh
+365       Figure 6 shows that the distribution of total simulations
+366   between each category is fairly balanced. However, when                   FIG. 6. Fraction of divergent pursuit cases as a function of the
+367   considering only simulations that result in total conversion,          number of initial human agents in the system with a maximum
+368   the only mechanism leading to total conversion for Nh ⩽ 25             zombie speed of vzmax = vhmax = 4 m/s.
+
+                                                                       004600-5
+
+===== PAGINA 6 =====
+
+      ORIANA, PATTERSON, AND PARISI                                                                                   PHYSICAL REVIEW E 00, 004600 (2024)
+
+
+      (a)                                                                        (a)                        1
+                   1
+                                                                                                                                          vmax = 4.2 m/s
+
+                                                                                   < final
+                                                                                                                                           z
+
+                                                                                           >               0.5                            vmax
+                                                                                                                                           z
+                                                                                                                                               = 4.1 m/s
+                0.8                                                                  z
+                                                                                                                                          vmax
+                                                                                                                                           z
+                                                                                                                                               = 4.0 m/s
+
+                                                                                                            0                             vmax
+                                                                                                                                           z
+                                                                                                                                               = 3.9 m/s
+                0.6                                                              (b)                                                      vmax = 3.8 m/s
+      < z(t)>
+                                                                                                                                           z
+
+
+
+
+                                                                                   Fraction of zfinal =1
+                                                                                                            1
+                0.4                                            Nh = 90
+                                                               Nh = 50
+                                                                                                           0.5
+                                                               Nh = 40
+                0.2
+                                                               Nh = 30
+                                                               Nh = 10                                      0
+                                                                                                                 20       40        60      80         100
+                   0                                                                                                           Nh
+                       0     500          1000          1500             2000
+                                       Time (s)
+                                                                                     FIG. 8. Final conversion for vzmax lower and higher than vhmax .
+                                                                                 (a) Final zombie fraction as a function of Nh for various vzmax values.
+      (b)
+                                                                                 (The order of the curves is the same as the order in the legend.)
+                   1                                                             (b) Ratio of realizations resulting in total conversion to the total
+                                                                                 number of simulations conducted for each Nh and vzmax value.
+                                                   Divergent Pursuit
+
+      < final >
+                  0.5                              All Cases
+                                                   Convergent Pursuit
+        z
+                                                                                      The intermediate values of φzfinal  at lower Nh arise from           398
+                   0                                                             two extreme possible outcomes of the simulations: one with a                399
+                        0   20       40           60        80            100
+                                           Nh
+                                                                                 very high zombie fraction and the other with a very low one.                400
+
+                                                                                 In the latter scenario, humans have ample space to outpace                  401
+
+
+          FIG. 7. Zombie fraction. (a) Time evolution of φz for vzmax =          the zombies, who collide with each other, impeding their                    402
+
+
+      4 m/s and the specified Nh values. (The order of the curves is the         pursuit (convergent pursuit). Figure 7(b) illustrates that these            403
+
+      same as the order in the legend.) (b) Final zombie fraction φzfinal as     two extremes correspond to divergent and convergent pursuit                 404
+
+      a function of the initial number of human agents, categorized by the       scenarios. This confirms our earlier observations from the                  405
+
+      type of pursuit.                                                           analysis of Fig. 6: total conversion at lower Nh values is solely           406
+
+                                                                                 observed in cases of divergent pursuit. A counterintuitive be-              407
+
+                                                                                 havior is observed in the case of convergent pursuit for low Nh             408
+
+375      In the following subsections, we further characterize the               values. The decrease in φzfinal  between Nh ∈ [10, 25] occurs             409
+
+376   system’s behavior, using the initial human density as the pri-             because, in this range, there is enough space for human agents              410
+
+377   mary control parameter.                                                    to not interfere with each other. Consequently, after the first             411
+
+                                                                                 conversion, which results in Nz = 2, these convergent zom-                  412
+
+                                                                                 bies cannot reach any of the remaining humans, regardless                   413
+378                          1. Final zombie fraction                            of whether there are 10 or 25. Thus, the fraction of zombies,               414
+
+379       In this section we examine the dynamics of the popula-                 φzfinal = 2/25, is lower than φzfinal = 2/10.                               415
+
+380   tion, focusing on the average final zombie fraction, φzfinal                  On the other hand, when the initial human population ex-               416
+
+381   [Eq. (7)]. Since the number of agents remains constant in each             ceeds Nh ∼ 45, the constrained space inhibits human escape                  417
+
+382   simulation, the fraction of human agents is complementary to               without mutual interference. This heightened density reduces                418
+
+383   the zombie fraction:                                                       their speed, invariably leading to zombies catching them, re-               419
+
+384       φzfinal  = 1 − φhfinal . Consequently, we focus our discus-        gardless of pursuit type.                                                   420
+
+385   sion solely on the zombie fraction.                                             Now we explore the same observable for varying maxi-                   421
+
+386       First, we examine the time evolution of φz (t ) in Fig. 7(a)         mum zombie speeds, maintaining a constant human maximum                     422
+
+387   for the scenario where vzmax = vhmax = 4 m/s. The mean zom-                speed of vhmax = 4 m/s. Figure 8(a) displays five curves cor-               423
+
+388   bie fraction is observed to reach stationary values within the             responding to vzmax ∈ [3.8, 4.2] m/s. Observations reveal that              424
+
+389   simulation time, clustering around low and high values of                  the curves qualitatively exhibit a similar pattern, showing a               425
+
+390   Nh . A notable transition occurs around intermediate values of             transition from partial to total conversion at intermediate Nh              426
+
+391   Nh ∼ 40, requiring more time to reach the stationary regime.               values. However, as vzmax increases, the final zombie fraction              427
+
+392       This transition becomes clearer in Fig. 7(b), where φzfinal          at lower Nh values decreases, and the Nh value at which the                 428
+
+393   is plotted against the initial number of human agents. The                 system saturates becomes higher. Both observations support                  429
+
+394   curve labeled “All cases” represents the stationary data points            the concept that higher-speed zombies can capture all human                 430
+
+395   from Fig. 7(a). For values up to Nh = 30, the final zombie                 agents at lower critical densities. Additionally, the likelihood            431
+
+396   fraction is φzfinal  ≈ 0.5. However, beyond Nh = 45, the sys-            of converting the entire population becomes higher at these                 432
+
+397   tem invariably results in total conversion.                                lower densities.                                                            433
+
+
+
+                                                                           004600-6
+
+===== PAGINA 7 =====
+
+      SIMULATING PEDESTRIAN AVOIDANCE: THE …                                                                      PHYSICAL REVIEW E 00, 004600 (2024)
+
+
+        (a)                                                                < Tc > (s)       is observed for all zombie speeds, although this maximum           462
+
+                      4.2                                                                   is lower in the case of vzmax = 4.2 m/s. In scenarios where        463
+                                                                                   450      zombie speeds exceed human speed, the peak conversion time         464
+
+
+                                                                                   400      occurs near Nh ∼ 30, while for zombie speeds lower than or         465
+
+                      4.1       3                                                           equal to human speed, the peak is around Nh ∼ 40.                  466
+
+                                                                                   350          This suggests that achieving complete contagion occurs         467
+                                      2                                                     relatively quickly, irrespective of whether the initial number
+
+         vmax
+                                                                                                                                                               468
+                                                                                   300
+
+              (m/s)
+                                                                                            of humans is small or large. With fewer humans, they are           469
+                      4                                       4
+                                                                                            less easily captured, yet the total conversion time remains
+          z
+                                                                                   250                                                                         470
+
+                                                                                            low due to the smaller count of agents requiring conversion.       471
+                                                                                   200
+                                                                                            Conversely, scenarios with a high number of humans result in       472
+                      3.9                                                                   easier capture (as density reduces their speed). At intermediate   473
+                                                                                   150
+                                                                                            human numbers, a balance between these effects emerges:            474
+                                1                                                  100      they are not easily captured, yet their adequate numbers con-      475
+
+                      3.8                                                                   tribute to slowing down the process.                               476
+                                20        40        60         80         100                   Additional insight is presented in Fig. 9(b), where scenar-    477
+                                                 Nh                                         ios of convergent and divergent pursuit are delineated for the     478
+
+        (b)                                                                                 case of zombie speed equal to human speed (vzmax = vhmax ).        479
+
+                   1000                                                                     Convergent pursuit results in total conversion only for Nh ⩾       480
+                                                              Convergent Pursuit
+
+      < Tc > (s)
+                                                              All Cases
+                                                                                            30, and, as expected, it represents a slow process that results    481
+
+                   500                                        Divergent Pursuit             in prolonged conversion times for intermediate values of Nh .      482
+
+                                                                                            In contrast, divergent pursuit serves as the sole mechanism for    483
+
+                                                                                            achieving total conversion at lower Nh values, occurring more      484
+                       0
+                            0        20        40        60          80         100         rapidly. The peak observed in total conversion times distinctly    485
+
+                                                    Nh                                      arises from averaging the swift conversions in divergent pur-      486
+
+                                                                                            suit with the slower, diminishing conversion times linked to       487
+
+         FIG. 9. Average total conversion time. (a) Phase diagram in the                    convergent pursuit.                                                488
+
+      space vzmax -Nh . (b) For the case vzmax = vhmax = 4 m/s, discriminated                   Figure 9(a) depicts a phase diagram in which four regions      489
+
+      by the type of pursuit.                                                               can be identified. Region 1 (white) indicates the parameter        490
+
+                                                                                            region where total conversion cannot be attained (< Tc >→          491
+
+                                                                                            ∞). Region 2 (red) is a mountain range where conversion            492
+434       In Fig. 8(b) the fraction of simulations achieving total
+                                                                                            times are maximum for all explored maximum zombie speeds,          493
+435   conversion is shown. For the cases of vzmax ⩾ vhmax = 4 m/s,
+                                                                                            and it acts as a border between (blue) regions 3 and 4. Region     494
+436   the trend mirrors that of the final zombie fraction, albeit
+                                                                                            3 represents low conversion times due solely to divergent          495
+437   with noticeable differences observed for lower values of vzmax .
+                                                                                            pursuit because convergent pursuit does not achieve total con-     496
+438   This occurs because a small portion of the realizations fail to
+                                                                                            version at these low human densities. Finally, region 4 also       497
+439   achieve total conversion. This is primarily caused by multiple
+                                                                                            indicates low conversion times, but due to high human agent        498
+440   zombies colliding among themselves while pursuing a single
+                                                                                            densities which impede their escape from being captured by         499
+441   human agent, preventing them from catching it. Furthermore,
+                                                                                            zombie agents at both low and high maximum zombie speeds.          500
+442   in instances where total conversion does not occur, the fi-
+                                                                                                Regarding both the conversion fraction analyzed in             501
+443   nal fraction tends to be significantly high, usually around
+                                                                                            Sec. IV B 1 and the total conversion times discussed in            502
+444   φz ∼ NNh +1
+               h
+                  . This explains the disparities between Figs. 8(a)
+                                                                                            this section, a change in system behavior is observed at           503
+445   and 8(b) when the maximum zombie speed is lower than
+                                                                                            intermediate values of initial human agent density. To char-       504
+446   the human speed. The video of a specific realization for this
+                                                                                            acterize these behavioral changes in more detail, we will          505
+447   scenario is available in the Supplemental Material [14], with
+                                                                                            examine the system’s average velocities in the following           506
+448   vzmax = 3.8 m/s being less than vhmax .
+                                                                                            section.                                                           507
+449       A particular case of conversion occurs when the entire
+450   population is converted, meaning φz = 1. For the subset of
+451   simulations in which this happens, the relevant observable                                             3. Mean population velocities                     508
+
+452   is the time needed for total conversion, and this analysis is
+                                                                                               Previous studies have suggested a shift in the system’s         509
+453   presented in the next subsection.
+                                                                                            behavior at intermediate Nh values. To delve deeper into           510
+
+                                                                                            this phenomenon, we will now investigate the system’s mean         511
+454                                   2. Total conversion times                             speed.                                                             512
+
+455      Total conversion is not always attained, being more proba-                            The determination of mean velocity becomes less straight-       513
+
+456   ble at higher values of Nh and vzmax as Fig. 8(b) clearly shows.                      forward when humans and zombies possess different maxi-            514
+
+457   Hence, the pertinent simulations within this context constitute                       mum speeds. In cases where vzmax < vhmax , the mean speed at       515
+
+458   a subset of those discussed in the preceding section. With                            low Nh takes an indefinitely long time to stabilize. Conversely,   516
+
+459   this in mind, Fig. 9(a) illustrates the average total conversion                      in scenarios where vzmax > vhmax , simulations with high Nh        517
+
+460   time as a function of the initial number of human agents                              values typically result in total conversions before the mean       518
+
+461   and the maximum zombie speeds. Intriguingly, a maximum                                speed can stabilize.                                               519
+
+
+
+                                                                                      004600-7
+
+===== PAGINA 8 =====
+
+      ORIANA, PATTERSON, AND PARISI                                                                                       PHYSICAL REVIEW E 00, 004600 (2024)
+
+
+      (a)                                                                         Nh = 10              This system not only acts as a test scenario for implement-     543
+
+                   4                                                                               ing the collision avoidance paradigm, where alterations are         544
+                                                                                  Nh = 45
+                                                                                                   made solely to the agents’ desired velocity, but it also exhibits
+         v (m/s)
+                                                                                                                                                                       545
+                                                                                  Nh = 50
+                   2                                                                               a nontrivial emergent dynamic.                                      546
+                                                                                  Nh = 55
+                                                                                                       In basic scenarios involving two or three agents, it was        547
+                                                                                  Nh = 70
+                                                                                                   observed that within a confined space, a predator can con-          548
+                   0                                                              Nh = 100
+                       0             500                              1000                         sistently catch its prey, even when they possess identical          549
+
+                                                 Time (s)                                          maximum speeds. However, when two predators pursue the              550
+
+                                                                                                   same prey, their interference diminishes their speed, prevent-      551
+
+                                                                                                   ing them from ever capturing the sole prey.                         552
+
+      (b)                                                       (c)                                    The mutual collision mechanism can be disrupted when            553
+                       4                                              0.67
+                                                                                                   multiple preys exist, and each predator pursues a different
+
+                                                 std(v) (m/s)
+       < v > t (m/s)
+                                                                                                                                                                       554
+                                           0.4
+                       3                                                                           prey. This scenario, termed “divergent pursuit,” becomes a          555
+                                                                U4    0.65                         crucial factor in achieving total conversion in environments        556
+                       2                   0.2
+                                                                                                   characterized by lower population density.                          557
+
+                       1                   0                          0.63                             In scenarios involving numerous agents, we regard               558
+                        0      50    100                                  0   50        100        the global density (Nh , the initial number of humans)              559
+                                Nh                                            N                    as the control parameter. Both the final zombie fraction and
+                                                                                  h                                                                                    560
+
+                                                                                                   the average times for total conversion manifest a distinct be-      561
+          FIG. 10. Population velocities for the scenario vzmax = vhmax =                          havioral change at intermediate Nh values. In the case of the       562
+      4 m/s with various Nh values. (a) Evolution of population velocity                           final zombie fraction, it abruptly transitions from φzfinal = 0.5   563
+      averaged across all realizations. (The order of the curves in the range
+                                                                                                   to φzfinal = 1, and for the total conversion times, a peak is       564
+      100–500 s is the same as the order in the legend.) (b) Mean popu-
+      lation velocities after t = 250 s, accompanied by the corresponding
+                                                                                                   observed at values of Nh that depend on the maximum zombie          565
+
+
+      standard deviation. (c) Binder parameter computed using the same                             speed.                                                              566
+
+
+      data as in panel (b).                                                                            Remarkably, when considering the average population ve-         567
+
+                                                                                                   locity as an order parameter in scenarios where the maximum         568
+
+                                                                                                   speeds of humans and zombies are equal, the results present         569
+520       Stationary mean population speeds are evident solely when                                evidence of a first-order phase transition occurring at the crit-   570
+521   humans and zombies share equal maximum speeds (vzmax =                                       ical value of Nhc ≈ 50.                                             571
+522   vhmax ), as depicted in Fig. 10(a). This figure also demonstrates                                The proposed human-zombie scenario could be expanded            572
+523   that the stationary speed for low Nh is close to the maxi-                                   into more complex versions by including several probabilistic       573
+524   mum (v̄ ≈ vzmax ≈ vhmax ≈ 4 m/s), while for high Nh , the mean                               elements: the chance that a human can eliminate a zombie,           574
+525   speed falls below 2 m/s. At intermediate Nh values, there is a                               the likelihood of a human being immune, and the possibility         575
+526   noticeable transition in mean speed between these two groups.                                of a zombie being cured and reverting to a human state. These       576
+527       This transition becomes clearer when examining the tem-                                  additions would introduce new dynamics and complexities to          577
+528   poral mean in the stationary regime of mean speed (considered                                the system.                                                         578
+529   after t = 250 s), as shown in Fig. 10(b). The standard de-                                       Regarding the possibility of implementing an experimental       579
+530   viations of the mean speed peak at Nh = 50, suggesting a                                     version of the theoretical game proposed, we can consider one       580
+531   potential phase transition at the critical value Nhc ≈ 50. In                                of the many variants of the game “Tag” known as “Infection          581
+                                                                  v̄ 4 t
+532   Fig. 10(c) the fourth-order Binder cumulant U4 = 1 − 3v̄        2 2                        Tag,” “Virus Tag,” or “Zombie Tag.” At the beginning of             582
+                                                                          t
+533   is computed for the same data, exhibiting a distinct minimum                                 the game, there is only one zombie, which can multiply by           583
+
+534   at Nhc , indicative of a first-order transition [36].                                        tagging humans, turning them into zombies. This game could          584
+
+                                                                                                   be aligned with our model by matching the “Zombie Tag”              585
+
+535                        V. CONCLUSIONS AND FUTURE DIRECTIONS                                    rules with those defined in Sec. II. Components G1–G3 can           586
+
+                                                                                                   be implemented straightforwardly. Components G4 and G5              587
+536      Employing an operational model of pedestrian dynamics                                     will be replaced by the real movement, avoidance, and pursuit       588
+537   [35], known for replicating the decrease in average speeds                                   mechanisms of people. This would imply a significant differ-        589
+538   with increasing density (fundamental diagram of pedestrian                                   ence from our theoretical game, as people acting as “zombies”       590
+539   traffic), we enhanced it by integrating evasion and pursuit                                  will avoid collisions. Rule G6 can easily be added, using the       591
+540   mechanisms based on the agent’s type. Prey agents (humans)                                   conversion time to reverse the side of a visible marker, like a     592
+541   transition to the predator state (zombies) upon capture by                                   bicolored cap or a T-shirt, to indicate the state of the players    593
+542   the predator.                                                                                to others.                                                          594
+
+
+
+
+       [1] A. Schadschneider, W. Klingsch, H. Klüpfel, T. Kretz, C.                                 [2] A. Corbetta and F. Toschi, Annu. Rev. Condens. Matter Phys.
+           Rogsch, and A. Seyfried, in Encyclopedia of Complexity and                                   14, 311 (2023).
+           Systems Science, edited by R. A. Meyers (Springer, New York,                             [3] D. Helbing and P. Molnár, Phys. Rev. E 51, 4282
+           2009), pp. 3142–3176.                                                                        (1995).
+
+
+                                                                                             004600-8
+
+===== PAGINA 9 =====
+
+SIMULATING PEDESTRIAN AVOIDANCE: THE …                                                          PHYSICAL REVIEW E 00, 004600 (2024)
+
+ [4] D. Helbing, I. Farkas, and T. Vicsek, Nature (London) 407, 487    [18] World War Z (2013, Marc Forster), https://www.imdb.com/title/
+     (2000).                                                                tt0816711.
+ [5] I. Karamouzas, P. Heil, P. Van Beek, and M. H. Overmars, in       [19] Train to Busan (2016, Yeon Sang-Ho), https://www.imdb.com/
+     Motion in Games: Second International Workshop, MIG 2009,              title/tt5700672.
+     Zeist, the Netherlands, November 21–24, 2009, Proceedings 2,      [20] Black Summer (2019, TV series), https://www.imdb.com/title/
+     edited by A. Egges, R. Geraerts, and M. Overmars (Springer,            tt8923854.
+     Berlin, Heidelberg, 2009), pp. 41–52.                             [21] M. Brooks, The Zombie Survival Guide: Complete Protection
+ [6] Q.-L. Wang, Y. Chen, H.-R. Dong, M. Zhou, and B. Ning, Chin.           from the Living Dead (Crown, New York, 2003).
+     Phys. B 24, 038901 (2015).                                        [22] P. Munz, I. Hudea, J. Imad, and R. J. Smith, Infect. Dis. Model.
+ [7] R. Martin and D. Parisi, Collective Dynamics 5, 324 (2020).            Res. Prog. 4, 133 (2009).
+ [8] R. F. Martin and D. R. Parisi, in Traffic and Granular Flow       [23] A. A. Alemi, M. Bierbaum, C. R. Myers, and J. P. Sethna, Phys.
+     2019, edited by I. Zuriguel, A. Garcimartin, and R. Cruz               Rev. E 92, 052801 (2015).
+     (Springer International Publishing, Cham, 2020), pp. 205–210.     [24] H. Bauer, Undergraduate thesis, University of Lynchburg, 2019.
+ [9] R. F. Martin and D. R. Parisi, Physica A Stat. Mech. Appl. 633,   [25] A. Libál, P. Forgács, Á. Néda, C. Reichhardt, N. Hengartner,
+     129414 (2024).                                                         and C. J. O. Reichhardt, Phys. Rev. E 107, 024604
+[10] https://www.worldchasetag.com/about                                    (2023).
+[11] https://www.ultimatekhokho.com/.                                  [26] M. Gardner, Sci. Am. 223, 210 (1970).
+[12] D. R. Parisi, A. G. Sartorio, J. R. Colonnello, A. Garcimartín,   [27] M. Gardner, Sci. Am. 224, 112 (1971).
+     L. A. Pugnaloni, and I. Zuriguel, Proc. Natl. Acad. Sci. USA      [28] D. Challet and Y.-C. Zhang, Physica A 246, 407 (1997).
+     118, e2107827118 (2021).                                          [29] A. Syed, S. P. Thampi, and M. V. Panchagnula, Physica A 598,
+[13] https://www.youtube.com/watch?v=07fb-2fwB5c                            127349 (2022).
+[14] See Supplemental Material at http://link.aps.org/supplemental/    [30] T. Vicsek, A. Czirók, E. Ben-Jacob, I. Cohen, and O. Shochet,
+     10.1103/PhysRevE.xx.xxxxxx for an illustration of the typical          Phys. Rev. Lett. 75, 1226 (1995).
+     process of a young cow pursuing runners as well as videos         [31] J. T. Siebert, F. Dittrich, F. Schmid, K. Binder, T. Speck, and P.
+     showing the dynamics of one initial human agent, two initial           Virnau, Phys. Rev. E 98, 030601(R) (2018).
+     human agents, the dynamics of convergent pursuit, the dy-         [32] M. Aldana, V. Dossetti, C. Huepe, V. M. Kenkre, and H.
+     namics of divergent pursuit, and the typical dynamics when             Larralde, Phys. Rev. Lett. 98, 095702 (2007).
+     vzmax = 3.8 m/s and vhmax = 4 m/s.                                [33] G. Baglietto and E. V. Albano, Phys. Rev. E 78, 021125 (2008).
+[15] R. F. Martin and D. R. Parisi, Neurocomputing 379, 130 (2020).    [34] E. Barone and G. A. Patterson, Phys. Rev. E 109, 054609
+[16] Night of the Living Dead (1968, George A. Romero), https://            (2024).
+     www.imdb.com/title/tt0063350.                                     [35] G. Baglietto and D. R. Parisi, Phys. Rev. E 83, 056117 (2011).
+[17] Zombieland (2009, Ruben Fleischer), https://www.imdb.com/         [36] M. L. R. Puzzo, E. S. Loscar, A. De Virgiliis, and T. S. Grigera,
+     title/tt1156398.                                                       J. Phys.: Condens. Matter 34, 314001 (2022).
+
+
+
+
+                                                                 004600-9
+

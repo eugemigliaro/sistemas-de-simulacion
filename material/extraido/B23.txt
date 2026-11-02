@@ -1,0 +1,496 @@
+FUENTE: B23
+TITULO: Spheropolygons: A New Method to Simulate Conservative and Dissipative Interactions between 2D Complex-Shaped Rigid Bodies — F. Alonso-Marroquín
+ORIGINAL: material/externo/bibliografia-5/AlonsoMarroquinEsferoPoligonos/Marroquin_2008.pdf
+PAGINAS: 7
+
+===== PAGINA 1 =====
+
+Home   Search    Collections   Journals   About   Contact us    My IOPscience
+
+
+
+
+       Spheropolygons: A new method to simulate conservative and dissipative interactions between
+
+       2D complex-shaped rigid bodies
+
+
+
+       This article has been downloaded from IOPscience. Please scroll down to see the full text article.
+
+       2008 EPL 83 14001
+
+       (http://iopscience.iop.org/0295-5075/83/1/14001)
+
+       View the table of contents for this issue, or go to the journal homepage for more
+
+
+
+
+       Download details:
+       IP Address: 129.78.32.24
+       The article was downloaded on 22/11/2011 at 00:41
+
+
+
+       Please note that terms and conditions apply.
+
+===== PAGINA 2 =====
+
+                                                                                                                 July 2008
+EPL, 83 (2008) 14001                                                                                     www.epljournal.org
+doi: 10.1209/0295-5075/83/14001
+
+
+
+Spheropolygons: A new method to simulate conservative and
+dissipative interactions between 2D complex-shaped rigid bodies
+F. Alonso-Marroquı́n(a)
+
+ESSCC & School of Physical Sciences, The University of Queensland - Qld. 4072, Brisbane, Australia
+
+         received 19 November 2007; accepted in ﬁnal form 15 May 2008
+         published online 11 June 2008
+
+         PACS   45.70.-n – Granular systems
+         PACS   47.11.Mn – Molecular dynamics methods
+
+         Abstract – I present a method to simulate complex-shaped interacting bodies, a problem which
+         appears in many areas, including molecular dynamics, material science, virtual reality, geo- and
+         astrophysics. The particle shape is represented by the classical concept of a Minkowski sum, which
+         permits the representation of complex shapes without the need to deﬁne the object as a composite
+         of spherical or convex particles. A well-deﬁned conservative and frictional interaction between
+         these bodies is derived. The model (particles + interactions) is much more eﬃcient, accurate and
+         easier to implement than other models. Simulations with conservative interactions comply with
+         the statistical mechanical principles for conservative systems. Simulations with frictional forces
+         show that particle shape strongly aﬀects the jamming phenomena in granular ﬂow.
+
+         Copyright c
+                    EPLA, 2008
+
+
+
+
+   Introduction. – Realistic modeling of interacting            or dynamic constraints in the interaction between these
+bodies has a fundamental impact in several research             pieces. Impulse-based methods allow real-time simu-
+areas. In most areas particle shape plays a key role:           lations, but they cannot handle permanent or lasting
+i) drug molecules often have to act as a key in a lock          contacts [4]. On the other hand, constraint methods
+formed by a protein cavity, otherwise they lose their           can handle resting contacts with inﬁnite stiﬀness, but
+activity [1]; ii) liquid crystals consisting of rod-shaped,     simulations are computationally expensive and lead in
+disk-shaped, or banana-shaped molecules exhibit tran-           some cases to indeterminacy in the solution of contact
+sition to a nematic phase, which is strongly dependent          forces [6]. This indeterminacy is removed by using penalty
+on particle shape [2]; iii) the microscopic description of      methods, where the bodies are allowed to interpenetrate
+geological materials requires the modeling of cohesive-         each other and the force is calculated in terms of their
+frictional interaction between particles with a wide range      overlap. However, the determination of such contact force
+of shapes [3]; iv) computing the motion of rigid and            is still heuristic and lacks physical correctness [7,8].
+articulated bodies can lead to new advances in robotics            Scientiﬁc applications require high-precision dynamic
+and automation [4]; v) dynamics simulation of complex-          simulations and reliable interaction models capturing the
+shaped objects has fundamental importance in virtual            real physics of the problem. Robust penalty methods
+reality applications, as realistic force feedback between the   have been proposed for two-dimensional (2D) simulations
+user and the computer-simulated environment guarantees          using polygons [3,8]. They allow to gain insight in the
+realism in the simulations [5].                                 further development of three-dimensional (3D) models. In
+   The most typical approach for these applications is          the case of convex polygons, the force is calculated as a
+to solve the dynamics of interacting rigid bodies, where        function of their overlap area [3]. However, the assumption
+their real shapes are approximated by polyhedra [4,6,7].        that elastic force is a function of their overlap leads to
+The most diﬃcult aspect for the simulations is to model         a non-conservative elastic interaction [8]. An alternative
+contact interactions. In computer graphics, or other forms      approach is to assume that the potential elastic energy
+of interactive computing, the interaction between poly-         is a function of the overlap. Then forces and torques are
+hedra is resolved by decomposing them in convex pieces,         derived from this potential [8]. This approach, however,
+and applying penalty methods, impulse-based methods             leads to very expensive force calculations, partly because
+                                                                each particle needs to be decomposed in triangles, and
+ (a) E-mail: fernando@esscc.uq.edu.au                           partly because many diﬀerent interactions cases need to be
+
+
+                                                          14001-p1
+
+===== PAGINA 3 =====
+
+F. Alonso-Marroquı́n
+
+
+considered separately. Both approaches are also extremely                      (a)                                        (b)
+diﬃcult to extend to 3D, because the calculation of
+the overlap between two polyhedra is computationally
+very expensive. This is the main reason why most of
+the commercial codes for particulate systems are still                  Polygon
+based on simulations with spheres, or clumps of spheres
+representing complex-shaped objects [9].
+                                                                                              Sphere
+   In this letter I present a solution to this problem in 2D,
+using the concept of spheropolygons. They are generated
+from the Minkowski sum of a polygon with a disk, which
+is nothing more than the object resulting from sweeping
+a disk around a polygon. This simple concept can be used        Fig. 1: (a) Minkowski cow obtained by sweeping a disk around
+to generate very complex shapes, including non-convex           a polygon of 62 edges. The disk has radius 10 cm and the length
+bodies, without the need to decompose them into spherical       of the polygon is 3 m. (b) The cow as represented by a clump
+or convex parts. The interaction between spheropoly-            of disks using 726 disks.
+gons is modeled by considering all possible vertex-edge
+interactions. The result is a simple and elegant model,       sum approach is that it removes the unwanted roughness
+where diﬀerent interaction laws can be implemented            of the surface in the clump-of-disks method.
+straightforwardly. I anticipate that this model will be the      The point-inside-spheropolygon test combined with a
+starting point to the development of a new generation         basic Monte Carlo method is used to evaluate the inte-
+of particle-based models. These models will capture both      gral expressions for mass, center of mass and the moment
+complex particle shape and realistic interactions laws        of inertia. This numerical integration, whose details are
+in a uniﬁed framework, allowing simulations of several        explained elsewhere [14], does not represent much compu-
+systems involved in complex-shaped rigid bodies.              tational eﬀort, because the mass properties are calculated
+                                                              only once and they are assumed to be constant throughout
+   The model. – To solve the interaction between sphero- the simulation.
+polygons, we adopt the basic assumption of rigid-body            Interaction force.    To solve the interaction between
+dynamics: The particles do not change of shape, and spheropolygons, we consider all vertex-edge distances
+interaction occurs when they overlap. Finite stiﬀness is between the polygons. Let us take two spheropolygons SPi
+attributed to the particles, so that the bodies are not truly and SPj with their respective polygons Pi and Pj and the
+rigid as those used in the Contact Dynamics method [10]. radii of the disks ri and rj . Each polygon is deﬁned by the
+The model is implemented in a C + +, fully customizable, set of vertices {Vi } and edges {Ei }. The overlapping length
+object-oriented code.                                         between each pair of vertex-edge (V, E) is deﬁned as
+   Minkowski sum.        Given two sets of points P and                           δ(V, E) = ri + rj − d(V, E),                      (1)
+Q in an Euclidean space, their Minkowski sum is given
+                                                                where d(X, E) = Y    −X
+                                                                                          is the Euclidean distance from
+by P + Q = {x + y | x ∈ P, y ∈ Q}. This operation is
+                                                                the vertex V to the segment E. Here X     is the position of
+geometrically equivalent to the sweeping of one set
+                                                                                    
+                                                                the vertex V and Y is its closest point on the edge E. The
+around the proﬁle of the other without changing the
+relative orientation. A special case is the sum of a polygon    ramp function x returns x if x > 0 and zero otherwise.
+with a disk, which is deﬁned here as spheropolygons.              The force Fij acting on particle i by the particle j is
+Other examples of a Minkowski sum are the sphero-               deﬁned by
+cyllinder (sphere + line segment) [11], the sphero-                                                     
+                                                                       Fij = −Fji =    F (Vi , Ej ) +   F (Vj , Ei ), (2)
+simplex (sphere + simplex) [12] and the spheropolyhedron
+                                                                                          Vi Ej                   Vj Ei
+(sphere + polyhedron) [13], which are used in simulations
+of particulate systems.                                         where F (V, E) represents the force between the vertex
+   A prototype of the spheropolygons is the Minkowski cow       V and the edge E. If the vertex-edge overlapping length
+shown in part (a) of ﬁg. 1. The Minkowski sum is compared       is zero, we take F (V, E) = 0. Diﬀerent vertex-edge forces
+to the clump of disks technique shown in part (b) of ﬁg. 1.     can be included in the model: linear dashpots, non-linear
+The number of vertices required to represent a complex          Hertzian laws, Lennard-Jones forces, dissipative viscous
+shape with the Minkowski sum is typically lower than the        forces, sliding friction, etc.
+number of disks needed to reconstruct the clumpy object.           The torque on particle i given by j is
+This property holds when one removes the inner disks of                          
+                                                                          τij =         i , Ej ) − ri ) × F (Vi , Ej )
+                                                                                      (R(V
+the clumpy object. In the case of the clumpy cow, the
+total number of disks is 726, and the number of boundary                          Vi Ej
+                                                                                      
+disks is 296, which is still larger than the 62 vertices of                       +           (
+                                                                                               R(Vj , Ei ) − ri ) × F (Vj , Ei ),   (3)
+the polygon. Another visible advantage of the Minkowski                               Vj Ei
+
+
+                                                         14001-p2
+
+===== PAGINA 4 =====
+
+                                                                                                Dynamics of spheropolygons
+
+
+                                                    is the
+where ri is the center of mass of particle i, and R                Algorithm 1: One time step of the time integration
+point of application of the force, which is taken as the            scheme.
+middle point of the overlap region between the vertex and            Input: state of the particles at time t
+the edge:                                                            Output: state of the particles at time t + ∆t
+                                                                 predict position of the particles and its derivatives
+                        1         X −Y                             using a Taylor expansion;
+        R(V, E) = X + ri + δ(V, E)        ,                 (4)
+                          2          −X
+                                   Y                              update vertices of the polygons;
+                                                                     if neighbor update condition is satisﬁed then
+   The evolution of ri and the orientation ϕi of the particle           calculate link cell;
+is governed by the equations of motion:                                  update neighbor;
+                                                                       update contact list;
+          mir¨i =     Fij − mi g ŷ, Ii ϕ̈i =   τij .    (5)       end
+                   j                           j                     calculate contact forces between neighbor particles;
+                                                                     apply contact forces to the particles;
+Here mi and Ii are the mass and moment of inertia of the
+                                                                     apply gravity forces to the particles;
+particle. The sum is over all particles interacting with this
+                                                                     correct positions and its derivatives using forces and
+particle; g is the gravity; and ŷ is the unit vector along
+                                                                     torques.
+the vertical direction.
+   Eﬃcient calculation of forces.        The eﬃciency of the       need to be calculated during the time integration, which
+dynamics simulation is mainly determined by the method             is, along with the neighborhood identiﬁcation, one of the
+of contact detection. In a system of N particles, each             main reasons of the eﬃciency of the code.
+one with M edges, the number of calculations for contact
+detection is O(N 2 M 2 ). Simulations therefore become very          Benchmark tests. – Simulations will be perform
+slow when either the number of particles or the number of          using Minkowski cows interacting via repulsive, frictional
+vertices is large. In order to speed up the simulations, we        forces
+create a neighbor list of all pair particles which are likely to                                    + kt δt T ,
+                                                                                 F (V, E) = kn δn N                      (6)
+be in contact. We also use for each element of this neighbor
+list a contact list of those vertex-edge pairs which are in   where N   = (Y
+                                                                             − X)/
+                                                                                 Y   −X    is the normal unit vector.
+potential overlap. The neighbor list is calculated as the                               
+                                                              The tangential vector T is taken perpendicular to n.
+collection of all pair particles whose distance between them  δn is the overlapping length deﬁned in eq. (1). The
+is less than 2α, where alpha is called Verlet distance [14].  elastic displacement δt accounts frictional forces, and it
+For each element of the neighbor list, a contact list is      must satisfy the sliding condition |Ft | < µFn , where µ
+deﬁned as the collection of all vertex-edge pairs whose       is the coeﬃcient of friction [16]. The parameters of the
+distance is less than 2α. These lists are updated when        simulations are the normal stiﬀness k = 107 N/m, the
+the maximal displacement over all points of the particles     tangential stiﬀness kt = 0.1kn , friction coeﬃcient µ = 0.5
+after the last neighbor update is larger than α [14]. A link  gravity g = 10 m/s2 , density σ = 1 kg/m2 , time step
+cell algorithm [8] is used to allow rapid calculation of the  ∆t = 10−5 s and the Verlet distance α = 1 m.
+neighbor list. This method for neighborhood identiﬁcation        We perform three series of simulations. The ﬁrst one
+using neighbor and contact lists requires little memory       corresponds to a test with two particles with only repulsive
+storage, and reduce the amount of calculations of contact     forces (kt = 0). The second series involves many particles
+forces to O(N ), which is of the same order as in simulations interacting via repulsive forces. The third set are granular
+with circular particles [8].                                  ﬂow simulations using gravity, along with repulsive and
+  Time integration.      The equations of motion of the frictional forces.
+system are numerically solved using a four order predictor-      Cow-landscape interaction. To demonstrate the capa-
+corrector algorithm [15]. A pseudocode with the basic bility of the model to solve interactions between complex,
+procedures in each time step is shown in Algorithm 1. In non-convex–shaped bodies, I simulate a Minkowski cow
+each iteration, the algorithm visit each instance of the bouncing on a simple landscape (see ﬁg. 2). The cow
+particle class and changes its position, its derivatives, and initially has zero angular and linear velocity. Periodic
+the vertices of its polygon. The algorithm is similar to boundary conditions are applied in the horizontal direc-
+the one used in simulations with circular particles, except tions, which means that when the particle leaves the space
+that it needs an additional procedure to update the domain at one side it appears automatically at the other
+vertices of the polygons. This procedure is required also side. The space domain is given by 0 < x < 20 m.
+in simulations with polygons, and it involves O(N, M )           At time t = 1.82 s one of the vertices of the cow get into
+calculations. However, simulations with spheropolygons contact with one of the edges of the landscape. The elastic
+are faster than with polygons because the contact force force produced by this contact transfers part of its linear
+given by eqs. (2) is much simpler than the one used in momentum into angular momentum. This makes the cow
+polygons [3,8]. Note also that the Minkowski sum does not rotate. We note a clear diﬀerence of the Minkowski cow
+
+                                                            14001-p3
+
+===== PAGINA 5 =====
+
+F. Alonso-Marroquı́n
+
+
+  25                           25                                              1.6
+              Time = 0 s                   Time = 1.82 s                                                                   E
+                                                                                                                            T
+  20                           20                                              1.4                                         E
+                                                                                                                            g
+                                                                                                                           E
+  15                           15                                                                                           k
+                                                                               1.2                                         E
+                                                                                                                            e
+  10                           10
+                                                                                1
+
+
+
+                                                                 Energy (KJ)
+   5                            5
+   0                            0                                              0.8
+
+         0   5   10 15 20             0   5   10 15 20
+                                                                               0.6
+
+  25          Time = 1.88 s    25          Time = 2.1 s                        0.4
+  20                           20
+                                                                               0.2
+  15                           15
+  10                           10                                               0
+                                                                                 0   5       10              15    20           25
+   5                            5                                                                 Time (s)
+
+   0                            0                                Fig. 3: Energy budget in bouncing cow simulation. The total
+         0   5   10 15 20             0   5   10 15 20           energy ET consists of the gravitational energy Eg = mgy, the
+                                                                                           2      2
+                                                                 kinetic energy Ek = 12 mv    1
+                                                                                          + 2 Iω , and thepotential energy Ee
+                                                                             e
+Fig. 2: Four diﬀerent snapshots of the simulation of a           given by E = (kn /2)( Vi Ej δ(Vi , Ej ) + Vj Ei δ(Vj , Ei )). As
+Minkowski cow bouncing on a simple landscape.                    is expected for a conservative system, the sum of all energy
+                                                                 contributions lead to a constant value, with and error which is
+                                                                 lower than 0.0001% throughout all the simulation.
+with respect to the spherical particles: In the absence
+of frictional forces, the landscape can transfer angular
+momentum to the cow during the collision. This is because
+the force is not collinear with the line connecting the
+contact point to the center of mass of the object, as
+expected in non-spherical objects.
+   The time evolution of the energy components are
+presented in ﬁg. 3. Elastic energy has a negligible contri-
+bution to the energy budget, as it diﬀers from zero only
+for short times during the collisions. The eﬀect of the
+interaction force is to produce exchanges of linear and
+angular kinetic energy during collision. Energy conserva-
+tion is numerically veriﬁed by taking the sum of all energy
+contributions. This sum remains almost constant, except
+minute numerical ﬂuctuations due to time discretization.
+Energy balance is also guaranteed when particles are
+represented by clump of disks. Yet we will see later that
+the main advantage of the Minkowski sum method is the
+high performance of the simulations.
+   Many-body simulation.       I present here simulations
+with large number of particles with repulsive interac-
+tions and no gravity. The simulations will allow us to
+investigate the statistical-mechanical equilibrium, and to       Fig. 4: Snapshot of the simulation with 400 Minkowski cows
+compare the eﬃciency of the Minkowski sum approach               conﬁned in a rectangular box.
+with other methods. First, I present the results of a simu-
+lation with 400 Minkowski cows conﬁned by a ﬁxed rectan-
+gular box (see ﬁg. 4). Each particle occupies an area of         linear momentum of each particle changes and part of it is
+a = 6.52 m2 and the area of the box is A = 10609 m2 . These      transferred to angular momentum. As a consequence, the
+values lead to a volume fraction of Φ = N a/A = 0.246.           rotational kinetic energy increases as shown in ﬁg. 5. We
+Gravity and frictional forces are set to zero. Initially, each   observe a stationary regime, where the average of rota-
+particle has zero angular velocity and a linear velocity         tional kinetic energy reaches the limit of 1/2 the linear
+of 1 m/s with random direction. Due to collisions, the           kinetic energy. This is in agreement with the theorem
+
+
+                                                           14001-p4
+
+===== PAGINA 6 =====
+
+                                                                                                                   Dynamics of spheropolygons
+
+
+                                          (a)                                        by the Maxwell-Boltzmann distribution. The existence
+                   1                                                                 of statistical equilibrium for this simple system opens
+                                                     Linear kinetic energy
+                  0.9                                Rotational kinetic energy       new doors to study the thermodynamics of dissipative
+                                                                                     granular materials subjected to an external driving.
+                  0.8
+                                                                                     This model may provide decisive numerical experiments
+                  0.7                                                                to evaluate the role of particle shape and interparticle
+
+
+ Energy (Ek/Eo)
+                  0.6                                                                interactions in the statistical-mechanical properties of
+                                                                                     these granular systems.
+                  0.5
+                                                                                        Lastly, we compare the eﬃciency of the many-body
+                  0.4                                                                simulations of systems consisting on spherical parti-
+                  0.3
+                                                                                     cles, Minkowski cows and clumpy cows. The clumpy
+                                                                                     cows are simulating by imposing holonomic constraints
+                  0.2                                                                on the disks, as is used classical molecular dynamics
+                  0.1                                                                methods [18]. The performance of the simulations is
+                                                                                     estimated by running diﬀerent processes in a Pentium 4,
+                   0
+                    0           0.5             1             1.5                2   3.0 GHz, and calculating the CPU time during 10s
+                                          Time (s)                                   simulation in each one of them. The number of particles is
+                                          (b)                                        ranged between N = 100 and N = 1000. Simulations with
+                    1
+                  10                                                                 disks are around 50 times faster than simulation with
+                                                                    Simulation       Minkowski cows. However, the speed of the simulation
+                                                                    Theory
+                  10
+                    0                                                                with Minkowski cows is 40 times faster that simulations
+                                                                                     with clumpy cows. Therefore simulations with sphero-
+                    −1
+                                                                                     polygons are more eﬃcient than those ones with clumps
+                  10
+                                                                                     of disks, because the former ones require less elements to
+    N(ε)            −2
+                                                                                     represent the particle shape.
+                  10
+ −1/2                                                                                   Granular ﬂow. In this section we introduce another
+ ε                                                                                   interesting application of this model: the study of the
+                    −3
+                  10                                                                 eﬀect of particle shape on the jamming phenomenon of
+                                                                                     granular ﬂow. Examples of 2D granular ﬂow are pedestrian
+                  10
+                    −4                                                               or vehicle traﬃc, transport of baggage in conveyor belts in
+                                                                                     airports, and gravity ﬂow in a hopper or a hourglass. The
+                                                                                     ﬂow may happen when particles are discharged through
+                        0   1    2    3         4      5       6       7         8   a small opening, but particles may became jammed when
+                                                ε                                    the opening is smaller than a critical value. Modeling of
+                                                                                     gravity ﬂow has been done using circular or spherical
+Fig. 5: (a) Time evolution of the total linear and rotational                        particles [19], but the eﬀect of shape on ﬂow has not
+kinetic energy of the particles. E0 is the initial value of                          been thoughtfully investigated. In particular, non-convex
+the total kinetic energy. The horizontal lines correspond                            particles is expected to jam more easily than convex, or
+to the expected value by the equilibrium statistical mech-                           circular particles.
+anics. (b) Energy distribution N () for the particles, where
+                                                                                        Granular ﬂow with non-convex particles is presented
+ = Ek /Ēk . The line 
+                       corresponds to the Maxwell-Boltzmann
+distribution n() = 2β β/π exp(−β), with β = 1.5.
+                                                                                     using 400 Minkowski cows within a hopper geometry,
+                                                                                     see ﬁg. 6. We used apertures between 20 m and 40 m.
+                                                                                     The results were compared to simulations with disks.
+                                                                                     Circular particles ﬂow continuously for all these apertures,
+of equipartition of energy [17], which states that, in the                           whereas non-convex particles jam when the aperture is
+statistical equilibrium, each quadratic term in the energy                           lower than 30 m. Jamming is produced by arches formed
+should contribute with the same weight in the mean energy                            near the aperture. Simulations with convex polygons
+of the system.                                                                       using Pöeschel model show that the length of these arches
+   We also calculate the energy distribution of the                                  is around 4–6 particle diameters [8]. This contrasts to our
+particles in the stationary regime. We take snapshots                                simulations with non-convex particles, where arches may
+of the simulations between t = 1 s and t = 8 s distanced                             be larger than 20 particle diameters. A more detailed
+by 0.01 s. In each snapshot the kinetic energy of the                                investigation of the ﬂow and jamming of non-convex
+individual particles is measured. The histogram of the                               particle would certainly have interesting industrial
+variable  = Ek /Ēk (where Ek = 12 (mvx2 + mvy2 + Iω 2 ) is                         applications.
+the kinetic energy of the particle) is constructed using
+100 identical bins between zero and the maximal value.       Concluding remarks. – Modeling interacting parti-
+As shown in ﬁg. 5, the distribution of  can be ﬁtted cles using spheropolygons has several advantages with
+
+
+                                                                             14001-p5
+
+===== PAGINA 7 =====
+
+F. Alonso-Marroquı́n
+
+
+                                                              as in avalanches (snow, debris) and earthquakes, or in
+                                                              astrophysics as the dynamical evolution of precursors
+                                                              of planets or the icy particles forming planetary rings.
+                                                              This work is the ﬁrst step for the realistic description
+                                                              of conservative and dissipative particulate systems with
+                                                              plenty of potential applications.
+
+                                                                                          ∗∗∗
+
+                                                                This work is supported by the Australian Research
+                                                              Council (project number DP0772409)
+
+
+                                                              REFERENCES
+
+                                                               [1] Carlson H. and Mccammon A., Mol. Pharmacol., 57
+                                                                   (2000) 213.
+                                                               [2] Pelzl G., Diele S. and Weissflog W., Adv. Mater.,
+                                                                   11 (1999) 707.
+                                                               [3] Alonso-Marroquin F., Luding S., Herrmann H. and
+                                                                   Vardoulakis I., Phys. Rev. E, 51 (2005) 051304.
+                                                               [4] Mirtich B., ACM Trans. Graph. (TOG), 15 (1998) 177.
+                                                               [5] Ruspini D. and Khatib O., J. Rob. Syst., 18 (2001) 769.
+                                                               [6] Baraff D., Algorithmica, 10 (1993) 292.
+                                                               [7] Hasegawa S. and Sato M., Comput. Graph. Forum,
+                                                                   23 (2004) 529.
+                                                               [8] Poeschel T. and Schwager T., Computational
+                                                                   Granular Dynamics (Springer, Berlin) 2004.
+                                                               [9] Lu M. and McDowell G. R., Granular Matter, 9 (2007)
+                                                                   69.
+                                                              [10] Moreau J., Unilateral contact and dry friction in ﬁnite
+                                                                   freedom dynamics, in International Centre for Mechani-
+                                                                   cal Sciences, Courses and Lectures, Vol. 302 (Springer,
+Fig. 6: Simulations of granular ﬂow using disks (left) and         Vienna) 1988.
+Minkowski cows (right). Two diﬀerent apertures are chosen:    [11] Pournin L., Weber M., Tsukahara M., Ferrez
+20 m (top) and 30 m (bottom). The snapshots are taken eight        J.-A., Ramaioli M. and Liebling T. M., Granular
+seconds after discharge.                                           Matter, 7 (2005) 119.
+                                                              [12] Pournin L. and Liebling T., A generalization of distinct
+respect to other existing particle-based models: i) The            element method to tridimensional particles with complex
+                                                                   shapes, in Powders & Grains 2005, Vol. 1375 (Balkema,
+possibility to model non-convex particles; ii) a realistic
+                                                                   Leiden) 2005.
+representation of the surface curvature of particles;         [13] Pournin L., On the behavior of spherical and non-
+iii) guaranteed compliance with physical and statistical           spherical grain assemblies, its modeling and numerical
+mechanical laws; iv) balance between accuracy and                  simulation, PhD Thesis, École Polytechnique Fédérale de
+eﬃciency. The model is still very simple, but extensions           Lausanne (2005).
+to 3D simulations and more complex interactions are           [14] Alonso-Marroquin F. and Wang Y., An eﬃcient algo-
+achievable in the near future. 3D modeling using sphero-           rithm for granular dynamics simulations with complex-
+polyhedra requires forces similar to eq. (2), where the            shaped objects, arXiv:0804.0474 (2008).
+sum is over all vertex-face and edge-edge interactions.       [15] Gear C., Numerical Initial Value Problems in Ordinary
+Special attention is required for the case of two parallel         Diﬀerential Equations (Prentice Hall PTR, Upper Saddle
+edges in contact. This case lead to a non-uniqueness in            River, NJ) 1971.
+                                                              [16] Garcı́a-Rojo R., Alonso-Marroquı́n F. and
+the selection of contact points. This need to be resolved
+                                                                   Herrmann H., Phys. Rev. E, 72 (2005) 41302.
+to get a physical correctness in the torque calculation.      [17] Tolman R., The Principles of Statistical Mechanics
+   Applicability of the method ranges to several branches          (Dover Publications, Inc., New York) 1979.
+of biology, physics, geo- or even astrophysics. Conserva-     [18] Ryckaert J., Ciccotti G. and Berendsen H.,
+tive models can be used to model dynamics of complex               J. Comput. Phys., 23 (1977) 327.
+molecules. Dissipative systems with complex-shaped            [19] To K., Lai P. and Pak H., Phys. Rev. Lett., 86 (2001)
+constituents may have interesting geophysical problems             71.
+
+
+
+
+                                                       14001-p6
+

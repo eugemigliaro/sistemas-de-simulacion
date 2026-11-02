@@ -1,0 +1,574 @@
+FUENTE: B24
+TITULO: Optimal Description of Two-Dimensional Complex-Shaped Objects Using Spheropolygons — Dobrohotoff et al.
+ORIGINAL: material/externo/bibliografia-5/AlonsoMarroquinEsferoPoligonos/dobrootoff12.pdf
+PAGINAS: 8
+
+===== PAGINA 1 =====
+
+Granular Matter
+DOI 10.1007/s10035-012-0357-9
+
+ ORIGINAL PAPER
+
+
+
+Optimal description of two-dimensional complex-shaped objects
+using spheropolygons
+Peter B. Dobrohotoff · Syed Imranullah Azeezullah ·
+Federico Maggi · Fernando Alonso-Marroquin
+
+
+
+
+Received: 16 January 2012
+© Springer-Verlag 2012
+
+
+Abstract Recent advances in the morphological descrip-             governed by particle interactions at the microscopic scale.
+tion of particles in granular material systems allow two-          These interactions depend on various factors including the
+dimensional complex-shaped particles to be realistically           shapes of the particles, and therefore their correct descrip-
+simulated using spheropolygons, i.e., the Minkowski sum            tion is crucial to the modelling of the flow with computer
+of a disk and a polygon. For identical numbers of vertices,        simulations.
+spheropolygons achieve a better description of shapes than            The idea of using two-dimensional spheropolygons and
+polygons, but require that the optimal spheroradius be deter-      three-dimensional spheropolyhedrons to model complex
+mined. Here we propose a method for generating spheropoly-         shapes dates from the work of Pournin and Liebling [16–19],
+gons that optimizes the description of particle morphologies,      who presented a method in three dimensions to calculate par-
+i.e., minimizes the error images and the numbers of vertices.      ticle interactions based on a single contact between each pair
+Because the error images of individual particles are a proxy       of particles; the method was subsequently developed to effi-
+for the accuracy of granular matter flow calculations, while       ciently handle multiple contacts [1,2,8–11] and has become a
+the numbers of vertices are a proxy for the computational          computationally efficient technique in numerical simulations
+time, the method is optimally applicable to discrete element       of granular materials.
+methods. We demonstrate the proposed method using peb-                A spheropolygon is the Minkowski sum of a base poly-
+bles, gravel, and crushed shells.                                  gon with N vertices, representing the general shape (e.g.,
+                                                                   convexity, jointness, and branchness), and a disk with radius
+Keywords Discrete element modelling · Polygon ·                    r (called the spheroradius), representing the roundness. For-
+Spheropolygon                                                      mally, the Minkowski sum of two sets of points P and Q is
+                                                                   given by
+
+1 Introduction                                                     P + Q = {u + v | u ∈ P, v ∈ Q}.                            (1)
+
+Granular materials are recurring media in geophysics [7] and       This is a commutative operation geometrically equivalent to
+industrial processes [14]. In these processes, the flow of gran-   the sweeping of one set around the profile of the other without
+ular materials involves highly nonlinear dynamics that are         changing the relative orientation. For example, the image of
+                                                                   the cow in Fig. 1a can be approximated by the spheropolygon
+                                                                   in Fig. 1b. The coordinates of the vertices and the spherora-
+                                                                   dius are normalized by the length of the spheropolygon.
+P. B. Dobrohotoff · S. I. Azeezullah · F. Maggi ·                     A variety of shapes can be generated for any num-
+F. Alonso-Marroquin (B)
+School of Civil Engineering, The University of Sydney,
+                                                                   ber of dimensions using spheropolygons, spheropolyhedra,
+Sydney, NSW 2006, Australia                                        and spheropolytopes. The method is particularly useful for
+e-mail: fernando.alonso@sydney.edu.au                              dynamic simulation of flow of granular materials under load,
+P. B. Dobrohotoff                                                  or gravity-driven granular flows of complex-shaped particles
+e-mail: p.dobrohotoff@physics.usyd.edu.au                          such as rice or capsules (a disk swept on straight lines) [5],
+
+
+                                                                                                                       123
+
+===== PAGINA 2 =====
+
+                                                                                                                              P. B. Dobrohotoff et al.
+
+
+               (a)                             (b)                          generate test spheropolygon;
+                                                                            while neither residual error nor maximum number of iterations
+                                                                            has been reached do
+                                                                               for each vertex do
+                                                                                   sample V =number of error pixels in x and y dimension;
+                                                                                   move the vertex to the local minimum in V in each
+                                                                                   dimension;
+                                                                               end
+                                                                               generate test spheropolygon;
+                                                                            end
+Fig. 1 a Test input image and b corresponding spheropolygon with 34
+                                                                           Algorithm 1: Construction of a spheropolygon from an
+vertices (indicated by circles) and a (normalized) spheroradius of 0.02
+                                                                           image.
+
+peanuts (a disk swept on “V” shapes), pebbles (a disk swept
+on polygons) [2], Voronoi spheropolygons [19], and Voronoi                – Spheropolygon, that is a (2N + 1)-vector
+spheropolyhedra [11].
+   Spheropolygons allow the representation of complex                        S P = (x1 , y1 , x2 , y2 , . . . , x N , y N , r )                   (2)
+shapes, from rounded to angular and from convex to non-
+convex, that can be effectively simulated without introducing               in the Euclidean space R2N +1 . The components (xi , yi )
+the roughness of boundaries associated with clumped particle                are the positions of N vertices, and r is the spheroradius
+representations. In fact, the Minkowski sum does not need to                of the spheropolygon;
+be explicitly calculated during the simulation to determine               – Image of spheropolygon, that is defined by the function
+the characteristics of the particle interactions, which makes               I S P = f (S P), whose argument is the spheropolygon
+the use of spheropolygons in granular material simulations                  and whose value is a Boolean matrix of size h × w rep-
+an efficient technique for calculating inter-particle forces.               resenting its image. To construct the image, we first set a
+   Two key parameters that determine the suitability of a par-              square mesh of h × w nodes containing the spheropoly-
+ticular spheropolygon are its number of vertices N and the                  gon. Then the Boolean matrix is constructed by assigning
+spheroradius r of each. The challenge is to find optimal com-               black (one) to the nodes inside of the spheropolygon, and
+binations of N and r to describe complex shapes that allow                  white (zero) to the nodes outside it.
+the contact forces between them to be calculated efficiently,
+minimizing the CPU calculation time of a simulation. This                    Using these definitions, we articulate the details of Algo-
+paper addresses that challenge and presents a new algorithm               rithm 1 as follows:
+to model complex shapes based on spheropolygons.
+                                                                          1. Generate a test spheropolygon.
+                                                                          2. Generate the image of the resulting spheropolygon
+2 Methods                                                                    I S P = f (S P).
+                                                                          3. Obtain the absolute difference between the original
+2.1 Optimization technique                                                   image I0 and the image of the test spheropolygon I S P ,
+                                                                             and count the number of error pixels V :
+A spheropolygon for a particle can be generated by “eyeball-
+ing” the particle image and placing the initial vertices by hand              V = |I S P − I0 | ;                                                 (3)
+with an appropriate spheroradius. But such a process is labo-
+rious, and does not ensure that the resulting spheropolygon               4. For each vertex i of coordinates (xi , yi ), calculate the
+optimizes either spheroradius or number of vertices.                         number of error pixels resulting from incrementally mov-
+   Spheropolygons can alternatively be constructed as shown                  ing the vertex in the plus and minus x and y directions
+in Algorithm 1. This is an iterative algorithm that minimizes                from −rs to rs . This is done by sampling Vi (Δx, Δy),
+the difference between the input image and the image of the                  where
+spheropolygon by counting the number of error pixels.
+   To implement this algorithm, we first define three mathe-                                       1                 ns − 1
+                                                                              Δx, Δy = 0, ±           rs , . . . , ±        rs , ±rs              (4)
+matical quantities:                                                                                ns                  ns
+
+                                                                              with radius rs and 2n s + 1 samples in each dimension.
+– Input image, that is effectively a Boolean matrix with h                    Δx and Δy define the offset of the sampling points
+  rows and w columns. Each element of the matrix is set to                    from the vertex, and Vi (Δx, Δy) represents the error
+  either 1 (for a black pixel) or 0 (for a white pixel).                      pixels between the input image I0 and the image of
+
+
+123
+
+===== PAGINA 3 =====
+
+Optimal description
+
+
+   the spheropolygon S P  = (x1 , y1 , . . . , xi + Δx, yi +            kn × r = Fmax , where Fmax is the maximal force a particle
+   Δy, . . . , x N , y N , r )                                           can experience. These two equations lead to
+5. For each dimension, if a “local” minimum in Vi (Δx, Δy)                         
+                                                                                     m ×r
+   is found, i.e., the minimum is not at the edge of the sam-            Δt = 2πa           .                                   (6)
+   pling range, and ΔV > ΔVcuto f f for some ΔVcuto f f ,                             Fmax
+   move the vertex by the position of the minimum in that                Introducing Eq. (6) into Eq. (5) and assuming m, a, and Fmax
+   dimension. For each of these criteria that is not satisfied           are constant, we obtain the relationship between CPU time,
+   (i.e., the minimum is at the edge), multiply the offset Δx            number of vertices, and spheroradius,
+   or Δy by a weighting 0 < g < 1 before moving the                              N
+   vertex. The purpose of the weighting factor is to reduce              TC PU ∼ √ .                                                (7)
+                                                                                  r
+   the impact of instabilities which may arise for poorly
+   resolved local minima;1                                               This equation shows that an approximation to the morphol-
+6. Return to step 2, iterating until V is within a tolerance             ogy of a real particle must be sought in such a way that
+   specified as a small percentage of the total number of                it minimizes the number of vertices N and maximizes the
+   pixels in the original image, or the maximum number of                spheroradius r .
+   iterations has been reached.
+
+2.2 Computational efficiency                                             3 Results
+
+The efficiency of a discrete element simulation that includes            3.1 Approximation to a cow
+contact forces only is measured by its Cundall number c =
+N T × N P /TC PU , where N T is the number of time steps,                We tested Algorithm 1 using a cow schematic as a test par-
+N P is the number of particles, and TC PU is the CPU time                ticle, (Fig. 1a). This shape was challenging as it included
+of the simulation [2]. The Cundall number represents the                 rounded and angular morphologies, and an extended fea-
+product of number of particles and number of time steps,                 ture (the tail) that is difficult to describe mathematically.
+per second; larger c means faster simulations. Earlier sim-              The test image was used to analyze the sensitivity of the
+ulations of granular flow using spheropolygons included a                method to the initial number, positions, and spheroradii of the
+lookup table of nearest neighbours to improve efficiency [1].            vertices.
+Benchmarks of simulations with various numbers of sphero-                   The results of tests using the cow image with three
+polygon vertices N showed that the Cundall number scales as              different initial conditions, 35 vertices, and a normalized
+c ∼ 1/N [10]. Thus the CPU time of the simulation scales                 spheroradius of 0.02 are shown in Fig. 2. Starting with the
+as TC PU ∼ N × N T × N P . The number of time steps is                   vertices arranged in a circle (a) produced the greatest ini-
+given by N T = T /Δt, where T is the simulation time and                 tial error and slowest convergence. Equally spacing the ver-
+Δt is the time step. For constant T and N P the CPU time                 tices on the boundary gave a much smaller initial error and
+scales linearly as the number of vertices in the spheropoly-             faster convergence (b), and having these vertices most closely
+gons:                                                                    spaced where the curvature was highest (c) gave the best
+                                                                         result. We used method (c) for the remaining tests in this
+           N
+TC PU ∼       .                                                    (5)   paper.
+           Δt                                                               Spheropolygons were also generated for a range of sphero-
+Interaction between the spheropolygons is based on distances             radii (0.01 ≤ r ≤ 0.1) and number of vertices (1 ≤ N ≤ 60).
+between their corresponding polygons, that must be always                A sample of corresponding output images are shown in Fig. 3.
+positive. We will see that this condition imposes a relation-            The contours of the error V between the images are shown in
+ship between the size of time step and the spheroradius of               Fig. 4a. The smallest errors were achieved with a large num-
+the particle. To guarantee numerical stability, the time step            ber of vertices at small spheroradius, but beyond a certain
+                              √
+is chosen to be Δt = 2πa m/kn , where m is the mass                      threshold (dependent on spheroradius), adding more verti-
+of the lightest particle, kn the normal stiffness, and a is a            ces did not substantially decrease the final error. Consider,
+constant that depends on the numerical integration scheme                for example, the 2 % contour in Fig. 4a. For r ≈ 0.02, the
+[13]. To avoid unrealistic contact interactions, we impose the           error was approximately constant for N > 30. We note that
+constraint that the distance between the polygons should be              although the process for generating spheropolygons is non-
+less than the minimal spheroradius r . This can be guaranteed            linear, the method proved to be robust and produced accept-
+if one chooses a normal stiffness large enough to guarantee              able model shapes given the constraints on r and N .
+                                                                             The error contours of Fig. 4a along with the CPU time
+1 A weighting of g = 0.5 was used for all simulations in this paper.     given by Eq. (5) and Fig. 4b were used to obtain the (N , r )
+
+
+                                                                                                                             123
+
+===== PAGINA 4 =====
+
+                                                                                                                             P. B. Dobrohotoff et al.
+
+           35
+                                                                                   O = tC PU × error ,                                           (8)
+                                                         IC: Circle
+           30                                            IC: Boundary
+                                                         IC: Curvature
+                                                                                   where tC PU = TC PU /(N P × T ).
+           25         a                                                               The relationship between the O-variable, number of verti-
+                                                                                   ces, and spheroradius is shown in Fig. 4c. We identified a min-
+                                                                                   imum at (N , r ) = (1, 0.1), and a local minimum at (N , r ) =
+ % Error
+           20
+                                                                                   (30, 0.01). The global minimum (not shown in the chart) is
+           15                                                                      (N , r ) = (1, 0.56), which corresponds to a disk with the
+                                                                                   same area of the original image. This is the “spherical cow”
+           10
+                                                                                   representation. This minimum lies in the region with smallest
+                                                                                   simulation times but with a large error image. The local min-
+            5         b
+                                                                                   imum corresponds to the best “non-spherical cow” represen-
+                      c                                                            tation. Using this representation leads to slower simulations,
+            0
+                0         5       10            15        20             25        but most features of the shape, including the tail, are cap-
+                                       Iteration                                   tured. The O-chart is useful to quantify the balance between
+    (a)                                                                            accuracy of shape representation and simulation time, and to
+                                                                                   decide on the best shape representation for simulation.
+
+   (b)
+                                                                                   3.2 Spheropolygons of real particles
+
+    (c)                                                                            We photographed pebbles, pieces of basalt gravel, and shell
+                                                                                   chips, and generated spheropolygons for each. These samples
+Fig. 2 Snapshots of convergence for various initial conditions for                 were chosen as they share similar size distribution properties
+spheropolygons generated from the cow image using 35 vertices with                 while having different shape characteristics.
+spheroradius 0.02. Spheropolygons at iterations 0, 5, 10, 15, 20, and
+25 are shown horizontally for initial conditions placing vertices a in a
+                                                                                      The size distribution for the samples is shown in Fig. 5.
+circle, b at the boundary, and c at maximum curvature                              The basalt sample had the greatest range of sizes and the
+                                                                                   most even distribution. The pebbles had the least variable
+                                                                                   size. The size distributions were used to calculate the coef-
+combination leading to the optimal cow for simulations.                            ficient of uniformity Cu and coefficient of curvature Cc of
+Since we need to take into account both error image and                            the samples (Table 1). All samples classify as poorly-graded
+simulation time, we define the “O-variable” as                                     gravel (PG).
+
+
+0.1
+
+0.09
+
+0.08
+
+0.07
+
+0.06
+
+0.05
+
+0.04
+
+0.03
+
+0.02
+
+r = 0.01
+
+                N=1   2       3    4        5        6     8       10         12      14    17     20     25     30     35     40      50      60
+
+Fig. 3 A sample of spheropolygons generated for the cow image with normalized spheroradius r and number of spheropolygon vertices N
+
+
+123
+
+===== PAGINA 5 =====
+
+Optimal description
+
+                                                                 error                                                                      (a) 1                               pebbles
+      (a) 0.1
+                                                                                                                                                                                basalt
+                                                      10                            10
+                                                                                                                                                                0.8             shells
+
+
+
+
+                                                                                                                                          Cumulative fraction
+            0.08                                                                                             10
+                                 10
+                                                                                                                                                                0.6
+            0.06                                                                    8
+      r                                                                                                          8
+                                                       8
+                                                                                                                                                                0.4
+                                                                                    6                             6
+            0.04
+                                 10
+                                                           6
+                                                                               4                              4                                                 0.2
+                                      8
+            0.02
+                                                           4                                                  2
+                                           6                                   2
+                                 10                  20              30             40            50                 60                                          0
+                                                                                                                                                                          0.5               1            1.5
+                                                                     N
+                                                                                                                                                                                             Size
+                                                                 t
+                                                                     cpu                                                                    (b) 1
+      (b) 0.1                                                                                                                                                                    Pebbles
+                                                                     0.1
+                                                                                                                                                                0.8
+
+
+
+
+                                                                                                                                          Cumulative fraction
+                                                                                                                                                                                 Basalt
+                                                                                                             0.2
+            0.08                                                                                                                                                                 Shells
+                                                                                                                                                                0.6
+
+            0.06                                           0.1
+      r
+                                                                                          0.  2                                                                 0.4
+
+            0.04
+                                                                                                             0.3                                                0.2
+                                           0.1                         0.2
+            0.02                                                                                               0.4
+                                                                                0.3                                                                              0
+                                                                                                             0.5                                                      0                    0.5                 1
+                                                                                04                            06
+                                 10                  20              30             40            50                 60                                                                   Roundness
+                                                                     N
+                                                                                                                                Fig. 5 a Size distributions for 66 pebbles, 73 pieces of basalt gravel,
+                                                            t        × error
+                                                                                                                                and 164 shells. The median of each sample was normalized to 1.
+                                                               cpu
+      (c)    0.1                                                                                                                b Shape distributions for 66 pebbles, 73 pieces of basalt gravel, and
+                                               0.6               1                                                              164 shell chips
+                                                           0.8                          1.4
+            0.08
+                                     0.4                                                               1.8
+                         0.2                                                  1.2                             2
+                                                                                                  1.6                           Table 1 Parameters describing shape and size distributions
+                   0.2
+            0.06
+                    0.2                      0.6                                                                  2             Sample                            Roundness                 Size ( mm)         Cu      Cc
+      r                                                          1
+                               0.4                     0.8                               1.4                 1.
+                                                                                                              8
+                                                                                                         1.                     Shells                            0.67                       7.27              1.30    1.02
+            0.04                                                               1.   2                        6
+                                                                                                                                Basalt                            0.73                      13.83              1.49    0.98
+                                                                                1                        1.4
+                   0.6 0.4                                                                              1.2                     Pebbles                           0.83                       6.09              1.35    0.94
+                                           0.6       0.6
+                   0.4 0.8
+            0.02                                       0.8                    0.8
+                      0.6             0.                                                                    1
+                                         8                                                                0.8
+                                                          0.8                0.6                        0.6
+                                     1
+                                 10                  20              30             40            50                 60
+                                                                     N                                                          where A is the particle area and P the perimeter. Using this
+                                                                                                                                definition, R = 1 for a circle and R = π/4 for a square. For a
+Fig. 4 Contour plot of percentage of error pixels a, normalized CPU-
+time b, and O-variable c, versus spheroradius r and number of vertices                                                          rectangle with p = w/ h (the ratio of minor to major length),
+N . The error is % (number of error pixels)/(pixels of the original image);                                                     R p→0 = 0 and R p→1 = π/4; thus a square is the round-
+the normalized CPU time is a non-dimensional quantity calculated as                                                             est rectangle. The shape distributions are show in Fig. 5. The
+tC PU = TC PU /(N P × T ); and the dimensionless O-variable is given
+                                                                                                                                pebbles were the most rounded particles and the least diverse.
+by O = tC PU × error
+                                                                                                                                Crushed shell chips were the most angular, but also had the
+                                                                                                                                greatest range of roundness, the roundest chips being similar
+   To obtain the shape distribution, we characterized the                                                                       to pebbles. Basalt had an intermediate shape distribution.
+shape of each particle by its “roundness”, which we defined                                                                        Table 1 includes the median of the roundness distribu-
+as [4]                                                                                                                          tion. Based on these values and the images of the grains, we
+                                                                                                                                classified pebbles as rounded grains, and basalt and shells as
+      4π A                                                                                                                      angular. The main difference between the shell and basalt is
+R≡         ,                                                                                                              (9)   that the basalt particles are more convex.
+       P2
+
+                                                                                                                                                                                                                      123
+
+===== PAGINA 6 =====
+
+                                                                                                                  P. B. Dobrohotoff et al.
+
+                     2
+     (a) 10                                                                The resulting errors for each particle in each sample were
+                                                      r = 0.025
+                                                      r = 0.075         calculated using Eq. (3) and are shown in Fig. 6. For a small
+                                                      r = 0.150         number of vertices, a large spheroradius produced the lowest
+                                                                        error, while for a large number of vertices, a small sphero-
+                                                                        radius led to the lowest error. This pattern was found to be
+      % Error
+                     1
+                10                                                      persistent for all types of particles analyzed here, and we pre-
+                                                                        sume it also holds for other morphologies. For each sample
+                                                                        there was an intermediate number of vertices for which the
+                                                                        error did not vary much with spheroradius.
+
+                     0
+                10 0                              1
+                  10                         10
+                                     N                                  4 Discussion
+                     2
+     (b) 10                                                             We have shown that by choosing as our initial conditions
+                                                      r = 0.025
+                                                      r = 0.075         vertices at the image boundary concentrated in regions of
+                                                      r = 0.150
+                                                                        maximum curvature, we can generate spheropolygons for a
+                                                                        variety of real particles. Error pixels, Eq. (3), approach 1 %
+                                                                        for N  20 and r  0.025 across both angular and rounded
+      % Error
+                     1
+                10
+                                                                        particles. While the use of error pixels is only an indicator
+                                                                        of the accuracy of a model representation (it may neglect
+                                                                        details like tails, which include a relatively small number of
+                                                                        pixels), it is useful to set a criterion for convergence towards
+                                                                        an approximated solution.
+                     0
+                10 0                              1                         Further testing of the parameter space for our scheme is
+                  10                         10
+                                     N                                  planned to optimize accuracy and speed of execution. For
+                                                                        example, when sampling the error potential for a vertex, it
+     (c) 102
+                                                      r = 0.025         might not be necessary to generate complete spheropolygons
+                                                      r = 0.075
+                                                      r = 0.150
+                                                                        for the entire image but to work on a subset of the image.
+                                                                        This would produce significant speed-ups in the sphero-
+                                                                        polygon generation, and it may not degrade the final image
+
+      % Error
+                     1                                                  appreciably.
+                10
+                                                                            We also note that since the optimal position of most
+                                                                        vertices will be approximately one spheroradius inside the
+                                                                        original object, it may be more efficient to start them there.
+                                                                        Furthermore, it would be beneficial to add the constraint that
+                     0                                                  each concave or convex region of the image should contain
+                10 0
+                  10                         10
+                                                  1
+                                                                        at least one vertex, preferably near the center of that region.
+                                     N
+
+Fig. 6 Residual image errors for a pebbles, b basalt gravel, and        4.1 Number of vertices
+c crushed shells. Each sample consisted of 25 particles. The standard
+error is indicated by error bars. Insets show photographs of samples.   Recall that the ultimate goal in this work was not just to
+The scale bar in each image is 1 cm                                     produce model images that are close to real particles, but
+                                                                        to produce simulations of granular flows. The efficiency of
+   Now we turn to the question of how the shape distribu-               such simulations was inversely proportional to the number of
+tion affects the error of the approximation of the shape using          vertices used to model the shapes, Eq. (7). While 60 vertices
+spheropolygons. Each photograph (Fig. 6) was segmented                  produced the most realistic cows (Fig. 3), 30 vertices still
+into individual particles using the Hoshen–Kopelman algo-               produced a shape that may behave similarly in simulations,
+rithm [12] in MATLAB, and the method proposed in Sect. 2                and is probably a better choice. Similarly, we found that ≈ 6
+to produce spheropolygons was applied to a random sub-sam-              vertices produced useful model shapes of basalt gravel, peb-
+ple of 25 segmented particles of each particle type for num-            bles, and crushed shells. In general, the O-chart can be used
+bers of vertices and spheroradii in the ranges 1 ≤ N ≤ 20 and           to decide what the optimal shape is for a discrete element
+0.025 ≤ r ≤ 0.15, respectively. The spheroradii were nor-               simulation that takes into account both shape accuracy and
+malized relative to the median size of the complete samples.            simulation time.
+
+
+123
+
+===== PAGINA 7 =====
+
+Optimal description
+
+
+4.2 Spheroradius                                                   from rounded to angular and from convex to non-convex,
+                                                                   with a percentage of error pixels below 2 %.
+It is desirable to produce model particles with as large a             Using the so-called O-chart that relates error and compu-
+spheroradius as possible within the accuracy constraints. This     tational time to number of vertices and spheroradius, we have
+is because in the simulations the spheroradius is closely con-     further shown how the model shapes can be optimized to pro-
+nected with the stiffness of the contact interaction between       duce efficient numerical simulations of granular flows by a
+particles: a small spheroradius requires high contact stiff-       judicious choice of the number of vertices and spheroradii.
+ness that leads to small time steps for stability, and therefore       The scheme could be extended by relaxing the con-
+a long simulation time. A good choice for spheroradius is          straint that all vertices have the same spheroradius. This will
+determined by the number of vertices chosen. For example,          increase the number of parameters to describe the particle
+Fig. 6 indicates that for a small number of vertices the best      shape from 2N + 1 to 3N , where N is the number of verti-
+choice was a large spheroradius, whereas for a high number         ces. This extension will require modification of our algorithm
+of vertices the best choice was a small spheroradius. Note         by sampling the potential error function from the two-dimen-
+that at an intermediate number of vertices, the error did not      sional (x, y) plane to a three-dimensional (x, y, r ) space. It
+vary much with spheroradius, so such a number might be a           should be remembered, however, that the purpose of gener-
+good choice for generating particles for real simulations.         ating spheropolygons is to use them in simulations, and that
+    The choice of spheroradius effectively sets the resolution     the stiffness of the contact interactions is determined by the
+of our modelling. Spatial scales smaller than the sphero-          smallest spheroradius. Introducing a variable spheroradius
+radius are not modelled. For example, the tail on the cow          may therefore be implemented under the prescription of a
+in Fig. 3 disappears for a normalized spheroradius 0.07.          specific criterion set on the maximum acceptable stiffness.
+Future work will investigate how modelling each vertex with        This working hypothesis may be tested in future works.
+its own spheroradius might improve the optimization. Other
+shape parameters might be worth investigating: for example         Acknowledgments The authors want to thank Danilo Carluccio, the
+                                                                   high-school student who helped us to develop the intuitive framework
+spatial-frequency spectrum, or perimeter.                          of the algorithm.
+
+4.3 Limitations
+
+Spheropolygons are suitable for descriptions of rounded            References
+shapes, but they lead to computationally expensive simu-
+lations if the particles are very angular. In these cases it        1. Alonso-Marroquin, F.: Spheropolygons: a new method to simu-
+                                                                       late conservative and dissipative interactions between 2d complex-
+is probably better to represent the shapes using polygons
+                                                                       shaped rigid bodies. EPL Europhys. Lett. 83, 14001 (2008)
+in two dimensions [20] or polyhedrons in three dimensions           2. Alonso-Marroquín, F., Wang, Y.: An efficient algorithm for gran-
+[6]. Packings of non-convex polyhedrons have been success-             ular dynamics simulations with complex-shaped objects. Granul.
+fully modelled using Monte Carlo simulations on triangular             Matter 11(5), 317–329 (2009)
+                                                                    3. Azéma, E., Radjai, F., Saussine, G.: Quasistatic rheology, force
+meshes [6] or contact dynamics methods [3]. In molecular
+                                                                       transmission and fabric properties of a packing of irregular poly-
+dynamics, deriving contact forces from potentials is diffi-            hedral particles. Mech. Mater. 41(6), 729–741 (2009)
+cult due to pathological cases that arise where the normal          4. Burger, W., Burge, M.: Principles of Digital Image Processing:
+direction is not well defined [15]. This limitation is removed         Core Algorithms, vol. 2. Springer, New York (2009)
+                                                                    5. Cruz-Hidalgo, R., Kadau, D., Kanzaki, T., Herrmann, H.: Gran-
+when using spheropolygons, because the normal direction is
+                                                                       ular packings of cohesive elongated particles. Arxiv preprint
+given in terms of the closest points between the features of           arXiv:1107.3040 (2011)
+the underlying polygons of the particles [1,10]; and similarly      6. de Graaf, J., van Roij, R., Dijkstra, M.: Dense regular packings
+for spheropolyhedrons. It is recommended to use polygons if            of irregular nonconvex particles. Phys. Rev. Lett. 107(15), 155501
+                                                                       (2011)
+one is interested in packings of angular particles, and sphero-
+                                                                    7. Duran, J.: Sands, Powders, and Grains: An Introduction to the Phys-
+polygons for simulations of dynamics in granular materials             ics of Granular Materials. Springer, Berlin (2000)
+with relatively rounded particles.                                  8. Galindo-Torres, S., Muñoz, J., Alonso-Marroquín, F.: Minkowski-
+                                                                       voronoi diagrams as a method to generate random packings of
+                                                                       spheropolygons for the simulation of soils. Phys. Rev. E 82(5),
+                                                                       056713 (2010)
+5 Conclusion                                                        9. Galindo-Torres, S., Pedroso, D., Williams, D., Li, L.: Breaking pro-
+                                                                       cesses in three-dimensional bonded granular materials with general
+We have demonstrated a method for constructing models of               shapes. Comput. Phys. Commun. 183(2), 266–277 (2012). doi:10.
+                                                                       1016/j.cpc.2011.10.001
+complex shapes using spheropolygons based on optimization          10. Galindo-Torres, S.A., Alonso-Marroquín, F., Wang, Y.C., Pedroso,
+of the image. The method is robust, producing shape repre-             D., Muñoz Castaño, J.D.: Molecular dynamics simulation of com-
+sentation for real particles with a variety of sizes and shapes,       plex particles in three dimensions and the study of friction due
+
+
+                                                                                                                              123
+
+===== PAGINA 8 =====
+
+                                                                                                                      P. B. Dobrohotoff et al.
+
+
+    to nonconvexity. Phys. Rev. E 79(6), 060301 (2009). doi:10.1103/    16. Pournin, L.: On the behavior of spherical and non-spherical grain
+    PhysRevE.79.060301                                                      assemblies, its modeling and numerical simulation. Ph.D. thesis,
+11. Galindo-Torres, S.A., Pedroso, D.M.: Molecular dynamics simula-         Lausanne (2005). doi:10.5075/epfl-thesis-3378. url:http://library.
+    tions of complex-shaped particles using voronoi-based spheropoly-       epfl.ch/theses/nr=3378
+    hedra. Phys. Rev. E 81(6), 061303 (2010). doi:10.1103/PhysRevE.     17. Pournin, L., Liebling, T.: A generalization of distinct element
+    81.061303                                                               method to tridimensional particles with complex shapes. Powders
+12. Hoshen, J., Kopelman, R.: Percolation and cluster distribution.         Grains 2, 1375–1378 (2005)
+    I. Cluster multiple labeling technique and critical concentration   18. Pournin, L., Weber, M., Tsukahara, M., Ferrez, J.A., Ramaioli, M.,
+    algorithm. Phys. Rev. B 14(8), 3438 (1976)                              Liebling, T.M.: Three-dimensional distinct element simulation of
+13. Luding, S., Herrmann, H.J., Blumen, A.: Simulations of two-             spherocylinder crystallization. Granul. Matter 7, 119–126 (2005).
+    dimensional arrays of beads under external vibrations: scal-            doi:10.1007/s10035-004-0188-4
+    ing behavior. Phys. Rev. E 50, 3100–3108 (1994). doi:10.1103/       19. Ramaioli, M., Pournin, L., Liebling, T.M.: Vertical ordering of
+    PhysRevE.50.3100. http://link.aps.org/doi/10.1103/PhysRevE.50.          rods under vertical vibration. Phys. Rev. E 76, 021304 (2007).
+    3100                                                                    doi:10.1103/PhysRevE.76.021304. url:http://link.aps.org/doi/10.
+14. Nedderman, R.: Statics and Kinematics of Granular Materi-               1103/PhysRevE.76.021304
+    als. Cambridge University Press, Cambridge (2005)                   20. Tillemans, H.J., Herrmann, H.J.: Simulating deformations of gran-
+15. Poeschel, T., Schwager, T.: Computational Granular Dynamics,            ular solids under shear. Physica A 217, 261–288 (1995)
+    chap. 2.4. pp. 61–65. Springer, Berlin (2004)
+
+
+
+
+123
+

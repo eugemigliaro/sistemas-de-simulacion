@@ -34,3 +34,24 @@ COR03	devolucion	Devolución de la cátedra al TP3 (G7, nota 6.5), texto aportad
 B17	bibliografia	The Numerical Integration of Ordinary Differential Equations — C. W. Gear	material/externo/bibliografia-4/GearPaper_1.pdf	11	2026	vigente	GearPaper_1.pdf
 B18	bibliografia	A Gear-like Predictor-Corrector Method for Brownian Dynamics Simulation — Hou y Mišković	material/externo/bibliografia-4/A Gear-like Predictor-Corrector Method for Brownian Dynamics Simulation.pdf	27	2026	vigente	A Gear-like Predictor-Corrector Method for Brownian Dynamics Simulation.pdf
 B19	bibliografia	Computer Simulation Methods in Theoretical Physics, segunda edición — Dieter W. Heermann	material/externo/bibliografia-4/Computer simulation methods -  Heermann.djvu	155	2026	vigente	Computer simulation methods -  Heermann.djvu
+T05	teoria	Medios granulares	material/catedra/teoria/Teorica_5.pdf	31	2026	vigente	Teorica_5.pdf
+T06	teoria	Simulación de multitudes 1: dinámica peatonal	material/catedra/teoria/Teorica_6.pdf	58	2026	vigente	Teorica_6.pdf
+T07	teoria	Simulación de multitudes 2: dinámica peatonal	material/catedra/teoria/Teorica_7.pdf	58	2026	vigente	Teorica_7.pdf
+TP05	trabajo-practico	Trabajo Práctico 5: Dinámica peatonal	material/catedra/practica/TP5_Enunciado.pdf	4	2026	vigente	TP5_Enunciado (1).pdf
+DEL05	datos-experimentales	Trayectorias experimentales de elusión peatonal 1 contra 1 para el TP5	material/catedra/practica/elusion_1_contra_1.txt		2026	vigente	elusion_1_contra_1.txt
+DEL05-LEEME	descripcion-de-datos	LEEME de las trayectorias de elusión 1 contra 1: pruebas, parejas y distancias mínimas	material/catedra/practica/LEEME_elusion1contra1.txt		2026	vigente	LEEME_elusion1contra1.txt
+BIB05	paquete-bibliografico	Bibliografía 5: medios granulares, gases granulares y esferopolígonos	material/externo/paquetes/Biblio5.zip		2026	contenedor	Biblio5.zip
+BIB06	paquete-bibliografico	Bibliografía 6 y 7: dinámica peatonal, SFM, CPM y elusión de colisiones	material/externo/paquetes/Biblio_6_7.zip		2026	contenedor	Biblio_6_7.zip
+B20	bibliografia	Theory and Simulation of Granular Materials with Hard Spheres — Stefan Luding	material/externo/bibliografia-5/TehoryAndSimulationGranularMaterialsWithHardSpheres_StefanLuding.pdf	14	2026	vigente	TehoryAndSimulationGranularMaterialsWithHardSpheres_StefanLuding.pdf
+B21	bibliografia	Driven Granular Gases — Luding, Cafiero y Herrmann	material/externo/bibliografia-5/DrivenGranularGases.pdf	23	2026	vigente	DrivenGranularGases.pdf
+B22	bibliografia	Experiments and Simulations on Granular Gases — Hongqiang Wang (tesis doctoral)	material/externo/bibliografia-5/Experiments_and_Simulations_on_Granular_Gases.pdf	141	2026	vigente	Experiments and Simulations on Granular Gases.pdf
+B23	bibliografia	Spheropolygons: A New Method to Simulate Conservative and Dissipative Interactions between 2D Complex-Shaped Rigid Bodies — F. Alonso-Marroquín	material/externo/bibliografia-5/AlonsoMarroquinEsferoPoligonos/Marroquin_2008.pdf	7	2026	vigente	Marroquin_2008.pdf
+B24	bibliografia	Optimal Description of Two-Dimensional Complex-Shaped Objects Using Spheropolygons — Dobrohotoff et al.	material/externo/bibliografia-5/AlonsoMarroquinEsferoPoligonos/dobrootoff12.pdf	8	2026	vigente	dobrootoff12.pdf
+B25	bibliografia	Molecular Dynamics Simulation of Complex Particles in Three Dimensions and the Study of Friction due to Nonconvexity — Galindo-Torres et al.	material/externo/bibliografia-5/AlonsoMarroquinEsferoPoligonos/torres_marroquin_wang_pedroso_castano2009.pdf	4	2026	vigente	torres_marroquin_wang_pedroso_castano2009.pdf
+B26	bibliografia	Simulating Dynamical Features of Escape Panic — Helbing, Farkas y Vicsek	material/externo/bibliografia-6-7/SFM_2000.pdf	4	2026	vigente	SFM_2000.pdf
+B27	bibliografia	How Simple Rules Determine Pedestrian Behavior and Crowd Disasters — Moussaïd, Helbing y Theraulaz	material/externo/bibliografia-6-7/SFM_2010.pdf	5	2026	vigente	SFM_2010.pdf
+B28	bibliografia	Continuous-Space Automaton Model for Pedestrian Dynamics — Baglietto y Parisi	material/externo/bibliografia-6-7/CPM.pdf	7	2026	vigente	CPM.pdf
+B29	bibliografia	A Predictive Collision Avoidance Model for Pedestrian Simulation — Karamouzas, Heil, van Beek y Overmars	material/externo/bibliografia-6-7/PCA.pdf	12	2026	vigente	PCA.pdf
+B30	bibliografia	A New Collision Avoidance Model for Pedestrian Dynamics — Wang, Chen, Dong, Zhou y Ning	material/externo/bibliografia-6-7/A_new_collision_avoidance_model_for_pedestrian_dynamics.pdf	10	2026	vigente	A new collision avoidance model for pedestrian dynamics.pdf
+B31	bibliografia	Simulating Pedestrian Avoidance: The Human-Zombie Game — Oriana, Patterson y Parisi	material/externo/bibliografia-6-7/CPM_Z.pdf	9	2026	vigente	CPM_Z.pdf
+B32	bibliografia	Anisotropic Contractile Particle Model with Avoidance for Simulating Pedestrian Navigation in Dilute and Dense Systems — Martin y Parisi	material/externo/bibliografia-6-7/CPM_AA.pdf	12	2026	vigente	CPM_AA.pdf

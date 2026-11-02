@@ -14,19 +14,33 @@ Definiciones breves. Los temas enlazados desarrollan las relaciones entre concep
 - **Animación:** representación visual de una secuencia; puede derivar de una simulación, pero no es equivalente a ella [T00, p. 64].
 - **Autómata celular:** arreglo regular de celdas con estados discretos, actualización sincrónica y una regla local uniforme [T02, p. 3].
 - **Barra de error:** representación de la dispersión o incertidumbre asociada a un valor agregado; su significado debe declararse [T00, p. 69].
+- **Capa de elusión:** mecanismo que, al detectar una colisión futura, cambia la velocidad deseada de un agente. En el TP5 debe actuar solo mediante un target temporal, con exactamente dos parámetros, sin agregar fuerzas [TP05, p. 2] [T07, p. 17].
+- **Caudal específico:** peatones que pasan por unidad de tiempo y de ancho de puerta; las regulaciones adoptan 1,33 p/(m·s) [T06, p. 20] [T06, p. 22].
 - **Cell Index Method:** método que divide el dominio en celdas y restringe las comparaciones de distancia a la celda propia y sus vecinas [T01, p. 21].
+- **Colapso inelástico:** divergencia del número de choques en tiempo finito entre esferas duras con restitución constante; se evita con el modelo TC o con restitución dependiente de la velocidad [B20, p. 3] [B22, p. 28].
 - **Colisión elástica:** choque que conserva el momento lineal y la energía cinética; en discos lisos el impulso actúa sobre la línea entre centros [T03, p. 20] [B16, p. 3].
 - **Comportamiento emergente:** patrón colectivo espontáneo, de escala mayor que un agente, generado por muchos agentes simples e interacciones locales [T01, p. 15].
 - **Condición periódica de contorno:** identificación de bordes opuestos del dominio, que hace vecinas a partículas ubicadas cerca de extremos contrarios [T01, p. 26].
+- **Contractile Particle Model (CPM):** autómata en espacio continuo en el que cada peatón tiene un radio variable entre $r_{\min}$ y $r_{\max}$, una rapidez deseada que crece con el radio y una velocidad de escape al tocar a otro; no calcula fuerzas [T06, p. 45] [B28, p. 2].
+- **Curva de población:** número de agentes que siguen dentro del recinto en función del tiempo [TP05, p. 4] [T07, p. 40].
 - **Densidad de probabilidad:** función continua normalizada cuya integral es uno; un histograma la aproxima dividiendo conteos por tamaño muestral y ancho de intervalo [T00, p. 68].
+- **Diagrama fundamental:** relación entre densidad y velocidad media de los peatones; junto con el caudal específico valida un simulador [T06, p. 20] [T07, p. 38].
 - **Distancia borde-borde:** distancia entre centros menos los radios de ambas partículas [EJ01].
 - **Desplazamiento cuadrático medio (DCM):** promedio del cuadrado del desplazamiento, usado para estimar el coeficiente de difusión mediante un ajuste en función del tiempo [T03, p. 25].
+- **EDMD y TSDMD:** dinámica molecular dirigida por eventos y por paso temporal. El Problema 2 del TP5 pide combinarlas en un esquema híbrido, por partícula y por etapa [TP05, p. 4].
+- **Elementos discretos (DEM):** dinámica molecular para medios granulares con contactos blandos, fuerzas normales y tangenciales y rotaciones [T05, p. 7] [T05, p. 10].
 - **Entrada:** estímulo o variable medible aplicada al modelo [T00, p. 16].
+- **Esferopolígono:** suma de Minkowski de un polígono y un disco; representa partículas de forma arbitraria y su contacto se calcula por pares vértice–lado [T05, p. 24] [T05, p. 25].
 - **Evento:** suceso localizado en el tiempo que modifica el estado de una simulación, como una colisión entre partículas o con una pared [T03, p. 2] [T03, p. 6].
 - **Espacio de estados:** conjunto de valores posibles de las variables de estado [T00, p. 27].
 - **Estado:** información que, junto con la entrada futura, determina unívocamente la salida [T00, p. 26].
+- **Faster is slower:** efecto por el cual aumentar la velocidad deseada por encima de cierto valor aumenta el tiempo de evacuación por un cuello de botella [T06, p. 5] [B26, p. 2].
+- ***Floor field*:** campo sobre la grilla que pesa las probabilidades de movimiento en el autómata peatonal; el estático codifica la geometría y el dinámico, el rastro de otros peatones [T06, p. 37] [T06, p. 38] [T06, p. 39].
+- **Ley de Beverloo:** caudal constante de descarga de un silo, $Q\approx n_p\sqrt g(d-cr)^{2{,}5}$ en 3D (exponente 1,5 en 2D) [T05, p. 5].
+- **Ley de Janssen:** saturación de la presión con la profundidad en un silo, $P(z)\propto1-\exp(-4\mu_pKz/D)$ [T05, p. 4].
 - **Lista de vecinos:** asociación de cada partícula con las partículas situadas dentro del alcance de interacción [T01, p. 20] [T01, p. 27].
 - **Lattice gas:** modelo de partículas discretas que se propagan y colisionan sobre una retícula conservando masa y momento [T02, p. 29] [T02, p. 30].
+- **Medio granular:** sistema de muchas partículas macroscópicas con contactos normales y tangenciales muy disipativos [T05, p. 2].
 - **Modelo de Vicsek:** modelo *off-lattice* de partículas autopropulsadas que alinean su dirección con el promedio local más ruido [T02, p. 40] [T02, p. 42].
 - **Modelo votante de bandadas:** variante en la que cada partícula copia la dirección de una vecina elegida al azar, más ruido [TP02, p. 2].
 - **Materia activa:** sistema de unidades autopropulsadas cuyo aporte de energía ocurre localmente a escala de agente [T01, p. 6].
@@ -44,4 +58,8 @@ Definiciones breves. Los temas enlazados desarrollan las relaciones entre concep
 - **Simulación:** ejecución computacional que reproduce el comportamiento de un modelo y genera salidas analizables [T00, p. 62] [T00, p. 63].
 - **Simulación dirigida por eventos:** esquema en el que el reloj avanza directamente al próximo evento y el estado se actualiza sólo cuando ese evento sucede [T03, p. 2] [T03, p. 6].
 - **Sistema:** conjunto de componentes relacionados, con límites, entradas, salidas y procesos [T00, p. 13].
+- **Social Force Model (SFM):** modelo de peatones como partículas newtonianas con fuerzas de autopropulsión, social y de contacto granular [T06, p. 28] [B26, p. 1].
+- **Target temporal:** destino provisorio que reemplaza al final mientras dura un conflicto, para cambiar la dirección de la velocidad deseada [TP05, p. 2] [T07, p. 16].
+- **Temperatura granular:** medida de la agitación de las velocidades respecto de la media; no es una temperatura termodinámica y su normalización varía entre fuentes [B22, p. 21] [B22, p. 22].
 - **Tiempo $t_{90}$:** primer instante en que la fracción acumulada de partículas usadas alcanza $0{,}9$ en el Billar-Metegol [TP03, p. 3].
+- **Velocidad de escape:** en el CPM, velocidad de módulo fijo que aleja a una partícula de sus contactos durante el paso en que su radio colapsa a $r_{\min}$ [T06, p. 48] [B28, p. 2].

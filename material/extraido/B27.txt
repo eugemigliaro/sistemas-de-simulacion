@@ -1,0 +1,499 @@
+FUENTE: B27
+TITULO: How Simple Rules Determine Pedestrian Behavior and Crowd Disasters — Moussaïd, Helbing y Theraulaz
+ORIGINAL: material/externo/bibliografia-6-7/SFM_2010.pdf
+PAGINAS: 5
+
+===== PAGINA 1 =====
+
+How simple rules determine pedestrian behavior
+and crowd disasters
+Mehdi Moussaïda,b,c,1, Dirk Helbingb,d, and Guy Theraulaza,c
+a
+ Centre de Recherches sur la Cognition Animale, Unité Mixte de Recherche 5169, Université Paul Sabatier, 31062 Toulouse Cedex 9, France; bEidgenössiche
+Technische Hochschule Zurich, Swiss Federal Institute of Technology, 8092 Zurich, Switzerland; cCentre National de la Recherche Scientiﬁque, Centre de
+Recherches sur la Cognition Animale, F-31062 Toulouse, France; and dUniversity of Oxford, Nufﬁeld College, Oxford OX1 1NF, Great Britain
+
+Edited by Susan Hanson, Clark University, Worcester, MA, and approved March 18, 2011 (received for review November 16, 2010)
+
+With the increasing size and frequency of mass events, the study of          relatively hard to calibrate (10). Second, these models are based
+crowd disasters and the simulation of pedestrian ﬂows have                   on the superposition of binary interactions. For example, in
+become important research areas. However, even successful mod-               a situation where an individual A is facing three other individuals
+eling approaches such as those inspired by Newtonian force models            B, C, and D, the behavior of A is given by an integration of the
+are still not fully consistent with empirical observations and are           interaction effects that the three individuals would separately
+sometimes hard to calibrate. Here, a cognitive science approach is           have on A in the absence of the others. However, this approach
+proposed, which is based on behavioral heuristics. We suggest that,          raises many theoretical issues, such as how to integrate the binary
+guided by visual information, namely the distance of obstructions            interactions (e.g., to sum them up, average over them, or com-
+in candidate lines of sight, pedestrians apply two simple cognitive          bine them nonlinearly), how to determine inﬂuential neighbors
+procedures to adapt their walking speeds and directions. Although            (e.g., the closest N individuals or those in a certain radius R), and
+simpler than previous approaches, this model predicts individual             how to weight their inﬂuence (e.g., when located to the side of or
+
+                                                                                                                                                                        PSYCHOLOGICAL AND
+trajectories and collective patterns of motion in good quantitative          behind the focal pedestrian) (6, 11, 12).
+agreement with a large variety of empirical and experimental data.              Here, we propose instead a cognitive science approach based
+This model predicts the emergence of self-organization phenom-               on behavioral heuristics, which overcomes the above problems.
+
+                                                                                                                                                                        COGNITIVE SCIENCES
+ena, such as the spontaneous formation of unidirectional lanes or            Heuristics are fast and simple cognitive procedures that are often
+stop-and-go waves. Moreover, the combination of pedestrian heu-              used when decisions have to be made under time pressure or
+ristics with body collisions generates crowd turbulence at extreme           overwhelming information (13, 14). Let us illustrate this by the
+densities—a phenomenon that has been observed during recent
+                                                                             example of a player trying to catch a ball, which may be modeled
+crowd disasters. By proposing an integrated treatment of simulta-
+                                                                             in at least two ways: either an attraction force can be used to
+                                                                                                                                                                        APPLIED PHYSICAL
+neous interactions between multiple individuals, our approach
+                                                                             describe the player’s motion toward the estimated landing point
+overcomes limitations of current physics-inspired pair interaction
+                                                                             of the ball or the process can be described by a so-called “gaze
+models. Understanding crowd dynamics through cognitive heuris-
+                                                                             heuristic.” This heuristic consists of visually ﬁxating on the ball
+                                                                                                                                                                            SCIENCES
+tics is therefore not only crucial for a better preparation of safe
+                                                                             and adjusting the position such that the gazing angle remains
+mass events. It also clears the way for a more realistic modeling
+of collective social behaviors, in particular of human crowds and
+                                                                             constant. Both methods predict similar behavior, but the heu-
+biological swarms. Furthermore, our behavioral heuristics may
+                                                                             ristic approach is simpler and more plausible.
+serve to improve the navigation of autonomous robots.
+                                                                                Heuristics have also successfully explained decision making
+                                                                             in a variety of situations such as the investment behavior at
+                                                                             stock markets or medical diagnosis in emergency situations (13).
+                   |
+collective behavior decision making   | individual-based model |             Modeling the collective dynamics of a social system with many
+nonlinear dynamics
+                                                                             interacting individuals through simple heuristics would be a
+                                                                             promising approach. However, is it possible to apply a heuristics
+H     uman crowds display a rich variety of self-organized behav-
+      iors that support an efﬁcient motion under everyday con-
+ditions (1–3). One of the best-known examples is the spontane-
+                                                                             approach to pedestrian motion as well, given the wealth of dif-
+                                                                             ferent crowd dynamics patterns that have been observed?
+                                                                                In this work, we show that two simple heuristics based on vi-
+ous formation of unidirectional lanes in bidirectional pedestrian            sual information can in fact describe the motion of pedestrians
+ﬂows. At high densities, however, smooth pedestrian ﬂows can                 well and that most properties observed at the crowd level follow
+break down, giving rise to other collective patterns of motion               naturally from them. Moreover, the combination of pedestrian
+such as stop-and-go waves and crowd turbulence (4). The latter               heuristics with body collisions reproduces observed features of
+may cause serious trampling accidents during mass events.                    crowd disasters at extreme densities.
+Finding a realistic description of collective human motion with
+its large degree of complexity is therefore an important issue.              Model
+   Many models of pedestrian behavior have been proposed to                  The elaboration of a cognitive model of pedestrian behavior
+uncover laws underlying crowd dynamics (5–8). Among these,                   requires two crucial questions to be addressed: (i) What kind of
+physics-based approaches are currently very common. Well-                    information is used by the pedestrian? And (ii) how is this in-
+known examples are ﬂuid-dynamic (9) and social force models                  formation processed to adapt the walking behavior? With regard to
+(1, 7, 8, 10), which are inspired by Newtonian mechanics. The
+latter describe the motion of pedestrians by a sum of attractive,
+repulsive, driving, and ﬂuctuating forces reﬂecting various external         Author contributions: G.T. designed research; M.M., D.H., and G.T. performed research;
+inﬂuences and internal motivations. However, even though phys-               M.M. analyzed data; and M.M., D.H., and G.T. wrote the paper.
+ics-inspired models are able to reproduce some of the observa-               The authors declare no conﬂict of interest.
+tions quite well, there are still a number of problems. First, it is         This article is a PNAS Direct Submission.
+becoming increasingly difﬁcult to capture the complete range of              Freely available online through the PNAS open access option.
+crowd behaviors in one single model. Recent observations have                1
+                                                                              To whom correspondence should be addressed. E-mail: moussaid@cict.fr.
+required extensions of previous interaction functions, which have            This article contains supporting information online at www.pnas.org/lookup/suppl/doi:10.
+led to quite sophisticated mathematical expressions that are                 1073/pnas.1016507108/-/DCSupplemental.
+
+
+
+www.pnas.org/cgi/doi/10.1073/pnas.1016507108                                                                                         PNAS Early Edition | 1 of 5
+
+===== PAGINA 2 =====
+
+the ﬁrst question, past studies have shown that vision is the main                  destination (16, 17). A trade-off therefore has to be found be-
+source of information used by pedestrians to control their mo-                      tween avoiding obstacles and minimizing detours from the most
+tion (15–17). Accordingly, we start with the representation of the                  direct route. Accordingly, our ﬁrst heuristic is “A pedestrian
+visual information of pedestrians. To answer the second ques-                       chooses the direction αdes that allows the most direct path to des-
+tion, we propose two heuristics based on this visual information,                   tination point Oi , taking into account the presence of obstacles.”
+which determine the desired walking directions αdes and desired                     The chosen direction αdes(t) is computed through the minimi-
+walking speeds vdes of pedestrians. Finally, we assume that                         zation of the distance d(α) to the destination:
+pedestrians are continuously adapting their current walking be-
+havior to match their desired behavior with a relaxation time τ of                               dðαÞ ¼ d2max þ f ðαÞ2 − 2dmax f ðαÞcosðα0 − αÞ:
+0.5 s (Fig. S1). This assumption has been conﬁrmed under con-
+trolled laboratory conditions (10).                                                 Here, α0 is the direction of the destination point.
+                                                                                       The second heuristic determines the desired walking speed
+Representation of Visual Information. In our model, each pedes-
+                                                                                    vdes(t). Because a time period τ is required for the pedestrian to
+trian i is characterized by its current position !x i and speed ! v i.              stop in the case of an unexpected obstacle, pedestrians should
+For simplicity, we represent the projection of a pedestrian’s body                  compensate for this delay by keeping a safe distance (20).
+on the horizontal plane by a circle of radius ri ¼ mi =320, where                   Therefore, we formulate the second heuristic as follows: “A pe-
+mi is the mass of pedestrian i [e.g., uniformly distributed in the                  destrian maintains a distance from the ﬁrst obstacle in the chosen
+interval (60 kg 100 kg)]. Each pedestrian is additionally charac-                   walking direction that ensures a time to collision of at least τ.” In
+terized by his or her comfortable walking speed v0i and his or her                  other words, the speed vdes(t) is given by vdes ðtÞ ¼ minðv0i ; dh =τÞ,
+destination point Oi, namely the place in the environment he or
+                                                                                    where dh is the distance between pedestrian i and the ﬁrst ob-
+she wants to reach, such as the exit door of a room or the end of
+                                                                                    stacle in the desired direction αdes at time t. The vector !  v des of
+a corridor. Finally, the vision ﬁeld of pedestrian i ranges to!the
+                                                                                    the desired velocity points in direction αdes has the norm
+left and to the right by ϕ° with respect to the line of sight H i .
+                                                                                    k!v des k ¼ vdes . The change in the actual velocity ! v i at time t
+   Past studies have shown that walking subjects can estimate the
+                                                                                    under normal walking conditions is given by the acceleration
+time to collision with surrounding obstacles by means of spe-
+                                                                                    equation d!  v i =dt ¼ ð!
+                                                                                                            v des − !
+                                                                                                                    v i Þ=τ.
+cialized neural mechanisms at the retina and brain levels (18, 19).
+Accordingly, we represent the pedestrian’s visual information as                    Effect of Body Collisions. In cases of overcrowding, physical
+follows: For all possible directions α in [− ϕ, ϕ] (with a reason-                  interactions between bodies may occur, causing unintentional
+able angular resolution), we compute the distance to the ﬁrst                       movements that are not determined by the above heuristics.
+collision f(α), if pedestrian i moved in direction α at speed v0i ,                 Indeed, at extreme densities, it is necessary to distinguish be-
+taking into account the other pedestrians’ walking speeds and                       tween the intentional avoidance behavior of pedestrians adapting
+body sizes. If no collision is expected to occur in direction α, f(α)               their motion according to perceived visual cues and unintentional
+is set to a default maximum value dmax, which represents the                        movements resulting from interaction forces caused by collision
+“horizon distance” of pedestrian i (Fig. 1).                                        with other bodies. We have therefore extended the above de-
+                                                                                    scription by considering physical contact forces
+Formulation of the Cognitive Heuristics. The ﬁrst movement heu-
+ristic concerns the relative angle αdes of the chosen walking di-                                             !
+rection compared with the line of sight. Empirical evidence                                                   f ij ¼ kgðri þ rj − dij Þ!
+                                                                                                                                       n ij ;
+suggests that pedestrians seek an unobstructed walking direction,
+but dislike deviating too much from the direct path to their
+
+
+
+                        A                                                                   B
+
+                                                          O1
+                                                  0°
+
+                                                                            dmax
+                                             p4                   p3
+                                                                                            C
+
+                                                   p2
+                                                                                             wall          p2(+p4)       p3     p’3
+
+
+                                                                                            D
+                                                                                             dmax
+
+                                                                       p1
+                                                                                                                                p’3
+                                                                                                    wall
+                                                                                                             p2
+
+
+                                                                                                                     0
+
+
+Fig. 1. (A) Illustration of a pedestrian p1 facing three other subjects and trying to reach the destination point O1 marked in red. The blue dashed line
+corresponds to the line of sight. (B) Illustration of the same situation, as seen by pedestrian p1. (C) Abstraction of the scene by a black and white visual ﬁeld.
+Here, darker areas represent a shorter collision distance. (D) Graphical representation of the function f(α) reﬂecting the distance to collision in direction α. The
+left-hand side of the vision ﬁeld is limited by a wall. Pedestrian p4 is hidden by pedestrian p2 and, therefore, not visible. Pedestrian p3 is moving away, so
+a collision would occur in position p′3, but only if p1 moved toward the right-hand side.
+
+
+2 of 5 | www.pnas.org/cgi/doi/10.1073/pnas.1016507108                                                                                                Moussaïd et al.
+
+===== PAGINA 3 =====
+
+where g(x) = 0 if the pedestrians i and j do not touch each other                shows transitions from smooth ﬂows to stop-and-go waves and
+and otherwise equals the argument x. !      n ij is the normalized vec-          “crowd turbulence,” as has been observed before crowd disasters
+tor pointing from pedestrian j to i, and dij is the distance between             (4). Fig. 3C depicts typical space–time diagrams for simulations
+the pedestrians’ centers of mass (1). The physical interaction                   at various density levels, displaying a smooth, laminar ﬂow at low
+with a wall W is represented analogously by a contact force
+!                                                                                density (regime 1), but stop-and-go waves at higher densities
+ f iW ¼ kgðri − diW Þ! n iW , where diW is the distance to the wall W            (regimes 2 and 3). These waves result from the ampliﬁcation of
+and !   n iW is the direction perpendicular to it.                               small local perturbations in the ﬂow due to coordination prob-
+   The resultingP acceleration
+                        !         P !   equation reads d!         v i =dt ¼      lems when competing for scarce gaps (22): When the density of
+ð!v des − ! v i Þ=τ þ j f ij =mi þ W f iW =mi and is solved to-                  pedestrians is high enough, such perturbations trigger a chain
+gether with the usual equation of motion d!          x i =dt ¼ !
+                                                               v i , where       reaction of braking maneuvers, resulting in backward-moving
+!x i ðtÞ denotes the location of pedestrian i at time t. In                      waves. This result is illustrated by the signiﬁcant correlation
+                                                             !contrast ! to
+social force models, however, the interaction terms f ij and f iW                between the local speed at positions x1 and x2 ¼ x1 − X after
+are nonzero only in extremely crowded situations, but not under                  a certain time lag T (Fig. 3B). In particular, the model allows
+normal walking conditions.                                                       us to estimate the backward propagation speed of the wave
+                                                                                 (∼0.6 m/s) and the density interval where stop-and-go waves
+Results                                                                          occur (at occupancy levels between 0.4 and 0.65, i.e., 40–65%
+The combination of behavioral heuristics with contact forces                     spatial coverage).
+accounts for a large set of complex collective dynamics. In the                     At even higher densities, physical interactions start to domi-
+following section, we ﬁrst validate the model at the individual                  nate over the heuristic-based walking behavior (Fig. 3A, Inset).
+level and then explore the model predictions in a collective                     As the interaction forces in the crowd add up, intentional
+context for uni- and bidirectional ﬂows.                                         movements of pedestrians are replaced by unintentional ones.
+                                                                                 Hence, the well-coordinated motion among pedestrians suddenly
+Individual Trajectories. First, we tested the model in the context of            breaks down, particularly around bottlenecks (Fig. 4A and Fig.
+
+                                                                                                                                                           PSYCHOLOGICAL AND
+simple interaction situations involving two pedestrians avoiding                 S4). This breakdown results in largely ﬂuctuating and un-
+each other. In a series of laboratory experiments, we tracked the                controllable patterns of motion, called crowd turbulence. A
+motion of pedestrians in two well-controlled conditions: (i)                     further analysis of the phenomenon reveals areas of serious body
+
+                                                                                                                                                           COGNITIVE SCIENCES
+passing a pedestrian standing in the middle of a corridor and (ii)               compression occurring close to the bottleneck (Fig. 4A). The
+passing another pedestrian moving in the opposite direction                      related, unbalanced pressure distribution results in sudden stress
+(Materials and Methods) (10). The model predicts individual                      releases and earthquake-like mass displacements of many pedes-
+avoidance trajectories that agree very well with the experimen-                  trians in all possible directions (4) (Fig. 4 B and C). The distribu-
+tally observed trajectories under both conditions (Fig. 2).                      tion of displacements predicted by the model is well approximated
+
+                                                                                                                                                           APPLIED PHYSICAL
+                                                                                 by a power law with exponent 1.95 ± 0.09. This result is in excellent
+Collective Patterns of Motion. Next, we explored the model pre-                  agreement with detailed evaluations of crowd turbulence during
+dictions in a collective context. For bidirectional trafﬁc in a                  a crowd disaster that happened to be recorded by a surveillance
+                                                                                                                                                               SCIENCES
+street, assuming random initial positions of pedestrians, we ﬁnd                 camera (4).
+that ﬂow directions separate spontaneously after a short time, as                Discussion
+empirically observed (Fig. S2). This collective organization re-
+                                                                                 The greater explanatory power of our heuristics-based modeling,
+ﬂects the well-known lane formation phenomenon (2), which is
+                                                                                 demonstrated through comparison with different empirical and
+a characteristic property of crowd dynamics.
+                                                                                 experimental data (overview in Fig. S5 and Table S1), suggests
+   We also investigated the inﬂuence of pedestrian density on
+                                                                                 a paradigm shift from physics-inspired binary interaction models
+unidirectional ﬂows. The velocity–density relation predicted by
+                                                                                 to an integrated treatment of multiple interactions, which are
+the model agrees well with empirical data (21) (Fig. 3A). Fur-                   typical for social interactions in human crowds or animal swarms
+thermore, when the density exceeds critical values, our model                    (23–28). Without requiring additional assumptions, our approach
+                                                                                 overcomes various issues related to the combination of multiple
+                                                                                 binary interactions (6, 11). Our model treats a pedestrian’s re-
+       A          0.5                                                            action to his or her visually perceived environment in an in-
+                                                                                 tegrated way rather than reducing it to a superposition of pair
+                   0
+                                                                                 interactions. Instead of being repelled by their neighbors, as was
+                  −0.5                                                           assumed in previous particle models, individuals actively seek a
+                                                                                 free path through the crowd. The combined effect of neighboring
+           Y(m)
+       B          0.5
+                                                                                 individuals is implicitly included in the representation of a
+                                                                                 pedestrian’s visual ﬁeld. Our model therefore correctly handles
+                   0                                                             situations in which pedestrians are hidden or outside the ﬁeld of
+                  −0.5                                                           view. Finally, high-density and life-threatening situations can be
+                            Experimental data (+ std)   Model prediction
+                                                                                 studied by combining heuristics-based movement resulting from
+                       −4                         0                        4     visual perception of the environment with unintentional dis-
+                                                 X(m)
+                                                                                 placements due to physical forces resulting from unavoidable
+Fig. 2. Results of computer simulations for the heuristic pedestrian model       collisions with other bodies. In doing so, the emergence of crowd
+(solid lines) compared with experimental results (shaded lines) during simple    turbulence in panic situations can be reproduced as well.
+avoidance maneuvers in a corridor of 7.88 m length and 1.75 m width (data           Understanding pedestrian heuristics and the emergence of
+from ref. 10). (A) Average trajectory of a pedestrian passing a static in-       complex crowd behavior is a crucial step toward a more reliable
+dividual standing in the middle of the corridor (n = 148 replications). (B)
+                                                                                 description and prediction of pedestrian ﬂows in real-life sit-
+Average trajectory of a pedestrian passing another individual moving in the
+opposite direction (n = 123 replications). Dashed shaded lines indicate the SD
+                                                                                 uations. Our heuristics-based model therefore has important
+of the average trajectory. Pedestrians are moving from left to right. The        practical applications, such as the improvement of architectures
+computer simulations were conducted in a way that reﬂected the experi-           and exit routes, as well as the organization of mass events. In
+mental conditions. The model parameters are τ = 0.5 s, ϕ = 75°, dmax = 10 m,     addition, the vision-based treatment of the pedestrian heuristics
+k = 5 × 103, and v0i = 1.3 m/s.                                                  appears to be particularly suited to the study of evacuation
+
+Moussaïd et al.                                                                                                              PNAS Early Edition | 3 of 5
+
+===== PAGINA 4 =====
+
+                                 A                                                                                                     B
+                                                                                                  3
+                                                   1.4                                                                                                           0.6       Delay:
+
+
+
+
+                             Average Speed (m/s)                                                                                       Correlation Coefficient
+                                                                                      1       C                                                                                          T= 3 s
+                                                                                                                                                                                         T= 5 s
+                                                                                                  0                                                                                      T= 7 s
+                                                     1                                             0           0.8
+                                                                                                       Occupancy
+                                                                                              2                                                                  0.3
+                                                   0.6                                                       3
+                                                                                                                            4
+
+                                                   0.2                 Empirical data                                                                             0
+                                                                       Simulations
+                                                              0             0.2        0.4    0.6                           0.8                                        0        0.2                0.4    0.6                 0.8
+                                                                                    Occupancy                                                                                                   Occupancy
+
+                             C                                                    1                                     2                                         3                                       4
+                                                                                                                                                                                                                              1
+                                                                  0
+
+
+
+
+                                                                                                                                                                                                                                      Speed (m/s)
+                                                                  30
+
+                                                   Time (s)   60
+
+                                                              90
+                                                                       -4         0       4           -4                0         4   -4                          0         4           -4                0    4                  0
+                                                                                  X                                     X                                         X                                       X
+
+Fig. 3. Evaluation of different kinds of collective dynamics resulting from unidirectional ﬂows in a street of length l = 8 m and width w = 3 m. The total number of
+pedestrians varied from 6 to 96, assuming periodic boundary conditions. (A) Velocity–density relation, determined by averaging over the speeds of all pedestrians
+for 90 s of simulation. The occupancy corresponds to the fraction of area covered by pedestrian bodies. Our simulation results (black curve) are well consistent with
+empirical data (dots), which were collected in real-life environments (21). The Inset indicates the average body compression C ¼〈Ci ðtÞ〉i;t where the brackets
+indicate an average over all pedestrians i and over time t (Materials and Methods). (B) Correlation coefﬁcient between the average local speeds V(x,t) and
+V ðx − X; t þ TÞ, measuring the occurrence of stop-and-go waves (see Materials and Methods for the analytical deﬁnition of the local speed). Here, the value of X is
+set to 2 m. The increase at intermediate densities indicates that speed variations at positions x and x − X are correlated for an assumed time delay T of 3 s.
+Signiﬁcant P values for the correlation coefﬁcient are found for occupancies between 0.4 and 0.65, indicating the boundaries of the stop-and-go regime (Fig. S3).
+(C) Typical space–time diagrams at four density levels, representing different kinds of collective motion. The color coding indicates the local speed values along
+the street (where pedestrians move from left to right). At occupancy level 1, the diagram displays a smooth, laminar ﬂow with occasional variations in speed. For
+occupancy levels 2 and 3, stop-and-go waves appear, as they have been empirically observed at high densities (ﬁgure 2a in ref. 4). At occupancy level 4, the
+average trafﬁc ﬂow is almost zero, but turbulent ﬂuctuations in the ﬂow occur (Fig. 4). The underlying model parameters are τ = 0.5 s, ϕ = 45°, dmax = 8 m, and k =
+5 × 103. The desired speed v0i was chosen according to a normal distribution with mean value 1.3 m/s and SD = 0.2.
+
+
+
+conditions with reduced visibility (e.g., escaping from a smoke-                                                                      simplicity of our approach and its visual information input will
+ﬁlled room) (2, 29).                                                                                                                  support resource-efﬁcient designs. We also expect that our
+   In the future, further evidence for our cognitive, heuristics-                                                                     heuristics-based approach will inspire new models of collective
+based model could be collected by using eye-tracking systems                                                                          human behavior such as group decision making (34) and certain
+(30) to determine the visual cues followed by pedestrians. Our                                                                        social activity patterns (35, 36), where the occurrence of simul-
+approach also opens perspectives in other research areas. In the                                                                      taneous interactions between multiple individuals matters.
+ﬁeld of autonomous robotics, for example, the model may serve
+                                                                                                                                      Materials and Methods
+to improve navigation in complex dynamic environments, which
+                                                                                                                                      Experimental Setup. The controlled experiments shown in Fig. 2 were con-
+is particularly relevant for swarms of mobile robots (31). In fact,                                                                   ducted in 2006 in Bordeaux (France). The experimental corridor of 7.88 m
+navigation and collision-avoidance concepts of multirobot sys-                                                                        length and 1.75 m width was equipped with a 3D tracking system, which
+tems have often been inspired by human behavior (32, 33). The                                                                         consisted of three digital cameras (SONY DCR-TRV950E) mounted at the
+
+
+
+
+                          A                                                                                B                                                                         C                              Exponent:
+                                       3                                                                           3
+                                                                                                                                                                                                                    Model k=1.95
+
+
+                                                                                                                                                                                    Frequency
+                                                                                                                                                                                                     −2
+                                                                                                                                                                                                10                  Observed k=2.01
+
+                         Y (m)           0
+                                                                                                           Y (m)
+                                                                                                                    0
+                                                                                                                                                                                                     −4
+                                                                                                                                                                                                10
+
+                                 −3                                                                                −3
+                                               −5                            0                5                      −5                 0                                   5                                       −1        0
+                                                                                                                                                                                                               10        10
+                                                                            X (m)                                                     X (m)                                                                   Displacement (m)
+
+Fig. 4. Characterization of turbulent ﬂows in front of a bottleneck for an occupancy value of 0.98. (For the analysis of a turning corridor as in the Love
+Parade disaster in Duisburg in 2010, see Fig. S4). (A) The local body compression Cð!   x Þ reveals two critical areas of strong compression in front of the bot-
+tleneck (shown in red). (B) Analyzing the “crowd pressure” (deﬁned as local density times the local velocity variance) (Materials and Methods) reveals areas
+with a high risk of falling (in red), indicating the likelihood of a crowd disaster (4). (C) Distribution of displacements (i.e., location changes between two
+subsequent stops, deﬁned by speeds with k v   ! k < 0:05m=s). The double logarithmic representation reveals a power law with slope k = −1.95 ± 0.09, in good
+                                                i
+agreement with empirical ﬁndings (see ﬁgure 3e in ref. 4, where the slope is k = −2.01 ± 0.15). The local speed, local pressure, and local compression
+coefﬁcients are deﬁned in Materials and Methods. The above results are based on simulations of 360 pedestrians during 240 s in a corridor of length l = 10 m
+and width w = 6 m, with a bottleneck of width 4 m, assuming periodic boundary conditions.
+
+
+4 of 5 | www.pnas.org/cgi/doi/10.1073/pnas.1016507108                                                                                                                                                                                               Moussaïd et al.
+
+===== PAGINA 5 =====
+
+corners of the corridor. The reconstruction of the positions was made on the                  coefﬁcient C(x) (used in Fig. 4A) was computed in a way analogous to the
+basis of the digital movies encoded at 12 frames/s with the help of software                  local speed, setting
+developed by our team. The trajectories were smoothed over a time window                                                                  P
+of 10 frames. A total of 40 participants agreed to participate in the exper-                                                                Ci ðtÞf ðdix Þ
+                                                                                                                                           iP
+                                                                                                                             Cðx; tÞ ¼                     ;
+iment and were naive to its purpose. Pairs of pedestrians were randomly                                                                      i f ðdix Þ
+matched and performed ∼20 replications of the following two conditions: (i)
+                                                                                              and CðxÞ ¼〈Cðx; tÞ〉t , where the brackets denote an average over time. The
+One subject was instructed to stand still in the middle of the corridor, while                                                                                          !
+the other one was instructed to walk from one end of the corridor to the                      body compression Ci(t) of a pedestrian i is the sum of the contact forces f ij
+other and had to evade the standing pedestrian; (ii) starting from opposite                   applied to pedestrian i:
+ends of the corridor, both subjects were instructed to walk toward the other                                                              X ! !"
+end after the starting signal. A total of 148 and 123 trajectories were                                                        Ci ðtÞ ¼    k f ij ðt ":
+reconstructed for conditions i and ii, respectively.                                                                                       j
+
+
+
+Deﬁnition of Local Variables. The simulation results presented in the main text               Finally, the critical zones identiﬁed in Fig. 4B are given by the “crowd
+were analyzed by measuring the local speed, local “pressure,” and local                       pressure” PðxÞ ¼ ρðxÞVarðVðx; tÞÞ deﬁned in ref. 4; i.e., the pressure corre-
+                                                                                                                                           P
+compression coefﬁcients (4). The local speed V(x,t) at place x and time t (used               sponds to the average local density ρðxÞ ¼ i f ðdix Þ times the local speed
+in Fig. 3C) was deﬁned as                                                                     variance at place x.
+                                           P !
+                                             k v i kf ðdix Þ
+                                            iP                                                ACKNOWLEDGMENTS. We thank A. Johansson, S. Garnier, M. Moreau, D. Boyer,
+                               Vðx; tÞ ¼                    ;
+                                               i f ðdix Þ                                     J. Gautrais, J. Gouëllo, and H. Chaté for inspiring discussions, Suzy Moat for lan-
+                                                                                              guage editing, and T. Kretz for sharing experimental data. We thank A. Campo,
+where dix is the distance between x and pedestrian i. In this deﬁnition, f(d) is              F. Ducatelle, and the Istituto Dalle Molle di Studi sull’Intelligenza Artiﬁciale re-
+a Gaussian distance-dependent weight function deﬁned as:                                      search group in Manno-Lugano, Switzerland for useful suggestions. M.M. was
+                                                                                              supported by a joint doctoral–engineer fellowship from Eidgenössiche Technische
+                                            1     − d2                                        Hochschule Zurich and Centre National de la Recherche Scientiﬁque. This study
+                                 f ðdÞ ¼       exp 2 ;                                        was supported by grants from the Centre National de la Recherche Scientiﬁque
+                                           πR2     R
+
+                                                                                                                                                                                            PSYCHOLOGICAL AND
+                                                                                              (Concerted Action: Complex Systems in Human and Social Sciences), University
+where R is a measurement parameter. The value R = 0.7 m provides a rea-                       Paul Sabatier (Aides Ponctuelles de Coopération), and PEDIGREE project Grant
+sonably precise evaluation of the local speed. The local body compression                     ANR-08-SYSC-015.
+
+
+
+                                                                                                                                                                                            COGNITIVE SCIENCES
+ 1. Helbing D, Farkas I, Vicsek T (2000) Simulating dynamical features of escape panic.       19. Hopkins B, Churchill A, Vogt S, Rönnqvist L (2004) Braking reaching movements: A
+    Nature 407:487–490.                                                                           test of the constant tau-dot strategy under different viewing conditions. J Mot Behav
+ 2. Schadschneider A, et al. (2009) Evacuation dynamics: Empirical results, modeling and          36:3–12.
+    applications. Encyclopedia of Complexity and Systems Science, ed Meyers R (Springer,      20. Johansson A (2009) Constant-net-time headway as a key mechanism behind
+    Berlin), pp 3142–3176.                                                                        pedestrian ﬂow dynamics. Phys Rev E 80:026120.
+
+
+                                                                                                                                                                                            APPLIED PHYSICAL
+ 3. Dyer J, et al. (2008) Consensus decision making in human crowds. Anim Behav 75:           21. Older SJ (1968) Movement of pedestrians on footways in shopping streets. Trafﬁc Eng
+                                                                                                  Control 10:160–163.
+    461–470.
+                                                                                              22. Helbing D, Johansson A, Mathiesen J, Jensen MH, Hansen A (2006) Analytical
+ 4. Helbing D, Johansson A, Al-Abideen HZ (2007) Dynamics of crowd disasters: An
+                                                                                                  approach to continuous and intermittent bottleneck ﬂows. Phys Rev Lett 97:168001.
+
+                                                                                                                                                                                                SCIENCES
+    empirical study. Phys Rev E 75:046109.
+                                                                                              23. Couzin ID, Krause J, Franks NR, Levin SA (2005) Effective leadership and decision-
+ 5. Antonini G, Bierlaire M, Weber M (2006) Discrete choice models of pedestrian walking
+                                                                                                  making in animal groups on the move. Nature 433:513–516.
+    behavior. Transp Res Part B: Methodol 40:667–687.
+                                                                                              24. Couzin I (2008) Collective cognition in animal groups. Trends Cogn Sci 13:36–43.
+ 6. Steffen B (2008) A modiﬁcation of the social force model by foresight. Conference
+                                                                                              25. Buhl J, et al. (2006) From disorder to order in marching locusts. Science 312:1402–
+    Proceedings of PED2008, eds Klingsch W, Rogsch C, Schadschneider A, Schreckenberg M           1406.
+    (Springer, Berlin), pp 677–682.                                                           26. Fourcassié V, Dussutour A, Deneubourg J-L (2010) Ant trafﬁc rules. J Exp Biol 213:
+ 7. Yu W, Johansson A (2007) Modeling crowd turbulence by many-particle simulations.              2357–2363.
+    Phys Rev E 76:046105.                                                                     27. Cavagna A, et al. (2010) Scale-free correlations in starling ﬂocks. Proc Natl Acad Sci
+ 8. Hoogendoorn S (2004) Pedestrian ﬂow modeling by adaptive control. Transp Res Rec              USA 107:11865–11870.
+    1878:95–103.                                                                              28. Reynolds CW (1987) Flocks, herds and schools: A distributed behavioral model.
+ 9. Henderson LF (1971) The statistics of crowd ﬂuids. Nature 229:381–383.                        Comput Graph 21:25–34.
+10. Moussaïd M, et al. (2009) Experimental study of the behavioural mechanisms                29. Kirchner A, Klupfel H, Nishinari K, Schadschneider A, Schreckenberg M (2003)
+    underlying self-organization in human crowds. Proc Roy Soc B 276:2755–2762.                   Simulation of competitive egress behavior: Comparison with aircraft evacuation data.
+11. Ballerini M, et al. (2008) Interaction ruling animal collective behavior depends on           Physica A 324:689–697.
+    topological rather than metric distance: Evidence from a ﬁeld study. Proc Natl Acad       30. Kitazawa K, Fujiyama T (2010) Pedestrian vision and collision avoidance behavior:
+    Sci USA 105:1232–1237.                                                                        Investigation of the information process space of pedestrians using an eye tracker.
+12. Viscido S, Parrish J, Grunbaum D (2005) The effect of population size and number of           Pedestrian and Evacuation Dynamics 2008, eds Klingsch W, Rogsch C, Schadschneider A,
+                                                                                                  Schreckenberg M (Springer, Berlin), pp 95–108.
+    inﬂuential neighbors on the emergent properties of ﬁsh schools. Ecol Modell 183:
+                                                                                              31. Turgut A, Celikkanat H, Gökce F, Sahin E (2008) Self-organized ﬂocking in mobile
+    347–363.
+                                                                                                  robot swarms. Swarm Intell 2:97–120.
+13. Gigerenzer G, Todd P (1999) Simple Heuristics That Make Us Smart (Oxford Univ Press,
+                                                                                              32. Kluge B, Prassler E (2004) Reﬂective navigation: Individual behaviors and group
+    Oxford).
+                                                                                                  behaviors. Proceedings of the Institute of Electrical and Electronic Engineers Interna-
+14. Gigerenzer G (2008) Why heuristics work. Perspect Psychol Sci 3:20–29.
+                                                                                                  tional Conference on Robotics and Automation, (IEEE, New York), pp 4172–4177.
+15. Gibson JJ (1958) Visually controlled locomotion and visual orientation in animals. Br J
+                                                                                              33. Marr D (1982) Vision: A Computational Investigation into the Human Representation
+    Psychol 49:182–194.                                                                           and Processing of Visual Information (Freeman, New York).
+16. Batty M (1997) Predicting where we walk. Nature 388:19–20.                                34. Salganik MJ, Dodds PS, Watts DJ (2006) Experimental study of inequality and
+17. Turner A, Penn A (2002) Encoding natural movement as an agent-based system: An                unpredictability in an artiﬁcial cultural market. Science 311:854–856.
+    investigation into human pedestrian behaviour in the built environment. Environ           35. Barabási A-L (2005) The origin of bursts and heavy tails in human dynamics. Nature
+    Plann B Plann Des 29:473–490.                                                                 435:207–211.
+18. Schrater PR, Knill DC, Simoncelli EP (2000) Mechanisms of visual motion detection. Nat    36. Wu F, Huberman BA (2007) Novelty and collective attention. Proc Natl Acad Sci USA
+    Neurosci 3:64–68.                                                                             104:17599–17601.
+
+
+
+
+Moussaïd et al.                                                                                                                                            PNAS Early Edition | 5 of 5
+

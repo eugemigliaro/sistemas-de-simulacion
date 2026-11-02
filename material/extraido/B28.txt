@@ -1,0 +1,592 @@
+FUENTE: B28
+TITULO: Continuous-Space Automaton Model for Pedestrian Dynamics — Baglietto y Parisi
+ORIGINAL: material/externo/bibliografia-6-7/CPM.pdf
+PAGINAS: 7
+
+===== PAGINA 1 =====
+
+                                                  PHYSICAL REVIEW E 83, 056117 (2011)
+
+
+                              Continuous-space automaton model for pedestrian dynamics
+
+                                                Gabriel Baglietto1,2 and Daniel R. Parisi3,4,*
+                                 1
+                                       Facultad de Ingenierı́a, UNLP, Calle 1 esquina 47, 1900 La Plata, Argentina
+                  2
+                    Instituto de Fı́sica de Lı́quidos y Sistemas Biológicos (IFLYSIB), Calle 59 Nro. 789, 1900 La Plata, Argentina
+                           3
+                             Instituto Tecnológico de Buenos Aires, 25 de Mayo 444, 1002 C. A. de Buenos Aires, Argentina
+              4
+                Consejo Nacional de Investigaciones Cientı́ficas y Técnicas, Rivadavia 1917, 1033 C. A. de Buenos Aires, Argentina
+                                                  (Received 24 December 2010; published 23 May 2011)
+                   An off-lattice automaton for modeling pedestrian dynamics is presented. Pedestrians are represented by disks
+                with variable radius that evolve following predefined rules. The key feature of our approach is that although
+                positions and velocities are continuous, forces do not need to be calculated. This has the advantage that it
+                allows using a larger time step than in force-based models. The room evacuation problem and circular racetrack
+                simulations quantitatively reproduce the available experimental data, both for the specific flow rate and for the
+                fundamental diagram of pedestrian traffic with an outstanding performance. In this last case, the variation of two
+                free parameters (rmin and rmax ) of the model accounts for the great variety of experimental fundamental diagrams
+                reported in the literature. Moreover, this variety can be interpreted in terms of these model parameters.
+
+                DOI: 10.1103/PhysRevE.83.056117                                PACS number(s): 89.40.−a, 45.70.Vn, 89.65.−s
+
+
+                           I. INTRODUCTION                                 proach are, for example, the mobile lattice gas model [11]
+                                                                           and the work of Thompson et al. [15,16]. In the first one,
+    The movement of people and crowds is an important field
+                                                                           the spatial lattice is dynamic, the transitions are discrete, and
+of research that has gained interest due to the increasing need
+                                                                           forces are used to calculate transitions probabilities. In the
+to design safer and more comfortable pedestrian facilities.
+                                                                           second one, pedestrians are described by three attached circles
+Traditionally, crowd movements were studied by engineers
+                                                                           (an approximation to the human shape at the shoulders level)
+with sizing purposes when designing buildings and transport
+                                                                           moving in a continuous space with velocities depending on the
+systems for people [1–3]. Since the 1990s this subject has
+                                                                           minimum interpersonal distance.
+been studied with the aid of computer simulations, and
+                                                                               In the contractile particle model presented here, particles are
+several models have been presented. A general classification
+                                                                           allowed to move in the continuous space. The radii are dynamic
+of pedestrian models can be found in [4], and they can
+                                                                           variables that are recalculated depending on the distance to the
+be classified into rule based and force based, discrete and
+                                                                           neighbors. Also, the desired speed of each particle is calculated
+continuous, etc.
+                                                                           as a function of its radius. From the simulations, we compute
+    In rule-based models the state of the system evolves
+                                                                           the observables that will be compared to the experimental data
+following predefined rules, which are applied on individual
+                                                                           reported in the literature.
+agents. Usually, this kind of model considers a discretization
+                                                                               The main macroscopic observables that characterize pedes-
+of space into a grid, as is the case of cellular automata (CA)
+                                                                           trian dynamics are the fundamental diagram (which indicates
+models. Some emblematic CA models are the floor field [5]
+                                                                           the relationship between local density and average speed)
+and lattice gas [6] models. On the other hand, in force-based
+                                                                           and the specific flow rate (number of persons crossing an
+models pedestrians are considered as particles that interact by
+                                                                           opening per unit of time and width). Regarding the funda-
+means of forces, and so the state of the system is governed
+                                                                           mental diagram, a variety of experimental data have been
+by Newton’s equation. In general, the space and state of the
+                                                                           reported in the literature [1,17–27] considering experiments
+particles are considered continuous in this kind of model.
+                                                                           and field observations in different situations and cultures.
+Examples of force-based models are the social force model
+                                                                           There are differences between these fundamental diagrams;
+[7,8] and the centrifugal force model [9,10].
+                                                                           nevertheless, all of them show a monotonically decreasing
+    Each approach has benefits and shortcomings. For example,
+                                                                           velocity as the density increases. Most legal regulations accept
+discrete-space CA model simulations are faster, but they
+                                                                           that the specific flow rate exhibited by a system of evacuating
+present inconsistencies when computing distance (and thus ve-
+                                                                           people in normal conditions remains constant, if the door
+locities), as clearly stated in [11]. On the contrary, force-based
+                                                                           width changes. Some regulations adopt a specific flow rate
+model simulations are more expensive but allow describing
+                                                                           of 1.33 peds/(m s) (where “peds” stands for pedestrians)
+trajectories and velocities correctly. Besides, realistic forces
+                                                                           [28,29]. However, experimental results from the literature
+and pressure can be estimated.
+                                                                           report different values for this magnitude ranging from 1.25
+    We present here a model summarizing the best of the
+                                                                           to 2 peds/(m s) [2,3,28–33] depending on the particular setup
+two previously described approaches: the contractile particle
+                                                                           conditions, age, and culture of the population.
+model (CPM). The CPM is a continuous-space automaton
+                                                                               This work is organized as follows: In Sec. II the contractile
+inspired by models of self-propelled pointlike particles like
+                                                                           particle model is presented. Section III shows simulation
+those described in [12–14]. Antecedents of this hybrid ap-
+                                                                           results of appropriate systems in order to compare them with
+                                                                           the available empirical data in normal conditions, considering
+                                                                           the fundamental diagram and the specific flow rate. It will be
+ *
+     dparisi@itba.edu.ar                                                   shown here that changes in the free parameters give enough
+
+1539-3755/2011/83(5)/056117(7)                                      056117-1                                 ©2011 American Physical Society
+
+===== PAGINA 2 =====
+
+GABRIEL BAGLIETTO AND DANIEL R. PARISI                                                             PHYSICAL REVIEW E 83, 056117 (2011)
+
+                                                                       walking free in an open space. If the exponent β = 1, then it is
+                                                                       a linear relationship. For β = 1 the relationship has different
+                                                                       curvature, either above the linear (β < 1) or below the linear
+                                                                       (β > 1).
+                                                                           The time evolution is given in discrete time steps of
+                                                                                                       rmin
+                                                                                          t =                      .               (2)
+                                                                                                 2 max(vd max ,ve )
+                                                                       In each iteration the positions of particles are updated by the
+                                                                       equation
+                                                                                         xi (t) = xi (t − t) + vi (t)t               (3)
+                                                                       with
+                                                                                            i
+                                                                                            vd       if pi is free of contact,
+                                                                                    v =
+                                                                                     i
+                                                                                                                                       (4)
+   FIG. 1. (Color online) Illustration of the contractile particle                           vie     otherwise,
+model. Particles on the left are not in contact. They have no zero
+desired velocities (vd ). Dashed circles represent the minimum and     where the desired velocity is
+maximum radii. Particles on the right are in contact; therefore the
+escape velocities are present; also their radii are collapsed to the                               vid = vdi eitarget ,                (5)
+minimum.                                                               and the versor eitarget points toward some desired target location.
+                                                                       The targets must be placed externally for each particular
+flexibility to the model to allow adjusting the output to the          system to be simulated. As in other pedestrian models (such
+different fundamental diagrams reported. In Sec. IV we present         as in the social force model), the CPM does not provide a
+a parameter sensitivity analysis, which allows interpreting the        method for placing the targets automatically; this could be
+fundamental diagram in terms of the microscopic parameters             done by higher level algorithms that consider multiple factors
+of the model. Finally, in Sec. V the conclusions are presented.        such as way finding, decision making, efficient avoidance,
+                                                                       etc.
+                        II. THE MODEL                                     The escape velocity can be written as
+                                                                                                          
+     The proposed contractile particle model has characteristics                                         ( j eij )
+of both a continuous-space and a rule-based model. This allows                                  ve = ve  ij ,
+                                                                                                 i
+                                                                                                                                       (6)
+                                                                                                         | je |
+describing trajectories and distance better than typical CA
+models [11] and besides, it allows improving the computing             where eij is the direction and sense of the escape velocity of
+time compared with force-based models. This improvement                particle pi from every other particle or boundary in contact
+is possible because forces are not calculated, there is no             (j ):
+integration of the equations of motion, and consequently, the
+time step of the algorithm can be greater.                                                                 (xi − xj )
+                                                                                                   eij =              .                (7)
+     The basic components of the contractile particle model are                                            |xi − xj |
+the following: For each particle pi ,
+                                                                       In the case of interaction with a wall, xj indicates the nearest
+    (1) The radius (r i ) is dynamically adjusted between rmin
+                                                            i
+                                                               and
+  i                                                                    point on the wall to the center of particle pi .
+rmax .
+                                                                           The rule for the variation of the radii is as follows: When a
+    (2) It has a desired velocity (vid ) pointing at the desired
+                                                                       particle is not in contact with any other particle or boundary,
+target location and its magnitude (vdi ) represents the desired
+                                                                       its radius increases in each time step according to
+walking speed.
+    (3) The magnitude of the desired velocity is a function of                                          rmax
+                                                                                                 r =  τ  ,                        (8)
+the particle radius (r i ).                                                                                    t
+    (4) If a particle (pi ) enters into contact with a boundary, an
+                                                                       where the constant τ characterizes the time taken for a
+obstacle, or another particle, an escape velocity (vie ) having a
+                                                                       particle to reach its maximum radius and thus its maxi-
+fixed magnitude (ve ) appears with direction and sense opposite
+                                                                       mum velocity. We choose τ = 0.5 s in accordance to the
+to the interaction.
+                                                                       value used in the desired force in the social force model
+     Figure 1 illustrates the geometry of these concepts.
+                                                                       [8,34].
+     The relation between the radius (r i ) and desired speed is
+                                                                           The radius increases until it reaches the maximum radius
+such that vd (rmin ) = 0, and vd (rmax ) = vd max . We choose a
+                                                                       or the particle suffers a collision. In this last case, the particle
+functional form given by
+                                                                       tries to reduce the overlapping by diminishing its radius
+                                 i                                   instantaneously to the minimum radius.
+                                   (r − rmin ) β
+                  vdi = vd max                    ,             (1)        The following pseudocode describes the time evolution
+                                 (rmax − rmin )
+                                                                       algorithm:
+where vd max is the desired speed at which a pedestrian would              – Initialize boundaries and pedestrian positions and radii.
+walk if she/he were unconstrained by any obstacle, i.e.,                   – iterate over time in steps of t
+
+                                                                 056117-2
+
+===== PAGINA 3 =====
+
+CONTINUOUS-SPACE AUTOMATON MODEL FOR . . .                                                       PHYSICAL REVIEW E 83, 056117 (2011)
+
+   – iteration 1 over all particles                                           5
+   Find contacts and calculate ve .
+   – end iteration 1                                                          4
+   – iteration 2 over all particles                                           3
+   Adjust radii following “the rule for the variation of the
+radii” [see text below Eq. (7)].                                              2
+   – end iteration 2
+                                                                              1
+   – iteration 3 over all particles
+                                                                                                                   2m
+                                                                     y (m)
+   – Compute the direction and sense of the vd considering                    0
+current positions and target locations.
+   – Compute the magnitude of vd depending on the radius                     −1
+following Eq. (1).
+                                                                             −2
+   – end iteration 3
+   – iteration 4 over all particles                                          −3
+                                  i
+                                    vd if r i > rmin                         −4                                             4m
+              v(t) = vd + ve = i
+                                    ve if r i = rmin
+                                                                             −5
+             x(t) = x(t − t) + v(t)t                                            −5   −4   −3   −2   −1     0     1    2    3   4    5
+                                                                                                           x (m)
+   – end iteration 4
+   – end iteration over time                                            FIG. 2. (Color online) Simulated circular racetrack utilized to
+   We must note that the variable radius is, in principle, a         measure the fundamental diagram of pedestrian traffic. The arrows
+property of the model not directly related to any physical           indicate the direction and sense of the desired velocities (eitarget ).
+length. The variable radius is an effective radius considering
+several properties of the real system:                               of the model are rmin , rmax , and β, which can be tuned in order
+  (a) Pedestrians are not circles, they have a shoulder width        to reproduce empirical data.
+greater than the anteroposterior length. Therefore, depending            An additional advantage of the proposed model is that it
+on the orientation and packing of the pedestrians within the         could also be adapted for simulating more general gravity-
+crowd the effective radius can be different.                         driven granular flows, given that the friction of particles can
+  (b) In this sense, rmin is related to the equivalent radius so     be adjusted by changing the parameter ve .
+that a certain maximum density can be reached by a group of
+people.                                                                                III. SIMULATIONS AND RESULTS
+  (c) On the other hand, a radius near rmax is related to a
+                                                                        We implement the proposed model to simulate two different
+sensor which regulates the minimum interpersonal distance at
+                                                                     scenarios: the movement of pedestrians in a circular racetrack
+which the movement of a pedestrian begins to be affected by
+                                                                     and the egress from a room through a narrow door. The goal
+the presence of another pedestrian.
+                                                                     is to validate the model against experimental data reported
+   The escape velocity (ve ) plays the role of an exclusion
+                                                                     in the bibliography. The first scenario allows calculating the
+principle, preventing pedestrians from overlapping and bump-
+                                                                     fundamental diagram of simulated pedestrians and the second
+ing into obstacles and other pedestrians. If the magnitude
+                                                                     one enables the measurement of the specific flow rates.
+ve < vd max , an overlap of length (vd max t) cannot disappear in
+the next time step because the distance (ve t) is smaller; then
+interacting particles would have vd = 0 for at least two time                               A. Fundamental diagram
+steps. Smaller values of ve will take more and more time steps           The geometry of the simulated system is a circular racetrack
+(hence more time) to separate particles and, consequently, to        with an internal radius of 2 m and an outer radius of 4 m as
+start moving again with velocity v = vd . In the limit when          shown in Fig. 2. Particles were initialized with uniform random
+ve = 0, pedestrians entering into contact would not move             position inside the circular geometry and with the variable radii
+anymore.                                                             set at r i = rmin for all i. At all times the desired velocity of
+   Therefore, the parameter ve can be interpreted as inversely       each particle is tangential to the racetrack (see Fig. 2). The
+related to a friction parameter which reduces the mobility of        number of pedestrians (Np ) in the circuit was varied to study
+a system of particles by producing a sticking effect on them.        the dynamics for different densities. Simulations with Np = 5,
+For ve > vd max , it will be shown in Sec. IV that the model         10, . . ., 35, 45, 55, 65, . . ., 355, and 365 particles were made.
+behavior remains constant.                                               For each density, one hundred realizations were performed;
+   So, we choose for the model a fixed value of the escape           each one runs for 100 s. The positions and velocities of
+speed                                                                the particles in the system were recorded every 0.1 s,
+                                                                     approximately (∼2t). The first 30 s of each simulation were
+                         ve = vd max .                        (9)    discarded to ensure the system had reached its stationary state.
+The parameter vd max is directly related to observed speeds of           The density was calculated as the total number of particles
+                                                                                                                        N
+free pedestrians in different situations, and it can be easily       (Np ) over the total area of the racetrack (ρ = 12πp ). The velocity
+adjusted in the model to reproduce the speed at nearly zero          corresponding to that density was calculated by averaging over
+density in any particular system. Therefore, the free parameters     all particles and over time. The velocity of each particle was
+
+                                                               056117-3
+
+===== PAGINA 4 =====
+
+GABRIEL BAGLIETTO AND DANIEL R. PARISI                                                              PHYSICAL REVIEW E 83, 056117 (2011)
+
+                 1.6                                                                     1.6
+                                 Helbing et al. [17]                                                          Helbing et al. [17]
+                                 Mori & Tsukaguchi [20]                                                       Mori & Tsukaguchi [20]
+                 1.4                                                                     1.4
+                                 Predtetschenski & Milinski [1]                                               Predtetschenski & Milinski [1]
+                                 Contractile Particle Model                                                   Contractile Particle Model
+                 1.2                                                                     1.2
+
+
+
+
+Velocity (m/s)                                                          Velocity (m/s)
+                  1                                                                       1
+
+                 0.8                                                                     0.8
+
+                 0.6                                                                     0.6
+
+                 0.4                                                                     0.4
+
+                 0.2                                                                     0.2
+
+                  0                                                                       0
+                   0   2     4           6            8           10                       0   2          4           6            8           10
+                                          2                                                                            2
+                            Density (1/m )                                                               Density (1/m )
+
+   FIG. 3. (Color online) Experimental fundamental diagrams and            FIG. 4. (Color online) Experimental fundamental diagrams and
+the one obtained with the proposed model employing the “set of          the one obtained with the proposed model employing the “set of
+parameters 1”.                                                          parameters 2”.
+
+                                                                        characteristic is not suitably reproduced by the model. In the
+calculated as the projection of the instant velocity (4) onto
+                                                                        case of the data reported in [17] a stopping density is not
+the desired velocity (vd ) (i.e., the vector tangential to the
+                                                                        reached but there is a change of behavior near 6 peds/m2 where
+racetrack).
+                                                                        a transition from laminar to turbulent flow is observed; also in
+   As stated in Sec. I, there exists a variety of reported
+                                                                        this case the model does not account for this transition. Further
+empirical fundamental diagrams. Thus, we are going to use
+                                                                        investigations will be done in order to improve the CPM near
+the flexibility of the model to reproduce some extreme curves.
+                                                                        the stopping density region.
+Published experimental data were taken from the public
+database at [25].
+                                                                                                   B. Specific flow rate
+   We call “set of parameters 1” the following model param-
+eters:                                                                      Simulations of pedestrians leaving a 20 m × 20 m room
+       rmin = 0.15 m,                                                   with one exit were conducted to examine the specific flow rate
+       rmax = 0.32 m,                                                   exhibited by the contractile particle model. Particles inside the
+       β = 0.9,                                                         room have their targets located within the limits of the exit
+       vd max = 1.55 m/s.                                               door in two possible ways. Let x be the horizontal coordinate
+   Simulations using these parameters produce an output very            were the exit door lies (y = 0); xe1 and xe2 are the left and
+similar to the fundamental diagrams reported in [17] and [20]           right borders of the exit, respectively, and L is the exit width
+as can be seen in Fig. 3.                                               (L = xe2 − xe1 ).
+   Furthermore, changing to “set of parameters 2,”                        (a) If particle pi has its x i coordinate such that x i < (xe1 +
+       rmin = 0.10 m,                                                   0.2L) OR x i > (xe1 + 0.8L), then the target is a random point
+       rmax = 0.37 m,                                                   in the interval [xe1 + 0.2L, xe1 + 0.8L].
+       β = 0.9,                                                           (b) Otherwise (if x i > xe1 + 0.2L AND x i < xe1 + 0.8L)
+       vd max = 0.95 m/s,
+                                                                                                                        i
+                                                                        then the target is right below the particle (xtarget = x i ).
+the model is able to approximate the data reported by                   In both cases the y component of the target is y = 0. Once a
+                                                                                                                             i
+
+Predtechenskii and Milinskii [1] for densities up to 8 peds/m2          particle has reached the target at the exit, a new target is placed
+as shown in Fig. 4.                                                     outside the room.
+   The capacity of the proposed model for reproducing                       The initial positions of particles were uniformly distributed
+experimental data is remarkable. There are very few examples            inside the room with their initial radii at rmin in such a way the
+of this kind of comparison in the literature ([10], [34]) for any       initial desired velocities were zero. Exit widths of L = 1.2 m,
+type of model; in particular, this has not been done before for         2.7 m, and 3.2 m were considered for the room containing 200,
+rule-based (automata) models, as far as we know. The fact that          500, and 600 pedestrians, respectively. Increasing door width
+different sets of parameters reproduce different fundamental            along with increasing number of pedestrians is used because
+diagrams allows interpreting the macroscopic differences in             in real systems, wider exits are required to evacuate more pop-
+terms of the corresponding microscopic parameters.                      ulated facilities. These values were chosen in accordance with
+   Despite its simplicity, the CPM reproduce very well exper-           the method of determining egress capacity stated in Chapter
+imental data for low, medium, and high densities. However,              7 of the NFPA 101 Life Safety Code (2000 edition), which
+it does not achieve a perfect fit near the stopping density.            indicates a minimum capacity factor of 0.5 cm per person.
+Experimental fundamental diagrams show in most cases a                      In Fig. 5, some features of the egress simulation are shown:
+change of curvature before reaching the stopping density. This          First, a snapshot of the egress process with L = 1.2 m and
+
+                                                                  056117-4
+
+===== PAGINA 5 =====
+
+CONTINUOUS-SPACE AUTOMATON MODEL FOR . . .                                                                                          PHYSICAL REVIEW E 83, 056117 (2011)
+
+                          t=32 s                                                                                                       Exit Width (m)
+                                                                                                                          1.2         1.7          2.2            2.7         3.2
+                                                                                                              3
+
+                                                                                                                                                                 Set of Parameters 1
+                                                                                                            2.5                                                  Set of Parameters 2
+
+
+
+
+                                                                               Specific Flow Rate (1/m/s)
+                                                                                                              2
+
+
+                                                                                                            1.5
+
+
+     (a)                                      (b)                                                             1
+
+
+                                                                                                            0.5
+    FIG. 5. (Color online) Details of one realization of the egress
+process with L = 1.2 m and “set of parameters 2”. (a) Snapshot of
+the process at t = 32 s. Each particle is represented by a dot; in the                                        0
+                                                                                                              100         200        300           400           500          600       700
+figure the size of the dot is fixed and similar to rmin . (b) Two individual
+                                                                                                                                    Number of Pedestrians
+trajectories of two arbitrary particles.
+                                                                                  FIG. 6. (Color online) Specific flow rate obtained from the
+set of parameters 2 is shown; second, individual trajectories                  simulation of the egress of a 20 m × 20 m room, with one exit.
+of two arbitrary particles, of the same realization, are plotted.              Number of people and exit width were varied accordingly (see text).
+In the case of the snapshot it can be seen that the crowd before               Dashed lines indicate the experimental range. Errors lie between the
+the door adopts a natural shape. Looking at the individual                     symbol size.
+trajectories, it must be noted that they are realistic and that
+they show some slight fluctuation, which is less than 20 cm.
+This fluctuation originates with small corrections (at the                     the same specifications of the computational experiments (and
+microscopic level of the time step of the algorithm) produced                  of the racetrack system) described in Sec. III A.
+by changes in the velocities due to the emergence of the escape                   In Fig. 7 it can be observed that changing only rmin produces
+velocity (ve ) when particles enter into contact. It is worth                  alterations in the high-density zone of the fundamental
+remarking that in spite of the microscopic corrections given                   diagram. Decreasing rmin gives as a result a greater stopping
+by ve , the observed macroscopic trajectories given by the CPM                 density and vice versa. This parameter can be associated with
+agree qualitatively with the observed pedestrian trajectories.                 the minimal effective radius inside a packed crowd, which also
+    Now, in order to study the specific flow rate [measured                    allows tuning the maximum density reached by the simulated
+as Np /(Total Evacuation Time L)], the egress from the room                    system. It is worth noting that for low and medium densities the
+was simulated by using the two sets of parameters found in                     curve does not change considerably; in particular, it remains
+the previous subsection and the three exit widths given above.                 invariant near ρ = 2 peds/m2 as this value is a crossing point
+For each configuration thirty realizations were performed. The                 for the three curves shown.
+mean values are plotted as a function of the exit widths (and
+the number of particles) in Fig. 6. In this figure, the following
+facts can be observed:                                                                                                                             rmin = 0.05 m
+   (a) The specific flow rate (Qe ) is nearly independent of the
+                                                                                                                                                   Reference curve ("set param. 2")
+number of people, as is expected for normal conditions (this                                                 1                                     rmin = 0.15 m
+is also true for a fixed exit width and an increasing number of
+particles).
+                                                                                                            0.8
+
+
+
+                                                                               Velocity (m/s)
+   (b) For both sets of parameters, the values obtained of Qe
+lie totally within the experimental range [1.25–2 peds/(m s)].
+                                                                                                            0.6
+           IV. PARAMETER SENSITIVITY ANALYSIS
+                                                                                                            0.4
+   In this section we are going to study the dependence of
+the proposed model on its parameters. First, let us analyze
+how variation of the microscopic parameters (rmin ,rmax , and β)                                            0.2
+affect the fundamental diagram. Then we are going to study
+the specific flow rate as a function of the model parameter ve .                                             0
+   As stated in previous sections, the magnitude vd max can                                                       0   1         2      3       4         5         6      7         8    9
+be easily determined by the speed of free pedestrians (the                                                                                  Density (1/m )
+                                                                                                                                                             2
+zero-density value of the fundamental diagram). Therefore,
+the other free parameters will be analyzed below. For each                        FIG. 7. (Color online) Influence of varying the free model
+new parameter studied, simulations were performed following                    parameter rmin on the fundamental diagram.
+
+                                                                         056117-5
+
+===== PAGINA 6 =====
+
+GABRIEL BAGLIETTO AND DANIEL R. PARISI                                                                                            PHYSICAL REVIEW E 83, 056117 (2011)
+
+
+                                            rmax = 0.30 m                                                                                          β = 0.5
+                                            Reference curve ("set param. 2")                                                                       Reference curve ("set param. 2")
+                  1                         rmax = 0.44 m                                                        1                                 β = 1.3
+
+
+                 0.8                                                                                            0.8
+
+
+
+Velocity (m/s)                                                                     Velocity (m/s)
+                 0.6                                                                                            0.6
+
+
+                 0.4                                                                                            0.4
+
+
+                 0.2                                                                                            0.2
+
+
+                  0                                                                                              0
+                   0   1   2     3      4        5       6    7      8         9                                  0   1   2         3          4        5       6    7      8         9
+                                                     2                                                                                                      2
+                                     Density (1/m )                                                                                     Density (1/m )
+
+   FIG. 8. (Color online) Effect of varying the free model parameter                  FIG. 9. (Color online) Impact of varying the model parameter β
+rmax on the fundamental diagram.                                                   on the fundamental diagram.
+
+    When only the parameter rmax is changed (Fig. 8) the impact                    0.05 s. This enhances considerably the speed of computation
+on the high-density zone is very little; on the contrary, the                      with respect to force-based models.
+curve at the low and medium density range (0.5–5 peds/m2 ,                             Pedestrians are described by bidimensional particles with
+in the present case) shows a major change. Hence, varying                          variable radius between rmin and rmax . These are the relevant
+rmax produces a complementary effect to that produced by                           parameters of the model that can be adjusted in order to
+changing rmin . The parameter rmax could be interpreted, at the                    reproduce the available experimental data. In particular, the
+microscopic level, as half of the minimum distance needed by                       different fundamental diagrams of pedestrian traffic reported
+a pedestrian to take a full-length walking step. Therefore we                      in the literature can be very well approximated by the proposed
+can state, in terms of the model, that this characteristic distance                model, with the correct set of parameters. Furthermore, with
+is responsible for the shape of the fundamental diagram at low                     the same parameters, the simulated specific flow rate of a group
+and medium densities.                                                              of people egressing through a narrow exit is in total agreement
+    Figure 9 shows the influence of varying the form of the                        with the empirical data.
+function relating the desired velocity and the radius of a                             The flexibility of the model to adjust a wide range of
+given particle. This is achieved by changing the parameter                         fundamental diagrams by changing the two parameters rmin
+β in Eq. (1). It can be observed a quasirigid rotation of the                      and rmax allows interpreting the difference between them in
+fundamental diagram around the fixed point at ρ = 0 and mean                       terms of these model parameters. Further investigation will be
+velocity equal to vd max . For the experimental data studied in                    done in order to improve the fundamental diagram generated
+Sec. III A it was found that the same β = 0.9 allows fitting very                  by the model in the stopping density zone.
+different empirical data suggesting that this parameter (and the
+pedestrian perception it represents) could be universal across                                                    2
+a variety of fundamental diagrams.
+    Finally, we are going to study the dependence of simulation                                                 1.8
+
+results on the model parameter ve . As said in Sec. II, this                                                    1.6
+
+
+
+
+                                                                                   Specific Flow Rate (1/m/s)
+parameter can increase or decrease the flow of particles by                                                     1.4
+generating a sticking effect when ve tends to zero. Figure 10
+shows the specific flow rate of 200 pedestrians egressing from                                                  1.2
+the room through an exit of 1.2 m and with the parameters                                                         1
+given by set of parameters 1. As expected, it is observed that the                                                                ve = vdmax
+                                                                                                                0.8
+specific flow rate approaches zero as ve tends to zero. Also we
+can verify that Qe does not change for ve > vd max (=1.55 m/s,                                                  0.6
+in this case). This justifies the choice made in Eq. (9).                                                       0.4
+
+                                                                                                                0.2
+                               V. CONCLUSIONS
+                                                                                                                  0
+   An automaton model for description of pedestrian dynamics                                                          0       1            2                3        4          5
+was presented. The representation of the space and velocities is                                                                     Escape Speed (m/s)
+continuous, and transitions of state are governed by predefined
+rules (so it is not necessary to calculate forces), allowing the                      FIG. 10. (Color online) Variation of the specific flow rate as a
+simulation of the evolution of the system in time steps of about                   function of the escape speed (ve ).
+
+                                                                           056117-6
+
+===== PAGINA 7 =====
+
+CONTINUOUS-SPACE AUTOMATON MODEL FOR . . .                                                     PHYSICAL REVIEW E 83, 056117 (2011)
+
+                    ACKNOWLEDGMENTS                                   (Argentina). D. R. Parisi wants to thank Luciana Bruno and
+                                                                      Victor Bettachini for useful discussion and suggestions.
+  This work was financially supported by CONICET (via
+Grant PIP 2010-2012, N 0304), ITBA, UNLP and ANPCyT
+
+
+
+ [1] V. M. Predtechenskii and A. I. Milinskii, Planning for Foot      [19] U. Weidmann, Transporttechnik der Fussgänger, Transporttech-
+     Traffic Flow in Buildings, published for the National Bureau          nische Eigenschaften des Fussgängerverkehrs, Schriftenreihe
+     of Standards, US Department of Commerce, and the National             des IVT Nr. 90, 1993.
+     Science Foundation, Washington, DC (Amerind Publishing           [20] M. Mori and H. Tsukaguchi, Transportation Research Part A,
+     Company, New Dehli, 1978).                                            General 21, 223 (1987).
+ [2] J. Fruin, Pedestrian Planning and Design (Metropolitan           [21] S. J. Older, Traffic Engineering and Control 10, 160 (1968).
+     Association of Urban Designers and Environmental Planners,       [22] F. P. Navin and R. J. Wheeler, Traffic Engineering (Inst. Traffic
+     New York, NY, 1971).                                                  Eng.) 39, 30 (1969).
+ [3] B. D. Hankin and R. A. Wright, Operational Res. 9, 81 (1958).    [23] A. Seyfried, B. Steffen, W. Klingsch, and M. Boltesm, J. Stat.
+ [4] A. Schadschneider, W. Klingsch, H. Kluepfel, T. Kretz,                Mech.: Theory Exp. (2005) P10002.
+     C. Rogsch, and A. Seyfried, Evacuation Dynamics: Empirical       [24] P. J. DiNenno et al., SFPE Handbook of Fire Protection
+     Results, Modeling, and Applications, Encyclopedia of Com-             Engineering (National Fire Protection Association, Quincy,
+     plexity and System Science, edited by R. A. Meyers (Springer,         MA, 2002).
+     Berlin, 2009), pp. 3142–3176.                                    [25] H. Klüpfel, T. Kretz, C. Rogsch, A. Schadschneider, and A.
+ [5] A. Kirchner and A. Schadschneider, Physica A 312, 260 (2002).         Seyfried, [http://www.ped-net.org].
+ [6] M. Muramatsu, Physica A 267, 487 (1999).                         [26] A. Seyfried, O. Passon, B. Steffen, M. Boltes, T. Rupprecht, and
+ [7] D. Helbing and P. Molnar, Phys. Rev. E 51, 4282 (1995).               W. Klingsch, Transportation Sci. 43, 395 (2009).
+ [8] D. Helbing, I. Farkas, and T. Vicsek, Nature (London) 407, 487   [27] U. Chattaraj, A. Seyfried, and P. Chakroborty, Advances in
+     (2000).                                                               Complex Systems 12, 393 (2009).
+ [9] W. J. Yu, R. Chen, L. Y. Dong, and S. Q. Dai, Phys. Rev. E 72,   [28] Building Regulations, Approved Document B, Section B1,
+     026112 (2005).                                                        Department of the Environment and the Welsh Office, London,
+[10] M. Chraibi, A. Seyfried, and A. Schadschneider, Phys. Rev. E          1991.
+     82, 46111 (2010).                                                [29] Interim Guidelines for Evacuation Analyses for New and
+[11] R. Guo and H. Huang, Physica A 387, 580 (2008).                       Existing Passenger Ships, Technical Report MSC/Circ. 1033,
+[12] T. Vicsek, A. Czirók, E. Ben-Jacob, I. Cohen, and O. Shochet,        International Maritime Organization (IMO) Correspondence
+     Phys. Rev. Lett. 75, 1226 (1995).                                     Group, 2002.
+[13] G. Baglietto and E. V. Albano, Phys. Rev. E 78, 021125 (2008).   [30] The Green Guide, Guide to Safety at Sports Grounds, 5th ed.
+[14] G. Baglietto and E. V. Albano, Phys. Rev. E 80, 050103(R)             (Department of Culture, Media, and Sport, United Kingdom,
+     (2009).                                                               2008).
+[15] P. A. Thompson and E. W. Marchant, Fire Safety Journal 24,       [31] D. Rasbash, G. Ramachandran, B. Kandola, J. Watts, and M.
+     131 (1995).                                                           Law, Evaluation of Fire Safety (Wiley Online Library, 2004).
+[16] P. Thompson, in NIST Workshop on Building Occupant Move-         [32] S. P. Hoogendoorn and W. Daamen, Transportation Sci. 39, 147
+     ment during Fire Emergencies, 2004, pp. 1–10.                         (2005).
+[17] D. Helbing, A. Johansson, and H. Al Abideen, Phys. Rev. E 75,    [33] T. Kretz, A. Grünebohm, and M. Schreckenberg, J. Stat. Mech.:
+     046109 (2007).                                                        Theory Exp. (2006) P10014.
+[18] A. Seyfried, B. Steffen, and T. Lippert, Physica A 368, 232      [34] D. R. Parisi, M. Gilman, and H. Moldovan, Physica A 388, 3600
+     (2006).                                                               (2009).
+
+
+
+
+                                                                056117-7
+

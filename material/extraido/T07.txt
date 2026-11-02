@@ -1,0 +1,1730 @@
+FUENTE: T07
+TITULO: Simulación de multitudes 2: dinámica peatonal
+ORIGINAL: material/catedra/teoria/Teorica_7.pdf
+PAGINAS: 58
+
+===== PAGINA 1 =====
+
+Simulación de Sistemas
+
+        Clase Teórica 7:
+  Simulación de Multitudes 1I
+
+
+
+               1
+
+===== PAGINA 2 =====
+
+       Dinámica Peatonal
+
+Estados de Comportamiento
+
+
+
+           - Normal o Cooperativo:
+                * Normas sociales vigentes (respeto, caballerosidad, etc.).
+                * Nada o poco contacto físico.
+                * Densidades bajas y medias.
+
+
+           - Competitivo o en situaciones de vida o muerte:
+                * Lo opuesto a lo anterior.
+                * Instinto de supervivencia; Sálvese quien pueda !!
+                * Altas Presiones (Asfixia, Aplastamiento).
+
+
+
+
+                                          2
+
+===== PAGINA 3 =====
+
+Dinámica Peatonal
+
+
+
+
+      Modelos de Navegación
+
+
+
+
+                    3
+
+===== PAGINA 4 =====
+
+Dinámica Peatonal
+
+
+
+
+      Predictive Collision Avoidance
+
+
+
+
+                     4
+
+===== PAGINA 5 =====
+
+        Dinámica Peatonal
+Predictive Collision Avoidance
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Karamouzas, Ioannis, Peter Heil, Pascal van Beek, and Mark H. Overmars. "A predictive
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  collision avoidance model for pedestrian simulation." In Motion in Games, pp. 41-52. Springer
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  Berlin Heidelberg, 2009.
+
+
+
+
+                                 mi ai = Fg + Fe
+                                 <latexit sha1_base64="Ixjlpm2XhkzZV1Ty7dKMBoI9N2Y=">AAACGHicbVDLSsNAFJ34rPUVdelmsAiCUBMRdSMUBXFZwT6gDWEymbRDZ5IwMxFKiH/hxl9x40IRt935N07T4KP1wMC559zLnXu8mFGpLOvTmJtfWFxaLq2UV9fWNzbNre2mjBKBSQNHLBJtD0nCaEgaiipG2rEgiHuMtLzB1dhv3RMhaRTeqWFMHI56IQ0oRkpLrnnEXQofYNeLmJ+iLC8uvoXrzO3Bw5+CQNesWFUrB5wldkEqoEDdNUddP8IJJ6HCDEnZsa1YOSkSimJGsnI3kSRGeIB6pKNpiDiRTpoflsF9rfgwiIR+oYK5+nsiRVzKIfd0J0eqL6e9sfif10lUcO6kNIwTRUI8WRQkDKoIjlOCPhUEKzbUBGFB9V8h7iOBsNJZlnUI9vTJs6R5XLVPq/btSaV2WcRRArtgDxwAG5yBGrgBddAAGDyCZ/AK3own48V4Nz4mrXNGMbMD/sAYfQGUd57c</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               5
+
+===== PAGINA 6 =====
+
+t al.       Dinámica Peatonal
+ simulation
+    Predictive the  pedestrian
+               Collision        Pi is trying to reach its desired
+                         Avoidance
+hus, a goal force Fg is applied that attracts the pedestrian
+                                                                         (Desired Goal)
+    El Algoritmo: 1) Fuerza Autopropulsora
+prefers to move toward its destination with a certain speed                     X
+each this speed gradually within a certain time τ . Along
+mption, the goal force Fg can be defined as:
+                                                         ngi
+             1 pref
+         Fg = (ui ngi − v),                                    (1)   v
+             τ
+
+ " . Note that Fg is similar to the force described in Equa-
+ s social force model [7].
+ward its goal, it also has to avoid collisions with the envi-
+ ing walls). Let W denote the set of walls that are present
+ onment. Then, a repulsive force Fw is exerted from each
+  the pedestrian. This force can be defined as:
+          d +r −d
+                                              6
+
+===== PAGINA 7 =====
+
+  the
+   where wall,
+             thediw   definesκthe
+                  constant               shortest
+                                    indicates     thedistance    between
+                                                         steepness   of the repulsive potential, nw
+ denotes        Dinámica
+              the
+   is the normal   safevector
+                          distance ofPeatonal
+                                        thatwall,
+                                        the    the pedestrian
+                                                      diw definesprefers
+                                                                    the shortest distance between
+ ngs.
+   Pi and the wall and ds denotes the safe distance that the pedestrian prefers
+pstoakeep certain
+               frompsychophysical
+                      the buildings. distance ρi from other
+     Predictive Collision Avoidance
+  feel
+   Thecomfortable.
+           pedestrian PThis         distance defines the so-called
+                             i keeps a certain psychophysical distance ρi from other
+edestrian.
+   pedestrians  Forinefficiency
+                         order toreasons,        we model This
+                                       feel comfortable.       this space
+                                                                      distance defines the so-called
+teredEl Algoritmo:
+           at  the  2) Distancia
+                    current          personalof the pedestrian and
+                                position
+   personal space of the pedestrian. For efficiency reasons, we model this space
+nas all aofdisc
+            our simulations,        this ledattothe
+                 B(xi , ρi ) centered              realistic   behaviour
+                                                          current  position of the pedestrian and
+     Se intentanpersonal
+ nhaving
+    elliptical     evitar colisiones
+                              space      entre
+                                         was   not    necessary.
+              radius   ρ
+     peatones y espacios i >  r   . In
+                              personales.
+                                i        all of our    simulations, this led to realistic behaviour
+eives
+   and the     environment
+          hence,   the use oftoandetect         imminent
+                                         elliptical           andspace
+                                                       personal    future was not necessary.
+destrians.
+   The          A collision
+          pedestrian      P    at   some
+                              perceives      time
+                                              the  t    ≥  0
+                                                  environment
+                                                     c       occurs when
+                                                                    to      ρi imminent and future
+                                                                        detect
+     Se considera que i    habrá una
+invades
+   collisions
+     colisióninto  thetiempo
+               enwith
+                  un     personal
+                        other     ) sii:space of P
+                               (tcpedestrians.     Ai ,collision
+                                                         that is: at some time tc ≥ 0 occurs when
+   another pedestrian Pj invades into the personal                    ri space of Pi , that is: rj
+      ∃ tc ≥ 0 | dij ≤ ρi + rj ,                                        (3)
+                                  ∃ tc ≥ 0 | dij ≤ ρi + rj ,                        (3)
+denotes  the distance between the pedestrians’ centers.
+     donde
+
+pation
+  wheretime       , the
+          dij =tα&x i − xpedestrian
+                         j & denotes P   i resolves
+                                       the  distancepotential
+                                                     between the pedestrians’ centers.
+meGiven
+    in advance   by adjusting
+          a certain              its trajectory.
+                       anticipation               As apedestrian
+                                       time tα , the    result,   Pi resolves potential
+ard  its goal,within
+  collisions   evadingthisother
+                            time pedestrians
+                                 in advance by  with minimalits trajectory. As a result,
+                                                   adjusting
+ behaviour,   an evasive
+  it safely navigates      force F
+                         toward     e is
+                                  its    applied
+                                       goal,      on Pother
+                                             evading
+                                                7      i . Note
+                                                              pedestrians with minimal
+
+===== PAGINA 8 =====
+
+        Dinámica Peatonal
+Predictive Collision Avoidance
+
+
+El Algoritmo: 3) Fuerza Evasiva
+
+
+
+
+             Dado un cierto tiempo de anticipación ( tα ) Se aplica una
+             Fuerza Evasiva sobre el peatón que evitará la colisión.
+
+
+
+
+                                             8
+
+===== PAGINA 9 =====
+
+        Dinámica Peatonal
+Predictive Collision Avoidance
+
+   Predicción de la Colisión
+
+                                 Velocidad deseada hipotética si solo considero la velocidad
+       vi des = vi + Fg Δt       actual y la Fuerza de autopropulsión.
+
+                                 Luego se considera una trayectoria con la velocidad deseada
+       xi ’ = xi + t vi des      para la partícula i
+
+       xj ’ = xj + t vj          y con la velocidad actual para la partícula j que es la única
+                                 visible para la partícula i
+
+
+                                 Para computar los tiempos de choque se consideran el radio
+                                 de espacio personal para i (ρi) y el radio físico de la partícula j
+            ρi                   (rj). Se resuelven las ecuaciones de encuentro y se calculan
+                          rj     los tiempos de choque para las partículas j que están en la
+                                 vecindad.
+
+
+
+
+                                                   9
+
+===== PAGINA 10 =====
+
+        Dinámica Peatonal
+Predictive Collision Avoidance
+
+   Selección de potenciales choques
+
+
+
+
+                                 De todas las posibles partículas con los que colisionaría la
+                                 partícula i , se seleccionan las 5 con menor tiempo de choque.
+
+            ρi
+                     rj
+
+
+
+
+                                                10
+
+===== PAGINA 11 =====
+
+                                               but also reflects natural human behaviour. In real-life, an individual tr
+                                               avoid a limited number of other pedestrians, usually those that are on co
+               Dinámica Peatonal               course with him in the coming short time. Similarly, the virtual pedestr
+                                                                            46      I. Karamouzas et al.
+                                               tries to evade the N pedestrians with which it will collide first.
+
+    Predictive Collision Avoidance 4.3 Avoidance Maneuvers                                                                  cj
+
+                                                                                                                        c
+   Maniobra de Elusión                    We now show how the pedestrian Pi can avoid a potential collision              i
+                                                                                                                               with an
+                                          pedestrian         that  belongs   to  the   set        tα
+                                                                                                     . Let vtc
+                   Sean ci y cj las posiciones futuras al tiempo de choque tcij
+                                                        P                                   CP                 ij be the time of co
+                                                                                                            j
+                                                          j                                      i
+                                          between the two pedestrians. Let also ci = xi +xjtcij vides and cj = xj +
+                                          denote the locations of pedestrians Pi and Pj at time tcij ; ci and cj derive
+    ci = xi + tcij vi      des
+                                          (5) and (6) respectively.
+                                                                                                                           vides
+     cj = xj + tcij vj                       Based on these future locations, we select an evasive force Fij for the p
+                                          trian Pi , so that it can smoothly avoid the pedestrian Pj . Thexidirection
+                                          force  is given   by the  unit  vector    n       =
+                                                                                                 ci −cj          Fij from c to c .
+                                                                                                          pointing
+  Basado en estas ubicaciones futuras se establece una fuerza                        c  c
+                                                                                       i j      "ci −cj "                    j       i
+
+      A F
+  evasiva                          cjModelexample,
+                                            ci y      consider   Fig.
+                                                                  está 1(a).  The blue pedestrian(a)       willOur
+                                                                                                                 hitapproach
+                                                                                                                     the red pedestr(
+            ij queCollision
+        Predictive  apunta desde
+                            Avoidance haciafor    cuyo  módulo
+                                               Pedestrian Simulation      47
+  dado por:                               the back. Therefore, it makes a slight move toward the latter and eventual
+                     f (D)
+                                          pass behind it. In contrast, inFig.  a typical    particle-based
+                                                                                    1. Example                  system
+                                                                                                      of the force  usedthe
+                                                                                                                          to red
+                                                                                                                             avoid pede
+                                                                                                                                     af
+                                          would have forced the blue one     the to   move
+                                                                                   force       in the on
+                                                                                           depends       opposite   direction,
+                                                                                                           the relative          leadina
+                                                                                                                          positions
+                                          new collision in the near future        (Fig.current
+                                                                             on the       1(b)). positions of the pedestrians. T
+                                             The magnitude of the evasive        force
+                                                                             space         ij ispedestrian
+                                                                                      of Fthe    approximated Pi . by a piecewise fu
+                                          f(D), where D = !ci −xi !+(!ci −cj !−ri −rj ) is the distance between the c
+
+                                 dmin
+                                            dmid                                 4.2    Selecting Pedestrians
+
+                                        D          dmax                          Having computed the set CPitα , we sort it
+                                                                                 keep the first N pedestrians. Preliminary e
+Fig. 2. The magnitude of the avoidance force as a function of the distance D
+                                                                                 that this number can be kept small (betwee
+                                                                 11              avoidance behaviour. This not only reduc
+ition xi of pedestrian Pi and its future position ci plus the distance between
+
+===== PAGINA 12 =====
+
+       Dinámica Peatonal
+        4.4 Computing the Evasive Force
+            In the last step of our algorithm, we compute the total evasive forc
+            is applied
+Predictive Collision      on the pedestrian Pi given its set CPitα . Two approach
+                     Avoidance
+            distinguished. The first is to take into account each one of the N p
+            independently and compute a corresponding force Fij as described abo
+   Finalmente
+            thela evasive
+                   Fuerza de Elusión
+                           force can be defined as the weighted sum of those N force
+                                                      N
+                                                      !
+    Opción 1) Sumar pesado según               Fe =        wij Fij ,
+     la inminencia del choque                          j
+
+            where the weighting factor wij gives a higher priority to the most
+            collisions.
+     Opción 2) Secuencial: Considerar solo la Fij mas inminente. Verificar
+               The
+     si con la Fe    secondlaapproach,
+                  resultante                whichaun
+                               siguiente colisión   differs from existing
+                                                      se produciría, caso solutions, is to
+            forces
+     afirmativo     sequentially
+                considerarla, caso(iterative     approach).
+                                    negativo ignorarle       The
+                                                       y seguir   idea here is as follows. L
+                                                                hasta
+                                          tα
+            pedestrian
+     completar            in theaset
+                los candidatos    chocar     and let Fij be the evasive force that is exer
+                                     CPiseleccionados.
+            Let us also, for notational convenience, name this force Fv . Then, we
+            whether the pedestrian Pi still collides with each one of the remaini
+            pedestrians in the set, after (virtually) applying the force Fv . In other
+            first estimate the desired velocity of Pi by including Fv into the (4).
+            iterate over the N − 2 pedestrians12
+                                                       in the set and compute the time o
+
+===== PAGINA 13 =====
+
+        Dinámica Peatonal
+Predictive Collision Avoidance
+
+
+   Comparación con Social Force Model
+          46      I. Karamouzas et al.
+
+
+                                                        cj
+
+                                               ci
+                                   vj                               vj
+
+                              xj                               xj
+
+
+                                                    vides                     vides
+
+                                                   xi                    xi
+                                        Fij                                      Fij
+
+                              (a) Our approach               (b) Particle-based model
+
+          Fig. 1. Example of the force used to avoid a future collision. Note that the direction of
+          the force depends on the relative positions at the moment of the impact, rather than
+          on the current positions of the pedestrians. The light blue disc represents the personal
+          space of the pedestrian Pi .
+
+
+          4.2   Selecting Pedestrians
+                                                              13
+                                              tα
+
+===== PAGINA 14 =====
+
+          Dinámica Peatonal
+Predictive Collision Avoidance
+
+                     A Predictive Collision Avoidance Model for Pedestrian Simulation                      51
+   Comparación con Social Force Model
+          Table 1. Statistics for the hallway scenario derived from the simulation of 100 agents
+
+                        Time      Path Length    Avg Speed     Smoothness    Total Accel Degrees Turned
+
+                     Mean Stdev Mean Stdev Mean Stdev Mean Stdev Mean Stdev                Mean    Stdev
+
+          Helbing    30.33 3.71   37.12   2.34   1.23   0.09   1.08   1.08   55.73 28.37 323.22 225.79
+
+          Predictive 25.05 2.10   35.14   1.79   1.40   0.05   0.06   0.08    9.4   6.01   76.62   52.29
+
+          RVO        24.51 1.79   34.56   0.35   1.41   0.01   0.10   0.07   18.75 10.17   106.2   56.14
+     50       I. Karamouzas et al.
+
+          interactive applications, we simulated 1, 000 fully animated characters in a vir-
+          tual park environment. Each character enters the park through a random gate
+          and has to advance toward a randomly selected exit. To increase the realism of
+          the simulation, we varied the preferred and maximum speeds among the charac-
+          ters, as well as the anticipation time of each character and the size of its personal
+          space. The simulation was updated at 10 fps, whereas a parallel thread was used
+          to render the(a)characters
+                           Helbing’sand     the scene at 30 fps. (b)
+                                        model                    Our model   led to
+                                                                      Predictive     smooth mo-
+                                                                                  model
+          tions and thus, we did not have to decouple the simulation from the rendering.
+          Since, on average,Fig.the4.cpu was busy
+                                       Example     for only
+                                                 paths  for 25%  of each time
+                                                            the hallway        step, we conclude
+                                                                          scenario
+          that our model can be used for real-time simulation of thousands of characters.
+          Finally, we also simulated the interactions of pedestrians at the crosswalks of an
+     we first  optimised
+          outdoor            theenvironment.
+                    virtual city   two modelsOur  following
+                                                      approachanresulted
+                                                                  approach    similaravoidance
+                                                                         in a smooth    to the one de-
+     scribed   above.andIn aallvisually
+                                 test-cases,  wesimulation.
+                                                  noted that14 pedestrians using Helbing’s model
+          behaviour                     pleasing
+
+===== PAGINA 15 =====
+
+        Dinámica Peatonal
+Predictive Collision Avoidance
+
+
+   Comparación con Social Force Model
+
+
+
+
+                   pueden ver animaciones de este modelo en:
+                 (https://sites.google.com/site/ikaramouzas/pam)
+
+
+
+
+                                           15
+
+===== PAGINA 16 =====
+
+       Dinámica Peatonal
+    NUEVO ENFOQUE:
+Concepto Elusión de Colisiones
+
+
+
+"Goal Temporario" que varia en el
+tiempo en función de posiciones y
+   velocidades de otros agentes
+                                                       (Final Goal)
+                                                           X
+                                    (Obstacle)
+
+
+
+                                         ngi     X
+                                                 (Temporal Goal)
+
+
+
+
+                                         16
+
+===== PAGINA 17 =====
+
+      Dinámica Peatonal
+    NUEVO ENFOQUE:
+Concepto Elusión de Colisiones
+
+
+         "Goal Temporario" que varia en el tiempo en
+         función de posiciones y velocidades de otros
+                           agentes
+
+
+
+
+      Capa de Elusión Reactiva
+
+
+
+
+         Model Operacional
+
+
+
+
+                                         17
+
+===== PAGINA 18 =====
+
+Dinámica Peatonal
+
+
+
+
+      Heurística Cognitiva
+
+
+
+
+                     18
+
+===== PAGINA 19 =====
+
+         Dinámica Peatonal
+Heurística Cognitiva                    Moussaïd, Mehdi, Dirk Helbing, and Guy Theraulaz. "How simple rules determine pedestrian
+                                        behavior and crowd disasters." Proceedings of the National Academy of Sciences 108, no. 17
+                                        (2011): 6884-6888.
+
+
+
+
+    Fundamento
+
+                       Análogamente al Social Force Model, se
+                       consideran peatones circulares con:
+                       - radio r
+                       - masa m
+                       - posición x
+                       - velocidad v.
+
+
+
+
+                                                   19
+
+===== PAGINA 20 =====
+
+ ral mechanisms at the retina and brain levels (18, 19).
+y, we represent the pedestrian’s visual information as                Effect of Body Collisions. In cases of overcrowding, physical
+
+                         Dinámica Peatonal
+r all possible directions α in [− ϕ, ϕ] (with a reason-
+ r resolution), we compute the distance to the ﬁrst
+α), if pedestrian i moved in direction α at speed v0i ,
+                                                                      interactions between bodies may occur, causing unintentional
+                                                                      movements that are not determined by the above heuristics.
+                                                                      Indeed, at extreme densities, it is necessary to distinguish be-
+ account the other pedestrians’ walking speeds and                    tween the intentional avoidance behavior of pedestrians adapting
+If no collision is expected to occur in direction α, f(α)             their motion according to perceived visual cues and unintentional
+ default maximum value dmax, which represents the                     movements resulting from interaction forces caused by collision
+stance” of pedestrian i (Fig. 1).
+    Heurística Cognitiva                                              with other bodies. We have therefore extended the above de-
+                                                                      scription by considering physical contact forces
+ of the Cognitive Heuristics. The ﬁrst movement heu-
+rns the relative angle αdes of the chosen walking di-                                            !
+mpared with the line of sight. Empirical evidence                                                f ij ¼ kgðri þ rj − dij Þ!
+                                                                                                                          n ij ;
+ t pedestrians seek an unobstructed walking direction,
+ deviating too much from the direct path to their
+              Fundamento
+
+          A                                                                   B
+
+                                             O1
+                                     0°
+
+                                                               dmax
+                                p4                   p3
+                                                                              C
+
+                                      p2
+                                                                                wall          p2(+p4)        p3    p’3
+
+
+                                                                              D
+                                                                                dmax
+
+                                                          p1
+                                                                                                                   p’3
+                                                                                                                                            f(α) tiende a dmax cuando
+                                                                                       wall
+                                                                                                p2
+                                                                                                                                           no hay una colisión futura
+                                                                                                        0
+
+
+ ustration of a pedestrian p1 facing three other subjects and trying to reach the destination point O1 marked in red. The blue dashed line
+o the line of sight. (B) Illustration of the same situation, as seen by pedestrian p1. (C) Abstraction of the scene by a black and white visual ﬁeld.
+areas represent a shorter collision distance. (D) Graphical representation of the function f(α) reﬂecting the distance to collision in direction α. The
+  of the vision ﬁeld is limited by a wall. Pedestrian p4 is hidden by pedestrian p2 and, therefore, not visible. Pedestrian p3 is moving away, so
+ uld occur in position p′3, but only if p1 moved toward the right-hand side.
+
+
+w.pnas.org/cgi/doi/10.1073/pnas.1016507108                                                                                              Moussaïd et al.
+                                                                                                        20
+
+===== PAGINA 21 =====
+
+               Dinámica Peatonal
+   Heurística Cognitiva
+
+
+  is the main     destination (16, 17). A trade-off therefore has to be found be-
+         Heurística
+ol their mo-      tween avoiding obstacles and minimizing detours from the most
+ ation of the     directbuscará
+           El peatón        route. una
+                                   Accordingly,
+                                           soluciónour de ﬁrst    heuristic is
+                                                           compromiso               pedestrian(αdes)
+                                                                           entre“Aun ángulo
+econd ques-       chooses
+           libre de  choques     direction
+                             the y  desviarse      that
+                                             αdes lo     allows the
+                                                      menos                  un path
+                                                                     mostdedirect
+                                                                posible          camino to des-
+                                                                                          directo
+ nformation,
+           haciatination           Oi , lotaking
+                             pointPor
+                   el objetivo.             tanto,into  accountregla
+                                                    la primer     the presence
+                                                                       heurísticaof será
+                                                                                    obstacles.”
+                                                                                          elegir
+ and desired
+           αdes(t)The    chosen
+                   tal que        direction la
+                              se minimice      αdes (t) is computed through the minimi-
+                                                 función:
+ ssume that       zation of the distance d(α) to the destination:
+ walking be-
+on time τ of                    dðαÞ ¼ d2max þ f ðαÞ2 − 2dmax f ðαÞcosðα0 − αÞ:
+  under con-
+                  Here, α0 is the direction of the destination point.
+                     The second heuristic determines the desired walking speed
+each pedes-       v     donde
+                       (t).      (α0) aindica
+                            Because      time  la dirección
+                                               period    τ is   al objetivo.
+                                                              required  for the pedestrian to
+          !
+d speed v i .      des
+                  stop in the case of an unexpected obstacle, pedestrians should
+ trian’s body     compensate for this delay by keeping a safe distance (20).
+=320, where       Therefore, we formulate the second heuristic as follows: “A pe-
+buted in the      destrian maintains a distance from the ﬁrst obstacle in the chosen
+ ally charac-     walking direction that ensures a time to collision of at least τ.” In
+ d his or her     other words, the speed vdes(t) is given by vdes ðtÞ ¼ minðv0i ; dh =τÞ,
+nment he or
+                  where dh is the distance between pedestrian  21          i and the ﬁrst ob-
+ r the end of                                                                         !
+
+===== PAGINA 22 =====
+
+ istance d(α) to the destination:
+              Dinámica
+                2
+                       Peatonal
+  ¼ d2max þ f ðαÞ − 2dmax f ðαÞcosðα0 − αÞ:
+   Heurística Cognitiva
+  direction of the destination point.
+  heuristic determines the desired walking speed
+e a time  period τ is required for the pedestrian to
+       Heurística
+ e of an unexpected obstacle, pedestrians should
+         La segunda regla heurística es: “Un peatón mantiene una distancia al
+or this primer
+         delay obstáculo
+                  by keeping        a safe distance (20).
+                              en el sentido de la marcha elegido de tal manera que
+ formulate    the second
+         asegure   un tiempo  heuristic
+                                de colisión asdefollows:  “Aτ”.pe-
+                                                   al menos      En consecuencia el
+ains a distance
+         módulo defrom la the        obstacle in
+                               ﬁrst deseada
+                         velocidad                    the chosen
+                                                  será:
+on that ensures a time to collision of at least τ.” In
+he speed vdes(t) is given by vdes ðtÞ ¼ minðv0i ; dh =τÞ,
+e distance between pedestrian i and the ﬁrst ob-
+esired direction
+            donde dαhdes   at time
+                        es la         t. The
+                              distancia          vector
+                                           entre el      !
+                                                    peatónv ides ofprimer obstáculo en la
+                                                              y su
+            dirección
+                    in deseada     αdes .α
+elocity points           direction        des has the norm
+ The change in the actual velocity v i at time t   !
+ walking conditions is given by the acceleration
+ dt ¼ ð!v des − !v i Þ=τ.
+
+   Collisions. In cases of overcrowding, physical
+etween bodies may occur, causing unintentional
+                                     22
+
+===== PAGINA 23 =====
+
+   i       stop in the case of an unexpected obstacle, pedestrians shoul
+ody compensate for this delay by keeping a safe distance (20
+               Dinámica           Peatonal
+ere Therefore, we formulate the second heuristic as follows: “A pe
+the destrian maintains a distance from the ﬁrst obstacle in the chose
+ ac- Heurística Cognitiva
+           walking direction that ensures a time to collision of at least τ.” I
+her other words, the speed v (t) is given by v ðtÞ ¼ minðv0 ; d =τ
+                                              des                des           i   h
+  or Dinámica
+           where dh is the distance between pedestrian i and the ﬁrst ob
+   of                                                                            !
+           stacle in the desired direction αdes at time t. The vector v des o
+the Una vez que se tiene la velocidad deseada (vdes) El cambio de la
+           the    desired      velocity    points    in direction  α des has the  norm
+ i.
+           velocidad actual (vi) estará dado por:
+              !
+           k v des k ¼ vdes . The change in the actual velocity v i at time!
+the
+           under normal walking conditions is given by the acceleratio
+pe-                       !              !        !
+           equation d v i =dt ¼ ð v des − v i Þ=τ.
+ 9).
+   as Effect of Body Collisions. In cases of overcrowding, physica
+on- interactions between bodies may occur, causing unintentiona
+ﬁrst movements that are not determined by the above heuristic
+  v0i , Indeed, at extreme densities, it is necessary to distinguish be
+and tween the intentional avoidance behavior of pedestrians adaptin
+ (α) their motion according to perceived visual cues and unintentiona
+the                                               23
+
+===== PAGINA 24 =====
+
+              Dinámica Peatonal
+    Heurística Cognitiva
+
+  uch each other where         showsg(x) transitions           from smooth
+                                          = 0 if the pedestrians            i and j do ﬂows      to stop
+                                                                                           not touch     ea
+                                                                                    !
+normalized vec- “crowd turbulence,” as has been
+       Dinámica           and    otherwise      equals      the   argument      x.  n ijobserved
+                                                                                         is the normalibef
+           between
+ stanceAdemás,            tor   pointing
+                               (4).   Fig.  from
+                                             3C     pedestrian
+                                                    depicts          j  to
+                                                                   typical i, and
+                   en los casos de alta densidad donde las partículas entran en
+                                                                                    d   is
+                                                                               space–time
+                                                                                     ij     the distance
+                                                                                                   diagra
+                          the pedestrians’          centers      of mass      (1).   The physical int
+  cal interaction
+         contacto,  se considera
+         entre peatones with
+                               at  various
+                                   la fuerza de density
+                                                 contacto      levels,
+                                                             del Social   displaying
+                                                                         Force Model        a  smooth,
+                                  a
+                           y con las  wall   W
+                                      paredes.    is
+                                                Por  lorepresented
+                                                         tanto la ecuaciónanalogously
+                                                                            final para        by a conta
+    contact    force        f iW ¼ kgðri − diW Þ n iW1),
+                               density      (regime                 but dstop-and-go             waves
+         integrar resulta.!                            !      , where      iW  is  the  distance     to the
+e to the wall W and(regimes      !n iW is the 2 direction
+                                                  and 3). These             waves toresult
+                                                                  perpendicular            it. from t
+                               small local
+                              The       resulting perturbations
+                                                   P      acceleration
+                                                          !             P   in!the
+                                                                               equation ﬂow due readstod
+           !                !
+                               lems− vi!
+                                        when
+                                          Þ=τ þcompeting
+ ads d v i =dt ¼ ð v des                                j f ij =mi þforWscarce f iW =migaps   and(22):
+                                                                                                    is solW
+                          gether      with the usual         equation      of motion          !
+                                                                                            d x i =dt ¼ v!
+   is solved to- !             pedestrians         is high         enough,        such perturbatio
+       !                    x ireaction
+                               ðtÞ denotes of  the braking
+                                                     location ofmaneuvers,
+                                                                      pedestrian i atresulting
+                                                                                             time t. In  co
+                                                                                                         in
+dt ¼ v i , where social force models, however, the interaction terms !                                 f ij a
+ t. In contrast      to        waves.      This       result      is   illustrated        by    the    sign
+     !          ! are nonzero only in extremely crowded situations, but n
+ms f ij and f iW normal        between walkingtheconditions.
+                                                       local speed at positions x1 and
+ , but not under a certain time                            lag T (Fig. 3B). In particular
+                            Results                  24
+
+===== PAGINA 25 =====
+
+                                                                        by a power law with exponent 1.95 ± 0.09. This result is in excellen
+                                                                        agreement with detailed evaluations of crowd turbulence durin
+                  Dinámica Peatonal
+e Patterns of Motion. Next, we explored the model pre-
+   in a collective context. For bidirectional trafﬁc in a               a crowd disaster that happened to be recorded by a surveillanc
+                                                                        camera (4).
+ ssuming random initial positions of pedestrians, we ﬁnd
+w directions separate spontaneously after a short time, as              Discussion
+ally observed (Fig. S2). This collective organization re-
+     Heurística    Cognitiva                                            The greater explanatory power of our heuristics-based modeling
+ e well-known   lane  formation phenomenon (2), which is
+                                                                        demonstrated through comparison with different empirical an
+  teristic property of crowd dynamics.
+                                                                        experimental data (overview in Fig. S5 and Table S1), sugges
+ lso investigated the inﬂuence of pedestrian density on
+                                                                        a paradigm shift from physics-inspired binary interaction mode
+ tional ﬂows. The velocity–density relation predicted by
+           Resultados                                                   to an integrated treatment of multiple interactions, which ar
+  el agrees well with empirical data (21) (Fig. 3A). Fur-               typical for social interactions in human crowds or animal swarm
+ e, when the density exceeds critical values, our model                 (23–28). Without    requiringfundamental
+                                                                                                      additional assumptions, our approac
+                  Elusión obstáculo fijo                                                  Diagrama
+                                                                             A various issues related to the combination of multipl
+                                                                        overcomes                                                      B
+                                                                        binary interactions (6, 11). Our model3      treats a pedestrian’s re
+                                                                        action to1.4                                                        0.6
+
+
+
+
+                                                                                                                                      Correlation Coefficient
+                                                                                    his or her visually perceived     environment    in  an  in
+
+
+
+
+                                                                            Average Speed (m/s)
+        0.5                                                                                                 C
+                                                                        tegrated way rather than 1reducing it to a superposition of pa
+         0
+                                                                        interactions. Instead of being repelled
+                                                                                                              0
+                                                                                                                0 by their    neighbors, as wa
+                                                                                  1                                       0.8
+        −0.5                                                            assumed in previous particle models,Occupancy
+                                                                                                                   individuals actively seek
+                                                                                                            2                               0.3
+                                                                        free path through the crowd. The combined effect of neighborin
+ Y(m)
+        0.5
+                                                                        individuals
+                                                                                 0.6 is implicitly included in the       representation of
+                                                                                                                    3
+                                                                        pedestrian’s visual ﬁeld. Our model therefore      4 correctly handle
+         0                                                              situations in which pedestrians are hidden or outside the ﬁeld o
+                                                                                           Empirical data
+                                                                                 0.2 high-density                                            0
+        −0.5                                                            view. Finally,                and life-threatening situations can b
+                  Experimental data (+ std)                                                Simulations
+                                               Model prediction
+                                                                        studied by combining heuristics-based movement resulting from
+             −4                         0                         4                   0
+                                                                        visual perception              0.4
+                                                                                              0.2the environment
+                                                                                             of                   0.6with 0.8
+                                                                                                                            unintentional di
+                                       X(m)
+                                                                        placements due to physical  Occupancy
+                                                                                                        forces resulting from unavoidabl
+esults of computer simulations for the heuristic pedestrian model       collisions with other bodies. In doing so, the emergence of crow
+s) compared with experimental results (shaded lines) during simple      turbulence in panic situations can be reproduced as well.
+  maneuvers in a corridor of 7.88 m length and 1.75 m width (data            C
+                                                                           Understanding           1
+                                                                                             pedestrian  heuristics and 2
+                                                                                                                            the emergence 3o
+ 10). (A) Average trajectory of a pedestrian passing a static in-       complex crowd0 behavior is a crucial step toward a more reliabl
+tanding in the middle of the corridor (n = 148 replications). (B)
+                                                                        description and 30 prediction of pedestrian ﬂows in real-life si
+rajectory of a pedestrian passing another individual moving in the
+
+                                                                                                  Time (s)
+direction (n = 123 replications). Dashed shaded lines indicate the SD
+                                                                        uations. Our heuristics-based model therefore has importan
+erage trajectory. Pedestrians are moving from left to right. The        practical applications, such as the improvement of architecture
+                                                                                       60
+                                                                         25
+                                                                        and exit routes, as well as the organization of mass events. I
+ simulations were conducted in a way that reﬂected the experi-
+
+===== PAGINA 26 =====
+
+                                                           support resource-efﬁcient designs. We also expect t
+ her evidence for our cognitive, heuristics-               heuristics-based approach will inspire new models of c
+                      Dinámica Peatonal
+be collected by using eye-tracking systems                 human behavior such as group decision making (34) and
+ e visual cues followed by pedestrians. Our                social activity patterns (35, 36), where the occurrence o
+ perspectives in other research areas. In the              taneous interactions between multiple individuals matte
+ robotics, for example,
+   Heurística   Cognitivathe model may serve
+                                                Materials and Methods
+n in complex dynamic environments, which
+                                                Experimental Setup. The controlled experiments shown in Fig. 2
+nt for swarms of mobile robots (31). In fact, ducted in 2006 in Bordeaux (France). The experimental corridor
+        Resultados:
+ ion-avoidance       “LoveofParade
+                 concepts            disaster
+                              multirobot sys- (Duisburg  2010)”
+                                                length and 1.75 m(Occupancy      = 0.98)
+                                                                   width was equipped   with a 3D tracking syste
+n inspired by human behavior (32, 33). The consisted of three digital cameras (SONY DCR-TRV950E) mount
+             A: Compresión corporal        B: Probabilidad de caídas             C: Distribución de desplazamientos
+                                                                                           entre 2 detenidas consecutivas
+
+ A                                        B                                    C                          Exponent:
+        3                                         3
+                                                                                                          Model k=1.95
+
+
+                                                                              Frequency
+                                                                                               −2
+                                                                                          10              Observed k=2.01
+
+Y (m)    0
+                                          Y (m)
+                                                   0
+                                                                                               −4
+                                                                                          10
+
+        −3                                        −3
+             −5          0            5             −5      0            5                                −1        0
+                                                                                                     10        10
+                        X (m)                              X (m)                                    Displacement (m)
+
+   of turbulent ﬂows in front of a bottleneck for an occupancy value of 0.98. (For the analysis of a turning corridor as in
+ urg in 2010, see Fig. S4). (A) The local body compression Cð!   x Þ reveals two critical areas of strong compression in front o
+ B) Analyzing the “crowd pressure” (deﬁned as local density times the local velocity variance) (Materials and Methods) rev
+ g (in red), indicating the likelihood of a crowd disaster (4). (C) Distribution of displacements (i.e., location changes bet
+  d by speeds with k! v i k < 0:05m=s). The double logarithmic representation reveals a power law with slope k = −1.95 ± 0.0
+ al ﬁndings (see ﬁgure 3e in ref. 4, where the slope is k = −2.01 ± 0.15). The local speed, local pressure, and local co
+ n Materials and Methods. The above results are based on 26   simulations of 360 pedestrians during 240 s in a corridor of lengt
+
+===== PAGINA 27 =====
+
+Dinámica Peatonal
+
+
+
+
+       Modificación al CPM
+
+
+
+
+                    27
+
+===== PAGINA 28 =====
+
+                              agent velocity (Eq. 2) by considering a simple avoidance mecha
+           Dinámica The
+                   Peatonal
+                        general idea is that the self-propelled particle will produce a
+                              vi (t) as stated in Ref. [9]. In this case, the new mechanism w
+                              depending on the neighbor particles and obstacles. First, the coll
+Modificación al CPM
+                                                          nc i = eij Ap e dij /Bp cos(✓j ) + eik
+                              where j indicates the nearest visible neighbor, k the nearest point
+A
+                              term for breaking possible symmetric situations.
+                             B                            C
+
+               rmax                        ve                            xj
+                                                                                                      3
+    r               v                                                   dij                          +
+                                                                                                     xv
+                                                                              θj
+    rmin                         r(t-Δt)
+                                                                                   eit
+                        v                                     xi                   eia
+                                                     ve            nc
+           r=rmax                                                              visibility field of
+                                                                                 agent "i"
+
+
+
+
+                                                28
+
+===== PAGINA 29 =====
+
+        Dinámica Peatonal
+Modificación al CPM
+
+        Si la partícula NO está en contacto:
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            i
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             <latexit sha1_base64="3JoInKW8MLbumMiaqE10IssRAZM=">AAACQnicfZDLSgMxGIUz9VbrrerSTbAIglBmRNSNUHTjsoK9SDsOmUymDc1khiQjlHSezY1P4M4HcONCEbcuTC+ItuIPgcM55yfJ5yeMSmXbT1Zubn5hcSm/XFhZXVvfKG5u1WWcCkxqOGaxaPpIEkY5qSmqGGkmgqDIZ6Th9y6GeeOOCEljfq36CXEj1OE0pBgpY3nFm7YfswAST6PsVtMMnsF2KBDWY597GmfwAH631KiV6QH8twAHmVcs2WV7NHBWOBNRApOpesXHdhDjNCJcYYakbDl2olyNhKKYkazQTiVJEO6hDmkZyVFEpKtHCDK4Z5wAhrEwhys4cn9uaBRJ2Y9804yQ6srpbGj+lbVSFZ66mvIkVYTj8UVhyqCK4ZAnDKggWLG+EQgLat4KcRcZgspQLxgIzvSXZ0X9sOwcl52ro1LlfIIjD3bALtgHDjgBFXAJqqAGMLgHz+AVvFkP1ov1bn2MqzlrsrMNfo31+QVAE7E5</latexit>
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    n c + e t
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             eia =
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |nc + eit |
+                       vd = vd eia
+                       <latexit sha1_base64="0koqk+qoJU3DsGVqD0gXqQw//K8=">AAACCnicbVDLSsNAFJ3UV62vqEs3o0VwVRIRdSMU3bisYB/QxjCZTNqhk5kwMymUkG7d+CtuXCji1i9w5984fSy09cCFwzn3cu89QcKo0o7zbRWWlldW14rrpY3Nre0de3evoUQqMaljwYRsBUgRRjmpa6oZaSWSoDhgpBn0b8Z+c0CkooLf62FCvBh1OY0oRtpIvn3YCQQLs0Huh3AEr0wN/HA0FUn+QH3k22Wn4kwAF4k7I2UwQ823vzqhwGlMuMYMKdV2nUR7GZKaYkbyUidVJEG4j7qkbShHMVFeNnklh8dGCWEkpCmu4UT9PZGhWKlhHJjOGOmemvfG4n9eO9XRpZdRnqSacDxdFKUMagHHucCQSoI1GxqCsKTmVoh7SCKsTXolE4I7//IiaZxW3POKe3dWrl7P4iiCA3AEToALLkAV3IIaqAMMHsEzeAVv1pP1Yr1bH9PWgjWb2Qd/YH3+AAPZmno=</latexit>
+
+
+
+
+                  x ( t + dt ) = x ( t ) + vd dt
+
+
+
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        29
+
+===== PAGINA 30 =====
+
+Dinámica Peatonal
+
+
+
+
+       Data-Driven Simulation
+
+
+
+
+                    30
+
+===== PAGINA 31 =====
+
+       Dinámica Peatonal
+Data-Driven Simulation
+                         Basic Idea
+
+
+
+
+                             31
+
+===== PAGINA 32 =====
+
+       Dinámica Peatonal
+Data-Driven Simulation
+                         Basic Idea
+
+
+
+
+                             32
+
+===== PAGINA 33 =====
+
+       Dinámica Peatonal
+Data-Driven Simulation
+                         Simulation Scheme
+
+
+
+
+                                   33
+
+===== PAGINA 34 =====
+
+       Dinámica Peatonal
+Data-Driven Simulation
+
+
+  Advantages:
+
+
+          - Simulations “experimentally validated” (by definition).
+
+
+          - Direct way from [Real Data] —-> [Simulations] (No need to “guess” a model).
+
+
+          - Increasingly relevant in light of the current AI revolution.
+
+
+          - Computationally efficient (bigger “dt” that force-based models).
+
+
+
+
+                                                     34
+
+===== PAGINA 35 =====
+
+Software de Simulación
+
+
+
+
+          35
+
+===== PAGINA 36 =====
+
+Software de Simulación
+Niveles de Complejidad en
+la Navegación Peatonal
+                               Elección de Actividades        Nivel Estratégico
+
+
+
+
+                            - Programa de Actividades
+   - Topología de la red                                       Nivel Táctico
+                            - Elección de área de actividad
+   - Horarios
+                            - Elección de Camino
+
+
+
+
+   - Geometría
+   - Obstáculos             - Desplazamiento                    Nivel Operativo
+   - Características        - Interacción con otros agentes
+      de peatones
+
+
+
+
+                                           36
+
+===== PAGINA 37 =====
+
+Software de Simulación
+Niveles de Complejidad en
+la Navegación Peatonal
+                                               Nivel Estratégico
+
+
+
+
+                                                Nivel Táctico
+           - Predictive Coll. Avoidance
+           - Heurística Cognitiva
+           - Wang Qian-Ling et al. 2015
+           - Stephen J. Guy et. al 2012
+
+
+               - Soc. Force Model
+               - Bionic Inspire                  Nivel Operativo
+               - Contract Part. Model
+
+
+
+
+                                          37
+
+===== PAGINA 38 =====
+
+Software de Simulación
+                                SIMULADOR
+                           (Validación Experimental)
+
+
+                                                          Caudales
+    Datos
+Experimentales                                         (Cond. Normales)
+
+                                 SIMULADOR
+
+                                                          Diagrama
+         Modelos                                         Fundamental
+ Físicos-Computacionales                               (Cond. Normales)
+
+
+
+
+                                      38
+
+===== PAGINA 39 =====
+
+Software de Simulación
+Inputs generales
+
+
+                   - Geometría.
+
+
+                   - Ocupación / Demanda (caudales de llegada)
+
+
+                   - Ubicación de Servidores y Tiempo de Procesos
+
+
+                   - Matriz Origen-Destino. Lista de tareas.
+
+
+                   - Plan de Evacuación.
+
+
+
+
+                                              39
+
+===== PAGINA 40 =====
+
+Software de Simulación
+Observables típicos
+
+
+
+                  - Tiempos de tránsito y de Evacuación
+                  - Tiempos de espera en procesos
+                  - Curvas de Población
+                  - Mapas de densidad
+                  - Animaciones 2-D
+                  - Ocupación por sectores
+                  - Etc.
+
+
+
+
+                                             40
+
+===== PAGINA 41 =====
+
+Aplicaciones al Diseño de
+  Sistemas Peatonales
+
+
+
+
+            62
+
+===== PAGINA 42 =====
+
+        Simulador de Tránsito Peatonal
+Sistemas
+     FILAS Simples
+
+Ejemplo Funcionalidad:
+    1- Aspectos        Procesos y Filas
+                    Geométricos
+
+
+                           Mayor                              Menor
+                    Tiempo de Transacción              Tiempo de Transacción
+
+
+
+
+                                            Zona de
+                                            Decisión
+
+
+
+
+                                               63
+
+===== PAGINA 43 =====
+
+        Simulador de Tránsito Peatonal
+Sistemas Simples
+Ejemplo Egreso: Cambio de “Layout”
+                                     (Gradas de un estadio)
+
+
+
+
+                                       64
+
+===== PAGINA 44 =====
+
+          Simulador de Tránsito Peatonal
+Sistemas Simples
+Ejemplo Egreso: Secuencia de Evacuación
+
+
+
+
+ (Edificio de 7 pisos)
+
+
+
+
+                                          65
+
+===== PAGINA 45 =====
+
+         Simulador de Tránsito Peatonal
+Sistemas Simples
+Ejemplo Egreso: Secuencia de Evacuación        (Edificio de 7 pisos)
+
+
+(Edificio de 7 pisos)
+
+
+Imagen a los 70 segundos de
+iniciada la evacuación.
+
+
+
+
+                                          66
+
+===== PAGINA 46 =====
+
+        Simulador de Tránsito Peatonal
+Sistemas Simples
+Ejemplo Egreso: Secuencia de Evacuación
+
+
+
+
+  (Edificio de 7 pisos)
+
+
+  Estrategia “bottom-up”
+
+
+
+
+                                          67
+
+===== PAGINA 47 =====
+
+Sistema Complejo
+Distancia Social en Supermercado
+
+                                   A                    A                 B                B
+                                           30                                     30
+                                                                                                                     References:
+Caracterizar la distancia entre
+                                                                                                                      Products
+agentes en función de                      25                                     25
+
+                                                                                                                       Network
+la ocupación permitida (N)                 20                                     20                                   of paths
+
+                                   y (m)                                  y (m)                                       Shelves
+                                           15                                     15
+
+                                                                                                                      Walls
+                                           10                                     10
+                                                                                                                      Checkout
+                                                                                                                      points
+                                           5                                      5                                   Agent
+                                                                                                                      generator
+
+                                           0                                      0
+                                                0   5           10   15                0       5           10   15
+                                                        x (m)                                      x (m)
+
+
+
+
+                                                        68
+
+===== PAGINA 48 =====
+
+Sistema Complejo
+Distancia Social en Supermercado
+
+
+
+
+Caracterizar la distancia entre
+agentes en función de
+la ocupación permitida
+
+
+
+
+                                   69
+
+===== PAGINA 49 =====
+
+Sistema Complejo
+Distancia Social en Supermercado                              Trayectorias
+
+       A                  B                      C                      D
+        30                30                     30                    30
+
+
+
+
+        25                25                     25                    25
+
+
+
+
+        20                20                     20                    20
+
+
+
+
+        15                15                     15                    15
+
+
+
+
+        10                10                     10                    10
+
+
+
+
+         5                 5                      5                     5
+
+
+
+
+         0                 0                      0                     0
+             0   5   10        0   5   10             0   5    10           0   5   10
+
+
+
+
+                                            70
+
+===== PAGINA 50 =====
+
+Sistema Complejo
+Distancia Social en Supermercado                                      Densidades Medias
+
+        A                      B                    C                         D               m-2s-1
+        30                30                   30                        30
+                               0                    0                         0
+                                                                                               100
+                                                                                               0
+
+
+
+        25                25                   25                        25
+
+
+                               -0.5                 -0.5                      -0.5             -0.5
+
+        20                20                   20                        20
+
+
+
+
+        15                15 -1                15 -1                     15 -1
+                                                                                               10-1
+                                                                                               -1
+
+
+
+
+        10                10                   10                        10
+
+                               -1.5                 -1.5                      -1.5             -1.5
+
+
+         5                 5                    5                         5
+
+
+
+
+         0                 0
+                               -2
+                                                0
+                                                    -2
+                                                                          0
+                                                                              -2
+                                                                                               10-2
+                                                                                               -2
+
+             0   5   10        0      5   10        0        5   10           0      5   10
+
+
+
+
+                                                        71
+
+===== PAGINA 51 =====
+
+Sistema Complejo
+Distancia Social en Supermercado
+                                                          Distancias a primeros vecinos
+
+                         0.3
+                                                                             N=14
+                                                                             N=35
+                        0.25                                                 N=62
+                                                                             N=92
+
+                         0.2
+
+
+                  PDF   0.15
+
+
+                         0.1
+
+
+                        0.05
+
+
+                          0
+                               0   5         10      15       20        25          30
+                                       Distance to First Neighbor (m)
+
+
+
+                                                    72
+
+===== PAGINA 52 =====
+
+Sistema Complejo
+                                                                                                                     Número de agentes a menos
+Distancia Social en Supermercado                                                                                     de 2 m durante los tiempos
+                                                                                                                     indicados dividido el total de
+                                                                                                                     agentes procesados.
+
+                                   20                                                                                 4
+                                            A    te > 1 ‘                                                                      B          te > 1 ‘
+                                                                                                                     3.5
+
+
+
+
+     Social Distance Coefficient                                                       Social Distance Coefficient
+                                                 t e > 1.5 ‘                                                                              t e > 1.5 ‘
+                                   15            te > 2 ‘                                                             3                   te > 2 ‘
+                                                 te > 3 ‘                                                                                 te > 3 ‘
+                                                                                                                     2.5
+
+                                   10                                                                                 2
+
+                                                                                                                     1.5
+
+                                   5                                                                                  1
+
+                                                                                                                     0.5
+
+                                   0                                                                                  0
+                                        0       20             40   60      80   100                                       0       20     40            60   80   100
+                                                         Allowed Capacity                                                               Allowed Capacity
+
+
+
+
+                                                                                 73
+
+===== PAGINA 53 =====
+
+Aplicaciones basadas en Simulación
+Beneficios de simular un Sistema Complejo
+
+
+- Evaluar el impacto que producirían cambios de las variables operativas y/o geométricas.
+Asistiendo en la toma de decisiones.
+
+
+- Se evita realizar ensayos sobre el proceso y la infraestructura real.
+
+
+- Evaluar muchas configuraciones posibles sin costo de obras ni molestias para los
+usuarios.
+
+
+- Brinda datos detallados de cada peatón simulado (trayectorias) a partir de lo que se
+pueden calcular tiempos de tránsito, egreso, mapas y variados indicadores.
+
+
+
+
+                                              74
+
+===== PAGINA 54 =====
+
+Aplicaciones basadas en Simulación
+Beneficios de simular un Sistema Complejo
+
+
+
+
+       - Mejorar el Confort en Condiciones Normales.
+
+
+
+
+       - Mejorar la Seguridad ante Evacuaciones de Emergencia.
+
+
+
+
+                                            75
+
+===== PAGINA 55 =====
+
+Aplicaciones basadas en Simulación
+Problemáticas
+
+
+
+
+                - Funcionamiento - Funcionalidad y Procesos.
+
+
+                - Egreso - Normal o de Emergencia.
+
+
+
+
+                                         76
+
+===== PAGINA 56 =====
+
+Aplicaciones basadas en Simulación
+ Códigos Genéricos
+
+
+  - VisWalk (http://vision-traffic.ptvgroup.com/en-uk/products/ptv-viswalk/)
+
+
+  - Legion (http://www.Legion.com/)
+
+
+  - MassMotion (http://www.oasys-software.com/products/engineering/massmotion.html)
+
+
+  - PedSim (http://pedsim.silmaril.org/)
+
+
+  - Vadere (http://www.vadere.org/).   (Open Source)
+
+
+
+
+                                             77
+
+===== PAGINA 57 =====
+
+Aplicaciones basadas en Simulación
+ Códigos Evacuación
+
+
+
+       - Pathfinder (https://www.thunderheadeng.com/pathfinder/)
+
+
+       - Exodus (http://fseg.gre.ac.uk/exodus/)
+
+
+       - PedGo (http://traffgo-ht.com/en/pedestrians/products/pedgo/)
+
+
+       ....
+
+
+
+
+                                           78
+
+===== PAGINA 58 =====
+
+FIN
+
+
+
+
+      79
+

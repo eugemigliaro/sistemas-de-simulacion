@@ -1,0 +1,368 @@
+FUENTE: B25
+TITULO: Molecular Dynamics Simulation of Complex Particles in Three Dimensions and the Study of Friction due to Nonconvexity — Galindo-Torres et al.
+ORIGINAL: material/externo/bibliografia-5/AlonsoMarroquinEsferoPoligonos/torres_marroquin_wang_pedroso_castano2009.pdf
+PAGINAS: 4
+
+===== PAGINA 1 =====
+
+                                                                                                                    RAPID COMMUNICATIONS
+
+                                             PHYSICAL REVIEW E 79, 060301共R兲 共2009兲
+
+
+Molecular dynamics simulation of complex particles in three dimensions and the study of friction
+                                    due to nonconvexity
+          S. A. Galindo-Torres,1,4,* F. Alonso-Marroquín,1,† Y. C. Wang,2 D. Pedroso,3 and J. D. Muñoz Castaño4
+          1
+          MoSCoS, School of Mathematics and Physics, The University of Queensland, Queensland, Brisbane 4068, Australia
+                   2
+                    CSIRO Exploration and Mining, Technology Court, Pullenvale, Queensland 4069, Australia
+               3
+                Golder Geomechanics Center, The University of Queensland, Queensland, Brisbane 4068, Australia
+          4
+           Grupo de Simulación de Sistemas Físicos, Universidad Nacional de Colombia, Cra 30 cll 45, Bogotá, Colombia
+                共Received 18 November 2008; revised manuscript received 21 May 2009; published 22 June 2009兲
+                 We investigate the macroscopic properties of frictionless nonconvex particles using molecular dynamics.
+              The calculations are based on a simple and efficient method to simulate complex-shaped interacting bodies.
+              The particle shape is represented by Minkowski operators. A multicontact time-continuous interaction between
+              bodies is derived using simple concepts of computational geometry. Three-dimensional simulations of hopper
+              flow show that the nonconvexity of the particles strongly affects the jamming on granular flow. Also the model
+              allows the representation of complex bodies with rough surfaces as in friction studies and the reproduction of
+              a wide range of friction and dilatancy angles as in true triaxial tests.
+
+              DOI: 10.1103/PhysRevE.79.060301                   PACS number共s兲: 45.70.⫺n, 47.11.Mn, 02.70.Ns, 45.40.⫺f
+
+
+                     I. INTRODUCTION                                   duces the concept of spheropolygons, which is the object
+                                                                       resulting from dilating a polygon by a sphere. The method
+    Most of our technology is still based in moving parts, and
+                                                                       not only guarantees energy balance but also proves to be
+hence the development of durable and/or low friction sur-
+                                                                       much more efficient than previous models to represent com-
+faces and thin lubricating films has become an important
+                                                                       plex particle shape 关7兴. In 3D models, the dilation of a poly-
+factor in the construction of many devices. The study of the
+                                                                       hedra by a sphere has a precise mathematical meaning using
+friction in these kind of surfaces is extremely important and
+                                                                       the Minkowski operator. In our knowledge, Liebling and
+cannot be restricted to the simple Amonton’s friction law for
+                                                                       Pournin 关8,9兴 were the first to introduce the Minkowski op-
+sliding. Moreover, there is a huge complexity involved and
+                                                                       erators in particle-based simulations. In order to calculate the
+chaotic behavior has been reported 关1兴 making the search for
+                                                                       interactions, they assumed a single contact point between the
+simple models even more difficult. One of the features that
+                                                                       particles 关8兴. This approach, however, leads to forces discon-
+produce macroscopic friction is microscopic roughness.
+                                                                       tinuities in time and numerical errors such as abrupt creation
+Nonconvex bodies sliding against each other have multiple
+                                                                       of mechanical energy. Using a single contact per particle pair
+contact points, each of them providing a repulsive force op-
+                                                                       makes extremely difficult if not impossible to model noncon-
+posing relative movement. A macroscopic model based on a
+                                                                       vex particles and therefore its application for fields such as
+continuum assumption may not be suitable for this phenom-
+                                                                       tribology is limited.
+enon.
+                                                                           In this Rapid Communication we present a solution to this
+    Molecular dynamics 共MD兲 is an alternative to this prob-
+                                                                       problem by 共i兲 introducing a 3D MD technique using
+lem. MD is the art of modeling complex systems as a col-
+                                                                       spheropolytopes and 共ii兲 defining a multicontact law for two
+lection of particles interacting with each other. The most
+                                                                       bodies that solves most of the problems encountered in pre-
+typical approach for this is to solve the dynamics of interact-
+                                                                       vious models. With it we will show the results of three sets
+ing rigid bodies, where their real shapes are approximated by
+                                                                       of simulations dealing with nonconvexity friction: the hopper
+polyhedra 关2兴. The most difficult aspect for the simulations is
+                                                                       granular flow, the true triaxial test and the rough surface
+to model contact interactions. Contact force methods have
+                                                                       sliding.
+been proposed for two-dimensional 共2D兲 models using poly-
+gons 关3,4兴. However, the extension of this method to three-
+dimensional 共3D兲 simulations has proven to be extremely                                           II. MODEL
+difficult. One reason is because the calculation of the overlap            Spheropolytopes are generated from the Minkowski addi-
+between two polyhedra is computationally very expensive.               tion of a polytope by a sphere, which is nothing more than
+This is the main reason why most of the commercial codes               the object resulting from sweeping a sphere around a poly-
+for particulate systems are still based on simulations with            tope 共see Fig. 1兲. A polytope is a generic mathematical con-
+spheres or clumps of spheres representing complex-shaped               cept that can refer to polygons, polyhedra, or polygonal
+particles 关5兴.                                                         curves in 3D. The polytope is regarded as a collection of
+    Recently an alternative solution to model of complex-              features in the 3D Euclidian space: vertices, edges, and
+shaped particles has been proposed 关6兴. The method intro-              faces. The interaction between two spheropolytopes is calcu-
+                                                                       lated as a function of the distance between their features. The
+                                                                       MD is implemented in a simple, efficient, and elegant algo-
+ *s.galinotorres@uq.edu.au                                             rithm based on the fact that only distances, and neither
+ †
+  fernando@physics.uq.edu.au                                           Minkowski sum nor volume overlaps need to be calculated.
+
+1539-3755/2009/79共6兲/060301共4兲                                  060301-1                           ©2009 The American Physical Society
+
+===== PAGINA 2 =====
+
+                                                                                                                                                 RAPID COMMUNICATIONS
+
+GALINDO-TORRES et al.                                                                            PHYSICAL REVIEW E 79, 060301共R兲 共2009兲
+
+                                                                             d共Gi , G j兲 being the distance between the features of the
+                                                                             spheropolytopes and Ri being the spheroradius of the ith
+                                                                             spheropolytope. The point of contact between the two fea-
+                                                                             tures is calculated by taking the spheres of radius Ri and R j
+                                                                             centered in the closest points ជXi and ជX j and finding the inter-
+                                                                             section between the line connecting these two points and the
+                                                                             line connecting the two intersection points of the spheres.
+                                                                             From the point of application of the contact forces we get the
+    FIG. 1. 共Color online兲 For the representation of arbitrary-shaped        torque associated to the contact force. Once all the forces and
+particles we introduce the mathematical concept of Minkowski                 torques are calculated we integrate Newton’s second law us-
+sum. Given two sets of points P and Q in an Euclidean space, their           ing the Verlet algorithm for the translation coordinates. The
+Minkowski sum is given by P 丣 Q = 兵xជ + yជ 兩 xជ 苸 P , yជ 苸 Q其. This opera-   Euler equations form angular momentum is integrated using
+tion is geometrically equivalent to the sweeping of one set around           the Fincham leap frog algorithm, based on the quaternion
+the profile of the other without changing the relative orientation           formalism, for the orientation coordinates 关10兴.
+共Fig. 1兲. The spherotetrahedron 共right兲 is obtained by sweeping a                Since the formulas of distance are continuous functions
+sphere across a tetrahedron profile 共left兲.                                  on the degrees of freedom of the spheropolytopes, the total
+                                                                             force is continuous too. For example, there are no jumps in
+The algorithm has also proven to comply with the conserva-                   the calculation of forces from a vertex changing the face that
+tion laws of physics and the statistical equilibrium 关6兴. We                 is in contact with; the interaction will smoothly change from
+believe that this model will lead to a wide range of applica-                one face to the other as the vertex start moving around the
+tions of MD, as complex particle shape and realistic interac-                other particle. This avoids the problem of discontinuity in
+tions can be captured in a unified framework using well-                     time of the forces in previous models 关2兴. Different forces
+established concepts of MD and computational geometry.                       can be included in this model: for example, a force derived
+   Using the formulas of distance between the features of                    from a potential function of the distance leads to conserva-
+two spheropolytopes we calculate the interaction between                     tive systems. Forces depending on the relative velocities at
+them. The force ជFij on the i-spheropolytope by the                          the contact points lead to dissipative granular materials.
+j-spheropolytope is taken as a superposition of the interac-                 Forces depending on the history of relative velocity at the
+                                                                             contacts represent frictional granular systems. More sophis-
+tion between each pair of edges Fជ 共Ei , E j兲 and each pair of
+                                                                             ticated forces can be used to simulate biomolecules. The
+vertex face Fជ 共Vi , F j兲 for the spheropolytope pair,                       electrostatic interaction between molecules can be modeled
+                                                                             by allowing the forces to depend on the closest points be-
+       Fជ ij = 兺 F
+                 ជ 共Ei,E j兲 + 兺 Fជ 共Vi,F j兲 + 兺 Fជ 共V j,Fi兲.          共1兲    tween the features. In this Rapid Communication, a simple
+             Ei,E j             Vi,F j            V j,Fi
+                                                                             contact force between features is calculated as F       ជ 共Gi , G j兲
+The force F共Gi , G j兲 associated to the two features 共edge-edge              = −kn␦共Gi , G j兲nជ , where kn is an elastic constant. Dissipative
+or vertex-face兲 is assumed to depend on the overlapping                      forces proportional to the relative velocity at the contact are
+length ␦ between them ␦共Gi , G j兲 = Ri + R j − d共Gi , G j兲, with             also included to allow relaxation of the systems.
+
+                                                                                                    III. HOPPER FLOW
+
+                                                                                We will start with an interesting application of this model:
+                                                                             the study of the effect of particle shape on the jamming phe-
+
+
+
+
+                                                                                                                 Flow rate (particles/s)
+                                                                                                                                           15
+
+
+                                                                                                                                           10
+
+
+                                                                                                                                           5
+
+
+                                                                                                                                           0
+                                                                                                                                           0.2    0.3        0.4
+   FIG. 2. 共Color online兲 Top: spheropolytopes generated as sphere                                                                                Aspect ratio
+丣 line segment 共rice兲, sphere 丣 tetrahedron 共tetra兲, and sphere 丣
+polyline 共yermis兲. Bottom: final stage of granular flow when the                 FIG. 3. Left: a yermis geometry with four different aspect ratios:
+particles are discharged from a hopper. Simulations run without              0.3, 0.4, 0.5, and 0.6. The closer is the aspect ratio to 1, the closer
+microscopic friction. Convex particles 共rice and tetras兲 flow com-           the particle is to a convex 共spherical兲 shape. Right: hopper flow
+pletely through the hopper. Nonconvex particles 共yermis兲 jam,                rates for different aspect ratios. There is a critical aspect ratio
+which proves the existence of macroscopic friction due to                    around 0.25, below which particles jam without microscopic
+nonconvexity.                                                                friction.
+
+                                                                       060301-2
+
+===== PAGINA 3 =====
+
+                                                                                                                                                                                                               RAPID COMMUNICATIONS
+
+MOLECULAR DYNAMICS SIMULATION OF COMPLEX…                                                                                                                                              PHYSICAL REVIEW E 79, 060301共R兲 共2009兲
+
+                                                                                                                         0.15                                          Granular flow with convex and nonconvex particles is
+                       2
+
+                                                                                                                                                                    presented using the same three particles geometries shown in
+
+stress ratio (q/p)
+                                                                                                                              0.1
+                 1.5
+                                                                                                     −ε v                                                           Fig. 2. The simplicity of our model allows us to represent the
+                                                                                                                         0.05
+                       1                                                                                                                                            hopper and the container as spheropolytopes. Contrary to
+                 0.5
+                                                                                                                               0                                    previous findings 关4兴 our convex-shaped particles do not be-
+                                                                                                            −0.05                                                   come clogged in the hopper. This is because we have not
+                       0                                                                                                           0    0.1   0.2     0.3     0.4
+                           0   0.05   0.1   0.15   0.2
+                                       deviatoric strain
+                                                         0.25   0.3   0.35          0.4
+                                                                                                                                              εd                    introduced a static frictional force. However, as a striking
+                                                                                                                                                                    result, the nonconvex particles do get stuck even though
+                       45                                                                                                     40                                    there is no static friction.
+                                                   Compression                                                                                Compression              In order to quantify the effect of nonconvexity in jam-
+
+
+
+
+                                                                                                      Dilatancy angle (deg)
+                                                   Expansion
+
+
+
+
+Friction angle (deg)
+                                                                                                                                              Expansion
+                       40                                                                                                     30
+                                                                                                                                                                    ming, we check the granular flow for the yermis geometry
+                                                                                                                                                                                                                           r
+                                                                                                                                                                    varying the aspect ratio 共see Fig. 3兲 defined as l+r     , with r
+                                                                                                                                                                    being the spheroradius and l the length of the cylinders con-
+                       35                                                                                                     20
+                                                                                                                                                                    forming the particle, and keeping the volume constant. In
+                                                                                                                                                                    Fig. 3 the results for several simulations of steady flow rate
+                       30                                                                                                     10                                    vs aspect ratio are shown. We can see that the higher the
+                                                                                                                                                                    aspect ratio, the greater the flow rate. Therefore we can con-
+                       25                                                                                                     0                                     clude that friction due to nonconvexity of the particles hin-
+                        0.2             0.4   0.6     0.8                                                                     0.2       0.4   0.6     0.8
+                                         Aspect ratio                                                                                    Aspect ratio               ders the free flow. There is a critical aspect ratio around 0.27
+                                                                                                                                                                    that will always ensure flow through the hopper and marks
+   FIG. 4. Results from the true triaxial test for a sample formed of                                                                                               the transition from the jammed state to the free state.
+yermis grains with aspect ratio equal to 0.3. Top-left: deviatoric to
+pressure ratio versus deviatoric strain. Top-right: deviatoric to pres-
+sure ratio versus volumetric strain Bottom-left: friction angle mea-                                                                                                                 IV. TRUE TRIAXIAL TEST
+sured by the Drucker Prager criterion. The error bars are obtained
+by doing the experiment with different confining pressures. A small                                                                                                     Another test to check macroscopic friction produced by
+error bar indicates that the friction angle is almost independent of                                                                                                nonconvex shapes is the true triaxial test. This is shown in
+the chosen pressure as expected. Bottom-right: dilatancy angle mea-                                                                                                 Fig. 4, where six walls 共spheroplanes兲 enclose a sample of
+sured for each one of the samples for both expansion an compres-                                                                                                    yermis grains. Initially we apply a confining pressure to the
+sion tests. Friction coefficient of 0.25 using the Cundall model 关3兴.                                                                                               walls and then, after a consolidation time, we set a fixed
+                                                                                                                                                                    velocity in the upper wall to ensure constant strain rate. This
+nomenon of granular flow. The flow may happen when par-                                                                                                             gives us the stress path for the common conventional drained
+ticles are discharged through a small opening, but particles                                                                                                        triaxial test 关12,13兴.
+may become jammed when the opening is smaller than a                                                                                                                    The most important results are shown in Fig. 4 for the
+critical value. Modeling of gravity flow has been done using                                                                                                        yermis geometry with aspect ratio equal to 0.3. As can be
+circular or spherical particles 关11兴, but the effect of shape on                                                                                                    seen, after the consolidation the sample shows a failure point
+flow has not been fully investigated. In particular, nonconvex                                                                                                      after which it reaches the well-known critical state 关14兴. This
+particles are expected to jam more easily than convex or                                                                                                            failure is the peak in the deviatoric 共q兲 to pressure 共p兲 ratio
+circular particles.                                                                                                                                                 versus deviatoric strain 共⑀d兲. The critical state is shown
+
+
+
+
+                                                                                                                                                                                                       FIG. 5. Experimental setup
+                                                                                                                                                                                                   for the study of friction due to
+                                                                                                                                                                                                   roughness between surfaces. The
+                                                                                                                                                                                                   spheropolytope surface is just a
+                                                                                                                                                                                                   face with several edges pumping
+                                                                                                                                                                                                   out of it 共left兲. Two of these sur-
+                                                                                          60                                                                                                       faces are put in contact and one of
+                                                                                                      v=1 m/s
+                                                                                                      v=0.01 m/s                                                                                   them is pulled by a spring 共right兲.
+                                                                                          50
+                                                                                                                                                                                                   Bottom: spring force vs distance
+
+
+
+                                                                             Spring Force (N)
+                                                                                          40                                                                                                       covered by the spring tip for two
+                                                                                                                                                                                                   different spring velocities show-
+                                                                                          30                                                                                                       ing the stick-slip 共dashed兲 and
+                                                                                          20                                                                                                       smooth 共solid兲 behaviors reported
+                                                                                                                                                                                                   in literature.
+                                                                                          10
+
+                                                                                                0
+                                                                                                 0                                 0.5 Distance1(m)         1.5
+
+
+                                                                                                                                                              060301-3
+
+===== PAGINA 4 =====
+
+                                                                                                                     RAPID COMMUNICATIONS
+
+GALINDO-TORRES et al.                                                                      PHYSICAL REVIEW E 79, 060301共R兲 共2009兲
+
+clearly in the volumetric strain ⑀v versus deviatoric strain ⑀d        being pulled by a spring moving with a certain velocity. Sev-
+curve as the asymptotic state. All of these features are known         eral experiments reported show a stick-slip behavior for low
+to be present in drained tests on soil samples 关12,13兴. This           spring velocities and a smooth phase for high spring veloci-
+reproduced behavior is part of the validation of our method.           ties 关16,17兴. The virtual experiment reproduces this phenom-
+    We can apply the Drucker-Prager failure criterion 关15兴 to          enon and serves as a validation for the proposed model 共Fig.
+find the friction angle as a function of the aspect ratio; the         5兲 关18,19兴.
+results are shown in Fig. 4.
+    As can be seen, the friction angle for both the compres-                                  VI. CONCLUSIONS
+sion and the expansion tests decreases with the aspect ratio
+                                                                           Modeling interacting particles using spheropolytopes has
+showing one interested dependence of the macroscopic fric-
+                                                                       several advantages with respect to other existing particle-
+tion in the microscopic geometry. Obviously in the yermis
+                                                                       based models: 共i兲 the possibility to model nonconvex par-
+geometry the particles are interlocked which gives the
+                                                                       ticles 共in our case yermis, hoppers, rough surfaces, etc兲, 共ii兲 a
+sample a higher strength.
+                                                                       realistic representation of the surface curvature of particles,
+    Another important quantity is the dilatancy angle defined
+                                                                       共iii兲 guaranteed compliance with physical laws, 共iv兲 numeri-
+as the slope of the volumetric versus deviatoric strain after
+                                                                       cal consistency guaranteed by the continuity in the proposed
+the minimum reached when the sample start the expansion. It
+                                                                       contact law and 共v兲 efficiency given by a simple model for
+is an indication of how easy is to change the volume by shear
+                                                                       the contact law relying only on distance calculations. This is
+deformation. In Fig. 4 it can be seen that samples with a high
+                                                                       radically different from previous approaches where the con-
+aspect ratio are not so susceptible to change their volumes as
+                                                                       tact forces are calculated with geometric overlaps.
+samples with low 共nonconvex兲 geometries. While with the
+                                                                           The most interesting aspect of this model is to provide a
+sphere geometry we have that grains easily roll one over
+                                                                       general framework for generic particle shape and contact in-
+each other due to shearing, with a nonconvex shape, the
+                                                                       teractions. Spheropolytopes is a very general shape which
+grains should overcome the interlocking effect requiring an
+                                                                       can be used to represent biomolecules, polymers, rocks, me-
+initial expansion before they can move freely.
+                                                                       teors, etc. Since it provides an easy way to model nonconvex
+                                                                       particles due to its multicontact basis, it can be used also for
+               V. ROUGH SURFACE SLIDING                                the study of tribology with some examples presented in this
+                                                                       Rapid Communication.
+    Following the thesis that nonconvexity causes a form of
+friction, the proposed model can also study the interaction
+                                                                                             ACKNOWLEDGMENT
+between rough surfaces. In Fig. 5 a experimental setup is
+shown which is very easy to implement with our model: two                  This work is supported by the Australian Research Coun-
+rough surfaces sliding against each other with the upper one           cil and the UQ Early Carrier Research Grant.
+
+
+
+
+ 关1兴 M. Urbakh, J. Klafter, D. Gourdon, and J. Israelachvili, Nature         163, 1769 共2006兲.
+     共London兲 430, 525 共2004兲.                                         关11兴 K. To, P. Y. Lai, and H. K. Pak, Phys. Rev. Lett. 86, 71 共2001兲.
+ 关2兴 B. Mirtich, ACM Trans. Graphics 17, 177 共1998兲.                   关12兴 D. M. Wood, Soil Behavior and Critical State Soil Mechanics
+ 关3兴 F. Alonso-Marroquin, S. Luding, H. Herrmann, and I. Vardou-            共John Wiley and Sons, Cambridge, 1990兲.
+     lakis, Phys. Rev. E 71, 051304 共2005兲.                            关13兴 W. Wu, E. Bauer, and D. Kolymbas, Mech. Mater. 23, 45
+ 关4兴 T. Poeschel and T. Schwager, Computational Granular Dy-                共1996兲.
+     namics 共Springer, Berlin, 2004兲.                                  关14兴 A. Casagrande, J. Boston Soc. Civ. Eng. 23, 257 共1936兲.
+ 关5兴 M. Lu and G. R. McDowell, Granular Matter 9, 69 共2007兲.           关15兴 D. Drucker and W. Prager, Q. Appl. Math. 10, 157 共1952兲.
+ 关6兴 F. Alonso-Marroquin, EPL 83, 14001 共2008兲.                        关16兴 C. Drummond and J. Israelachvili, Phys. Rev. E 63, 041506
+ 关7兴 S.-A. Galindo-Torres and F. Alonso-Marroquin, e-print                  共2001兲.
+     arXiv:0811.2858.
+                                                                       关17兴 A. Lemaître and J. Carlson, Phys. Rev. E 69, 061611 共2004兲.
+ 关8兴 L. Pournin, M. Weber, M. Tsukahara, J.-A. Ferrez, M. Ra-
+                                                                       关18兴 A. Schirmeisen, L. Jansen, and H. Fuchs, Phys. Rev. B 71,
+     maioli, and T. M. Liebling, Granular Matter 7, 119 共2005兲.
+                                                                            245403 共2005兲.
+ 关9兴 L. Pournin and T. Liebling, Powders and Grains 2005
+                                                                       关19兴 Y. Mishin, A. Suzuki, B. P. Uberuaga, and A. F. Voter, Phys.
+     共Balkema, Leiden, 2005兲, pp. 1375–1478.
+                                                                            Rev. B 75, 224101 共2007兲.
+关10兴 Y. Wang, S. Abe, S. Latham, and P. Mora, Pure Appl. Geophys.
+
+
+
+
+                                                                 060301-4
+

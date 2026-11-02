@@ -124,3 +124,44 @@
 92. ¿Por qué no se deben concatenar trayectorias calculadas con distintos pasos, aunque partan del mismo estado?
 93. ¿Cómo puede una partícula desplazarse apreciablemente sin alcanzar con frecuencia obstáculos próximos al centro?
 94. ¿Por qué el mapa de cinco realizaciones por celda no tiene necesariamente el mismo promedio que un estudio de diez realizaciones en esa configuración?
+
+## Medios granulares
+
+95. ¿Qué propiedades separan a un medio granular de un sólido, un líquido o un gas?
+96. ¿Qué predice la ley de Janssen para la presión en un silo y de qué parámetros depende la profundidad de saturación?
+97. ¿Por qué el caudal de Beverloo no depende de la altura de la columna, y qué corrige el término $d-cr$?
+98. ¿Por qué un medio granular denso se simula con contactos blandos y paso fijo en lugar de colisiones instantáneas?
+99. ¿Qué diferencia hay entre las opciones tangenciales T.1, T.2 y T.3, y cuál necesita memoria del contacto?
+100. ¿Cómo se proyectan $F_N$ y $F_T$ a cartesianas con $\hat{\mathbf e}_t=(-e_{ny},e_{nx})$?
+101. ¿Qué fija la escala $\Delta t\approx0{,}1\sqrt{m/k_n}$ y qué pasa si el paso es demasiado grande?
+102. ¿Por qué conviene guardar el estado contando pasos enteros en lugar de comparar `t/Δt2` con su redondeo?
+103. ¿Qué es un esferopolígono y por qué evita la rugosidad artificial de representar formas con racimos de discos?
+104. ¿Cómo se calcula la fuerza entre dos esferopolígonos a partir de pares vértice–lado, y dónde se aplica para el torque?
+
+## Dinámica peatonal
+
+105. ¿Qué distingue el régimen cooperativo del competitivo, y qué observables caracterizan cada uno?
+106. ¿Qué es el efecto *faster is slower* y en qué sistemas además de peatones se observó?
+107. ¿Qué miden el diagrama fundamental y el caudal específico, y qué rango de caudal reportan los datos experimentales?
+108. ¿Qué tres fuerzas suma el Social Force Model y cuál de ellas se elimina en el TP5?
+109. ¿Cómo actúa la fuerza de autopropulsión del SFM y qué papel tiene $\tau$?
+110. ¿Qué campos usa el autómata celular *bionics-inspired* y cómo determinan la probabilidad de transición?
+111. ¿Qué reglas sigue el CPM sin contacto y con contacto, y qué relación hay entre radio y velocidad deseada?
+112. ¿Por qué en el CPM el paso temporal es parte de las reglas del modelo?
+113. ¿Cómo detecta una colisión futura la elusión predictiva y hacia dónde apunta la fuerza evasiva?
+114. ¿Qué dos heurísticas usa el modelo cognitivo para elegir dirección y rapidez deseadas?
+115. ¿Qué diferencia hay entre modificar la dirección deseada y agregar una fuerza de elusión?
+116. ¿Qué niveles (estratégico, táctico, operativo) distingue la navegación peatonal y a cuál pertenecen SFM, CPM y la elusión?
+117. ¿Qué ventajas y qué requisitos tiene una simulación guiada por datos frente a un modelo de fuerzas?
+
+## TP5
+
+118. ¿Qué restricciones impone el TP5 a la capa de elusión del Problema 1?
+119. ¿Qué penaliza la métrica a iguales tiempos que no penaliza la del punto más cercano?
+120. ¿Qué diferencia hay entre calibración poblacional, individual y validación cruzada, y qué pregunta responde cada una?
+121. ¿Cómo afectan al error los agentes que aparecen tarde en el evento, los cuadros faltantes y la definición de rapidez media?
+122. ¿Por qué un dato experimental puede tener una distancia mínima menor que la suma de radios del modelo?
+123. ¿Qué criterio de pasaje EDMD ↔ TSDMD propondrías para la evacuación, y cuál sería su parámetro principal?
+124. ¿Cómo se garantiza que no se pierdan contactos ni aparezcan superposiciones al cambiar de esquema?
+125. ¿Qué curvas y escalares pide el Problema 2 para comparar los tres esquemas, y qué se mide en la misma computadora?
+126. ¿Qué dos variantes de escalamiento con N pide el Problema 2 y por qué separan densidad de tamaño?

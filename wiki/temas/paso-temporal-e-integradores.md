@@ -65,4 +65,4 @@ Separar $h$ de la cadencia de salida $h_{\rm salida}=nh$, con $n$ entero [T04, p
 
 **Recomendación de implementación:** usar un contador entero de pasos para decidir cuándo escribir. Al verificar energía con Verlet original, sincronizar posiciones y velocidades y contar cada resorte entre dos partículas una sola vez. El potencial de un contacto es $k\xi^2/2$ [T04, p. 42].
 
-Ver el [contrato del TP4](billar-circular-y-tp4.md) y las [lecciones de comunicación](comunicacion-cientifica.md).
+Ver el [contrato del TP4](billar-circular-y-tp4.md) y las [lecciones de comunicación](comunicacion-cientifica.md). Los [medios granulares](medios-granulares.md) usan la misma integración con contactos con fricción y rotaciones, y el [quinto práctico](elusion-evacuacion-y-tp5.md#problema-2-evacuación-con-esquema-híbrido) combina paso temporal y eventos.

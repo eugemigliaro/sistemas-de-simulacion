@@ -1,0 +1,644 @@
+FUENTE: B32
+TITULO: Anisotropic Contractile Particle Model with Avoidance for Simulating Pedestrian Navigation in Dilute and Dense Systems — Martin y Parisi
+ORIGINAL: material/externo/bibliografia-6-7/CPM_AA.pdf
+PAGINAS: 12
+
+===== PAGINA 1 =====
+
+                                                                Physica A 633 (2024) 129414
+
+
+                                                         Contents lists available at ScienceDirect
+
+
+                                                                       Physica A
+                                                journal homepage: www.elsevier.com/locate/physa
+
+
+
+
+Anisotropic contractile particle model with avoidance for
+simulating pedestrian navigation in dilute and dense systems
+Rafael F. Martin a ,∗, Daniel R. Parisi b
+a Instituto Tecnológico de Buenos Aires, Lavardén 315, C1437ETC, C. A. de Buenos Aires, Argentina
+b Instituto Tecnológico de Buenos Aires. CONICET, Lavardén 315, C1437ETC, C. A. de Buenos Aires, Argentina
+
+
+
+
+ARTICLE                INFO                            ABSTRACT
+
+Keywords:                                              We introduce a novel rule-based pedestrian simulation model that extends an existing one by
+Pedestrian dynamics                                    incorporating enhanced particle contact rules and evasive maneuver capabilities for collision
+Collision avoidance                                    avoidance. The model is calibrated using individual trajectory data from avoidance experi-
+Navigation
+                                                       ments. With the same set of parameters, the new model satisfactorily replicates experimental
+Steering
+                                                       observations, including the avoidance behavior of individual agents, fundamental diagrams of
+Off-lattice cellular automaton
+                                                       unidirectional and bidirectional flows, as well as specific flow rates through bottlenecks.
+
+
+
+
+1. Introduction
+
+    The mechanisms of pedestrian navigation and collision avoidance are crucial in the dynamics of pedestrian movement in confined
+and populated spaces. It is essential to have improved and experimentally validated models of such behavior for simulation software
+to be useful in the design of pedestrian facilities, crowd management, urban planning, and safety.
+    There are several types of navigation and collision avoidance models. One of the first ones is the Social Force Model (SFM),
+which uses a repulsion force between particles to keep them from making contact [1,2]. However, while it is a way of avoiding
+collision, it could also present some side effects [3–5]. The Predictive Collision Avoidance Model [5] proposes an improvement by
+computing a different direction of the social repulsion based on future positions, thus producing more natural avoidance trajectories.
+In contrast, Wang et al. [6] propose a new mechanism that removes the social force term and instead adjusts the magnitude and
+direction of the desired velocity to achieve navigation.
+    There are also other types of navigation models based on heuristics [7,8] where future movement is determined based on a fixed
+set of rules or a series of nested discrete decisions. In velocity-based models, pedestrian dynamics are defined by determining future
+velocity based on environmental elements [9,10]. Additionally, there are data-driven models [11,12] that utilize machine learning,
+neural networks, or analysis of experimental data to determine particle movement.
+    In a previous work [13], we introduced a comprehensive framework for simulating pedestrian navigation. In this framework,
+simulated particles execute avoidance maneuvers exclusively by modifying their desired velocity, which is contingent on the
+environment, including its geometry and the presence of other pedestrians. This premise is grounded in the belief that avoidance
+behaviors in real-world scenarios can be effectively generated through the self-propulsion mechanism, typically represented by
+desired velocity. It is worth noting that this reference framework is independent of the type of low-level model used, whether
+rule-based, force-based, or otherwise.
+    Using this approach, we rely on the contractile particle model (CPM) [14] to equip it with an avoidance mechanism that dy-
+namically reorients its desired velocity. The rule-based pedestrian model proposed here not only successfully replicates fundamental
+
+
+  ∗ Corresponding author.
+     E-mail addresses: ramartin@itba.edu.ar (R.F. Martin), dparisi@itba.edu.ar (D.R. Parisi).
+
+https://doi.org/10.1016/j.physa.2023.129414
+Received 28 April 2023; Received in revised form 22 November 2023
+Available online 30 November 2023
+0378-4371/© 2023 Elsevier B.V. All rights reserved.
+
+===== PAGINA 2 =====
+
+R.F. Martin and D.R. Parisi                                                                Physica A: Statistical Mechanics and its Applications 633 (2024) 129414
+
+
+
+
+Fig. 1. Experimental trajectories. (a) MOCAP experimental trajectories for two colliding pedestrians [12]. (b) Forschungszentrum Jülich corridor bidirectional
+experimental trajectories [15].
+
+
+
+
+diagrams of unidirectional flows and specific flow rates through exits, like the CPM [14], but it also has the ability to reproduce
+experimental observables from bidirectional flow and avoidance scenarios in dilute conditions (collisions between two pedestrians
+and between a pedestrian and a fixed obstacle). All of this phenomenology is captured using the same model and the same set of
+parameters.
+
+2. Experimental data
+
+    We utilized data from our own experiments for one and two avoiding pedestrians, and from a public database from
+Forschungszentrum Jülich for more crowded scenarios.
+    The dilute scenario consisted of a collection of experimental trajectories obtained at the Motion Capture (MOCAP) Laboratory
+at the Instituto Tecnológico de Buenos Aires (ITBA) [12]. The data are collected by instructing each pair of volunteers to stand
+at different positions on a circle with a radius of 3 m and walk to the opposite side while avoiding the other volunteer in a
+natural manner. The resulting 40 pairs of trajectories are displayed in Fig. 1(a). We also considered another set of 10 experimental
+trajectories used in [12] in which individual volunteers were instructed to walk from one point of the same circle to the opposite
+side while avoiding a fixed obstacle of approximately 0.3 m width at the center.
+    The crowded scenario consisted of experimental trajectories published by the Forschungszentrum Jülich [15,16]. Specifically,
+we analyzed the trajectories associated with a corridor of length 8 m and two different widths, 3 m and 3.6 m. We considered data
+corresponding to bidirectional flow with the same flow rate in each direction. Fig. 1(b) shows the set of trajectories obtained in the
+case of the lower input flow in both directions, and 3.6 m width.
+
+3. Models
+
+    In this study, we discuss three distinct models: the Contractile Particle Model (CPM) proposed by Baglietto and Parisi [14] that
+we consider as the base model, and two modifications taking into account anisotropy and avoidance.
+    The original CPM proposes that individual particles have a variable personal space radius. Whenever another particle enters this
+personal space, the velocity of the initial particle reduces to zero only during one simulation time step, and the personal space radius
+becomes equal to the particle’s physical and impenetrable radius. This reaction occurs independently of the direction through which
+the invading particle enters the personal space, making the model isotropic. While this microscopic mechanism produces good results
+at a macroscopic scale in unidirectional systems, it is not appropriate for bidirectional systems in which two near and parallel-moving
+particles are unable to approach each other without triggering a reaction. To address this issue, we present a second model called
+Anisotropic Contractile Particle Model (A-CPM), in which particles only react to personal space invasions that occur at the front of
+their physical radius, which presents a narrower cross section than the personal space given by the current radius. The third variant
+is a modification of A-CPM that enables particles to anticipate collisions and avoid them by performing evasive maneuvers. We call
+this model Avoidance Anisotropic CPM (AA-CPM). In subsequent sections, we provide a detailed description of these models.
+
+3.1. CPM
+
+   The CPM [14] is an off-lattice cellular automaton, with particles occupying continuous positions in 2D space and rules for
+updating their velocities.
+   Each particle 𝑖 is defined by its position 𝐫𝑖 , a personal space radius 𝑟𝑖 ∈ [𝑟𝑚𝑖𝑛 , 𝑟𝑚𝑎𝑥 ], and a desired velocity 𝐯𝑑 pointing towards
+a given target 𝐓𝑖 . The particle’s radius should only be interpreted as a hard physical radius when it is at its minimum value (𝑟𝑚𝑖𝑛 ).
+But for larger radii, it represents a personal space needed for walking. The magnitude of the particle’s velocity is a function of 𝑟𝑖 .
+When the personal space radius is at its maximum, the particle moves at the desired speed 𝑣𝑑𝑚𝑎𝑥 .
+
+                                                                              2
+
+===== PAGINA 3 =====
+
+R.F. Martin and D.R. Parisi                                                              Physica A: Statistical Mechanics and its Applications 633 (2024) 129414
+
+
+    In the original Contractile Particle Model, two particles 𝑖 and 𝑗 are considered to be interacting if their distance is less than the
+sum of their personal space radii, i.e., |𝐫𝑖 − 𝐫𝑗 | < 𝑟𝑖 + 𝑟𝑗 . Similarly, a particle is in contact with a wall if its distance to the nearest
+point on the wall is less than 𝑟𝑖 .
+    The basic structure of movement and collision dynamics in the CPM has been implemented with a trunk structure that remains
+similar across all three models. For each particle, at each time step, it is analyzed whether the particle is in contact with another
+particle or wall. If it is not in contact with other elements, the particle personal space radius is increased until reaching the maximum
+                                                                                           𝐫 −𝑇
+radius 𝑟𝑚𝑎𝑥 , and the particle is moved towards the goal in the direction of 𝐞𝑡 = |𝐫𝑖 −𝑇𝑖 | . On the other hand, if it is in contact with
+                                                                                            𝑖   𝑖
+other elements, the radius is reduced to the minimum value, 𝑟𝑚𝑖𝑛 (the physical radius of the particle) (see Eq. (1)), and it is moved
+                                                            𝑖𝑗     𝐫𝑖 −𝐫𝑗
+in the direction opposite to the contacting element (𝐞 = |𝐫 −𝐫𝑗| ) at the desired speed 𝑣𝑑𝑚𝑎𝑥 during just one simulation time step:
+                                                                    𝑖
+collision with other particles is the sole mechanism that generates a reduction in the radius.
+    More formally, in each iteration the radius and position of the particles are updated according to Eqs. (1) and (2):
+               ⎧𝑟𝑚𝑖𝑛                         if 𝑖 is in a collision
+               ⎪
+        𝑟(𝑡) = ⎨𝑟(𝑡 − 𝛥𝑡) + 𝑟𝑚𝑎𝑥 .𝛥𝑡∕𝜏      if 𝑖 is not in a collision and 𝑟(𝑡 − 𝛥𝑡) + 𝑟𝑚𝑎𝑥 .𝛥𝑡∕𝜏 < 𝑟𝑚𝑎𝑥                                                   (1)
+               ⎪
+               ⎩𝑟𝑚𝑎𝑥                        otherwise
+
+        𝐫𝑖 (𝑡) = 𝐫𝑖 (𝑡 − 𝛥𝑡) + 𝐯𝑑𝑖 (𝑡)𝛥𝑡                                                                                                                   (2)
+
+with
+                {
+                    𝑣𝑖 𝐞 𝑡      if 𝑖 is not in contact
+        𝐯𝑑𝑖 =                                                                                                                                              (3)
+                    𝑣𝑑𝑚𝑎𝑥 𝐞𝑖𝑗   otherwise
+   To define the magnitude of the velocity 𝑣𝑖 in cases where the particle is not in contact with another particle, the formula in
+Eq. (4) is used, which relates it to the particle’s radius 𝑟𝑖 .
+                  (             )𝛽
+                     𝑟𝑖 − 𝑟𝑚𝑖𝑛
+       𝑣𝑖 = 𝑣𝑑𝑚𝑎𝑥                                                                                                             (4)
+                    𝑟𝑚𝑎𝑥 − 𝑟𝑚𝑖𝑛
+    The values of the parameters 𝛽, 𝜏, 𝑟𝑚𝑖𝑛 and 𝑟𝑚𝑎𝑥 are in accordance with the original CPM [14] and are provided in Section 4.1.
+
+3.2. A-CPM
+
+    While the original CPM satisfactorily reproduces observed data for unidirectional flows, it presents difficulties when attempting
+to simulate bidirectional flow because the cross-sectional area of the isotropic particle (for 𝑟 > 𝑟𝑚𝑖𝑛 ) is higher than in real pedestrian
+systems, resulting in artificial collisions and decreased speed. To overcome this issue, we propose the anisotropic CPM (A-CPM),
+which has different contact detection criteria. Inspired by the work of Tordeux et al. [17], we defined that particles in the A-CPM
+collide only within a frontal margin, making it a more permissive and asymmetric approach.
+    We consider that a particle enters in contact with another if the personal space in front of the particle overlaps with the personal
+space of the other, as illustrated in Fig. 2(b). Formally, a particle 𝑖, with position 𝐫𝑖 and velocity 𝐯𝑖 , is in contact with particle 𝑗,
+with position 𝐫𝑗 and personal space radius 𝑟𝑗 , if either of the following conditions holds, depending on 𝑟𝑖 :
+
+    • 𝑟𝑖 = 𝑟𝑚𝑖𝑛 and |𝐫𝑖 − 𝐫𝑗| < 𝑟𝑖 + 𝑟𝑗 ; or
+    • 𝑟𝑖 ≠ 𝑟𝑚𝑖𝑛 and the angle 𝛽 formed between 𝐯𝑖 and 𝐫𝑗 − 𝐫𝑖 lies between −𝜋∕2 and 𝜋∕2.
+      Moreover, the following two conditions must be satisfied simultaneously:
+
+           – The lines parallel to 𝐯𝑖 from the endpoints to the circle of radius 𝑟𝑚𝑖𝑛 intersect the circle centered at 𝐫𝑗 with radius 𝑟𝑗 .
+           – The two particles overlap in their current radii, that is, |𝐫𝑖 − 𝐫𝑗 | < 𝑟𝑖 + 𝑟𝑗 .
+
+    To illustrate these conditions, in Fig. 2(a) we can observe that particle ℎ fulfills only the first condition, as indicated by the
+two marked black dots. Meanwhile, particle 𝑗 satisfies solely the second condition due to the overlap. As a result, neither of these
+particles is considered to be colliding with particle 𝑖. On the other hand, in Fig. 2(b) we can see an example of a particle that, by
+simultaneously meeting both conditions, we consider to be colliding with particle 𝑖.
+    In the A-CPM, a particle collides with a wall only if the distance to the nearest point on the wall is less than its minimum radius
+𝑟𝑚𝑖𝑛 .
+
+3.3. AA-CPM
+
+   Now, we are adding an avoidance layer to the previous model based on the general idea proposed in [13]. Evasive maneuvers
+are expressed through changes in the desired velocity, using temporal and dynamic targets.
+   The basic dynamics follow the same structure as described in Section 3.2, but now the desired velocity 𝐯𝑑𝑖 used in Eq. (2) is
+modified by Eq. (5) while navigating by following the avoidance unit vector 𝐞𝑎 computed by Eq. (6):
+            {
+        𝑑     𝑣𝑖 𝐞 𝑎     if 𝑖 is not in frontal contact
+      𝐯𝑖 =                                                                                                                  (5)
+              𝑣𝑑𝑚𝑎𝑥 𝐞𝑖𝑗 otherwise
+
+                                                                            3
+
+===== PAGINA 4 =====
+
+R.F. Martin and D.R. Parisi                                                       Physica A: Statistical Mechanics and its Applications 633 (2024) 129414
+
+
+               ∑
+               2                   ∑2
+        𝐞𝑎 = (( 𝐧𝑗𝑐 ) + 𝐧𝑤                     𝑐 + 𝐞 |,
+                              𝑡
+                         𝑐 + 𝐞 )∕|(   𝐧𝑗𝑐 ) + 𝐧𝑤    𝑡
+                                                                                                                                                    (6)
+                𝑗=1                  𝑗=1
+
+                                                      𝐓 −𝐫                                              1 2
+where the direction to the final target is 𝐞𝑡 = |𝐓𝑖 −𝐫𝑖 | , 𝐧𝑤
+                                                             𝑐 is the collision vector with walls, and 𝐧𝑐 , 𝐧𝑐 the collision vectors for each
+                                                  𝑖 𝑖
+of the two particles under consideration (in our model we will use the two closest particles that are in front, but with a slight
+modification of Eq. (6) as many particles as desired can be considered). These vectors are calculated as follows (see Fig. 2(c) and
+(d)).
+    First, we need to calculate 𝐞𝑖𝑗
+                                 𝑐 for each particle 𝑗 located ahead of particle 𝑖, i.e., such that the angle between 𝐯𝑖 and (𝐫𝑗 − 𝐫𝑖 ) lies
+in [−𝜋∕2, 𝜋∕2]:
+
+    • Calculate the relative velocity 𝐯𝑖𝑗 = 𝐯𝑗 − 𝐯𝑖 .
+    • Compute the angle 𝛽 between 𝐯𝑖𝑗 and the direction towards the target.
+    • Analyze the value of 𝛽.
+
+           – If |𝛽| < 𝜋2 , 𝐞𝑖𝑗
+                            𝑐 = (0, 0). This prevents maneuvers to avoid a particle that is moving away from it.
+           – If |𝛽| ≥ 𝜋2 :
+                                                        𝐫 −𝐫
+                  ∗ Construct the unit vector 𝐞𝑖𝑗 = |𝐫𝑖 −𝐫𝑗|
+                                                          𝑗
+                                                             .
+                                                          𝑖
+                  ∗ Calculate the signed angle 𝛼 between 𝐞𝑖𝑗 and the relative velocity 𝐯𝑖𝑗 .
+                  ∗ Compute 𝑓 (𝛼), where 𝑓 (𝛼) = ||𝛼| − 𝜋2 |.
+                  ∗ Rotate the unit vector 𝐞𝑖𝑗 by − sign(𝛼).𝑓 (𝛼) radians to obtain 𝐞𝑖𝑗
+                                                                                     𝑐 . We have used, as a convention, that positive angles
+                    are those counterclockwise.
+
+    • Calculate 𝐧𝑗𝑐 = 𝐞𝑖𝑗
+                       𝑐 𝐴𝑝 𝑒𝑥𝑝(−𝑑𝑖𝑗 ∕𝐵𝑝 ), where 𝐴𝑝 and 𝐵𝑝 are adjustable parameters, and 𝑑𝑖𝑗 is the distance between particle centers
+      𝐫𝑖 and 𝐫𝑗 .
+
+    Fig. 2(c) shows an example of the elements necessary to form one of the collision vectors, the one related to particle 𝑗 in this
+case.
+    The function 𝑓 is specifically designed to avoid collisions by causing the particle to evade perpendicularly to 𝐞𝑖𝑗 when the
+potential collision is head-on. As the angle of the potential collision changes, the rotation of the vector 𝐞𝑖𝑗 becomes less severe.
+    Similarly, to avoid collisions with walls, the following steps are taken. First, the closest point 𝐰 on a wall to the particle is
+                                         𝐰−𝐫𝑖
+detected. Then, the unit vector 𝐞𝑖𝑤 = |𝐰−𝐫𝑖|  is constructed. Finally, the avoidance vector 𝐧𝑤𝑐 = 𝐞
+                                                                                                    𝑖𝑤 𝐴 𝑒𝑥𝑝(−𝑑 ∕𝐵 ) is calculated,
+                                                                                                         𝑤         𝑖𝑤 𝑤
+where 𝐴𝑤 and 𝐵𝑤 are two adjustable parameters, and 𝑑𝑖𝑤 is the distance from the particle to point 𝐰. In Fig. 2(d) we can see how
+by adding all these collision vectors (both those related to particles and the one corresponding to the wall) and the vector towards
+the goal, we obtain the unit vector 𝐞𝑎 .
+    We emphasize that this model is rule-based; nevertheless, the functional form used to weigh the avoiding interactions among
+different particles and obstacles was inspired by the social force term of the SFM [2].
+
+4. Results
+
+4.1. Calibrating the avoidance parameters
+
+    The parameters related to the basic CPM are taken directly from Ref. [14]. They are: 𝛽 = 0.9, 𝜏 = 0.5 s, 𝑟𝑚𝑖𝑛 = 0.15 m, and
+𝑟𝑚𝑎𝑥 = 0.32 m. The simulation time step is defined as 𝛥𝑡 = 1∕33 s in order to match the frame rate of the experimental data taken
+in the MOCAP Laboratory at ITBA.
+    The new parameters introduced in the elusive layer by the AA-CPM, namely 𝐴𝑝 and 𝐵𝑝 , are estimated using the experimental
+trajectories from two colliding pedestrians (𝑋𝑝𝑒 ) shown in Fig. 1(a) and also, from one pedestrian avoiding a fixed obstacle (𝑋𝑜𝑒 ), as
+described in Section 2. The starting position and velocity of each experimental trajectory are used as the initial conditions for the
+corresponding particle simulation, with the final goal set to the last recorded point of the trajectory.
+    In Eq. (7) we define an error metric (𝐸) that enables a comparison between simulated and experimental trajectories in all the
+scenarios mentioned above.
+                         1      ∑
+       𝐸(𝑋 𝑠 , 𝑋 𝑒 ) =                 min (|𝐫 − 𝐫𝑒 |),                                                                              (7)
+                       #(𝑋 𝑠 ) 𝐫 ∈𝑋 𝑠 𝐫𝑒 ∈𝑋 𝑒 𝑠
+                               𝑠
+
+where 𝑋 𝑠 = 𝑋𝑝𝑠 ∪ 𝑋𝑜𝑠 and 𝑋 𝑒 = 𝑋𝑝𝑒 ∪ 𝑋𝑜𝑒 are the sets of points in the simulated and experimental trajectories, respectively, and
+the subscript ’p’ indicates pedestrian-pedestrian trajectories, and ‘o’ denotes pedestrian-obstacle trajectories.
+   This metric calculates the average distance from each point in the simulated trajectory to the nearest point in the experimental
+one. It is important to note that both trajectories should have the same starting and ending points for this metric to be meaningful.
+   In Fig. 3(a), the mean error 𝐸 = ⟨𝐸(𝑋 𝑠 , 𝑋 𝑒 )⟩ for all the 90 trajectories is presented. The values at which collisions occurred
+between the physical radius of the particle and the fixed obstacle are the gray area.
+
+                                                                      4
+
+===== PAGINA 5 =====
+
+R.F. Martin and D.R. Parisi                                                              Physica A: Statistical Mechanics and its Applications 633 (2024) 129414
+
+
+
+
+Fig. 2. Key elements for defining the CPM and the proposed modifications. (a) Example of two particles that are not in contact with 𝑖 in A-CPM and AA-CPM.
+(b) Example of a particle that is in contact according to the new models. (c) Elements for collision vectors. (d) Example of vector sum to obtain 𝐞𝑎 .
+
+
+
+
+   Also, we compute the difference between the mean error considering only the 10 trajectories with fixed obstacle (⟨𝐸(𝑋𝑜𝑠 , 𝑋𝑜𝑒 )⟩)
+and the mean error with the 40 pedestrian-pedestrian pairs of trajectories (⟨𝐸(𝑋𝑝𝑠 , 𝑋𝑝𝑒 )⟩) according to Eq. (8).
+
+        𝛥𝐸 = |⟨𝐸(𝑋𝑜𝑠 , 𝑋𝑜𝑒 )⟩ − ⟨𝐸(𝑋𝑝𝑠 , 𝑋𝑝𝑒 )⟩|                                                                                                           (8)
+
+    A heat map of 𝛥𝐸 as a function of 𝐴𝑝 and 𝐵𝑝 is presented in Fig. 3(b). Based on Fig. 3(a) and (b), we decided to adopt the values
+𝐴𝑝 = 1.1 and 𝐵𝑝 = 2.1. These values result in a low overall error of 𝐸 = 0.24 m and exhibit nearly negligible differences in errors
+for both scenarios (𝛥𝐸), making them a more uniform parameter set for both cases. Examples of experimental trajectories and their
+corresponding simulations using these parameter values are shown in Fig. 3(c) and (d).
+    From this study with individual trajectories, we have already determined the avoidance parameter values between pedestrians.
+From here on, we will validate the AA-CPM model with these parameters in more complex systems that involve higher densities.
+
+4.2. Unidirectional and bidirectional flow
+
+    In this section, we explore the corridor scenario from [18], where we deliberately selected the particle–wall avoidance parameters
+𝐴𝑤 and 𝐵𝑤 through a qualitative process. Specifically, we set 𝐴𝑤 = 1215 and 𝐵𝑤 = 0.025. With this choice, when a particle grazes
+the wall, the magnitude of the collision vector is approximately |𝐧𝑤    𝑐 | ∼ 10, while at a distance of 0.3 m from the wall (twice the
+minimum radius), the magnitude decreases to |𝐧𝑤     𝑐 | ≲ 0.1. These values  enable particles to prevent overlapping their hard physical
+cores (𝑟𝑚𝑖𝑛 ) with the walls while also allowing them to make full use of the corridor width, thus ensuring that artificial distancing
+from the walls is not introduced.
+    The fully calibrated AA-CPM, using the parameters determined above, is tested by simulating both unidirectional and bidi-
+rectional flows in a corridor. The results are then compared with experimental data and with the other two models, serving as
+benchmarks.
+    In the unidirectional flow case, simulations are performed with a corridor having dimensions of 8 m in length and 3.6 m in width.
+Initially, 𝑁 particles are randomly placed in the corridor, and the particles are given a starting speed of 0. The desired speed is
+
+                                                                            5
+
+===== PAGINA 6 =====
+
+R.F. Martin and D.R. Parisi                                                                Physica A: Statistical Mechanics and its Applications 633 (2024) 129414
+
+
+
+
+Fig. 3. Calibration of avoidance parameters. (a) Error defined by Eq. (5) considering all the experimental trajectories. (b) Absolute value of the difference
+between the mean error in pedestrian-obstacle cases and pedestrian-pedestrian cases (Eq. (8)). (c) Example of experimental and simulated trajectories avoiding
+a fixed obstacle with the chosen parameters: 𝐴𝑝 = 1.1 and 𝐵𝑝 = 2.1. (d) Example of two moving pedestrian trajectories, experimental and simulated ones, using
+the same chosen parameters.
+
+
+
+
+randomly chosen in the range 1.55 ± 0.155 m∕s, where 1.55 m∕s is the reported average free walking speed in [18]. The number of
+particles varies between 3 and 90, thus covering the range of densities similar to the experiments.
+     The final target for each particle is at the end of the corridor, with the same vertical coordinate 𝑦 as the particle (see Fig. 1(b)).
+The target is updated with every simulation time step, and periodic boundary conditions are implemented. The duration of each
+simulation is set to 30 s.
+     To evaluate the performance of the proposed model in comparison with the existing models and experimental data, we
+constructed a fundamental diagram. For this purpose and to mitigate fluctuations in instantaneous speed, we opted to calculate
+velocity considering the particle’s displacement over 5𝛥𝑡, more formally, 𝑣(𝑡) = |𝐫(𝑡)−𝐫(𝑡−5𝛥𝑡)|
+                                                                                            5𝛥𝑡
+                                                                                                   .
+     To determine the density, we use a nonparametric method described in Refs. [19,20] and consider a version of this method that
+deals with finite simulation domains [21]. The formula 𝜌 = (𝑘 − 1)∕𝐴𝑘 can be used to calculate the local density at any point in
+space, where 𝑘 is the number of nearest neighbors. Specifically, we use the positions of each pedestrian as points for calculating the
+density, and the corresponding pedestrian is counted as one of the 𝑘 neighbors. The area 𝐴𝑘 is the intersection between the interior
+of the corridor and the circle centered at the particle with a radius equal to the distance from the particle to the 𝑘th nearest neighbor.
+We selected 𝑘 = 5 based on the findings in Ref. [21], which reported a difference of less than 0.35% compared to the Voronoi cell
+method [22]. This procedure allows us to obtain points (𝜌𝑖 (𝑡𝑖 ), 𝑣𝑖 (𝑡𝑖 )) for all particles and time steps. From these microscopic data,
+we compute the fundamental diagram by moving average with 𝑛 = 10000.
+     Fig. 4(e) presents curves corresponding to both simulated systems and experimental data, as reported in the bibliography [23,24].
+It is evident that the AA-CPM exhibits a trend more similar to the experimental speed-density relationships. In contrast, the A-CPM,
+which employs a relaxed collision criterion, results in fewer reductions in particle speed compared to both CPM and AA-CPM. The
+lower speed observed in AA-CPM may be attributed to avoidance maneuvers, leading to subsequent lateral movements that do not
+allow achieving the maximum possible displacement.
+
+                                                                              6
+
+===== PAGINA 7 =====
+
+R.F. Martin and D.R. Parisi                                                               Physica A: Statistical Mechanics and its Applications 633 (2024) 129414
+
+
+
+
+     Fig. 4. Scatter plots and fundamental diagrams. (a) Experimental. (b) CPM. (c) A-CPM. (d) AA-CPM. (e) Unidirectional flow. (f) Bidirectional flow.
+
+
+
+
+   In order to investigate a more complex scenario, we consider the bidirectional flow within a single corridor, taking the
+experimental data from [15,16]. The input flow rate is symmetrical at both ends of the corridor, with a range of 𝑄𝑖𝑛 ∈ [1.8, 3.8] 1/s.
+   The simulations have the following configuration: The corridor dimensions are 16 m in length and 3.6 m in width, 𝑁 = 100
+particles are introduced alternatively at both ends of the corridor at fixed flow rates that range from 1∕(33𝛥𝑡) to 1∕(8𝛥𝑡).
+   The initial position of the particles is randomized at a point (0, 𝑌 ) or (16, 𝑌 ), depending on the side, with Y uniformly distributed
+between 0.15 m and 3.45 m.
+   The desired velocity of the particles and final targets are set in the same way as in the unidirectional flow. Particles are removed
+from the system after traveling 14 m of the 16-meter-long corridor. The initial conditions for the three models are identical.
+Approximately 100 simulations are performed with distinct initial conditions for each input flow rate.
+   In Fig. 4(a) to (d), we can observe the scatter plot (𝜌, 𝑣) corresponding to the experimental data [15,16], and the CPM, A-CPM,
+and AA-CPM models, along with the moving average fitting. Fig. 4(f) presents all the averaged fundamental diagrams obtained from
+
+                                                                             7
+
+===== PAGINA 8 =====
+
+R.F. Martin and D.R. Parisi                                                             Physica A: Statistical Mechanics and its Applications 633 (2024) 129414
+
+
+
+
+                                   Fig. 5. Mean density obtained after simulations with different input flow values.
+
+
+
+
+the bidirectional flow simulations and the Kladek–Newell–Weidmann formula [25] 𝑣(𝜌) = 𝑣𝑜 (1−exp(1∕𝜌−1∕𝜌𝑚𝑎𝑥 )) with 𝑣0 = 1.55 m/s,
+𝑔 = −1.913 ∕m2 y 𝜌𝑚𝑎𝑥 = 6 ∕m2 . Here we can observe how all three models remain close to the experimental data and the KNW fit,
+with AA-CPM being closer at lower densities values. The most notable difference, as confirmed by the scatter plots, is that both CPM
+and A-CPM generate data with significantly higher densities than those observed in the experiments. This is primarily attributed
+to the creation of artificial congestion resulting from the lack of avoidance capacity in these models. This is confirmed by Fig. 5,
+where we can observe that as the particle input flow rate increases, the first two models generate higher densities, whereas in the
+case of AA-CPM, the increase in density is less pronounced.
+    Next, we delve deeper into characterizing the artificial congestion. A relevant antecedent for similar systems was presented in
+the work of Qiancheng et al. [26], where they investigated local and global jamming by observing the average velocity of particles
+to determine their state of being stuck or not.
+    In our case, we employ a cluster analysis. We define a cluster at time 𝑡 as a set 𝐶𝑡 such that:
+
+        𝐶𝑡 ∶ 𝑖 ∈ 𝐶𝑡 ⟺ ∃𝑗 ∈ 𝐶𝑡 ∕|𝐫𝑖 (𝑡) − 𝐫𝑗 (𝑡)| < 0.47 m                                                                                                 (9)
+
+    The threshold value of 0.47 m is defined as the sum of the maximum and minimum radii. We chose this distance because if two
+particles are within less than 0.47 m of each other, it indicates recent collisions.
+    Fig. 6 provides an example of cluster formation in simulated bidirectional flow, illustrating the system’s state at a specific
+simulation time of 𝑡 = 15 s for each of the models, all beginning with the same initial conditions. Different colors represent the
+formed clusters, with colorless particles belonging to clusters of size one. The displayed radius corresponds to 𝑟(𝑡).
+    Note that in Fig. 6(c), the particles appear to overlap with the walls. This is because the collision detection criterion only considers
+the minimum radius, not 𝑟(𝑡). The same applies to Fig. 6(b), where the particles also appear to overlap with other particles. However,
+this is due to the anisotropy of the model, which only detects collisions in a certain region of the front of the particle. The only
+model that does not allow any overlap with the walls is the CPM. Therefore, although the particles appear to be close to the walls,
+there is no actual overlap. The overlaps that are observed between particles are indicators that in the next time step, the particles
+will move away from the collision with maximum escape velocity
+    We can qualitatively observe that the CPM and A-CPM form an artificial packing of particles due to the absence of avoidance
+mechanisms. On the other hand, the AA-CPM displays a more fluid behavior. To confirm this observation, we analyze the clusters
+formed by each model throughout the entire simulation and compare them with the experimental data.
+    Fig. 7(a) displays the distribution of cluster sizes for each model and compares them with the experimental data. While the
+AA-CPM occasionally shows a lower probability of producing clusters larger than those observed in the experiments, the other two
+models frequently generate significantly larger clusters, sometimes resulting in the formation of a single large cluster for the entire
+system.
+    Fig. 7(b) displays the average size of the largest cluster as a function of the input flow rate, with the AA-CPM closely matching
+the experimental data, while the other two models consistently produce larger values.
+    Considering the fact that clusters larger than size 7 are not detected in the experiments, we created the plot in Fig. 7(c), which
+shows the percentage of particles that are part of cluster larger than size 7 at some point in their trajectory. This provides insight
+into the number of particles that followed smooth trajectories without being involved in congestions. Once more, the AA-CPM shows
+values closely matching experimental data.
+    Another quantitative description of the system’s congestion or freedom consists in calculating the temporal average of the total
+number of particles participating in any cluster. This is illustrated in Fig. 7(d), where the AA-CPM also succeeds in reproducing
+what is observed in the experimental data.
+
+                                                                          8
+
+===== PAGINA 9 =====
+
+R.F. Martin and D.R. Parisi                                                                    Physica A: Statistical Mechanics and its Applications 633 (2024) 129414
+
+
+
+
+Fig. 6. Examples of cluster formation in bidirectional flow at 𝑡 = 15 s with input flow 𝑄𝑖𝑛 = 3.6 1/s and the same initial conditions simulated with: (a) CPM;
+(b) A-CPM; (c) AA-CPM.
+
+
+
+
+Fig. 7. Cluster analysis. (a) Cluster sizes. (b) Maximum cluster size. (c) Percentage of particles belonging to clusters with a size greater than 7 at any time. (d)
+Time average of the number of particles belonging to any cluster with 2 or more particles.
+
+
+
+                                                                                 9
+
+===== PAGINA 10 =====
+
+R.F. Martin and D.R. Parisi                                                                   Physica A: Statistical Mechanics and its Applications 633 (2024) 129414
+
+
+
+
+                              Fig. 8. Room evacuation. (a) Snapshot at time 𝑡 = 4 s for 𝑁 = 500 and 𝐿 = 2.7 m. (b) Specific flow rate.
+
+
+
+
+   These observables clearly demonstrate the improvement achieved by the collision avoidance mechanism incorporated into the
+AA-CPM. It enables the simulation of bidirectional flows without artifacts, while also accurately reproducing the fundamental
+diagram for both unidirectional and bidirectional flows, as well as individual trajectories from avoidance experiments.
+
+4.3. Room evacuation
+
+   After verifying the satisfactory performance of the AA-CPM in emulating experimental data from various scenarios, we aimed to
+investigate whether the model preserves the original CPM properties concerning the specific flow rate through doors.
+   To this end, we conducted simulations using the AA-CPM, in which 𝑁 particles evacuate from a room of dimensions 20 m × 20 m
+through an exit door located horizontally at the center of the point (10, 0) with a variable width 𝐿. The target at the door for a
+particle with coordinates (𝑥, 𝑦) is determined as follows:
+
+    • The point (𝑥, −3) if 𝑦 ≤ 0.5 and 10 − 0.4𝐿 ≤ 𝑥 ≤ 10 + 0.4𝐿.
+    • The point (𝑥𝑟 , 0) is chosen with 𝑥𝑟 uniformly distributed between 10 − 0.4𝐿 and 10 + 0.4𝐿, otherwise.
+
+   The initial positions of the particles are randomly selected within the room with a minimum radius, and other simulation
+parameters are identical to those used in Section 4.1. The number of particles used is 𝑁 = {200, 300, 400, 500, 600}, for values
+of 𝐿 = (0.2 + 0.005 𝑁) m depending on the number of particles, consistent with the method specified in [27] for calculating egress
+capacity. Ten realizations are performed for each 𝑁. In Fig. 8(a) we present the system state with 500 particles at 4 s after the
+simulation started. In this case, it is also possible to observe slight overlaps with the walls. This is due to the more relaxed collision
+detection criterion for walls in the AA-CPM.
+   The average specific flow rate for each case is calculated as 𝑄𝑒 = 𝑁∕(𝐿 𝑇𝑒 ), where 𝑇𝑒 represents the total evacuation time. Fig. 8(b)
+depicts the obtained results, indicating that the specific flow rate remains almost independent of the number of people, similar to
+the original CPM [14], with values falling within the empirical range reported in the literature [28–32] between 𝑄𝑒 = 1.25 (m s)−1
+and 𝑄𝑒 = 2 (m s)−1 .
+
+5. Conclusions
+
+    The CPM is a recognized off-lattice cellular automaton that incorporates rules governing the movement of simulated pedestrians
+in continuous space. It has been shown to satisfactorily reproduce experimental unidirectional fundamental diagrams and specific
+flow rates [14]. In this research, we extend its capabilities through two modifications: (a) introducing Anisotropy in particle
+collisions, and (b) implementing Avoidance mechanisms that dynamically adjust desired velocities to prevent collisions. We refer
+to this new model as AA-CPM.
+    The parameters shared with the CPM were directly inherited. The new parameters related to the avoidance mechanism were
+calibrated using experimental data from pedestrian-pedestrian and pedestrian-obstacle trajectories. After fixing the parameters of
+the pedestrian model, it was successfully tested against experimental data from various scenarios encompassing different levels of
+complexity: (a) individual trajectories; (b) unidirectional flow; (c) bidirectional flow; and (d) egress through narrow doors. The study
+includes validation through the following observables: (1) mean distance between simulated and real trajectories; (2) fundamental
+diagrams; (3) cluster structure; and (4) specific flow rates through exits.
+
+                                                                                10
+
+===== PAGINA 11 =====
+
+R.F. Martin and D.R. Parisi                                                                 Physica A: Statistical Mechanics and its Applications 633 (2024) 129414
+
+
+    While the CPM can accurately simulate scenarios (b) and (d), the new AA-CPM not only maintains this ability but also excels
+in simulating scenarios (a) and (c). This is in contrast to the limitations of the original CPM, which lacked the ability to simulate
+these scenarios.
+    An important aspect of the new model is that it is not necessary to turn the avoidance mechanism on or off. When it begins to
+fail at high densities, the low-level A-CPM comes into play, and thus the behavior of the dense assembly matches experimental data.
+    As is customary in pedestrian dynamics modeling, this model accurately reproduces the observed phenomena within the
+examined parameter space. However, extending the application of the model to encompass additional observables or varying
+parameter ranges should be undertaken judiciously, requiring a rigorous validation process involving new experimental comparisons.
+
+CRediT authorship contribution statement
+
+    Rafael F. Martin: Methodology, Software, Formal analysis, Visualization, Writing – original draft. Daniel R. Parisi: Conceptu-
+alization, Supervision, Writing – review & editing, Funding acquisition.
+
+Declaration of competing interest
+
+    The authors declare that they have no known competing financial interests or personal relationships that could have appeared
+to influence the work reported in this paper.
+
+Data availability
+
+    Data will be made available on request.
+
+Declaration of Generative AI and AI-assisted technologies in the writing process
+
+   During the preparation of this work the authors used chatGPT and Bard in order to improve the English writing and readability.
+After using this tool/service, the authors reviewed and edited the content as needed and take full responsibility for the content of
+the publication.
+
+Acknowledgments
+
+   The authors acknowledge financial support via project PID2015-003 (Agencia Nacional de Promoción Científica 𝑦 Tecnológica,
+Argentina; Instituto Tecnológico de Buenos Aires; Urbix Technologies S.A.) and ITBACyT-2018-42 (Instituto Tecnológico de Buenos
+Aires).
+
+References
+
+ [1] D. Helbing, P. Molnar, Social force model for pedestrian dynamics, Phys. Rev. E 51 (5) (1995) 4282.
+ [2] D. Helbing, I. Farkas, T. Vicsek, Simulating dynamical features of escape panic, Nature 407 (6803) (2000) 487.
+ [3] T.I. Lakoba, D.J. Kaup, N.M. Finkelstein, Modifications of the Helbing-Molnar-Farkas-Vicsek social force model for pedestrian evolution, Simulation 81 (5)
+     (2005) 339–352.
+ [4] D.R. Parisi, M. Gilman, H. Moldovan, A modification of the social force model can reproduce experimental data of pedestrian flows in normal conditions,
+     Physica A 388 (17) (2009) 3600–3608.
+ [5] I. Karamouzas, P. Heil, P. Van Beek, M.H. Overmars, A predictive collision avoidance model for pedestrian simulation, in: International Workshop on
+     Motion in Games, Springer, 2009, pp. 41–52.
+ [6] Q.-L. Wang, Y. Chen, H.-R. Dong, M. Zhou, B. Ning, A new collision avoidance model for pedestrian dynamics, Chin. Phys. B 24 (3) (2015) 038901.
+ [7] M.J. Seitz, N.W. Bode, G. Köster, How cognitive heuristics can explain social interactions in spatial movement, J. R. Soc. Interface 13 (121) (2016)
+     20160439.
+ [8] M. Moussaïd, D. Helbing, G. Theraulaz, How simple rules determine pedestrian behavior and crowd disasters, Proc. Natl. Acad. Sci. 108 (17) (2011)
+     6884–6888.
+ [9] I. Karamouzas, M. Overmars, Simulating Human Collision Avoidance Using a Velocity-Based Approach, in: K. Erleben, J. Bender, M. Teschner (Eds.),
+     Workshop in Virtual Reality Interactions and Physical Simulation "VRIPHYS" (2010), The Eurographics Association, 2010.
+[10] J. Pettré, D. Wolinski, A.-H. Olivier, Velocity-based models for crowd simulation, in: Pedestrian and Evacuation Dynamics 2012, Springer, 2014, pp.
+     1065–1078.
+[11] I. Panagiotopoulos, J. Starke, W. Just, Control of collective human behavior: Social dynamics beyond modeling, Phys. Rev. Res. 4 (4) (2022) 043190.
+[12] R.F. Martin, D.R. Parisi, Data-driven simulation of pedestrian collision avoidance with a nonparametric neural network, Neurocomputing 379 (2020)
+     130–140.
+[13] R. Martin, D. Parisi, Pedestrian collision avoidance with a local dynamic goal, Collect. Dyn. 5 (2020) 324–331.
+[14] G. Baglietto, D.R. Parisi, Continuous-space automaton model for pedestrian dynamics, Phys. Rev. E 83 (5) (2011).
+[15] Institute for Advanced Simulation 7: Civil Safety Research of Forschungszentrum Jülich, Bidirectional flow, free choice of destination, 2009, http:
+     //dx.doi.org/10.34735/ped.2009.12.
+[16] Institute for Advanced Simulation 7: Civil Safety Research of Forschungszentrum Jülich, Bidirectional flow, ordered destination, symmetric flow rate, 2009,
+     http://dx.doi.org/10.34735/ped.2009.11.
+[17] A. Tordeux, M. Chraibi, A. Seyfried, Collision-free speed model for pedestrian dynamics, in: Traffic and Granular Flow’15, Springer, 2016, pp. 225–232.
+[18] J. Zhang, Pedestrian Fundamental Diagrams: Comparative Analysis of Experiments in Different Geometries, Vol. 14, Forschungszentrum Jülich, 2012.
+[19] D.R. Parisi, D. Sornette, D. Helbing, Financial price dynamics and pedestrian counterflows: A comparison of statistical stylized facts, Phys. Rev. E 87 (1)
+     (2013) 012804.
+
+
+                                                                              11
+
+===== PAGINA 12 =====
+
+R.F. Martin and D.R. Parisi                                                               Physica A: Statistical Mechanics and its Applications 633 (2024) 129414
+
+
+[20] G.A. Patterson, D. Sornette, D.R. Parisi, Properties of balanced flows with bottlenecks: Common stylized facts in finance and vibration-driven vehicles,
+     Phys. Rev. E 101 (4) (2020) 042302.
+[21] D.R. Parisi, A.G. Sartorio, J.R. Colonnello, A. Garcimartín, L.A. Pugnaloni, I. Zuriguel, Pedestrian dynamics at the running of the bulls evidence an
+     inaccessible region in the fundamental diagram, Proc. Natl. Acad. Sci. 118 (50) (2021) e2107827118.
+[22] B. Steffen, A. Seyfried, Methods for measuring pedestrian density, flow, speed and direction with minimal scatter, Phys. A: Stat. Mech. Appl. 389 (9)
+     (2010) 1902–1910.
+[23] D. Helbing, A. Johansson, H.Z. Al-Abideen, Dynamics of crowd disasters: An empirical study, Phys. Rev. E 75 (4) (2007) 046109.
+[24] M. Mōri, H. Tsukaguchi, A new method for evaluation of level of service in pedestrian facilities, Transp. Res. Part A: General 21 (3) (1987) 223–234.
+[25] T. Kretz, An overview of fundamental diagrams of pedestrian dynamics, 2019, http://dx.doi.org/10.13140/RG, Vol. 2, no. 30070.96326.
+[26] Q. Xu, M. Chraibi, A. Seyfried, Anticipation in a velocity-based model for pedestrian dynamics, Transp. Res. Part C: Emerg. Technol. 133 (2021) 103464.
+[27] National Fire Protection Association, NFPA 101 life safety code, 2000.
+[28] J.J. Fruin, Pedestrian planning and design, 1971.
+[29] B. Hankin, R.A. Wright, Passenger flow in subways, J. Oper. Res. Soc. 9 (2) (1958) 81–88.
+[30] T. Kretz, A. Grünebohm, M. Schreckenberg, Experimental study of pedestrian flow through a bottleneck, J. Stat. Mech. Theory Exp. 2006 (10) (2006)
+     P10014.
+[31] D. Rasbash, G. Ramachandran, B. Kandola, J. Watts, M. Law, Evaluation of Fire Safety, John Wiley & Sons, 2004.
+[32] IMO, London, Interim guidelines for evacuation analyses for new and existing passenger ships, 2002, MSC/Circ 1033.
+
+
+
+
+                                                                            12
+

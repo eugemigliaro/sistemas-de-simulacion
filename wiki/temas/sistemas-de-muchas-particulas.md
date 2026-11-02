@@ -14,7 +14,7 @@ La bibliografía externa amplía la definición: las interacciones entre partíc
 
 ## Dos familias de modelos
 
-El modelo de fuerzas sociales para peatones combina términos granulares, sociales, de impulso propio y, según el caso, fluctuaciones. Las ecuaciones individuales quedan acopladas y se integran con métodos de dinámica molecular [T01, p. 9] [T01, p. 10]. En estos sistemas pueden surgir formación espontánea de carriles, bloqueo por fluctuaciones intensas (*freezing by heating*) y el efecto *faster is slower* en cuellos de botella [B01, p. 7] [B01, p. 8] [B01, p. 9].
+El modelo de fuerzas sociales para peatones combina términos granulares, sociales, de impulso propio y, según el caso, fluctuaciones. Las ecuaciones individuales quedan acopladas y se integran con métodos de dinámica molecular [T01, p. 9] [T01, p. 10]. En estos sistemas pueden surgir formación espontánea de carriles, bloqueo por fluctuaciones intensas (*freezing by heating*) y el efecto *faster is slower* en cuellos de botella [B01, p. 7] [B01, p. 8] [B01, p. 9]. Las fuerzas, sus parámetros y los modelos alternativos que da la cátedra están en [Dinámica peatonal](dinamica-peatonal.md); los contactos granulares, en [Medios granulares](medios-granulares.md).
 
 El modelo de Reynolds representa cada “boid” como actor independiente con percepción local. La bandada no sigue un guion central: el patrón agregado emerge de tres reglas priorizadas —evitar colisiones, igualar velocidad y acercarse al centro local de la bandada— [B04, p. 1] [B04, p. 4]. Es un ejemplo directo de cómo reglas microscópicas locales producen organización macroscópica.
 

@@ -1,0 +1,706 @@
+FUENTE: B30
+TITULO: A New Collision Avoidance Model for Pedestrian Dynamics — Wang, Chen, Dong, Zhou y Ning
+ORIGINAL: material/externo/bibliografia-6-7/A_new_collision_avoidance_model_for_pedestrian_dynamics.pdf
+PAGINAS: 10
+
+===== PAGINA 1 =====
+
+                                              Chin. Phys. B Vol. 24, No. 3 (2015) 038901
+
+
+            A new collision avoidance model for pedestrian dynamics∗
+                           Wang Qian-Ling(王千龄)a) , Chen Yao(陈 姚)b) , Dong Hai-Rong(董海荣)a)† ,
+                                          Zhou Min(周 敏)a) , and Ning Bin(宁 滨)a)
+                       a) State Key Laboratory of Rail Traffic Control and Safety, Beijing Jiaotong University, Beijing 100044, China
+                          b) School of Electronic and Information Engineering, Beijing Jiaotong University, Beijing 100044, China
+
+                         (Received 6 August 2014; revised manuscript received 9 October 2014; published online 30 January 2015)
+
+                 The pedestrians can only avoid collisions passively under the action of forces during simulations using the social
+          force model, which may lead to unnatural behaviors. This paper proposes an optimization-based model for the avoidance
+          of collisions, where the social repulsive force is removed in favor of a search for the quickest path to destination in the
+          pedestrian’s vision field. In this way, the behaviors of pedestrians are governed by changing their desired walking direction
+          and desired speed. By combining the critical factors of pedestrian movement, such as positions of the exit and obstacles and
+          velocities of the neighbors, the choice of desired velocity has been rendered to a discrete optimization problem. Therefore,
+          it is the self-driven force that leads pedestrians to a free path rather than the repulsive force, which means the pedestrians
+          can actively avoid collisions. The new model is verified by comparing with the fundamental diagram and actual data. The
+          simulation results of individual avoidance trajectories and crowd avoidance behaviors demonstrate the reasonability of the
+          proposed model.
+
+          Keywords: pedestrian dynamics, social force model, collision avoidance, optimization-based method
+          PACS: 89.40.–a, 05.65.+b, 89.75.–k                                    DOI: 10.1088/1674-1056/24/3/038901
+
+
+1. Introduction                                                                 etc. These models are very suitable for depicting the interac-
+      Nowadays, the gathering of people in public places, such                  tion behaviors between pedestrians.
+as stations, stadiums, shopping halls, and so on is very com-                        In the CA model, the area is divided into cells of equal
+mon. This brings serious safety problems especially when                        shape and the status is updated according to some rules at
+emergency and critical situation occur. It may cause squeeze                    each time step, which makes it easy for computer simula-
+and stampede, even casualties. Therefore, it is important to                    tions. A great deal of work has been done based on CA mod-
+understand the behaviors and dynamics of pedestrians and                        els. Zarita et al. [19] proposed a modified CA model to sim-
+crowds in order to characterize their behaviors exactly during                  ulate an evacuation process in a classroom. They took into
+emergencies.                                                                    account the pedestrian’s ability of selecting the exit route in
+      Researchers began to pay attention to this area nearly                    their model. Li et al. [20] extended the CA model based on
+five decades ago. [1,2] In the 1970s, Henderson presented the                   the floor field to study the pedestrian counterflow on a cross-
+speed/velocity probability density distributions for different                  walk. Lu et al. [21] also proposed an extended floor field CA
+human crowds. [3] Fruin studied the factors that affect the plan-               model and used it to describe the walking behaviors of pedes-
+ning and design of pedestrian spaces. [4] The initial work was                  trian groups. Their simulation results revealed that the pres-
+mainly based on direct observations or photographs. However,                    ence of pedestrian group retards the emergence of lane for-
+they are not suitable for the prediction of the pedestrian flow in              mation and increases the instability of pedestrian flow. The
+exceptional architectures or in evacuation situations. [5] Hence,               pedestrian-following model was originally derived from the
+all kinds of models have been proposed to simulate the flow of                  car-following model, which is the analogue of Newton’s equa-
+crowds and they are generally classified into macroscopic and                   tion for each individual particle in a system of interacting clas-
+microscopic models. For instance, the hydrodynamics models                      sical particles. [22] In Ref. [21], the authors also introduced the
+belong to macroscopic models which are the analogy of fluid                     leader-follower walking pattern, but Tang et al. [12,13] carried
+and gas dynamics. [6–8] Since the macroscopic models are de-                    out more in-depth research about the pedestrian’s following
+scribed by the mean values of the characteristics of pedestrian                 characteristics. They proposed individual-following models
+crowds, they are more applicable when the crowds are large                      for car, bicycle, and pedestrian. By applying the relationship
+and individual differences are less important. Microscopic                      between the micro and macro variables, they obtained a dy-
+models include cellular automaton (CA) models, [9–11] the                       namic model for the heterogeneous traffic flow and derived
+pedestrian-following model, [12–15] force-based models, [16–18]                 some important results about the friction effects and honk ef-
+∗ Project supported by the National Natural Science Foundation of China (Grant Nos. 61233001 and 61322307) and the Fundamental Research Funds for Central
+
+ Universities of China (Grant No. 2013JBZ007).
+† Corresponding author. E-mail: hrdong@bjtu.edu.cn
+
+© 2015 Chinese Physical Society and IOP Publishing Ltd                                                 http://iopscience.iop.org/cpb    http://cpb.iphy.ac.cn
+
+                                                                        038901-1
+
+===== PAGINA 2 =====
+
+                                           Chin. Phys. B Vol. 24, No. 3 (2015) 038901
+fects.                                                                   environment and other pedestrian (neighbors) around a pedes-
+       The social force model [16] is another kind of promi-             trian also have some effects on his walking behaviors, among
+nent model for pedestrian dynamics. It can reproduce many                which the front pedestrians and associated factors of headway
+self-organization phenomena observed in reality, such as lane            and relative velocity play important roles. Tang et al. [14,15]
+formation, oscillation of passing direction at narrow pas-               proposed a new pedestrian-following model and applied it to
+sage, and the emergence of unstable roundabout traffic at                aircraft boarding. Here, we also consider the neighbors’ ef-
+intersections. [23] Based on this model, some researchers have           fect and use a method similar to that in Ref. [34] to model
+made some improvements to study the pedestrian flow [24,25]              the desired velocity including the value and the direction for
+and evacuation problems. [26,27] Other researchers mainly fo-            the avoidance of collisions. By making some assumptions
+cused on the model itself and make some improvements to                  about the velocity relating to the gaps formed by the pedestri-
+make it more realistic. Lakoba and his coworkers [28] pro-               ans around himself, it forms a discrete optimization problem.
+posed some algorithms considering the overlapping problem                During the simulation, each pedestrian chooses his desired ve-
+between pedestrians and the choice of the numerical values               locity by solving the optimization problem in each step. In this
+of parameters. Zarita et al. [29,30] incorporated some decision-         way, the social repulsive force in the social force model can be
+making and investigating capabilities and prediction factors in          removed and the behaviors of pedestrians are governed by the
+the social force model considering the intelligence of pedestri-         pedestrians’ choices of desired walking direction and desired
+ans. Nevertheless, the price of the precision by adding factors          speed. Thus, the pedestrians can avoid collisions actively as
+and modifying the formulas is a more sophisticated mathemat-             real humans rather than particles or balls in the force-based
+ical expression of the model.                                            models in which they can only passively move under the ac-
+       Since most of the methods lack anticipation and pre-              tion of forces.
+diction, the pedestrians’ behaviors may look unnatural and                    This paper is outlined as follows. Section 2 introduces
+contain undesirable oscillations when they get too close. [31]           the original social force model and proposes the optimization-
+Therefore, another aspect of modifying the social force                  based method to model the desired velocities for the collision
+model is to introduce the maneuver of avoiding collisions.               avoidance of pedestrians. In Section 3, the simulation results
+Karamouzas et al. [31] presented a collision avoidance model             show the model verification, individual avoidance trajectories,
+based on collision prediction. In their model, the pedestrians           and crowd avoidance behaviors. An oscillation index which
+scan the environment and detect future collisions, then they             reflects the deviation of the actual velocities from the desired
+avoid collisions via an evasive force. Chraibi et al. [32] modeled       velocities is also defined. Section 4 ends with the conclusion
+the desired direction in force-based models which can be used            and some possible future work.
+in geometry characterized by the existence of corners. Zan-
+lungo et al. [33] introduced a specification of the social force         2. Optimization-based                    collision         avoidance
+model in which pedestrians can explicitly predict the next col-             model
+lision in order to avoid it. They took the interaction force as a
+                                                                         2.1. Social force model
+function of relative positions, velocities, and absolute velocity.
+       However, those modified models still belong to the force-               Before modeling the desired velocity of a pedestrian, we
+based modeling framework. There are some problems with                   first introduce the social force model which was first pro-
+the force models that have been pointed out by Moussaı̈d et              posed by Helbing et al. [16,36] In this model, the pedestrians
+al. [34,35] For instance, it is difficult to capture all the crowd be-   are treated as self-driven particles and their behaviors are de-
+haviors in one model and some theoretical issues exist for the           scribed by the physical and socio-psychological forces. The
+superposition of binary interactions. The reason is thought to           trajectories of each individual are determined by Newton’s
+be that the force-based models try to describe directly the ob-          Second Law of motion. The fundamental dynamical equations
+served movements of pedestrians rather than the internal cog-            are
+nitive processes that lead to the movements. In Ref. [34] they                  d𝑥i
+used some simple rules to generate the movement from the                            = 𝑣i ,
+                                                                                 dt
+bottom to the top by describing the underlying cognitive pro-                   d𝑣i     v0 (t)𝑒i (t) − 𝑣i (t)
+cesses used by the pedestrians. On the other hand, Tang et                 mi       = mi i                    + ∑ 𝑓i j + ∑ 𝑓iW + ξ , (1)
+                                                                                dt                τi            j(6=i)   W
+al. [14,15] pointed out that most of the above models did not ex-
+plicitly take into account the pedestrian’s following behavior,          where mi , 𝑥i , and 𝑣i represent the mass, position, and velocity
+so they cannot describe the pedestrian-following property. The           of pedestrian i, respectively. The trajectory of pedestrian i usu-
+phenomenon of “following the crowd” in panic situations has              ally has the shape of a polygon with edges 𝑟i1 , 𝑟i2 , . . . , 𝑟in . If 𝑟ik
+been discovered by Helbing et al. [36] In normal situations, the         is the next edge of this polygon pedestrian i, then his desired
+                                                                   038901-2
+
+===== PAGINA 3 =====
+
+                                                 Chin. Phys. B Vol. 24, No. 3 (2015) 038901
+direction is 𝑒i (t) := (𝑟i k − 𝑟i (t))/ k 𝑟i k − 𝑟i (t) k, where 𝑟i (t)            important for depth perception, we take 180 degrees as pedes-
+denotes the actual position at time t, as shown in Fig. 1. Each                    trians’ visual field for simplicity, which means a pedestrian
+pedestrian tends to move with certain desired velocity v0i in a                    can see all the other people in front of him. More specifically,
+certain direction 𝑒i and adapts the actual velocity 𝑣i with a cer-                 we assume that a pedestrian’s vision field is related to his ve-
+tain characteristic time τi , producing the self-driven force. The                 locity direction, namely, the vision field of a pedestrian is 180
+interaction force between pedestrians 𝑓i j is composed of two                      degrees with his velocity direction being the center line. Next,
+parts: the psychological force to describe the tendency of two                     we can define the neighbors of a pedestrian i as
+pedestrians to stay away from each other and the body force,                                      Ni (t) = {pi j | k𝑥 j (t) − 𝑥i (t)k ≤ di (t),
+which is necessary when pedestrians touch each other. This
+                                                                                                               pi j is in the visual field of i},               (3)
+kind of force can be modeled as follows:
+                                                                                   Ni (t) is the set of the neighbors pi j at time t, and di represents
+       𝑓i j = {Ai exp[(ri j − di j )/Bi ] + kg(ri j − di j )}𝑛i j                  the pedestrian i’s neighbor scope which differs from person
+                + κg(ri j − di j )∆vtji 𝑡i j ,                               (2)   to person and is affected by individual’s preference, environ-
+                                                                                   ment, culture, and some other factors. The illustration of the
+where Ai , Bi , k, and κ are constants. ri j = ri + r j is the sum                 neighbors of pedestrian i is shown in Fig. 2 (the obstacles can
+of pedestrian i and pedestrian j’s radii, and di j = k𝑥i − 𝑥 j k is                be treated equivalently with the pedestrians, for the obstacles
+the distance between their centers of mass. 𝑛i j is the normal-                    can be seen as static pedestrians or the pedestrians can be seen
+ized direction which points from pedestrian j to i and 𝑡i j is the                 as moving obstacles).
+direction perpendicular to 𝑛i j . ∆vtji = (𝑣 j − 𝑣i ) · 𝑡i j denotes
+the tangential velocity difference. The function g(x) is zero if                                walking                                     pedestrian i
+x < 0, and otherwise is equal to x. For more details about this                                direction
+                                                                                                                                            neighbors
+                                                                                            of pedestrian i
+equation, we refer the reader to Ref. [36]. The force between                                                                               out of scope
+pedestrian and environment, such as a wall, 𝑓iW is modeled                                                                                  out of sight
+analogously. ξ means the fluctuation term.
+
+                                                                                                                                       visual
+                                  ri(t)
+                                                                                                                                       field
+                ri2                                rik
+                                                                                                               θ       θ
+                             actual position                           rin                                θ                 θ
+     ri1                       at time t
+                                                                                                                                  di
+                                                               destination                                          i
+  pedestrian i
+
+           Fig. 1. Illustration of pedestrian i’s desired direction.                    Fig. 2. (color online) Illustration of the neighbors of pedestrian i. The
+                                                                                        pedestrians around pedestrian i can be classified into three types: the
+                                                                                        neighbors, the pedestrians who are out of neighbor scope, and those
+     In the social force model, it is assumed that the pedes-                           behind pedestrian i who are out of sight.
+trians want to reach a certain destination as comfortably as
+                                                                                        It can be seen from the figure that the lines jointing pedes-
+possible and make a trajectory without detours. The trajectory
+                                                                                   trian i and his neighbors and the horizontal line (the line which
+usually has the shape of a polygon, but the specific method to                     is perpendicular to pedestrian i’s velocity direction) forms
+find the polygon is unclear. Besides, it shows some irrational                     some angles represented by θk (t). We can use these angles to
+simulation results using this model. In the following part, we                     represent the neighbors. Usually, if there are no other pedes-
+propose an optimization-based method to calculate the desired                      trians on the horizontal line, the number of angles is one more
+direction by endowing some intelligent abilities to the pedes-                     than the number of neighbors.
+trians and making some assumptions about the desired speed.
+                                                                                                      Si (t) = {θ1 (t), θ2 (t), . . . , θn (t)}.                (4)
+2.2. Perception ability                                                            Obviously, the number of θk (t) is finite, so that pedestrian
+     As vision is the main source of information used by                           can choose one slot between two adjacent pedestrians to go
+pedestrians to control their motion, [34] first we endow the vi-                   through when his original walking direction is obstructed.
+sual ability to the particles which represent the pedestrians.                     Then it naturally leads to another question: which one should
+Humans usually have an almost 180-degree forward-facing                            pedestrian i choose among these angles? We will explain this
+horizontal field of view, of which binocular vision covers only                    after making some assumptions about the velocity in the next
+120 degrees. The remaining peripheral 60 degrees have no                           part. To end this part, another kind of ability, the predictive
+binocular vision because of the lack of overlap in the images                      ability, is endowed to pedestrians. It assumes a pedestrian
+from either eye for those parts. As the binocular vision is just                   can predict or perceive his neighbors’ positions and velocities,
+                                                                             038901-3
+
+===== PAGINA 4 =====
+
+                                                    Chin. Phys. B Vol. 24, No. 3 (2015) 038901
+which can be used as part of the information for pedestrians to                        In the above, we only consider the positions of the pedes-
+make decisions. It represents by the set Pi (t).                                  trians to determine the velocities. However, the velocity of one
+                                                                                  pedestrian is not only related to the positions of other pedestri-
+           Pi (t) = {(𝑥i j 0 (t), 𝑣i j 0 (t)) | j
+                                                                                  ans but also to their velocities. A pedestrian should avoid col-
+                          is the index such that pi j ∈ Ni (t)},            (5)
+                                                                                  lision with others considering the relative velocity. If vimax (t)
+𝑥i j 0 (t) and 𝑣i j 0 (t) are the position and velocity of pedestrian j           is the maximum velocity of pedestrian i who has to avoid the
+perceived by pedestrian i, respectively.                                          colliding at time τ, it satisfies
+
+2.3. Desired speed considering the gap                                                              i
+                                                                                         [𝑥i (t) + 𝑣max (t)τ] − [𝑥0i j (t) + 𝑣i0 j (t)τ] = ri + r j ,   (7)
+      Previous studies have shown that the flow and velocity
+of the crowd are related to the bottleneck. [37,38] Normally, the                              i (t)τ] is pedestrian i’s position at time t + τ and
+                                                                                  [𝑥i (t) + 𝑣max
+flow and velocity will increase as the bottleneck gets wide. If                   [𝑥0i j (t) + 𝑣i0 j (t)τ] is pedestrian j’s position that pedestrian i
+we treat the gap between two neighbors as a bottleneck, we                        predicts. The distance between these two positions should be
+can make an assumption that the desired velocity is related to                    greater than the sum of their radii if they are not in collision.
+the size of the gap. From another point of view, the velocity                             Thus, the value of the desired velocity for pedestrian i at
+is related to the density of the crowd. [39] In general, the big-                 time t considering other pedestrians’ positions and velocities
+ger density indicates the smaller pedestrian gaps. So we can                      should be
+assume, in microscopic aspect, the desired velocity has an ex-
+ponential relationship with the angle which is similar to the                                  k𝑣 di (t)k = min{k𝑣di (t)k, k𝑣max
+                                                                                                                             i
+                                                                                                                                 (t)k},                 (8)
+Underwood model. [39] Moreover, when the gap is narrow, a
+pedestrian should go through it gingerly with a small velocity;                   where k𝑣di (t)k and k𝑣max
+                                                                                                        i (t)k are determined by Eqs. (6) and
+
+while the gap is wide enough, he can walk through it freely.                      (7), respectively.
+Hence, the desired velocity about the gap has the relation as
+shown in Fig. 3.                                                                  2.4. Desired direction considering the desired speed
+      Here, vfree is the desired velocity when a pedestrian walks                       From above analysis, it is clear that a pedestrian will
+in an unobstructed place; ϑs and ϑl are the thresholds. When                      change his desired direction and choose a gap formed by his
+the gap is smaller than ϑs , it means the gap is too narrow to go                 neighbors to go through with the speed k𝑣di (t)k when he gets
+through for a pedestrian. A pedestrian can walk freely with ve-                   stuck. Then we determine the specific gap and direction that
+locity vfree when the gap is bigger than ϑl . According to Fig. 3,                the pedestrian will choose.
+we choose the s-curve function to approximately describe the                            First is the specific direction which the pedestrian will go
+relation (α and β are parameters)                                                 along. To begin with, the radius of pedestrian is redefined. In
+                                          vifree                                  Ref. [40], the author proposed the proxemic behavior theory.
+                      vid (t) =                          ,                  (6)
+                                  1 + exp[α − ϑk (t)/β ]                          It claimed that there are different spaces surrounding a person:
+where                                                                             intimate space, personal space, social space, and public space.
+             q
+                                     2 (t) − 2d
+                                                                                  In Ref. [41], the author proposed the “fear to be touched prin-
+ ϑk (t) =            d 2ipk−1 (t) + dip         ipk−1 (t)dipk (t) cos(θk (t))
+                                       k                                          ciple”, namely, there is nothing man fears more than the touch
+             − r pk−1 − r pk                                                      of the unknown. Based on this principle, the pedestrian’s ra-
+reflects the size of the gap and dipk−1 (t) and dipk (t) are the dis-             dius is extended and a territory where the pedestrian does not
+tances from pedestrian i to the neighbors who form the gap k                      want to be violated, and also others do not want to get close
+(if there is only one neighbor, we set the two distances equal                    to, is given to each pedestrian. As shown in Fig. 4(a), r0pk−1
+to each other).                                                                   and r0pk are the extended radii of pedestrian pk−1 and pk , re-
+                                                                                  spectively, and they are different from person to person and
+           vd
+                                                                                  related with the crowdedness of the environment. The terri-
+         vfree
+                                                                                  tory of an obstacle can also be defined similarly. Then, assum-
+                                                                                  ing that the pedestrian has chosen a gap and the angle is θk (t),
+                                                                                  we will determine the specific direction according to the fact
+                                                                                  that a pedestrian wants to move in the most convenient way
+                                                                                  and dislikes deviating too much from the direct path to their
+                                                                                  destination. [42]
+                 0         ϑs              ϑl                     ϑk
+                                                                                        When the environment is not crowed, as the pedestrian
+    Fig. 3. (color online) Relation between desired velocity and the gap.         does not want to get too close to other pedestrians and also
+                                                                            038901-4
+
+===== PAGINA 5 =====
+
+                                                     Chin. Phys. B Vol. 24, No. 3 (2015) 038901
+does not want to deviate too much from the direct path, he                            the pedestrian wants to get to his destination as soon as pos-
+will choose the direction that is tangential to the territory of                      sible, it is easy to assume that he will choose the direction in
+the neighbor who is closer to the direct path, namely, αk in                          which the projection of his velocity to the direct path is the
+Fig. 4(a).                                                                            maximum (if more than one projections are equal, he would
+                                                                                      choose the one which deviates least from the direct path). That
+                                         r0pk
+                           sin αk =             ,                               (9)   is,
+                                       dipk (t)
+                                                                                            max Pr j−−−→ 𝑣 (θ (t)),
+where r0pk is the extended radius of neighbor pk and dipk (t) is                               k    i−exit di k
+
+the distance between pedestrian i and pk at time t.                                            s.t. Pr j−−−→ 𝑣 (θ (t)) = k𝑣di (θk (t))k cos ηk (t), (12)
+                                                                                                        i−exit di k
+                                                                                                       θk (t) ∈ Si (t).
+                                            rp′k-
+                                                                                      This forms a discrete optimization problem. By solving this
+            (a)            territory
+                                                                                      problem, we can find the specific gap.
+                                             pk-
+                                                                                           To summarize, when a pedestrian gets stuck (that is there
+                                                                                      are some other people on his way to the destination and their
+                                                                                      velocities are smaller than his), he would change his desired
+                                                     r ′pk
+                                                                                      direction and choose one of the gaps formed by his neighbors
+                  θk                                                                  to go through. The directions along the center lines or tangent
+                         αk                                       pk                  to the neighbors’ territories which are closer to the direct path
+                                                                                      are his choices. As we have made an assumption that the ve-
+        i                  dipk                                        exit           locities about the gaps are different along each direction, the
+                                                                                      pedestrian would choose the direction in which he can get to
+                                                                                      the destination as soon as possible, that is the projection of
+                                                                                      the velocity to the direct path is the maximum. For the opti-
+                                                                                      mization problem is finite and discrete, we can always find the
+            (b)                                pk-
+                                                                                      optimal solution. So the pedestrians can avoid collisions by
+                                                                                      changing their desired directions instead of the social repul-
+                                                                                      sive force.
+
+                                                                                      2.5. Optimization-based pedestrian model
+                   θk
+                        θk/2                                 pk                            As mentioned above, the modeling of the desired speed
+                                                                                      and desired direction can replace the social repulsive force.
+            i                                                           exit
+                                                                                      It has incorporated the repulsive maneuver in the self-driven
+                                                                                      force rather than using the social repulsive force. When the
+  Fig. 4. (color online) Illustration of the territory of a pedestrian and the
+  desired direction. (a) The desired direction when the environment is not
+                                                                                      environment is too crowded and the pedestrians have to touch
+  crowed. (b) The desired direction when the environment is crowded.                  each other, we use the “body force” k(ri j − di j )𝑛i j and “slid-
+                                                                                      ing friction force” κ(ri j − di j )∆vtji 𝑡i j , which is the same as
+      When the environment is crowded, for example, pk and                            in Eq. (2), to reflect the interaction effect. The interaction
+pk−1 ’s territories intersect each other, pedestrian i would go                       with obstacles, e.g., the walls, is in a similar way. Hence, the
+along the center line of θk (t) (Fig. 4(b)). Therefore, the spe-                      optimization-based pedestrian model is
+cific angle of the direction relative to neighbor pk after a pedes-
+                                                                                                        d𝑥i (t)
+trian chooses θk is                                                                                             = 𝑣i (t),
+                                                                                                         dt
+                                      
+                       1                                                                                d𝑣i (t)       k k𝑣 di (t)k𝑒i (t) − 𝑣i (t) k
+                 min     θk (t), αk (t) := ϕk (t).             (10)                                  mi         = mi
+                       2                                                                                  dt                       τi
+     If the angle between line pedestrian i-neighbor pk and line                                                      + ∑ 𝑓i0j + ∑ 𝑓iW
+                                                                                                                                     0
+                                                                                                                                       +ξ,                      (13)
+                                                                                                                          j(6=i)       W
+pedestrian i-exit (the direct path) is φk (t), then the angle of the
+desired direction relative to the direct path is                                      where
+
+                        ϕk (t) + φk (t) := ηk (t).                             (11)                𝑓i0j = kg(ri j − di j )𝑛i j + κg(ri j − di j )∆vtji 𝑡i j ,
+
+                                                                                      and
+     We next determine the specific gap (θk (t)) the pedestrian
+                                                                                                0
+will choose, namely, to determine the neighbor pk . Because                                   𝑓iW = kg(ri − diW )𝑛iW + κg(ri − diW )(vi 𝑡iW )𝑡iW .
+                                                                                 038901-5
+
+===== PAGINA 6 =====
+
+                                           Chin. Phys. B Vol. 24, No. 3 (2015) 038901
+The function                                                             to make sure that the new model can still be used to de-
+                                                                         scribe the behaviors of crowd. To verify a model, some re-
+                             
+                                 x, if x > 0,
+                    g(x) =                                      (14)
+                                 0, otherwise.                           searchers compare with the aggregate outcomes such as fun-
+k𝑣di (t)k is determined by Eq. (8), 𝑒i (t) = (cos(ηk (t)), sin ηk (t))   damental diagrams [18,24] or well-known phenomena such as
+is determined by Eq. (11), and the index k is determined by the          clogging, [17,36] while other researchers use the maximum like-
+optimization problem (12). Other symbols are the same as the             lihood estimation method based on observed walking trajecto-
+social force model. [34] This model determines a pedestrian’s            ries of pedestrians. [43,45] Here we use the former method to
+desired direction through local optimization (the information            verify the proposed model. First, we check the relationship
+of neighbors of the pedestrian), and does not involve any                between speed and density, which is known as the fundamen-
+global way-finding strategy, which may cause the oscillation             tal diagram. To measure the average speeds of crowds, we
+of slot selection during the simulation. However, the model-             carry out some simulations in a corridor of 20×2 m2 with pe-
+ing process can decrease the oscillation as much as possible.            riodic boundary conditions, and the density of pedestrians is
+For a pedestrian, when his neighbors do not change, the slots            varied from 0.4 to 3 p/m2 . The density is calculated as the
+change continuously over time, so does the optimization func-            total number of pedestrians (N) over the total area of the corri-
+tion (12); when new neighbors are added, the collision avoid-            dor [(ρ = N/20 × 2)]. For each density, we run the simulation
+ance maneuver (7) can guarantee that the pedestrian does not             ten times and each one runs for 50 s. The velocities of the
+choose the slot which will have the collision; the reducing              pedestrians are recorded at every step size. The first 20 s of
+of neighbors usually does not affect the slot selection. The             each simulation are discarded to ensure that all the pedestrians
+simulation results also demonstrate that the pedestrians in the          have reached their steady state. The velocity corresponding
+proposed model fluctuate less severely than those in the origi-          to that density is calculated by averaging over all pedestri-
+nal social force model. Then we conduct the simulations using            ans, iterations, and running times. The results are shown in
+model (13) in the next part.                                             Fig. 5 and compared with experimental data. [46,47] However,
+                                                                         when the density is bigger than 1 p/m2 , the speeds are higher
+                                                                         than those in Ref. [48] and the explanations for the deviations
+3. Simulation results
+                                                                         between different fundamental diagrams include cultural and
+     As a pedestrian accelerates or decelerates in response              population difference, influence of psychological factors, the
+to the speed of his leaders or colliders within a range of               type of traffic, and so on. [49] In general, pedestrians in high
+up to 5.59 m and 3.863 m for low- and high-density cases,                density regions have slower speeds than those in low density
+respectively, [43] we assume that the radius of the neighbor             regions.
+scope di for pedestrian i is approximated to be 4 m. For sim-
+plicity, we take this parameter to be the same for all pedestri-                                                     our model
+                                                                                          1.4                        Weidmann 2006
+ans. As for the parameter ϑs in Section 2.3, when the gap be-
+                                                                                                                     Helbing 2007
+tween two neighbors is smaller than one person’s dimension,                                                          Sarkar 1997
+the person cannot go through it. Consequently, ϑs = 0.5 if the                            1.0
+
+
+                                                                                v/mSs-1
+person’s radius is 0.25 m. If we take the territory of a person
+into account, when the gap between two neighbors is bigger                                0.6
+than the person’s dimension, he can go through it freely. As
+the personal distance of a person is about between 0.46 m and
+                                                                                          0.2
+0.76 m, [40] we take it as 0.8 m, the parameter ϑl = 1.6. Then                                  0    1           2            3            4
+                                                                                                               ρ/m-2
+we choose α = 6 and β = 0.15. Actually, the values of these
+two parameters do not affect the simulation much. The posi-                  Fig. 5. (color online) Fundamental diagrams for pedestrian movement
+                                                                             and simulation results.
+tion and velocity of pedestrian j predicted by pedestrian i are
+approximated by pedestrian j’s real position and velocity. We                 Another aspect is the pedestrian flow through bottlenecks.
+set the time τ in Eq. (7) as 1 s. [44] The initial desired speeds        Some work has been done to analyze the flow rates through
+of pedestrians are assumed to be Gaussian distributed with a             exits with different widths. [49–53] Here, we use the relation-
+mean value of 1.34 m/s and standard deviation 0.26 m/s. [17,18]          ship between flow rate and exit width as another benchmark to
+The other parameters of the modified model are as follows:               verify our modified model. To compare our simulation result
+k = 24000 kg/s2 , κ = 1 kg/ms, m = 80 kg, and ri = 0.25 m. [28]          to the previous work, we create a similar scenario to that in
+                                                                         Ref. [50]. It is a room which is about 4 m wide with an exit on
+3.1. Verification                                                        the middle of one side and 9 m long. For each run, 100 pedes-
+   Since we have introduced new parameters and made                      trians evacuate from the room and the exits vary from 0.8 m to
+modifications to the original social force model, we need                1.6 m. The flow rate here is calculated as the total pedestrian
+                                                                  038901-6
+
+===== PAGINA 7 =====
+
+                                                           Chin. Phys. B Vol. 24, No. 3 (2015) 038901
+number over the time interval [(100/tlast − tfirst )], where tfirst                           ity and all kinds of perception abilities. They can evade an
+and tlast are the time when the first pedestrian and last pedes-                              obstacle or another pedestrian actively rather than wait to feel
+trian pass by the exit, respectively. Figure 6 shows the com-                                 the repulsive force to take action.
+parison result between our simulation and some experimental
+data. We can find that the flow rates predicted by our model                                                    (a)
+                                                                                                                                         a
+lie within the range of flows reported by other researchers and
+                                                                                                                       i           j         b
+show a linear dependence relation with exit width, which co-
+heres with the result in Ref. [49].
+                                                                                                                (b)
+                                                                                                                                         a
+                    5                                                                                                  i           j         b
+
+
+                    4                                                                                           (c)
+                                                                                                                                       ab
+
+
+
+    Flow rate/s-1
+                                                                                                                       i
+                                                                                                                                                             j
+                    3
+
+                                                                                                    Fig. 7. (color online) The walking trajectories of pedestrians simulated
+                    2                               our model                                       by the social force model.
+                                                    Seyfried et al. 2009
+                    1                               kretz et al. 2006
+                                                    Nagai et al. 2006                              Then we simulate the avoiding collision behaviors of the
+                                                    Muller et al. 1981                        single person using the modified model and compare the walk-
+                    0
+                     0.8           1.0           1.2              1.4              1.6        ing trajectory with the experiment data from Ref. [56].
+                                           Exit width/m
+                                                                                                   In Ref. [56], the experimental corridor was 7.88 m long
+                    Fig. 6. (color online) Flow rates with different exit width.              and 1.75 m wide and was equipped with tracking systems to
+                                                                                              record the trajectories of the subjects. In first scenario, a per-
+3.2. Simulations of avoiding collisions for the single person                                 son was instructed to stand still in the middle of the corridor,
+      To make a better comparison, the simulations of avoiding                                while another one was asked to go from the left to the right
+collisions using the original social force model are first con-                               and had to evade the standing person. We conducted simu-
+ducted. The walking trajectories are shown in Fig. 7. First, in                               lations under the same conditions; the results are shown in
+Fig. 7(a), if we do not take the visual effect into account, each                             Fig. 8(a). We can see the predicted path (red line) by our
+pedestrian would suffer the social forces from all the other                                  model lies within the standard deviation (blue dashed lines) of
+people around him which means one will be affected by the                                     the real human paths. Besides, we also conduct the simulation
+behind pedestrians even though he cannot see them. So pedes-                                  of evading a moving pedestrian. That is, we let the person in
+trian j is repelled away by i at point b. Meanwhile, pedestrian i                             the middle also walk towards the right side but with a smaller
+feels the repulsive force from j at point a. However in fact, the                             velocity. The path (green dashed line) is deviated to the right
+relationship between pedestrians does not necessarily show the                                relative to the red line which is easy to understand because we
+“action-reaction” or “stimulus-response” law as in physics. [54]                              need a longer process to avoid the moving person.
+Most of the time the pedestrians in front pay little attention to
+what occurs behind them and are unlikely to notice anyone in                                                    1.8
+                                                                                                                                                                     (a)
+the back. [55] Then, in Fig. 7(b), it considers the factor of visual
+
+                                                                                                      Width/m
+angel. As it shows, the walking trajectory of pedestrian j is a
+straight line without being affected by pedestrian i. However,                                                  1.0
+                                                                                                                                   experiment data
+                                                                                                                                   avoid stationary obstacle
+we observe the unrealistic behavior on pedestrian i. At point                                                                      avoid moving obstacle
+                                                                                                                0.6
+a, the closest position i can reach before he knocks into j, he                                                 1.5
+stops suddenly and then changes his walking direction. This                                                                                                          (b)
+
+
+
+                                                                                                      Width/m
+is also reflected in Fig. 7(c). Pedestrians i and j are bounced
+                                                                                                                1.0
+back a little due to the repulsive force at a and b, respectively,
+                                                                                                                           experiment data
+when they walk towards each other. Obviously, pedestrians do                                                               simulation result
+                                                                                                                0.5
+not walk like this in reality, they have beforehand preparations                                                   1           3             5                   7
+and plans when they see an obstacle.                                                                                                    Length/m
+
+      After all, the reason causing those unrealities is that we                                    Fig. 8. (color online) Simulation result compared with experiment data
+                                                                                                    for avoiding collisions.
+treat pedestrians as particles or balls without thinking abilities.
+They can only passively avoid the collisions through repulsive                                    In the second scenario (Fig. 8(b)), two pedestrians start
+forces. As a matter of fact, pedestrians have the thinking abil-                              from the opposite ends of the corridor and walk towards each
+                                                                                         038901-7
+
+===== PAGINA 8 =====
+
+                                                Chin. Phys. B Vol. 24, No. 3 (2015) 038901
+other to exchange their places, therefore they have to evade                        Section 3.3. The results are shown in Fig. 11. We can see that
+each other. Again, we find that the predicted path by our model                     the average velocity of the original model (Fig. 11(a)) fluctu-
+basically accords with the experiment data.                                         ates more severe than that of the modified model (Fig. 11(b)),
+     Comparing Fig. 7 and Fig. 8, it is easy to find that the                       especially during the iteration 500 and iteration 1500 when the
+trajectories in Fig. 8 are more realistic than those in Fig. 7.                     two groups of pedestrians interact with each other. This means
+                                                                                    in the original social force model the velocities of pedestri-
+3.3. Simulations of avoiding collisions for the crowd
+                                                                                    ans change more frequently, which also means the unrealistic
+     In this section, we simulate the collective behaviors which                    behaviors occur more frequently than those in the modified
+also involved the avoiding collision behaviors. We assume                           model.
+that there are 80 persons in a corridor with the size of 50 m
+long and 10 m wide. The initial positions of forty people (full                                    (a)
+circles) are in the left side of the corridor and the other forty
+(empty circles) are placed about ten meters ahead of them. The
+                                                                                                     (b)
+velocities of the latter forty persons are uniformly distributed
+with a mean value of 1.34 m/s, while the former forty persons
+are about 1 m/s slower than the latter ones. The two groups of                                       (c)
+persons interact in the middle of the corridor. We took some
+snapshots of simulation process. Figure 9 shows the original
+social force model and figure 10 shows the modified model.                                    0                                                         25                          50/m
+Comparing the two figures, we can see that a lot of full circles                          Fig. 10. Snapshots of the simulation of pedestrians moving in the cor-
+get stuck behind the empty circles in Fig. 9. This is because in                          ridor using the modified social force model. (a) t = 10 s, (b) t = 20 s,
+                                                                                          and (c) t = 30 s.
+the original social force model, the pedestrians cannot avoid
+the front people positively (but by forces). In Fig. 10, the full
+                                                                                                                              1.4
+circles are in the interspaces of the empty circles as the pedes-
+
+
+
+
+                                                                                               Average velocity/mSs-1
+trians can change their desired directions and walk through the
+                                                                                                                              1.2
+crowd.
+                                                                                                                              1.0
+3.4. Oscillations of velocities
+      In the above sections, we show the unrealistic simulat-                                                                 0.8
+ing pedestrian behaviors of the original social force model in
+                                                                                                                              0.6
+Figs. 7 and 9. The pedestrians would have a sudden stop or be                                                                                                                      (a)
+bounced back when he gets close to another pedestrian. That                                                                   0.4
+                                                                                                                                    0                1000            2000            3000
+is, his velocity would have a sudden change (oscillation) when
+                                                                                                                                                            Iterations
+his behavior becomes unrealistic. In this section, we analyze
+                                                                                                                              1.4
+this in a more quantified way by defining the oscillation index
+
+
+
+
+                                                                                                     Average velocity/mSs-1
+of velocities.                                                                                                                1.2
+
+        (a)                                                                                                                   1.0
+
+                                                                                                                              0.8
+        (b)
+                                                                                                                              0.6
+                                                                                                                                                                                   (b)
+        (c)                                                                                                                   0.4
+                                                                                                                                    0          500     1000    1500         2000     2500
+                                                                                                                                                          Iterations
+                                                                                          Fig. 11. Average velocities of the crowds during the simulations us-
+       0                           25                          50/m                       ing two kinds of models. (a) Simulation result using the original social
+  Fig. 9. Snapshots of the simulation of pedestrians moving in the corri-                 force model. (b) Simulation result using the modified model.
+  dor using the original social force model. (a) t = 10 s, (b) t = 20 s, and
+  (c) t = 30 s.                                                                          To describe the oscillations of the velocities in Fig. 11, we
+                                                                                    define an oscillation index in a similar way to that in Ref. [18]
+     First, we calculate the average velocities of the crowds
+simulated using the original social force model and the modi-                                                                                   1 tend k𝑣i (t) − 𝑣i0 k2
+                                                                                                                                        OI =       ∑ ∑ k𝑣0 k2 ,                             (15)
+fied model, separately, where the scenario is the same as that in                                                                              4tN t=0 N       i
+                                                                               038901-8
+
+===== PAGINA 9 =====
+
+                                                            Chin. Phys. B Vol. 24, No. 3 (2015) 038901
+where vi (t) and v0i are the pedestrians’ actual velocity and de-                   small, the pedestrians can walk freely and barely interact with
+sired velocity, respectively, t is the evacuation time, and N is                    each other; when the density is large, it is hard to go through
+the total number of the pedestrians. This parameter measures                        the crowd for pedestrians in both models due to interactions.
+the deviation between the actual velocities and desired veloc-                      Thus, it has a better effect to use our model when the density
+ities of the pedestrians. According to Eq. (15), we calculate                       of pedestrians is medium.
+the oscillation indices of the two kinds of models where the
+pedestrian number varies from 20 to 120. For the modified                           4. Conclusions
+model, desired velocities refer to the initial desired velocities                        In summary, we have proposed a method to model the de-
+of the pedestrians. Figure 12 shows the results.                                    sired direction in the social force model. After making some
+                                                                                    assumptions to the pedestrians and velocities, we form an op-
+                                                                                    timization problem. The pedestrian can change their desired
+                                   0.06
+                                                                                    direction to bypass the obstacles to avoid collisions by solving
+
+
+
+
+      Oscillation index
+                                                                                    the optimization problem. We made the preliminary valida-
+                                   0.04                 the original model          tion of the modified model by comparing with the fundamen-
+                                                        the modified model
+                                                                                    tal diagrams and the experimental data. Then we simulate the
+                                                                                    avoiding behaviors for one single person and the crowd. The
+                                   0.02
+                                                                                    results show that the predicted paths of the modified model fit
+                                                                                    well with that of the real-world humans and the behaviors are
+                                     0                                              more realistic. We also define an oscillation index to reflect
+                                      20   40      60       80    100    120
+                                                 Pedestrian number                  the changing of velocities. The results show that the velocities
+  Fig. 12. (color online) Oscillation indices of the original social force          of the original model have more severe fluctuations than those
+  model and the modified model as functions of pedestrian number. The
+  pedestrian number here is actually half of the total number, because
+                                                                                    of the modified model.
+  there are two kinds of groups (the faster one and the slower one) in each              Though the modified model can reproduce more realistic
+  run.                                                                              behaviors, we still need further validation and verification for
+                                                                                    modeling more complex behaviors and more complex scenar-
+                                                                                    ios. In the future work, the assumption about the velocities
+
+
+
+
+      Ratio of oscillation index
+                                   2.8                                              needs to be verified by control experiments. The parameters
+                                                                                    of the model should be calibrated more elaborately based on
+                                                                                    observed data. The trajectories between the simulated and real
+                                   2.4
+                                                                                    pedestrians will be compared to further support the advantage
+                                                                                    of the proposed model and understand the behaviors of pedes-
+                                   2.0                                              trians better.
+
+
+                                   1.6                                              References
+                                     20    40      60      80    100     120
+                                                                                      [1] Hankin B D and Wright R A 1958 Op. Res. Quart. 9 81
+                                                Pedestrian number                     [2] Older S J 1969 Traffic Eng. Control 10 160
+                                                                                      [3] Henderson L F 1971 Nature 229 381
+  Fig. 13. (color online) Ratio of the two kinds of oscillation indices (OI           [4] Fruin J J 1971 Pedestrian Planning and Design (New York: Metropoli-
+  of original model/OI of the modified model).                                            tan Association of Urban Designers and Environmental planners)
+                                                                                      [5] Helbing D and Johansson A 2009 Pedestrian, Crowd and Evacuation
+      We can see both the oscillation indices of the two models                           Dynamics (New York: Springer) p. 6476
+                                                                                      [6] Henderson L F 1974 Transp. Res. 8 509
+increase as the pedestrian number (density) increases. Hence,                         [7] Hughes R L 2002 Transp. Res. Part B 36 507
+this index reflects the chance of the interacting between pedes-                      [8] Hughes R L 2003 Annu. Rev. Fluid Mech. 35 169
+                                                                                      [9] Burstedde C, Klauck K, Schadschneider A and Zittartzet J 2001 Phys-
+trians gets big as the density increases, which coheres with the                          ica A 295 507
+reality. However, we can also find that the oscillation index of                     [10] Yue H, Guan H Z, Zhang J and Shao C F 2010 Physica A 389 527
+                                                                                     [11] Yue H, Zhang B Y, Shao C F and Xing Y 2014 Chin. Phys. B 23 050512
+the original model is much greater than that of the modified                         [12] Tang T Q, Huang H J and Shang H Y 2010 Internat. J. Modern Phys.
+model, which means that the velocities of the original model                              C 21 159
+                                                                                     [13] Tang T Q, Huang H J and Shang H Y 2011 Internat. J. Modern Phys.
+change more severe. Furthermore, the changing rates of the                                B 25 4471
+two kinds of oscillation indices are different when the pedes-                       [14] Tang T Q, Huang H J and Shang H Y 2012 Nonlinear Dyn. 67 437
+                                                                                     [15] Tang T Q, Wu Y H, Huang H J and Caccetta L 2012 Transport. Res. C
+trian number varies. Then we calculate the ratio of the two                               22 1
+kinds of oscillation index and make a quadratic fit (Fig. 13).                       [16] Helbing D and Molnar P 1995 Phys. Rev. E 51 4282
+                                                                                     [17] Yu W J, Chen R, Dong L Y and Dai S Q 2005 Phys. Rev. E 72 026112
+The ratio first increases and then descends with the increase                        [18] Chraibi M, Seyfried A and Schadschneider A 2010 Phys. Rev. E 82
+in the pedestrian number. This is because when the density is                             046111
+
+                                                                               038901-9
+
+===== PAGINA 10 =====
+
+                                             Chin. Phys. B Vol. 24, No. 3 (2015) 038901
+[19] Zarita Z and Lim E A 2012 Chin. Phys. Lett. 29 018901                   [40] Hall E T 1969 The Hidden Dimension (Vol. 1990) (New York: Anchor
+[20] Li X and Dong L Y 2012 Chin. Phys. Lett. 29 098902                           Books)
+[21] Lu L L, Ren G, Wang W and Wang Y 2014 Chin. Phys. B 23 088901           [41] Canetti E and Stewart C 1962 Crowds and Power Trans from the Ger-
+[22] Chowdhury D, Santen L and Schadschneider A 2000 Phys. Rep. 329               man (Victor Gollancz Limited)
+     199                                                                     [42] Helbing D 1991 Behavioral Science 36 298
+[23] Helbing D, Molnar P, Farkas I J and Bolay K 2001 Environ. Plann. B      [43] Ko M, Kim T and Sohn K 2013 Transportation 40 91
+     28 361                                                                  [44] Steffen B 2010 Pedestrian and Evacuation Dynamics 2008 (Berlin Hei-
+[24] Seyfried A, Bernhard S and Thomas L 2006 Physica A 368 232                   delberg: Springer) p. 677
+[25] Parisi D R, Gilman M and Moldovan H 2009 Physica A 388 3600             [45] Zeng W L, Chen P, Nakamura H and Iryo-Asano M 2014 Transport.
+[26] Johansson A, Helbing D and Shukla P K 2007 Adv. Complex Syst. 10             Res. C 40 143
+     271                                                                     [46] Sarkar A K and Janardhan K 1997 Cdrom with Proceedings, Trans-
+[27] Hou L, Liu J G, Pan X ang Wang B H 2014 Physica A 400 93                     portation Research Board (Washington)
+[28] Lakoba T I, Kaup D J and Finkelstein N M 2005 Simulation 81 339         [47] Helbing D, Johansson A and Al-Abideen H Z 2007 Phys. Rev. E 75
+[29] Zarita Z and Shuaib M M 2011 Transport Theory Statist. Phys. 39 47           046109
+[30] Shuaib M M, Alia O M and Zarita Z 2013 Appl. Math. Inf. Sci. 7 323      [48] Buchmueller S and Weidmann U 2006 Parameters of Pedestrians,
+[31] Karamouzas I, Heil P, van Beek P and Overmars M H 2009 Motion in             Pedestrian Traffic and Walking Facilities (Institute for Transport Plan-
+     Games (Berlin Heidelberg: Springer) p. 41                                    ning and Systems (IVT), Chair of Transport Systems, ETH Zurich)
+[32] Chraibi M, Freialdenhoven M, Schadschneider A and Seyfried A 2013       [49] Seyfried A, Steffen B, Winkens A, Rupprecht T, Boltes M and Klingsch
+     Traffic and Granular Flow’11 (Berlin Heidelberg: Springer) p. 263            W 2009 Traffic and Granular Flow’07 (Berlin Heidelberg: Springer)
+[33] Zanlungo F, Ikeda T and Kanda T 2011 Europhys. Lett. EPL 93 68005            p. 189
+[34] Moussaı̈d M, Helbing D and Theraulaz G 2011 Proc. Natl. Acad. Sci.      [50] Kretz T, Grünebohm A and Schreckenberg M 2006 J. Stat. Mech. The-
+     USA 108 6884                                                                 ory Exp. 10 10014
+[35] Moussaı̈d M and Nelson J D 2014 Pedestrian and Evacuation Dynam-        [51] Nagai R, Fukamachi M and Nagatani T 2006 Physica A 367 449
+     ics 2012 (Springer International Publishing) p. 75                      [52] Müller K 1981 Zur Gestaltung und Bemessung von Fluchtwegen für
+[36] Helbing D, Farkas I and Vicsek T 2000 Nature 407 487                         die Evakuierung von Personen aus Bauwerken auf der Grundlage von
+[37] Seyfried A, Boltes M, Kähler J, Klingsch W, Portz A, Rupprecht T,           Modellversuchen (Ph.D. Thesis) (Magdeburg: Technische Hochschule
+     Schadschneider A, Steffen B and Winkens A 2010 Pedestrian and                Magdeburg)
+     Evacuation Dynamics 2008 (Berlin Heidelberg: Springer) p. 145           [53] Guy S J, Curtis S, Lin M C and Manocha D 2012 Phys. Rev. E 85
+[38] Seyfried A, Rupprecht T, Passon O, Steffen B, Klingsch W and Boltes          016110
+     M 2009 Transport. Sci. 43 395                                           [54] Köster G, Treml F and Gödel M 2013 Phys. Rev. E 87 063305
+[39] Al-nasur 2006 New Models for Crowd Dynamics and Control (Ph.D.          [55] Yuen J K K and Lee E W M 2012 Safety Sci. 50 1704
+     Thesis) (Blacksburg: Virginia Polytechnic Institute and State Univer-   [56] Moussaı̈d M, Helbing D, Garnier S, Johansson A, Combe M and Ther-
+     sity)                                                                        aulaz G 2009 Proc. Roy. Soc. B Biol. Sci. 276 2755
+
+
+
+
+                                                                      038901-10
+
