@@ -1,0 +1,19 @@
+# Recomendaciones modificadas por el grupo
+
+Registro de las decisiones del TP5 en las que el grupo contradijo o modificó la recomendación del agente de programación. Cada entrada dice qué se recomendó y por qué, qué se decidió y qué consecuencias tiene. Las decisiones en las que se aceptó la recomendación están en [decisiones.md](decisiones.md).
+
+| Fecha | Decisión | Recomendación del agente | Decisión del grupo | Consecuencias |
+|---|---|---|---|---|
+| 2026-11-04 | Modelo peatonal | CPM: el dt viene fijado por el modelo, las corridas son baratas y el choque ya es una regla instantánea; el híbrido se puede validar contra el TSDMD puro. | **SFM sin fuerza social.** | Hay que validar el dt, diseñar el choque instantáneo del EDMD puro y la recuperación de v_d. Las corridas son largas: el juguete en numpy dio ~0,5 p/s con atascos de hasta 28 s. |
+| 2026-11-04 | Masa de los agentes | 80 kg para todos, como el paper del SFM, que deja iguales todos los parámetros salvo el diámetro [B26, p. 2]; la consigna pide tomar de los papers los parámetros no especificados [TP05, p. 3]. | **Proporcional al área**: m_i = 80 kg·(r_i/0,215 m)². Confirmado aun sabiendo lo de la consigna; queda como opción de configuración por si en la consulta del viernes 06/11 la cátedra no lo permite. | Masas distintas: el choque del EDMD usa la masa reducida y el dt debe resolver el choque del agente más liviano (~56 kg). La restitución tangencial derivada no cambia (la masa se cancela). Hay que declararlo como apartamiento del paper. |
+| 2026-11-04 | Segundo target | Fijo y sin estudio (al cruzar, dirección −ŷ; retiro a 1 m): la consigna no pide variarlo [TP05, p. 3]. | **Estudio formal**: un target común en un punto afuera de la puerta, barriendo su posición, contra un target propio de cada agente que lo aleje lo más posible (−ŷ). | Una serie de corridas más con realizaciones y barras de error. Ver nota 3 sobre el rango posible de la posición. |
+| 2026-11-04 | Posiciones del target común | D ∈ {1,5; 2; 3; 5; 10} m (unas 60 corridas). | **D ∈ {1,25; 1,5; 2; 3; 5; 10; 20} m** (unas 80 corridas). | Más cómputo; más resolución cerca del retiro y más lejos. |
+| 2026-11-04 | Qué segundo target usan los demás estudios | −ŷ, fijado de antemano, para no hacer depender los demás estudios de este. | **La opción con menor t_evac** según el estudio, corrido con TSDMD puro. | El estudio del segundo target va primero: los demás estudios esperan su resultado. Falta definir qué hacer si las diferencias quedan dentro de las barras de error (nota 4). |
+| 2026-11-04 | Recuperación de v_d después de un choque | Patadas de relajación cada δ en el EDMD puro. | **Probar las alternativas** (relajación analítica, patadas y delegar en TSDMD) e incluir la comparación como estudio del TP (alcance pendiente, ver nota 2). | Hay que implementar al menos dos variantes de EDMD puro y definir cómo se compara la tercera. Más código y más corridas. |
+
+## Notas
+
+1. La consigna dice "Tomar los parámetros no especificados aquí de los papers correspondientes" [TP05, p. 3], y el paper usa m = 80 kg para todos [B26, p. 2]. Una masa proporcional al área es un apartamiento que hay que justificar. El grupo lo mantiene y lo consulta con la cátedra.
+2. Dentro del EDMD puro no se puede "pasar a TSDMD": esa opción es, de hecho, un esquema híbrido. El grupo eligió comparar EDMD puro con patadas y con relajación analítica, con el híbrido como tercera referencia; queda abierto si el híbrido también usa relajación analítica (pregunta del 2026-11-04).
+3. Si los agentes se retiran a 1 m de la puerta, un target común tiene que estar a más de 1 m: si no, se amontonan en él antes de retirarse. El target −ŷ es el límite de un target común infinitamente lejos, en la dirección perpendicular a la pared.
+4. Pendiente de preguntar cuando estén los resultados: si las diferencias de t_evac entre opciones no son significativas, qué criterio desempata.
