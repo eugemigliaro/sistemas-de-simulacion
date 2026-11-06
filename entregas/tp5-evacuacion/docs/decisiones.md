@@ -60,7 +60,7 @@ La fluctuación (elegida por el grupo entre tres formas) es una fuerza aleatoria
 
 Corridas exploratorias, no son todavía los estudios a–d.
 
-- **Fluctuación en contacto (N = 500, TSDMD, semillas 1, 3 y 4, que sin fluctuación se trababan):**
+- **Fluctuación en contacto (N = 500, TSDMD, semillas 1, 3 y 4, que sin fluctuación se trababan; muestra chica, ver el estudio con más semillas más abajo):**
   - 5 %: se trabaron 2 de 3.
   - 10 %: terminaron las 3, con t_evac de 942 a 990 s.
   - 20 %: terminaron 2 (936 y 1065 s); la otra quedó trabada con 257 salidas.
@@ -74,3 +74,154 @@ Corridas exploratorias, no son todavía los estudios a–d.
 - **dt (choque frontal aislado, agentes de 56 kg):** error en la restitución normal de 1,8 % con 5 ms, 0,09 % con 2 ms, 0,05 % con 1 ms y 0,007 % con 0,5 ms.
 
 - **Fluctuación en EDMD puro** (si se activa en TSDMD): cada patada suma a los agentes que chocaron desde la patada anterior el impulso de la misma fuerza aleatoria, integrada durante δ. Así los tres esquemas tienen la misma física. No está implementada para la relajación analítica.
+
+## Estudio de atascos con más semillas (2026-11-04)
+
+`scripts/run_atascos.py` y `scripts/resumen_atascos.py`; resultados en `experiments/results/atascos.csv`. TSDMD puro, N = 500, corte por atasco de 300 s. Las semillas son nuevas (101 a 120). Las de las tres amplitudes son las mismas 101 a 110, así que la comparación es pareada. Intervalos de Clopper-Pearson del 95 %.
+
+| Fluctuación | Trabadas | IC 95 % | t_evac de las que terminan |
+|---|---|---|---|
+| 0 % | 9/20 | 23 %–68 % | 1007 ± 43 s (11 corridas) |
+| 5 % | 3/10 | 7 %–65 % | 1037 ± 151 s (7) |
+| 10 % | 5/10 | 19 %–81 % | 969 ± 51 s (5) |
+| 20 % | 3/10 | 7 %–65 % | 992 ± 58 s (7) |
+
+- **Las 4 semillas del principio sobreestimaban los atascos:** 3 de 4 sugería ~75 %, y con 20 semillas da 45 %.
+- **La fluctuación en contacto, de 5 a 20 %, no reduce los atascos de forma detectable.** Los intervalos se superponen por completo. En la comparación pareada no hay patrón: la semilla 104 se traba con todas las amplitudes, y otras se traban con una y no con otra. Las 3 de 3 que terminaron con 10 % en la primera prueba fueron casualidad.
+- **El corte de 300 s es seguro:** la pausa más larga que terminó rompiéndose fue de 121 s (con 5 %); sin fluctuación, de 105 s.
+- **Cuándo se traban:** las últimas salidas de las corridas trabadas van de 148 a 988 s, y quedan de 8 a 424 agentes adentro.
+
+## Plan de los estudios (2026-11-04)
+
+Respuestas del grupo; todas coinciden con lo recomendado.
+
+1. **Modelo:** SFM sin fluctuación. Se reportan la probabilidad de atasco y el t_evac condicional a que la corrida termine; las trabadas van aparte.
+2. **Punto b:** 20 realizaciones por esquema, para que terminen ~11.
+3. **T\* para a, b y d:** se elige con el punto c (menor tiempo de ejecución). Para no esperar, una versión reducida de c corre en esta computadora solo para elegir T*.
+4. **Segundo target:** 10 realizaciones por opción. Se elige la de menor t_evac; si las diferencias quedan dentro de las barras, se usa "alejarse" (−ŷ).
+5. **dt:** 2, 1 y 0,5 ms con 10 semillas cada uno. Se usa el mayor dt cuyo caudal J no difiera significativamente del de 0,5 ms.
+6. **Tiempos de ejecución (c y d):** 4 corridas a la vez, siempre con la misma carga, y declarado. Los corre un compañero con una computadora más potente, todos en esa misma computadora [TP05, p. 4], con el mismo commit y `-O3`, con `scripts/run_tiempos.py`, que registra procesador, núcleos, sistema y compilador.
+7. **EDMD puro en d:** 3 realizaciones por N, con N ≤ 600. Para N mayores, solo TSDMD e híbrido.
+8. **Para la consulta:**
+   - animación de una corrida trabada con zoom al arco;
+   - curvas de población de las 20 semillas;
+   - probabilidad de atasco contra la amplitud de la fluctuación;
+   - animación del híbrido coloreado por esquema.
+
+Semillas por estudio, para no mezclarlas: dt 201–210, segundo target 301–310, punto b 401–420, punto c 501–510, punto d 601–605, recuperación 701–710. Dentro de cada estudio se usan las mismas semillas en todas las condiciones (comparación pareada).
+
+## Paso temporal: dt = 2 ms (2026-11-04)
+
+Test estadístico (`scripts/run_dt.py`, `scripts/resumen_dt.py`, `experiments/results/dt.csv`): TSDMD, N = 500, semillas 201 a 210.
+
+| dt | Trabadas | Caudal J (p/s) | J − J(0,5 ms), IC 95 % | t_evac de las que terminan |
+|---|---|---|---|---|
+| 2 ms | 2/10 | 0,476 ± 0,026 | −0,009 ± 0,034 | 1018 ± 67 s (8) |
+| 1 ms | 4/10 | 0,492 ± 0,070 | +0,011 ± 0,061 | 938 ± 54 s (6) |
+| 0,5 ms | 5/10 | 0,485 ± 0,032 | referencia | 994 ± 61 s (5) |
+
+Ninguna diferencia de J con el dt más chico es significativa, así que, por el criterio acordado, **dt = 2 ms**. En el choque aislado de los agentes más livianos, el error en la restitución normal con 2 ms es 0,09 %. Las barras son desvíos estándar entre realizaciones. El estudio de atascos y las animaciones de la consulta se hicieron con 1 ms; los estudios a–d usan 2 ms.
+
+## Segundo target: "alejarse" (2026-11-04)
+
+Estudio con TSDMD, N = 500, dt = 2 ms y semillas 301 a 310 (`scripts/run_segundo_target.py`, `scripts/resumen_segundo_target.py`, `experiments/results/segundo_target.csv`):
+
+- Las ocho opciones dan t_evac entre 981 y 1064 s y caudales J entre 0,462 y 0,496 p/s, todos dentro de las barras.
+- En todas se traban de 4 a 6 de 10 corridas.
+- La de menor t_evac es el punto a D = 20 m (981 ± 50 s), y se superpone con "alejarse" (993 ± 61 s), así que, por la regla acordada, los demás estudios usan **"alejarse"**.
+- **Inferencia:** el segundo target solo afecta el último metro, ya afuera; el cuello de botella está adentro, en la puerta.
+
+## Medida del tiempo de ejecución (2026-11-04)
+
+Decisión del grupo, coincide con lo recomendado. Se reportan dos medidas:
+
+- **Principal, literal a la consigna:** el wall-clock de las corridas que terminan, es decir, de la simulación completa [TP05, p. 4].
+- **Complementaria:** el costo por segundo simulado (wall-clock / tiempo simulado), que usa todas las corridas, incluidas las trabadas. **T\* se elige con esta medida**, porque con pocas semillas quedan muy pocas corridas que terminen.
+
+## Corrección del híbrido: revisiones duplicadas (2026-11-04)
+
+El primer barrido de T* mostró que, por cada paso de agente TSDMD, el híbrido costaba 80 % más que el TSDMD puro (~890 frente a 495 ns). Lo perfilé con gprof y encontré dos causas:
+
+- **Revisiones duplicadas.** `schedule_check` se llamaba 7,2 millones de veces en 100 mil pasos (46 % del tiempo): cada cambio de esquema agregaba una cadena nueva de revisiones de la cota V_max por cada agente EDMD, y nunca se descartaban las anteriores. Ahora hay una sola revisión pendiente por agente, la más temprana.
+- **Reintentos inútiles del pase a EDMD.** Los agentes TSDMD que no pueden volver a EDMD se reintentaban cada 10 pasos. Ahora se esperan el tiempo mínimo en que podrían cumplir el criterio: la brecha que falta no crece más rápido que 2 V_max, y la relajación no termina antes que con τ.
+
+Las salidas del barrido viejo quedaron en `experiments/raw/descartadas/`. Las demás corridas del híbrido (prueba y animación de la consulta) son anteriores al arreglo. La deduplicación no cambia cuándo un agente pasa a TSDMD; la espera de los reintentos sí puede demorar algo la vuelta a EDMD y, con ella, cambiar un poco la trayectoria (el redondeo de v a v_d e ocurre en otro instante).
+
+## Elección de T* = 0,05 s (2026-11-05)
+
+- **Barrido reducido en paralelo** (`run_tstar.py`, 5 semillas, 7 corridas a la vez): no sirve para elegir. Una diferencia del 5 % queda tapada por la carga externa de la máquina, y el costo por segundo simulado depende de cuántos agentes quedaron trabados.
+- **Benchmark corto controlado** (`scripts/bench_tstar.py`: corridas de a una, alternadas, los primeros 150 s, 3 repeticiones): tampoco distingue. La mediana de una misma configuración varió hasta 40 %. El menor mínimo fue el de T* = 0,2 s (10,20 s, contra 10,91 s del TSDMD puro), dentro del ruido.
+- **Medición tranquila de 100 s** (5 repeticiones alternadas): TSDMD 6,87 s, híbrido con T* = 1 s 6,88 s (el arreglo dejó la maquinaria sin costo propio), híbrido con T* = 0,05 s 6,54 s, es decir 5 % más rápido.
+- **Decisión del grupo:** T* = 0,05 s. Coincide con la medición tranquila, tiene casi el mínimo de pasos TSDMD (97,3 % del tiempo-agente) y deja agentes EDMD visibles en la animación del punto a. Se declara que el benchmark no distingue los T* chicos, y el punto c oficial (`run_tiempos.py`, en la computadora del compañero) lo confirma o lo corrige; si cambia, se rehacen a, b y d.
+- **Inferencia (Amdahl):** el híbrido no puede ahorrar más que la fracción del tiempo-agente en vuelo libre, ~3 %, porque el tapón dura casi toda la evacuación.
+
+## Presentación (2026-11-05)
+
+- Mismo formato que el TP4: Beamer, PDF con fotogramas y enlaces, PPTX con los videos embebidos [GPRES, pp. 2–3], generados por script.
+- Los estudios extra (dt, segundo target, regla de choque, recuperación de v_d, atascos) entran en el cuerpo; el grupo acepta pasarse de 13 minutos (ver [recomendaciones-modificadas.md](recomendaciones-modificadas.md)).
+- Declaración de uso de IA al final, con un resumen de las recomendaciones del agente que el grupo modificó.
+- Guion por integrante, en tres partes, con tiempos [GPRES, p. 3].
+
+## Puntos a y b: TSDMD e híbrido (2026-11-05)
+
+Corridas de `run_poblacion.py` (N = 500, semillas 401 a 420, dt = 2 ms, T* = 0,05 s), resumidas con `resumen_poblacion.py` en `experiments/results/poblacion.csv`. Las corridas se hicieron de a 7 en paralelo, así que los wall-clock no son los del punto c.
+
+| Esquema | Trabadas | IC 95 % | t_evac (terminan) | J (terminan) |
+|---|---|---|---|---|
+| TSDMD | 7/20 | 15–59 % | 979 ± 65 s (13) | 0,500 ± 0,040 p/s |
+| Híbrido | 8/20 | 19–64 % | 1006 ± 52 s (12) | 0,480 ± 0,026 p/s |
+
+- Las diferencias están dentro de las barras: el híbrido no cambia la física.
+- De las 15 trabadas, 11 se traban tarde, con 6 a 118 agentes adentro; 4 se traban temprano (quedan 251 a 456).
+- **Esquemas en el híbrido:** todos los agentes arrancan en EDMD y en unos 30 s todos pasaron a TSDMD. En las 20 corridas hubo una sola vuelta de TSDMD a EDMD: una vez en el tapón, nadie vuelve a quedar aislado y relajado antes de salir.
+- **Cota V_max:** ninguna violación; la rapidez máxima fue 1,91 m/s.
+- **Relajación analítica en el híbrido (nueva medición):** los pasos de agentes aislados sin relajar son el 0,17 % de los pasos TSDMD con T* = 0,05 s (el 0,04 % de la primera medición era con otro T* y antes de la corrección de las revisiones). Sigue muy por debajo del 10 % acordado.
+- **Fracción TSDMD:** el 97,4 % del tiempo-agente es TSDMD.
+
+## EDMD puro en el punto a (2026-11-05)
+
+Con discos duros, la regla de choque derivada y patadas cada δ = 0,05 s, las 20 corridas de N = 500 se traban, y temprano: salen entre 10 y 192 agentes, y después nadie más en 300 s (IC 95 % de la fracción trabada: 83–100 %). Cada corrida cuesta de 10 a 20 min de reloj: 1,48 s por segundo simulado, 20 veces TSDMD en las mismas condiciones (7 corridas en paralelo), con 100 a 190 millones de eventos. Queda para la consulta del 06/11, junto con los atascos del SFM.
+
+**Hipótesis sobre por qué EDMD se traba temprano y TSDMD tarde (inferencia, 2026-11-05).** En el SFM la presión de la multitud se acumula a lo largo de las cadenas de contactos y comprime a los agentes que están frente a la puerta. En la corrida TSDMD de la semilla 401 (`animaciones/tsdmd_seed401.txt`), la superposición máxima a menos de 1,5 m de la puerta vale:
+
+| t (s) | Adentro | ξ máx. | ξ medio de los contactos |
+|---|---|---|---|
+| 30 | 484 | 6,3 cm | 2,7 cm |
+| 300 | 369 | 4,0 cm | 1,7 cm |
+| 600 | 222 | 3,3 cm | 1,6 cm |
+| 900 | 81 | 2,0 cm | 1,0 cm |
+| 1000 | 27 | 1,0 cm | 0,4 cm |
+
+Con superposiciones del 10–15 % del diámetro, los agentes se cuelan por la puerta de 0,8 m (dos diámetros medios son 0,86 m), y un arco no aguanta. Cuando quedan pocos adentro la compresión baja y el arco se vuelve estable: por eso casi todas las corridas TSDMD trabadas se traban al final. Los discos duros del EDMD no se comprimen: el arco es rígido desde el principio. **Verificación exploratoria:** TSDMD con k = 1,2 × 10⁶ N/m (diez veces mayor, menos compresión) y dt = 1 ms, en las semillas 401 a 403, que con el k del paper evacúan completas. Las tres se trabaron temprano: salieron 91, 75 y 177 agentes (`experiments/raw/exploracion/`). Es lo mismo que pasa con los discos duros del EDMD, y apoya la hipótesis. Son solo tres semillas: no es un estudio.
+
+## Corrección de la relajación analítica del EDMD (2026-11-05)
+
+Las corridas del estudio de recuperación con relajación analítica quedaron 11 h sin avanzar. Con la semilla 701 (N = 60, L = 15 m) el tiempo simulado se frenaba en t = 5,6357 s, con el mismo choque entre dos agentes repetido millones de veces en el mismo instante. La causa: después de un choque suave, la velocidad quedaba a menos del 1 % de v_d e y `set_trajectory` la redondeaba a v_d e. El redondeo deshacía el rebote, los agentes volvían a acercarse y el choque se repetía.
+
+- **Arreglo:** un agente que queda relajado después de un evento sigue en línea recta con su velocidad, sin redondearla. Solo el evento de fin de relajación fija v = v_d e (si en ese instante hay un contacto, el choque se resuelve y ya no se redondea).
+- **Tope:** si hay 10 millones de eventos seguidos sin que avance el tiempo, la corrida termina con un error en lugar de quedar colgada.
+- **Prueba:** `test_schemes` corre esa configuración hasta t = 6 s.
+- **Qué no cambia:** el EDMD con patadas (no usa ese redondeo) ni el híbrido (motor aparte). Las corridas de los demás estudios siguen valiendo.
+- Con el arreglo, la relajación analítica cuesta entre 40 s y más de 5 min de reloj por corrida, contra unos 3 s con patadas.
+
+## Recuperación de v_d en EDMD puro (2026-11-05)
+
+`run_recuperacion.py` con el motor corregido (N = 60, L = 15 m, semillas 701 a 710), resumido en `experiments/results/recuperacion.csv`. J − J_TSDMD es la diferencia de caudal con el TSDMD de la misma semilla (corridas que llegan al 90 % de las salidas). Costos medidos con 7 corridas en paralelo.
+
+| Variante | Trabadas | J − J_TSDMD (p/s) | Costo (ms por s simulado) |
+|---|---|---|---|
+| Patadas δ = 0,01 s | 5/10 | −0,01 ± 0,09 (4) | 61 |
+| Patadas δ = 0,02 s | 3/10 | +0,08 ± 0,14 (6) | 28 |
+| Patadas δ = 0,05 s | 2/10 | +0,01 ± 0,23 (7) | 18 |
+| Patadas δ = 0,1 s | 2/10 | +0,07 ± 0,16 (7) | 10 |
+| Patadas δ = 0,2 s | 2/10 | +0,07 ± 0,24 (7) | 7 |
+| Analítica, tolerancia 0,003 rad | 2/10 | +0,13 ± 0,12 (7) | 1056 |
+| Analítica, tolerancia 0,01 rad | 3/10 | +0,16 ± 0,11 (7) | 2170 |
+| Analítica, tolerancia 0,03 rad | 9/10 | +0,05 (1) | 1788 |
+| Analítica, tolerancia 0,1 rad | 4/10 | −0,12 ± 0,24 (5) | 2338 |
+| TSDMD | 1/10 | 0 | 11 |
+| Híbrido (T* = 0,05 s) | 3/10 | −0,01 ± 0,05 (7) | 10 |
+
+- **Patadas:** ninguna difiere del SFM de forma significativa; el costo baja con δ. δ = 0,05 s, la de las corridas de a y b, cuesta menos que 2 veces TSDMD en este sistema chico.
+- **Relajación analítica:** de 94 a 207 veces el costo de TSDMD (el avance conservador de cada par) y, con 0,003 y 0,01 rad, un caudal mayor que el del SFM (con 0,01 rad la diferencia pareada es +0,16 ± 0,11 en 7 pares: error estándar 0,04). El 9/10 de trabadas con 0,03 rad no sigue la tendencia de las otras tolerancias y queda sin explicar.
+- **Conclusión:** en el EDMD puro conviene patadas. En el híbrido la recuperación la hace el SFM, al costo de TSDMD, y la relajación analítica ahorraría a lo sumo el 0,17 % de los pasos.

@@ -1,0 +1,499 @@
+% Presentación oral del TP5 (problema 2). Mismo formato Beamer que el TP4.
+\documentclass[aspectratio=169,11pt]{beamer}
+\usetheme{Warsaw}
+\useoutertheme{miniframes}
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+\let\originalpercent\%
+\usepackage[spanish,es-noquoting]{babel}
+\AtBeginDocument{\let\%\originalpercent}
+\usepackage{amsmath,amssymb,graphicx,booktabs,xcolor,tikz}
+\usetikzlibrary{positioning,arrows.meta,shapes.multipart}
+
+\definecolor{itbablue}{RGB}{0,91,145}
+\definecolor{accent}{RGB}{211,92,32}
+\definecolor{softblue}{RGB}{232,243,249}
+\definecolor{evento}{HTML}{2A78D6}
+\definecolor{paso}{HTML}{EB6834}
+\setbeamercolor{structure}{fg=itbablue}
+\setbeamercolor{alerted text}{fg=accent}
+\setbeamercolor{block title}{fg=white,bg=itbablue}
+\setbeamercolor{block body}{bg=softblue}
+\setbeamerfont{frametitle}{size=\large}
+\setbeamerfont{title}{size=\LARGE}
+\setbeamertemplate{section page}{\vfill\centering{\usebeamercolor[fg]{structure}\usebeamerfont{title}\insertsectionhead\par}\vfill}
+\graphicspath{{figuras/}}
+
+\InputIfFileExists{valores.tex}{}{}
+\InputIfFileExists{enlaces.tex}{}{}
+
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\dt}{\Delta t}
+\newcommand{\tstar}{T^{*}}
+% Valores que todavía no están (los define valores.tex cuando existen sus resultados).
+\providecommand{\pendiente}{\textcolor{accent}{pendiente}}
+\newcommand{\valor}[1]{\ifcsname #1\endcsname\csname #1\endcsname\else\pendiente\fi}
+\newcommand{\enlace}[1]{\ifcsname enlace#1\endcsname\csname enlace#1\endcsname\else Enlace de YouTube pendiente\fi}
+% Grupos de texto sin fondo ni borde, con títulos y espaciado comunes.
+\newcommand{\ficha}[3][itbablue]{%
+  \par
+  \begingroup
+    \begin{minipage}{\linewidth}
+    {\small\bfseries\color{#1}#2\par}\vspace{3pt}
+    {\small\raggedright
+      \setlength{\abovedisplayskip}{4pt}
+      \setlength{\belowdisplayskip}{4pt}
+      \setlength{\abovedisplayshortskip}{3pt}
+      \setlength{\belowdisplayshortskip}{3pt}
+      #3\par}
+    \end{minipage}
+  \endgroup\par\vspace{9pt}}
+% Figura (si existe) a la izquierda y condiciones del resultado al costado [GPRES, p. 1].
+\newcommand{\grafico}[3][6.4cm]{%
+  \IfFileExists{figuras/#2}{\includegraphics[width=\linewidth,height=#1,keepaspectratio]{#2}}%
+  {\fcolorbox{accent}{white}{\parbox[c][5.4cm][c]{.92\linewidth}{\centering\color{accent}Figura pendiente:\\\texttt{#2}\\#3}}}}
+\newcommand{\figura}[3][.68]{%
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{#1\textwidth}\centering\grafico{#2}{}\end{column}
+    \begin{column}{\dimexpr.98\textwidth-#1\textwidth\relax}\small #3\end{column}
+  \end{columns}}
+% Fotograma y enlace en el PDF; en el PPTX se reemplaza por el video [GPRES, p. 3].
+\newcommand{\animacion}[2]{%
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{.74\textwidth}\centering
+      \grafico{anim-#1.png}{}\par\smallskip
+      {\small\color{accent}\enlace{#1}}
+    \end{column}
+    \begin{column}{.24\textwidth}\small #2\end{column}
+  \end{columns}}
+
+\tikzset{
+  flecha/.style={-{Stealth[length=5pt]},thick,itbablue},
+  caja/.style={draw=itbablue,thick,rounded corners=3pt,fill=softblue,align=center,font=\small,inner sep=5pt},
+}
+
+\title[TP5: evacuación híbrida]{Dinámica peatonal: evacuación con esquema híbrido}
+\subtitle{Event Driven + Time Step Driven con el Social Force Model}
+\author[Grupo 07]{Grupo 07 - Comisión S\\Eugenio Migliaro, Francisco Costa y Franco Branda}
+\institute{72.25 Simulación de Sistemas - ITBA}
+\date{16 de noviembre de 2026}
+
+\begin{document}
+
+\begin{frame}\titlepage\end{frame}
+
+%=====================================================================
+\section{Introducción}
+\begin{frame}\sectionpage\end{frame}
+
+\begin{frame}{Evacuación por una puerta angosta}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{.47\textwidth}\centering
+\begin{tikzpicture}[scale=.082,>=Stealth]
+  \draw[very thick] (0,0) -- (24.6,0); \draw[very thick] (25.4,0) -- (50,0);
+  \draw[very thick] (0,0) -- (0,50) -- (50,50) -- (50,0);
+  \foreach \x/\y in {8/40,15/33,30/42,41/30,22/24,36/15,10/14,44/45,27/36,5/27,47/8,18/6} {\fill[evento] (\x,\y) circle (0.8);}
+  \foreach \x/\y in {23.2/1.2,25/1.4,26.8/1.2,24.1/2.8,25.9/2.8,22.4/3,27.6/3,25/4.3} {\fill[paso] (\x,\y) circle (0.8);}
+  \draw[<->,thin] (0,53) -- (50,53) node[midway,above] {$L=50$ m};
+  \draw[->,accent] (34,-3) node[right,font=\scriptsize] {puerta, $d=0{,}8$ m} -- (25.6,-0.5);
+  \draw[dashed,gray] (19,-8) -- (31,-8) node[right,font=\scriptsize,black] {se retira a 1 m};
+\end{tikzpicture}
+\end{column}
+\begin{column}{.51\textwidth}
+\ficha{Sistema}{%
+$N=500$ agentes en una sala cuadrada, con una única puerta en el centro de una pared. Arrancan al azar, sin superponerse, y quieren salir a $v_d=1{,}5$ m/s.}
+\ficha{Dos regímenes en la misma evacuación}{%
+\textcolor{evento}{Diluido}: van en línea recta y casi no interactúan.\\
+\textcolor{paso}{Cuello de botella}: contactos continuos frente a la puerta.}
+\ficha{Pregunta}{%
+¿Se puede resolver cada agente con el esquema que le corresponde, por eventos o por paso temporal, sin cambiar la física?}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Social Force Model sin fuerza social}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.55\textwidth}
+\ficha{Ecuación de movimiento [Helbing et al. 2000]}{%
+\[m_i\frac{d\vect v_i}{dt}=m_i\frac{v_d\,\vect e_i-\vect v_i}{\tau}+\sum_{j}\vect f_{ij}+\sum_{W}\vect f_{iW}\]}
+\ficha{Contacto: solo si $\xi_{ij}=r_i+r_j-d_{ij}>0$}{%
+\[\vect f_{ij}=k\,\xi_{ij}\,\vect n_{ij}+\kappa\,\xi_{ij}\,\big[(\vect v_j-\vect v_i)\cdot\vect t_{ij}\big]\,\vect t_{ij}\]
+$\vect n_{ij}$: de $j$ hacia $i$; $\vect t_{ij}$: perpendicular. Paredes análogas; los marcos de la puerta, como puntos.}
+\ficha{Sin fuerza social}{%
+Nadie reacciona a otro hasta tocarlo. Un agente libre y relajado va en línea recta a $v_d$.}
+\end{column}
+\begin{column}{.42\textwidth}
+\ficha{Parámetros}{%
+\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{@{}l@{\hspace{10pt}}l@{}}
+$\tau$ & 0,5 s\\
+$k$ & $1{,}2\times10^{5}$ N/m\\
+$\kappa$ & $2{,}4\times10^{5}$ kg/(m\,s)\\
+$r_i$ & uniforme en $[0{,}18;\,0{,}25]$ m\\
+$m_i$ & $80\text{ kg}\,(r_i/0{,}215\text{ m})^2$
+\end{tabular}}
+\ficha[accent]{Masa proporcional al área}{%
+El paper usa 80 kg para todos: es un apartamiento propio.}
+\ficha{Targets}{%
+Adentro: el punto del 60\,\% central de la puerta más cercano. Al cruzarla: alejarse de la puerta ($-\hat{\vect y}$).}
+\end{column}
+\end{columns}
+\end{frame}
+
+%=====================================================================
+\section{Implementación}
+\begin{frame}\sectionpage\end{frame}
+
+\begin{frame}{TSDMD: Beeman predictor-corrector}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.56\textwidth}
+\ficha{Fuerzas que dependen de la velocidad}{%
+\[\vect r_{n+1}=\vect r_n+\dt\,\vect v_n+\dt^2\big(\tfrac23\vect a_n-\tfrac16\vect a_{n-1}\big)\]
+\[\vect v^{\,p}_{n+1}=\vect v_n+\dt\big(\tfrac32\vect a_n-\tfrac12\vect a_{n-1}\big)\]
+\[\vect v_{n+1}=\vect v_n+\dt\big(\tfrac13\vect a(\vect r_{n+1},\vect v^{\,p}_{n+1})+\tfrac56\vect a_n-\tfrac16\vect a_{n-1}\big)\]
+$\vect a_{n+1}$ se reevalúa con $\vect v_{n+1}$, reusando los contactos del paso.}
+\end{column}
+\begin{column}{.40\textwidth}
+\ficha{Contactos}{Celdas de lado $\geq2r_{\max}$ (CIM): cada par de celdas vecinas una sola vez.}
+\ficha{Paso temporal}{$\dt=\valor{dtElegido}$ ms, elegido con un test de convergencia (choque aislado y caudal).}
+\ficha{Salida}{Cuadros cada $\dt_2$ y el instante de salida de cada agente, interpolado dentro del paso.}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{EDMD puro: discos duros entre eventos}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\ficha{Eventos}{%
+\begin{itemize}\setlength\itemsep{1pt}
+\item choque entre agentes (cuadrática del TP3)
+\item choque con pared o marco de la puerta
+\item cruce de celda (busca compañeros nuevos)
+\item cruce de la puerta: segundo target
+\item retiro a 1 m de la puerta
+\item patada de relajación, cada $\delta$
+\end{itemize}}
+\ficha{Cola de prioridad}{Invalidación perezosa con un contador por agente, como en el TP3.}
+\end{column}
+\begin{column}{.46\textwidth}
+\ficha{Choque instantáneo derivado del SFM}{%
+El resorte normal no amortigua: la normal es \textbf{elástica}. La fricción, integrada en medio período del resorte:
+\[\frac{v_t'}{v_t}=e_t=\exp\!\Big(-\frac{2\kappa\,|v_n|}{k}\Big)\]
+La masa reducida se cancela: vale para masas distintas y contra paredes.}
+\ficha[accent]{Recuperar $v_d$ después del choque}{%
+Patadas: $\vect v\leftarrow v_d\vect e+(\vect v-v_d\vect e)\,e^{-\delta/\tau}$, recta entre eventos.}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Recuperar $v_d$ en EDMD: patadas o relajación analítica}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\ficha{Patadas cada $\delta$}{%
+Recta entre eventos: los choques siguen siendo una cuadrática. A todos los agentes sin relajar, cada $\delta$:
+\[\vect v\leftarrow v_d\vect e+(\vect v-v_d\vect e)\,e^{-\delta/\tau}\]
+Es la relajación exacta del SFM durante $\delta$, con $\vect e$ fija.}
+\end{column}
+\begin{column}{.48\textwidth}
+\ficha{Relajación analítica}{%
+\[\vect x(t)=\vect x_0+\vect u\,s+\tau\,\vect w\,\big(1-e^{-s/\tau}\big),\qquad\vect u=v_d\vect e\]
+Eventos propios: fin de la relajación ($|\vect w|e^{-s/\tau}\leq0{,}01\,v_d$) y reapuntado, cuando la dirección al target se aparta de la congelada más que una tolerancia.}
+\ficha[accent]{Costo}{Los choques ya no son una cuadrática: avance conservador de segundo orden, $g(t+h)\geq g+\dot g\,h-A h^2/2$.}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Híbrido (1): un esquema por agente}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{.42\textwidth}\centering
+\begin{tikzpicture}
+  \node[caja,draw=evento,fill=evento!10,minimum width=3.2cm] (e) {\textcolor{evento}{\textbf{EDMD}}\\recto, $\vect v=v_d\vect e$};
+  \node[caja,draw=paso,fill=paso!10,minimum width=3.2cm,below=2.4cm of e] (p) {\textcolor{paso}{\textbf{TSDMD}}\\SFM con Beeman};
+  \draw[flecha,paso] ([xshift=8mm]e.south west) -- node[left,font=\scriptsize,align=right,paso] {contacto\\posible en\\menos de $\tstar$} ([xshift=8mm]p.north west);
+  \draw[flecha,evento] ([xshift=-8mm]p.north east) -- node[right,font=\scriptsize,align=left,evento] {aislado y\\relajado, sin\\contacto posible\\en $2\tstar$} ([xshift=-8mm]e.south east);
+\end{tikzpicture}
+\end{column}
+\begin{column}{.56\textwidth}
+\ficha{Contacto posible}{%
+Contra EDMD y paredes: exacto (cuadrática).\\
+Contra TSDMD, cuyo futuro no se conoce, con la cota $|\vect v_j|\leq V_{\max}=2v_d$:
+\[t_{\rm seg}=\frac{d_{ij}-(r_i+r_j)}{|\vect v_i|+V_{\max}}\]}
+\ficha{Parámetro principal: $\tstar$}{%
+$\tstar\to\infty$: TSDMD puro. $\tstar$ chico: cada agente queda en EDMD hasta el último momento. Requiere $\tstar\geq\dt$.}
+\ficha{Histéresis}{Volver exige $2\tstar$: evita pases de ida y vuelta.}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Híbrido (2): la grilla de $\dt$ es el reloj maestro}
+\centering
+\begin{tikzpicture}[x=1.25cm,>=Stealth]
+  \draw[thick,gray] (0,0) -- (10.4,0);
+  \foreach \i/\l in {0/{t_0},2/{t_1},4/{\cdots},6/{t_n},8/{t_{n+1}},10/{\cdots}} {\draw[paso,very thick] (\i,-.25) -- (\i,.25); \node[paso,below=4pt] at (\i,-.2) {$\l$};}
+  \foreach \x in {.7,1.3,3.1,6.6,7.2,7.7,9.1} {\fill[evento] (\x,.45) -- ++(-.12,.2) -- ++(.24,0) -- cycle;}
+  \draw[|-|,thick,itbablue] (6,1.0) -- (8,1.0) node[midway,above=2pt,font=\small] {un intervalo};
+\end{tikzpicture}
+\vspace{6pt}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.52\textwidth}
+\ficha{En cada intervalo $(t_n,t_{n+1}]$}{%
+\begin{enumerate}\setlength\itemsep{1pt}
+\item eventos EDMD en orden: alertas $\tstar$ antes de un contacto posible, cruce de puerta, retiro
+\item un paso de Beeman para los TSDMD
+\item en $t_{n+1}$: revisiones de la cota y cambios de esquema
+\end{enumerate}}
+\end{column}
+\begin{column}{.44\textwidth}
+\ficha{Agentes EDMD}{No se integran: $\vect x(t)=\vect x(t_0)+\vect v\,(t-t_0)$ se evalúa cuando hace falta (salida, criterio).}
+\ficha{TSDMD}{Solo interactúan entre ellos y con las paredes: nunca hay un EDMD en contacto.}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Híbrido (3): no perder contactos en el pase}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\ficha{Revisión de la cota}{%
+Siempre en instantes de la grilla, con las posiciones TSDMD exactas, y al menos un paso después de la anterior: si $t_{\rm seg}\leq\tstar$ pasa a TSDMD ya; si no, se revisa de nuevo en
+\[t_n+\Big\lfloor\frac{t_{\rm seg}-\tstar}{\dt}\Big\rfloor\dt\]}
+\ficha{Garantía}{Con $\tstar\geq\dt$ el pase ocurre antes de cualquier contacto posible: el contacto siempre lo resuelve el SFM. $V_{\max}$ se verifica en cada paso: en (a) la rapidez máxima fue \valor{rapidezMaxima}; violaciones, \valor{violacionesCota}.}
+\end{column}
+\begin{column}{.46\textwidth}
+\ficha{EDMD $\to$ TSDMD en $t_n$}{%
+$\vect x(t_n)$ de la recta; $\vect a_n=\vect a_{n-1}=0$, exacto porque iba relajado y sin contactos.}
+\ficha{TSDMD $\to$ EDMD en $t_n$}{%
+Relajado si $|\vect v-v_d\vect e|\leq0{,}01\,v_d$; se redondea $\vect v=v_d\vect e$ y se predicen sus eventos.}
+\ficha[accent]{Por etapas}{Al principio casi todos van por eventos; en el tapón, todos por paso temporal.}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Híbrido (4): choques y recuperación de $v_d$}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.50\textwidth}
+\ficha{Choques}{%
+En el híbrido no hay choques instantáneos: un agente EDMD pasa a TSDMD $\tstar$ antes de cualquier contacto posible con otro agente o con una pared. Todos los contactos son blandos, del SFM.}
+\ficha{Recuperación de $v_d$}{%
+La hace el término de deseo del SFM, integrado con Beeman. El agente vuelve a EDMD cuando está relajado y aislado.}
+\end{column}
+\begin{column}{.46\textwidth}
+\ficha{¿Conviene relajar en forma analítica?}{%
+Solo ahorraría los pasos de agentes aislados pero sin relajar: \valor{aisladosSinRelajar} de los pasos TSDMD. No se implementó.}
+\ficha{Cota del ahorro}{%
+El híbrido solo ahorra el vuelo libre: \valor{fraccionTSDMD} del tiempo-agente es TSDMD, porque el tapón dura casi toda la evacuación.}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Arquitectura del motor (C++)}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.52\textwidth}
+\ficha{Módulos}{%
+\renewcommand{\arraystretch}{1.1}
+\begin{tabular}{@{}l@{\hspace{8pt}}p{.62\linewidth}@{}}
+\texttt{model} & sala, targets y parámetros\\
+\texttt{setup} & estado inicial al azar\\
+\texttt{sfm} & fuerzas con celdas y Beeman\\
+\texttt{events} & predicción y regla de choque\\
+\texttt{tsdmd} & paso temporal puro\\
+\texttt{edmd} & eventos puro\\
+\texttt{hybrid} & esquema híbrido\\
+\texttt{output} & salida de texto
+\end{tabular}}
+\end{column}
+\begin{column}{.44\textwidth}
+\ficha{Salida: solo estado}{%
+Cuadros \texttt{x y vx vy modo} cada $\dt_2$, instantes de salida y cambios de esquema. Los observables se calculan aparte, en Python.}
+\ficha{Validación}{El híbrido con $\tstar$ enorme da exactamente las mismas salidas que el TSDMD puro.}
+\end{column}
+\end{columns}
+\end{frame}
+
+%=====================================================================
+\section{Simulaciones}
+\begin{frame}\sectionpage\end{frame}
+
+\begin{frame}{Estudios realizados}
+\centering\small
+\renewcommand{\arraystretch}{1.45}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}llll@{}}
+\toprule
+\textcolor{itbablue}{\textbf{Estudio}} & Esquema & Variable & \textcolor{itbablue}{\textbf{Realizaciones}}\\
+\midrule
+Paso temporal & TSDMD & $\dt\in\{0{,}5;\,1;\,2\}$ ms & 10 por $\dt$\\
+Atascos & TSDMD & fluctuación en contacto & 20 y 10 por amplitud\\
+Segundo target & TSDMD & punto a $D$ o alejarse & 10 por opción\\
+(a) y (b) & los tres & esquema & 20 por esquema\\
+(c) & híbrido & $\tstar$ de 0,002 a 1 s & 10 por $\tstar$\\
+(d) & los tres & $N$ de 100 a 1000, dos variantes & 5 por $N$ (EDMD: 3)\\
+Recuperación de $v_d$ & EDMD & $\delta$ y tolerancia de reapuntado & 10 ($N=60$, $L=15$ m)\\
+\bottomrule
+\end{tabular}
+\par\medskip
+\footnotesize Mismas condiciones iniciales en todas las variantes de cada estudio. Corte: 300 s sin salidas (atasco).
+\end{frame}
+
+\begin{frame}{Observables}
+\small
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.49\textwidth}
+\ficha{Curva de población y evacuación}{%
+$N_{\rm adentro}(t)=N-\#\{\text{salidas}\leq t\}$\\
+$t_{\rm evac}$: salida del último agente, si la corrida termina.}
+\ficha{Caudal}{$J$: salidas entre el 10 y el 90\,\% sobre el tiempo que tardan.}
+\ficha{Atasco}{Una corrida se traba si no sale nadie durante 300 s. Se informa la fracción, con intervalo de Clopper--Pearson del 95\,\%.}
+\end{column}
+\begin{column}{.49\textwidth}
+\ficha{Esquemas}{Fracción de los agentes adentro resueltos por EDMD y por TSDMD, en cada instante.}
+\ficha{Tiempo de ejecución}{Wall-clock del bucle, de las corridas completas. Complemento: costo por segundo simulado, con todas las corridas.}
+\ficha{Promedios entre las $M$ realizaciones}{Cada realización aporta un valor; media y desvío estándar entre realizaciones. $t_{\rm evac}$: solo de las que terminan.}
+\end{column}
+\end{columns}
+\end{frame}
+
+%=====================================================================
+\section{Resultados}
+\begin{frame}\sectionpage\end{frame}
+
+\begin{frame}{Validación de la regla de choque}
+\figura{regla-choque.pdf}{
+\ficha{Choque aislado}{Dos agentes sin término de deseo, con el SFM blando y $\dt=0{,}1$ ms, contra la regla de disco duro.}
+\ficha{Resultado}{La tangencial coincide en todo el rango; en choques rasantes ($b=0{,}8\,\sigma$) la normal pierde hasta 5\,\%.}}
+\end{frame}
+
+\begin{frame}{Paso temporal}
+\begin{columns}[c,onlytextwidth]
+\begin{column}{.48\textwidth}\centering\grafico{dt-choque.pdf}{}\end{column}
+\begin{column}{.48\textwidth}\centering\grafico{dt-caudal.pdf}{}\end{column}
+\end{columns}
+\par\small Izquierda: choque frontal de los dos agentes más livianos (56 kg). Derecha: $N=500$, 10 realizaciones por $\dt$; el caudal no cambia: $\dt=\valor{dtElegido}$ ms.
+\end{frame}
+
+\begin{frame}{Atascos permanentes}
+\animacion{atasco}{%
+\ficha{TSDMD, $N=500$}{Arco estático en la puerta: dos agentes apoyados en la pared sostienen al resto.}
+\ficha{Por qué no se rompe}{La fricción del SFM es viscosa: en reposo no actúa, y no hay fluctuaciones.}}
+\end{frame}
+
+\begin{frame}{Atascos: por qué a veces sí y a veces no}
+\figura{compresion.pdf}{
+\ficha{TSDMD}{Contactos a menos de 1,5 m de la puerta.}
+\ficha[accent]{Hipótesis: compresión}{Con la sala llena, los contactos se comprimen hasta 6 cm y los agentes se cuelan. Con pocos adentro, 1 cm: el arco aguanta.}
+\ficha{Prueba}{Con $k$ diez veces mayor, 3 semillas que evacuaban se traban al principio.}}
+\end{frame}
+
+\begin{frame}{Atascos: curvas de población}
+\figura{curvas-poblacion-20-semillas.pdf}{
+\ficha{TSDMD, 20 realizaciones}{Se traban \valor{atascosSinFluctuacion}. Las que evacúan tardan $\valor{tevacSinFluctuacion}$ s.}
+\ficha{Corte}{300 s sin salidas: la pausa más larga que terminó rompiéndose fue de 121 s.}}
+\end{frame}
+
+\begin{frame}{Atascos y fluctuaciones}
+\figura{probabilidad-atasco.pdf}{
+\ficha{Fuerza aleatoria en contacto}{Gaussiana, de amplitud fija como fracción de $m v_d/\tau$, renovada cada 0,1 s, solo sobre agentes que se tocan.}
+\ficha{Resultado}{No reduce los atascos de forma detectable: se mantiene el modelo sin fluctuación.}}
+\end{frame}
+
+\begin{frame}{Segundo target}
+\figura{segundo-target.pdf}{
+\ficha{TSDMD, 10 realizaciones por opción}{Target común en $(L/2,-D)$ contra alejarse de la puerta.}
+\ficha{Resultado}{Todas dentro de las barras: el cuello de botella está adentro. Se usa alejarse.}}
+\end{frame}
+
+\begin{frame}{(a) TSDMD puro}
+\animacion{tsdmd}{\ficha{$N=500$, $\dt=\valor{dtElegido}$ ms}{Todos los agentes, en todos los pasos.}}
+\end{frame}
+
+\begin{frame}{(a) EDMD puro}
+\animacion{edmd}{\ficha{Discos duros, patadas cada $\delta=0{,}05$ s}{Se traba en las 20 corridas, al principio: salen \valor{salidasEDMD} agentes.}
+\ficha{Costo}{\valor{costoEDMD} s de reloj por segundo simulado: \valor{costoRelativoEDMD} veces TSDMD.}}
+\end{frame}
+
+\begin{frame}{(a) Híbrido}
+\animacion{hibrido}{\ficha{$\tstar=\valor{tstarElegido}$ s}{\textcolor{evento}{EDMD} en vuelo libre; \textcolor{paso}{TSDMD} cerca de un contacto posible y en el tapón.}}
+\end{frame}
+
+\begin{frame}{(a) Fracción de agentes en cada esquema}
+\figura{fraccion-esquemas.pdf}{
+\ficha{Híbrido, $\tstar=\valor{tstarElegido}$ s}{Fracción de los agentes adentro, media de \valor{realizacionesPoblacion} realizaciones.}
+\ficha{Resultado}{Todos pasan a TSDMD en \valor{tiempoVueloLibre}: después, el tapón.}}
+\end{frame}
+
+\begin{frame}{(b) Curvas de población}
+\figura{poblacion-esquemas.pdf}{
+\ficha{$N=500$, \valor{realizacionesPoblacion} realizaciones por esquema}{Media y desvío entre realizaciones de las que terminan; las trabadas, aparte.}}
+\end{frame}
+
+\begin{frame}{(b) Tiempo de evacuación y atascos}
+\figura[.72]{tevac-esquemas.pdf}{
+\ficha{De las que terminan}{\valor{textoEvacuacion}}
+\ficha{Atascos}{Intervalo de Clopper--Pearson del 95\,\%.}}
+\end{frame}
+
+\begin{frame}{(c) Tiempo de ejecución en función de $\tstar$}
+\centering\grafico[5.8cm]{tiempos-tstar.pdf}{}\par\smallskip
+\small $N=500$, 10 realizaciones por $\tstar$, en la misma computadora: \valor{maquina}. Líneas: TSDMD y EDMD puros (media y desvío).
+\end{frame}
+
+\begin{frame}{(c) Tiempo de evacuación en función de $\tstar$}
+\figura{tevac-tstar.pdf}{
+\ficha{Física}{Si el pase no pierde contactos, $t_{\rm evac}$ no depende de $\tstar$.}
+\ficha{Atascos}{Abajo, cuántas corridas terminan con cada $\tstar$.}}
+\end{frame}
+
+\begin{frame}{(d) Tiempo de ejecución en función de $N$}
+\centering\grafico[5.8cm]{escalamiento-wall.pdf}{}\par\smallskip
+\small Corridas que terminan, 5 realizaciones por $N$. Izquierda: densidad inicial constante, $L=50\text{ m}\sqrt{N/500}$. Derecha: $L=50$ m.
+\end{frame}
+
+\begin{frame}{(d) Costo por segundo simulado en función de $N$}
+\centering\grafico[5.8cm]{escalamiento-costo.pdf}{}\par\smallskip
+\small Todas las corridas, incluidas las trabadas. EDMD puro: 3 realizaciones por $N$, hasta $N=600$.
+\end{frame}
+
+\begin{frame}{Recuperación de $v_d$ en EDMD puro}
+\figura[.6]{recuperacion.pdf}{
+\ficha{Sistema chico}{$N=60$, $L=15$ m, 10 realizaciones; diferencia de caudal con el TSDMD de la misma semilla.}
+\ficha{Resultado}{\valor{textoRecuperacion}}
+\ficha[accent]{Conviene}{En EDMD puro, patadas. En el híbrido la recupera el SFM, al costo de TSDMD.}}
+\end{frame}
+
+%=====================================================================
+\section{Conclusiones}
+\begin{frame}\sectionpage\end{frame}
+
+\begin{frame}{Conclusiones}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\ficha{Modelo}{Con la puerta de 0,8 m, el SFM sin fuerza social se traba en cerca del 40\,\% de las corridas: arcos estáticos que la fricción viscosa no rompe. La compresión de los contactos explica por qué casi siempre se traban al final.}
+\ficha{Esquema híbrido}{Reproduce el TSDMD: mismo tiempo de evacuación, mismo caudal y la misma fracción de atascos, sin violaciones de la cota. Los agentes van por eventos solo en los primeros 30 s.}
+\end{column}
+\begin{column}{.48\textwidth}
+\ficha{EDMD puro}{Con discos duros se traba siempre, al principio, y cuesta \valor{costoRelativoEDMD} veces más que TSDMD: los contactos permanentes se vuelven millones de choques. Para recuperar $v_d$, las patadas son más baratas y más fieles que la relajación analítica.}
+\ficha{Costo}{El ahorro del híbrido está acotado por el tapón: \valor{fraccionTSDMD} del tiempo-agente es TSDMD. \valor{conclusionCosto}}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Declaración de uso de IA}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.40\textwidth}
+\ficha{Herramienta}{Claude Code con Claude Opus 5.5.}
+\ficha{Intervención}{Código C++ y Python, pruebas, corridas, gráficos, animaciones y borrador de la presentación. Las decisiones de diseño las tomó el grupo.}
+\end{column}
+\begin{column}{.56\textwidth}
+\ficha[accent]{Decisiones en las que el grupo modificó la recomendación del agente}{%
+\footnotesize
+\begin{itemize}\setlength\itemsep{0pt}
+\item Modelo: SFM en lugar de CPM.
+\item Masa proporcional al área en lugar de 80 kg para todos.
+\item Estudio formal del segundo target, con más posiciones, usando la mejor opción en lugar de fijarla de antemano.
+\item Comparar patadas y relajación analítica en lugar de usar solo patadas.
+\item Presentación sin límite estricto de 13 minutos.
+\end{itemize}}
+\end{column}
+\end{columns}
+\end{frame}
+
+\end{document}

@@ -63,5 +63,19 @@ int main() {
     run(small(Scheme::EventDriven), ed);
     CHECK(ed.events > 0);
     CHECK(ed.exited + ed.remaining == pt.agents);
+
+    // EDMD con relajación analítica: un choque suave entre agentes casi relajados no se
+    // repite en el mismo instante (antes, redondear v a v_d e deshacía el rebote y la
+    // corrida quedaba en t = 5,6357 s para siempre con esta configuración).
+    Params pa;
+    pa.scheme = Scheme::EventDriven;
+    pa.relaxation = Relaxation::Analytic;
+    pa.agents = 60;
+    pa.side = 15.0;
+    pa.seed = 701;
+    pa.t_max = 6.0;
+    Summary an;
+    run(pa, an);
+    CHECK(an.end_time == pa.t_max);
     return test::finish("test_schemes");
 }

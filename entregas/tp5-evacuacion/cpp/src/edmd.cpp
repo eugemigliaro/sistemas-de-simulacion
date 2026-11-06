@@ -17,6 +17,8 @@
 #include <cmath>
 #include <cstdint>
 #include <random>
+#include <stdexcept>
+#include <string>
 #include <vector>
 
 #include "tp5/events.hpp"
@@ -49,6 +51,7 @@ constexpr std::uint32_t none = static_cast<std::uint32_t>(-1);
 constexpr double tolerance = 1e-9;      // brecha a la que se da por alcanzado un contacto [m]
 constexpr double crawl = 1e-6;          // paso mínimo mientras dos superficies en contacto se separan [s]
 constexpr int max_iterations = 200000;  // tope del avance conservador
+constexpr std::uint64_t stall_limit = 10000000;  // eventos seguidos en el mismo instante: error
 
 class Cells {
 public:
@@ -179,6 +182,7 @@ public:
             push({p_.output_dt, Kind::Output, none, none, 0, 0, 1});
         }
         const auto start = std::chrono::steady_clock::now();
+        std::uint64_t stalled = 0;
         while (active_ > 0 && !heap_.empty()) {
             std::pop_heap(heap_.begin(), heap_.end(), Later{});
             const Event e = heap_.back();
@@ -193,6 +197,11 @@ public:
                 break;
             }
             if (!valid(e)) continue;
+            stalled = e.time == now_ ? stalled + 1 : 0;
+            if (stalled > stall_limit) {
+                throw std::runtime_error("EDMD: " + std::to_string(stall_limit) +
+                                         " eventos sin que avance el tiempo, en t = " + std::to_string(now_) + " s");
+            }
             now_ = e.time;
             ++summary_.events;
             handle(e);
@@ -254,9 +263,11 @@ private:
         u_[i] = desired;
         w_[i] = v - desired;
         if (norm(w_[i]) <= p_.relax_tolerance * p_.desired_speed) {
-            u_[i] = desired;  // relajado: recta a v_d e
+            // Relajado: recta con la velocidad que tiene, sin redondearla a v_d e. Después
+            // de un choque suave el redondeo puede deshacer el rebote, y el mismo choque se
+            // repetiría en el mismo instante para siempre.
+            u_[i] = v;
             w_[i] = {};
-            a.velocity = desired;
             a.relaxed = true;
             return;
         }

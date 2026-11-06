@@ -59,6 +59,7 @@ class HybridEngine {
 public:
     HybridEngine(const Params& p, const Room& room, std::vector<Agent>& agents, Writer& writer)
         : p_(p), room_(room), agents_(agents), writer_(writer), beeman_(p, room), pending_(agents.size(), false),
+          next_check_(agents.size(), 0), check_version_(agents.size(), 0), next_candidate_(agents.size(), 0),
           t_out_(p.t_out_factor * p.t_star) {}
 
     Summary run() {
@@ -127,11 +128,17 @@ private:
     void compact() {
         std::erase_if(heap_, [&](const Event& e) { return !valid(e); });
         std::make_heap(heap_.begin(), heap_.end(), Later{});
-        std::erase_if(checks_, [&](const Check& c) { return !event_driven(c.i) || agents_[c.i].version != c.version; });
+        std::erase_if(checks_, [&](const Check& c) {
+            return !event_driven(c.i) || agents_[c.i].version != c.version || c.step != next_check_[c.i];
+        });
         std::make_heap(checks_.begin(), checks_.end(), LaterCheck{});
     }
 
+    // Una sola revisión pendiente por agente: la más temprana (las demás quedan inválidas).
     void push_check(std::uint32_t i, std::uint64_t step) {
+        if (next_check_[i] <= step && next_check_[i] > step_ && check_version_[i] == agents_[i].version) return;
+        next_check_[i] = step;
+        check_version_[i] = agents_[i].version;
         checks_.push_back({step, i, agents_[i].version});
         std::push_heap(checks_.begin(), checks_.end(), LaterCheck{});
     }
@@ -141,7 +148,11 @@ private:
             std::pop_heap(checks_.begin(), checks_.end(), LaterCheck{});
             const Check c = checks_.back();
             checks_.pop_back();
-            if (!event_driven(c.i) || agents_[c.i].version != c.version || pending_[c.i]) continue;
+            if (!event_driven(c.i) || agents_[c.i].version != c.version || pending_[c.i] ||
+                c.step != next_check_[c.i]) {
+                continue;
+            }
+            next_check_[c.i] = 0;
             schedule_check(c.i, now_);
         }
     }
@@ -206,7 +217,7 @@ private:
         const Agent& a = agents_[i];
         const double s = bound_time(i, a.position_at(time), norm(a.velocity), time);
         if (s <= p_.t_star) {
-            pending_[i] = true;
+            mark_pending(i);
         } else if (s < never) {
             push_check(i, step_ + later_steps(s));
         }
@@ -221,8 +232,8 @@ private:
         Agent& a = agents_[e.i];
         switch (e.kind) {
             case Kind::Alert:
-                pending_[e.i] = true;
-                if (e.j != none) pending_[e.j] = true;
+                mark_pending(e.i);
+                if (e.j != none) mark_pending(e.j);
                 break;
             case Kind::Door: {
                 a.position = a.position_at(now_);
@@ -230,7 +241,7 @@ private:
                 a.outside = true;
                 const Vec2 desired = p_.desired_speed * room_.desired_direction(a.position, true);
                 if (norm(a.velocity - desired) > p_.relax_tolerance * p_.desired_speed) {
-                    pending_[e.i] = true;  // el segundo target le cambia la dirección: que relaje el SFM
+                    mark_pending(e.i);  // el segundo target le cambia la dirección: que relaje el SFM
                 } else {
                     const double t = capsule_exit_time(a.position, a.velocity, room_.door, room_.exit_distance);
                     if (t < never) push({now_ + t, Kind::Exit, e.i, none, a.version, 0});
@@ -245,6 +256,13 @@ private:
                 writer_.exit(now_, e.i);
                 last_exit_ = now_;
                 break;
+        }
+    }
+
+    void mark_pending(std::uint32_t i) {
+        if (!pending_[i]) {
+            pending_[i] = true;
+            pending_list_.push_back(i);
         }
     }
 
@@ -276,14 +294,18 @@ private:
     // Pasa a TSDMD a los que tienen alerta y, en cascada, a los EDMD que quedan a
     // menos de T* de un contacto posible con alguno de ellos.
     void apply_pending() {
+        if (pending_list_.empty()) return;
+        std::sort(pending_list_.begin(), pending_list_.end());
+        pending_list_.erase(std::unique(pending_list_.begin(), pending_list_.end()), pending_list_.end());
         std::vector<std::uint32_t> fresh;
-        for (std::uint32_t i = 0; i < agents_.size(); ++i) {
+        for (std::uint32_t i : pending_list_) {
             if (pending_[i] && event_driven(i)) {
                 to_time_step(i, now_);
                 fresh.push_back(i);
             }
             pending_[i] = false;
         }
+        pending_list_.clear();
         for (std::size_t k = 0; k < fresh.size(); ++k) {
             const Agent& b = agents_[fresh[k]];
             for (std::uint32_t j = 0; j < agents_.size(); ++j) {
@@ -302,48 +324,73 @@ private:
     }
 
     // TSDMD sin contactos y relajados que pueden volver a EDMD: sin contacto posible en
-    // t_out con trayectoria recta a v_d e. Cuenta también los aislados sin relajar.
+    // t_out con trayectoria recta a v_d e. Cuenta también los aislados sin relajar. A un
+    // agente que no puede volver no se lo revisa hasta que podría: la brecha que le falta
+    // no crece más rápido que 2 V_max, y la relajación no termina antes que con tau.
     void return_to_event_driven() {
         const CellGrid& grid = beeman_.forces().grid();
+        const double v_max = p_.speed_bound;
+        const double speed = p_.desired_speed;
+        const double needed = t_out_ * (speed + v_max);  // brecha necesaria contra cada TSDMD
         std::vector<std::uint32_t> back;
         for (std::size_t i : ts_) {
             Agent& a = agents_[i];
-            if (!a.active || beeman_.forces().contact_count(i) > 0) continue;
-            const Vec2 velocity = p_.desired_speed * room_.desired_direction(a.position, a.outside);
-            const double speed = p_.desired_speed;
+            if (!a.active || step_ < next_candidate_[i]) continue;
+            auto wait = [&](double seconds) {
+                const double steps = std::ceil(std::max(seconds, 0.0) / p_.dt);
+                next_candidate_[i] = step_ + std::max<std::uint64_t>(static_cast<std::uint64_t>(p_.relax_check_every),
+                                                                     static_cast<std::uint64_t>(std::min(steps, 1e12)));
+            };
+            if (beeman_.forces().contact_count(i) > 0) {
+                wait(0.0);
+                continue;
+            }
+            const Vec2 velocity = speed * room_.desired_direction(a.position, a.outside);
             // Descarte rápido con las celdas: algún TSDMD vecino demasiado cerca.
-            bool near = false;
+            double nearest = never;
             const int cell = grid.cell_index(a.position);
             const int column = cell % grid.columns();
             const int row = cell / grid.columns();
-            for (int dr = -2; dr <= 2 && !near; ++dr) {
-                for (int dc = -2; dc <= 2 && !near; ++dc) {
+            for (int dr = -2; dr <= 2; ++dr) {
+                for (int dc = -2; dc <= 2; ++dc) {
                     const int c = column + dc;
                     const int r = row + dr;
                     if (c < 0 || r < 0 || c >= grid.columns() || r >= grid.rows()) continue;
                     for (int j = grid.head(r * grid.columns() + c); j >= 0; j = grid.next(static_cast<std::size_t>(j))) {
                         const auto jj = static_cast<std::size_t>(j);
                         if (jj == i || !agents_[jj].active || agents_[jj].mode != Mode::TimeStep) continue;
-                        const double gap = norm(a.position - agents_[jj].position) - a.radius - agents_[jj].radius;
-                        if (gap <= t_out_ * (speed + p_.speed_bound)) {
-                            near = true;
-                            break;
-                        }
+                        nearest = std::min(nearest, norm(a.position - agents_[jj].position) - a.radius - agents_[jj].radius);
                     }
                 }
             }
-            if (near) continue;
-            if (bound_time(i, a.position, speed, now_) <= t_out_) continue;
-            if (wall_time(a.position, velocity, a.radius) <= t_out_) continue;
+            if (nearest <= needed) {
+                wait((needed - nearest) / (2.0 * v_max));
+                continue;
+            }
+            const double bound = bound_time(i, a.position, speed, now_);
+            if (bound <= t_out_) {
+                wait((t_out_ - bound) * (speed + v_max) / (2.0 * v_max));
+                continue;
+            }
+            if (wall_time(a.position, velocity, a.radius) <= t_out_) {
+                wait(0.0);
+                continue;
+            }
             bool clear = true;
             for (std::uint32_t j = 0; j < agents_.size() && clear; ++j) {
                 if (!event_driven(j)) continue;
                 const Agent& b = agents_[j];
                 clear = contact_time(b.position_at(now_) - a.position, b.velocity - velocity, a.radius + b.radius) > t_out_;
             }
-            if (!clear) continue;
-            if (norm(a.velocity - velocity) > p_.relax_tolerance * p_.desired_speed) {
-                summary_.isolated_unrelaxed_steps += static_cast<std::uint64_t>(p_.relax_check_every);
+            if (!clear) {
+                wait(0.0);
+                continue;
+            }
+            const double deviation = norm(a.velocity - velocity);
+            if (deviation > p_.relax_tolerance * p_.desired_speed) {
+                const std::uint64_t before = step_;
+                wait(p_.tau * std::log(deviation / (p_.relax_tolerance * p_.desired_speed)));
+                summary_.isolated_unrelaxed_steps += next_candidate_[i] - before;
                 continue;
             }
             to_event_driven(static_cast<std::uint32_t>(i), now_, velocity);
@@ -379,7 +426,8 @@ private:
     // paso y, si se viola, se revisa de inmediato a todos los EDMD.
     void check_speeds() {
         double fastest = 0.0;
-        for (std::size_t i : ts_) fastest = std::max(fastest, norm(agents_[i].velocity));
+        for (std::size_t i : ts_) fastest = std::max(fastest, norm_squared(agents_[i].velocity));
+        fastest = std::sqrt(fastest);
         summary_.max_speed = std::max(summary_.max_speed, fastest);
         if (fastest <= p_.speed_bound) return;
         ++summary_.bound_violations;
@@ -459,6 +507,10 @@ private:
     std::vector<bool> pending_;
     std::vector<Event> heap_;
     std::vector<Check> checks_;
+    std::vector<std::uint32_t> pending_list_;
+    std::vector<std::uint64_t> next_check_;
+    std::vector<std::uint32_t> check_version_;
+    std::vector<std::uint64_t> next_candidate_;
     std::vector<Vec2> positions_;
     Summary summary_;
     std::uint64_t step_ = 0;
