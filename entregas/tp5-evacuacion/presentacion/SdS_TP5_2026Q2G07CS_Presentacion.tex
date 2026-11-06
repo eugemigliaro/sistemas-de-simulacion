@@ -407,7 +407,7 @@ $t_{\rm evac}$: salida del último agente, si la corrida termina.}
 
 \begin{frame}{(a) EDMD puro}
 \animacion{edmd}{\ficha{Discos duros, patadas cada $\delta=0{,}05$ s}{Se traba en las 20 corridas, al principio: salen \valor{salidasEDMD} agentes.}
-\ficha{Costo}{\valor{costoEDMD} s de reloj por segundo simulado: \valor{costoRelativoEDMD} veces TSDMD.}}
+\ficha{Costo (punto c)}{\valor{costoEDMD} ms de reloj por segundo simulado, contra \valor{costoTSDMD} con TSDMD: \valor{costoRelativoEDMD} veces más.}}
 \end{frame}
 
 \begin{frame}{(a) Híbrido}
@@ -432,8 +432,8 @@ $t_{\rm evac}$: salida del último agente, si la corrida termina.}
 \end{frame}
 
 \begin{frame}{(c) Tiempo de ejecución en función de $\tstar$}
-\centering\grafico[5.8cm]{tiempos-tstar.pdf}{}\par\smallskip
-\small $N=500$, 10 realizaciones por $\tstar$, en la misma computadora: \valor{maquina}. Líneas: TSDMD y EDMD puros (media y desvío).
+\centering\grafico[5.5cm]{tiempos-tstar.pdf}{}\par\smallskip
+\small $N=500$, 10 realizaciones por $\tstar$ (terminan \valor{terminanc}), en la misma computadora: \valor{maquina}. Líneas: TSDMD y EDMD puros (media y desvío).
 \end{frame}
 
 \begin{frame}{(c) Tiempo de evacuación en función de $\tstar$}
@@ -442,14 +442,27 @@ $t_{\rm evac}$: salida del último agente, si la corrida termina.}
 \ficha{Atascos}{Abajo, cuántas corridas terminan con cada $\tstar$.}}
 \end{frame}
 
+\begin{frame}{(c) Comparación con TSDMD semilla por semilla}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.48\textwidth}
+\ficha{$\tstar\geq0{,}5$ s: nadie es EDMD}{Mismas salidas que TSDMD en \valor{mismasSalidas} semillas. El híbrido cuesta \valor{sobrecostoHibrido} más: es el costo fijo del esquema (eventos, revisiones de la cota).}
+\ficha{$\tstar\leq0{,}2$ s}{Costo por segundo simulado sobre el de TSDMD de la misma semilla: de \valor{rangoPareado} en promedio, con desvíos del 10 al 35\,\%. Las trayectorias divergen y ninguna ganancia se distingue.}
+\end{column}
+\begin{column}{.48\textwidth}
+\ficha[accent]{Por qué}{El ahorro posible es el vuelo libre: a lo sumo el 2,6\,\% del tiempo-agente (\valor{fraccionTSDMD} es TSDMD). Es del orden del costo fijo y mucho menor que la dispersión entre realizaciones.}
+\ficha{EDMD puro}{\valor{costoRelativoEDMD} veces el costo de TSDMD.}
+\end{column}
+\end{columns}
+\end{frame}
+
 \begin{frame}{(d) Tiempo de ejecución en función de $N$}
 \centering\grafico[5.8cm]{escalamiento-wall.pdf}{}\par\smallskip
-\small Corridas que terminan, 5 realizaciones por $N$. Izquierda: densidad inicial constante, $L=50\text{ m}\sqrt{N/500}$. Derecha: $L=50$ m.
+\small Corridas que terminan, de 5 realizaciones por $N$ (EDMD puro solo termina con $N=100$). Izquierda: densidad inicial constante, $L=50\text{ m}\sqrt{N/500}$. Derecha: $L=50$ m.
 \end{frame}
 
 \begin{frame}{(d) Costo por segundo simulado en función de $N$}
-\centering\grafico[5.8cm]{escalamiento-costo.pdf}{}\par\smallskip
-\small Todas las corridas, incluidas las trabadas. EDMD puro: 3 realizaciones por $N$, hasta $N=600$.
+\centering\grafico[5.5cm]{escalamiento-costo.pdf}{}\par\smallskip
+\small Todas las corridas, incluidas las trabadas; EDMD puro: 3 realizaciones por $N$, hasta $N=600$. Ajuste $N^{\alpha}$ con densidad constante: TSDMD e híbrido $\alpha=\valor{exponenteDensidadTSDMD}$, EDMD $\alpha=\valor{exponenteDensidadEDMD}$; con $L=50$ m: $\valor{exponenteSalaTSDMD}$ y $\valor{exponenteSalaEDMD}$.
 \end{frame}
 
 \begin{frame}{Recuperación de $v_d$ en EDMD puro}
@@ -471,7 +484,7 @@ $t_{\rm evac}$: salida del último agente, si la corrida termina.}
 \end{column}
 \begin{column}{.48\textwidth}
 \ficha{EDMD puro}{Con discos duros se traba siempre, al principio, y cuesta \valor{costoRelativoEDMD} veces más que TSDMD: los contactos permanentes se vuelven millones de choques. Para recuperar $v_d$, las patadas son más baratas y más fieles que la relajación analítica.}
-\ficha{Costo}{El ahorro del híbrido está acotado por el tapón: \valor{fraccionTSDMD} del tiempo-agente es TSDMD. \valor{conclusionCosto}}
+\ficha{Costo}{El ahorro del híbrido está acotado por el tapón (\valor{fraccionTSDMD} del tiempo-agente es TSDMD) y no se distingue de su costo fijo: en la práctica cuesta lo mismo que TSDMD. EDMD puro cuesta \valor{costoRelativoEDMD} veces más y escala peor con $N$.}
 \end{column}
 \end{columns}
 \end{frame}

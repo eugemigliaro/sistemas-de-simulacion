@@ -225,3 +225,14 @@ Las corridas del estudio de recuperación con relajación analítica quedaron 11
 - **Patadas:** ninguna difiere del SFM de forma significativa; el costo baja con δ. δ = 0,05 s, la de las corridas de a y b, cuesta menos que 2 veces TSDMD en este sistema chico.
 - **Relajación analítica:** de 94 a 207 veces el costo de TSDMD (el avance conservador de cada par) y, con 0,003 y 0,01 rad, un caudal mayor que el del SFM (con 0,01 rad la diferencia pareada es +0,16 ± 0,11 en 7 pares: error estándar 0,04). El 9/10 de trabadas con 0,03 rad no sigue la tendencia de las otras tolerancias y queda sin explicar.
 - **Conclusión:** en el EDMD puro conviene patadas. En el híbrido la recuperación la hace el SFM, al costo de TSDMD, y la relajación analítica ahorraría a lo sumo el 0,17 % de los pasos.
+
+## Puntos c y d: tiempos de ejecución (2026-11-06)
+
+Medidos por Francisco en una Apple M5 Pro (macOS, `g++` es Apple clang 21.0.0, -O3), con 4 corridas a la vez, sobre el commit d3f5e57 (`experiments/results/maquina.json`). Las salidas crudas están en `experiments/raw/tiempos` (no van al repositorio); `resumen_tiempos.py` las reproduce exactamente.
+
+- **Muchas corridas se traban**, así que el wall-clock de las que terminan se promedia sobre pocas: en c terminan 5 a 7 de 10 por T*; en d, algunos grupos tienen 1 o 2 de 5 (en la figura, marcador hueco cuando termina una sola). EDMD puro solo termina con N = 100: para EDMD solo hay costo por segundo simulado. Por eso se muestran las dos medidas acordadas.
+- **c, agregado:** el híbrido tarda 5,9 a 6,4 s con cualquier T*, y TSDMD 6,2 ± 0,2 s: todo dentro de las barras. EDMD puro cuesta 237 ms por segundo simulado, 38 veces TSDMD (6,3 ms).
+- **c, pareado por semilla** (`tiempos-c-pareado.csv`): con T* = 0,5 y 1 s nadie llega a EDMD, las salidas son idénticas a las de TSDMD en las 10 semillas y el híbrido cuesta 1,1–1,4 % más (el costo fijo del esquema). Con T* ≤ 0,2 s la relación de costos con el TSDMD de la misma semilla va de 0,96 a 1,16 en promedio, con desvíos del 10 al 35 %, porque las trayectorias divergen: no se distingue ninguna ganancia. Es lo esperado: el ahorro posible es a lo sumo el 2,6 % del tiempo-agente (vuelo libre).
+- **T\*:** ningún valor se distingue de otro, así que queda T* = 0,05 s y no se rehacen a, b ni d.
+- **d:** con densidad constante, el costo por segundo simulado crece como N^1,2 para TSDMD e híbrido y como N^2,3 para EDMD; con L = 50 m, N^0,7 y N^2,4. El wall-clock de las que terminan crece como N^2,2 (densidad constante), porque también crece el tiempo de evacuación.
+- **Inferencia:** el exponente menor con la sala fija se explicaría por el costo fijo de recorrer las celdas de una sala grande con pocos agentes (con N = 100 cuesta 2,5 ms/s con L = 50 m y 1,0 ms/s con L = 22 m).

@@ -1,14 +1,12 @@
 # Guion oral del TP5
 
-Duración estimada: **22:40**. El grupo decidió que la presentación puede superar los 13 minutos de la consigna [TP05, p. 1] para incluir los estudios extra en el cuerpo (ver `docs/recomendaciones-modificadas.md`); conviene confirmarlo en la consulta del 06/11. Las animaciones corren embebidas en el PPTX mientras se habla. Cada integrante tiene que poder presentar cualquier parte y responder sobre todo el trabajo, y nadie agrega nada a lo que acaba de decir otro [GPRES, p. 3].
-
-Los números entre corchetes (`[pendiente: ...]`) se completan cuando estén los puntos c y d medidos en una sola computadora.
+Duración estimada: **23:40**. El grupo decidió que la presentación puede superar los 13 minutos de la consigna [TP05, p. 1] para incluir los estudios extra en el cuerpo (ver `docs/recomendaciones-modificadas.md`); conviene confirmarlo en la consulta del 06/11. Las animaciones corren embebidas en el PPTX mientras se habla. Cada integrante tiene que poder presentar cualquier parte y responder sobre todo el trabajo, y nadie agrega nada a lo que acaba de decir otro [GPRES, p. 3].
 
 | Parte | Integrante | Diapositivas | Tiempo |
 |---|---|---|---|
 | Sistema, modelo e implementación | Eugenio | 1 a 12 | 7:01 |
 | Arquitectura, simulaciones, estudios previos y esquemas puros en a | Francisco | 13 a 26 | 8:06 |
-| Híbrido en a, puntos b a d, recuperación de v_d y conclusiones | Franco | 27 a 38 | 7:33 |
+| Híbrido en a, puntos b a d, recuperación de v_d y conclusiones | Franco | 27 a 39 | 8:33 |
 
 ## Eugenio — diapositivas 1 a 12 — 7:01
 
@@ -116,9 +114,9 @@ Esta es una evacuación completa con TSDMD puro, treinta veces más rápida que 
 
 ### 26. (a) EDMD puro — 0:35
 
-Este es el EDMD puro, con discos duros y patadas cada 0,05 segundos. Se traba en las 20 corridas, y al principio: salen entre 10 y 192 agentes y después nadie más. Es lo que esperábamos por la hipótesis de la compresión: los discos duros no se comprimen y el arco es rígido desde el primer momento. Además es caro: en el tapón, cada segundo simulado cuesta casi un segundo y medio de reloj, 20 veces más que con TSDMD, porque los contactos permanentes se convierten en millones de choques.
+Este es el EDMD puro, con discos duros y patadas cada 0,05 segundos. Se traba en las 20 corridas, y al principio: salen entre 10 y 192 agentes y después nadie más. Es lo que esperábamos por la hipótesis de la compresión: los discos duros no se comprimen y el arco es rígido desde el primer momento. Además es caro: en el punto c, cada segundo simulado cuesta 237 milisegundos de reloj, 38 veces más que con TSDMD, porque los contactos permanentes se convierten en millones de choques.
 
-## Franco — diapositivas 27 a 38 — 7:33
+## Franco — diapositivas 27 a 39 — 8:33
 
 ### 27. (a) Híbrido — 0:35
 
@@ -138,32 +136,36 @@ A la izquierda, el tiempo de evacuación de las que terminan: 979 más menos 65 
 
 ### 31. (c) Tiempo de ejecución en función de T estrella — 0:50
 
-[pendiente: con las corridas del punto c en una sola computadora.] A la izquierda, el tiempo de ejecución de las corridas que terminan; a la derecha, el costo por segundo simulado de todas. Las líneas son los esquemas puros.
+Los tiempos de c y d los medimos todos en la misma computadora, una Apple M5 Pro, con cuatro corridas a la vez. A la izquierda, el tiempo de ejecución de las corridas que terminan, que son entre 5 y 7 de 10; a la derecha, el costo por segundo simulado de todas, en escala logarítmica. Las líneas horizontales son los esquemas puros. Con cualquier T estrella, el híbrido tarda lo mismo que TSDMD, unos 6,2 segundos: todas las diferencias quedan dentro de las barras. EDMD puro, arriba, cuesta 38 veces más.
 
 ### 32. (c) Tiempo de evacuación en función de T estrella — 0:30
 
-Si el pase no pierde contactos, el tiempo de evacuación no debería depender de T estrella. [pendiente: confirmarlo con los datos del punto c.] Abajo, cuántas corridas terminan con cada T estrella.
+Si el pase no pierde contactos, el tiempo de evacuación no debería depender de T estrella, y así es: todos los valores quedan dentro de la banda de TSDMD. Abajo, cuántas corridas terminan con cada T estrella.
 
-### 33. (d) Tiempo de ejecución en función de N — 0:40
+### 33. (c) Comparación con TSDMD semilla por semilla — 0:50
 
-[pendiente: punto d.] A la izquierda, con densidad inicial constante, agrandando la sala; a la derecha, con la sala de 50 metros.
+Como todas las variantes usan las mismas condiciones iniciales, comparamos cada corrida con el TSDMD de su misma semilla. Con T estrella de medio segundo o más nadie llega a estar en EDMD: las salidas son idénticas a las de TSDMD en las 10 semillas, y el híbrido cuesta un 1,1 % más. Ese es el costo fijo del esquema. Con T estrella más chicos, las trayectorias divergen, y la relación de costos varía entre semillas del 10 al 35 %: no se distingue ninguna ganancia. La razón es la cota que vimos antes: lo único que el híbrido puede ahorrar es el vuelo libre, a lo sumo un 2,6 % del tiempo-agente. Es del orden del costo fijo y mucho menor que la dispersión.
 
-### 34. (d) Costo por segundo simulado en función de N — 0:30
+### 34. (d) Tiempo de ejecución en función de N — 0:40
 
-[pendiente: punto d.]
+A la izquierda, con densidad inicial constante, agrandando la sala; a la derecha, con la sala de 50 metros. Son las corridas que terminan; el marcador hueco indica que terminó una sola. TSDMD y el híbrido se superponen en todo el rango. El tiempo crece más o menos como N al cuadrado, porque tanto el tiempo de evacuación como el costo de cada paso crecen con N. EDMD puro solo termina con 100 agentes.
 
-### 35. Recuperación de v_d en EDMD puro — 1:00
+### 35. (d) Costo por segundo simulado en función de N — 0:40
+
+El costo por segundo simulado sí está definido para todas las corridas, incluidas las trabadas. Con densidad constante, TSDMD y el híbrido crecen como N a la 1,2, casi lineal gracias a las celdas. Con la sala fija crece más lento, como N a la 0,7, porque con pocos agentes pesa el costo fijo de recorrer las celdas. EDMD puro crece como N a la 2,3: con más agentes el tapón es más grande y hay muchos más choques por segundo.
+
+### 36. Recuperación de v_d en EDMD puro — 1:00
 
 Comparamos las formas de recuperar v_d en un sistema chico, de 60 agentes en una sala de 15 metros, porque con 500 la relajación analítica no es viable. Cada punto es una variante: patadas con distintos delta, en azul, y relajación analítica con distintas tolerancias de reapuntado, en violeta. En el eje horizontal está el costo y en el vertical, la diferencia de caudal con el TSDMD de la misma semilla. Las patadas cuestan entre 7 y 61 milisegundos por segundo simulado y dan el mismo caudal que el SFM. La relajación analítica cuesta de 94 a 207 veces más que TSDMD, porque los choques ya no son una cuadrática, y además da un caudal mayor: con la tolerancia de 0,01 radianes, 0,15 más menos 0,11 agentes por segundo. En el EDMD puro conviene usar patadas; en el híbrido, la recuperación la hace el SFM, al costo de TSDMD.
 
-### 36. Conclusiones — 0:03
+### 37. Conclusiones — 0:03
 
 Para cerrar.
 
-### 37. Conclusiones — 1:00
+### 38. Conclusiones — 1:00
 
-Con la puerta de 80 centímetros, el SFM sin fuerza social se traba en cerca del 40 % de las corridas: se forman arcos estáticos que la fricción viscosa no rompe, y la compresión de los contactos explica por qué casi siempre se traban al final. El esquema híbrido reproduce al TSDMD: el mismo tiempo de evacuación, el mismo caudal y la misma fracción de atascos, sin violaciones de la cota. El EDMD puro, con discos duros, se traba siempre al principio y cuesta 20 veces más, y para recuperar v_d las patadas son más baratas y más fieles que la relajación analítica. Por último, el ahorro del híbrido está acotado por el tapón: el 97 % del tiempo-agente se resuelve con paso temporal. [pendiente: cuánto se gana en la práctica, según los puntos c y d.]
+Con la puerta de 80 centímetros, el SFM sin fuerza social se traba en cerca del 40 % de las corridas: se forman arcos estáticos que la fricción viscosa no rompe, y la compresión de los contactos explica por qué casi siempre se traban al final. El esquema híbrido reproduce al TSDMD: el mismo tiempo de evacuación, el mismo caudal y la misma fracción de atascos, sin violaciones de la cota. El EDMD puro, con discos duros, se traba siempre al principio, y para recuperar v_d las patadas son más baratas y más fieles que la relajación analítica. Por último, el ahorro del híbrido está acotado por el tapón: el 97 % del tiempo-agente se resuelve con paso temporal, y en la práctica el híbrido cuesta lo mismo que TSDMD, mientras que EDMD puro cuesta 38 veces más y escala peor con N.
 
-### 38. Declaración de uso de IA — 0:30
+### 39. Declaración de uso de IA — 0:30
 
 Usamos Claude Code con Claude Opus 5.5 para escribir el código en C++ y Python, las pruebas, las corridas, los gráficos, las animaciones y un borrador de esta presentación. Las decisiones de diseño las tomamos nosotros, y registramos las veces en que no seguimos la recomendación del agente: elegimos el SFM en lugar del CPM, la masa proporcional al área, un estudio formal del segundo target, comparar las formas de recuperar v_d y una presentación más larga.

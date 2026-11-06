@@ -239,8 +239,9 @@ def evacuation_by_scheme() -> None:
         exited = [int(p["exited"]) for p in edmd]
         VALUES["salidasEDMD"] = f"entre {min(exited)} y {max(exited)}"
         cost = {r["scheme"]: float(r["cost_per_s_mean"]) for r in summary}
-        VALUES["costoEDMD"] = number(cost["edmd"], 2)
+        VALUES["costoEDMD"] = number(1e3 * cost["edmd"])  # timing_tstar lo reemplaza con el punto c
         if "tsdmd" in cost:
+            VALUES["costoTSDMD"] = number(1e3 * cost["tsdmd"], 1)
             VALUES["costoRelativoEDMD"] = number(cost["edmd"] / cost["tsdmd"])
 
 
@@ -294,12 +295,15 @@ def timing_tstar() -> None:
         axis.errorbar(t_star[ok], mean[ok], yerr=std[ok], color=style.AQUA, marker="o", capsize=6,
                       linestyle="none", label="Híbrido")
         axis.set_xscale("log")
+        axis.set_xlim(t_star.min() / 1.6, t_star.max() * 1.6)
         axis.set_xlabel("T* (s)")
         axis.set_ylabel(label)
         axis.xaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:g}".replace(".", ",")))
+    right.set_yscale("log")
+    right.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:g}".replace(".", ",")))
     left.set_title("corridas que terminan", fontsize=17, color=style.MUTED)
     right.set_title("todas las corridas", fontsize=17, color=style.MUTED)
-    right.legend(loc="upper right", fontsize=15)
+    right.legend(loc="center right", fontsize=15)
     style.save(figure, FIGURES / "tiempos-tstar")
 
     figure, axis = plt.subplots(figsize=(7.6, 5.2))
@@ -321,7 +325,7 @@ def timing_tstar() -> None:
     axis.xaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:g}".replace(".", ",")))
     axis.set_xlabel("T* (s)")
     axis.set_ylabel("Tiempo de evacuación (s)")
-    axis.legend(loc="upper left", fontsize=15)
+    axis.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=2, fontsize=15)
     style.save(figure, FIGURES / "tevac-tstar")
     if official:
         import json
@@ -329,7 +333,31 @@ def timing_tstar() -> None:
         info = json.loads((RESULTS / "maquina.json").read_text())
         model = next((line.split(":", 1)[1].strip() for line in info.get("lscpu", "").splitlines()
                       if line.startswith("Model name")), info.get("sysctl") or info.get("processor") or "?")
-        VALUES["maquina"] = f"{model}; {info.get('workers', '?')} corridas a la vez"
+        compiler = info.get("g++", "").splitlines()[0] if info.get("g++") else "?"
+        compiler = compiler.replace(" version", "").split(" (")[0]
+        VALUES["maquina"] = f"{model}, {compiler} con -O3; {info.get('workers', '?')} corridas a la vez"
+        if "edmd" in pure and "tsdmd" in pure:
+            edmd, tsdmd = float(pure["edmd"]["cost_per_s_mean"]), float(pure["tsdmd"]["cost_per_s_mean"])
+            VALUES["costoEDMD"] = number(1e3 * edmd)
+            VALUES["costoTSDMD"] = number(1e3 * tsdmd, 1)
+            VALUES["costoRelativoEDMD"] = number(edmd / tsdmd)
+        walls = [float(r["wall_finished_mean"]) for r in data if r["wall_finished_mean"] not in ("", "nan")]
+        hybrid_walls = [float(r["wall_finished_mean"]) for r in hybrid]
+        done = [int(r["finished"]) for r in data if r["scheme"] != "edmd"]
+        VALUES["terminanc"] = f"{min(done)} a {max(done)} de {data[0]['runs']}"
+        if "tsdmd" in pure:
+            reference = float(pure["tsdmd"]["wall_finished_mean"])
+            VALUES["tiempoTSDMDc"] = pm(reference, float(pure["tsdmd"]["wall_finished_std"]), 1)
+            VALUES["rangoHibridoc"] = f"{number(min(hybrid_walls), 1)} a {number(max(hybrid_walls), 1)}"
+        paired = {r["config"]: r for r in rows("tiempos-c-pareado.csv")}
+        if "tstar1" in paired:
+            r = paired["tstar1"]
+            VALUES["sobrecostoHibrido"] = (f"{number(100 * (float(r['cost_ratio_mean']) - 1), 1)}\\,\\%")
+            VALUES["mismasSalidas"] = f"{r['same_exits']} de {r['pairs']}"
+        small = [r for r in paired.values() if r["t_star"] not in ("", None) and float(r["t_star"]) <= 0.2]
+        if small:
+            VALUES["rangoPareado"] = (f"{number(min(float(r['cost_ratio_mean']) for r in small), 2)} a "
+                                      f"{number(max(float(r['cost_ratio_mean']) for r in small), 2)}")
     else:
         VALUES["maquina"] = "preliminar: esta computadora, 7 corridas a la vez y 5 realizaciones"
 
@@ -350,6 +378,14 @@ def timing_scaling() -> None:
                 ok = np.isfinite(mean)
                 if ok.any():
                     axis.errorbar(n[ok], mean[ok], yerr=std[ok], color=color, marker=marker, capsize=5, label=text)
+                    count = np.array([int(r["finished"]) if column == "wall_finished" else int(r["runs"])
+                                      for r in sel])
+                    single = ok & (count == 1)
+                    axis.plot(n[single], mean[single], linestyle="none", marker=marker, color=color,
+                              markerfacecolor="white", markersize=10, markeredgewidth=2, zorder=5)
+                    if column == "cost_per_s" and ok.sum() >= 3:
+                        slope = np.polyfit(np.log(n[ok]), np.log(mean[ok]), 1)[0]
+                        VALUES[f"exponente{variant.capitalize()}{text.replace('í', 'i')}"] = number(slope, 1)
             axis.set_xscale("log")
             axis.set_yscale("log")
             axis.set_xticks([100, 200, 400, 600, 1000])
@@ -359,6 +395,9 @@ def timing_scaling() -> None:
             axis.set_title(title, fontsize=17, color=style.MUTED)
         axes[0].set_ylabel(label)
         axes[0].legend(loc="upper left", fontsize=15)
+        if column == "wall_finished":
+            axes[1].annotate("hueco: termina una sola corrida", (1, 0), xycoords="axes fraction", xytext=(-6, 8),
+                             textcoords="offset points", ha="right", fontsize=13, color=style.MUTED)
         style.save(figure, FIGURES / name)
 
 
