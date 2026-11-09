@@ -1,0 +1,10 @@
+{
+ "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+ "processor": "arm",
+ "cpu_count": 15,
+ "python": "3.14.7",
+ "workers": 4,
+ "sysctl": "Apple M5 Pro",
+ "g++": "Apple clang version 21.0.0 (clang-2100.4.1.1)\nTarget: arm64-apple-darwin25.6.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin",
+ "git": "085af602fa75ddd4d352dfa085e22b858c25a400"
+}
