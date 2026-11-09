@@ -1,8 +1,8 @@
 """Elección de T* con un benchmark corto y controlado: corridas de a una, alternando los
-valores de T_STARS y el TSDMD puro, con la semilla 501 y los primeros 150 s simulados (todo
-el vuelo libre está ahí; después todos son TSDMD y cuestan lo mismo). Tres repeticiones; se
-elige el T* con menor tiempo mínimo. Es solo para elegir T*: el punto c oficial es
-run_tiempos.py. Escribe experiments/results/bench_tstar.csv.
+valores de T_STARS y el TSDMD puro, con N = AGENTS, la semilla 501 y los primeros 150 s
+simulados (todo el vuelo libre está ahí; después todos son TSDMD y cuestan lo mismo). Cinco
+repeticiones; se elige el T* con menor tiempo mínimo. Es solo para elegir T*: el punto c
+oficial es run_tiempos.py. Escribe experiments/results/bench_tstar.csv.
 
 Uso: python scripts/bench_tstar.py
 """
@@ -14,9 +14,9 @@ import subprocess
 import tempfile
 from pathlib import Path
 
-from common import DT, RESULTS, SECOND_TARGET, T_STARS, evacuate
+from common import AGENTS, DT, RESULTS, SECOND_TARGET, T_STARS, evacuate
 
-REPETITIONS = 3
+REPETITIONS = 5
 HORIZON = 150.0
 
 
@@ -28,7 +28,7 @@ def main() -> None:
         for rep in range(REPETITIONS):
             for name, extra in configs:
                 options = {"scheme": "tsdmd", **extra}
-                command = evacuate(out, dt=DT, seed=501, t_max=HORIZON, **SECOND_TARGET, **options)
+                command = evacuate(out, agents=AGENTS, dt=DT, seed=501, t_max=HORIZON, **SECOND_TARGET, **options)
                 result = subprocess.run(command, capture_output=True, text=True, check=True)
                 wall = float(re.search(r"wall ([\d.]+) s", result.stderr).group(1))
                 times[name].append(wall)

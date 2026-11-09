@@ -61,6 +61,7 @@ struct Params {
     double kick = 0.05;          // EDMD: intervalo delta entre patadas de relajación [s]
     double aim_tolerance = 0.01;  // EDMD analítico: reapunta si la dirección al target cambia más que esto [rad]
     double relax_tolerance = 0.01;  // relajado si |v - v_d e| <= tol v_d
+    double core_reduction = 0.0;  // EDMD puro: choca a distancia r_i + r_j - core_reduction (núcleo duro reducido) [m]
 
     // Configuración de la corrida (no cambia la dinámica).
     double t_max = 4000.0;       // corte de seguridad [s]

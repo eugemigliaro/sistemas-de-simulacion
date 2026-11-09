@@ -9,9 +9,10 @@ Guarda los datos del equipo en experiments/results/maquina.json. El tiempo de ca
 es el del bucle de simulación, medido por el motor (`wall_seconds` en el pie de la salida),
 sin escribir cuadros.
 
-Punto c: N = 500, semillas 501 a 510; híbrido con cada T* de T_STARS, TSDMD y EDMD.
+Punto c: N = AGENTS, semillas 501 a 510; híbrido con cada T* de T_STARS, TSDMD y EDMD.
 Punto d: N en {100, 200, 400, 600, 800, 1000}, semillas 601 a 605, a densidad constante
-(L = 50 m sqrt(N/500)) y a L = 50 m; EDMD puro solo con N <= 600 y 3 semillas.
+(la del sistema base: L = 50 m sqrt(N/AGENTS)) y a L = 50 m; EDMD puro solo con N <= 600 y
+3 semillas. EDMD puro usa la regla de choque elegida (EDMD_OPTIONS).
 """
 from __future__ import annotations
 
@@ -21,9 +22,11 @@ import platform
 import subprocess
 import sys
 
-from common import DT, RAW, RESULTS, SECOND_TARGET, T_STAR, T_STARS, evacuate, run_all
+from common import AGENTS, DT, EDMD_OPTIONS, RAW, RESULTS, SECOND_TARGET, T_STAR, T_STARS, evacuate, run_all
 
 WORKERS = int(os.environ.get("TP5_WORKERS", "4"))
+# Carpeta propia del sistema base: las corridas viejas (N = 500) quedan en tiempos/c y tiempos/d.
+OUT = RAW / "tiempos" / f"base{AGENTS}"
 COUNTS = (100, 200, 400, 600, 800, 1000)
 
 
@@ -43,27 +46,27 @@ def machine() -> None:
 def point_c() -> list:
     jobs = []
     for seed in range(501, 511):
-        base = dict(dt=DT, seed=seed, **SECOND_TARGET)
+        base = dict(agents=AGENTS, dt=DT, seed=seed, **SECOND_TARGET)
         for t_star in T_STARS:
-            path = RAW / "tiempos" / "c" / f"hybrid_tstar{t_star:g}_seed{seed}.txt"
+            path = OUT / "c" / f"hybrid_tstar{t_star:g}_seed{seed}.txt"
             jobs.append((path, evacuate(path, scheme="hybrid", t_star=t_star, **base)))
-        for scheme in ("tsdmd", "edmd"):
-            path = RAW / "tiempos" / "c" / f"{scheme}_seed{seed}.txt"
-            jobs.append((path, evacuate(path, scheme=scheme, **base)))
+        for scheme, extra in (("tsdmd", {}), ("edmd", EDMD_OPTIONS)):
+            path = OUT / "c" / f"{scheme}_seed{seed}.txt"
+            jobs.append((path, evacuate(path, scheme=scheme, **base, **extra)))
     return jobs
 
 
 def point_d() -> list:
     jobs = []
     for n in COUNTS:
-        for variant, side in (("densidad", 50.0 * (n / 500) ** 0.5), ("sala", 50.0)):
+        for variant, side in (("densidad", 50.0 * (n / AGENTS) ** 0.5), ("sala", 50.0)):
             for seed in range(601, 606):
                 base = dict(dt=DT, seed=seed, agents=n, side=round(side, 6), **SECOND_TARGET)
                 schemes = {"tsdmd": {}, "hybrid": {"t_star": T_STAR}}
                 if n <= 600 and seed <= 603:
-                    schemes["edmd"] = {}
+                    schemes["edmd"] = EDMD_OPTIONS
                 for scheme, extra in schemes.items():
-                    path = RAW / "tiempos" / "d" / f"{variant}_n{n}_{scheme}_seed{seed}.txt"
+                    path = OUT / "d" / f"{variant}_n{n}_{scheme}_seed{seed}.txt"
                     jobs.append((path, evacuate(path, scheme=scheme, **base, **extra)))
     return jobs
 

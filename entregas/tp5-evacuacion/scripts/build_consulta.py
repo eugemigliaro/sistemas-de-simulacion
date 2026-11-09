@@ -24,10 +24,12 @@ OUT = ROOT / "consulta"
 
 def population_curves(out: Path = OUT) -> None:
     figure, axis = plt.subplots(figsize=(8.0, 5.4))
-    times = np.linspace(0, 1600, 1601)
+    paths = sorted((RAW / "atascos").glob("noise0_seed*.txt"))
+    runs = [read_run(path) for path in paths]
+    horizon = max(float(run.summary["end_time"]) for run in runs)
+    times = np.linspace(0, horizon, 1601)
     stuck = done = 0
-    for path in sorted((RAW / "atascos").glob("noise0_seed*.txt")):
-        run = read_run(path)
+    for run in runs:
         clogged = run.summary.get("clogged", 0) == 1
         end = float(run.summary["end_time"])
         valid = times <= end
@@ -46,8 +48,8 @@ def population_curves(out: Path = OUT) -> None:
             done += 1
     axis.set_xlabel("Tiempo (s)")
     axis.set_ylabel("Agentes adentro")
-    axis.set_xlim(0, 1600)
-    axis.set_ylim(0, 510)
+    axis.set_xlim(0, horizon)
+    axis.set_ylim(0, 1.02 * runs[0].agents)
     axis.legend(loc="lower left")
     style.save(figure, out / "curvas-poblacion-20-semillas")
     print(f"curvas de población: {done} evacúan, {stuck} se traban")
@@ -100,7 +102,7 @@ def compression(out: Path = OUT, source: str = "tsdmd_seed401.txt", every: int =
     axis.plot(inside, mean, linestyle="none", marker="s", markersize=5, color=style.BLUE, label="media")
     axis.set_xlabel("Agentes adentro")
     axis.set_ylabel("Superposición ξ (cm)")
-    axis.set_xlim(0, 510)
+    axis.set_xlim(0, 1.02 * run.agents)
     axis.set_ylim(0, None)
     axis.legend(loc="upper left")
     style.save(figure, out / "compresion")

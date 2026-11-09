@@ -64,6 +64,19 @@ int main() {
     CHECK(ed.events > 0);
     CHECK(ed.exited + ed.remaining == pt.agents);
 
+    // Núcleo duro reducido: con core_reduction = 0 es la regla de siempre (mismas salidas) y
+    // con un núcleo más chico los agentes siguen saliendo todos o quedando adentro.
+    Params pz = small(Scheme::EventDriven);
+    pz.core_reduction = 0.0;
+    Summary ez;
+    CHECK(run(pz, ez) == run(small(Scheme::EventDriven), ed));
+    Params pr = small(Scheme::EventDriven);
+    pr.core_reduction = 0.02;
+    Summary er;
+    run(pr, er);
+    CHECK(er.events > 0);
+    CHECK(er.exited + er.remaining == pr.agents);
+
     // EDMD con relajación analítica: un choque suave entre agentes casi relajados no se
     // repite en el mismo instante (antes, redondear v a v_d e deshacía el rebote y la
     // corrida quedaba en t = 5,6357 s para siempre con esta configuración).

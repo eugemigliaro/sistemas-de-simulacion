@@ -20,7 +20,7 @@ from tp5analysis.io import read_run
 from tp5analysis.observables import evacuation_time, flow, last_exit, mode_counts, population
 from tp5analysis.stats import clopper_pearson, mean_std
 
-SCHEMES = ("tsdmd", "hybrid", "edmd")
+SCHEMES = ("tsdmd", "hybrid", "edmd", "edmd_nucleo")
 STEP = 1.0           # s, grilla de las curvas de población
 MODE_STEP = 0.25     # s, grilla de los agentes por esquema (el cambio ocurre en los primeros ~40 s)
 MODE_HORIZON = 60.0  # s
@@ -61,7 +61,7 @@ def main() -> None:
                      "wall_finished_mean": wall[0], "wall_finished_std": wall[1],
                      "cost_per_s_mean": cost[0], "cost_per_s_std": cost[1],
                      "events_per_s_mean": events[0], "events_per_s_std": events[1]})
-        print(f"{scheme:6s} trabadas {clogged}/{len(group)} (IC 95 %: {low:.0%}–{high:.0%}); "
+        print(f"{scheme:11s} trabadas {clogged}/{len(group)} (IC 95 %: {low:.0%}–{high:.0%}); "
               f"t_evac = {t_evac[0]:.0f} ± {t_evac[1]:.0f} s y J = {j[0]:.3f} ± {j[1]:.3f} p/s "
               f"({t_evac[2]} terminan); wall = {wall[0]:.0f} ± {wall[1]:.0f} s; "
               f"costo = {cost[0] * 1e3:.1f} ms por s simulado")

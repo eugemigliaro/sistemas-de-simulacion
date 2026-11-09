@@ -8,19 +8,19 @@ from __future__ import annotations
 
 import sys
 
-from common import FIGURES, RAW, VIDEOS, complete
+from common import FIGURES, RAW, T_STAR, VIDEOS, complete
 from tp5analysis.animation import animate
 
 # nombre: (corrida, opciones de animate)
 ANIMATIONS = {
-    "atasco": ("atasco_s104.txt", dict(every=5, color="speed", poster_time=400.0,
-                                       caption="TSDMD: el arco queda quieto y nadie más sale (15× tiempo real)")),
-    "tsdmd": ("tsdmd_seed401.txt", dict(every=10, color="speed", poster_time=300.0,
-                                        caption="TSDMD, N = 500: evacuación completa (30× tiempo real)")),
-    "edmd": ("edmd_seed401.txt", dict(every=10, color="speed", poster_time=300.0,
-                                      caption="EDMD puro, N = 500 (30× tiempo real)")),
+    "atasco": ("atasco_seed405.txt", dict(every=5, color="speed", poster_time=300.0,
+                                          caption="TSDMD, N = 200: el arco queda quieto y nadie más sale (15× tiempo real)")),
+    "tsdmd": ("tsdmd_seed401.txt", dict(every=5, color="speed", poster_time=150.0,
+                                        caption="TSDMD, N = 200: evacuación completa (15× tiempo real)")),
+    "edmd": ("edmd_seed401.txt", dict(every=5, color="speed", poster_time=150.0,
+                                      caption="EDMD puro, N = 200 (15× tiempo real)")),
     "hibrido": ("hybrid_seed401.txt", dict(every=1, color="mode", until=60.0, poster_time=12.0,
-                                           caption="Híbrido, T* = 0,05 s: los primeros 60 s (3× tiempo real)")),
+                                           caption=f"Híbrido, T* = {T_STAR:g} s: los primeros 60 s (3× tiempo real)".replace(".", ","))),
 }
 
 

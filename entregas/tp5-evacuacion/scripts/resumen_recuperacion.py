@@ -1,7 +1,8 @@
-"""Resume el estudio de la recuperación de v_d (run_recuperacion.py, N = 60, L = 15 m): por
-variante, corridas trabadas, t_evac de las que terminan, caudal J de las que llegan al 90 %
-de las salidas, su diferencia con el TSDMD de la misma semilla y el costo por segundo
-simulado. Escribe experiments/results/recuperacion.csv.
+"""Resume el estudio de la recuperación de v_d (run_recuperacion.py): por variante, corridas
+trabadas, t_evac de las que terminan, caudal J de las que llegan al 90 % de las salidas, su
+diferencia con el TSDMD de la misma semilla y el costo por segundo simulado. Escribe
+experiments/results/recuperacion.csv (corridas completas) y recuperacion-ventana.csv (costo
+por segundo simulado en la ventana inicial, incluida la relajación analítica).
 
 Uso: python scripts/resumen_recuperacion.py
 """
@@ -21,6 +22,31 @@ from tp5analysis.stats import mean_std
 
 def reaches(run, fraction: float = 0.9) -> bool:
     return len(run.exits) >= math.ceil(fraction * (run.agents - 1)) + 1
+
+
+def window() -> None:
+    folders = sorted((RAW / "recuperacion").glob("ventana*"))
+    if not folders:
+        return
+    groups: dict[str, list] = {}
+    for path in sorted(folders[0].glob("*_seed*.txt")):
+        key = re.match(r"(.+)_seed\d+", path.stem).group(1)
+        run = read_run(path)
+        if "exited" in run.summary:
+            groups.setdefault(key, []).append(run)
+    rows = []
+    for key in sorted(groups):
+        cost = mean_std(float(r.summary["wall_seconds"]) / float(r.summary["end_time"]) for r in groups[key])
+        events = mean_std(float(r.summary["events"]) / float(r.summary["end_time"]) for r in groups[key])
+        rows.append({"variant": key, "window": float(groups[key][0].summary["end_time"]), "runs": len(groups[key]),
+                     "cost_per_s_mean": cost[0], "cost_per_s_std": cost[1],
+                     "events_per_s_mean": events[0], "events_per_s_std": events[1]})
+        print(f"ventana {key:14s} costo = {cost[0] * 1e3:.2f} ± {cost[1] * 1e3:.2f} ms/s; "
+              f"{events[0]:.0f} eventos/s ({len(groups[key])} corridas)")
+    with open(RESULTS / "recuperacion-ventana.csv", "w", newline="") as fh:
+        writer = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 def main() -> None:
@@ -67,6 +93,7 @@ def main() -> None:
         writer = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         writer.writeheader()
         writer.writerows(rows)
+    window()
 
 
 if __name__ == "__main__":

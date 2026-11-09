@@ -33,8 +33,9 @@ void Writer::header(const Params& p, const std::vector<Agent>& agents) {
           p.target_fraction, std::string(to_string(p.second_target)).c_str(), p.second_target_distance, p.exit_distance);
     print(out_, "# dt %.17g t_star %.17g t_out_factor %.17g speed_bound %.17g relax_check_every %d\n", p.dt, p.t_star,
           p.t_out_factor, p.speed_bound, p.relax_check_every);
-    print(out_, "# relaxation %s kick %.17g aim_tolerance %.17g relax_tolerance %.17g\n",
-          std::string(to_string(p.relaxation)).c_str(), p.kick, p.aim_tolerance, p.relax_tolerance);
+    print(out_, "# relaxation %s kick %.17g aim_tolerance %.17g relax_tolerance %.17g core_reduction %.17g\n",
+          std::string(to_string(p.relaxation)).c_str(), p.kick, p.aim_tolerance, p.relax_tolerance,
+          p.core_reduction);
     print(out_, "# t_max %.17g clog_time %.17g output_dt %.17g seed %llu\n", p.t_max, p.clog_time, p.output_dt,
           static_cast<unsigned long long>(p.seed));
     for (std::size_t i = 0; i < agents.size(); ++i) {

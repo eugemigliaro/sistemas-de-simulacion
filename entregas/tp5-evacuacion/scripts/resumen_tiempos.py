@@ -16,24 +16,25 @@ import sys
 
 import numpy as np
 
-from common import RAW, RESULTS
+from common import AGENTS, RAW, RESULTS
 from resumen_tstar import summarize
 from tp5analysis.io import read_run
 from tp5analysis.observables import evacuation_time
 from tp5analysis.stats import mean_std
 
 SCHEMES = ("tsdmd", "hybrid", "edmd")
+FOLDER = RAW / "tiempos" / f"base{AGENTS}"  # la de run_tiempos.py
 
 
 def point_d() -> None:
     groups: dict[tuple[str, int, str], list] = {}
-    for path in sorted((RAW / "tiempos" / "d").glob("*_seed*.txt")):
+    for path in sorted((FOLDER / "d").glob("*_seed*.txt")):
         variant, n, scheme = re.match(r"(\w+?)_n(\d+)_(\w+)_seed\d+", path.stem).groups()
         run = read_run(path)
         if "exited" in run.summary:
             groups.setdefault((variant, int(n), scheme), []).append(run)
     if not groups:
-        raise SystemExit("no hay corridas terminadas en experiments/raw/tiempos/d")
+        raise SystemExit(f"no hay corridas terminadas en {FOLDER / 'd'}")
     rows = []
     for variant, n, scheme in sorted(groups, key=lambda k: (k[0], k[1], SCHEMES.index(k[2]))):
         runs = groups[(variant, n, scheme)]
@@ -57,7 +58,7 @@ def point_d() -> None:
 
 def paired_c() -> None:
     runs: dict[str, dict[int, object]] = {}
-    for path in sorted((RAW / "tiempos" / "c").glob("*_seed*.txt")):
+    for path in sorted((FOLDER / "c").glob("*_seed*.txt")):
         key, seed = re.match(r"(.+)_seed(\d+)", path.stem).groups()
         run = read_run(path)
         if "exited" in run.summary:
@@ -94,7 +95,7 @@ def paired_c() -> None:
 def main() -> None:
     what = sys.argv[1] if len(sys.argv) > 1 else ""
     if what == "c":
-        summarize(RAW / "tiempos" / "c", "tiempos-c.csv")
+        summarize(FOLDER / "c", "tiempos-c.csv")
         paired_c()
     elif what == "d":
         point_d()

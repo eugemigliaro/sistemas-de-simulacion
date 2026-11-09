@@ -236,3 +236,44 @@ Medidos por Francisco en una Apple M5 Pro (macOS, `g++` es Apple clang 21.0.0, -
 - **T\*:** ningún valor se distingue de otro, así que queda T* = 0,05 s y no se rehacen a, b ni d.
 - **d:** con densidad constante, el costo por segundo simulado crece como N^1,2 para TSDMD e híbrido y como N^2,3 para EDMD; con L = 50 m, N^0,7 y N^2,4. El wall-clock de las que terminan crece como N^2,2 (densidad constante), porque también crece el tiempo de evacuación.
 - **Inferencia:** el exponente menor con la sala fija se explicaría por el costo fijo de recorrer las celdas de una sala grande con pocos agentes (con N = 100 cuesta 2,5 ms/s con L = 50 m y 1,0 ms/s con L = 22 m).
+
+## Consulta con la cátedra (06/11)
+
+- **Masa proporcional al área:** aceptada.
+- **Presentación:** casi sin prosa, todo en bullets, pero con toda la información crucial escrita; seguramente no se llegue a presentar todo, así que nada importante puede quedar solo para decirlo. Los experimentos extra sin efecto significativo van a un apéndice al final. Agregar dibujos explicativos de la implementación, en particular de cómo se modelan los choques en EDMD.
+- **N = 200** en prácticamente todo el TP (la consigna dice N = 500 [TP05, p. 3]), salvo donde N no influye, como la elección del dt o los experimentos de tiempo de cómputo: así se ve más la diferencia con el híbrido y terminan muchas más corridas. Una vez elegido, N se mantiene en todo el TP; 200 fue el primer número que propuso el profesor.
+- **Choques en EDMD:** se puede probar otra forma de modelarlos, más fiel al SFM, aunque quizás no haga falta con N = 200. Si EDMD puro sigue trabándose, la conclusión puede ser simplemente que EDMD no sirve para este sistema (aclaración explícita del profesor).
+
+## Plan después de la consulta (2026-11-09)
+
+Decisiones del grupo (preguntas 1 a 10 de esa fecha):
+
+1. **Sala:** L = 50 m con N = 200 (densidad menor, más vuelo libre).
+2. **Punto c:** se rehace con N = 200, en la computadora de Francisco.
+3. **Punto d:** se rehace entero con el T* y la regla de choque finales; la variante de densidad constante pasa a referirse al sistema nuevo: L = 50 m·√(N/200).
+4. **T\*:** se elige con un benchmark rápido en esta computadora; el punto c oficial viene después (ver [recomendaciones-modificadas.md](recomendaciones-modificadas.md)).
+5. **a y b:** 30 realizaciones por esquema.
+6. **Otra regla de choque en EDMD:** primero EDMD puro con N = 200 y la regla actual. Se prueba la alternativa solo si EDMD se traba significativamente más que TSDMD (intervalos de Clopper–Pearson del 95 % sin superponerse). Si la alternativa tampoco se acerca a TSDMD, la conclusión es que EDMD no sirve para este sistema.
+7. **Alternativa:** núcleo duro reducido, con distancia de choque r_i + r_j − ξ̄ (y r_i − ξ̄/2 contra paredes), donde ξ̄ es la compresión media de los contactos en el tapón de TSDMD con N = 200.
+8. **Recuperación de v_d:** se rehace con N = 200 y L = 50 m, con la regla final y las mismas variantes. Antes, una corrida analítica piloto: si tarda más de 30 min, la analítica se corre solo con 0,01 rad.
+9. **Apéndice:** fluctuación en contacto (30 semillas por amplitud) y segundo target, rehechos con N = 200. En el cuerpo: regla de choque, dt y recuperación de v_d; atascos y compresión, solo si con N = 200 sigue habiendo atascos.
+10. **dt:** se mantiene el estudio con N = 500, en una diapositiva del cuerpo.
+
+## N = 200: TSDMD y EDMD puro, y la regla alternativa (2026-11-09)
+
+- **TSDMD** (semillas 401 a 430): se traban 8 de 30 (IC 95 %: 12–46 %); las 22 que terminan tardan 374 ± 33 s, con J = 0,51 ± 0,04 p/s.
+- **EDMD puro con la regla actual:** se traban 29 de 30 (IC 95 %: 83–100 %), casi todas al principio. Los intervalos no se superponen: por la decisión 6, se prueba la regla alternativa.
+- **ξ̄ para la alternativa** (`medir_compresion.py`, corrida TSDMD de la semilla 401 con N = 200): promedio de los 12 371 contactos a menos de 1,5 m de la puerta, un cuadro por segundo: ξ̄ = 1,06 cm (mediana 0,92 cm, máximo 4,95 cm). Con N = 500 era mayor (hasta 6 cm), porque empuja más gente.
+- **Benchmark de T\*** (`bench_tstar.py`, N = 200, horizonte 150 s, 5 repeticiones): inconcluso por carga externa (carga media de 15 en 8 núcleos). Mínimos: TSDMD 4,82 s, T* = 0,005 s 4,79 s, T* = 0,05 s 4,83 s; se repite con la máquina tranquila (`experiments/logs/bench_tstar-cargado.log`).
+- **Regla alternativa (núcleo reducido en ξ̄ = 1,06 cm):** se traban 26 de 30 (IC 95 %: 69–96 %); las 4 que terminan tardan 425 ± 81 s. Sigue sin superponerse con TSDMD y la mejora frente a la regla original (29 de 30) no es significativa. Por la decisión 6, **la conclusión es que EDMD puro no sirve para este sistema**. Para c, d y la recuperación de v_d se usa la regla original (sin parámetros calibrados); la alternativa va al apéndice, por no tener efecto significativo (pauta de la consulta del 06/11).
+- **Benchmark de T\* con la máquina más tranquila** (carga media ~4): mínimos de 5 repeticiones de 150 s simulados con la semilla 501: TSDMD 4,53 s; T* = 0,002: 4,69; 0,005: 4,58; **0,01: 4,51**; 0,02: 4,75; 0,05: 4,55; 0,1: 5,09; 0,2: 4,83; 0,5: 4,65; 1: 4,96 s. Por la regla del benchmark (menor mínimo, decisión 4) se usa **T\* = 0,01 s**. La diferencia con T* = 0,05 s (0,04 s, menos del 1 %) está dentro del ruido; el punto c oficial lo confirma o lo corrige.
+
+## N = 200: híbrido, apéndice y piloto de la recuperación (2026-11-09)
+
+- **Híbrido (T* = 0,01 s, semillas 401 a 430):** se traban 10 de 30 (IC 95 %: 17–53 %); las 20 que terminan tardan 392 ± 59 s, J = 0,49 ± 0,08 p/s. Equivalente a TSDMD (8 de 30; 374 ± 33 s). Hubo 9 vueltas de TSDMD a EDMD en 30 corridas.
+- **Tiempos medidos acá:** el híbrido costó 42,6 ms por segundo simulado y TSDMD 71,6, pero TSDMD corrió con la máquina muy cargada por otros procesos (carga media ~15) y el híbrido con carga ~4. No se usan: los tiempos oficiales son los del punto c.
+- **Prueba de la compresión con N = 200:** TSDMD con k = 1,2 × 10⁶ N/m y dt = 1 ms en las semillas 401, 403 y 404 (con el k del paper evacúan completas): las tres se trabaron temprano, con 87, 56 y 84 salidas.
+- **Apéndice, fluctuación** (semillas 401 a 430): trabadas 8, 7, 6 y 6 de 30 con 0, 5, 10 y 20 %; intervalos superpuestos, sin efecto significativo.
+- **Apéndice, segundo target** (semillas 301 a 310): ninguna opción se distingue de "alejarse", que se mantiene (regla de la nota 4).
+- **Piloto de la relajación analítica** (tolerancia 0,01 rad, semilla 701): no terminó en 9 h 27 min y se detuvo. Avanza cada vez más lento al formarse el tapón: los primeros 10 s simulados cuestan 0,2 s de reloj, de 10 a 20 s cuestan 44 s y de 20 a 30 s más de 76 s. La decisión 8 no cubre este caso (ni con 0,01 rad es viable): queda consultado con el grupo.
+- **Decisión del grupo sobre la analítica (opción a):** recuperación con N = 200 completa para patadas (δ = 0,01 a 0,2 s), TSDMD e híbrido; además, una ventana de los primeros 30 s simulados con las mismas variantes y la relajación analítica (0,01 rad), para comparar el costo por segundo simulado en la misma ventana. La conclusión esperada es que la analítica no es viable con N = 200.

@@ -1,42 +1,23 @@
-"""Estudio exploratorio de atascos permanentes (para la consulta con la cátedra).
+"""Fluctuación en contacto y atascos (apéndice): TSDMD puro con N = AGENTS, las semillas de
+los puntos a y b (401 a 430) sin fluctuación y con fluctuación de 5, 10 y 20 % de m v_d/tau
+(comparación pareada: mismas condiciones iniciales). Corte por atasco: 300 s sin salidas.
 
-TSDMD puro con N = 500: 20 semillas sin fluctuación y 10 por amplitud de fluctuación en
-contacto (las mismas semillas que las primeras 10 sin fluctuación: comparación pareada).
-Corte por atasco: 300 s sin salidas. Se saltean las salidas ya escritas.
-
-Uso: python scripts/run_atascos.py [trabajos en paralelo]
+Uso: python scripts/run_atascos.py
 """
-from __future__ import annotations
+from common import AGENTS, DT, RAW, SECOND_TARGET, evacuate, run_all
 
-import subprocess
-import sys
-from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
-ENGINE = ROOT / "cpp" / "build" / "release" / "tp5"
-OUT = ROOT / "experiments" / "raw" / "atascos"
-
-RUNS = [(0.0, seed) for seed in range(101, 121)]
-RUNS += [(noise, seed) for noise in (0.05, 0.1, 0.2) for seed in range(101, 111)]
-
-
-def run(noise: float, seed: int) -> str:
-    path = OUT / f"noise{noise:g}_seed{seed}.txt"
-    if path.exists() and "# exited" in path.read_text()[-400:]:
-        return f"{path.name}: ya estaba"
-    command = [str(ENGINE), "evacuate", "--scheme", "tsdmd", "--seed", str(seed), "--noise", f"{noise:g}",
-               "--clog-time", "300", "--t-max", "4000", "--output", str(path)]
-    result = subprocess.run(command, capture_output=True, text=True)
-    return f"{path.name}: {result.stderr.strip()}"
+SEEDS = range(401, 431)
+NOISES = (0.0, 0.05, 0.1, 0.2)
 
 
 def main() -> None:
-    jobs = int(sys.argv[1]) if len(sys.argv) > 1 else 7
-    OUT.mkdir(parents=True, exist_ok=True)
-    with ThreadPoolExecutor(max_workers=jobs) as pool:
-        for line in pool.map(lambda r: run(*r), RUNS):
-            print(line, flush=True)
+    jobs = []
+    for noise in NOISES:
+        for seed in SEEDS:
+            path = RAW / "atascos" / f"noise{noise:g}_seed{seed}.txt"
+            jobs.append((path, evacuate(path, scheme="tsdmd", agents=AGENTS, dt=DT, seed=seed, noise=noise,
+                                        **SECOND_TARGET)))
+    run_all(jobs)
 
 
 if __name__ == "__main__":

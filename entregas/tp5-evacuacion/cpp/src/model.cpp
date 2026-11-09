@@ -80,6 +80,8 @@ void validate(const Params& p) {
     require(p.kick > 0.0, "kick debe ser positivo");
     require(p.relax_tolerance > 0.0 && p.relax_tolerance < 1.0, "relax_tolerance debe estar en (0, 1)");
     require(p.aim_tolerance > 0.0 && p.aim_tolerance < 1.0, "aim_tolerance debe estar en (0, 1)");
+    require(p.core_reduction >= 0.0 && p.core_reduction < 2.0 * p.radius_min,
+            "core_reduction debe estar en [0, 2 radius_min)");
 }
 
 Room::Room(const Params& p)

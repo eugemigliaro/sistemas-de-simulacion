@@ -19,11 +19,16 @@ sys.path.insert(0, str(ROOT / "python" / "src"))
 
 WORKERS = int(os.environ.get("TP5_WORKERS", "7"))
 
+# N = 200 en todo el TP salvo el estudio del dt (consulta del 06/11; la consigna dice 500).
+AGENTS = 200
+
 # Elegidos con los estudios (se actualizan al tenerlos; ver docs/decisiones.md).
 DT = 2e-3            # test del dt (run_dt.py): J no difiere del de 0,5 ms; ver experiments/results/dt.csv
 SECOND_TARGET = {"second_target": "away"}  # estudio del segundo target (run_segundo_target.py)
-T_STAR = 0.05        # punto c reducido (run_tstar.py)
+T_STAR = 0.01        # benchmark de T* con N = 200 (bench_tstar.py): menor mínimo; ver docs/decisiones.md
 T_STARS = (0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0)
+CORE_REDUCTION = 0.0106  # m, compresión media en el tapón de TSDMD con N = 200 (medir_compresion.py)
+EDMD_OPTIONS: dict = {}  # regla de choque de EDMD puro (decisiones 6 y 7 del 2026-11-09)
 
 
 def complete(path: Path) -> bool:

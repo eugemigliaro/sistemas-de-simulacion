@@ -29,6 +29,7 @@ constexpr std::string_view usage =
     "  TSDMD:     --dt 1e-3\n"
     "  hibrido:   --t-star 0.5 --t-out-factor 2 --speed-bound 3 --relax-check-every 10\n"
     "  EDMD:      --relaxation kicks|analytic --kick 0.05 --aim-tolerance 0.01 --relax-tolerance 0.01\n"
+    "             --core-reduction 0 (choca a distancia r_i + r_j - core_reduction; contra paredes, r_i - core_reduction/2)\n"
     "  corrida:   --seed 0 --t-max 4000 --clog-time 300 --output-dt 0 (0: sin cuadros; solo salidas y cambios de modo)\n"
     "             --progress 0 (cada cuantos segundos simulados informar el avance por stderr)\n"
     "\n"
@@ -153,6 +154,7 @@ void run_evacuation(Arguments& a) {
     if (const auto k = a.integer("--relax-check-every")) p.relax_check_every = static_cast<int>(*k);
     if (const auto r = a.text("--relaxation")) p.relaxation = tp5::parse_relaxation(*r);
     a.real_into("--kick", p.kick);
+    a.real_into("--core-reduction", p.core_reduction);
     a.real_into("--aim-tolerance", p.aim_tolerance);
     a.real_into("--relax-tolerance", p.relax_tolerance);
     if (const auto s = a.integer("--seed")) p.seed = *s;

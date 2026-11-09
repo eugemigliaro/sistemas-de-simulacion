@@ -331,8 +331,10 @@ private:
 
     [[nodiscard]] double decay(std::uint32_t i) const noexcept { return norm(w_[i]) / p_.tau; }
 
+    // Núcleo duro reducido: los discos chocan a r_i + r_j - core_reduction, como si estuvieran
+    // comprimidos lo que se comprimen en promedio los contactos del SFM en el tapón.
     [[nodiscard]] double pair_time(std::uint32_t i, std::uint32_t j) const {
-        const double sigma = agents_[i].radius + agents_[j].radius;
+        const double sigma = agents_[i].radius + agents_[j].radius - p_.core_reduction;
         if (!curved(i) && !curved(j)) {
             const double t = contact_time(position(j, now_) - position(i, now_), u_[j] - u_[i], sigma);
             return t < never ? now_ + t : never;
@@ -349,7 +351,7 @@ private:
 
     [[nodiscard]] double wall_time(std::uint32_t i, int w) const {
         const Segment& wall = room_.walls[static_cast<std::size_t>(w)];
-        const double r = agents_[i].radius;
+        const double r = agents_[i].radius - 0.5 * p_.core_reduction;
         if (!curved(i)) {
             const double t = segment_contact_time(agents_[i].position, u_[i], r, wall);
             return t < never ? now_ + t : never;

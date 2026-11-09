@@ -22,6 +22,7 @@ SCHEME_STYLE = {  # color, marcador y nombre de cada esquema
     "tsdmd": (style.STEP, "s", "TSDMD"),
     "hybrid": (style.AQUA, "o", "Híbrido"),
     "edmd": (style.EVENT, "^", "EDMD"),
+    "edmd_nucleo": (style.PURPLE, "D", "EDMD, núcleo reducido"),
 }
 VALUES: dict[str, str] = {}
 
@@ -154,8 +155,9 @@ def scheme_fractions(data: dict) -> None:
         axis.plot(t, mean, color=color, label=label)
     axis.set_xlabel("Tiempo (s)")
     axis.set_ylabel("Agentes adentro")
+    agents = float((data["hybrid_event"][:, 0] + data["hybrid_step"][:, 0]).max())
     axis.set_xlim(0, t[-1])
-    axis.set_ylim(0, 510)
+    axis.set_ylim(0, 1.02 * agents)
     axis.legend(loc="center right")
     style.save(figure, FIGURES / "fraccion-esquemas")
     mean_event = data["hybrid_event"].mean(axis=0)
@@ -186,8 +188,11 @@ def population_curves(data: dict) -> None:
               label="se traba (una corrida)")
     axis.set_xlabel("Tiempo (s)")
     axis.set_ylabel("Agentes adentro")
-    axis.set_xlim(0, min(times[-1], 1700))
-    axis.set_ylim(0, 510)
+    ends = [np.max(np.where(np.isfinite(c))[0]) for k in SCHEME_STYLE if f"{k}_curves" in data
+            for c in data[f"{k}_curves"]]
+    axis.set_xlim(0, times[max(ends)] * 1.02 if ends else times[-1])
+    axis.set_ylim(0, 1.02 * float(np.nanmax([data[f"{k}_curves"][:, 0].max() for k in SCHEME_STYLE
+                                               if f"{k}_curves" in data])))
     axis.legend(loc="lower left", fontsize=16)
     style.save(figure, FIGURES / "poblacion-esquemas")
 
