@@ -24,6 +24,7 @@ SCHEME_STYLE = {  # color, marcador y nombre de cada esquema
     "edmd": (style.EVENT, "^", "EDMD"),
     "edmd_nucleo": (style.PURPLE, "D", "EDMD, núcleo reducido"),
 }
+MAIN = ("tsdmd", "hybrid", "edmd")  # esquemas del cuerpo; edmd_nucleo va al apéndice
 VALUES: dict[str, str] = {}
 
 
@@ -170,7 +171,7 @@ def population_curves(data: dict) -> None:
     times = data["times"]
     figure, axis = plt.subplots(figsize=(8.4, 5.4))
     for scheme, (color, marker, label) in SCHEME_STYLE.items():
-        if f"{scheme}_curves" not in data:
+        if f"{scheme}_curves" not in data or scheme not in MAIN:
             continue
         curves, finished = data[f"{scheme}_curves"], data[f"{scheme}_finished"]
         if finished.sum() >= 2:
@@ -198,8 +199,8 @@ def population_curves(data: dict) -> None:
 
 
 def evacuation_by_scheme() -> None:
-    summary = rows("poblacion.csv")
-    per_run = rows("poblacion-corridas.csv")
+    summary = [r for r in rows("poblacion.csv") if r["scheme"] in MAIN]
+    per_run = [r for r in rows("poblacion-corridas.csv") if r["scheme"] in MAIN]
     if not summary:
         return
     figure, (left, right) = plt.subplots(1, 2, figsize=(10.4, 5.4), gridspec_kw={"wspace": 0.45,
@@ -241,7 +242,7 @@ def evacuation_by_scheme() -> None:
     VALUES["textoEvacuacion"] = "\\\\".join(lines)
     edmd = [p for p in per_run if p["scheme"] == "edmd"]
     if edmd:
-        exited = [int(p["exited"]) for p in edmd]
+        exited = [int(p["exited"]) for p in edmd if p["finished"] == "0"] or [0]  # las trabadas
         VALUES["salidasEDMD"] = f"entre {min(exited)} y {max(exited)}"
         cost = {r["scheme"]: float(r["cost_per_s_mean"]) for r in summary}
         VALUES["costoEDMD"] = number(1e3 * cost["edmd"])  # timing_tstar lo reemplaza con el punto c
@@ -295,7 +296,8 @@ def timing_tstar() -> None:
         mean = np.array([scale * float(r[f"{column}_mean"]) for r in hybrid])
         std = np.array([scale * float(r[f"{column}_std"]) for r in hybrid])
         _reference(axis, pure.get("tsdmd"), column, scale, style.STEP, "TSDMD")
-        _reference(axis, pure.get("edmd"), column, scale, style.EVENT, "EDMD")
+        if axis is right:  # en el izquierdo EDMD aplasta la escala; su valor va en el texto
+            _reference(axis, pure.get("edmd"), column, scale, style.EVENT, "EDMD")
         ok = np.isfinite(mean)
         axis.errorbar(t_star[ok], mean[ok], yerr=std[ok], color=style.AQUA, marker="o", capsize=6,
                       linestyle="none", label="Híbrido")
@@ -345,7 +347,7 @@ def timing_tstar() -> None:
             edmd, tsdmd = float(pure["edmd"]["cost_per_s_mean"]), float(pure["tsdmd"]["cost_per_s_mean"])
             VALUES["costoEDMD"] = number(1e3 * edmd)
             VALUES["costoTSDMD"] = number(1e3 * tsdmd, 1)
-            VALUES["costoRelativoEDMD"] = number(edmd / tsdmd)
+            VALUES["costoRelativoEDMD"] = number(edmd / tsdmd, 1 if edmd / tsdmd < 10 else 0)
         walls = [float(r["wall_finished_mean"]) for r in data if r["wall_finished_mean"] not in ("", "nan")]
         hybrid_walls = [float(r["wall_finished_mean"]) for r in hybrid]
         done = [int(r["finished"]) for r in data if r["scheme"] != "edmd"]
@@ -353,7 +355,21 @@ def timing_tstar() -> None:
         if "tsdmd" in pure:
             reference = float(pure["tsdmd"]["wall_finished_mean"])
             VALUES["tiempoTSDMDc"] = pm(reference, float(pure["tsdmd"]["wall_finished_std"]), 1)
-            VALUES["rangoHibridoc"] = f"{number(min(hybrid_walls), 1)} a {number(max(hybrid_walls), 1)}"
+            VALUES["rangoHibridoc"] = f"{number(min(hybrid_walls), 2)} a {number(max(hybrid_walls), 2)}"
+            std = float(pure["tsdmd"]["wall_finished_std"])
+            inside = all(abs(float(r["wall_finished_mean"]) - reference) <= std + float(r["wall_finished_std"])
+                         for r in hybrid if r["wall_finished_mean"] not in ("", "nan"))
+            VALUES["textoTiemposc"] = (f"Híbrido: {VALUES['rangoHibridoc']} s; TSDMD: ${pm(reference, std, 2)}$ s"
+                                       + (": todo dentro de las barras" if inside else ""))
+            if "edmd" in pure and pure["edmd"]["wall_finished_mean"] not in ("", "nan"):
+                e = pure["edmd"]
+                VALUES["textoTiemposc"] += (f"; EDMD: ${pm(float(e['wall_finished_mean']), float(e['wall_finished_std']), 2)}$ s "
+                                            f"({e['finished']} terminan)")
+            tevac = [r for r in hybrid if r["t_evac_mean"] not in ("", "nan")]
+            ref_t, ref_s = float(pure["tsdmd"]["t_evac_mean"]), float(pure["tsdmd"]["t_evac_std"])
+            same_t = all(abs(float(r["t_evac_mean"]) - ref_t) <= ref_s + float(r["t_evac_std"]) for r in tevac)
+            VALUES["textoTevacc"] = ("Así es: todos los $\\tstar$ quedan dentro de las barras de TSDMD" if same_t
+                                     else "Hay $\\tstar$ que se apartan de TSDMD por fuera de las barras")
         paired = {r["config"]: r for r in rows("tiempos-c-pareado.csv")}
         if "tstar1" in paired:
             r = paired["tstar1"]
@@ -361,8 +377,16 @@ def timing_tstar() -> None:
             VALUES["mismasSalidas"] = f"{r['same_exits']} de {r['pairs']}"
         small = [r for r in paired.values() if r["t_star"] not in ("", None) and float(r["t_star"]) <= 0.2]
         if small:
-            VALUES["rangoPareado"] = (f"{number(min(float(r['cost_ratio_mean']) for r in small), 2)} a "
-                                      f"{number(max(float(r['cost_ratio_mean']) for r in small), 2)}")
+            ratios = [float(r["cost_ratio_mean"]) for r in small]
+            spreads = [float(r["cost_ratio_std"]) for r in small]
+            VALUES["rangoPareado"] = f"{number(min(ratios), 2)} a {number(max(ratios), 2)}"
+            VALUES["textoPareado"] = (f"En promedio, {number(100 * (1 - np.mean(ratios)), 1)}\\,\\% más barato que TSDMD; "
+                                      f"desvío entre semillas de {number(100 * min(spreads))} a {number(100 * max(spreads))}\\,\\%")
+            best = min(small, key=lambda r: float(r["cost_ratio_std"]))
+            n = int(best["pairs"])
+            VALUES["mejorPareado"] = (f"$\\tstar={best['t_star'].replace('.', '{,}')}$ s: "
+                                      f"${pm(float(best['cost_ratio_mean']), float(best['cost_ratio_std']), 3)}$ "
+                                      f"(error estándar {number(float(best['cost_ratio_std']) / n ** 0.5, 3)})")
     else:
         VALUES["maquina"] = "preliminar: esta computadora, 7 corridas a la vez y 5 realizaciones"
 
@@ -407,46 +431,126 @@ def timing_scaling() -> None:
 
 
 def recovery() -> None:
-    data = rows("recuperacion.csv")
-    if not data:
+    """Recuperación de v_d con N = 200: costo por segundo simulado en la ventana inicial (con la
+    relajación analítica, que no termina) y fracción de trabadas de las corridas completas."""
+    full = rows("recuperacion.csv")
+    window = rows("recuperacion-ventana.csv")
+    if not full or not window:
         return
-    figure, axis = plt.subplots(figsize=(8.4, 5.4))
-    axis.axhline(0, color=style.STEP, linewidth=2, linestyle="--")
-    kinds = {"kicks": (style.EVENT, "o", "EDMD con patadas (δ en s)"),
-             "analytic": (style.PURPLE, "D", "EDMD analítica (tolerancia)"),
-             "hybrid": (style.AQUA, "o", "Híbrido"), "tsdmd": (style.STEP, "s", "TSDMD")}
-    for kind, (color, marker, label) in kinds.items():
-        sel = [r for r in data if r["kind"] == kind and r["flow_diff_mean"] not in ("", "nan")]
-        if not sel:
-            continue
-        x = np.array([1e3 * float(r["cost_per_s_mean"]) for r in sel])
-        y = np.array([float(r["flow_diff_mean"]) for r in sel])
-        e = np.array([float(r["flow_diff_std"]) for r in sel])
-        axis.errorbar(x, y, yerr=e, color=color, marker=marker, capsize=5, linestyle="none", label=label)
-        if kind in ("kicks", "analytic"):
-            for xi, yi, r in zip(x, y, sel):
-                axis.annotate(f"{float(r['value']):g}".replace(".", ","), (xi, yi), textcoords="offset points",
-                              xytext=(8, 6), fontsize=13, color=color)
-    axis.set_xscale("log")
-    axis.xaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:g}".replace(".", ",")))
-    axis.set_xlabel("Costo (ms por s simulado)")
-    axis.set_ylabel("J − J$_{TSDMD}$ (agentes/s)")
-    style.comma_axis(axis, "y")
-    axis.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=2, fontsize=14)
+    from tp5analysis.stats import clopper_pearson
+
+    figure, (left, right) = plt.subplots(1, 2, figsize=(12.0, 5.2), gridspec_kw={"wspace": 0.35})
+    win = {r["variant"]: r for r in window}
+    kicks = sorted((r for r in window if r["variant"].startswith("kicks")), key=lambda r: float(r["variant"][5:]))
+    delta = np.array([float(r["variant"][5:]) for r in kicks])
+    cost = np.array([1e3 * float(r["cost_per_s_mean"]) for r in kicks])
+    err = np.array([1e3 * float(r["cost_per_s_std"]) for r in kicks])
+    for key, color, label in (("tsdmd", style.STEP, "TSDMD"), ("hybrid", style.AQUA, "Híbrido"),
+                              ("analytic0.01", style.PURPLE, "EDMD analítica (0,01 rad)")):
+        if key in win:
+            _reference(left, win[key], "cost_per_s", 1e3, color, label)
+    left.errorbar(delta, cost, yerr=err, color=style.EVENT, marker="o", capsize=5, label="EDMD con patadas")
+    left.set_yscale("log")
+    left.set_ylabel("Costo (ms por s simulado)")
+    left.set_title(f"primeros {number(float(window[0]['window']))} s simulados", fontsize=17, color=style.MUTED)
+    left.legend(loc="center right", fontsize=13)
+    by = {r["variant"]: r for r in full}
+    kicks_full = sorted((r for r in full if r["kind"] == "kicks"), key=lambda r: float(r["value"]))
+    d_full = np.array([float(r["value"]) for r in kicks_full])
+    k = np.array([int(r["clogged"]) for r in kicks_full])
+    n = np.array([int(r["runs"]) for r in kicks_full])
+    ci = np.array([clopper_pearson(int(a), int(b)) for a, b in zip(k, n)])
+    p_clog = 100 * k / n
+    for key, color, label in (("tsdmd", style.STEP, "TSDMD"), ("hybrid", style.AQUA, "Híbrido")):
+        if key in by:
+            low, high = clopper_pearson(int(by[key]["clogged"]), int(by[key]["runs"]))
+            right.axhspan(100 * low, 100 * high, color=color, alpha=0.15, linewidth=0)
+            right.axhline(100 * int(by[key]["clogged"]) / int(by[key]["runs"]), color=color, linestyle="--",
+                          linewidth=2, label=label)
+    right.errorbar(d_full, p_clog, yerr=[p_clog - 100 * ci[:, 0], 100 * ci[:, 1] - p_clog], color=style.EVENT,
+                   marker="o", capsize=5, linestyle="none", label="EDMD con patadas")
+    right.set_ylim(0, 105)
+    right.set_ylabel("Corridas trabadas (%)")
+    right.set_title("corridas completas", fontsize=17, color=style.MUTED)
+    right.legend(loc="lower left", fontsize=13)
+    for axis in (left, right):
+        axis.set_xscale("log")
+        axis.set_xticks(delta)
+        axis.set_xticklabels([f"{x:g}".replace(".", ",") for x in delta])
+        axis.minorticks_off()
+        axis.set_xlabel("δ entre patadas (s)")
     style.save(figure, FIGURES / "recuperacion")
-    by = {r["variant"]: r for r in data}
-    kicks = [r for r in data if r["kind"] == "kicks"]
-    analytic = [r for r in data if r["kind"] == "analytic"]
-    if kicks and analytic and "tsdmd" in by:
-        cost = lambda r: 1e3 * float(r["cost_per_s_mean"])
-        reference = cost(by["tsdmd"])
-        best = by.get("analytic0.01", analytic[0])  # tolerancia por omisión del motor
+    if "analytic0.01" in win and "kicks0.05" in win and "tsdmd" in win:
+        an = float(win["analytic0.01"]["cost_per_s_mean"])
+        VALUES["costoAnalitica"] = number(an, 0)
+        VALUES["analiticaSobrePatadas"] = number(an / float(win["kicks0.05"]["cost_per_s_mean"]))
+        VALUES["analiticaSobreTSDMD"] = number(an / float(win["tsdmd"]["cost_per_s_mean"]))
+        VALUES["trabadasPatadas"] = f"{k.min()} a {k.max()} de {n.max()}"
         VALUES["textoRecuperacion"] = (
-            f"Patadas: {number(min(map(cost, kicks)))} a {number(max(map(cost, kicks)))} ms por s simulado, "
-            f"con $J$ igual al de TSDMD. Analítica: {number(min(map(cost, analytic)) / reference)} a "
-            f"{number(max(map(cost, analytic)) / reference)} veces el costo de TSDMD, y con tolerancia "
-            f"{best['value'].replace('.', '{,}')} rad, "
-            f"$J-J_{{\\rm TSDMD}}={pm(float(best['flow_diff_mean']), float(best['flow_diff_std']), 2)}$.")
+            f"\\begin{{puntos}}\\item Analítica: {number(an, 0)} s por s simulado, {VALUES['analiticaSobrePatadas']} "
+            f"veces las patadas ($\\delta=0{{,}}05$ s); no termina\\item Patadas: se traban {k.min()} a {k.max()} "
+            f"de {n.max()}, como EDMD en (a)\\end{{puntos}}")
+
+
+def texts() -> None:
+    """Frases con números para las diapositivas (estudios con N = 200)."""
+    def pct(x) -> str:
+        return number(100 * float(x))
+
+    def overlap(a: dict, b: dict) -> bool:
+        return float(a["p_low"]) <= float(b["p_high"]) and float(b["p_low"]) <= float(a["p_high"])
+
+    summary = {r["scheme"]: r for r in rows("poblacion.csv")}
+    if {"tsdmd", "hybrid"} <= summary.keys():
+        ts, hy = summary["tsdmd"], summary["hybrid"]
+        same_clog = overlap(ts, hy)
+        same_t = abs(float(ts["t_evac_mean"]) - float(hy["t_evac_mean"])) <= float(ts["t_evac_std"]) + float(hy["t_evac_std"])
+        VALUES["textoComparacion"] = ("Híbrido: mismo $t_{\\rm evac}$ y misma fracción de trabadas que TSDMD, dentro de las barras"
+                                      if same_clog and same_t else "Híbrido: difiere de TSDMD por fuera de las barras")
+    if "edmd" in summary:
+        ed = summary["edmd"]
+        VALUES["atascosEDMD"] = f"{ed['clogged']} de {ed['runs']}"
+    if "tsdmd" in summary:
+        VALUES["atascosTSDMD"] = f"{summary['tsdmd']['clogged']} de {summary['tsdmd']['runs']}"
+        VALUES["textoEDMDCurvas"] = f"se traba en {ed['clogged']} de {ed['runs']}, casi siempre al principio"
+    if {"edmd_nucleo", "edmd", "tsdmd"} <= summary.keys():
+        nu, ed, ts = summary["edmd_nucleo"], summary["edmd"], summary["tsdmd"]
+        VALUES["textoNucleo"] = (f"Se traban {nu['clogged']} de {nu['runs']} (IC {pct(nu['p_low'])}--{pct(nu['p_high'])}\\,\\%), "
+                                 f"contra {ed['clogged']} con la regla original y {ts['clogged']} con TSDMD: "
+                                 + ("no se acerca a TSDMD" if not overlap(nu, ts) else "se acerca a TSDMD"))
+    compression = rows("compresion.csv")
+    if compression:
+        VALUES["xiMedio"] = number(100 * float(compression[0]["xi_mean"]), 2)
+    stiff = sorted((RAW / "exploracion").glob("kn*_seed*.txt"))
+    if stiff:
+        from tp5analysis.io import read_run
+
+        runs = [read_run(path) for path in stiff]
+        exits = [len(r.exits) for r in runs]
+        clogged = sum(1 for r in runs if not r.finished)
+        VALUES["textoPruebaK"] = (f"$k$ diez veces mayor (menos compresión): {clogged} de {len(runs)} semillas que "
+                                  f"evacuaban se traban al principio (salen {min(exits)} a {max(exits)} de {runs[0].agents})")
+    fluct = rows("atascos.csv")
+    if fluct:
+        counts = ", ".join(f"{r['clogged']}" for r in fluct[:-1]) + f" y {fluct[-1]['clogged']}"
+        amps = ", ".join(pct(r["noise"]) for r in fluct[:-1]) + f" y {pct(fluct[-1]['noise'])}"
+        same = all(overlap(fluct[0], r) for r in fluct[1:])
+        VALUES["textoFluctuacion"] = (f"Trabadas: {counts} de {fluct[0]['runs']} con {amps}\\,\\%"
+                                      + ("; intervalos superpuestos: sin efecto significativo" if same else ""))
+    target = rows("segundo_target.csv")
+    if target:
+        chosen = next(r for r in target if r["chosen"] == "1")
+        VALUES["textoSegundoTarget"] = ("Todas las opciones se superponen con alejarse: el cuello de botella está adentro"
+                                        if chosen["option"] == "away" else f"La mejor opción es {chosen['option']}")
+
+
+def cost_conclusion() -> None:
+    needed = ("textoPareado", "costoRelativoEDMD", "exponenteDensidadEDMD", "exponenteDensidadTSDMD")
+    if all(k in VALUES for k in needed):
+        saving = VALUES["textoPareado"].split(";")[0].replace("En promedio, ", "")
+        VALUES["conclusionCosto"] = (f"Punto (c), pareado: híbrido {saving}; EDMD puro, {VALUES['costoRelativoEDMD']} "
+                                     f"veces más caro, y con densidad constante crece como $N^{{{VALUES['exponenteDensidadEDMD']}}}$ "
+                                     f"(TSDMD, $N^{{{VALUES['exponenteDensidadTSDMD']}}}$)")
 
 
 def write_values() -> None:
@@ -480,6 +584,8 @@ def main() -> None:
     timing_tstar()
     timing_scaling()
     recovery()
+    texts()
+    cost_conclusion()
     write_values()
 
 

@@ -277,3 +277,20 @@ Decisiones del grupo (preguntas 1 a 10 de esa fecha):
 - **Apéndice, segundo target** (semillas 301 a 310): ninguna opción se distingue de "alejarse", que se mantiene (regla de la nota 4).
 - **Piloto de la relajación analítica** (tolerancia 0,01 rad, semilla 701): no terminó en 9 h 27 min y se detuvo. Avanza cada vez más lento al formarse el tapón: los primeros 10 s simulados cuestan 0,2 s de reloj, de 10 a 20 s cuestan 44 s y de 20 a 30 s más de 76 s. La decisión 8 no cubre este caso (ni con 0,01 rad es viable): queda consultado con el grupo.
 - **Decisión del grupo sobre la analítica (opción a):** recuperación con N = 200 completa para patadas (δ = 0,01 a 0,2 s), TSDMD e híbrido; además, una ventana de los primeros 30 s simulados con las mismas variantes y la relajación analítica (0,01 rad), para comparar el costo por segundo simulado en la misma ventana. La conclusión esperada es que la analítica no es viable con N = 200.
+
+## Recuperación de v_d con N = 200 (2026-11-09)
+
+`run_recuperacion.py` (semillas 701 a 710), resumido en `recuperacion.csv` y `recuperacion-ventana.csv`. Costos medidos con 7 corridas en paralelo y carga externa variable: sirven para comparar órdenes de magnitud, no para el punto c.
+
+- **Corridas completas:** con patadas se traban 10, 9, 9, 8 y 8 de 10 (δ = 0,01; 0,02; 0,05; 0,1; 0,2 s), como EDMD puro en a y b; TSDMD y el híbrido, 3 de 10. Casi no hay pares que terminen, así que el caudal ya no se puede comparar.
+- **Ventana de 30 s:** la relajación analítica (0,01 rad) cuesta 27 ± 19 s de reloj por segundo simulado: 220 veces las patadas con δ = 0,05 s (0,12 s) y 508 veces TSDMD (0,054 s). Las patadas cuestan de 0,27 s (δ = 0,01 s) a 0,04 s (δ = 0,2 s) por segundo simulado.
+- **Conclusión:** en EDMD puro, patadas; la relajación analítica no es viable con N = 200. En el híbrido la recuperación la hace el SFM.
+
+## Puntos c y d con N = 200 (2026-11-09)
+
+Medidos por Francisco en la Apple M5 Pro (Apple clang 21.0.0, -O3), con 4 corridas a la vez, sobre 085af60. El zip de las salidas crudas reproduce exactamente sus tres CSV.
+
+- **c, promedios:** el híbrido tarda 1,16 a 1,26 s con cualquier T* (5 a 9 de 10 terminan); TSDMD 1,26 ± 0,13 s. Todo dentro de las barras. El menor es T* = 0,01 s, como en el benchmark: **queda T\* = 0,01 s** y no se rehace nada. t_evac no depende de T* dentro de las barras.
+- **c, pareado:** con T* = 1 s las salidas son idénticas a las de TSDMD en las 10 semillas y el costo también (1,001 ± 0,019). Con T* ≤ 0,2 s, el costo por segundo simulado sobre el del TSDMD de la misma semilla va de 0,96 a 1,00 (promedio 0,976: un 2,4 % más barato); el más preciso, T* = 0,05 s: 0,973 ± 0,039 (error estándar 0,012). Con N = 500 no se distinguía; con N = 200 el vuelo libre es el 7 % del tiempo-agente.
+- **EDMD puro en c:** 25,6 ms por segundo simulado, 7,6 veces TSDMD (3,4 ms). En estas semillas (501 a 510) terminan 3 de 10.
+- **d:** el costo por segundo simulado crece como N^1,1 (densidad constante) y N^0,7 (L = 50 m) para TSDMD e híbrido, y como N^1,9 y N^2,5 para EDMD puro (hasta N = 600).

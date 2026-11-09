@@ -607,12 +607,12 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \end{frame}
 
 \begin{frame}{Atascos: por qué a veces sí y a veces no}
-\figura{compresion.pdf}{
-\ficha{TSDMD}{\begin{puntos}
+\figura[.58]{compresion.pdf}{
+\ficha{TSDMD, semilla 401}{\begin{puntos}
 \item Contactos a menos de 1,5 m de la puerta
 \end{puntos}}
 \ficha[accent]{Hipótesis: compresión}{\begin{puntos}
-\item Sala llena: los contactos se comprimen y los agentes se cuelan
+\item Sala llena: contactos comprimidos, los agentes se cuelan
 \item Pocos adentro: casi sin compresión, el arco aguanta
 \end{puntos}}
 \ficha{Prueba}{\begin{puntos}
@@ -643,13 +643,14 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \begin{frame}{(c) Comparación con TSDMD semilla por semilla}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{.48\textwidth}
-\ficha{$\tstar\geq0{,}5$ s: nadie es EDMD}{\begin{puntos}
+\ficha{$\tstar=1$ s: nadie es EDMD}{\begin{puntos}
 \item Mismas salidas que TSDMD en \valor{mismasSalidas} semillas
-\item Cuesta \valor{sobrecostoHibrido} más: costo fijo del esquema
+\item Diferencia de costo: \valor{sobrecostoHibrido} (costo fijo del esquema)
 \end{puntos}}
 \ficha{$\tstar\leq0{,}2$ s}{\begin{puntos}
-\item Costo por segundo simulado sobre el TSDMD de la misma semilla: \valor{rangoPareado}
+\item Costo sobre el del TSDMD de la misma semilla: \valor{rangoPareado}
 \item \valor{textoPareado}
+\item Más preciso: \valor{mejorPareado}
 \end{puntos}}
 \end{column}
 \begin{column}{.48\textwidth}
@@ -681,15 +682,18 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \end{frame}
 
 \begin{frame}{Recuperación de $v_d$ en EDMD puro}
-\figura[.6]{recuperacion.pdf}{
-\ficha{$N=200$, 10 realizaciones}{\begin{puntos}
-\item Diferencia de caudal con el TSDMD de la misma semilla
-\end{puntos}}
-\ficha{Resultado}{\valor{textoRecuperacion}}
+\centering\grafico[4.1cm]{recuperacion.pdf}{}\par\smallskip
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.56\textwidth}
+\ficha{$N=200$, 10 realizaciones}{\valor{textoRecuperacion}}
+\end{column}
+\begin{column}{.40\textwidth}
 \ficha[accent]{Conviene}{\begin{puntos}
 \item EDMD puro: patadas
 \item Híbrido: la recupera el SFM, al costo de TSDMD
-\end{puntos}}}
+\end{puntos}}
+\end{column}
+\end{columns}
 \end{frame}
 
 %=====================================================================
@@ -699,12 +703,24 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \begin{frame}{Conclusiones}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{.48\textwidth}
-\ficha{Modelo}{\valor{conclusionModelo}}
-\ficha{Esquema híbrido}{\valor{conclusionHibrido}}
+\ficha{Modelo}{\begin{puntos}
+\item Puerta de 0,8 m: arcos estáticos que la fricción viscosa no rompe; TSDMD se traba en \valor{atascosTSDMD}
+\item La compresión de los contactos explica cuándo: con $k$ mayor se traba antes
+\end{puntos}}
+\ficha{Esquema híbrido}{\begin{puntos}
+\item Reproduce TSDMD: mismo $t_{\rm evac}$ y fracción de trabadas; sin violaciones de la cota
+\item Agentes EDMD solo en el vuelo libre: ninguno a \valor{tiempoVueloLibre}
+\end{puntos}}
 \end{column}
 \begin{column}{.48\textwidth}
-\ficha{EDMD puro}{\valor{conclusionEDMD}}
-\ficha{Costo}{\valor{conclusionCosto}}
+\ficha{EDMD puro}{\begin{puntos}
+\item Se traba casi siempre (\valor{atascosEDMD}), también con núcleo reducido: no sirve para este sistema
+\item Recuperar $v_d$: patadas; la relajación analítica no termina con $N=200$
+\end{puntos}}
+\ficha{Costo}{\begin{puntos}
+\item El híbrido solo ahorra el vuelo libre: \valor{fraccionTSDMD} del tiempo-agente es TSDMD
+\item \valor{conclusionCosto}
+\end{puntos}}
 \end{column}
 \end{columns}
 \end{frame}
@@ -742,7 +758,7 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \begin{frame}{Apéndice: EDMD con núcleo duro reducido}
 \begin{columns}[c,onlytextwidth]
 \begin{column}{.46\textwidth}\centering
-\begin{tikzpicture}[>=Stealth,scale=0.9]
+\begin{tikzpicture}[>=Stealth,scale=0.8]
   \draw[thick,evento,fill=evento!8] (0,0) circle (1.0);
   \draw[thick,paso,fill=paso!8] (1.95,0) circle (0.95);
   \draw[thick,evento!50,dashed] (0,0) circle (1.2);
@@ -755,11 +771,8 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \end{tikzpicture}
 \end{column}
 \begin{column}{.52\textwidth}
-\ficha{Problema}{\begin{puntos}
-\item Discos duros: EDMD puro se traba en \valor{atascosEDMD} corridas
-\item En el SFM los contactos del tapón se comprimen y los agentes se cuelan
-\end{puntos}}
 \ficha{Alternativa}{\begin{puntos}
+\item Discos duros: EDMD puro se traba en \valor{atascosEDMD}; en el SFM los contactos se comprimen
 \item Choque a $r_i+r_j-\bar\xi$; pared a $r_i-\bar\xi/2$
 \item $\bar\xi=\valor{xiMedio}$ cm: compresión media cerca de la puerta en TSDMD
 \item Misma regla de choque y patadas
@@ -775,9 +788,8 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \begin{frame}{Apéndice: fluctuación en contacto}
 \figura{probabilidad-atasco.pdf}{
 \ficha{TSDMD, 30 semillas por amplitud}{\begin{puntos}
-\item Fuerza aleatoria gaussiana solo sobre agentes en contacto
-\item Amplitud: fracción de $m v_d/\tau$; renovada cada 0,1 s
-\item Mismas semillas que (a) y (b)
+\item Fuerza gaussiana solo en contacto, renovada cada 0,1 s
+\item Amplitud: fracción de $m v_d/\tau$
 \end{puntos}}
 \ficha{Resultado}{\begin{puntos}
 \item \valor{textoFluctuacion}
