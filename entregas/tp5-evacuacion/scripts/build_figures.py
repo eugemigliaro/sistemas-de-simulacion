@@ -489,7 +489,7 @@ def recovery() -> None:
         VALUES["textoRecuperacion"] = (
             f"\\begin{{puntos}}\\item Analítica: {number(an, 0)} s por s simulado, {VALUES['analiticaSobrePatadas']} "
             f"veces las patadas ($\\delta=0{{,}}05$ s); no termina\\item Patadas: se traban {k.min()} a {k.max()} "
-            f"de {n.max()}, como EDMD en (a)\\end{{puntos}}")
+            f"de {n.max()}, como EDMD puro con la regla original\\end{{puntos}}")
 
 
 def texts() -> None:
@@ -548,7 +548,7 @@ def cost_conclusion() -> None:
     needed = ("textoPareado", "costoRelativoEDMD", "exponenteDensidadEDMD", "exponenteDensidadTSDMD")
     if all(k in VALUES for k in needed):
         saving = VALUES["textoPareado"].split(";")[0].replace("En promedio, ", "")
-        VALUES["conclusionCosto"] = (f"Punto (c), pareado: híbrido {saving}; EDMD puro, {VALUES['costoRelativoEDMD']} "
+        VALUES["conclusionCosto"] = (f"Semilla por semilla: híbrido {saving}; EDMD puro, {VALUES['costoRelativoEDMD']} "
                                      f"veces más caro, y con densidad constante crece como $N^{{{VALUES['exponenteDensidadEDMD']}}}$ "
                                      f"(TSDMD, $N^{{{VALUES['exponenteDensidadTSDMD']}}}$)")
 

@@ -5,8 +5,8 @@ Duración estimada: **20:32** sin el apéndice. Por pedido de la cátedra (consu
 | Parte | Integrante | Diapositivas | Tiempo |
 |---|---|---|---|
 | Sistema, modelo, EDMD y criterio del híbrido | Eugenio | 1 a 11 | 6:23 |
-| Híbrido, simulaciones, validaciones y animaciones de a | Francisco | 12 a 25 | 7:06 |
-| Puntos b a d, atascos, recuperación de v_d y conclusiones | Franco | 26 a 38 | 7:03 |
+| Híbrido, simulaciones, validaciones y animaciones | Francisco | 12 a 25 | 7:06 |
+| Población, atascos, tiempos de ejecución, recuperación de v_d y conclusiones | Franco | 26 a 38 | 7:03 |
 | Apéndice (solo si preguntan) | cualquiera | 39 a 42 | — |
 
 ## Eugenio — diapositivas 1 a 11 — 6:23
@@ -79,7 +79,7 @@ Pasemos a las simulaciones.
 
 ### 17. Estudios realizados — 0:40
 
-Usamos 200 agentes en todo, salvo en el test del paso temporal, donde N no influye, y en el punto d, que barre N. Todas las variantes de un estudio usan las mismas condiciones iniciales, y cortamos una corrida si pasan 300 segundos sin salidas.
+Usamos 200 agentes en todo, salvo en el test del paso temporal, donde N no influye, y en el escalamiento con N, que barre N. Todas las variantes de un estudio usan las mismas condiciones iniciales, y cortamos una corrida si pasan 300 segundos sin salidas.
 
 ### 18. Observables — 0:40
 
@@ -97,29 +97,29 @@ Simulamos un choque aislado con el SFM blando y un paso muy chico, y lo comparam
 
 A la izquierda, el error del choque más exigente, el de los dos agentes más livianos: con 2 milisegundos es menor al 0,1 %. A la derecha, el caudal de la evacuación completa no cambia entre medio milisegundo y 2. Usamos 2 milisegundos.
 
-### 22. (a) TSDMD puro — 0:25
+### 22. Animación: TSDMD puro — 0:25
 
 TSDMD puro, con el color según la rapidez: se forma un semicírculo frente a la puerta que se va achicando a medida que salen.
 
-### 23. (a) EDMD puro — 0:30
+### 23. Animación: EDMD puro — 0:30
 
 EDMD puro: el tapón se traba al principio y nadie más sale. Pasó en 29 de 30 corridas.
 
-### 24. (a) Híbrido — 0:25
+### 24. Animación: híbrido — 0:25
 
 El híbrido, con los agentes EDMD en azul y los TSDMD en naranja: lejos de la puerta van por eventos, y los que se acercan a otro pasan a paso temporal antes de tocarlo.
 
-### 25. (a) Agentes en cada esquema del híbrido — 0:30
+### 25. Agentes en cada esquema del híbrido — 0:30
 
 En promedio, todos arrancan en EDMD y en unos 30 segundos ya no queda ninguno: después, el tapón es todo TSDMD.
 
 ## Franco — diapositivas 26 a 38 — 7:03
 
-### 26. (b) Curvas de población — 0:30
+### 26. Curvas de población — 0:30
 
 TSDMD y el híbrido se superponen; las punteadas son las corridas trabadas. EDMD puro se corta casi siempre al principio.
 
-### 27. (b) Tiempo de evacuación y atascos — 0:35
+### 27. Tiempo de evacuación y atascos — 0:35
 
 Entre TSDMD y el híbrido no hay diferencias fuera de las barras, ni en el tiempo de evacuación ni en la fracción de trabadas: el híbrido no cambia la física. EDMD puro se traba casi siempre.
 
@@ -131,29 +131,29 @@ Un atasco: dos agentes apoyados en la pared sostienen un arco quieto. La fricci�
 
 Nuestra hipótesis es la compresión: con la sala llena, la presión de la multitud comprime los contactos y los agentes se cuelan por la puerta; cuando quedan pocos, el arco aguanta. Lo probamos con un k diez veces mayor, o sea con menos compresión: las tres semillas que evacuaban se trabaron al principio, como los discos duros del EDMD. Por eso EDMD puro no sirve para este sistema: probamos además una regla con un núcleo duro más chico y tampoco alcanzó; está en el apéndice.
 
-### 30. (c) Tiempo de ejecución en función de T estrella — 0:40
+### 30. Tiempo de ejecución en función de T estrella — 0:40
 
 Los tiempos de c y d son todos de la misma computadora, una Apple M5 Pro. A la izquierda, el tiempo de ejecución de las corridas que terminan; a la derecha, el costo por segundo simulado de todas, con EDMD puro arriba. Con cualquier T estrella, el híbrido tarda lo mismo que TSDMD dentro de las barras: alrededor de 1,2 segundos.
 
-### 31. (c) Tiempo de evacuación en función de T estrella — 0:25
+### 31. Tiempo de evacuación en función de T estrella — 0:25
 
 Si el pase no pierde contactos, el tiempo de evacuación no depende de T estrella, y así es: todos quedan dentro de la banda de TSDMD.
 
-### 32. (c) Comparación con TSDMD semilla por semilla — 0:40
+### 32. Tiempo de ejecución: comparación con TSDMD semilla por semilla — 0:40
 
 Como las variantes comparten condiciones iniciales, comparamos cada corrida con el TSDMD de su misma semilla. Con T estrella de 1 segundo nadie llega a EDMD: las salidas son idénticas y el costo también. Con T estrella más chicos, el híbrido sale en promedio un 2,4 % más barato; con T estrella de 0,05 la diferencia está a más de dos errores estándar. Es lo que permite la cota: el vuelo libre es un 7 % del tiempo-agente.
 
-### 33. (d) Tiempo de ejecución en función de N — 0:30
+### 33. Tiempo de ejecución en función de N — 0:30
 
 A la izquierda, densidad inicial constante; a la derecha, la sala de 50 metros. TSDMD y el híbrido se superponen en todo el rango; EDMD puro solo termina con 100 agentes.
 
-### 34. (d) Costo por segundo simulado en función de N — 0:30
+### 34. Costo por segundo simulado en función de N — 0:30
 
 El costo por segundo simulado de TSDMD y del híbrido crece casi linealmente con N, gracias a las celdas; el de EDMD puro crece casi como N al cuadrado, porque el tapón concentra los choques.
 
 ### 35. Recuperación de v_d en EDMD puro — 0:45
 
-A la izquierda, el costo en los primeros 30 segundos: la relajación analítica cuesta unas 200 veces más que las patadas y no llega a terminar ninguna corrida completa. A la derecha, con patadas casi todas las corridas se traban, como en el punto a. Conviene usar patadas en EDMD puro; en el híbrido, la recuperación la hace el SFM.
+A la izquierda, el costo en los primeros 30 segundos: la relajación analítica cuesta unas 200 veces más que las patadas y no llega a terminar ninguna corrida completa. A la derecha, con patadas casi todas las corridas se traban, como EDMD puro en la comparación de esquemas. Conviene usar patadas en EDMD puro; en el híbrido, la recuperación la hace el SFM.
 
 ### 36. Conclusiones — 0:03
 

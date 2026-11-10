@@ -383,7 +383,7 @@ $m_i$ & $80\text{ kg}\,(r_i/0{,}215\text{ m})^2$
 \[t_{\rm seg}=\frac{d_{ij}-(r_i+r_j)}{|\vect v_i|+V_{\max}}\]
 \ficha{Garantía}{\begin{puntos}
 \item $\tstar\geq\dt$: el pase es antes de cualquier contacto posible
-\item $V_{\max}$ se verifica en cada paso: en (a), rapidez máxima \valor{rapidezMaxima}; violaciones, \valor{violacionesCota}
+\item $V_{\max}$ se verifica en cada paso: en las 30 corridas del híbrido, rapidez máxima \valor{rapidezMaxima}; violaciones, \valor{violacionesCota}
 \end{puntos}}
 \end{column}
 \begin{column}{.46\textwidth}
@@ -468,16 +468,16 @@ $m_i$ & $80\text{ kg}\,(r_i/0{,}215\text{ m})^2$
 \textcolor{itbablue}{\textbf{Estudio}} & Esquema & Variable & \textcolor{itbablue}{\textbf{Realizaciones}}\\
 \midrule
 Paso temporal & TSDMD & $\dt\in\{0{,}5;\,1;\,2\}$ ms, con $N=500$ & 10 por $\dt$\\
-(a) y (b) & los tres & esquema; EDMD con dos reglas de choque & 30 por esquema\\
-(c) & híbrido & $\tstar$ de 0,002 a 1 s & 10 por $\tstar$\\
-(d) & los tres & $N$ de 100 a 1000, dos variantes & 5 por $N$ (EDMD: 3)\\
+Esquemas & los tres & EDMD con dos reglas de choque & 30 por esquema\\
+Tiempo vs.\ $\tstar$ & híbrido & $\tstar$ de 0,002 a 1 s & 10 por $\tstar$\\
+Escalamiento & los tres & $N$ de 100 a 1000, dos variantes & 5 por $N$ (EDMD: 3)\\
 Recuperación de $v_d$ & EDMD & $\delta$ y tolerancia de reapuntado & 10\\
 Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \bottomrule
 \end{tabular}
 \par\medskip
 \begin{puntos}
-\item $N=200$ y $L=50$ m salvo en el paso temporal y en (d)
+\item $N=200$ y $L=50$ m salvo en el paso temporal y en el escalamiento con $N$
 \item Mismas condiciones iniciales en todas las variantes de un estudio (comparaciones pareadas)
 \item Corte: 300 s sin salidas $\Rightarrow$ la corrida se considera trabada
 \end{puntos}
@@ -500,7 +500,7 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \ficha{Tiempo de ejecución}{\begin{puntos}
 \item Principal: wall-clock del bucle, de las corridas que terminan
 \item Complemento: costo por segundo simulado, de todas
-\item (c) y (d): todo en la misma computadora
+\item Todos los tiempos, en la misma computadora
 \end{puntos}}
 \ficha{Promedios}{\begin{puntos}
 \item Un valor por realización; media y desvío estándar entre realizaciones
@@ -538,7 +538,7 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \end{puntos}
 \end{frame}
 
-\begin{frame}{(a) TSDMD puro}
+\begin{frame}{Animación: TSDMD puro}
 \animacion{tsdmd}{\ficha{$N=200$, $\dt=\valor{dtElegido}$ ms}{\begin{puntos}
 \item Todos los agentes, en todos los pasos
 \item Color: rapidez
@@ -546,15 +546,15 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \end{puntos}}}
 \end{frame}
 
-\begin{frame}{(a) EDMD puro}
+\begin{frame}{Animación: EDMD puro}
 \animacion{edmd}{\ficha{Discos duros, patadas cada $\delta=0{,}05$ s}{\begin{puntos}
 \item Se traba en \valor{atascosEDMD} corridas, al principio
 \item Salen \valor{salidasEDMD} agentes antes de trabarse
-\item Costo (c): \valor{costoRelativoEDMD} veces TSDMD
+\item Costo medido en la M5: \valor{costoRelativoEDMD} veces TSDMD
 \end{puntos}}}
 \end{frame}
 
-\begin{frame}{(a) Híbrido}
+\begin{frame}{Animación: híbrido}
 \animacion{hibrido}{\ficha{$\tstar=\valor{tstarElegido}$ s}{\begin{puntos}
 \item \textcolor{evento}{EDMD}: vuelo libre
 \item \textcolor{paso}{TSDMD}: cerca de un contacto posible y en el tapón
@@ -562,7 +562,7 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \end{puntos}}}
 \end{frame}
 
-\begin{frame}{(a) Agentes en cada esquema del híbrido}
+\begin{frame}{Agentes en cada esquema del híbrido}
 \figura{fraccion-esquemas.pdf}{
 \ficha{$\tstar=\valor{tstarElegido}$ s}{\begin{puntos}
 \item Media y desvío de \valor{realizacionesPoblacion} realizaciones
@@ -574,7 +574,7 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \end{puntos}}}
 \end{frame}
 
-\begin{frame}{(b) Curvas de población}
+\begin{frame}{Curvas de población}
 \figura{poblacion-esquemas.pdf}{
 \ficha{$N=200$, 30 realizaciones por esquema}{\begin{puntos}
 \item Línea y banda: media y desvío de las que terminan
@@ -586,7 +586,7 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \end{puntos}}}
 \end{frame}
 
-\begin{frame}{(b) Tiempo de evacuación y atascos}
+\begin{frame}{Tiempo de evacuación y atascos}
 \figura[.68]{tevac-esquemas.pdf}{
 \ficha{De las que terminan}{\valor{textoEvacuacion}}
 \ficha{Referencia: TSDMD}{\begin{puntos}
@@ -620,8 +620,8 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \end{puntos}}}
 \end{frame}
 
-\begin{frame}{(c) Tiempo de ejecución en función de $\tstar$}
-\centering\grafico[4.5cm]{tiempos-tstar.pdf}{}\par\smallskip
+\begin{frame}{Tiempo de ejecución en función de $\tstar$}
+\centering\grafico[4.1cm]{tiempos-tstar.pdf}{}\par\smallskip
 \begin{puntos}
 \item $N=200$, 10 realizaciones por $\tstar$ (terminan \valor{terminanc}); líneas: TSDMD y EDMD puros
 \item Misma computadora: \valor{maquina}
@@ -629,7 +629,7 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \end{puntos}
 \end{frame}
 
-\begin{frame}{(c) Tiempo de evacuación en función de $\tstar$}
+\begin{frame}{Tiempo de evacuación en función de $\tstar$}
 \figura{tevac-tstar.pdf}{
 \ficha{Física}{\begin{puntos}
 \item Si el pase no pierde contactos, $t_{\rm evac}$ no depende de $\tstar$
@@ -640,7 +640,7 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \end{puntos}}}
 \end{frame}
 
-\begin{frame}{(c) Comparación con TSDMD semilla por semilla}
+\begin{frame}{Tiempo de ejecución: comparación con TSDMD semilla por semilla}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{.48\textwidth}
 \ficha{$\tstar=1$ s: nadie es EDMD}{\begin{puntos}
@@ -665,7 +665,7 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \end{columns}
 \end{frame}
 
-\begin{frame}{(d) Tiempo de ejecución en función de $N$}
+\begin{frame}{Tiempo de ejecución en función de $N$}
 \centering\grafico[5.4cm]{escalamiento-wall.pdf}{}\par\smallskip
 \begin{puntos}
 \item Corridas que terminan, de 5 por $N$; hueco: termina una sola
@@ -673,7 +673,7 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \end{puntos}
 \end{frame}
 
-\begin{frame}{(d) Costo por segundo simulado en función de $N$}
+\begin{frame}{Costo por segundo simulado en función de $N$}
 \centering\grafico[5.4cm]{escalamiento-costo.pdf}{}\par\smallskip
 \begin{puntos}
 \item Todas las corridas, incluidas las trabadas; EDMD puro: 3 por $N$, hasta $N=600$
@@ -744,7 +744,7 @@ Apéndice & TSDMD & fluctuación en contacto; segundo target & 30 y 10\\
 \item Estudio formal del segundo target, con más posiciones
 \item Comparar patadas y relajación analítica, no solo patadas
 \item Presentación sin límite estricto de 13 minutos
-\item $\tstar$ elegido con un benchmark propio antes del punto (c) oficial
+\item $\tstar$ elegido con un benchmark propio antes de la medición oficial de tiempos
 \end{puntos}}
 \end{column}
 \end{columns}
