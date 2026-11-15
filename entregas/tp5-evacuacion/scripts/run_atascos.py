@@ -1,12 +1,12 @@
 """Fluctuación en contacto y atascos (apéndice): TSDMD puro con N = AGENTS, las semillas de
-los puntos a y b (401 a 430) sin fluctuación y con fluctuación de 5, 10 y 20 % de m v_d/tau
+los puntos a y b (401 a 450) sin fluctuación y con fluctuación de 5, 10 y 20 % de m v_d/tau
 (comparación pareada: mismas condiciones iniciales). Corte por atasco: 300 s sin salidas.
 
 Uso: python scripts/run_atascos.py
 """
 from common import AGENTS, DT, RAW, SECOND_TARGET, evacuate, run_all
 
-SEEDS = range(401, 431)
+SEEDS = range(401, 451)
 NOISES = (0.0, 0.05, 0.1, 0.2)
 
 

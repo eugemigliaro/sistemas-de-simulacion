@@ -1,4 +1,4 @@
-"""Puntos a y b: los tres esquemas con N = AGENTS, las mismas 30 semillas (401 a 430).
+"""Puntos a y b: los tres esquemas con N = AGENTS, las mismas 50 semillas (401 a 450).
 Además, una corrida con cuadros por esquema para las animaciones (semilla 401).
 
 Uso: python scripts/run_poblacion.py [esquemas...]   (por omisión, tsdmd, hybrid y edmd)
@@ -7,7 +7,7 @@ import sys
 
 from common import AGENTS, CORE_REDUCTION, DT, RAW, SECOND_TARGET, T_STAR, evacuate, run_all
 
-SEEDS = range(401, 431)
+SEEDS = range(401, 451)
 # nombre: opciones (edmd_nucleo es EDMD puro con la regla alternativa, decisión 7 del 2026-11-09).
 SCHEMES = {"tsdmd": {"scheme": "tsdmd"}, "hybrid": {"scheme": "hybrid", "t_star": T_STAR},
            "edmd": {"scheme": "edmd"}, "edmd_nucleo": {"scheme": "edmd", "core_reduction": CORE_REDUCTION}}

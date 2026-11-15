@@ -19,8 +19,9 @@ sys.path.insert(0, str(ROOT / "python" / "src"))
 
 WORKERS = int(os.environ.get("TP5_WORKERS", "7"))
 
-# N = 200 en todo el TP salvo el estudio del dt (consulta del 06/11; la consigna dice 500).
-AGENTS = 200
+# N = 20 en todo el TP salvo el estudio del dt y el punto d (consultas del 06/11 y del 14/11; la consigna
+# dice 500; piloto_n.py: con N = 50 el híbrido ahorra 14 %, menos que el 20 % acordado).
+AGENTS = 20
 
 # Elegidos con los estudios (se actualizan al tenerlos; ver docs/decisiones.md).
 DT = 2e-3            # test del dt (run_dt.py): J no difiere del de 0,5 ms; ver experiments/results/dt.csv

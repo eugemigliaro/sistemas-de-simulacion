@@ -8,17 +8,17 @@ from __future__ import annotations
 
 import sys
 
-from common import FIGURES, RAW, T_STAR, VIDEOS, complete
+from common import AGENTS, FIGURES, RAW, T_STAR, VIDEOS, complete
 from tp5analysis.animation import animate
 
 # nombre: (corrida, opciones de animate)
 ANIMATIONS = {
     "atasco": ("atasco_seed405.txt", dict(every=5, color="speed", poster_time=300.0,
-                                          caption="TSDMD, N = 200: el arco queda quieto y nadie más sale (15× tiempo real)")),
+                                          caption=f"TSDMD, N = {AGENTS}: el arco queda quieto y nadie más sale (15× tiempo real)")),
     "tsdmd": ("tsdmd_seed401.txt", dict(every=5, color="speed", poster_time=150.0,
-                                        caption="TSDMD, N = 200: evacuación completa (15× tiempo real)")),
+                                        caption=f"TSDMD, N = {AGENTS}: evacuación completa")),
     "edmd": ("edmd_seed401.txt", dict(every=5, color="speed", poster_time=150.0,
-                                      caption="EDMD puro, N = 200 (15× tiempo real)")),
+                                      caption=f"EDMD puro, N = {AGENTS}: evacuación completa")),
     "hibrido": ("hybrid_seed401.txt", dict(every=1, color="mode", until=60.0, poster_time=12.0,
                                            caption=f"Híbrido, T* = {T_STAR:g} s: los primeros 60 s (3× tiempo real)".replace(".", ","))),
 }

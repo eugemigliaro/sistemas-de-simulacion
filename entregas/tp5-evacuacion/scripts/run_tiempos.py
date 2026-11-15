@@ -10,7 +10,7 @@ es el del bucle de simulación, medido por el motor (`wall_seconds` en el pie de
 sin escribir cuadros.
 
 Punto c: N = AGENTS, semillas 501 a 510; híbrido con cada T* de T_STARS, TSDMD y EDMD.
-Punto d: N en {100, 200, 400, 600, 800, 1000}, semillas 601 a 605, a densidad constante
+Punto d: N en {20, 50, 100, 200, 500, 1000}, semillas 601 a 605, a densidad constante
 (la del sistema base: L = 50 m sqrt(N/AGENTS)) y a L = 50 m; EDMD puro solo con N <= 600 y
 3 semillas. EDMD puro usa la regla de choque elegida (EDMD_OPTIONS).
 """
@@ -27,7 +27,7 @@ from common import AGENTS, DT, EDMD_OPTIONS, RAW, RESULTS, SECOND_TARGET, T_STAR
 WORKERS = int(os.environ.get("TP5_WORKERS", "4"))
 # Carpeta propia del sistema base: las corridas viejas (N = 500) quedan en tiempos/c y tiempos/d.
 OUT = RAW / "tiempos" / f"base{AGENTS}"
-COUNTS = (100, 200, 400, 600, 800, 1000)
+COUNTS = (20, 50, 100, 200, 500, 1000)
 
 
 def machine() -> None:

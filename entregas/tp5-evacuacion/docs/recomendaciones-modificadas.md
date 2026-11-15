@@ -13,6 +13,8 @@ Registro de las decisiones del TP5 en las que el grupo contradijo o modificó la
 | 2026-11-05 | Contenido de la presentación | Cuerpo de 13 minutos con a–d, los atascos y el híbrido extendido; dt, segundo target, regla de choque y recuperación de v_d en una diapositiva cada uno o como respaldo. | **Puede pasarse de 13 minutos**: los estudios extra entran en el cuerpo. | La consigna pide 13 minutos [TP05, p. 1] y la guía, respetar el tiempo [GPRES, p. 1]: conviene confirmarlo en la consulta del 06/11. |
 | 2026-11-05 | Declaración de uso de IA | Una diapositiva final con agente, modelo y forma de uso, como en el TP4. | **Además, un resumen de las desviaciones registradas en este documento.** | La diapositiva lista las decisiones en las que el grupo modificó la recomendación del agente. |
 | 2026-11-09 | Cómo elegir T* con N = 200 | Que Francisco corra primero el punto c oficial y elegir T* con esos datos: los benchmarks en esta computadora dieron tiempos ruidosos por la carga externa. | **Benchmark rápido en esta computadora** y el punto c oficial después, como la vez anterior. | Si el punto c oficial muestra que otro T* es mejor por fuera de las barras, habría que rehacer a, b y d. |
+| 2026-11-14 | Umbral para quedarse con N = 50 | Ahorro pareado del híbrido de al menos 10 % y a más de 3 errores estándar de 0. | **Al menos 20 %** (y a más de 3 errores estándar). | Es más probable terminar con N = 20. |
+| 2026-11-14 | Cómo elegir T* con el N nuevo | Benchmark rápido en esta computadora, como la vez anterior, para no esperar al punto c. | **Que Francisco corra primero el punto c** y elegir T* con esos datos. | a y b esperan al punto c, y d se corre en una segunda tanda, con el T* elegido. |
 
 ## Notas
 

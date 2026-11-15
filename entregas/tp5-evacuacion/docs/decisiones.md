@@ -294,3 +294,25 @@ Medidos por Francisco en la Apple M5 Pro (Apple clang 21.0.0, -O3), con 4 corrid
 - **c, pareado:** con T* = 1 s las salidas son idénticas a las de TSDMD en las 10 semillas y el costo también (1,001 ± 0,019). Con T* ≤ 0,2 s, el costo por segundo simulado sobre el del TSDMD de la misma semilla va de 0,96 a 1,00 (promedio 0,976: un 2,4 % más barato); el más preciso, T* = 0,05 s: 0,973 ± 0,039 (error estándar 0,012). Con N = 500 no se distinguía; con N = 200 el vuelo libre es el 7 % del tiempo-agente.
 - **EDMD puro en c:** 25,6 ms por segundo simulado, 7,6 veces TSDMD (3,4 ms). En estas semillas (501 a 510) terminan 3 de 10.
 - **d:** el costo por segundo simulado crece como N^1,1 (densidad constante) y N^0,7 (L = 50 m) para TSDMD e híbrido, y como N^1,9 y N^2,5 para EDMD puro (hasta N = 600).
+
+## Segunda consulta con la cátedra (2026-11-14)
+
+- El profesor pidió bajar N de nuevo, a algo como 50, o incluso 20 si hace falta, para que se note más la mejora del híbrido. Con N = 200 el ahorro pareado fue de solo un 2,4 %, porque el vuelo libre es el 7 % del tiempo-agente.
+
+Decisiones del grupo (preguntas 1 a 9 del 2026-11-14):
+
+1. **N:** prueba rápida con N = 50 (10 semillas, híbrido contra TSDMD de la misma semilla). Si el ahorro es de al menos 20 % y está a más de 3 errores estándar de 0, N = 50; si no, N = 20.
+2. **Sala:** L = 50 m.
+3. **a y b:** 50 realizaciones por esquema.
+4. **T\*:** Francisco corre primero el punto c con el N nuevo y se elige T* con esos datos, con la medida principal del tiempo de ejecución (menor tiempo medio de las corridas que terminan). Después corre d con ese T*.
+5. **Punto d:** N ∈ {20, 50, 100, 200, 500, 1000}, en las dos variantes; densidad constante referida al sistema nuevo, L = 50 m·√(N/N_base); EDMD puro con 3 semillas y hasta N = 600.
+6. **EDMD puro:** primero la regla original; si se traba significativamente más que TSDMD, núcleo reducido con el ξ̄ del N nuevo; si tampoco se acerca, EDMD no sirve.
+7. **Recuperación de v_d:** piloto analítico con el N nuevo; si tarda menos de 30 min, estudio completo con las 4 tolerancias; si no, ventana de 30 s.
+8. **Apéndice:** fluctuación, segundo target y prueba con k mayor, rehechos con el N nuevo.
+9. **Resultados de N = 200:** se reemplazan (N = 200 aparece en el barrido de d).
+
+## N = 20 (2026-11-14)
+
+- **Prueba de N** (`piloto_n.py`, semillas 801 a 810, corridas de a una, T* = 0,01 s): con N = 50 el híbrido cuesta 0,856 ± 0,057 veces TSDMD por segundo simulado (ahorro de 14,4 %, error estándar 1,8 %): no llega al 20 % acordado. Con N = 20: 0,667 ± 0,103 (ahorro de 33 %, error estándar 3,3 %). **Queda N = 20.**
+- **TSDMD y EDMD puro con N = 20** (semillas 401 a 450): ninguna corrida se traba en ninguno de los dos (0 de 50; IC 95 %: 0–7 %). t_evac = 35 ± 2 s en ambos y J = 0,71 ± 0,08 p/s. Por la decisión 6, no hace falta la regla alternativa: EDMD puro usa la regla original. En esta computadora EDMD puro costó 0,2 ms por segundo simulado y TSDMD 19,5: los tiempos oficiales son los del punto c.
+- **Costo de la grilla de celdas en salas grandes:** la grilla cubre toda la sala y en cada paso se recorren todas las celdas, aunque estén vacías. En el punto d con densidad constante (L = 50 m·√(N/20), hasta 354 m con N = 1000) ese término crece con el área, es decir, como N.
