@@ -91,7 +91,7 @@ Vamos a los resultados.
 
 ### 20. Validación de la regla de choque — 0:35
 
-Simulamos un choque aislado de dos agentes con el SFM blando y lo comparamos con la regla de disco duro. b es el parámetro de impacto, el desvío entre los centros: cero es un choque frontal. La tangencial coincide para todo b; la normal pierde hasta un 5 % en los choques rasantes.
+Simulamos un choque aislado de dos agentes con el SFM blando y lo resolvemos también con la regla de disco duro. Cada punto es un choque: en x, la velocidad del agente después según la regla; en y, según el SFM. Si la regla es buena, caen sobre la diagonal. Barremos la rapidez de llegada y el parámetro de impacto b, el desvío entre los centros. El error es de hasta 1,6 % de la rapidez, y el mayor es en los choques rasantes.
 
 ### 21. Paso temporal — 0:35
 

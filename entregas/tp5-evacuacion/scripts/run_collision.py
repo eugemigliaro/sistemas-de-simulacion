@@ -1,6 +1,7 @@
 """Choque aislado de dos agentes (`tp5 collision`): valida la regla de choque del EDMD contra
 el contacto blando del SFM y el dt del TSDMD. Escribe experiments/results/collision-rule.csv
-(barrido de rapidez y parámetro de impacto con dt = 0,1 ms) y collision-dt.csv (choque
+(barrido de rapidez y parámetro de impacto con dt = 0,1 ms, con la velocidad de i después
+del choque según el SFM y según la regla) y collision-dt.csv (choque
 frontal de los dos agentes más livianos con varios dt).
 
 Uso: python scripts/run_collision.py
@@ -27,7 +28,7 @@ def main() -> None:
             r = collide(dt=1e-4, speed=speed, offset=offset)
             rows.append({"offset": offset, "speed": speed, **{k: r[k] for k in (
                 "contact_time", "max_overlap", "normal_ratio", "tangential_ratio", "hard_normal_ratio",
-                "hard_tangential_ratio")}})
+                "hard_tangential_ratio", "velocity_i_x", "velocity_i_y", "hard_velocity_i_x", "hard_velocity_i_y")}})
     with open(RESULTS / "collision-rule.csv", "w", newline="") as fh:
         writer = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         writer.writeheader()

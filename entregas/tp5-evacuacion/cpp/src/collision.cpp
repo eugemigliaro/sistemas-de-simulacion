@@ -46,6 +46,7 @@ CollisionResult simulate_collision(const Params& base, const CollisionSetup& set
         const Vec2 rel = vi - vj;
         result.hard_normal_ratio = dot(rel, n0) / vn0;
         result.hard_tangential_ratio = vt0 != 0.0 ? dot(rel, t0) / vt0 : 1.0;
+        result.hard_velocity_i = vi;
     }
 
     Beeman beeman(p, room);
@@ -78,6 +79,7 @@ CollisionResult simulate_collision(const Params& base, const CollisionSetup& set
     const Vec2 rel = agents[0].velocity - agents[1].velocity;
     result.normal_ratio = dot(rel, n_contact) / vn0;
     result.tangential_ratio = vt0 != 0.0 ? dot(rel, t_contact) / vt0 : 1.0;
+    result.velocity_i = agents[0].velocity;
     return result;
 }
 

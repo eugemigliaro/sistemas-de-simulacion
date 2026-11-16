@@ -75,24 +75,43 @@ def rows(name: str) -> list[dict]:
 
 
 def collision_rule() -> None:
+    """Gráfico de paridad: velocidad del agente i después de un choque aislado según la regla de
+    disco duro (x) y según el SFM blando (y), componentes x e y, para cada rapidez y parámetro de
+    impacto. Si la regla reproduce el SFM, los puntos caen sobre la recta y = x."""
     data = rows("collision-rule.csv")
-    if not data:
+    if not data or "velocity_i_x" not in data[0]:
         return
-    figure, axis = plt.subplots(figsize=(7.4, 5.2))
-    vn = np.linspace(0, 2.0, 200)
-    axis.plot(vn, np.exp(-2 * KT * vn / KN), color=style.INK, linewidth=1.8, label=r"disco duro: $e^{-2\kappa v_n/k}$")
-    for offset, color, marker in (("0.2", style.BLUE, "o"), ("0.5", style.ORANGE, "s"), ("0.8", style.AQUA, "^")):
+    figure, axis = plt.subplots(figsize=(7.0, 6.2))
+    values = [float(r[k]) for r in data for k in ("velocity_i_x", "velocity_i_y", "hard_velocity_i_x", "hard_velocity_i_y")]
+    margin = 0.08 * (max(values) - min(values))
+    low, high = min(values) - margin, max(values) + margin
+    axis.plot([low, high], [low, high], color=style.INK, linewidth=1.5, zorder=1, label="y = x")
+    colors = {"0.2": style.BLUE, "0.5": style.ORANGE, "0.8": style.AQUA}
+    for offset, color in colors.items():
         sel = [r for r in data if r["offset"] == offset]
-        v = np.array([float(r["speed"]) for r in sel]) * math.sqrt(1 - float(offset) ** 2)
-        axis.plot(v, [float(r["tangential_ratio"]) for r in sel], linestyle="none", marker=marker, color=color,
-                  label=f"SFM blando, b = {offset.replace('.', ',')} σ")
-    axis.set_xlabel(r"Velocidad normal $v_n$ (m/s)")
-    axis.set_ylabel(r"$v_t$ después / $v_t$ antes")
-    axis.set_xlim(0, 2.0)
-    axis.set_ylim(0, 1)
+        for component, marker in (("x", "o"), ("y", "s")):
+            axis.plot([float(r[f"hard_velocity_i_{component}"]) for r in sel],
+                      [float(r[f"velocity_i_{component}"]) for r in sel], linestyle="none", marker=marker,
+                      color=color, markersize=8, zorder=2)
+    for offset, color in colors.items():
+        axis.plot([], [], linestyle="none", marker="o", color=color, label=f"b = {offset.replace('.', ',')} σ")
+    axis.plot([], [], linestyle="none", marker="o", color=style.MUTED, markerfacecolor="white", label="componente x")
+    axis.plot([], [], linestyle="none", marker="s", color=style.MUTED, markerfacecolor="white", label="componente y")
+    axis.set_xlim(low, high)
+    axis.set_ylim(low, high)
+    axis.set_aspect("equal")
+    axis.set_xticks([-0.25, 0, 0.25, 0.5, 0.75, 1])
+    axis.set_yticks([-0.25, 0, 0.25, 0.5, 0.75, 1])
+    axis.set_xlabel("Regla de disco duro (m/s)")
+    axis.set_ylabel("SFM blando (m/s)")
     style.comma_axis(axis)
-    axis.legend(loc="upper right", fontsize=16)
+    axis.legend(loc="upper left", fontsize=15)
     style.save(figure, FIGURES / "regla-choque")
+    errors = [math.hypot(float(r["velocity_i_x"]) - float(r["hard_velocity_i_x"]),
+                         float(r["velocity_i_y"]) - float(r["hard_velocity_i_y"])) / float(r["speed"]) for r in data]
+    VALUES["errorReglaMax"] = f"{number(100 * max(errors), 1)}\\,\\%"
+    frontal = [e for e, r in zip(errors, data) if r["offset"] == "0.2"]
+    VALUES["errorReglaFrontal"] = f"{number(100 * max(frontal), 1)}\\,\\%"
 
 
 def collision_dt() -> None:

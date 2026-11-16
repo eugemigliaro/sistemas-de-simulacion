@@ -509,3 +509,11 @@ Decisiones del grupo:
 4. **Conclusiones:** se quitan la de κ/k y la de la fracción de trabadas de TSDMD.
 
 **Pregunta del grupo, histéresis en la analítica.** Para volver a EDMD se exige que no haya contacto posible en 2T*, que con T* = 0,005 s es apenas 10 ms. En la cola, un agente que se despega un instante vuelve a EDMD y una alerta lo devuelve enseguida. Los cambios de esquema por corrida bajan con T*: 286 (0,002 s), 187 (0,005), 116 (0,05), 67 (0,2) y 61 (0,5). El mínimo es 60, uno por agente.
+
+## Validación de la regla de choque: gráfico de paridad (2026-11-16)
+
+El gráfico anterior (v_t después / v_t antes en función de v_n, contra e^(−2κv_n/k)) mostraba solo la parte tangencial de la regla, y su eje x (v_n = U √(1 − (b/σ)²)) necesitaba explicación. Decisión del grupo (opción B de tres): **gráfico de paridad**, con la velocidad del agente i después del choque, componentes x e y, según la regla de disco duro (eje x) y según el SFM blando (eje y), para los 24 choques (U de 0,1 a 2 m/s; b = 0,2, 0,5 y 0,8 σ).
+
+`tp5 collision` ahora también escribe esa velocidad con el SFM (`velocity_i_x`, `velocity_i_y`) y con la regla (`hard_velocity_i_x`, `hard_velocity_i_y`). Las columnas anteriores de `collision-rule.csv` y `collision-dt.csv` no cambiaron.
+
+**Resultado:** los puntos caen sobre la recta. El error |Δv_i|/U es de 0,07–0,39 % con b = 0,2σ, de 0,19–0,96 % con 0,5σ y de 0,31–1,61 % con 0,8σ; el máximo, 1,6 %, es el choque rasante a 2 m/s. En la velocidad relativa, la pérdida normal llega al 4,8 % en ese caso: es la rotación de la normal durante el contacto.

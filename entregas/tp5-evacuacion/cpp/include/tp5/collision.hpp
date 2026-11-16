@@ -20,6 +20,8 @@ struct CollisionResult {
     double tangential_ratio = 0.0;  // v_t después / v_t antes (relativa)
     double hard_normal_ratio = 0.0;     // lo mismo con la regla de disco duro
     double hard_tangential_ratio = 0.0;
+    Vec2 velocity_i;        // velocidad de i después del choque, SFM blando [m/s]
+    Vec2 hard_velocity_i;   // lo mismo con la regla de disco duro
 };
 
 [[nodiscard]] CollisionResult simulate_collision(const Params& params, const CollisionSetup& setup);

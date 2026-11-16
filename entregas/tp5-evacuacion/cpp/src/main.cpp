@@ -195,7 +195,11 @@ void run_collision(Arguments& a) {
               << "normal_ratio " << r.normal_ratio << '\n'
               << "tangential_ratio " << r.tangential_ratio << '\n'
               << "hard_normal_ratio " << r.hard_normal_ratio << '\n'
-              << "hard_tangential_ratio " << r.hard_tangential_ratio << '\n';
+              << "hard_tangential_ratio " << r.hard_tangential_ratio << '\n'
+              << "velocity_i_x " << r.velocity_i.x << '\n'
+              << "velocity_i_y " << r.velocity_i.y << '\n'
+              << "hard_velocity_i_x " << r.hard_velocity_i.x << '\n'
+              << "hard_velocity_i_y " << r.hard_velocity_i.y << '\n';
 }
 
 }  // namespace

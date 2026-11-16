@@ -170,7 +170,7 @@ $m_i$ & $80\text{ kg}\,(r_i/0{,}215\text{ m})^2$
 \ficha{Detalles}{\begin{puntos}
 \item Contactos con celdas de lado $\geq2r_{\max}$ (CIM); se recorren solo las ocupadas
 \item $\dt=\valor{dtElegido}$ ms, por convergencia
-\item Cuadros cada $\dt_2$; salidas interpoladas en el paso
+\item Cuadros cada $\dt_2$
 \end{puntos}}
 \end{column}
 \end{columns}
@@ -509,9 +509,10 @@ Segundo target (apéndice) & TSDMD & target afuera & 10\\
 \begin{frame}\sectionpage\end{frame}
 
 \begin{frame}{Validación de la regla de choque}
-\figura[.58]{regla-choque.pdf}{
+\figura[.48]{regla-choque.pdf}{
 \ficha{¿La regla reproduce el SFM?}{\begin{puntos}
-\item Choque aislado de dos agentes, sin deseo: SFM blando contra disco duro
+\item Choque aislado, sin deseo: $i$ llega a 0,1--2 m/s y $j$ está quieto
+\item Cada punto: velocidad de $i$ después, con la regla y con el SFM
 \end{puntos}}
 {\centering
 \begin{tikzpicture}[>=Stealth,scale=0.6]
@@ -522,10 +523,9 @@ Segundo target (apéndice) & TSDMD & target afuera & 10\\
   \draw[dashed,gray] (2.4,0.75) -- (3.5,0.75);
   \draw[<->] (3.4,0) -- (3.4,0.75) node[midway,right,font=\small] {$b$};
 \end{tikzpicture}\par}
-{\centering\small Parámetro de impacto $b$, en unidades de $\sigma=r_i+r_j$ (0: frontal)\par}\vspace{6pt}
+{\centering\small Parámetro de impacto $b$, en unidades de $\sigma=r_i+r_j$\par}\vspace{4pt}
 \ficha{Resultado}{\begin{puntos}
-\item Tangencial: coincide para todo $b$
-\item Normal: hasta 5\,\% de pérdida si es rasante
+\item Sobre la recta: error de hasta \valor{errorReglaMax} de la rapidez de llegada, en los rasantes
 \end{puntos}}}
 \end{frame}
 
