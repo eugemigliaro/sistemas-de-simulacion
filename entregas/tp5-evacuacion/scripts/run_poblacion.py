@@ -5,11 +5,11 @@ Uso: python scripts/run_poblacion.py [esquemas...]   (por omisión, tsdmd, hybri
 """
 import sys
 
-from common import AGENTS, CORE_REDUCTION, DT, RAW, SECOND_TARGET, T_STAR, evacuate, run_all
+from common import AGENTS, CORE_REDUCTION, DT, HYBRID_OPTIONS, RAW, SECOND_TARGET, T_STAR, evacuate, run_all
 
 SEEDS = range(401, 451)
 # nombre: opciones (edmd_nucleo es EDMD puro con la regla alternativa, decisión 7 del 2026-11-09).
-SCHEMES = {"tsdmd": {"scheme": "tsdmd"}, "hybrid": {"scheme": "hybrid", "t_star": T_STAR},
+SCHEMES = {"tsdmd": {"scheme": "tsdmd"}, "hybrid": {"scheme": "hybrid", "t_star": T_STAR, **HYBRID_OPTIONS},
            "edmd": {"scheme": "edmd"}, "edmd_nucleo": {"scheme": "edmd", "core_reduction": CORE_REDUCTION}}
 DEFAULT = ("tsdmd", "hybrid", "edmd")
 

@@ -58,6 +58,23 @@ int main() {
     CHECK(hc.bound_violations == 0);
     CHECK(hc.agent_steps < ts.agent_steps);
 
+    // Híbrido con relajación analítica: con T* enorme nadie es EDMD (igual a TSDMD);
+    // con T* chico hay agentes EDMD con trayectorias curvas, nadie se pierde y la cota vale.
+    Params pa1 = small(Scheme::Hybrid);
+    pa1.relaxation = Relaxation::Analytic;
+    pa1.t_star = 1e6;
+    Summary ha1;
+    CHECK(run(pa1, ha1) == a);
+    Params pa2 = small(Scheme::Hybrid);
+    pa2.relaxation = Relaxation::Analytic;
+    pa2.t_star = 0.02;
+    Summary ha2;
+    run(pa2, ha2);
+    CHECK(ha2.switches > 0);
+    CHECK(ha2.exited + ha2.remaining == pa2.agents);
+    CHECK(ha2.bound_violations == 0);
+    CHECK(ha2.agent_steps < hc.agent_steps);  // vuelve a EDMD sin esperar a relajarse
+
     // EDMD puro: evacúa y procesa eventos.
     Summary ed;
     run(small(Scheme::EventDriven), ed);

@@ -12,7 +12,7 @@ import math
 
 import numpy as np
 
-from common import DT, FIGURES, RAW, RESULTS, ROOT, T_STAR
+from common import AGENTS, DT, FIGURES, HYBRID_OPTIONS, RAW, RESULTS, ROOT, T_STAR
 from tp5analysis import style
 
 import matplotlib.pyplot as plt  # noqa: E402
@@ -28,6 +28,21 @@ MAIN = ("tsdmd", "hybrid", "edmd")  # esquemas del cuerpo; edmd_nucleo va al ap�
 VALUES: dict[str, str] = {}
 
 
+def relative(ratio: float) -> str:
+    """Costo de un esquema relativo a TSDMD, en palabras: "7,6 veces" o "1/140"."""
+    if ratio >= 1:
+        return f"{number(ratio, 1 if ratio < 10 else 0)} veces el de TSDMD"
+    return f"1/{number(1 / ratio)} del de TSDMD"
+
+
+def duration(seconds: float, std: float | None = None) -> str:
+    """Tiempo de ejecución con unidades legibles (ms si es menor a 1 s)."""
+    scale, unit, decimals = (1e3, "ms", 1 if seconds < 0.01 else 0) if seconds < 1 else (1.0, "s", 2)
+    if std is None:
+        return f"{number(scale * seconds, decimals)} {unit}"
+    return f"${pm(scale * seconds, scale * std, decimals)}$ {unit}"
+
+
 def number(value: float, decimals: int = 0) -> str:
     """Número para LaTeX con coma decimal."""
     return f"{value:.{decimals}f}".replace(".", "{,}")
@@ -35,6 +50,19 @@ def number(value: float, decimals: int = 0) -> str:
 
 def pm(mean: float, std: float, decimals: int = 0) -> str:
     return f"{number(mean, decimals)}\\pm{number(std, decimals)}"
+
+
+N200_RAW = RAW / "n200"          # apéndice: atascos con N = 200, como contraste
+N200_RESULTS = RESULTS / "n200"
+
+
+def rows_at(folder, name: str) -> list[dict]:
+    path = folder / name
+    if not path.exists():
+        print(f"falta {path.relative_to(ROOT)}: se omite")
+        return []
+    with open(path) as fh:
+        return list(csv.DictReader(fh))
 
 
 def rows(name: str) -> list[dict]:
@@ -126,15 +154,6 @@ def second_target() -> None:
     style.save(figure, FIGURES / "segundo-target")
 
 
-def clogs() -> None:
-    data = rows("atascos.csv")
-    if not data:
-        return
-    base = next(r for r in data if float(r["noise"]) == 0)
-    VALUES["atascosSinFluctuacion"] = f"{base['clogged']} de {base['runs']}"
-    VALUES["tevacSinFluctuacion"] = pm(float(base["t_evac_mean"]), float(base["t_evac_std"]))
-
-
 def population_data() -> dict | None:
     path = RESULTS / "poblacion-curvas.npz"
     if not path.exists():
@@ -203,8 +222,8 @@ def evacuation_by_scheme() -> None:
     per_run = [r for r in rows("poblacion-corridas.csv") if r["scheme"] in MAIN]
     if not summary:
         return
-    figure, (left, right) = plt.subplots(1, 2, figsize=(10.4, 5.4), gridspec_kw={"wspace": 0.45,
-                                                                               "width_ratios": [2, 3]})
+    figure, (left, right) = plt.subplots(1, 2, figsize=(11.0, 5.4), gridspec_kw={"wspace": 0.45,
+                                                                               "width_ratios": [1, 1]})
     names = [r["scheme"] for r in summary]
     done = [r["scheme"] for r in summary if int(r["finished"]) >= 2]
     for k, r in enumerate(summary):
@@ -235,8 +254,7 @@ def evacuation_by_scheme() -> None:
     for r in summary:
         name = SCHEME_STYLE[r["scheme"]][2]
         if int(r["finished"]) >= 2:
-            lines.append(f"{name}: ${pm(float(r['t_evac_mean']), float(r['t_evac_std']))}$ s, "
-                         f"se traban {r['clogged']} de {r['runs']}")
+            lines.append(f"{name}: ${pm(float(r['t_evac_mean']), float(r['t_evac_std']))}$ s")
         else:
             lines.append(f"{name}: se traban {r['clogged']} de {r['runs']}")
     VALUES["textoEvacuacion"] = "\\\\".join(lines)
@@ -248,7 +266,7 @@ def evacuation_by_scheme() -> None:
         VALUES["costoEDMD"] = number(1e3 * cost["edmd"])  # timing_tstar lo reemplaza con el punto c
         if "tsdmd" in cost:
             VALUES["costoTSDMD"] = number(1e3 * cost["tsdmd"], 1)
-            VALUES["costoRelativoEDMD"] = number(cost["edmd"] / cost["tsdmd"])
+            VALUES["costoRelativoEDMD"] = relative(cost["edmd"] / cost["tsdmd"])
 
 
 def hybrid_fractions() -> None:
@@ -259,6 +277,7 @@ def hybrid_fractions() -> None:
     from tp5analysis.observables import exit_times
 
     isolated = steps = agent_time = violations = top = 0.0
+    busy = []  # fracción de pasos con algún agente TSDMD
     for r in per_run:
         run = read_run(ROOT / "experiments" / "raw" / "poblacion" / f"hybrid_seed{r['seed']}.txt")
         isolated += run.summary["isolated_unrelaxed_steps"]
@@ -267,9 +286,21 @@ def hybrid_fractions() -> None:
         steps += run.summary["agent_steps"]
         inside = np.concatenate([exit_times(run), np.full(run.agents - len(run.exits), run.summary["end_time"])])
         agent_time += inside.sum()
+        from tp5analysis.observables import mode_counts
+
+        grid = np.arange(0.0, float(run.summary["end_time"]), DT)
+        busy.append(float((mode_counts(run, grid)[1] > 0).mean()))
     VALUES["aisladosSinRelajar"] = f"el {number(100 * isolated / steps, 2)}\\,\\%"
     VALUES["fraccionTSDMD"] = f"el {number(100 * steps * DT / agent_time, 1)}\\,\\%"
     VALUES["rapidezMaxima"] = f"{number(top, 2)}~m/s"
+    VALUES["pasosConTSDMD"] = f"el {number(100 * float(np.mean(busy)))}\\,\\%"
+    switched = [len({int(i) for t, i, m in read_run(ROOT / "experiments" / "raw" / "poblacion" / f"hybrid_seed{r['seed']}.txt").modes
+                     if m == 0 and t > 0}) for r in per_run]
+    VALUES["agentesAlgunaVezTSDMD"] = f"el {number(100 * np.mean(switched) / AGENTS)}\\,\\%"
+    back = [sum(1 for t, i, m in read_run(ROOT / "experiments" / "raw" / "poblacion" / f"hybrid_seed{r['seed']}.txt").modes
+                if m == 1 and t > 0) for r in per_run]
+    VALUES["vueltasEDMD"] = number(float(np.mean(back)), 0 if np.mean(back) >= 1 else 2)
+    VALUES["vueltasEDMDtotal"] = f"{sum(back)} en {len(back)} corridas"
     VALUES["violacionesCota"] = "ninguna" if violations == 0 else str(int(violations))
 
 
@@ -283,112 +314,139 @@ def _reference(axis, row: dict | None, column: str, scale: float, color: str, la
 
 
 def timing_tstar() -> None:
-    official = (RESULTS / "tiempos-c.csv").exists()
-    data = rows("tiempos-c.csv" if official else "tstar.csv")
+    """Punto c: tiempo de ejecución y t_evac en función de T* para las dos variantes del
+    híbrido (relajación analítica y recuperación por el SFM; la principal, en lleno, es la de
+    HYBRID_OPTIONS), con TSDMD y EDMD puros de referencia; valores del pareado por semilla."""
+    data = rows("tiempos-c.csv")
     if not data:
         return
-    hybrid = [r for r in data if r["t_star"] != ""]
+    main = "analitica" if HYBRID_OPTIONS.get("relaxation") == "analytic" else "sfm"
+    variants = {"analitica": (style.AQUA, "o", "Híbrido, relajación analítica"),
+                "sfm": (style.PURPLE, "D", "Híbrido, relaja el SFM")}
     pure = {r["scheme"]: r for r in data if r["t_star"] == ""}
-    t_star = np.array([float(r["t_star"]) for r in hybrid])
+    by_variant = {v: [r for r in data if r.get("variant") == v] for v in variants}
+    every = [float(r["t_star"]) for r in data if r["t_star"] != ""]
     figure, (left, right) = plt.subplots(1, 2, figsize=(12.0, 5.2), gridspec_kw={"wspace": 0.35})
-    for axis, column, scale, label in ((left, "wall_finished", 1.0, "Tiempo de ejecución (s)"),
+    for axis, column, scale, label in ((left, "wall_finished", 1e3, "Tiempo de ejecución (ms)"),
                                        (right, "cost_per_s", 1e3, "Costo (ms por s simulado)")):
-        mean = np.array([scale * float(r[f"{column}_mean"]) for r in hybrid])
-        std = np.array([scale * float(r[f"{column}_std"]) for r in hybrid])
         _reference(axis, pure.get("tsdmd"), column, scale, style.STEP, "TSDMD")
         if axis is right:  # en el izquierdo EDMD aplasta la escala; su valor va en el texto
             _reference(axis, pure.get("edmd"), column, scale, style.EVENT, "EDMD")
-        ok = np.isfinite(mean)
-        axis.errorbar(t_star[ok], mean[ok], yerr=std[ok], color=style.AQUA, marker="o", capsize=6,
-                      linestyle="none", label="Híbrido")
+        for variant, (color, marker, text) in variants.items():
+            sel = by_variant[variant]
+            if not sel:
+                continue
+            x = np.array([float(r["t_star"]) for r in sel])
+            mean = np.array([scale * float(r[f"{column}_mean"]) for r in sel])
+            std = np.array([scale * float(r[f"{column}_std"]) for r in sel])
+            ok = np.isfinite(mean)
+            axis.errorbar(x[ok], mean[ok], yerr=std[ok], color=color, marker=marker, capsize=5, linestyle="none",
+                          label=text, markerfacecolor=color if variant == main else "white")
         axis.set_xscale("log")
-        axis.set_xlim(t_star.min() / 1.6, t_star.max() * 1.6)
+        axis.set_xlim(min(every) / 1.6, max(every) * 1.6)
         axis.set_xlabel("T* (s)")
         axis.set_ylabel(label)
         axis.xaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:g}".replace(".", ",")))
-    right.set_yscale("log")
+    low, high = right.get_ylim()
+    if high / max(low, 1e-12) > 10:  # EDMD muy por encima: escala logarítmica
+        right.set_yscale("log")
     right.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:g}".replace(".", ",")))
     left.set_title("corridas que terminan", fontsize=17, color=style.MUTED)
     right.set_title("todas las corridas", fontsize=17, color=style.MUTED)
-    right.legend(loc="center right", fontsize=15)
+    handles, labels = right.get_legend_handles_labels()
+    figure.legend(handles, labels, loc="lower center", bbox_to_anchor=(0.5, 0.98), ncol=4, fontsize=15)
     style.save(figure, FIGURES / "tiempos-tstar")
 
     figure, axis = plt.subplots(figsize=(7.6, 5.2))
-    mean = np.array([float(r["t_evac_mean"]) for r in hybrid])
-    std = np.array([float(r["t_evac_std"]) for r in hybrid])
     _reference(axis, pure.get("tsdmd"), "t_evac", 1.0, style.STEP, "TSDMD")
-    ok = np.isfinite(mean)
-    axis.errorbar(t_star[ok], mean[ok], yerr=std[ok], color=style.AQUA, marker="o", capsize=6, linestyle="none",
-                  label="Híbrido")
+    for variant, (color, marker, text) in variants.items():
+        sel = by_variant[variant]
+        if not sel:
+            continue
+        x = np.array([float(r["t_star"]) for r in sel]) * (1.08 if variant != main else 1.0)
+        mean = np.array([float(r["t_evac_mean"]) for r in sel])
+        std = np.array([float(r["t_evac_std"]) for r in sel])
+        ok = np.isfinite(mean)
+        axis.errorbar(x[ok], mean[ok], yerr=std[ok], color=color, marker=marker, capsize=5, linestyle="none",
+                      label=text, markerfacecolor=color if variant == main else "white")
     axis.set_xscale("log")
-    axis.set_xlim(t_star.min() / 1.6, t_star.max() * 1.6)
-    low, high = axis.get_ylim()
-    axis.set_ylim(low - 0.08 * (high - low), high)
-    for x, r in zip(t_star, hybrid):
-        axis.annotate(f"{int(r['runs']) - int(r['clogged'])}/{r['runs']}", (x, axis.get_ylim()[0]),
-                      textcoords="offset points", xytext=(0, 6), ha="center", fontsize=13, color=style.MUTED)
-    axis.annotate("terminan:", (t_star.min() / 1.6, axis.get_ylim()[0]), textcoords="offset points",
-                  xytext=(4, 24), fontsize=13, color=style.MUTED)
+    axis.set_xlim(min(every) / 1.6, max(every) * 1.6)
     axis.xaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:g}".replace(".", ",")))
     axis.set_xlabel("T* (s)")
     axis.set_ylabel("Tiempo de evacuación (s)")
-    axis.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=2, fontsize=15)
+    axis.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=2, fontsize=13)
     style.save(figure, FIGURES / "tevac-tstar")
-    if official:
-        import json
 
-        info = json.loads((RESULTS / "maquina.json").read_text())
-        model = next((line.split(":", 1)[1].strip() for line in info.get("lscpu", "").splitlines()
-                      if line.startswith("Model name")), info.get("sysctl") or info.get("processor") or "?")
-        compiler = info.get("g++", "").splitlines()[0] if info.get("g++") else "?"
-        compiler = compiler.replace(" version", "").split(" (")[0]
-        VALUES["maquina"] = f"{model}, {compiler} con -O3; {info.get('workers', '?')} corridas a la vez"
-        if "edmd" in pure and "tsdmd" in pure:
-            edmd, tsdmd = float(pure["edmd"]["cost_per_s_mean"]), float(pure["tsdmd"]["cost_per_s_mean"])
-            VALUES["costoEDMD"] = number(1e3 * edmd)
-            VALUES["costoTSDMD"] = number(1e3 * tsdmd, 1)
-            VALUES["costoRelativoEDMD"] = number(edmd / tsdmd, 1 if edmd / tsdmd < 10 else 0)
-        walls = [float(r["wall_finished_mean"]) for r in data if r["wall_finished_mean"] not in ("", "nan")]
-        hybrid_walls = [float(r["wall_finished_mean"]) for r in hybrid]
-        done = [int(r["finished"]) for r in data if r["scheme"] != "edmd"]
-        VALUES["terminanc"] = f"{min(done)} a {max(done)} de {data[0]['runs']}"
-        if "tsdmd" in pure:
-            reference = float(pure["tsdmd"]["wall_finished_mean"])
-            VALUES["tiempoTSDMDc"] = pm(reference, float(pure["tsdmd"]["wall_finished_std"]), 1)
-            VALUES["rangoHibridoc"] = f"{number(min(hybrid_walls), 2)} a {number(max(hybrid_walls), 2)}"
-            std = float(pure["tsdmd"]["wall_finished_std"])
-            inside = all(abs(float(r["wall_finished_mean"]) - reference) <= std + float(r["wall_finished_std"])
-                         for r in hybrid if r["wall_finished_mean"] not in ("", "nan"))
-            VALUES["textoTiemposc"] = (f"Híbrido: {VALUES['rangoHibridoc']} s; TSDMD: ${pm(reference, std, 2)}$ s"
-                                       + (": todo dentro de las barras" if inside else ""))
-            if "edmd" in pure and pure["edmd"]["wall_finished_mean"] not in ("", "nan"):
-                e = pure["edmd"]
-                VALUES["textoTiemposc"] += (f"; EDMD: ${pm(float(e['wall_finished_mean']), float(e['wall_finished_std']), 2)}$ s "
-                                            f"({e['finished']} terminan)")
-            tevac = [r for r in hybrid if r["t_evac_mean"] not in ("", "nan")]
-            ref_t, ref_s = float(pure["tsdmd"]["t_evac_mean"]), float(pure["tsdmd"]["t_evac_std"])
-            same_t = all(abs(float(r["t_evac_mean"]) - ref_t) <= ref_s + float(r["t_evac_std"]) for r in tevac)
-            VALUES["textoTevacc"] = ("Así es: todos los $\\tstar$ quedan dentro de las barras de TSDMD" if same_t
-                                     else "Hay $\\tstar$ que se apartan de TSDMD por fuera de las barras")
-        paired = {r["config"]: r for r in rows("tiempos-c-pareado.csv")}
-        if "tstar1" in paired:
-            r = paired["tstar1"]
-            VALUES["sobrecostoHibrido"] = (f"{number(100 * (float(r['cost_ratio_mean']) - 1), 1)}\\,\\%")
-            VALUES["mismasSalidas"] = f"{r['same_exits']} de {r['pairs']}"
-        small = [r for r in paired.values() if r["t_star"] not in ("", None) and float(r["t_star"]) <= 0.2]
-        if small:
-            ratios = [float(r["cost_ratio_mean"]) for r in small]
-            spreads = [float(r["cost_ratio_std"]) for r in small]
-            VALUES["rangoPareado"] = f"{number(min(ratios), 2)} a {number(max(ratios), 2)}"
-            VALUES["textoPareado"] = (f"En promedio, {number(100 * (1 - np.mean(ratios)), 1)}\\,\\% más barato que TSDMD; "
-                                      f"desvío entre semillas de {number(100 * min(spreads))} a {number(100 * max(spreads))}\\,\\%")
-            best = min(small, key=lambda r: float(r["cost_ratio_std"]))
-            n = int(best["pairs"])
-            VALUES["mejorPareado"] = (f"$\\tstar={best['t_star'].replace('.', '{,}')}$ s: "
-                                      f"${pm(float(best['cost_ratio_mean']), float(best['cost_ratio_std']), 3)}$ "
-                                      f"(error estándar {number(float(best['cost_ratio_std']) / n ** 0.5, 3)})")
-    else:
-        VALUES["maquina"] = "preliminar: esta computadora, 7 corridas a la vez y 5 realizaciones"
+    import json
+
+    info = json.loads((RESULTS / "maquina.json").read_text())
+    model = next((line.split(":", 1)[1].strip() for line in info.get("lscpu", "").splitlines()
+                  if line.startswith("Model name")), info.get("sysctl") or info.get("processor") or "?")
+    model = model.replace("11th Gen Intel(R) Core(TM) ", "Intel Core ").replace(" @ 2.80GHz", "")
+    first = info.get("g++", "").splitlines()[0] if info.get("g++") else "?"
+    # "g++ (Ubuntu 15.2.0-16ubuntu1) 15.2.0" -> "g++ 15.2.0"; "Apple clang version 21.0.0 (...)" -> "Apple clang 21.0.0"
+    compiler = (f"g++ {first.split()[-1]}" if first.startswith("g++")
+                else first.replace(" version", "").split(" (")[0])
+    VALUES["maquina"] = f"{model}, {compiler} con -O3; {info.get('workers', '?')} corridas a la vez"
+    if "edmd" in pure and "tsdmd" in pure:
+        edmd, tsdmd = float(pure["edmd"]["cost_per_s_mean"]), float(pure["tsdmd"]["cost_per_s_mean"])
+        VALUES["costoEDMD"] = number(1e3 * edmd, 2)
+        VALUES["costoTSDMD"] = number(1e3 * tsdmd, 1)
+        VALUES["costoRelativoEDMD"] = relative(edmd / tsdmd)
+    done = [int(r["finished"]) for r in data if r["scheme"] != "edmd"]
+    VALUES["terminanc"] = f"{min(done)} a {max(done)} de {data[0]['runs']}"
+    if "tsdmd" in pure:
+        reference, std = float(pure["tsdmd"]["wall_finished_mean"]), float(pure["tsdmd"]["wall_finished_std"])
+        parts = []
+        for variant, (_, _, text) in variants.items():
+            walls = [float(r["wall_finished_mean"]) for r in by_variant[variant]]
+            if walls:
+                parts.append(f"{text.replace('Híbrido, ', '')}: {duration(min(walls))} a {duration(max(walls))}")
+        VALUES["textoTiemposc"] = "Híbrido " + "; ".join(parts) + f"; TSDMD: {duration(reference, std)}"
+        if "edmd" in pure and pure["edmd"]["wall_finished_mean"] not in ("", "nan"):
+            e = pure["edmd"]
+            VALUES["textoTiemposc"] += f"; EDMD: {duration(float(e['wall_finished_mean']), float(e['wall_finished_std']))}"
+        ref_t, ref_s = float(pure["tsdmd"]["t_evac_mean"]), float(pure["tsdmd"]["t_evac_std"])
+        tevac = [r for v in variants for r in by_variant[v] if r["t_evac_mean"] not in ("", "nan")]
+        same_t = all(abs(float(r["t_evac_mean"]) - ref_t) <= ref_s + float(r["t_evac_std"]) for r in tevac)
+        VALUES["textoTevacc"] = ("Así es: las dos variantes, con todos los $\\tstar$, quedan dentro de las barras de TSDMD"
+                                 if same_t else "Hay $\\tstar$ que se apartan de TSDMD por fuera de las barras")
+    paired = [r for r in rows("tiempos-c-pareado.csv") if r.get("variant")]
+    for variant, key in (("analitica", "Analitica"), ("sfm", "SFM")):
+        sel = [r for r in paired if r["variant"] == variant]
+        at = next((r for r in sel if abs(float(r["t_star"]) - T_STAR) < 1e-12), None)
+        if at:
+            n = int(at["pairs"])
+            VALUES[f"costoHibrido{key}"] = number(float(at["cost_ratio_mean"]), 2)
+            VALUES[f"pareado{key}"] = (f"${pm(float(at['cost_ratio_mean']), float(at['cost_ratio_std']), 2)}$ "
+                                       f"(error estándar {number(float(at['cost_ratio_std']) / n ** 0.5, 2)})")
+        if sel:
+            ratios = [float(r["cost_ratio_mean"]) for r in sel]
+            VALUES[f"rangoPareado{key}"] = f"{number(min(ratios), 2)} a {number(max(ratios), 2)}"
+    from tp5analysis.io import read_run
+
+    folder = RAW / "tiempos" / f"base{AGENTS}" / "c"
+    isolated = steps = 0.0
+    for path in sorted(folder.glob(f"hybrid_tstar{T_STAR:g}_seed*.txt")):
+        run = read_run(path)
+        isolated += run.summary.get("isolated_unrelaxed_steps", 0.0)
+        steps += run.summary.get("agent_steps", 0.0)
+    if steps:
+        VALUES["aisladosSinRelajarSFM"] = f"el {number(100 * isolated / steps)}\\,\\%"
+    # Semilla por semilla, solo donde terminan los dos (un atasco en uno solo rompe el pareo),
+    # y cambios de esquema y eventos por corrida de cada variante con el T* elegido.
+    tsdmd = {path.stem.split("seed")[1]: read_run(path) for path in folder.glob("tsdmd_seed*.txt")}
+    for prefix, key in (("hybridan", "Analitica"), ("hybrid", "SFM")):
+        runs = {path.stem.split("seed")[1]: read_run(path) for path in folder.glob(f"{prefix}_tstar{T_STAR:g}_seed*.txt")}
+        if not runs:
+            continue
+        both = [s for s in runs if s in tsdmd and runs[s].finished and tsdmd[s].finished]
+        ratios = [float(runs[s].summary["wall_seconds"]) / float(tsdmd[s].summary["wall_seconds"]) for s in both]
+        if len(ratios) >= 2:
+            VALUES[f"pareadoTerminan{key}"] = (f"${pm(float(np.mean(ratios)), float(np.std(ratios, ddof=1)), 2)}$ "
+                                               f"({len(ratios)} pares)")
+        VALUES[f"cambios{key}"] = number(float(np.mean([r.summary["switches"] for r in runs.values()])))
+        VALUES[f"eventos{key}"] = number(float(np.mean([r.summary["events"] for r in runs.values()])))
 
 
 def timing_scaling() -> None:
@@ -417,13 +475,20 @@ def timing_scaling() -> None:
                         VALUES[f"exponente{variant.capitalize()}{text.replace('í', 'i')}"] = number(slope, 1)
             axis.set_xscale("log")
             axis.set_yscale("log")
-            axis.set_xticks([100, 200, 400, 600, 1000])
-            axis.set_xticklabels(["100", "200", "400", "600", "1000"])
+            ticks = sorted({int(r["agents"]) for r in data})
+            axis.set_xticks(ticks)
+            axis.set_xticklabels([str(n) for n in ticks])
             axis.minorticks_off()
             axis.set_xlabel("Agentes N")
             axis.set_title(title, fontsize=17, color=style.MUTED)
         axes[0].set_ylabel(label)
         axes[0].legend(loc="upper left", fontsize=15)
+        if column == "cost_per_s":
+            dens = {(r["scheme"], int(r["agents"])): float(r["cost_per_s_mean"]) for r in data if r["variant"] == "densidad"}
+            counts = sorted({n for _, n in dens})
+            for n, key in ((counts[0], "hibridoSobreTSDMDchico"), (counts[-1], "hibridoSobreTSDMDgrande")):
+                if ("hybrid", n) in dens and ("tsdmd", n) in dens:
+                    VALUES[key] = number(dens[("hybrid", n)] / dens[("tsdmd", n)], 2)
         if column == "wall_finished":
             axes[1].annotate("hueco: termina una sola corrida", (1, 0), xycoords="axes fraction", xytext=(-6, 8),
                              textcoords="offset points", ha="right", fontsize=13, color=style.MUTED)
@@ -431,69 +496,57 @@ def timing_scaling() -> None:
 
 
 def recovery() -> None:
-    """Recuperación de v_d con N = 200: costo por segundo simulado en la ventana inicial (con la
-    relajación analítica, que no termina) y fracción de trabadas de las corridas completas."""
-    full = rows("recuperacion.csv")
-    window = rows("recuperacion-ventana.csv")
-    if not full or not window:
+    """Recuperación de v_d: diferencia de caudal con el TSDMD de la misma semilla contra el costo
+    por segundo simulado de cada variante (patadas con varios delta y relajación analítica con
+    varias tolerancias; TSDMD y el híbrido como referencias)."""
+    data = rows("recuperacion.csv")
+    if not data:
         return
-    from tp5analysis.stats import clopper_pearson
-
-    figure, (left, right) = plt.subplots(1, 2, figsize=(12.0, 5.2), gridspec_kw={"wspace": 0.35})
-    win = {r["variant"]: r for r in window}
-    kicks = sorted((r for r in window if r["variant"].startswith("kicks")), key=lambda r: float(r["variant"][5:]))
-    delta = np.array([float(r["variant"][5:]) for r in kicks])
-    cost = np.array([1e3 * float(r["cost_per_s_mean"]) for r in kicks])
-    err = np.array([1e3 * float(r["cost_per_s_std"]) for r in kicks])
-    for key, color, label in (("tsdmd", style.STEP, "TSDMD"), ("hybrid", style.AQUA, "Híbrido"),
-                              ("analytic0.01", style.PURPLE, "EDMD analítica (0,01 rad)")):
-        if key in win:
-            _reference(left, win[key], "cost_per_s", 1e3, color, label)
-    left.errorbar(delta, cost, yerr=err, color=style.EVENT, marker="o", capsize=5, label="EDMD con patadas")
-    left.set_yscale("log")
-    left.set_ylabel("Costo (ms por s simulado)")
-    left.set_title(f"primeros {number(float(window[0]['window']))} s simulados", fontsize=17, color=style.MUTED)
-    left.legend(loc="center right", fontsize=13)
-    by = {r["variant"]: r for r in full}
-    kicks_full = sorted((r for r in full if r["kind"] == "kicks"), key=lambda r: float(r["value"]))
-    d_full = np.array([float(r["value"]) for r in kicks_full])
-    k = np.array([int(r["clogged"]) for r in kicks_full])
-    n = np.array([int(r["runs"]) for r in kicks_full])
-    ci = np.array([clopper_pearson(int(a), int(b)) for a, b in zip(k, n)])
-    p_clog = 100 * k / n
-    for key, color, label in (("tsdmd", style.STEP, "TSDMD"), ("hybrid", style.AQUA, "Híbrido")):
-        if key in by:
-            low, high = clopper_pearson(int(by[key]["clogged"]), int(by[key]["runs"]))
-            right.axhspan(100 * low, 100 * high, color=color, alpha=0.15, linewidth=0)
-            right.axhline(100 * int(by[key]["clogged"]) / int(by[key]["runs"]), color=color, linestyle="--",
-                          linewidth=2, label=label)
-    right.errorbar(d_full, p_clog, yerr=[p_clog - 100 * ci[:, 0], 100 * ci[:, 1] - p_clog], color=style.EVENT,
-                   marker="o", capsize=5, linestyle="none", label="EDMD con patadas")
-    right.set_ylim(0, 105)
-    right.set_ylabel("Corridas trabadas (%)")
-    right.set_title("corridas completas", fontsize=17, color=style.MUTED)
-    right.legend(loc="lower left", fontsize=13)
-    for axis in (left, right):
-        axis.set_xscale("log")
-        axis.set_xticks(delta)
-        axis.set_xticklabels([f"{x:g}".replace(".", ",") for x in delta])
-        axis.minorticks_off()
-        axis.set_xlabel("δ entre patadas (s)")
+    figure, axis = plt.subplots(figsize=(8.6, 5.4))
+    axis.axhline(0, color=style.STEP, linewidth=2, linestyle="--")
+    kinds = {"kicks": (style.EVENT, "o", "EDMD con patadas (δ en s)"),
+             "analytic": (style.PURPLE, "D", "EDMD analítica (tolerancia en rad)"),
+             "hybrid": (style.AQUA, "o", "Híbrido"), "tsdmd": (style.STEP, "s", "TSDMD")}
+    for kind, (color, marker, label) in kinds.items():
+        sel = [r for r in data if r["kind"] == kind and r["flow_diff_mean"] not in ("", "nan")]
+        if not sel:
+            continue
+        x = np.array([1e3 * float(r["cost_per_s_mean"]) for r in sel])
+        y = np.array([float(r["flow_diff_mean"]) for r in sel])
+        e = np.array([float(r["flow_diff_std"]) for r in sel])
+        axis.errorbar(x, y, yerr=e, color=color, marker=marker, capsize=5, linestyle="none", label=label)
+        if kind in ("kicks", "analytic"):
+            for xi, yi, r in zip(x, y, sel):
+                axis.annotate(f"{float(r['value']):g}".replace(".", ","), (xi, yi), textcoords="offset points",
+                              xytext=(6, 6), fontsize=13, color=color)
+    axis.set_xscale("log")
+    axis.xaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:g}".replace(".", ",")))
+    axis.set_xlabel("Costo (ms por s simulado)")
+    axis.set_ylabel("J − J$_{TSDMD}$ (agentes/s)")
+    style.comma_axis(axis, "y")
+    axis.legend(loc="lower center", bbox_to_anchor=(0.5, 1.0), ncol=2, fontsize=13)
     style.save(figure, FIGURES / "recuperacion")
-    if "analytic0.01" in win and "kicks0.05" in win and "tsdmd" in win:
-        an = float(win["analytic0.01"]["cost_per_s_mean"])
-        VALUES["costoAnalitica"] = number(an, 0)
-        VALUES["analiticaSobrePatadas"] = number(an / float(win["kicks0.05"]["cost_per_s_mean"]))
-        VALUES["analiticaSobreTSDMD"] = number(an / float(win["tsdmd"]["cost_per_s_mean"]))
-        VALUES["trabadasPatadas"] = f"{k.min()} a {k.max()} de {n.max()}"
+    by = {r["variant"]: r for r in data}
+    kicks = [r for r in data if r["kind"] == "kicks"]
+    analytic = [r for r in data if r["kind"] == "analytic"]
+    if kicks and analytic and "kicks0.05" in by:
+        cost = lambda r: float(r["cost_per_s_mean"])
+        reference = cost(by["kicks0.05"])
+        clogged = sum(int(r["clogged"]) for r in data)
+        within = all(abs(float(r["flow_diff_mean"])) <= float(r["flow_diff_std"]) for r in kicks + analytic
+                     if r["flow_diff_mean"] not in ("", "nan"))
         VALUES["textoRecuperacion"] = (
-            f"\\begin{{puntos}}\\item Analítica: {number(an, 0)} s por s simulado, {VALUES['analiticaSobrePatadas']} "
-            f"veces las patadas ($\\delta=0{{,}}05$ s); no termina\\item Patadas: se traban {k.min()} a {k.max()} "
-            f"de {n.max()}, como EDMD puro con la regla original\\end{{puntos}}")
+            "\\begin{puntos}"
+            + ("\\item Patadas y analítica: el mismo caudal que TSDMD, dentro de las barras" if within else "")
+            + f"\\item Analítica: {number(min(map(cost, analytic)) / reference, 1)} a "
+              f"{number(max(map(cost, analytic)) / reference, 1)} veces el costo de las patadas con $\\delta=0{{,}}05$ s"
+            + (f"\\item Ninguna corrida se traba" if clogged == 0 else f"\\item Se traban {clogged} corridas en total")
+            + "\\end{puntos}")
 
 
 def texts() -> None:
-    """Frases con números para las diapositivas (estudios con N = 200)."""
+    """Frases con números para las diapositivas: el cuerpo con N = AGENTS, el apéndice de
+    atascos con N = AGENTS (arco, rigidez y fricción) y, como contraste, con N = 200."""
     def pct(x) -> str:
         return number(100 * float(x))
 
@@ -507,41 +560,180 @@ def texts() -> None:
         same_t = abs(float(ts["t_evac_mean"]) - float(hy["t_evac_mean"])) <= float(ts["t_evac_std"]) + float(hy["t_evac_std"])
         VALUES["textoComparacion"] = ("Híbrido: mismo $t_{\\rm evac}$ y misma fracción de trabadas que TSDMD, dentro de las barras"
                                       if same_clog and same_t else "Híbrido: difiere de TSDMD por fuera de las barras")
-    if "edmd" in summary:
-        ed = summary["edmd"]
-        VALUES["atascosEDMD"] = f"{ed['clogged']} de {ed['runs']}"
-    if "tsdmd" in summary:
-        VALUES["atascosTSDMD"] = f"{summary['tsdmd']['clogged']} de {summary['tsdmd']['runs']}"
-        VALUES["textoEDMDCurvas"] = f"se traba en {ed['clogged']} de {ed['runs']}, casi siempre al principio"
-    if {"edmd_nucleo", "edmd", "tsdmd"} <= summary.keys():
-        nu, ed, ts = summary["edmd_nucleo"], summary["edmd"], summary["tsdmd"]
+    for scheme, key in (("tsdmd", "atascosTSDMD"), ("hybrid", "atascosHibrido"), ("edmd", "atascosEDMD")):
+        if scheme in summary:
+            r = summary[scheme]
+            VALUES[key] = f"{r['clogged']} de {r['runs']}"
+            VALUES[key + "IC"] = f"{r['clogged']} de {r['runs']} (IC {pct(r['p_low'])}--{pct(r['p_high'])}\\,\\%)"
+    if set(MAIN) <= summary.keys():
+        same = overlap(summary["tsdmd"], summary["edmd"]) and overlap(summary["tsdmd"], summary["hybrid"])
+        VALUES["textoAtascos"] = ("intervalos superpuestos: los tres se traban igual" if same
+                                  else "hay intervalos que no se superponen")
+    if {"tsdmd", "edmd"} <= summary.keys():
+        ts, ed = summary["tsdmd"], summary["edmd"]
+        same_t = abs(float(ts["t_evac_mean"]) - float(ed["t_evac_mean"])) <= float(ts["t_evac_std"]) + float(ed["t_evac_std"])
+        VALUES["textoEDMDCurvas"] = (f"se traba en {ed['clogged']} de {ed['runs']}"
+                                     + ("; misma evacuación que TSDMD dentro de las barras" if same_t and overlap(ts, ed) else ""))
+    per_run = [r for r in rows("poblacion-corridas.csv") if r["scheme"] == "tsdmd" and r["finished"] == "0"]
+    if per_run:
+        left = [AGENTS - int(r["exited"]) for r in per_run]
+        last = [float(r["last_exit"]) for r in per_run]
+        VALUES["quedanTrabadas"] = f"{min(left)} a {max(left)}"
+        VALUES["ultimaSalidaTrabadas"] = f"{number(min(last))} a {number(max(last))} s"
+    # Apéndice: rigidez y fricción con N = AGENTS.
+    stiff = {r["variant"]: r for r in rows("rigidez.csv")}
+    for name, key in (("paper", "Paper"), ("k10", "Kdiez"), ("k10_kappa10", "KKappaDiez")):
+        if name in stiff:
+            r = stiff[name]
+            VALUES[f"trabadas{key}"] = f"{r['clogged']} de {r['runs']} (IC {pct(r['p_low'])}--{pct(r['p_high'])}\\,\\%)"
+            VALUES[f"tevac{key}"] = f"${pm(float(r['t_evac_mean']), float(r['t_evac_std']), 1)}$ s"
+            if name != "paper":
+                VALUES[f"diferencia{key}"] = f"${pm(float(r['dt_evac_mean']), float(r['dt_evac_std']), 1)}$ s"
+    # Apéndice: contraste con N = 200.
+    old = {r["scheme"]: r for r in rows_at(N200_RESULTS, "poblacion.csv")}
+    for scheme, key in (("tsdmd", "atascosTSDMDdoscientos"), ("edmd", "atascosEDMDdoscientos")):
+        if scheme in old:
+            VALUES[key] = f"{old[scheme]['clogged']} de {old[scheme]['runs']}"
+    if {"edmd_nucleo", "edmd", "tsdmd"} <= old.keys():
+        nu, ed, ts = old["edmd_nucleo"], old["edmd"], old["tsdmd"]
         VALUES["textoNucleo"] = (f"Se traban {nu['clogged']} de {nu['runs']} (IC {pct(nu['p_low'])}--{pct(nu['p_high'])}\\,\\%), "
                                  f"contra {ed['clogged']} con la regla original y {ts['clogged']} con TSDMD: "
                                  + ("no se acerca a TSDMD" if not overlap(nu, ts) else "se acerca a TSDMD"))
-    compression = rows("compresion.csv")
+    compression = rows_at(N200_RESULTS, "compresion.csv")
     if compression:
         VALUES["xiMedio"] = number(100 * float(compression[0]["xi_mean"]), 2)
-    stiff = sorted((RAW / "exploracion").glob("kn*_seed*.txt"))
-    if stiff:
+    old_stiff = sorted((N200_RAW / "exploracion").glob("kn*_seed*.txt"))
+    if old_stiff:
         from tp5analysis.io import read_run
 
-        runs = [read_run(path) for path in stiff]
+        runs = [read_run(path) for path in old_stiff]
         exits = [len(r.exits) for r in runs]
         clogged = sum(1 for r in runs if not r.finished)
-        VALUES["textoPruebaK"] = (f"$k$ diez veces mayor (menos compresión): {clogged} de {len(runs)} semillas que "
-                                  f"evacuaban se traban al principio (salen {min(exits)} a {max(exits)} de {runs[0].agents})")
-    fluct = rows("atascos.csv")
-    if fluct:
-        counts = ", ".join(f"{r['clogged']}" for r in fluct[:-1]) + f" y {fluct[-1]['clogged']}"
-        amps = ", ".join(pct(r["noise"]) for r in fluct[:-1]) + f" y {pct(fluct[-1]['noise'])}"
-        same = all(overlap(fluct[0], r) for r in fluct[1:])
-        VALUES["textoFluctuacion"] = (f"Trabadas: {counts} de {fluct[0]['runs']} con {amps}\\,\\%"
-                                      + ("; intervalos superpuestos: sin efecto significativo" if same else ""))
+        VALUES["textoPruebaKdoscientos"] = (f"$k\\times10$: {clogged} de {len(runs)} semillas que evacuaban se traban "
+                                            f"al principio (salen {min(exits)} a {max(exits)} de {runs[0].agents})")
     target = rows("segundo_target.csv")
     if target:
         chosen = next(r for r in target if r["chosen"] == "1")
         VALUES["textoSegundoTarget"] = ("Todas las opciones se superponen con alejarse: el cuello de botella está adentro"
                                         if chosen["option"] == "away" else f"La mejor opción es {chosen['option']}")
+
+
+def contact_compression(path) -> tuple[list, list]:
+    """Agentes adentro y superposición media (cm) de los contactos a menos de 1,5 m de la puerta."""
+    from tp5analysis.io import iter_frames, read_run
+
+    run = read_run(path)
+    door = np.array([0.5 * float(run.params["side"]), 0.0])
+    every = max(1, round(len(run.exits) / 6))  # unos 6 cuadros por salida
+    inside, mean = [], []
+    for frame in iter_frames(path, every=every):
+        near = np.linalg.norm(frame.position - door, axis=1) < 1.5
+        if near.sum() < 2:
+            continue
+        x, r = frame.position[near], run.radius[frame.ids[near]]
+        xi = r[:, None] + r[None, :] - np.linalg.norm(x[:, None] - x[None, :], axis=2)
+        xi = xi[np.triu_indices(len(r), 1)]
+        xi = xi[xi > 0]
+        if len(xi):
+            inside.append(len(frame.ids))
+            mean.append(100 * xi.mean())
+    return inside, mean
+
+
+def compression_contrast() -> None:
+    """Apéndice: compresión de los contactos cerca de la puerta, N = AGENTS contra N = 200
+    (TSDMD, semilla 401, una corrida que termina en cada caso)."""
+    sources = ((RAW / "animaciones" / "tsdmd_seed401.txt", style.BLUE, "o", f"N = {AGENTS}"),
+               (N200_RAW / "animaciones" / "tsdmd_seed401.txt", style.ORANGE, "s", "N = 200"))
+    if not all(path.exists() for path, *_ in sources):
+        print("faltan las animaciones de TSDMD para la compresión: se omite")
+        return
+    figure, axis = plt.subplots(figsize=(7.6, 5.2))
+    means = {}
+    for path, color, marker, label in sources:
+        inside, mean = contact_compression(path)
+        axis.plot(inside, mean, linestyle="none", marker=marker, markersize=5, color=color, label=label)
+        means[label] = mean
+    axis.set_xlabel("Agentes adentro")
+    axis.set_ylabel("Superposición media ξ (cm)")
+    axis.set_xlim(0, None)
+    axis.set_ylim(0, None)
+    style.comma_axis(axis, "y")
+    axis.legend(loc="upper left")
+    style.save(figure, FIGURES / "compresion")
+    low = means[f"N = {AGENTS}"]
+    VALUES["compresionN"] = f"{number(min(low), 1)} a {number(max(low), 1)} cm"
+    high = means["N = 200"]
+    VALUES["compresionDoscientos"] = f"hasta {number(max(high), 1)} cm"
+
+
+def stiffness() -> None:
+    """Apéndice: TSDMD con los parámetros del paper, con k diez veces mayor y con k y kappa
+    diez veces mayores (mismas semillas): fracción de trabadas y t_evac de las que terminan."""
+    data = rows("rigidez.csv")
+    if not data:
+        return
+    labels = {"paper": "paper", "k10": "k×10", "k10_kappa10": "k, κ\n×10"}
+    colors = {"paper": style.STEP, "k10": style.PURPLE, "k10_kappa10": style.AQUA}
+    figure, (left, right) = plt.subplots(1, 2, figsize=(9.0, 5.2), gridspec_kw={"wspace": 0.45})
+    for k, r in enumerate(data):
+        color = colors[r["variant"]]
+        p, low, high = (100 * float(r[c]) for c in ("p_clog", "p_low", "p_high"))
+        left.errorbar(k, p, yerr=[[p - low], [high - p]], color=color, marker="o", capsize=8, markersize=11,
+                      linestyle="none")
+        left.annotate(f"{r['clogged']}/{r['runs']}", (k, p), textcoords="offset points", xytext=(12, -5),
+                      fontsize=16, color=style.MUTED)
+        right.errorbar(k, float(r["t_evac_mean"]), yerr=float(r["t_evac_std"]), color=color, marker="o",
+                       capsize=8, markersize=11, linestyle="none")
+    for axis in (left, right):
+        axis.set_xticks(range(len(data)))
+        axis.set_xticklabels([labels[r["variant"]] for r in data], fontsize=16)
+        axis.set_xlim(-0.6, len(data) - 0.4)
+        axis.grid(axis="x", visible=False)
+    left.set_ylabel("Corridas trabadas (%)")
+    left.set_ylim(0, 60)
+    right.set_ylabel("Tiempo de evacuación (s)")
+    right.set_ylim(0, None)
+    style.save(figure, FIGURES / "rigidez")
+
+
+def choose_n() -> None:
+    """Apéndice: estudio para elegir N, costo del híbrido sobre el de TSDMD y sobre el de EDMD
+    puro semilla por semilla, con barras de 3 errores estándar (el criterio)."""
+    data = rows("elegir-n.csv")
+    if not data:
+        return
+    n = np.array([int(r["agents"]) for r in data])
+    figure, axis = plt.subplots(figsize=(8.4, 5.2))
+    axis.axhline(1, color=style.MUTED, linewidth=1.5, linestyle="--")
+    for other, color, marker, label, shift in (("tsdmd", style.STEP, "s", "híbrido / TSDMD", -0.8),
+                                                 ("edmd", style.EVENT, "^", "híbrido / EDMD puro", 0.8)):
+        mean = np.array([float(r[f"hybrid_over_{other}_mean"]) for r in data])
+        se = np.array([float(r[f"hybrid_over_{other}_se"]) for r in data])
+        axis.errorbar(n + shift, mean, yerr=3 * se, color=color, marker=marker, capsize=5, linestyle="none", label=label)
+    chosen = [r for r in data if r["hybrid_best"] == "1"]
+    for r in chosen:
+        axis.axvspan(int(r["agents"]) - 4, int(r["agents"]) + 4, color=style.AQUA, alpha=0.15, linewidth=0)
+    axis.set_yscale("log")
+    axis.set_yticks([0.2, 0.5, 1, 2, 5])
+    axis.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{v:g}".replace(".", ",")))
+    axis.minorticks_off()
+    axis.set_xticks(n)
+    axis.set_xlabel("Agentes N (sala de 50 m)")
+    axis.set_ylabel("Costo del híbrido / otro")
+    axis.legend(loc="upper right", fontsize=15)
+    style.save(figure, FIGURES / "elegir-n")
+    if chosen:
+        best = max(chosen, key=lambda r: float(r["margin"]))
+        VALUES["nElegido"] = best["agents"]
+        VALUES["textoElegirN"] = (
+            f"Califica solo $N={best['agents']}$: sobre TSDMD {number(float(best['hybrid_over_tsdmd_mean']), 2)}, "
+            f"sobre EDMD {number(float(best['hybrid_over_edmd_mean']), 2)}; margen {number(100 * float(best['margin']))}\\,\\%")
+        VALUES["trabadasElegirN"] = (f"T {best['tsdmd_clogged']}, H {best['hybrid_clogged']}, E "
+                                     f"{best['edmd_clogged']} de {best['pairs']}")
+    cheapest = [int(r["agents"]) for r in data if float(r["hybrid_over_edmd_mean"]) > 1]
+    if cheapest:
+        VALUES["edmdMasBaratoHasta"] = str(max(cheapest))
 
 
 def cost_conclusion() -> None:
@@ -563,18 +755,10 @@ def write_values() -> None:
 
 
 def main() -> None:
-    import build_consulta
-
-    for name, function in (("atascos", build_consulta.population_curves),
-                           ("atascos.csv", build_consulta.clog_probability),
-                           ("animaciones/tsdmd_seed401.txt", build_consulta.compression)):
-        if (RAW / name).exists() or (RESULTS / name).exists():
-            function(FIGURES)
     collision_rule()
     collision_dt()
     dt_flow()
     second_target()
-    clogs()
     data = population_data()
     if data is not None:
         scheme_fractions(data)
@@ -585,6 +769,9 @@ def main() -> None:
     timing_scaling()
     recovery()
     texts()
+    compression_contrast()
+    stiffness()
+    choose_n()
     cost_conclusion()
     write_values()
 

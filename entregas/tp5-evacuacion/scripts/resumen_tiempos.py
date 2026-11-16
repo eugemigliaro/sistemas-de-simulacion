@@ -62,7 +62,7 @@ def paired_c() -> None:
         key, seed = re.match(r"(.+)_seed(\d+)", path.stem).groups()
         run = read_run(path)
         if "exited" in run.summary:
-            runs.setdefault(key.removeprefix("hybrid_"), {})[int(seed)] = run
+            runs.setdefault(key.replace("hybridan_", "analitica_").removeprefix("hybrid_"), {})[int(seed)] = run
     reference = runs.get("tsdmd", {})
 
     def cost(run) -> float:
@@ -78,14 +78,16 @@ def paired_c() -> None:
         wall = mean_std(float(group[s].summary["wall_seconds"]) / float(reference[s].summary["wall_seconds"])
                         for s in both)
         same = sum(1 for s in seeds if np.array_equal(group[s].exits, reference[s].exits))
-        rows.append({"config": key, "t_star": float(key.removeprefix("tstar")) if key.startswith("tstar") else "",
+        star = float(key.rsplit("tstar", 1)[1]) if "tstar" in key else ""
+        rows.append({"config": key, "variant": "" if star == "" else ("analitica" if key.startswith("analitica_") else "sfm"),
+                     "t_star": star,
                      "cost_ratio_mean": ratio[0], "cost_ratio_std": ratio[1], "pairs": ratio[2],
                      "wall_ratio_mean": wall[0], "wall_ratio_std": wall[1], "both_finished": wall[2],
                      "same_exits": same})
         print(f"{key:12s} costo / TSDMD = {ratio[0]:.3f} ± {ratio[1]:.3f} ({ratio[2]} semillas); "
               f"wall / TSDMD = {wall[0]:.3f} ± {wall[1]:.3f} ({wall[2]} terminan las dos); "
               f"mismas salidas que TSDMD: {same}")
-    rows.sort(key=lambda r: r["t_star"] if r["t_star"] != "" else float("inf"))
+    rows.sort(key=lambda r: (r["variant"] == "", r["variant"], r["t_star"] if r["t_star"] != "" else 0.0))
     with open(RESULTS / "tiempos-c-pareado.csv", "w", newline="") as fh:
         writer = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         writer.writeheader()

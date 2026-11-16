@@ -55,8 +55,8 @@ def population_curves(out: Path = OUT) -> None:
     print(f"curvas de población: {done} evacúan, {stuck} se traban")
 
 
-def clog_probability(out: Path = OUT) -> None:
-    with open(RESULTS / "atascos.csv") as fh:
+def clog_probability(out: Path = OUT, results: Path = RESULTS) -> None:
+    with open(results / "atascos.csv") as fh:
         rows = list(csv.DictReader(fh))
     noise = np.array([float(r["noise"]) for r in rows]) * 100
     p = np.array([float(r["p_clog"]) for r in rows]) * 100
@@ -76,12 +76,12 @@ def clog_probability(out: Path = OUT) -> None:
     style.save(figure, out / "probabilidad-atasco")
 
 
-def compression(out: Path = OUT, source: str = "tsdmd_seed401.txt", every: int = 50) -> None:
+def compression(out: Path = OUT, source: str = "tsdmd_seed401.txt", every: int = 50, raw: Path = RAW) -> None:
     """Superposición de los contactos a menos de 1,5 m de la puerta en función de cuántos
     agentes quedan adentro (hipótesis de la compresión, ver docs/decisiones.md)."""
     from tp5analysis.io import iter_frames
 
-    path = RAW / "animaciones" / source
+    path = raw / "animaciones" / source
     run = read_run(path)
     door = np.array([0.5 * float(run.params["side"]), 0.0])
     inside, top, mean = [], [], []

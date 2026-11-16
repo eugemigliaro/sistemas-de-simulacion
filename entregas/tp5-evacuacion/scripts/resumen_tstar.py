@@ -28,13 +28,18 @@ def agent_time(run) -> float:
 def summarize(folder: Path, name: str) -> list[dict]:
     groups: dict[str, list] = {}
     for path in sorted(folder.glob("*_seed*.txt")):
-        key = re.match(r"(.+)_seed\d+", path.stem).group(1).removeprefix("hybrid_")
+        key = re.match(r"(.+)_seed\d+", path.stem).group(1).replace("hybridan_", "analitica_").removeprefix("hybrid_")
         run = read_run(path)
         if "exited" in run.summary:
             groups.setdefault(key, []).append(run)
 
-    def order(key: str) -> float:
-        return float(key.removeprefix("tstar")) if key.startswith("tstar") else (1e9 if key == "tsdmd" else 2e9)
+    def t_star(key: str) -> float | None:
+        return float(key.rsplit("tstar", 1)[1]) if "tstar" in key else None
+
+    def order(key: str) -> tuple[int, float]:
+        if t_star(key) is not None:
+            return (1 if key.startswith("analitica_") else 0, t_star(key))
+        return (2, 0.0) if key == "tsdmd" else (3, 0.0)
 
     rows = []
     for key in sorted(groups, key=order):
@@ -45,7 +50,9 @@ def summarize(folder: Path, name: str) -> list[dict]:
         ts_fraction = mean_std(float(r.summary["agent_steps"]) * dt / agent_time(r) for r in runs
                                if r.scheme != "edmd")
         t_evac = mean_std(evacuation_time(r) for r in runs)
-        rows.append({"scheme": key, "t_star": order(key) if key.startswith("tstar") else "", "runs": len(runs),
+        variant = "" if t_star(key) is None else ("analitica" if key.startswith("analitica_") else "sfm")
+        rows.append({"scheme": key, "variant": variant, "t_star": t_star(key) if t_star(key) is not None else "",
+                     "runs": len(runs),
                      "clogged": sum(1 for r in runs if not r.finished),
                      "wall_finished_mean": wall_done[0], "wall_finished_std": wall_done[1], "finished": wall_done[2],
                      "cost_per_s_mean": rate[0], "cost_per_s_std": rate[1],

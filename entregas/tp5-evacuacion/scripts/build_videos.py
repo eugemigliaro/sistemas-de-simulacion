@@ -13,14 +13,15 @@ from tp5analysis.animation import animate
 
 # nombre: (corrida, opciones de animate)
 ANIMATIONS = {
-    "atasco": ("atasco_seed405.txt", dict(every=5, color="speed", poster_time=300.0,
-                                          caption=f"TSDMD, N = {AGENTS}: el arco queda quieto y nadie más sale (15× tiempo real)")),
-    "tsdmd": ("tsdmd_seed401.txt", dict(every=5, color="speed", poster_time=150.0,
-                                        caption=f"TSDMD, N = {AGENTS}: evacuación completa")),
-    "edmd": ("edmd_seed401.txt", dict(every=5, color="speed", poster_time=150.0,
-                                      caption=f"EDMD puro, N = {AGENTS}: evacuación completa")),
-    "hibrido": ("hybrid_seed401.txt", dict(every=1, color="mode", until=60.0, poster_time=12.0,
-                                           caption=f"Híbrido, T* = {T_STAR:g} s: los primeros 60 s (3× tiempo real)".replace(".", ","))),
+    # Apéndice: la semilla que se traba más temprano con N = AGENTS (run_exploracion.py).
+    "atasco": ("atasco_seed415.txt", dict(every=5, color="speed", poster_time=300.0,
+               caption=f"TSDMD, N = {AGENTS}: el arco queda quieto y nadie más sale (15× tiempo real)")),
+    "tsdmd": ("tsdmd_seed401.txt", dict(every=1, color="speed", poster_time=30.0,
+                                        caption=f"TSDMD, N = {AGENTS}: evacuación completa (3× tiempo real)")),
+    "edmd": ("edmd_seed401.txt", dict(every=1, color="speed", poster_time=30.0,
+                                      caption=f"EDMD puro, N = {AGENTS}: evacuación completa (3× tiempo real)")),
+    "hibrido": ("hybrid_seed401.txt", dict(every=1, color="mode", poster_time=25.0,
+                                           caption=f"Híbrido, N = {AGENTS}, T* = {T_STAR:g} s: evacuación completa (3× tiempo real)".replace(".", ","))),
 }
 
 

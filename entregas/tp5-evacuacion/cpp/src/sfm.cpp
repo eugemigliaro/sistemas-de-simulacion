@@ -28,14 +28,18 @@ int CellGrid::cell_index(const Vec2& position) const noexcept {
 }
 
 void CellGrid::build(const std::vector<Agent>& agents, const std::vector<std::size_t>& indices) {
-    std::fill(head_.begin(), head_.end(), -1);
+    for (const int cell : occupied_) head_[static_cast<std::size_t>(cell)] = -1;
+    occupied_.clear();
     // Al revés, para que cada celda quede en orden creciente de índice.
     for (auto it = indices.rbegin(); it != indices.rend(); ++it) {
         const std::size_t i = *it;
         const auto cell = static_cast<std::size_t>(cell_index(agents[i].position));
+        if (head_[cell] < 0) occupied_.push_back(static_cast<int>(cell));
         next_[i] = head_[cell];
         head_[cell] = static_cast<int>(i);
     }
+    // Mismo orden de pares que el barrido de todas las celdas: salidas idénticas.
+    std::sort(occupied_.begin(), occupied_.end());
 }
 
 ForceField::ForceField(const Params& p, const Room& room)

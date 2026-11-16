@@ -10,6 +10,8 @@
 namespace tp5 {
 
 // Celdas de lado >= 2 radius_max que cubren la sala y la franja de salida (CIM del TP1).
+// Solo se recorren las celdas ocupadas, en el mismo orden que el barrido completo: el costo
+// por paso es proporcional a los agentes y no a las ~10^4 celdas de la sala.
 class CellGrid {
 public:
     CellGrid(const Params& params, const Room& room);
@@ -34,6 +36,7 @@ private:
     int rows_;
     std::vector<int> head_;
     std::vector<int> next_;
+    std::vector<int> occupied_;  // celdas con algún agente, en orden creciente
 };
 
 struct Contact {
@@ -103,21 +106,20 @@ template <typename F>
 void CellGrid::for_each_pair(const std::vector<Agent>& agents, F&& f) const {
     // Media vecindad (como en el CIM): cada par se visita una sola vez.
     static constexpr int offsets[4][2] = {{1, 0}, {-1, 1}, {0, 1}, {1, 1}};
-    for (int row = 0; row < rows_; ++row) {
-        for (int column = 0; column < columns_; ++column) {
-            const int cell = row * columns_ + column;
-            for (int i = head_[static_cast<std::size_t>(cell)]; i >= 0; i = next_[static_cast<std::size_t>(i)]) {
-                for (int j = next_[static_cast<std::size_t>(i)]; j >= 0; j = next_[static_cast<std::size_t>(j)]) {
+    for (const int cell : occupied_) {
+        const int row = cell / columns_;
+        const int column = cell % columns_;
+        for (int i = head_[static_cast<std::size_t>(cell)]; i >= 0; i = next_[static_cast<std::size_t>(i)]) {
+            for (int j = next_[static_cast<std::size_t>(i)]; j >= 0; j = next_[static_cast<std::size_t>(j)]) {
+                f(static_cast<std::size_t>(i), static_cast<std::size_t>(j));
+            }
+            for (const auto& offset : offsets) {
+                const int c = column + offset[0];
+                const int r = row + offset[1];
+                if (c < 0 || c >= columns_ || r >= rows_) continue;
+                for (int j = head_[static_cast<std::size_t>(r * columns_ + c)]; j >= 0;
+                     j = next_[static_cast<std::size_t>(j)]) {
                     f(static_cast<std::size_t>(i), static_cast<std::size_t>(j));
-                }
-                for (const auto& offset : offsets) {
-                    const int c = column + offset[0];
-                    const int r = row + offset[1];
-                    if (c < 0 || c >= columns_ || r >= rows_) continue;
-                    for (int j = head_[static_cast<std::size_t>(r * columns_ + c)]; j >= 0;
-                         j = next_[static_cast<std::size_t>(j)]) {
-                        f(static_cast<std::size_t>(i), static_cast<std::size_t>(j));
-                    }
                 }
             }
         }

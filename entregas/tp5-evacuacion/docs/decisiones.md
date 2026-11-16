@@ -316,3 +316,173 @@ Decisiones del grupo (preguntas 1 a 9 del 2026-11-14):
 - **Prueba de N** (`piloto_n.py`, semillas 801 a 810, corridas de a una, T* = 0,01 s): con N = 50 el híbrido cuesta 0,856 ± 0,057 veces TSDMD por segundo simulado (ahorro de 14,4 %, error estándar 1,8 %): no llega al 20 % acordado. Con N = 20: 0,667 ± 0,103 (ahorro de 33 %, error estándar 3,3 %). **Queda N = 20.**
 - **TSDMD y EDMD puro con N = 20** (semillas 401 a 450): ninguna corrida se traba en ninguno de los dos (0 de 50; IC 95 %: 0–7 %). t_evac = 35 ± 2 s en ambos y J = 0,71 ± 0,08 p/s. Por la decisión 6, no hace falta la regla alternativa: EDMD puro usa la regla original. En esta computadora EDMD puro costó 0,2 ms por segundo simulado y TSDMD 19,5: los tiempos oficiales son los del punto c.
 - **Costo de la grilla de celdas en salas grandes:** la grilla cubre toda la sala y en cada paso se recorren todas las celdas, aunque estén vacías. En el punto d con densidad constante (L = 50 m·√(N/20), hasta 354 m con N = 1000) ese término crece con el área, es decir, como N.
+- **Recuperación de v_d con N = 20** (semillas 701 a 710): el piloto analítico tardó 0,02 s, así que el estudio va completo (decisión 7). Ninguna corrida se traba. Patadas (δ = 0,01 a 0,2 s) y analítica (0,003 a 0,1 rad) dan el mismo caudal que TSDMD, dentro de las barras. Costos en esta computadora: patadas 0,06 a 0,37 ms por segundo simulado, analítica 0,25 a 1,6 (1,9 a 12,5 veces las patadas con δ = 0,05 s), TSDMD 21, híbrido 13,5 (con T* = 0,01 s; se rehace si el punto c elige otro T*).
+- **Atascos con N = 20 (decisión del grupo, opción a):** ninguna corrida se traba, así que todo lo que estudiaba atascos (arco, compresión, k mayor, fluctuación y núcleo reducido de EDMD) va al apéndice con los datos de N = 200, aclarado como "Atascos con N = 200". En el cuerpo queda el contraste: con N = 20 no se traba ninguna corrida; con N = 200, TSDMD se trababa en 8 de 30. El segundo target sí se rehizo con N = 20 (sin diferencias; se usa "alejarse").
+
+## Punto c con N = 20 y elección de T* (2026-11-15)
+
+Medido por Francisco en la Apple M5 Pro, 4 corridas a la vez, sobre ada2851; el zip de las salidas crudas reproduce exactamente `tiempos-c.csv` y `tiempos-c-pareado.csv`. Ninguna corrida se traba.
+
+- **Tiempo de ejecución medio** (las 10 terminan): crece con T*, de 47,2 ± 6,0 ms (T* = 0,002 s) a 59,2 ± 3,3 ms (T* = 1 s); TSDMD 71,9 ± 6,0 ms; EDMD puro 0,5 ± 0,2 ms. t_evac = 35,0 ± 1,9 s con cualquier esquema.
+- **Pareado:** el híbrido cuesta 0,660 ± 0,098 veces TSDMD con T* = 0,002 s y 0,827 ± 0,062 con T* = 1 s; EDMD puro, 0,007 ± 0,003.
+- **Decisión 4:** se usa **T\* = 0,002 s** (menor tiempo medio), que es el mínimo permitido (T* ≥ Δt). Entre 0,002 y 0,02 s las diferencias son menores que el desvío.
+- **Observación:** con T* = 0,002 s solo el 11,6 % del tiempo-agente es TSDMD, pero el híbrido cuesta el 66 % de TSDMD. El motor saltea el paso de Beeman cuando no hay ningún agente TSDMD, pero si hay al menos uno el paso recorre la grilla de celdas de toda la sala: el costo depende de la fracción de pasos con algún agente TSDMD, no del tiempo-agente.
+- Francisco corrió además el punto c con N = 50 (`experiments/results/n50`).
+
+## Relajación analítica en el híbrido (2026-11-15)
+
+Con N = 20, el 87 % de los cuadros de agentes TSDMD del híbrido (corrida animada de la semilla 401) son de agentes sin contactos que todavía no se relajaron. El 41 % está afuera de la sala: al cruzar la puerta, el target cambia a −ŷ y el agente sigue en TSDMD hasta retirarse. El 100 % de los agentes pasa alguna vez a TSDMD, al llegar a la puerta. El contador del motor (`isolated_unrelaxed_steps`) sobreestimaba: sumaba de una vez los pasos proyectados hasta la relajación y dio 111 %. Por el criterio acordado (> 10 %), la relajación analítica se implementa en el híbrido.
+
+Decisiones del grupo:
+1. **Variante principal:** el punto c se corre con las dos variantes del híbrido (recuperación por el SFM y relajación analítica); si dan la misma física, la más barata pasa a ser la principal en a, b, d y la recuperación.
+2. **T\*:** se rehace el barrido de c con la variante principal y se elige el menor tiempo medio de las corridas que terminan.
+3. **c y d se miden en esta computadora**, con 4 corridas a la vez; el punto c de la M5 (N = 20) queda solo como antecedente.
+4. **Contador:** se corrige en el motor: en cada paso, los agentes TSDMD sin contactos y sin relajar.
+
+## Punto c con N = 20 en esta computadora (2026-11-15)
+
+Intel Core i7-1165G7, 4 corridas a la vez, con el motor de esta fecha: d4ff391 más la relajación analítica en el híbrido, todavía sin commit (huella de las fuentes `cpp/src/*.cpp cpp/include/tp5/*.hpp`: 5dc7e8a682d587dc). El punto c de la M5 quedó en `experiments/results/n20-m5` y `experiments/raw/tiempos/base20-m5`.
+
+- **Pareado (costo sobre el del TSDMD de la misma semilla):** variante SFM, de 0,64 (T* = 0,002 a 0,01 s) a 0,87 (T* = 1 s); variante analítica, de 0,28 ± 0,16 (T* = 0,002 s) a 0,79 (T* = 1 s); EDMD puro, 0,006.
+- **Tiempo medio de las corridas que terminan** (terminan todas): analítica con T* = 0,002 s, 41 ± 22 ms; SFM con T* = 0,01 s, 92 ± 15 ms; TSDMD, 147 ± 29 ms; EDMD puro, 0,9 ± 0,4 ms.
+- **t_evac = 35 ± 2 s** con cualquier esquema, variante y T*: la misma física.
+- **Decisión 1:** la variante analítica pasa a ser la principal del híbrido (a, b, d y la recuperación).
+- **Decisión 2:** con la variante analítica, el menor tiempo medio es con **T\* = 0,002 s**, que se mantiene.
+- Con la relajación analítica, el tiempo-agente TSDMD baja del 11,6 % al 4,3 %.
+
+## Punto d con N_base = 20 (2026-11-15)
+
+Esta computadora, 4 corridas a la vez, el mismo motor que el punto c. N ∈ {20, 50, 100, 200, 500, 1000}; densidad constante con L = 50 m·√(N/20) (hasta 354 m) y sala de 50 m; híbrido con relajación analítica y T* = 0,002 s; EDMD puro hasta N = 500, con 3 semillas.
+
+- **Costo por segundo simulado del híbrido sobre TSDMD (densidad constante):** 0,26 con N = 20 y 0,98 con N = 1000. El ahorro es el vuelo libre: con muchos agentes casi todo el tiempo es tapón.
+- **EDMD puro:** el más barato con pocos agentes, pero su costo crece mucho más rápido (ajuste N^3,1 con densidad constante, contra N^1,0 de TSDMD y N^1,4 del híbrido) y desde N ≈ 100–200 se traba.
+- **Atascos:** con N ≥ 200 se traban TSDMD y el híbrido en parte de las corridas, y EDMD puro en todas.
+
+## Estudio para elegir N (2026-11-15)
+
+Objetivo (pedido del grupo): un N en el que EDMD puro se encarezca por la densidad en la puerta, TSDMD la resuelva y el híbrido sea el más barato de los tres por usar EDMD en las zonas de baja densidad. El estudio va al apéndice y el N elegido rige todo el TP. Pista del punto d (sala de 50 m, 5 corridas sin parear): con N = 50 EDMD puro es el más barato (1,0 ms/s contra 3,9 del híbrido y 4,5 de TSDMD); con N = 100 el híbrido ya es el más barato (5,6 contra 6,2 y 7,8).
+
+Decisiones del grupo:
+1. **N ∈ {20, 30, …, 100}**, sala de 50 m, los tres esquemas; híbrido con relajación analítica y T* = 0,002 s.
+2. **Criterio:** por semilla, costo del híbrido sobre el de TSDMD y sobre el de EDMD puro. Califican los N donde las dos relaciones están por debajo de 1 por más de 3 errores estándar; entre ellos se elige el de mayor margen sobre el segundo mejor, 1 − máx(relación con TSDMD, relación con EDMD).
+3. **Atascos:** sin restricción; se reportan.
+4. **20 semillas por N** (901 a 920), comparadas semilla por semilla con el costo por segundo simulado (vale también para las corridas trabadas). En esta computadora, 4 corridas a la vez.
+5. Con el N elegido se rehace todo: a, b, c (T*), d con esa base, recuperación de v_d y segundo target.
+
+**Resultado del estudio (`resumen_elegir_n.py`, `experiments/results/elegir-n.csv`):** por semilla, el híbrido cuesta sobre TSDMD 0,22 (N = 20), 0,52 (30), 0,76 (40), 0,87 (50), 0,88 (60), 0,90 (70), 0,96 (80), 0,96 (90) y 0,93 ± 0,02 (100); sobre EDMD puro, 41, 48, 17, 3,7, 2,2, 1,5, 1,07, 0,78 y 0,63 ± 0,05. EDMD puro es el más barato hasta N = 70; el híbrido es el más barato desde N ≈ 80–90 y solo con N = 100 lo es por más de 3 errores estándar frente a los dos: **califica N = 100**, con un margen de 6,8 % sobre TSDMD. Trabadas con N = 100: TSDMD 4, híbrido 3 y EDMD 13 de 20. Tensión observada: donde el híbrido es el mejor de los tres, su ventaja sobre TSDMD es chica, porque casi todo el tiempo es tapón; donde ahorra mucho frente a TSDMD (N chico), EDMD puro es más barato todavía.
+
+**Decisión del grupo:** N = 100, como indica el criterio; se rehace todo. Como con N = 100 hay atascos, vale lo acordado el 09/11: atascos y compresión en el cuerpo, rehechos con el N nuevo (fluctuación, compresión, prueba con k mayor y, si EDMD se traba significativamente más que TSDMD, núcleo reducido).
+
+## Grilla de celdas dispersa y nuevo estudio de N (2026-11-15)
+
+**Punto c con N = 100 y la grilla completa** (10 semillas, 501 a 510; archivado en `experiments/results/grilla-completa/n100` y `experiments/raw/grilla-completa/tiempos-base100`): el híbrido cuesta lo mismo que TSDMD semilla por semilla (de 0,98 a 1,26 según T* y la variante, con desvíos de hasta ±0,6), y EDMD puro se traba en 9 de 10. Dos causas:
+- **Física:** con N = 100, el 81 % del tiempo-agente del híbrido es TSDMD (semilla 501: 3,42 M de 4,22 M pasos-agente). Casi todo es cola en contacto en la puerta; el híbrido solo ahorra en los primeros ~30 s de vuelo libre.
+- **Implementación:** la grilla de celdas del CIM se vaciaba y se recorría entera en cada paso (~11 000 celdas de 0,5 m en la sala de 50 m), aunque hubiera un solo agente TSDMD. Ese costo fijo (~10 µs por paso) dominaba a TSDMD y al híbrido con pocos agentes, y no lo pagaba EDMD puro: empujó el estudio de N hacia N grandes.
+
+Decisiones del grupo:
+1. **Grilla dispersa:** solo se vacían y se recorren las celdas ocupadas, ordenadas, así que los pares se visitan en el mismo orden que antes. Las salidas son idénticas bit a bit (verificado contra corridas de c); solo cambia el tiempo: TSDMD es 3 veces más rápido con N = 100 y 13 veces con N = 20. Las pruebas pasan. Huella de las fuentes: bd189d5c53060d7a.
+2. **Se rehace el estudio de N** con el motor nuevo, con el mismo criterio, las mismas semillas y el mismo rango, y se adopta el N que salga. Si ninguno califica, se toma el de mayor margen y se aclara que no es significativo.
+3. **Punto c con 20 semillas** (501 a 520): con atascos, el pareo es ruidoso.
+
+**Resultado del estudio con la grilla dispersa** (`experiments/results/elegir-n.csv`; el anterior quedó en `experiments/results/grilla-completa/elegir-n.csv`). El híbrido sobre TSDMD:
+
+| N | Híbrido/TSDMD |
+|---|---|
+| 20 | 0,39 |
+| 30 | 0,56 |
+| 40 | 0,69 |
+| 50 | 0,89 |
+| 60 | 0,85 ± 0,03 (ee) |
+| 70 | 0,92 |
+| 80 | 0,96 |
+| 90 | 0,90 |
+| 100 | 0,86 |
+
+El híbrido sobre EDMD puro: 5,7 (N = 20); 5,6 (30); 2,4 (40); 0,68 (50); 0,47 ± 0,05 (60); 0,37 (70); 0,32 (80); 0,24 (90); 0,22 (100).
+
+- EDMD puro es el más barato hasta N = 40.
+- **Califica solo N = 60**, con un margen de 15,3 % sobre el segundo mejor (TSDMD). N = 50 no califica: la relación con TSDMD no baja de 1 por 3 errores estándar.
+- Trabadas con N = 60: TSDMD 1, híbrido 2 y EDMD puro 6 de 20.
+
+**N = 60 en todo el TP**, salvo el estudio del dt y el punto d. Con N = 60 hay atascos, así que vale lo acordado el 09/11: atascos y compresión en el cuerpo, rehechos con N = 60.
+
+## Punto c con N = 60: variante del híbrido y T* (2026-11-15)
+
+Mismo motor (grilla dispersa), 20 semillas (501 a 520), 4 corridas a la vez (`experiments/results/tiempos-c*.csv`, `experiments/raw/tiempos/base60/c`).
+
+**Tiempo medio de las corridas que terminan:**
+- TSDMD: 98,1 ± 22,8 ms (16 de 20).
+- EDMD puro: 176 ± 69 ms (17).
+- Híbrido, variante SFM: 69 a 75 ms con T* de 0,005 a 0,5; 92 ms con T* = 1. El mínimo es 69,0 ± 16,9 ms con T* = 0,005 (20 de 20).
+- Híbrido, variante analítica: 73,5 a 91 ms; el mínimo es 73,5 ± 17,9 ms con T* = 0,005 (19).
+
+**Por semilla, costo sobre el de TSDMD:**
+- Con todas las corridas: de 0,78 a 0,88 (SFM) y de 0,86 a 0,99 (analítica). Los desvíos son de ±0,3 a ±0,4, porque una semilla que se traba en un esquema y no en el otro rompe el pareo.
+- Solo con los pares que terminan: 0,71 ± 0,15 (SFM, T* = 0,005) y 0,80 ± 0,23 (analítica, T* = 0,005).
+
+**Por qué con N = 60 la analítica ya no ahorra:**
+- En la variante SFM, cada agente cambia una sola vez de esquema: 60 cambios por corrida. Pasa a TSDMD al llegar a la cola y ahí se queda.
+- En la analítica, los agentes de la cola entran y salen de EDMD: 287 cambios y 882 eventos por corrida con T* = 0,002, contra 60 y 18 en la SFM. Los eventos con trayectorias curvas cuestan el avance conservador.
+- El tiempo-agente en TSDMD baja apenas: 52 % contra 58 % del de TSDMD puro.
+
+**Por la regla acordada:** la variante principal es la más barata, la **SFM**, con la misma física (tiempo de evacuación de 82 s, contra 85 s de TSDMD). **T* = 0,005 s** es el de menor tiempo medio de las corridas que terminan. Entre 0,005 y 0,2 s las diferencias están dentro del ruido.
+
+El estudio de N se hizo con la variante analítica y T* = 0,002 s. Con la SFM, el híbrido con N = 60 sale igual o más barato, así que la elección de N se mantiene.
+
+## a, b, recuperación, d y atascos con N = 60 (2026-11-15 y 2026-11-16)
+
+Motor con la grilla dispersa; híbrido con la variante SFM y T* = 0,005 s.
+
+**a y b** (`resumen_poblacion.py`; 50 semillas, de 401 a 450):
+
+| Esquema | Trabadas | IC 95 % | t_evac (de las que terminan) | Costo |
+|---|---|---|---|---|
+| TSDMD | 9/50 | 9–31 % | 83 ± 13 s | 1,6 ms/s |
+| Híbrido | 5/50 | 3–22 % | 80 ± 10 s | 1,2 ms/s |
+| EDMD puro | 11/50 | 12–36 % | 79 ± 13 s | 3,3 ms/s |
+
+Con la variante SFM, en el híbrido hay 2 vueltas de TSDMD a EDMD en las 50 corridas. Los intervalos de EDMD puro y TSDMD se superponen, así que por la decisión 6 del 2026-11-09 no se corre el núcleo reducido con N = 60.
+
+**Recuperación de v_d** (`resumen_recuperacion.py`; 10 semillas, de 701 a 710, 4 corridas a la vez):
+- Piloto: la analítica más cara tarda de 31 a 84 s por corrida, así que se corrió el estudio completo (7 min).
+- Caudal: todas las variantes coinciden con TSDMD dentro del ruido.
+- Costo: las patadas cuestan de 0,8 a 8,1 ms/s (δ de 0,2 a 0,01 s); la analítica, de 36 a 234 ms/s.
+- Conclusión: en EDMD puro conviene usar patadas.
+
+**Punto d con base 60** (`resumen_tiempos.py d`; 4 corridas a la vez, unos 12 min):
+- Con 20 agentes en la sala de 50 m, el híbrido cuesta 0,1 ms/s, TSDMD 0,4 y EDMD puro menos de 0,05.
+- Con 1000 agentes, el híbrido y TSDMD cuestan lo mismo (~31 ms/s).
+- EDMD puro se traba en todas las corridas desde N = 200, con un costo de 38 a 541 ms/s.
+
+**Atascos con N = 60:**
+
+*Compresión* (TSDMD, semilla 401, contactos a menos de 1,5 m de la puerta, cuadro por cuadro):
+
+| N | ξ medio por cuadro | Máximo por cuadro (mediana) | Máximo en toda la corrida |
+|---|---|---|---|
+| 60 | 0,1–1,0 cm (promedio 0,42) | 0,9 cm | 2,5 cm |
+| 200 | 0,1–1,9 cm (promedio 1,04) | 2,4 cm | 5,0 cm |
+
+Las corridas trabadas quedan con 17 a 48 agentes adentro.
+
+Corrección del 2026-11-16: al consultar al grupo se dijo "máximo ≤ 2 cm; con N = 200, 4–6 cm". Esos números eran imprecisos; la tabla tiene los medidos. El contraste, unas 2,5 veces más compresión con N = 200, se mantiene. La hipótesis de la compresión con N = 200 (los agentes comprimidos se cuelan y el arco aguanta cuando quedan pocos) no explica los atascos con N = 60.
+
+*Prueba de rigidez y fricción* (`run_exploracion.py`, `resumen_rigidez.py`, `experiments/results/rigidez.csv`; las semillas 401 a 450, con dt = 1 ms en las variantes):
+
+| Variante | Trabadas | IC 95 % | t_evac (de las que terminan) |
+|---|---|---|---|
+| Paper | 9/50 | 9–31 % | 82,7 ± 12,6 s |
+| k × 10 | 0/50 | 0–7 % | 42,1 ± 2,5 s (por semilla, −41 ± 12 s) |
+| k y κ × 10 | 13/50 | 15–40 % | 82,4 ± 12,3 s (por semilla, −0,5 ± 14,7 s) |
+
+El efecto de k mayor viene de la fricción: la fricción del SFM es κ ξ Δv_t, y con ξ ∝ F/k, por unidad de fuerza normal escala con κ/k. Con la misma κ/k, el sistema se comporta como con los parámetros del paper. Con N = 200, k × 10 se trababa antes (tres semillas): ahí dominaba la compresión.
+
+*Fluctuación* (`resumen_atascos.py`): trabadas 9, 3, 6 y 5 de 50 con 0, 5, 10 y 20 %, con intervalos que se superponen: sin efecto.
+
+**Decisiones del grupo (2026-11-16):**
+1. La prueba de k mayor se hace con 50 semillas y se agrega la de k y κ × 10.
+2. Atascos: todo al apéndice. En el cuerpo queda solo la fracción de trabadas de a y b.
+3. Apéndice, como contraste, sin duplicados: compresión y k mayor con N = 200, y el núcleo reducido de EDMD con N = 200. El arco y la rigidez y fricción, con N = 60.
+4. El estudio de fluctuación sale de la presentación.
+
+**Atasco animado:** la semilla 415, la que se traba más temprano (última salida a los 21 s, con 48 adentro).

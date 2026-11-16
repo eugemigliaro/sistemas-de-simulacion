@@ -19,17 +19,19 @@ sys.path.insert(0, str(ROOT / "python" / "src"))
 
 WORKERS = int(os.environ.get("TP5_WORKERS", "7"))
 
-# N = 20 en todo el TP salvo el estudio del dt y el punto d (consultas del 06/11 y del 14/11; la consigna
-# dice 500; piloto_n.py: con N = 50 el híbrido ahorra 14 %, menos que el 20 % acordado).
-AGENTS = 20
+# N = 60 en todo el TP salvo el estudio del dt y el punto d: estudio para elegir N con la
+# grilla dispersa (run_elegir_n.py, decisiones del 2026-11-15); la consigna dice 500.
+AGENTS = 60
 
 # Elegidos con los estudios (se actualizan al tenerlos; ver docs/decisiones.md).
 DT = 2e-3            # test del dt (run_dt.py): J no difiere del de 0,5 ms; ver experiments/results/dt.csv
 SECOND_TARGET = {"second_target": "away"}  # estudio del segundo target (run_segundo_target.py)
-T_STAR = 0.01        # benchmark de T* con N = 200 (bench_tstar.py): menor mínimo; ver docs/decisiones.md
+T_STAR = 0.005       # punto c con N = 60, variante SFM: menor tiempo medio; ver docs/decisiones.md
 T_STARS = (0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0)
 CORE_REDUCTION = 0.0106  # m, compresión media en el tapón de TSDMD con N = 200 (medir_compresion.py)
 EDMD_OPTIONS: dict = {}  # regla de choque de EDMD puro (decisiones 6 y 7 del 2026-11-09)
+# Variante principal del híbrido (decisión 1 del 2026-11-15): se elige con el punto c.
+HYBRID_OPTIONS: dict = {"relaxation": "kicks"}  # punto c con N = 60: la SFM es la más barata (con N = 20, la analítica)
 
 
 def complete(path: Path) -> bool:

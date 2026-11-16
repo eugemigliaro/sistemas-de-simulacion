@@ -22,8 +22,8 @@ from tp5analysis.stats import clopper_pearson, mean_std
 
 SCHEMES = ("tsdmd", "hybrid", "edmd", "edmd_nucleo")
 STEP = 1.0           # s, grilla de las curvas de población
-MODE_STEP = 0.25     # s, grilla de los agentes por esquema (el cambio ocurre en los primeros ~40 s)
-MODE_HORIZON = 60.0  # s
+MODE_STEP = 0.25     # s, grilla de los agentes por esquema
+MODE_HORIZON = 120.0  # s: con N = 60, las corridas que terminan evacúan en 60 a 110 s
 
 
 def main() -> None:
