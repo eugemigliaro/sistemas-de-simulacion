@@ -486,3 +486,26 @@ El efecto de k mayor viene de la fricción: la fricción del SFM es κ ξ Δv_t,
 4. El estudio de fluctuación sale de la presentación.
 
 **Atasco animado:** la semilla 415, la que se traba más temprano (última salida a los 21 s, con 48 adentro).
+
+## Correcciones a la presentación (2026-11-16)
+
+Pedido del grupo: sacar detalles y no sobrecargar las diapositivas. Se quitaron:
+- "(consigna: 500)" y el objetivo en el sistema;
+- la nota de la masa;
+- los supuestos de la regla de choque;
+- las condiciones iniciales pareadas y la sección de promedios;
+- bullets de las animaciones;
+- la sección de atascos en t_evac(T*).
+
+La validación de la regla de choque ahora explica qué se prueba y qué es el parámetro de impacto b, con un dibujo.
+
+Decisiones del grupo:
+1. **Punto c:** en la diapositiva quedan los dos gráficos (wall-clock de las corridas que terminan, que pide la consigna, y costo por segundo simulado). **Para el análisis se usa siempre el costo.**
+2. **Comparación semilla por semilla:** costo por segundo simulado, solo en los pares en que terminan los dos.
+   - Por qué: el costo por segundo de una corrida trabada depende de cuántos agentes quedan adentro. En TSDMD es de 0,43 a 0,47 ms/s con 7 adentro y de 1,28 a 1,94 ms/s con 29 a 31, contra 1,16 ± 0,22 ms/s en las que terminan. En las 4 semillas en que se traba uno solo de los dos esquemas, la relación va de 0,44 a 2,45.
+   - Resultado: SFM con T* = 0,005 s, 0,73 ± 0,15 (16 pares); analítica, 0,84 ± 0,15 (16); EDMD puro, 1,80 ± 0,47 (15). Con todos los T*: SFM de 0,73 a 0,95; analítica de 0,79 a 0,98.
+   - Con esta medida, T* = 0,005 s y la variante SFM siguen siendo los más baratos; no cambia la elección.
+3. **Punto d:** la variante a densidad constante es obligatoria [TP05, p. 4]. Se quita la diapositiva del wall-clock en función de N y queda solo la del costo, con las dos variantes. La consigna pide "cómo escalan los tiempos de ejecución", sin exigir wall-clock, y con wall-clock casi no hay datos de EDMD puro para N ≥ 100.
+4. **Conclusiones:** se quitan la de κ/k y la de la fracción de trabadas de TSDMD.
+
+**Pregunta del grupo, histéresis en la analítica.** Para volver a EDMD se exige que no haya contacto posible en 2T*, que con T* = 0,005 s es apenas 10 ms. En la cola, un agente que se despega un instante vuelve a EDMD y una alerta lo devuelve enseguida. Los cambios de esquema por corrida bajan con T*: 286 (0,002 s), 187 (0,005), 116 (0,05), 67 (0,2) y 61 (0,5). El mínimo es 60, uno por agente.

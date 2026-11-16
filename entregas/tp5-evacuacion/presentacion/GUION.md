@@ -1,13 +1,13 @@
 # Guion oral del TP5
 
-Duración estimada: **19:05** sin el apéndice. Por pedido de la cátedra, las diapositivas tienen escrita toda la información crucial: si no llegamos a presentar todo, no se pierde nada. Lo que sigue es lo que se dice; no hace falta leer los números que están en la diapositiva. Las animaciones corren embebidas en el PPTX. Cada integrante tiene que poder presentar cualquier parte y responder sobre todo el trabajo, y nadie agrega nada a lo que acaba de decir otro [GPRES, p. 3].
+Duración estimada: **18:40** sin el apéndice. Por pedido de la cátedra, las diapositivas tienen escrita toda la información crucial: si no llegamos a presentar todo, no se pierde nada. Lo que sigue es lo que se dice; no hace falta leer los números que están en la diapositiva. Las animaciones corren embebidas en el PPTX. Cada integrante tiene que poder presentar cualquier parte y responder sobre todo el trabajo, y nadie agrega nada a lo que acaba de decir otro [GPRES, p. 3].
 
 | Parte | Integrante | Diapositivas | Tiempo |
 |---|---|---|---|
 | Sistema, modelo, EDMD y criterio del híbrido | Eugenio | 1 a 11 | 5:56 |
 | Resto del híbrido, simulaciones, validaciones y animaciones | Francisco | 12 a 24 | 6:21 |
-| Resultados, recuperación de v_d y conclusiones | Franco | 25 a 36 | 6:48 |
-| Apéndice (solo si preguntan) | cualquiera | 37 a 43 | — |
+| Resultados, recuperación de v_d y conclusiones | Franco | 25 a 35 | 6:23 |
+| Apéndice (solo si preguntan) | cualquiera | 36 a 42 | — |
 
 ## Eugenio — diapositivas 1 a 11 — 5:56
 
@@ -21,11 +21,11 @@ Empecemos por el sistema.
 
 ### 3. Evacuación por una puerta angosta — 0:40
 
-Una sala de 50 metros con una puerta de 80 centímetros. Usamos 60 agentes en lugar de 500: la cátedra nos pidió bajar N para que se note el híbrido, y elegimos 60 con un estudio que está en el apéndice. Arrancan al azar y quieren salir a 1,5 metros por segundo. Lejos de la puerta van en línea recta, que es el terreno del EDMD; en la puerta se forma una cola con contactos, y ahí conviene paso temporal. La idea es resolver cada agente con el esquema que le conviene sin cambiar la física.
+Una sala de 50 metros con una puerta de 80 centímetros. Usamos 60 agentes: la cátedra nos pidió bajar N para que se note el híbrido, y elegimos 60 con un estudio que está en el apéndice. Arrancan al azar y quieren salir a 1,5 metros por segundo. Lejos de la puerta van en línea recta, que es el terreno del EDMD; en la puerta se forma una cola con contactos, y ahí conviene paso temporal.
 
 ### 4. Social Force Model sin fuerza social — 0:45
 
-El término de deseo relaja la velocidad hacia la deseada en un tiempo tau. Solo hay fuerzas si dos agentes se superponen: un resorte normal y una fricción tangencial proporcional a la superposición. Sin fuerza social nadie reacciona hasta tocarse, así que un agente libre y relajado va en línea recta. La masa proporcional al área es un apartamiento nuestro, que la cátedra aceptó.
+El término de deseo relaja la velocidad hacia la deseada en un tiempo tau. Solo hay fuerzas si dos agentes se superponen: un resorte normal y una fricción tangencial proporcional a la superposición. Sin fuerza social nadie reacciona hasta tocarse, así que un agente libre y relajado va en línea recta. La masa es proporcional al área.
 
 ### 5. Implementación — 0:03
 
@@ -45,7 +45,7 @@ La velocidad relativa se descompone en la normal y la tangencial del contacto. L
 
 ### 9. Choque en EDMD: de dónde sale la regla — 0:45
 
-La regla sale de integrar un contacto aislado del SFM. El resorte normal no tiene amortiguamiento, así que después de medio período la normal sale invertida. La fricción frena la tangencial a una tasa proporcional a la superposición; integrando durante el contacto, la masa reducida se cancela. Lo validamos en resultados.
+La regla sale de integrar un contacto aislado del SFM. El resorte normal no tiene amortiguamiento, así que después de medio período la normal sale invertida. La fricción frena la tangencial a una tasa proporcional a la superposición; integrando durante el contacto, la masa reducida se cancela.
 
 ### 10. EDMD: recuperar v_d después del choque — 0:40
 
@@ -79,11 +79,11 @@ Pasemos a las simulaciones.
 
 ### 17. Estudios realizados — 0:35
 
-Usamos 60 agentes en todo, salvo en el test del paso temporal, en el escalamiento con N y en la elección de N. Todas las variantes de un estudio usan las mismas condiciones iniciales, y cortamos una corrida si pasan 300 segundos sin salidas.
+Usamos 60 agentes en todo, salvo en el test del paso temporal, en el escalamiento con N y en la elección de N. Cortamos una corrida si pasan 300 segundos sin salidas.
 
 ### 18. Observables — 0:35
 
-El observable primario es la curva de población. De ella salen el tiempo de evacuación, el caudal y la fracción de corridas trabadas. El tiempo de ejecución lo medimos de las corridas que terminan, y como complemento el costo por segundo simulado, todo en la misma computadora.
+El observable primario es la curva de población. De ella salen el tiempo de evacuación, el caudal y la fracción de corridas trabadas. El tiempo de ejecución es el wall-clock de las corridas que terminan, como pide la consigna. Para comparar usamos el costo: ese tiempo dividido por el tiempo simulado. No depende de cuánto dura cada corrida y vale también para las trabadas.
 
 ### 19. Resultados — 0:03
 
@@ -91,7 +91,7 @@ Vamos a los resultados.
 
 ### 20. Validación de la regla de choque — 0:35
 
-Comparamos un choque aislado del SFM blando con la regla de disco duro. La tangencial coincide en todo el rango; la normal solo pierde hasta un 5 % en los choques rasantes.
+Simulamos un choque aislado de dos agentes con el SFM blando y lo comparamos con la regla de disco duro. b es el parámetro de impacto, el desvío entre los centros: cero es un choque frontal. La tangencial coincide para todo b; la normal pierde hasta un 5 % en los choques rasantes.
 
 ### 21. Paso temporal — 0:35
 
@@ -99,17 +99,17 @@ Con 2 milisegundos, el error del choque más exigente es menor al 0,1 %, y el ca
 
 ### 22. Animación: TSDMD puro — 0:25
 
-TSDMD puro, con el color según la rapidez. En la puerta se forma una cola con contactos continuos.
+TSDMD puro, con el color según la rapidez. En la puerta se forma la cola.
 
 ### 23. Animación: EDMD puro — 0:25
 
-EDMD puro: evacúa igual que TSDMD y se traba en una proporción parecida, pero cuesta casi el doble, por los choques en la cola.
+EDMD puro: evacúa igual que TSDMD y se traba en una proporción parecida, pero cuesta 1,8 veces más, por los choques en la cola.
 
 ### 24. Animación: híbrido — 0:25
 
 El híbrido, con los agentes EDMD en azul y los TSDMD en naranja: van por eventos mientras vuelan libres y pasan a paso temporal al acercarse a la cola.
 
-## Franco — diapositivas 25 a 36 — 6:48
+## Franco — diapositivas 25 a 35 — 6:23
 
 ### 25. Agentes en cada esquema del híbrido — 0:35
 
@@ -121,66 +121,62 @@ Las curvas de los tres esquemas se superponen; las punteadas son las corridas tr
 
 ### 27. Tiempo de evacuación y atascos — 0:35
 
-Los tres tardan lo mismo, y los intervalos de las corridas trabadas se superponen: los tres se traban igual. Los atascos están en el apéndice.
+Los tres tardan lo mismo, y los intervalos de las corridas trabadas se superponen: los tres se traban igual. Los atascos los estudiamos aparte, en el apéndice.
 
-### 28. Tiempo de ejecución en función de T estrella — 0:45
+### 28. Tiempo de ejecución en función de T estrella — 0:50
 
-Medimos los tiempos en una sola computadora. En lleno, la variante que relaja con el SFM; en hueco, la analítica. Las dos son más baratas que TSDMD con casi todos los T estrella, y EDMD puro es el más caro. Elegimos el T estrella de menor tiempo medio.
+A la izquierda, lo que pide la consigna: el wall-clock de las corridas que terminan. A la derecha, el costo por segundo simulado, de todas. Analizamos con el costo, porque una corrida que tarda más en evacuar no es más cara por eso. En lleno, la variante que relaja con el SFM: las dos variantes cuestan menos que TSDMD con casi todos los T estrella, y EDMD puro cuesta el doble.
 
 ### 29. Tiempo de evacuación en función de T estrella — 0:25
 
 Si el pase no pierde contactos, el tiempo de evacuación no depende de T estrella, y así es para las dos variantes.
 
-### 30. Tiempo de ejecución: comparación con TSDMD semilla por semilla — 0:50
+### 30. Costo: comparación con TSDMD semilla por semilla — 0:50
 
-Comparando cada corrida con el TSDMD de su misma semilla, el híbrido cuesta el 84 % de TSDMD; si miramos solo los pares en que terminan los dos, el 71 %. El desvío es grande porque una semilla que se traba en un esquema y no en el otro rompe el pareo. La analítica cuesta más porque en la cola entra y sale de EDMD.
+Comparamos el costo de cada corrida con el del TSDMD de su misma semilla, solo en los pares en que terminan los dos: el costo por segundo de una corrida trabada depende de cuántos quedan adentro, y eso rompe el pareo. Relajando con el SFM, el híbrido cuesta el 73 % de TSDMD; con la analítica, el 84 %, porque en la cola entra y sale de EDMD: la histéresis de dos T estrella es de apenas 10 milisegundos. EDMD puro cuesta 1,8 veces TSDMD. Elegimos T estrella de 5 milisegundos, el más barato.
 
-### 31. Tiempo de ejecución en función de N — 0:35
+### 31. Costo por segundo simulado en función de N — 0:45
 
-Con densidad constante y con la sala de 50 metros. EDMD puro solo termina con pocos agentes: con más, se traba.
+Las dos variantes que pide la consigna: a la izquierda, agrandando la sala para mantener la densidad inicial; a la derecha, con la sala de 50 metros. Con 20 agentes el híbrido cuesta un cuarto de TSDMD, pero con 1000 cuesta casi lo mismo: el ahorro es el vuelo libre, y con muchos agentes casi todo es cola. EDMD puro es el más barato con 20 agentes, pero su costo crece muy rápido y con 200 o más se traba siempre.
 
-### 32. Costo por segundo simulado en función de N — 0:40
-
-Con 20 agentes el híbrido cuesta un cuarto de TSDMD, pero con 1000 cuesta casi lo mismo: el ahorro es el vuelo libre, y con muchos agentes casi todo es cola. EDMD puro es el más barato con 20 agentes, pero su costo crece muy rápido.
-
-### 33. Recuperación de v_d en EDMD puro — 0:35
+### 32. Recuperación de v_d en EDMD puro — 0:35
 
 En EDMD puro, patadas y relajación analítica dan el mismo caudal que TSDMD; la analítica cuesta de 15 a 94 veces más. En EDMD puro conviene usar patadas.
 
-### 34. Conclusiones — 0:03
+### 33. Conclusiones — 0:03
 
 Para cerrar.
 
-### 35. Conclusiones — 0:55
+### 34. Conclusiones — 0:55
 
-Con 60 agentes el modelo se traba en casi una de cada cinco corridas, y lo que manda es la fricción relativa a la rigidez. El híbrido reproduce TSDMD sin perder contactos y cuesta el 84 % de TSDMD; con 60 agentes es el más barato de los tres. EDMD puro evacúa igual, pero cuesta casi el doble y con más agentes se traba siempre.
+El híbrido reproduce TSDMD sin perder contactos y, con 60 agentes, cuesta el 73 % de TSDMD: es el más barato de los tres. Su ahorro es el vuelo libre, así que se achica cuando casi todo es cola; con cola conviene que la velocidad la recupere el SFM. EDMD puro evacúa igual, pero cuesta 1,8 veces TSDMD, su costo crece muy rápido con N y con más agentes se traba siempre. Y recorrer solo las celdas ocupadas abarató TSDMD de 3 a 13 veces.
 
-### 36. Declaración de uso de IA — 0:25
+### 35. Declaración de uso de IA — 0:25
 
 Usamos Claude Code con Claude Opus 5.5 para el código, las corridas, los gráficos y el borrador de la presentación. Las decisiones las tomamos nosotros, y listamos las veces en que no seguimos la recomendación del agente.
 
-## Apéndice — diapositivas 37 a 43 (solo si preguntan)
+## Apéndice — diapositivas 36 a 42 (solo si preguntan)
 
-### 38. Elección de N
+### 37. Elección de N
 
 Barrimos N de 20 a 100 en la sala de 50 metros. Solo con 60 el híbrido es más barato que los dos por más de tres errores estándar. Hasta 40, EDMD puro es más barato; con 50 y desde 70, la ventaja sobre TSDMD no es significativa, porque casi todo es cola.
 
-### 39. Atascos con N = 60: arco
+### 38. Atascos con N = 60: arco
 
 Un arco estático en la puerta: la fricción del SFM es viscosa y en reposo no actúa, y el modelo no tiene fluctuaciones.
 
-### 40. Atascos con N = 60: rigidez y fricción
+### 39. Atascos con N = 60: rigidez y fricción
 
 Con k diez veces mayor no se traba ninguna y evacúan en la mitad del tiempo; con k y kappa diez veces mayores se comporta igual que con los del paper. Lo que manda es kappa sobre k.
 
-### 41. Compresión: N = 60 contra N = 200
+### 40. Compresión: N = 60 contra N = 200
 
 Con 200 agentes los contactos se comprimían más y la hipótesis era que los agentes se colaban comprimidos; con 60, la compresión es chica y no explica los atascos.
 
-### 42. Atascos con N = 200: EDMD con núcleo reducido
+### 41. Atascos con N = 200: EDMD con núcleo reducido
 
 Con 200 agentes, chocar a una distancia menor casi no cambió nada. Con 60, EDMD no se traba más que TSDMD, así que no hizo falta.
 
-### 43. Segundo target
+### 42. Segundo target
 
 Ningún target común afuera de la puerta cambió el tiempo de evacuación.

@@ -107,14 +107,13 @@
 \begin{column}{.54\textwidth}
 \ficha{Sistema}{\begin{puntos}
 \item Sala de $L=50$ m; puerta de $d=0{,}8$ m en el centro de una pared
-\item \textbf{$N=60$ agentes} (consigna: 500); elegido con un estudio (apéndice)
+\item \textbf{$N=60$ agentes}, elegido con un estudio (apéndice)
 \item Al azar, sin superponerse; $v_d=1{,}5$ m/s hacia la puerta
 \item Se retiran a 1 m de la puerta
 \end{puntos}}
 \ficha{Dos regímenes}{\begin{puntos}
 \item \textcolor{evento}{Diluido}: rectas, casi sin contactos $\to$ EDMD
 \item \textcolor{paso}{Cuello de botella}: contactos continuos $\to$ TSDMD
-\item \textcolor{accent}{Objetivo}: cada agente con su esquema, sin cambiar la física
 \end{puntos}}
 \end{column}
 \end{columns}
@@ -144,7 +143,7 @@ $r_i$ & uniforme en $[0{,}18;\,0{,}25]$ m\\
 $m_i$ & $80\text{ kg}\,(r_i/0{,}215\text{ m})^2$
 \end{tabular}}
 \ficha{Notas}{\begin{puntos}
-\item Masa $\propto$ área: el paper usa 80 kg; apartamiento aceptado por la cátedra
+\item Masa $\propto$ área
 \item Target: punto más cercano del 60\,\% central de la puerta; al cruzarla, $-\hat{\vect y}$
 \end{puntos}}
 \end{column}
@@ -265,9 +264,6 @@ $m_i$ & $80\text{ kg}\,(r_i/0{,}215\text{ m})^2$
 \item Fricción: $\mu\,\dot g_t=-\kappa\,\xi\,g_t$
 \item $\Rightarrow g_t'=g_t\exp\!\big(-\tfrac{\kappa}{\mu}\!\int\!\xi\,dt\big)=g_t\,e^{-2\kappa|g_n|/k}$
 \item $\mu=m_im_j/(m_i+m_j)$ se cancela: vale para masas distintas y paredes
-\end{puntos}}
-\ficha[accent]{Supuestos}{\begin{puntos}
-\item Contacto de a dos; la normal no gira durante el contacto (se valida en Resultados)
 \end{puntos}}
 \end{column}
 \end{columns}
@@ -481,7 +477,6 @@ Segundo target (apéndice) & TSDMD & target afuera & 10\\
 \par\medskip
 \begin{puntos}
 \item $N=60$ y $L=50$ m salvo en el paso temporal, el escalamiento y la elección de $N$
-\item Mismas condiciones iniciales en todas las variantes de un estudio (comparaciones pareadas)
 \item Corte: 300 s sin salidas $\Rightarrow$ la corrida se considera trabada
 \end{puntos}
 \end{frame}
@@ -501,13 +496,9 @@ Segundo target (apéndice) & TSDMD & target afuera & 10\\
 \end{column}
 \begin{column}{.49\textwidth}
 \ficha{Tiempo de ejecución}{\begin{puntos}
-\item Principal: wall-clock del bucle, de las corridas que terminan
-\item Complemento: costo por segundo simulado, de todas
+\item Wall-clock del bucle, de las corridas que terminan (consigna)
+\item Costo: wall-clock / tiempo simulado; con él comparamos los esquemas
 \item Todos los tiempos, en la misma computadora
-\end{puntos}}
-\ficha{Promedios}{\begin{puntos}
-\item Un valor por realización; media y desvío estándar entre realizaciones
-\item $t_{\rm evac}$ y $J$: solo de las que terminan
 \end{puntos}}
 \end{column}
 \end{columns}
@@ -518,15 +509,23 @@ Segundo target (apéndice) & TSDMD & target afuera & 10\\
 \begin{frame}\sectionpage\end{frame}
 
 \begin{frame}{Validación de la regla de choque}
-\figura{regla-choque.pdf}{
-\ficha{Choque aislado}{\begin{puntos}
-\item Dos agentes, sin deseo
-\item SFM blando con $\dt=0{,}1$ ms contra la regla de disco duro
-\item Tres parámetros de impacto $b$
+\figura[.58]{regla-choque.pdf}{
+\ficha{¿La regla reproduce el SFM?}{\begin{puntos}
+\item Choque aislado de dos agentes, sin deseo: SFM blando contra disco duro
 \end{puntos}}
+{\centering
+\begin{tikzpicture}[>=Stealth,scale=0.6]
+  \draw[thick,evento,fill=evento!8] (0,0) circle (0.6);
+  \draw[thick,paso,fill=paso!8] (2.4,0.75) circle (0.55);
+  \draw[vec,evento] (0.65,0) -- ++(0.9,0);
+  \draw[dashed,gray] (0,0) -- (3.5,0);
+  \draw[dashed,gray] (2.4,0.75) -- (3.5,0.75);
+  \draw[<->] (3.4,0) -- (3.4,0.75) node[midway,right,font=\small] {$b$};
+\end{tikzpicture}\par}
+{\centering\small Parámetro de impacto $b$, en unidades de $\sigma=r_i+r_j$ (0: frontal)\par}\vspace{6pt}
 \ficha{Resultado}{\begin{puntos}
-\item Tangencial: coincide en todo el rango
-\item Normal: hasta 5\,\% de pérdida en choques rasantes ($b=0{,}8\,\sigma$)
+\item Tangencial: coincide para todo $b$
+\item Normal: hasta 5\,\% de pérdida si es rasante
 \end{puntos}}}
 \end{frame}
 
@@ -543,9 +542,7 @@ Segundo target (apéndice) & TSDMD & target afuera & 10\\
 
 \begin{frame}{Animación: TSDMD puro}
 \animacion{tsdmd}{\ficha{$N=60$, $\dt=\valor{dtElegido}$ ms}{\begin{puntos}
-\item Todos los agentes, en todos los pasos
 \item Color: rapidez
-\item Cola en la puerta, con contactos continuos
 \end{puntos}}}
 \end{frame}
 
@@ -553,7 +550,7 @@ Segundo target (apéndice) & TSDMD & target afuera & 10\\
 \animacion{edmd}{\ficha{Discos duros, patadas cada $\delta=0{,}05$ s}{\begin{puntos}
 \item Se traba en \valor{atascosEDMD} corridas (TSDMD: \valor{atascosTSDMD})
 \item Misma evacuación que TSDMD
-\item Costo (punto c): \valor{costoRelativoEDMD}
+\item Costo: \valor{costoRelativoEDMD}
 \end{puntos}}}
 \end{frame}
 
@@ -561,7 +558,6 @@ Segundo target (apéndice) & TSDMD & target afuera & 10\\
 \animacion{hibrido}{\ficha{$\tstar=\valor{tstarElegido}$ s}{\begin{puntos}
 \item \textcolor{evento}{EDMD}: vuelo libre a $v_d$
 \item \textcolor{paso}{TSDMD}: cerca de un contacto posible y en la cola
-\item Evacuación completa
 \end{puntos}}}
 \end{frame}
 
@@ -597,17 +593,18 @@ Segundo target (apéndice) & TSDMD & target afuera & 10\\
 \item \valor{textoComparacion}
 \end{puntos}}
 \ficha[accent]{Atascos}{\begin{puntos}
-\item Trabadas: \valor{textoAtascos}
-\item Arco, $k$ y $\kappa$, $N=200$: apéndice
+\item \valor{textoAtascos}
+\item Estudio particular sobre atascos en el apéndice
 \end{puntos}}}
 \end{frame}
 
 \begin{frame}{Tiempo de ejecución en función de $\tstar$}
-\centering\grafico[4.3cm]{tiempos-tstar.pdf}{}\par\smallskip
+\centering\grafico[4.0cm]{tiempos-tstar.pdf}{}\par\smallskip
 \begin{puntos}
-\item $N=60$, 20 realizaciones por $\tstar$; lleno: relaja el SFM (la principal); líneas: TSDMD y EDMD puros
-\item Misma computadora: \valor{maquina}
-\item \valor{textoTiemposc}
+\item $N=60$, 20 realizaciones por $\tstar$; lleno: la variante principal
+\item Izquierda: wall-clock de las que terminan; derecha: costo, de todas
+\item \valor{textoCostoc}
+\item Computadora: \valor{maquina}
 \end{puntos}
 \end{frame}
 
@@ -616,48 +613,37 @@ Segundo target (apéndice) & TSDMD & target afuera & 10\\
 \ficha{Física}{\begin{puntos}
 \item Si el pase no pierde contactos, $t_{\rm evac}$ no depende de $\tstar$
 \item \valor{textoTevacc}
-\end{puntos}}
-\ficha{Atascos}{\begin{puntos}
-\item Abajo: cuántas corridas terminan con cada $\tstar$
 \end{puntos}}}
 \end{frame}
 
-\begin{frame}{Tiempo de ejecución: comparación con TSDMD semilla por semilla}
+\begin{frame}{Costo: comparación con TSDMD semilla por semilla}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{.50\textwidth}
 \ficha{Costo sobre el del TSDMD de la misma semilla}{\begin{puntos}
-\item Relaja el SFM, $\tstar=\valor{tstarElegido}$ s: \valor{pareadoSFM}
-\item Analítica, $\tstar=\valor{tstarElegido}$ s: \valor{pareadoAnalitica}
-\item Con todos los $\tstar$: SFM \valor{rangoPareadoSFM}; analítica \valor{rangoPareadoAnalitica}
-\item EDMD puro: \valor{costoRelativoEDMD}
-\end{puntos}}
-\ficha{Solo los pares en que terminan los dos}{\begin{puntos}
-\item Tiempo de ejecución: SFM \valor{pareadoTerminanSFM}; analítica \valor{pareadoTerminanAnalitica}
+\item Solo los pares en que terminan los dos
+\item Relaja el SFM, $\tstar=\valor{tstarElegido}$ s: \valor{pareadoTerminanSFM}
+\item Analítica, $\tstar=\valor{tstarElegido}$ s: \valor{pareadoTerminanAnalitica}
+\item Con todos los $\tstar$: SFM \valor{rangoTerminanSFM}; analítica \valor{rangoTerminanAnalitica}
+\item EDMD puro: \valor{pareadoTerminanEDMD}
 \end{puntos}}
 \end{column}
 \begin{column}{.46\textwidth}
 \ficha[accent]{Por qué}{\begin{puntos}
 \item Tiempo-agente TSDMD: \valor{fraccionTSDMD}; casi todo es cola
-\item SFM: cada agente pasa una vez a TSDMD, al llegar a la cola, y ahí se queda (\valor{cambiosSFM} cambios por corrida)
-\item Analítica: en la cola entra y sale de EDMD (\valor{cambiosAnalitica} cambios, \valor{eventosAnalitica} eventos con trayectorias curvas)
-\item Desvío grande: una semilla que se traba en un esquema y no en el otro rompe el pareo
+\item Analítica: en la cola entra y sale de EDMD; la histéresis, $2\tstar=10$ ms, es corta (\valor{cambiosAnalitica} cambios por corrida; SFM: \valor{cambiosSFM})
+\end{puntos}}
+\ficha{Sin los pares con una sola trabada}{\begin{puntos}
+\item El costo por segundo de una trabada depende de cuántos quedan adentro
 \end{puntos}}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Tiempo de ejecución en función de $N$}
-\centering\grafico[5.4cm]{escalamiento-wall.pdf}{}\par\smallskip
-\begin{puntos}
-\item Corridas que terminan, de 5 por $N$; hueco: termina una sola
-\item Izquierda: densidad inicial constante, $L=50\text{ m}\sqrt{N/60}$; derecha: $L=50$ m
-\end{puntos}
-\end{frame}
-
 \begin{frame}{Costo por segundo simulado en función de $N$}
-\centering\grafico[4.9cm]{escalamiento-costo.pdf}{}\par\smallskip
+\centering\grafico[4.5cm]{escalamiento-costo.pdf}{}\par\smallskip
 \begin{puntos}
-\item Todas las corridas, incluidas las trabadas; EDMD puro: 3 por $N$, hasta $N=500$
+\item Izquierda: densidad inicial constante, $L=50\text{ m}\sqrt{N/60}$; derecha: $L=50$ m
+\item 5 corridas por $N$, incluidas las trabadas; EDMD puro: 3, hasta $N=500$
 \item Ajuste $N^{\alpha}$ con densidad constante: TSDMD $\alpha=\valor{exponenteDensidadTSDMD}$, híbrido $\valor{exponenteDensidadHibrido}$, EDMD $\valor{exponenteDensidadEDMD}$; con $L=50$ m: $\valor{exponenteSalaTSDMD}$, $\valor{exponenteSalaHibrido}$ y $\valor{exponenteSalaEDMD}$
 \item Híbrido sobre TSDMD (densidad constante): $N=20$, \valor{hibridoSobreTSDMDchico}; $N=1000$, \valor{hibridoSobreTSDMDgrande}
 \end{puntos}
@@ -681,24 +667,20 @@ Segundo target (apéndice) & TSDMD & target afuera & 10\\
 \begin{frame}{Conclusiones}
 \begin{columns}[T,onlytextwidth]
 \begin{column}{.48\textwidth}
-\ficha{Modelo ($N=60$)}{\begin{puntos}
-\item TSDMD se traba en \valor{atascosTSDMD}: arco estático en la puerta
-\item Manda $\kappa/k$: con $k\times10$ no se traba ninguna; con $k$ y $\kappa\times10$, como el paper
-\end{puntos}}
 \ficha{Esquema híbrido}{\begin{puntos}
-\item Reproduce TSDMD ($t_{\rm evac}$, caudal, trabadas); la cota nunca se viola
-\item Cuesta \valor{costoHibridoSFM} de TSDMD; \valor{pareadoTerminanSFM} en los pares que terminan
-\item El más barato de los tres solo con $N=60$
+\item Reproduce TSDMD ($t_{\rm evac}$, caudal, trabadas); la cota nunca se viola: no pierde contactos
+\item Con $N=60$ cuesta \valor{costoTerminanSFM} de TSDMD y es el más barato de los tres
+\item El ahorro es el vuelo libre: \valor{hibridoSobreTSDMDchico} de TSDMD con $N=20$, \valor{hibridoSobreTSDMDgrande} con $N=1000$
+\item Con cola, conviene que $v_d$ la recupere el SFM: con la analítica entra y sale de EDMD
 \end{puntos}}
 \end{column}
 \begin{column}{.48\textwidth}
 \ficha{EDMD puro}{\begin{puntos}
 \item Misma evacuación y trabadas que TSDMD, pero \valor{costoRelativoEDMD}: muchos choques en la cola
-\item Más agentes: se traba siempre y su costo crece como $N^{\valor{exponenteDensidadEDMD}}$
+\item Su costo crece como $N^{\valor{exponenteDensidadEDMD}}$ y con más agentes se traba siempre
 \item Recuperar $v_d$: patadas; la analítica cuesta más con el mismo caudal
 \end{puntos}}
-\ficha{Costo}{\begin{puntos}
-\item El ahorro del híbrido es el vuelo libre: \valor{hibridoSobreTSDMDchico} de TSDMD con $N=20$, \valor{hibridoSobreTSDMDgrande} con $N=1000$
+\ficha{Implementación}{\begin{puntos}
 \item Recorrer solo las celdas ocupadas abarató TSDMD de 3 a 13 veces
 \end{puntos}}
 \end{column}
@@ -729,6 +711,7 @@ Segundo target (apéndice) & TSDMD & target afuera & 10\\
 \item $N=20$: $\tstar$ con la medición oficial
 \item Implementar la relajación analítica en el híbrido
 \item $N=60$: atascos al apéndice, sin la fluctuación
+\item Punto c: los dos gráficos; análisis con el costo
 \end{puntos}}
 \end{column}
 \end{columns}

@@ -12,7 +12,7 @@ import math
 
 import numpy as np
 
-from common import AGENTS, DT, FIGURES, HYBRID_OPTIONS, RAW, RESULTS, ROOT, T_STAR
+from common import AGENTS, DT, FIGURES, HYBRID_OPTIONS, RAW, RESULTS, ROOT, T_STAR, T_STARS
 from tp5analysis import style
 
 import matplotlib.pyplot as plt  # noqa: E402
@@ -403,6 +403,18 @@ def timing_tstar() -> None:
             if walls:
                 parts.append(f"{text.replace('Híbrido, ', '')}: {duration(min(walls))} a {duration(max(walls))}")
         VALUES["textoTiemposc"] = "Híbrido " + "; ".join(parts) + f"; TSDMD: {duration(reference, std)}"
+        costs = []
+        for variant, (_, _, text) in variants.items():
+            values = [1e3 * float(r["cost_per_s_mean"]) for r in by_variant[variant]]
+            if values:
+                costs.append(f"{text.replace('Híbrido, ', '').replace('relajación ', '')} {number(min(values), 2)} a {number(max(values), 2)}")
+        ts_cost = pure["tsdmd"]
+        line = (f"Costo (ms por s simulado): " + "; ".join(costs)
+                + f"; TSDMD ${pm(1e3 * float(ts_cost['cost_per_s_mean']), 1e3 * float(ts_cost['cost_per_s_std']), 2)}$")
+        if "edmd" in pure:
+            e = pure["edmd"]
+            line += f"; EDMD ${pm(1e3 * float(e['cost_per_s_mean']), 1e3 * float(e['cost_per_s_std']), 2)}$"
+        VALUES["textoCostoc"] = line
         if "edmd" in pure and pure["edmd"]["wall_finished_mean"] not in ("", "nan"):
             e = pure["edmd"]
             VALUES["textoTiemposc"] += f"; EDMD: {duration(float(e['wall_finished_mean']), float(e['wall_finished_std']))}"
@@ -433,20 +445,39 @@ def timing_tstar() -> None:
         steps += run.summary.get("agent_steps", 0.0)
     if steps:
         VALUES["aisladosSinRelajarSFM"] = f"el {number(100 * isolated / steps)}\\,\\%"
-    # Semilla por semilla, solo donde terminan los dos (un atasco en uno solo rompe el pareo),
-    # y cambios de esquema y eventos por corrida de cada variante con el T* elegido.
-    tsdmd = {path.stem.split("seed")[1]: read_run(path) for path in folder.glob("tsdmd_seed*.txt")}
-    for prefix, key in (("hybridan", "Analitica"), ("hybrid", "SFM")):
-        runs = {path.stem.split("seed")[1]: read_run(path) for path in folder.glob(f"{prefix}_tstar{T_STAR:g}_seed*.txt")}
+    # Costo por segundo simulado sobre el del TSDMD de la misma semilla, solo en los pares en
+    # que terminan los dos: el costo por segundo de una corrida trabada depende de cuántos
+    # quedan adentro, así que un atasco en uno solo rompe el pareo (decisiones del 2026-11-16).
+    def cost(run) -> float:
+        return float(run.summary["wall_seconds"]) / float(run.summary["end_time"])
+
+    def load(pattern: str) -> dict:
+        return {path.stem.split("seed")[1]: read_run(path) for path in folder.glob(pattern)}
+
+    tsdmd = load("tsdmd_seed*.txt")
+
+    def finished_ratios(runs: dict) -> list[float]:
+        both = [s for s in runs if s in tsdmd and runs[s].finished and tsdmd[s].finished]
+        return [cost(runs[s]) / cost(tsdmd[s]) for s in both]
+
+    for prefix, key in (("hybridan", "Analitica"), ("hybrid", "SFM"), ("edmd", "EDMD")):
+        runs = load(f"{prefix}_tstar{T_STAR:g}_seed*.txt" if prefix != "edmd" else "edmd_seed*.txt")
         if not runs:
             continue
-        both = [s for s in runs if s in tsdmd and runs[s].finished and tsdmd[s].finished]
-        ratios = [float(runs[s].summary["wall_seconds"]) / float(tsdmd[s].summary["wall_seconds"]) for s in both]
+        ratios = finished_ratios(runs)
         if len(ratios) >= 2:
-            VALUES[f"pareadoTerminan{key}"] = (f"${pm(float(np.mean(ratios)), float(np.std(ratios, ddof=1)), 2)}$ "
-                                               f"({len(ratios)} pares)")
+            mean, std = float(np.mean(ratios)), float(np.std(ratios, ddof=1))
+            VALUES[f"pareadoTerminan{key}"] = f"${pm(mean, std, 2)}$ ({len(ratios)} pares)"
+            VALUES[f"costoTerminan{key}"] = number(mean, 2)
+            if key == "EDMD":
+                VALUES["costoRelativoEDMD"] = relative(mean)
+        if prefix == "edmd":
+            continue
         VALUES[f"cambios{key}"] = number(float(np.mean([r.summary["switches"] for r in runs.values()])))
         VALUES[f"eventos{key}"] = number(float(np.mean([r.summary["events"] for r in runs.values()])))
+        means = [float(np.mean(r)) for r in (finished_ratios(load(f"{prefix}_tstar{s:g}_seed*.txt")) for s in T_STARS) if r]
+        if means:
+            VALUES[f"rangoTerminan{key}"] = f"{number(min(means), 2)} a {number(max(means), 2)}"
 
 
 def timing_scaling() -> None:
@@ -567,8 +598,8 @@ def texts() -> None:
             VALUES[key + "IC"] = f"{r['clogged']} de {r['runs']} (IC {pct(r['p_low'])}--{pct(r['p_high'])}\\,\\%)"
     if set(MAIN) <= summary.keys():
         same = overlap(summary["tsdmd"], summary["edmd"]) and overlap(summary["tsdmd"], summary["hybrid"])
-        VALUES["textoAtascos"] = ("intervalos superpuestos: los tres se traban igual" if same
-                                  else "hay intervalos que no se superponen")
+        VALUES["textoAtascos"] = ("Trabadas: intervalos superpuestos, los tres se traban igual" if same
+                                  else "Trabadas: hay intervalos que no se superponen")
     if {"tsdmd", "edmd"} <= summary.keys():
         ts, ed = summary["tsdmd"], summary["edmd"]
         same_t = abs(float(ts["t_evac_mean"]) - float(ed["t_evac_mean"])) <= float(ts["t_evac_std"]) + float(ed["t_evac_std"])

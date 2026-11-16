@@ -19,6 +19,7 @@ Registro de las decisiones del TP5 en las que el grupo contradijo o modificó la
 | 2026-11-15 | Atascos en la elección de N | Considerar solo los N donde TSDMD se traba en a lo sumo el 10 % de las corridas (la razón de la cátedra para bajar N). | **Sin restricción**: los atascos se reportan pero no limitan la elección. | El N elegido puede tener corridas trabadas en a y b. |
 | 2026-11-16 | Atascos con N = 60 en la presentación | En el cuerpo, el arco (animación de la semilla 415) y la prueba de rigidez y fricción, con efecto significativo; la compresión con N = 60, sin efecto, al apéndice. | **Todo al apéndice**: en el cuerpo, solo la fracción de corridas trabadas de a y b. | El cuerpo se concentra en los esquemas; el resultado de κ/k queda en el apéndice. |
 | 2026-11-16 | Apéndice de atascos | Quedan, como contraste, compresión y k mayor con N = 200 y el núcleo reducido de EDMD con N = 200; el arco y la fluctuación pasan a N = 60. | Igual, pero **sin el estudio de fluctuación** en la presentación (ni con N = 60 ni con N = 200). | La fluctuación queda solo en docs/decisiones.md y en experiments/results/atascos.csv. |
+| 2026-11-16 | Gráficos del punto c | Dejar solo el wall-clock de las corridas que terminan, que pide la consigna (c), y usar el costo en la comparación semilla por semilla. | **Los dos gráficos** en la diapositiva; **el análisis, siempre con el costo** por segundo simulado. | El wall-clock queda solo como lo que pide la consigna; los resultados se leen con el costo. |
 
 ## Notas
 
